@@ -1,6 +1,9 @@
 <resources>
-    <string name="app_name">docsotanhoa</string>
+    <string name="app_name">Đọc số Tân Hòa</string>
     <string name="title_activity_login">Đăng nhập</string>
+    <string name="title_activity_doc_so">Đọc số</string>
+    <string name="title_activity_chup_anh">Chụp ảnh</string>
+    <string name="title_activity_quan_ly_doc_so">Quản lý đọc số</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -14,4 +17,5 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    s
 </resources>

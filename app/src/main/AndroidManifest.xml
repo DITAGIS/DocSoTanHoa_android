@@ -3,6 +3,10 @@
     package="com.ditagis.hcm.docsotanhoa">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -13,16 +17,21 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity
+            android:name=".DocSoActivity"
+            android:label="@string/title_activity_doc_so" />
+        <activity
+            android:name=".DocSoChupAnhActivity"
+            android:label="Chụp ảnh đọc số" />
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="Đăng nhập" />
+        <activity
+            android:name=".QuanLyDocSoActivity"
+            android:label="Quản lý đọc số" />
+        <activity
+            android:name=".QuanLyLoTrinhActivity"
+            android:label="Quản lý lộ trình" />
     </application>
 
 </manifest>
