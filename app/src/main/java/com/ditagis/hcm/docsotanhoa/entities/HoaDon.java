@@ -29,9 +29,21 @@ public class HoaDon {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
+
+	public HoaDon(int id, String dot, String danhBo, String tenKhachHang, String ky, String code, String chiSoCu, String chiSoMoi, String maLoTrinh) {
+		this.id = id;
+		this.dot = dot;
+		this.danhBo = danhBo;
+		this.tenKhachHang = tenKhachHang;
+		this.ky = ky;
+		this.code = code;
+		this.chiSoCu = chiSoCu;
+		this.chiSoMoi = chiSoMoi;
+		this.maLoTrinh = maLoTrinh;
+	}
+
 	public HoaDon(String danhBo, String tenKhachHang, String soNha, String duong, String ky, String nam, String code,
-			String chiSoCu, String chiSoMoi, String maLoTrinh) {
+				  String chiSoCu, String chiSoMoi, String maLoTrinh) {
 		super();
 		this.danhBo = danhBo;
 		this.tenKhachHang = tenKhachHang;
