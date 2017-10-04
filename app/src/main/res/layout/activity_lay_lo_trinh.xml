@@ -100,7 +100,8 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="@android:color/holo_red_dark"
-            android:src="@drawable/rider" />
+            android:src="@drawable/rider"
+            />
 
         <ImageButton
             android:id="@+id/btn_qllt_ds"
@@ -110,7 +111,8 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="@android:color/background_light"
-            android:src="@drawable/number_read" />
+            android:src="@drawable/number_read"
+            android:onClick="doDocSo"/>
 
         <ImageButton
             android:id="@+id/btn_qllt_qlds"
@@ -121,6 +123,7 @@
             android:layout_weight="1"
 
             android:background="@android:color/background_light"
-            android:src="@drawable/num_list" />
+            android:src="@drawable/num_list"
+            android:onClick="doQuanLyDocSo"/>
     </LinearLayout>
 </LinearLayout>

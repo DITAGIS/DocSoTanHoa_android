@@ -6,7 +6,7 @@
     <!--Layout chọn ngày, đồng bộ-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="15dp"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@android:color/holo_blue_dark"
         android:gravity="center_vertical"
@@ -45,7 +45,7 @@
     <!--Layout quản lý dữ liệu đọc số-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="5"
         android:minHeight="25px"
         android:minWidth="25px"
@@ -56,7 +56,7 @@
     <LinearLayout
         android:id="@+id/qllt_layout_control"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:minHeight="25px"
         android:minWidth="25px"
@@ -64,8 +64,8 @@
 
         <ImageButton
             android:id="@+id/imgBtn_qllt"
-            android:layout_height="match_parent"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_column="0"
             android:layout_weight="1"
             android:background="@android:color/background_light"
@@ -85,9 +85,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_column="0"
-            android:layout_weight="1
-            "
-            android:background="@android:color/background_light"
+            android:layout_weight="1"
+
+            android:background="@android:color/holo_red_dark"
             android:src="@drawable/num_list" />
     </LinearLayout>
 </LinearLayout>

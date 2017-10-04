@@ -1,5 +1,6 @@
 package com.ditagis.hcm.docsotanhoa;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -13,7 +14,6 @@ import android.widget.Toast;
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewLayLoTrinhAdapter;
 import com.ditagis.hcm.docsotanhoa.conectDB.HoaDonDB;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,8 +23,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     GridView gridView;
     ImageButton imgbtnCheck;
     HoaDonDB hoaDonDB = new HoaDonDB();
-    List<Integer> checked_position = new ArrayList<Integer>() {
-    };
+
     //Dùng mảng 1 chiều hoặc ArrayList để lưu một số dữ liệu
     String mlt[] = {"Ipad", "Iphone", "New Ipad",
             "SamSung", "Nokia", "Sony Ericson",
@@ -48,6 +47,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
             0, 1, 50,
             0, 1, 50,
     };
+    int checked_position[];
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,35 +64,46 @@ public class LayLoTrinhActivity extends AppCompatActivity {
             int size = result.size();
             mlt = new String[size];
             tongDanhBo = new int[size];
+            checked_position = new int[size];
             for (int i = 0; i < mlt.length; i++) {
                 mlt[i] = result.get(i);
-
+                checked_position[i] = 0;
             }
 
             //Tối tượng này dùng để hiển thị phần tử được chọn trong GridView
             gridView = (GridView) findViewById(R.id.grid_llt_danhSachLoTrinh);
             //Gán DataSource vào ArrayAdapter
 
-            GridViewLayLoTrinhAdapter da = new GridViewLayLoTrinhAdapter(this, mlt, tongDanhBo);
+            GridViewLayLoTrinhAdapter da = new GridViewLayLoTrinhAdapter(this, mlt, tongDanhBo, checked_position);
             //gán Datasource vào GridView
 
             gridView.setAdapter(da);
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+//                    ImageView imgView = (ImageView) view.findViewById(R.id.row_llt_img_Check);
+//                    if (imgView.getDrawable() == null) {
+//                        imgView.setImageResource(R.drawable.checked);
+//                        checked_position.add(position);
+//                    } else {
+//                        imgView.setImageResource(0);
+//                        checked_position.remove((Object) position);
+//                    }
                     ImageView imgView = (ImageView) view.findViewById(R.id.row_llt_img_Check);
-                    if (imgView.getDrawable() == null) {
-                        imgView.setImageResource(R.drawable.checked);
-                        checked_position.add(position);
-                    } else {
-                        imgView.setImageResource(0);
-                        checked_position.remove((Object)position);
-                    }
+
+
                     TextView txtMLT = (TextView) view.findViewById(R.id.row_llt_txt_malotrinh);
                     TextView txtDanhBo = (TextView) view.findViewById(R.id.row_llt_txt_tongDanhBo);
-
+                    if (checked_position[position] == 0) {
+                        checked_position[position] = 1;
+                        imgView.setImageResource(R.drawable.checked);
+                    } else {
+                        checked_position[position] = 0;
+                        imgView.setImageResource(0);
+                    }
                     int danhBo = hoaDonDB.getNum_DanhBo_ByMLT((String) txtMLT.getText());
-                    txtDanhBo.setText( danhBo+ "");
+                    txtDanhBo.setText(danhBo + "");
                     tongDanhBo[position] = danhBo;
                 }
 
@@ -139,12 +150,29 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
     public void doCheck(View v) {
 
-        txtTongMLT.setText("Mã lộ trình: " + checked_position.size());
+       int sum_mlt = 0;
         int sum = 0;
-        for(int i: checked_position)
-            sum+= tongDanhBo[i];
-
+        for (int i = 0; i < checked_position.length; i++)
+            if (checked_position[i] == 1) {
+                sum += tongDanhBo[i];
+sum_mlt ++;
+            }
+        txtTongMLT.setText("Mã lộ trình: " + sum_mlt);
         txtTongDB.setText("Tổng danh bộ: " + sum);
+    }
+
+    //Menu
+
+    public void doDocSo(View v) {
+        Intent intent = new Intent(LayLoTrinhActivity.this, DocSoActivity.class);
+
+        startActivity(intent);
+    }
+
+    public void doQuanLyDocSo(View v) {
+        Intent intent = new Intent(LayLoTrinhActivity.this, QuanLyDocSoActivity.class);
+
+        startActivity(intent);
     }
 
 //    public class LayLoTrinh extends AsyncTask<String,String,String[]>{
