@@ -2,7 +2,7 @@ package com.ditagis.hcm.docsotanhoa.sql;
 
 import java.sql.Connection;
 import java.sql.SQLException;
- 
+
 public class ConnectionUtils {
  
   public static Connection getMyConnection() throws SQLException,
@@ -15,7 +15,7 @@ public class ConnectionUtils {
   //
   public static void main(String[] args) throws SQLException,
           ClassNotFoundException {
- 
+
       System.out.println("Get connection ... ");
  
       // Lấy ra đối tượng Connection kết nối vào database.
