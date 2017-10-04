@@ -9,17 +9,17 @@
 
     <TextView
         android:id="@+id/row_llt_txt_malotrinh"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:gravity="center"
         android:layout_weight="1" />
 
     <TextView
         android:id="@+id/row_llt_txt_tongDanhBo"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_gravity="center" />
+        android:gravity="center" />
 
     <!--<CheckBox-->
         <!--android:id="@+id/row_llt_chk"-->
@@ -28,8 +28,9 @@
         <!--android:layout_weight="1"-->
         <!--android:layout_gravity="right" />-->
     <ImageView
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
        android:id="@+id/row_llt_img_Check"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        />
 </LinearLayout>

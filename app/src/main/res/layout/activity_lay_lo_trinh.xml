@@ -31,9 +31,8 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:paddingTop="5dp"
             android:paddingLeft="@dimen/login_activity_horizontal_margin"
-         >
+            android:paddingTop="5dp">
 
             <TextView
                 android:id="@+id/txt_llt_mlt"
@@ -57,30 +56,58 @@
             android:id="@+id/imgbtn_llt_check"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="1.3"
-            android:src="@drawable/checked"
             android:layout_gravity="right"
-            android:onClick="doCheck"/>
+            android:layout_weight="1.3"
+            android:onClick="doCheck"
+            android:src="@drawable/checked" />
     </LinearLayout>
     <!--Layout xem danh sách lộ trình-->
     <!--height = 0 dp thì android sẽ lấy theo weight-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-
         android:layout_weight="4.7"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin">
+        android:orientation="vertical">
 
-        <!--<ScrollView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Mã lộ trình"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Danh bộ"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Chọn Mã lộ trình"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <GridView
             android:id="@+id/grid_llt_danhSachLoTrinh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+android:paddingTop="@dimen/activity_vertical_margin"
             android:gravity="center"
             android:numColumns="1" />
         <!--</ScrollView>-->
@@ -100,8 +127,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="@android:color/holo_red_dark"
-            android:src="@drawable/rider"
-            />
+            android:src="@drawable/rider" />
 
         <ImageButton
             android:id="@+id/btn_qllt_ds"
@@ -111,8 +137,8 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="@android:color/background_light"
-            android:src="@drawable/number_read"
-            android:onClick="doDocSo"/>
+            android:onClick="doDocSo"
+            android:src="@drawable/number_read" />
 
         <ImageButton
             android:id="@+id/btn_qllt_qlds"
@@ -123,7 +149,7 @@
             android:layout_weight="1"
 
             android:background="@android:color/background_light"
-            android:src="@drawable/num_list"
-            android:onClick="doQuanLyDocSo"/>
+            android:onClick="doQuanLyDocSo"
+            android:src="@drawable/num_list" />
     </LinearLayout>
 </LinearLayout>

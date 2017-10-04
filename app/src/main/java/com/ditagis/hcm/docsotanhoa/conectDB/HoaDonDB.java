@@ -207,21 +207,33 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
         }
         return result;
     }
+    public List<String> get_DanhBo_ByMLT(String maLoTrinh) {
+        List<String> result = new ArrayList<String>();
+        Connection cnn = this.condb.getConnect();
+        try {
+            Statement statement = cnn.createStatement();
+            ResultSet rs = statement.executeQuery(this.SQL_SELECT_DANHBO + " WHERE MLT = '" + maLoTrinh + "'");
+            while (rs.next()) {
+                result.add(rs.getString("DANHBO"));
+            }
+            rs.close();
+            statement.close();
+            cnn.close();
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+        return result;
+    }
 
     public static void main(String[] args) {
         HoaDonDB cdb = new HoaDonDB();
         List<String> result = null;
         try {
-            result = cdb.getAllMaLoTrinh();
-            String mlt[];
-            int danhbo[];
-            mlt = new String[result.size()];
-            danhbo = new int[result.size()];
-            for (int i = 0; i < mlt.length; i++) {
-                mlt[i] = result.get(i);
-                danhbo[i] = cdb.getNum_DanhBo_ByMLT(mlt[i]);
-            }
-        } catch (SQLException e) {
+            result = cdb.get_DanhBo_ByMLT("00005");
+            for(String s: result)
+                System.out.println(s);
+        } catch (Exception e) {
             e.printStackTrace();
         }
 //		List<HoaDon> results = cdb.getByMaLoTrinh("22800");

@@ -23,7 +23,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     GridView gridView;
     ImageButton imgbtnCheck;
     HoaDonDB hoaDonDB = new HoaDonDB();
-
+    int sum_mlt = 0;
     //Dùng mảng 1 chiều hoặc ArrayList để lưu một số dữ liệu
     String mlt[] = {"Ipad", "Iphone", "New Ipad",
             "SamSung", "Nokia", "Sony Ericson",
@@ -150,12 +150,12 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
     public void doCheck(View v) {
 
-       int sum_mlt = 0;
+        sum_mlt = 0;
         int sum = 0;
         for (int i = 0; i < checked_position.length; i++)
             if (checked_position[i] == 1) {
                 sum += tongDanhBo[i];
-sum_mlt ++;
+                sum_mlt++;
             }
         txtTongMLT.setText("Mã lộ trình: " + sum_mlt);
         txtTongDB.setText("Tổng danh bộ: " + sum);
@@ -164,9 +164,18 @@ sum_mlt ++;
     //Menu
 
     public void doDocSo(View v) {
-        Intent intent = new Intent(LayLoTrinhActivity.this, DocSoActivity.class);
-
-        startActivity(intent);
+        if (sum_mlt == 0)
+            Toast.makeText(this, "Chưa có lộ trình!!!", Toast.LENGTH_SHORT).show();
+        else {
+            Intent intent = new Intent(LayLoTrinhActivity.this, DocSoActivity.class);
+            Bundle extras = new Bundle();
+            extras.putStringArray("mlt", mlt);
+            extras.putIntArray("danhbo", tongDanhBo);
+            extras.putIntArray("chkPosition", checked_position);
+            extras.putInt("sum_mlt", sum_mlt);
+            intent.putExtras(extras);
+            startActivity(intent);
+        }
     }
 
     public void doQuanLyDocSo(View v) {

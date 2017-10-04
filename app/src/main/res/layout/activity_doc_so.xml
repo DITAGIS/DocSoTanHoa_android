@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
@@ -37,10 +36,12 @@
                     android:textColor="@android:color/white" />
 
                 <EditText
+                    android:id="@+id/txt_ds_db"
                     android:layout_width="match_parent"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="0.5"
-                    android:text="16021110005"
+                    android:inputType="number"
+                    android:maxLength="11"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/white" />
 
@@ -89,7 +90,8 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/white" />
 
-                <TextView
+                <Spinner
+                    android:id="@+id/spin_ds_mlt"
                     android:layout_gravity="center_vertical"
                     android:layout_span="4"
                     android:layout_weight="1"
@@ -213,6 +215,7 @@
             <TableRow android:layout_weight="1">
 
                 <TextView
+                    android:layout_width="0dp"
                     android:layout_column="0"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
@@ -220,6 +223,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <Spinner
+                    android:layout_width="0dp"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -228,6 +232,7 @@
             <TableRow android:layout_weight="1">
 
                 <TextView
+                    android:layout_width="0dp"
                     android:layout_column="0"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
@@ -238,9 +243,11 @@
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:gravity="right"
                     android:layout_weight="1"
+                    android:width="0dp"
                     android:ems="10"
+                    android:inputType="number"
                     android:text="7001" />
             </TableRow>
         </TableLayout>
@@ -284,8 +291,8 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="@android:color/background_light"
-            android:src="@drawable/rider"
-            android:onClick="doLayLoTrinh"/>
+            android:onClick="doLayLoTrinh"
+            android:src="@drawable/rider" />
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -303,7 +310,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="@android:color/background_light"
-android:onClick="doQuanLyDocSo"
+            android:onClick="doQuanLyDocSo"
             android:src="@drawable/num_list" />
     </LinearLayout>
 </LinearLayout>
