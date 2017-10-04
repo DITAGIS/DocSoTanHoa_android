@@ -14,6 +14,7 @@ import java.util.List;
 public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String> {
     private final String TABLE_NAME = "HOADON";
     private final String SQL_SELECT = "SELECT ID,KHU,DOT,DANHBO,CULY,HOPDONG,TENKH,SONHA,DUONG,GIABIEU,DINHMUC,KY,NAM,CODE,CODEFU,CSCU,CSMOI,QUAN,PHUONG,MLT FROM " + TABLE_NAME;
+    private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
     private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + " VALUES(?,?,?,?,?)";
     private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET CSC=? WHERE CSM=?";
     private final String SQL_DELETE = "DELETE FROM " + TABLE_NAME + " WHERE ClassId=?";
@@ -188,6 +189,24 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
         }
         return result;
     }
+    public int getNum_DanhBo_ByMLT(String maLoTrinh) {
+        int result = 0;
+        Connection cnn = this.condb.getConnect();
+        try {
+            Statement statement = cnn.createStatement();
+            ResultSet rs = statement.executeQuery(this.SQL_SELECT_DANHBO + " WHERE MLT = '" + maLoTrinh + "'");
+            while (rs.next()) {
+                result++;
+            }
+            rs.close();
+            statement.close();
+            cnn.close();
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+        return result;
+    }
 
     public static void main(String[] args) {
         HoaDonDB cdb = new HoaDonDB();
@@ -195,12 +214,13 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
         try {
             result = cdb.getAllMaLoTrinh();
             String mlt[];
+            int danhbo[];
             mlt = new String[result.size()];
-            for (int i = 0; i < mlt.length; i++)
+            danhbo = new int[result.size()];
+            for (int i = 0; i < mlt.length; i++) {
                 mlt[i] = result.get(i);
-
-            for (String item : mlt)
-                System.out.println(item );
+                danhbo[i] = cdb.getNum_DanhBo_ByMLT(mlt[i]);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

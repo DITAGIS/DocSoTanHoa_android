@@ -1,4 +1,4 @@
-package com.ditagis.hcm.docsotanhoa;
+package com.ditagis.hcm.docsotanhoa.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.ditagis.hcm.docsotanhoa.R;
 
 /**
  * Created by ThanLe on 04/10/2017.
@@ -44,14 +46,15 @@ private Context context;
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(R.layout.row_lay_lo_trinh, null);
-
-        TextView txtMaLoTrinh = (TextView)convertView.findViewById(R.id.llt_txt_malotrinh);
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.row_lay_lo_trinh, null);
+        }
+        TextView txtMaLoTrinh = (TextView)convertView.findViewById(R.id.row_llt_txt_malotrinh);
         txtMaLoTrinh.setText(_maLoTrinh[position]);
-//
-//        TextView txtTongDanhBo = (TextView)convertView.findViewById(R.id.llt_txt_tongDanhBo);
-//        txtTongDanhBo.setText(_tongDanhBo[position]);
+
+        TextView txtTongDanhBo = (TextView)convertView.findViewById(R.id.row_llt_txt_tongDanhBo);
+        txtTongDanhBo.setText(_tongDanhBo[position] + "");
         return convertView;
     }
 }

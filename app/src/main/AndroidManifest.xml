@@ -21,7 +21,7 @@
             android:label="Chụp ảnh đọc số" />
         <activity
             android:name=".LoginActivity"
-            android:label="Đăng nhập">
+            android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
