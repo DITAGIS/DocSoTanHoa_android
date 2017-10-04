@@ -37,30 +37,7 @@
         android:minWidth="25px"
         android:orientation="vertical">
 
-        <!--Layout hiển thị icon server và chuỗi kết nối-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:minHeight="25px"
-            android:minWidth="25px"
-            android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="0.5"
-                android:src="@drawable/server" />
-
-            <EditText
-                android:id="@+id/txtServer"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:hint="Server đăng nhập"
-                android:inputType="textPersonName" />
-        </LinearLayout>
         <!--Layout hiển thị icon đăng nhập và tên đăng nhập-->
         <LinearLayout
             android:layout_width="match_parent"
