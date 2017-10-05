@@ -87,7 +87,7 @@
                     android:layout_column="0"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="Tên khách hàng"
+                    android:text="Tên KH"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/white" />
 

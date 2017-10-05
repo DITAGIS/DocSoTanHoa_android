@@ -232,9 +232,9 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
         Connection cnn = this.condb.getConnect();
         try {
             Statement statement = cnn.createStatement();
-            ResultSet rs = statement.executeQuery(this.SQL_SELECT_DANHBO + " WHERE MLT = '" + maLoTrinh + "'");
-            while (rs.next()) {
-                result++;
+            ResultSet rs = statement.executeQuery("SELECT COUNT(DANHBO) FROM " + TABLE_NAME+" WHERE MLT = '" + maLoTrinh + "'");
+            if (rs.next()) {
+                result = rs.getInt(1);
             }
             rs.close();
             statement.close();

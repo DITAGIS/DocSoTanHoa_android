@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,8 +22,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class LayLoTrinhActivity extends AppCompatActivity {
     TextView txtTongMLT;
@@ -32,8 +32,8 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     int sum_mlt = 0;
     //Dùng mảng 1 chiều hoặc ArrayList để lưu một số dữ liệu
     private ArrayList<String> m_mlt;
-    int tongDanhBo[];
-    int checked_position[];
+    private int m_DanhBo[];
+    private int m_checked_position[];
     LayLoTrinh m_layLoTrinh;
     private GridViewLayLoTrinhAdapter da;
 
@@ -42,7 +42,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lay_lo_trinh);
 
         m_mlt = new ArrayList<String>();
-
+//
 
         txtTongMLT = (TextView) findViewById(R.id.txt_llt_mlt);
         txtTongDB = (TextView) findViewById(R.id.txt_llt_db);
@@ -58,36 +58,26 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         m_layLoTrinh = new LayLoTrinh();
         m_layLoTrinh.execute();
 
-//        //sort malotrinh
-//        Collections.sort(m_mlt);
-//        List<GridViewLayLoTrinhAdapter.Item> itemList = new ArrayList<GridViewLayLoTrinhAdapter.Item>() {
-//        };
-//        for(String mlt: m_mlt){
-//            itemList.add(new GridViewLayLoTrinhAdapter.Item(mlt, 0, 0));
-//        }
-//        da = new GridViewLayLoTrinhAdapter(LayLoTrinhActivity.this, itemList);
-//        //gán Datasource vào GridView
-//
-//        gridView.setAdapter(da);
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 ////                int[] abcxyzxxx = ((GridViewLayLoTrinhAdapter) gridView.getAdapter()).get_checked_position();
-//                ImageView imgView = (ImageView) view.findViewById(R.id.row_llt_img_Check);
-//                TextView txtMLT = (TextView) view.findViewById(R.id.row_llt_txt_malotrinh);
-//                TextView txtDanhBo = (TextView) view.findViewById(R.id.row_llt_txt_tongDanhBo);
-//                if (checked_position[position] == 0) {
-//                    checked_position[position] = 1;
-//                    imgView.setImageResource(R.drawable.checked);
-//                } else {
-//                    checked_position[position] = 0;
-//                    imgView.setImageResource(0);
-//                }
-//                if (txtMLT.getText().toString().equals("0")) {
-//                    int danhBo = hoaDonDB.getNum_DanhBo_ByMLT((String) txtMLT.getText());
-//                    txtDanhBo.setText(danhBo + "");
-//                    tongDanhBo[position] = danhBo;
-//                }
+                TextView txt_row_MLT = (TextView) view.findViewById(R.id.row_llt_txt_malotrinh);
+                TextView txt_row_DanhBo = (TextView) view.findViewById(R.id.row_llt_txt_tongDanhBo);
+                ImageView img_row_View = (ImageView) view.findViewById(R.id.row_llt_img_Check);
+
+
+                if (txt_row_DanhBo.getText().toString().equals("Chưa xác định")) {
+                    AsyncTask<String, Object, String> execute = new ItemClickHandle(txt_row_DanhBo, img_row_View, position).execute(txt_row_MLT.getText().toString());
+//                    try {
+////                        LayLoTrinhActivity.this.m_DanhBo[position] = Integer.parseInt(execute.get());
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    } catch (ExecutionException e) {
+//                        e.printStackTrace();
+//                    }
+                }
             }
 
         });
@@ -192,9 +182,9 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
         sum_mlt = 0;
         int sum = 0;
-        for (int i = 0; i < checked_position.length; i++)
-            if (checked_position[i] == 1) {
-                sum += tongDanhBo[i];
+        for (int i = 0; i < LayLoTrinhActivity.this.m_checked_position.length; i++)
+            if (LayLoTrinhActivity.this.m_checked_position[i] == 1) {
+                sum += LayLoTrinhActivity.this.m_DanhBo[i];
                 sum_mlt++;
             }
         txtTongMLT.setText("Mã lộ trình: " + sum_mlt);
@@ -204,7 +194,6 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
 
     public class LayLoTrinh extends AsyncTask<Void, Object, Void> {
-        int[] checked_position, tongDanhBo;
 
         @Override
         protected void onPreExecute() {
@@ -215,7 +204,6 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            List<String> result;
             ConnectionDB condb = new ConnectionDB();
             Connection cnn = condb.getConnect();
             try {
@@ -225,20 +213,20 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
                     String maLoTrinh = rs.getString(1);
                     publishProgress(maLoTrinh, 0, 0);
-                    try {
-                        Thread.sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                 }
-                Thread.sleep(1000);
                 LayLoTrinhActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         Toast.makeText(LayLoTrinhActivity.this, "Đã lấy xong mã lộ trình", Toast.LENGTH_SHORT).show();
+                        int count = m_mlt.size();
+                        LayLoTrinhActivity.this.m_checked_position = new int[count];
+                        LayLoTrinhActivity.this.m_DanhBo = new int[count];
+                        for (int i = 0; i < count; i++) {
+                            LayLoTrinhActivity.this.m_checked_position[i] = 0;
+                            LayLoTrinhActivity.this.m_DanhBo[i] = 0;
+                        }
                     }
                 });
-                Collections.sort(m_mlt);
 
                 rs.close();
                 statement.close();
@@ -247,20 +235,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
             } catch (SQLException e) {
 
                 e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
-//                result = hoaDonDB.getAllMaLoTrinh();
-//                Collections.sort(result);
-//                int size = result.size();
-//                mlt = new String[size];
-//                tongDanhBo = new int[size];
-//                checked_position = new int[size];
-//                for (int i = 0; i < mlt.length; i++) {
-//                    mlt[i] = result.get(i);
-//                    checked_position[i] = 0;
-//                }
-
             return null;
         }
 
@@ -275,7 +250,57 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         }
 
     }
+
     //Menu
+    public class ItemClickHandle extends AsyncTask<String, Object, String> {
+
+        private TextView txt_row_DanhBo;
+        private ImageView img_row_check;
+        private int pos;
+
+        public ItemClickHandle(TextView txt_row_DanhBo, ImageView img_row_check, int pos) {
+            this.txt_row_DanhBo = txt_row_DanhBo;
+            this.img_row_check = img_row_check;
+            this.pos = pos;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Toast.makeText(LayLoTrinhActivity.this, "Đang tính tổng số danh bộ...", Toast.LENGTH_LONG).show();
+        }
+
+
+        @Override
+        protected String doInBackground(String... params) {
+            String mlt = params[0];
+            int danhBo = hoaDonDB.getNum_DanhBo_ByMLT(mlt);
+            publishProgress(danhBo);
+            LayLoTrinhActivity.this.m_DanhBo[this.pos] = danhBo;
+            return danhBo + "";
+        }
+
+        @Override
+        protected void onProgressUpdate(Object... values) {
+            super.onProgressUpdate(values);
+            int danhBo = (int) values[0];
+            this.txt_row_DanhBo.setText(danhBo + "");
+            int count = LayLoTrinhActivity.this.m_checked_position.length;
+            if (LayLoTrinhActivity.this.m_checked_position[this.pos] == 0) {
+                LayLoTrinhActivity.this.m_checked_position[this.pos] = 1;
+                this.img_row_check.setImageResource(R.drawable.checked);
+            } else {
+                LayLoTrinhActivity.this.m_checked_position[this.pos] = 0;
+                this.img_row_check.setImageResource(0);
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.w(s, s);
+        }
+    }
 
     public void doDocSo(View v) {
         if (sum_mlt == 0)
@@ -283,9 +308,9 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         else {
             Intent intent = new Intent(LayLoTrinhActivity.this, DocSoActivity.class);
             Bundle extras = new Bundle();
-            extras.putStringArrayList("mlt", m_mlt);
-            extras.putIntArray("danhbo", tongDanhBo);
-            extras.putIntArray("chkPosition", checked_position);
+            extras.putStringArrayList("mlt", LayLoTrinhActivity.this.m_mlt);
+            extras.putIntArray("danhbo", LayLoTrinhActivity.this.m_DanhBo);
+            extras.putIntArray("chkPosition", LayLoTrinhActivity.this.m_checked_position);
             extras.putInt("sum_mlt", sum_mlt);
             intent.putExtras(extras);
             startActivity(intent);
