@@ -52,7 +52,7 @@ public class GridViewLayLoTrinhAdapter extends BaseAdapter {
         txtMaLoTrinh.setText(_maLoTrinh[position]);
 
         TextView txtTongDanhBo = (TextView) convertView.findViewById(R.id.row_llt_txt_tongDanhBo);
-        txtTongDanhBo.setText(_tongDanhBo[position] + "");
+        txtTongDanhBo.setText(_tongDanhBo[position]==0?"Chưa xác định" : _tongDanhBo[position] + "");
 
         ImageView imgCheck = (ImageView) convertView.findViewById(R.id.row_llt_img_Check);
         if(_checked_position[position] == 1)

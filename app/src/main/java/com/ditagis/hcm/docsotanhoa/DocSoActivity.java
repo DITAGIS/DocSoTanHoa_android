@@ -68,11 +68,11 @@ public class DocSoActivity extends AppCompatActivity {
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             HoaDon hoaDon = hoaDonDB.getByDanhBo(spinDB.getSelectedItem().toString());
 
-                            ((TextView)findViewById(R.id.txt_ds_tenKH)).setText(hoaDon.getTenKhachHang());
-                            ((TextView)findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
-                            ((TextView)findViewById(R.id.txt_ds_CSC)).setText(hoaDon.getChiSoCu());
-                            ((TextView)findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
-                            ((TextView)findViewById(R.id.txt_ds_giabieu)).setText(hoaDon.getGiaBieu());
+                            ((TextView) findViewById(R.id.txt_ds_tenKH)).setText(hoaDon.getTenKhachHang());
+                            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
+                            ((TextView) findViewById(R.id.txt_ds_CSC)).setText(hoaDon.getChiSoCu());
+                            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
+                            ((TextView) findViewById(R.id.txt_ds_giabieu)).setText(hoaDon.getGiaBieu());
 //                            ((TextView)findViewById(R.id.txt_ds_tiennuoc)).setText(0);
                         }
 
@@ -103,6 +103,12 @@ public class DocSoActivity extends AppCompatActivity {
         int i = spinDB.getSelectedItemPosition();
         Toast.makeText(DocSoActivity.this, spinDB.getCount() + "", Toast.LENGTH_SHORT).show();
         spinDB.setSelection(i == spinDB.getCount() - 1 ? i : i + 1);
+    }
+
+    public void doCamera(View v) {
+        Intent intent = new Intent(DocSoActivity.this, DocSoChupAnhActivity.class);
+
+        startActivity(intent);
     }
 
     public void doLayLoTrinh(View v) {

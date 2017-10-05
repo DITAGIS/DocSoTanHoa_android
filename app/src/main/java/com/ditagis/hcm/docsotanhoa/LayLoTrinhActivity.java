@@ -25,28 +25,8 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     HoaDonDB hoaDonDB = new HoaDonDB();
     int sum_mlt = 0;
     //Dùng mảng 1 chiều hoặc ArrayList để lưu một số dữ liệu
-    String mlt[] = {"Ipad", "Iphone", "New Ipad",
-            "SamSung", "Nokia", "Sony Ericson",
-            "Ipad", "Iphone", "New Ipad",
-            "SamSung", "Nokia", "Sony Ericson",
-            "Ipad", "Iphone", "New Ipad",
-            "SamSung", "Nokia", "Sony Ericson",
-            "Ipad", "Iphone", "New Ipad",
-            "SamSung", "Nokia", "Sony Ericson",
-            "Ipad", "Iphone", "New Ipad",
-            "SamSung", "Nokia", "Sony Ericson",
-    };
-    int tongDanhBo[] = {0, 1, 50,
-            0, 1, 50,
-            0, 1, 50,
-            0, 1, 50,
-            0, 1, 50,
-            0, 1, 50,
-            0, 1, 50,
-            0, 1, 50,
-            0, 1, 50,
-            0, 1, 50,
-    };
+    String mlt[];
+    int tongDanhBo[];
     int checked_position[];
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +34,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lay_lo_trinh);
         txtTongMLT = (TextView) findViewById(R.id.txt_llt_mlt);
         txtTongDB = (TextView) findViewById(R.id.txt_llt_db);
-        imgbtnCheck = (ImageButton) findViewById(R.id.imgBtn_ChupAnh);
+        imgbtnCheck = (ImageButton) findViewById(R.id.imgbtn_llt_check);
 
         List<String> result = null;
         try {
