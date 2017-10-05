@@ -24,61 +24,6 @@
             android:layout_weight="5"
             android:minHeight="25px"
             android:minWidth="25px">
-
-            <!--Table row danh bộ-->
-            <TableRow android:layout_weight="1">
-
-                <TextView
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:text="Danh bộ"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-
-                <EditText
-                    android:id="@+id/txt_ds_db"
-                    android:layout_width="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="0.5"
-                    android:inputType="number"
-                    android:maxLength="11"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-
-                <ImageButton
-
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="0.5"
-                    android:background="@color/colorPrimary"
-                    android:src="@drawable/prev" />
-
-                <Space android:layout_weight="0.5" />
-
-                <ImageButton
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="0.5"
-                    android:background="@color/colorPrimary"
-                    android:src="@drawable/next" />
-            </TableRow>
-            <!--Table row tên khách hàng-->
-            <TableRow android:layout_weight="1">
-
-                <TextView
-                    android:layout_column="0"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:text="Tên khách hàng"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-
-                <TextView
-                    android:layout_gravity="center_vertical"
-                    android:layout_span="4"
-                    android:layout_weight="1"
-                    android:text="Nguyễn Văn A"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-            </TableRow>
             <!--Table row mã lộ trình-->
             <TableRow android:layout_weight="1">
 
@@ -99,6 +44,62 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/white" />
             </TableRow>
+            <!--Table row danh bộ-->
+            <TableRow android:layout_weight="1">
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="Danh bộ"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/white" />
+
+                <Spinner
+                    android:id="@+id/spin_ds_db"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.5"
+                    android:inputType="number"
+                    android:maxLength="11"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/white" />
+
+                <ImageButton
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.5"
+                    android:background="@color/colorPrimary"
+                    android:onClick="doPrev"
+                    android:src="@drawable/prev" />
+
+                <Space android:layout_weight="0.5" />
+
+                <ImageButton
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.5"
+                    android:background="@color/colorPrimary"
+                    android:onClick="doNext"
+                    android:src="@drawable/next" />
+            </TableRow>
+            <!--Table row tên khách hàng-->
+            <TableRow android:layout_weight="1">
+
+                <TextView
+                    android:layout_column="0"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="Tên khách hàng"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:id="@+id/txt_ds_tenKH"
+                    android:layout_gravity="center_vertical"
+                    android:layout_span="4"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/white" />
+            </TableRow>
+
             <!--Table row địa chỉ-->
             <TableRow android:layout_weight="1">
 
@@ -112,10 +113,10 @@
                     android:textColor="@android:color/white" />
 
                 <TextView
+                    android:id="@+id/txt_ds_diachi"
                     android:layout_gravity="center_vertical"
                     android:layout_span="4"
                     android:layout_weight="1"
-                    android:text="21A, DUONG 7-KP4"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/white" />
             </TableRow>
@@ -134,7 +135,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_span="4"
                     android:layout_weight="1"
-                    android:text="15"
+                    android:id="@+id/txt_ds_giabieu"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/white" />
             </TableRow>
@@ -153,7 +154,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_span="4"
                     android:layout_weight="1"
-                    android:text="28"
+                    android:id="@+id/txt_ds_dinhmuc"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/white" />
             </TableRow>
@@ -172,7 +173,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_span="4"
                     android:layout_weight="1"
-                    android:text="5990"
+                    android:id="@+id/txt_ds_CSC"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/white" />
             </TableRow>
@@ -191,7 +192,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_span="4"
                     android:layout_weight="1"
-                    android:text="0 VNĐ"
+                    android:id="@+id/txt_ds_tiennuoc"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/white" />
             </TableRow>
@@ -243,10 +244,10 @@
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
                     android:layout_weight="1"
                     android:width="0dp"
                     android:ems="10"
+                    android:gravity="right"
                     android:inputType="number"
                     android:text="7001" />
             </TableRow>

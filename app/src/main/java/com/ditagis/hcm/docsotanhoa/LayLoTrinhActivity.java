@@ -78,6 +78,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
             //gán Datasource vào GridView
 
             gridView.setAdapter(da);
+            registerForContextMenu(this.gridView);
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -102,9 +103,11 @@ public class LayLoTrinhActivity extends AppCompatActivity {
                         checked_position[position] = 0;
                         imgView.setImageResource(0);
                     }
-                    int danhBo = hoaDonDB.getNum_DanhBo_ByMLT((String) txtMLT.getText());
-                    txtDanhBo.setText(danhBo + "");
-                    tongDanhBo[position] = danhBo;
+//                    if (txtMLT.getText().equals("0")) {
+                        int danhBo = hoaDonDB.getNum_DanhBo_ByMLT((String) txtMLT.getText());
+                        txtDanhBo.setText(danhBo + "");
+                        tongDanhBo[position] = danhBo;
+//                    }
                 }
 
 
@@ -159,6 +162,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
             }
         txtTongMLT.setText("Mã lộ trình: " + sum_mlt);
         txtTongDB.setText("Tổng danh bộ: " + sum);
+
     }
 
     //Menu

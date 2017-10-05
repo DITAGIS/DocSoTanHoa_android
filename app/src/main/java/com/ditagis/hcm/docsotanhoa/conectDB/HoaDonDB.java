@@ -177,6 +177,7 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
                 String chiSoMoi = rs.getString(17);
                 String quan = rs.getString(18);
                 String phuong = rs.getString(19);
+
                 HoaDon course = new HoaDon(id, khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
                 result.add(course);
             }
@@ -188,6 +189,43 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
             e.printStackTrace();
         }
         return result;
+    }
+    public HoaDon getByDanhBo(String danhBo) {
+        HoaDon hoaDon = null;
+        Connection cnn = this.condb.getConnect();
+        try {
+            Statement statement = cnn.createStatement();
+            ResultSet rs = statement.executeQuery(this.SQL_SELECT + " WHERE DANHBO = '" + danhBo + "'");
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                String khu = rs.getString(2);
+                String dot = rs.getString(3);
+                String cuLy = rs.getString(5);
+                String hopDong = rs.getString(6);
+                String tenKhachHang = rs.getString(7);
+                String soNha = rs.getString(8);
+                String duong = rs.getString(9);
+                String giaBieu = rs.getString(10);
+                String dinhMuc = rs.getString(11);
+                String ky = rs.getString(12);
+                String nam = rs.getString(13);
+                String code = rs.getString(14);
+                String codeFU = rs.getString(15);
+                String chiSoCu = rs.getString(16);
+                String chiSoMoi = rs.getString(17);
+                String quan = rs.getString(18);
+                String phuong = rs.getString(19);
+                String maLoTrinh = rs.getString(20);
+                hoaDon = new HoaDon(id, khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
+
+            }
+            rs.close();
+            cnn.close();
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+        return hoaDon;
     }
     public int getNum_DanhBo_ByMLT(String maLoTrinh) {
         int result = 0;

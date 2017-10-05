@@ -27,7 +27,7 @@ public class HoaDon {
 	private String maLoTrinh;
 	public HoaDon() {
 		super();
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public HoaDon(int id, String dot, String danhBo, String tenKhachHang, String ky, String code, String chiSoCu, String chiSoMoi, String maLoTrinh) {
