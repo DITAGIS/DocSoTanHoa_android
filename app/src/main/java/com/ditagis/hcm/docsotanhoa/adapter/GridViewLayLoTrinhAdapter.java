@@ -4,36 +4,71 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ditagis.hcm.docsotanhoa.R;
 
+import java.util.List;
+
 /**
  * Created by ThanLe on 04/10/2017.
  */
 
-public class GridViewLayLoTrinhAdapter extends BaseAdapter {
-    private Context context;
-    private String[] _maLoTrinh;
-    private int[] _tongDanhBo;
-    private int[] _checked_position;
+public class GridViewLayLoTrinhAdapter extends ArrayAdapter<GridViewLayLoTrinhAdapter.Item> {
+    public static class Item{
+        String mtl;
+        int danhbo;
+        int checkpos;
 
-    public GridViewLayLoTrinhAdapter(Context context, String[] _maLoTrinh, int[] _tongDanhBo, int[] _checked_position) {
-        this.context = context;
-        this._maLoTrinh = _maLoTrinh;
-        this._tongDanhBo = _tongDanhBo;
-        this._checked_position = _checked_position;
+        public Item(String mtl, int danhbo, int checkpos) {
+            this.mtl = mtl;
+            this.danhbo = danhbo;
+            this.checkpos = checkpos;
+        }
+
+        public String getMtl() {
+            return mtl;
+        }
+
+        public void setMtl(String mtl) {
+            this.mtl = mtl;
+        }
+
+        public int getDanhbo() {
+            return danhbo;
+        }
+
+        public void setDanhbo(int danhbo) {
+            this.danhbo = danhbo;
+        }
+
+        public int getCheckpos() {
+            return checkpos;
+        }
+
+        public void setCheckpos(int checkpos) {
+            this.checkpos = checkpos;
+        }
     }
+    private Context context;
+    private List<Item> items;
+
+    public GridViewLayLoTrinhAdapter(Context context, List<Item> items) {
+        super(context,0,items);
+        this.context = context;
+        this.items = items;
+    }
+
 
     @Override
     public int getCount() {
-        return _maLoTrinh.length;
+        return items.size();
     }
 
     @Override
-    public Object getItem(int position) {
+    public Item getItem(int position) {
         return null;
     }
 
@@ -48,14 +83,15 @@ public class GridViewLayLoTrinhAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.row_lay_lo_trinh, null);
         }
+        Item item = items.get(position);
         TextView txtMaLoTrinh = (TextView) convertView.findViewById(R.id.row_llt_txt_malotrinh);
-        txtMaLoTrinh.setText(_maLoTrinh[position]);
+        txtMaLoTrinh.setText(item.getMtl());
 
         TextView txtTongDanhBo = (TextView) convertView.findViewById(R.id.row_llt_txt_tongDanhBo);
-        txtTongDanhBo.setText(_tongDanhBo[position]==0?"Chưa xác định" : _tongDanhBo[position] + "");
+        txtTongDanhBo.setText(item.getDanhbo()==0?"Chưa xác định" :item.getDanhbo() + "");
 
         ImageView imgCheck = (ImageView) convertView.findViewById(R.id.row_llt_img_Check);
-        if(_checked_position[position] == 1)
+        if(item.getCheckpos() == 1)
             imgCheck.setImageResource(R.drawable.checked);
         else
             imgCheck.setImageResource(0);

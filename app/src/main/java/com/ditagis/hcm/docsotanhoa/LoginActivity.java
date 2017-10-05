@@ -32,7 +32,6 @@ public class LoginActivity extends AppCompatActivity {
         String password = ((EditText) findViewById(R.id.txtPassword)).getText().toString();
 
         if (username.equals("") && password.equals("")) {
-            Toast.makeText(LoginActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
             return true;
         } else {
             Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
