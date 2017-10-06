@@ -17,7 +17,7 @@ import java.util.List;
  */
 
 public class GridViewLayLoTrinhAdapter extends ArrayAdapter<GridViewLayLoTrinhAdapter.Item> {
-    public static class Item{
+    public static class Item {
         String mtl;
         int danhbo;
         int checkpos;
@@ -52,15 +52,19 @@ public class GridViewLayLoTrinhAdapter extends ArrayAdapter<GridViewLayLoTrinhAd
             this.checkpos = checkpos;
         }
     }
+
     private Context context;
     private List<Item> items;
 
     public GridViewLayLoTrinhAdapter(Context context, List<Item> items) {
-        super(context,0,items);
+        super(context, 0, items);
         this.context = context;
         this.items = items;
     }
 
+    public void clear() {
+        items.clear();
+    }
 
     @Override
     public int getCount() {
@@ -88,10 +92,10 @@ public class GridViewLayLoTrinhAdapter extends ArrayAdapter<GridViewLayLoTrinhAd
         txtMaLoTrinh.setText(item.getMtl());
 
         TextView txtTongDanhBo = (TextView) convertView.findViewById(R.id.row_llt_txt_tongDanhBo);
-        txtTongDanhBo.setText(item.getDanhbo()==0?"Chưa xác định" :item.getDanhbo() + "");
+        txtTongDanhBo.setText(item.getDanhbo() == 0 ? "Chưa xác định" : item.getDanhbo() + "");
 
         ImageView imgCheck = (ImageView) convertView.findViewById(R.id.row_llt_img_Check);
-        if(item.getCheckpos() == 1)
+        if (item.getCheckpos() == 1)
             imgCheck.setImageResource(R.drawable.checked);
         else
             imgCheck.setImageResource(0);

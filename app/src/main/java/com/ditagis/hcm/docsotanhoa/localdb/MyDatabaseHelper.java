@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
+import com.ditagis.hcm.docsotanhoa.entities.LoTrinh;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
 
     // Phiên bản
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
 
     // Tên cơ sở dữ liệu.
@@ -28,7 +29,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     // Tên bảng: HoaDon.
     private static final String TABLE_HOADON = "HoaDon";
-
     private static final String COLUMN_HOADON_ID = "HoaDon_Id";
     private static final String COLUMN_HOADON_DOT = "HoaDon_Dot";
     private static final String COLUMN_HOADON_DANHBO = "HoaDon_DanhBo";
@@ -39,6 +39,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_HOADON_CHISOCU = "HoaDon_ChiSoCu";
     private static final String COLUMN_HOADON_CHISOMOI = "HoaDon_ChiSoMoi";
     private static final String COLUMN_HOADON_MALOTRINH = "HoaDon_MaLoTrinh";
+    private static final String TABLE_MALOTRINH = "LoTrinh";
+    private static final String COLUMN_MALOTRINH_ID = "MaLoTrinh_ID";
+    private static final String COLUMN_MALOTRINH_SOLUONG = "MaLoTrinh_SoLuong";
 
 
     public MyDatabaseHelper(Context context) {
@@ -61,7 +64,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_HOADON_CHISOMOI + " TEXT,"
                 + COLUMN_HOADON_MALOTRINH + " TEXT" + ")";
         // Chạy lệnh tạo bảng.
+        String script1 = "CREATE TABLE " + TABLE_MALOTRINH + "("
+                + COLUMN_MALOTRINH_ID + " TEXT PRIMARY KEY,"
+                + COLUMN_MALOTRINH_SOLUONG + " INTEGER )";
+        // Chạy lệnh tạo bảng.
         db.execSQL(script);
+        db.execSQL(script1);
     }
 
 
@@ -72,7 +80,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
         // Hủy (drop) bảng cũ nếu nó đã tồn tại.
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_HOADON);
-
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MALOTRINH);
 
         // Và tạo lại.
         onCreate(db);
@@ -92,7 +100,21 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 //        }
     }
 
+    public void addLoTrinh(LoTrinh loTrinh) {
 
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_MALOTRINH_ID, loTrinh.getMaLoTrinh());
+        values.put(COLUMN_MALOTRINH_SOLUONG, loTrinh.getSoLuong());
+
+        // Trèn một dòng dữ liệu vào bảng.
+        db.insert(TABLE_MALOTRINH, null, values);
+
+
+        // Đóng kết nối database.
+        db.close();
+    }
     public void addHoaDon(HoaDon hoaDon) {
         Log.i(TAG, "MyDatabaseHelper.addHoaDon ... " + hoaDon.getId());
 
@@ -144,7 +166,32 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return hoaDon;
     }
 
+    public List<LoTrinh> getAllMaLoTrinh() {
+        Log.i(TAG, "MyDatabaseHelper.getAllHoaDons ... ");
 
+        List<LoTrinh> loTrinhs = new ArrayList<LoTrinh>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_MALOTRINH;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+
+        // Duyệt trên con trỏ, và thêm vào danh sách.
+        if (cursor.moveToFirst()) {
+            do {
+                LoTrinh mlt = new LoTrinh();
+                mlt.setMaLoTrinh(cursor.getString(0));
+                mlt.setSoLuong(Integer.parseInt(cursor.getString(1)));
+
+                // Thêm vào danh sách.
+                loTrinhs.add(mlt);
+            } while (cursor.moveToNext());
+        }
+
+        // return hoaDon list
+        return loTrinhs;
+    }
     public List<HoaDon> getAllHoaDons() {
         Log.i(TAG, "MyDatabaseHelper.getAllHoaDons ... ");
 
@@ -179,7 +226,40 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         // return hoaDon list
         return hoaDonList;
     }
+    public List<HoaDon> getAllHoaDonByMaLoTrinh(String mlt) {
+        Log.i(TAG, "MyDatabaseHelper.getAllHoaDons ... ");
 
+        List<HoaDon> hoaDonList = new ArrayList<HoaDon>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_HOADON +" WHERE "+COLUMN_HOADON_MALOTRINH+" = '"+mlt+"'";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+
+        // Duyệt trên con trỏ, và thêm vào danh sách.
+        if (cursor.moveToFirst()) {
+            do {
+                HoaDon hoaDon = new HoaDon();
+                hoaDon.setId(Integer.parseInt(cursor.getString(0)));
+                hoaDon.setChiSoCu(cursor.getString(1));
+                hoaDon.setChiSoMoi(cursor.getString(2));
+                hoaDon.setCode(cursor.getString(3));
+                hoaDon.setDanhBo(cursor.getString(4));
+                hoaDon.setDot(cursor.getString(5));
+                hoaDon.setTenKhachHang(cursor.getString(6));
+                hoaDon.setKy(cursor.getString(7));
+                hoaDon.setMaLoTrinh(cursor.getString(8));
+
+
+                // Thêm vào danh sách.
+                hoaDonList.add(hoaDon);
+            } while (cursor.moveToNext());
+        }
+
+        // return hoaDon list
+        return hoaDonList;
+    }
     public int getHoaDonsCount() {
         Log.i(TAG, "MyDatabaseHelper.getHoaDonsCount ... ");
 
@@ -224,5 +304,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.delete(TABLE_HOADON, COLUMN_HOADON_ID + " = ?",
                 new String[]{String.valueOf(hoaDon.getId())});
         db.close();
+    }
+
+    public void addAllHoaDon(List<HoaDon> hoaDons) {
+        for (HoaDon hd: hoaDons
+             ) {
+            this.addHoaDon(hd);
+        }
     }
 }

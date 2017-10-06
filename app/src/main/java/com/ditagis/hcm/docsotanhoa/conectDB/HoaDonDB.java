@@ -155,8 +155,8 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
         List<HoaDon> result = new ArrayList<HoaDon>();
         Connection cnn = this.condb.getConnect();
         try {
-            CallableStatement cal = cnn.prepareCall(this.SQL_SELECT + " WHERE MLT = '" + maLoTrinh + "'", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ResultSet rs = cal.executeQuery();
+            Statement statement = cnn.createStatement();
+            ResultSet rs = statement.executeQuery(this.SQL_SELECT + " WHERE MLT = '" + maLoTrinh + "'");
             while (rs.next()) {
                 int id = rs.getInt(1);
                 String khu = rs.getString(2);
@@ -182,7 +182,6 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
                 result.add(course);
             }
             rs.close();
-            cal.close();
             cnn.close();
         } catch (SQLException e) {
 

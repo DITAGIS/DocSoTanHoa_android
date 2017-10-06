@@ -10,12 +10,12 @@ import static com.ditagis.hcm.docsotanhoa.sql.SQLServerConnUtils.database;
 
 public class ConnectionDB {
 	private static final String PROTOCOL = "jdbc:jtds:sqlserver://";
-	private static final String SERVER = "112.78.4.175";
+	private static final String SERVER = "103.74.117.51"; // Tadu
 	private static final String INSTANCT_NAME = "MSSQLSERVER";
 	private static final int PORT = 1433;
-	private static final String DB = "DocSoTanHoa";
-	private static final String USER = "sa";
-	private static final String PASSWORD = "268@lTk";
+	private static final String DB = "HCM_DocSoTanHoa";
+	private static final String USER = "docsotanhoa";
+	private static final String PASSWORD = "Docso123";
 
 	public Connection getConnect() {
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

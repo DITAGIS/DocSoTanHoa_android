@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -16,16 +19,20 @@ import android.widget.Toast;
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewLayLoTrinhAdapter;
 import com.ditagis.hcm.docsotanhoa.conectDB.ConnectionDB;
 import com.ditagis.hcm.docsotanhoa.conectDB.HoaDonDB;
+import com.ditagis.hcm.docsotanhoa.entities.LoTrinh;
+import com.ditagis.hcm.docsotanhoa.localdb.MyDatabaseHelper;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 public class LayLoTrinhActivity extends AppCompatActivity {
     TextView txtTongMLT;
     TextView txtTongDB;
+    EditText editTextSearch;
     GridView gridView;
     ImageButton imgbtnCheck;
     HoaDonDB hoaDonDB = new HoaDonDB();
@@ -46,8 +53,45 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
         txtTongMLT = (TextView) findViewById(R.id.txt_llt_mlt);
         txtTongDB = (TextView) findViewById(R.id.txt_llt_db);
+        editTextSearch = (EditText) findViewById(R.id.etxt_llt_search);
         imgbtnCheck = (ImageButton) findViewById(R.id.imgbtn_llt_check);
         gridView = (GridView) findViewById(R.id.grid_llt_danhSachLoTrinh);
+
+        editTextSearch.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!s.equals("")) {
+//                    System.out.println(gridView.getAdapter().getItem(0).toString());
+                    List<String> result = new ArrayList<String>();
+                    //Lấy dữ liệu bắt đầu với text search
+                    for (String mlt : m_mlt) {
+                        if (mlt.startsWith(s.toString()))
+                            result.add(mlt);
+                    }
+                    //Gán dữ liệu vào data source
+                    if (da != null && result.size() > 0) {
+                        da.clear();
+                        for (String mlt : result)
+                            da.add(new GridViewLayLoTrinhAdapter.Item(mlt, 0, 0));
+                    }
+
+                } else {
+                    //TODO
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         //Gán DataSource vào ArrayAdapter
 
         da = new GridViewLayLoTrinhAdapter(LayLoTrinhActivity.this, new ArrayList<GridViewLayLoTrinhAdapter.Item>());
@@ -62,7 +106,6 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-////                int[] abcxyzxxx = ((GridViewLayLoTrinhAdapter) gridView.getAdapter()).get_checked_position();
                 TextView txt_row_MLT = (TextView) view.findViewById(R.id.row_llt_txt_malotrinh);
                 TextView txt_row_DanhBo = (TextView) view.findViewById(R.id.row_llt_txt_tongDanhBo);
                 ImageView img_row_View = (ImageView) view.findViewById(R.id.row_llt_img_Check);
@@ -70,13 +113,6 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
                 if (txt_row_DanhBo.getText().toString().equals("Chưa xác định")) {
                     AsyncTask<String, Object, String> execute = new ItemClickHandle(txt_row_DanhBo, img_row_View, position).execute(txt_row_MLT.getText().toString());
-//                    try {
-////                        LayLoTrinhActivity.this.m_DanhBo[position] = Integer.parseInt(execute.get());
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    } catch (ExecutionException e) {
-//                        e.printStackTrace();
-//                    }
                 }
             }
 
@@ -204,6 +240,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
+
             ConnectionDB condb = new ConnectionDB();
             Connection cnn = condb.getConnect();
             try {
@@ -274,7 +311,21 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             String mlt = params[0];
-            int danhBo = hoaDonDB.getNum_DanhBo_ByMLT(mlt);
+            MyDatabaseHelper databaseHelper = new MyDatabaseHelper(LayLoTrinhActivity.this);
+            List<LoTrinh> allMaLoTrinh = databaseHelper.getAllMaLoTrinh();
+
+            int danhBo = -1;
+            for (LoTrinh lotrinh : allMaLoTrinh) {
+                if (lotrinh.getMaLoTrinh().equals(mlt)) {
+                    danhBo = lotrinh.getSoLuong();
+                    break;
+                }
+            }
+            if (danhBo == -1) {
+                danhBo = hoaDonDB.getNum_DanhBo_ByMLT(mlt);
+                databaseHelper.addLoTrinh(new LoTrinh(mlt, danhBo));
+            }
+
             publishProgress(danhBo);
             LayLoTrinhActivity.this.m_DanhBo[this.pos] = danhBo;
             return danhBo + "";
