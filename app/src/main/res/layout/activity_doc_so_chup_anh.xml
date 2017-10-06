@@ -6,7 +6,7 @@
     <!--Layout hiển thị chụp ảnh-->
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="5"
         android:minHeight="25px"
         android:minWidth="25px"
@@ -19,6 +19,7 @@
             android:src="@android:drawable/ic_menu_gallery" />
 
         <ImageButton
+            android:id="@+id/imgBtn_dsca_Back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="top|left"
@@ -27,43 +28,34 @@
     <!--Layout chụp ảnh, lưu-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:minHeight="25px"
         android:minWidth="25px"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
 
-        <TableLayout
-            android:layout_width="wrap_content"
+
+        <ImageButton
+            android:id="@+id/imgBtn_dsca_ChupAnh"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:minHeight="25px"
-            android:minWidth="25px">
-            <!--Table row Chụp ảnh, lưu-->
-            <TableRow android:layout_weight="1">
+            android:layout_column="0"
+            android:layout_weight="1"
+            android:src="@drawable/camera" />
 
-                <ImageButton
-                    android:id="@+id/imgBtn_dsca_ChupAnh"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_column="0"
-                    android:layout_weight="1"
-                    android:background="@android:color/background_light"
-                    android:src="@drawable/camera" />
-
-                <ImageButton
-                    android:id="@+id/imgBtn_dsca_save"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:color/background_light"
-                    android:src="@drawable/checked" />
-            </TableRow>
-        </TableLayout>
+        <ImageButton
+            android:id="@+id/imgBtn_dsca_save"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/checked" />
     </LinearLayout>
     <!--Layout menu-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:minHeight="25px"
         android:minWidth="25px"

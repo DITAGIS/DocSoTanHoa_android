@@ -37,7 +37,12 @@ public class DocSoChupAnhActivity extends AppCompatActivity {
         this.imgBtnCapture = (ImageButton) this.findViewById(R.id.imgBtn_dsca_ChupAnh);
         this.imgBtnSave = (ImageButton) this.findViewById(R.id.imgBtn_dsca_save);
         this.imageView = (ImageView) this.findViewById(R.id.img_dsca_view);
-
+        ((ImageButton) this.findViewById(R.id.imgBtn_dsca_Back)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         this.imgBtnCapture.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {

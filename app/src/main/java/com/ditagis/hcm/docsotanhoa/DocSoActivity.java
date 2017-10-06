@@ -43,7 +43,7 @@ public class DocSoActivity extends AppCompatActivity {
         }
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mArrMlt);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, mArrMlt);
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
 
         Spinner spinMLT = (Spinner) findViewById(R.id.spin_ds_mlt);
@@ -63,7 +63,7 @@ public class DocSoActivity extends AppCompatActivity {
                     mDB = new String[result.size()];
                     for (int i = 0; i < result.size(); i++)
                         mDB[i] = result.get(i);
-                    ArrayAdapter<String> adapterDB = new ArrayAdapter<String>(DocSoActivity.this, android.R.layout.simple_spinner_item, mDB);
+                    ArrayAdapter<String> adapterDB = new ArrayAdapter<String>(DocSoActivity.this, R.layout.spinner_item, mDB);
                     adapterDB.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
                     spinDB.setAdapter(adapterDB);
                     spinDB.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -148,9 +148,7 @@ public class DocSoActivity extends AppCompatActivity {
     }
 
     public void doLayLoTrinh(View v) {
-        Intent intent = new Intent(DocSoActivity.this, LayLoTrinhActivity.class);
-
-        startActivity(intent);
+        finish();
     }
 
     public void doQuanLyDocSo(View v) {
