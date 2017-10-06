@@ -52,6 +52,7 @@
                     android:src="@drawable/camera" />
 
                 <ImageButton
+                    android:id="@+id/imgBtn_dsca_save"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"

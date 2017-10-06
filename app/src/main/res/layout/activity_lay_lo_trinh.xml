@@ -3,7 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:orientation="vertical"
+
+    >
+
     <!--Layout hiển thị thông tin-->
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +18,9 @@
 
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin">
-        <requestFocus/>
+
+        <requestFocus />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,13 +54,13 @@
                 android:textSize="18dp" />
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/imgbtn_llt_check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:onClick="doCheck"
-            android:src="@drawable/checked" />
+        <!--<ImageButton-->
+            <!--android:id="@+id/imgbtn_llt_check"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="right"-->
+            <!--android:onClick="doCheck"-->
+            <!--android:src="@drawable/checked" />-->
     </LinearLayout>
     <!--Layout xem danh sách lộ trình-->
     <!--height = 0 dp thì android sẽ lấy theo weight-->
@@ -75,7 +80,7 @@
             android:inputType="number"
             android:maxLength="5"
             android:paddingRight="@dimen/activity_horizontal_margin" />
-            <!--android:imeOptions="actionSearch"-->
+        <!--android:imeOptions="actionSearch"-->
 
 
         <LinearLayout

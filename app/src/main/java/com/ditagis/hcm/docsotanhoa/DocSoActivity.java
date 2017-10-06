@@ -19,8 +19,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class DocSoActivity extends AppCompatActivity {
-    String mlt;
-    String mMlt[];
+    String mMlt;
+    String mDanhBo;
+    String mArrMlt[];
     String mDB[];
     final HoaDonDB hoaDonDB = new HoaDonDB();
     Spinner spinDB = null;
@@ -31,18 +32,18 @@ public class DocSoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_doc_so);
 
         Bundle extras = getIntent().getExtras();
-        ArrayList<String> llt_mlt = extras.getStringArrayList("mlt");
-        int llt_chkposition[] = extras.getIntArray("chkPosition");
-        mMlt = new String[extras.getInt("sum_mlt")];
+        ArrayList<String> llt_mlt = extras.getStringArrayList("mMlt");
+        boolean llt_chkposition[] = extras.getBooleanArray("chkPosition");
+        mArrMlt = new String[extras.getInt("sum_mlt")];
 
         int j = 0;
         for (int i = 0; i < llt_mlt.size(); i++) {
-            if (llt_chkposition[i] == 1)
-                mMlt[j++] = llt_mlt.get(i);
+            if (llt_chkposition[i])
+                mArrMlt[j++] = llt_mlt.get(i);
         }
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mMlt);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mArrMlt);
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
 
         Spinner spinMLT = (Spinner) findViewById(R.id.spin_ds_mlt);
@@ -52,12 +53,12 @@ public class DocSoActivity extends AppCompatActivity {
         spinMLT.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mlt = mMlt[position];
+                mMlt = mArrMlt[position];
 
 
                 List<String> result = null;
                 try {
-                    result = hoaDonDB.get_DanhBo_ByMLT(mlt);
+                    result = hoaDonDB.get_DanhBo_ByMLT(mMlt);
                     Collections.sort(result);
                     mDB = new String[result.size()];
                     for (int i = 0; i < result.size(); i++)
@@ -69,7 +70,8 @@ public class DocSoActivity extends AppCompatActivity {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //                            itemClickHandle.execute(spinDB.getSelectedItem().toString());
-                            HoaDon hoaDon = hoaDonDB.getByDanhBo(spinDB.getSelectedItem().toString());
+                            DocSoActivity.this.mDanhBo = spinDB.getSelectedItem().toString();
+                            HoaDon hoaDon = hoaDonDB.getByDanhBo(DocSoActivity.this.mDanhBo);
 
                             ((TextView) findViewById(R.id.txt_ds_tenKH)).setText(hoaDon.getTenKhachHang());
                             ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
@@ -141,7 +143,7 @@ public class DocSoActivity extends AppCompatActivity {
 
     public void doCamera(View v) {
         Intent intent = new Intent(DocSoActivity.this, DocSoChupAnhActivity.class);
-
+        intent.putExtra("danhbo", this.mDanhBo);
         startActivity(intent);
     }
 

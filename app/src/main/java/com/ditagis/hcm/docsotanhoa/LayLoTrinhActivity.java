@@ -1,6 +1,9 @@
 package com.ditagis.hcm.docsotanhoa;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +14,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,18 +32,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LayLoTrinhActivity extends AppCompatActivity {
-    TextView txtTongMLT;
-    TextView txtTongDB;
+    TextView m_txtTongMLT;
+    TextView m_txtTongDB;
     EditText editTextSearch;
     GridView gridView;
-    ImageButton imgbtnCheck;
+    //    ImageButton imgbtnCheck;
     HoaDonDB hoaDonDB = new HoaDonDB();
-    int sum_mlt = 0;
     //Dùng mảng 1 chiều hoặc ArrayList để lưu một số dữ liệu
     private ArrayList<String> m_mlt;
     private int m_DanhBo[];
-    private int m_checked_position[];
+    private boolean m_checked_position[];
     LayLoTrinh m_layLoTrinh;
+    private int m_sum_mlt = 0;
+    private int m_sum_db = 0;
     private GridViewLayLoTrinhAdapter da;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +54,10 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         m_mlt = new ArrayList<String>();
 //
 
-        txtTongMLT = (TextView) findViewById(R.id.txt_llt_mlt);
-        txtTongDB = (TextView) findViewById(R.id.txt_llt_db);
+        m_txtTongMLT = (TextView) findViewById(R.id.txt_llt_mlt);
+        m_txtTongDB = (TextView) findViewById(R.id.txt_llt_db);
         editTextSearch = (EditText) findViewById(R.id.etxt_llt_search);
-        imgbtnCheck = (ImageButton) findViewById(R.id.imgbtn_llt_check);
+//        imgbtnCheck = (ImageButton) findViewById(R.id.imgbtn_llt_check);
         gridView = (GridView) findViewById(R.id.grid_llt_danhSachLoTrinh);
 
         editTextSearch.addTextChangedListener(new TextWatcher() {
@@ -100,8 +103,12 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         gridView.setAdapter(da);
         registerForContextMenu(LayLoTrinhActivity.this.gridView);
         m_layLoTrinh = new LayLoTrinh();
-        m_layLoTrinh.execute();
-
+        if (isOnline())
+            m_layLoTrinh.execute();
+        else {
+            Toast.makeText(this, "Kiểm tra kết nối Internet và thử lại", Toast.LENGTH_SHORT).show();
+            //TODO
+        }
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -111,9 +118,9 @@ public class LayLoTrinhActivity extends AppCompatActivity {
                 ImageView img_row_View = (ImageView) view.findViewById(R.id.row_llt_img_Check);
 
 
-                if (txt_row_DanhBo.getText().toString().equals("Chưa xác định")) {
-                    AsyncTask<String, Object, String> execute = new ItemClickHandle(txt_row_DanhBo, img_row_View, position).execute(txt_row_MLT.getText().toString());
-                }
+//                if (txt_row_DanhBo.getText().toString().equals("Chưa xác định")) {
+                AsyncTask<String, Object, String> execute = new ItemClickHandle(txt_row_DanhBo, img_row_View, position).execute(txt_row_MLT.getText().toString());
+//                }
             }
 
         });
@@ -125,11 +132,11 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 //            result = hoaDonDB.getAllMaLoTrinh();
 //            Collections.sort(result);
 //            int size = result.size();
-//            mlt = new String[size];
+//            mMlt = new String[size];
 //            tongDanhBo = new int[size];
 //            checked_position = new int[size];
-//            for (int i = 0; i < mlt.length; i++) {
-//                mlt[i] = result.get(i);
+//            for (int i = 0; i < mMlt.length; i++) {
+//                mMlt[i] = result.get(i);
 //                checked_position[i] = 0;
 //            }
 //
@@ -137,7 +144,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 //            gridView = (GridView) findViewById(R.id.grid_llt_danhSachLoTrinh);
 //            //Gán DataSource vào ArrayAdapter
 //
-//            GridViewLayLoTrinhAdapter da = new GridViewLayLoTrinhAdapter(this, mlt, tongDanhBo, checked_position);
+//            GridViewLayLoTrinhAdapter da = new GridViewLayLoTrinhAdapter(this, mMlt, tongDanhBo, checked_position);
 //            //gán Datasource vào GridView
 //
 //            gridView.setAdapter(da);
@@ -201,7 +208,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 //////                    }
 //////                    myLastVisiblePos = currentFirstVisPos;
 //////                    for(int i = firstVisibleItem; i < visibleItemCount + firstVisibleItem; i ++){
-//////                        tongDanhBo[i] = hoaDonDB.getNum_DanhBo_ByMLT(mlt[i]);
+//////                        tongDanhBo[i] = hoaDonDB.getNum_DanhBo_ByMLT(mMlt[i]);
 //////                    }
 ////
 ////                }
@@ -214,20 +221,24 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
     }
 
-    public void doCheck(View v) {
-
-        sum_mlt = 0;
-        int sum = 0;
-        for (int i = 0; i < LayLoTrinhActivity.this.m_checked_position.length; i++)
-            if (LayLoTrinhActivity.this.m_checked_position[i] == 1) {
-                sum += LayLoTrinhActivity.this.m_DanhBo[i];
-                sum_mlt++;
-            }
-        txtTongMLT.setText("Mã lộ trình: " + sum_mlt);
-        txtTongDB.setText("Tổng danh bộ: " + sum);
-
+    //    public void doCheck(View v) {
+//
+//        sum_mlt = 0;
+//        int sum = 0;
+//        for (int i = 0; i < LayLoTrinhActivity.this.m_checked_position.length; i++)
+//            if (LayLoTrinhActivity.this.m_checked_position[i]) {
+//                sum += LayLoTrinhActivity.this.m_DanhBo[i];
+//                sum_mlt++;
+//            }
+//        this.m_txtTongMLT.setText("Mã lộ trình: " + sum_mlt);
+//        this.m_txtTongDB.setText("Tổng danh bộ: " + sum);
+//
+//    }
+    protected boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnected();
     }
-
 
     public class LayLoTrinh extends AsyncTask<Void, Object, Void> {
 
@@ -256,10 +267,10 @@ public class LayLoTrinhActivity extends AppCompatActivity {
                     public void run() {
                         Toast.makeText(LayLoTrinhActivity.this, "Đã lấy xong mã lộ trình", Toast.LENGTH_SHORT).show();
                         int count = m_mlt.size();
-                        LayLoTrinhActivity.this.m_checked_position = new int[count];
+                        LayLoTrinhActivity.this.m_checked_position = new boolean[count];
                         LayLoTrinhActivity.this.m_DanhBo = new int[count];
                         for (int i = 0; i < count; i++) {
-                            LayLoTrinhActivity.this.m_checked_position[i] = 0;
+                            LayLoTrinhActivity.this.m_checked_position[i] = false;
                             LayLoTrinhActivity.this.m_DanhBo[i] = 0;
                         }
                     }
@@ -337,13 +348,20 @@ public class LayLoTrinhActivity extends AppCompatActivity {
             int danhBo = (int) values[0];
             this.txt_row_DanhBo.setText(danhBo + "");
             int count = LayLoTrinhActivity.this.m_checked_position.length;
-            if (LayLoTrinhActivity.this.m_checked_position[this.pos] == 0) {
-                LayLoTrinhActivity.this.m_checked_position[this.pos] = 1;
+            if (!LayLoTrinhActivity.this.m_checked_position[this.pos]) {
+                LayLoTrinhActivity.this.m_checked_position[this.pos] = true;
                 this.img_row_check.setImageResource(R.drawable.checked);
+                LayLoTrinhActivity.this.m_sum_mlt++;
+                LayLoTrinhActivity.this.m_sum_db += danhBo;
+
             } else {
-                LayLoTrinhActivity.this.m_checked_position[this.pos] = 0;
+                LayLoTrinhActivity.this.m_checked_position[this.pos] = false;
                 this.img_row_check.setImageResource(0);
+                LayLoTrinhActivity.this.m_sum_mlt--;
+                LayLoTrinhActivity.this.m_sum_db -= danhBo;
             }
+            LayLoTrinhActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + LayLoTrinhActivity.this.m_sum_mlt);
+            LayLoTrinhActivity.this.m_txtTongDB.setText("Danh bộ: " + LayLoTrinhActivity.this.m_sum_db);
         }
 
         @Override
@@ -354,15 +372,15 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     }
 
     public void doDocSo(View v) {
-        if (sum_mlt == 0)
+        if (this.m_sum_mlt == 0)
             Toast.makeText(this, "Chưa có lộ trình!!!", Toast.LENGTH_SHORT).show();
         else {
             Intent intent = new Intent(LayLoTrinhActivity.this, DocSoActivity.class);
             Bundle extras = new Bundle();
-            extras.putStringArrayList("mlt", LayLoTrinhActivity.this.m_mlt);
+            extras.putStringArrayList("mMlt", LayLoTrinhActivity.this.m_mlt);
             extras.putIntArray("danhbo", LayLoTrinhActivity.this.m_DanhBo);
-            extras.putIntArray("chkPosition", LayLoTrinhActivity.this.m_checked_position);
-            extras.putInt("sum_mlt", sum_mlt);
+            extras.putBooleanArray("chkPosition", LayLoTrinhActivity.this.m_checked_position);
+            extras.putInt("sum_mlt", this.m_sum_mlt);
             intent.putExtras(extras);
             startActivity(intent);
         }
