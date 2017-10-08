@@ -13,6 +13,8 @@ import com.ditagis.hcm.docsotanhoa.entities.LoTrinh;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.attr.id;
+
 
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
@@ -115,6 +117,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         // Đóng kết nối database.
         db.close();
     }
+
     public void addHoaDon(HoaDon hoaDon) {
         Log.i(TAG, "MyDatabaseHelper.addHoaDon ... " + hoaDon.getId());
 
@@ -140,7 +143,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public HoaDon getHoaDon(int id) {
+    public HoaDon getHoaDon(String danhbo) {
         Log.i(TAG, "MyDatabaseHelper.getHoaDon ... " + id);
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -155,8 +158,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                         COLUMN_HOADON_KHACHHANG,
                         COLUMN_HOADON_KY,
                         COLUMN_HOADON_MALOTRINH
-                }, COLUMN_HOADON_ID + "=?",
-                new String[]{String.valueOf(id)}, null, null, null, null);
+                }, COLUMN_HOADON_DANHBO + "=?",
+                new String[]{String.valueOf(danhbo)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
@@ -192,10 +195,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         // return hoaDon list
         return loTrinhs;
     }
-    public List<HoaDon> getAllHoaDons() {
+
+    public ArrayList<HoaDon> getAllHoaDons() {
         Log.i(TAG, "MyDatabaseHelper.getAllHoaDons ... ");
 
-        List<HoaDon> hoaDonList = new ArrayList<HoaDon>();
+        ArrayList<HoaDon> hoaDonList = new ArrayList<HoaDon>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_HOADON;
 
@@ -226,12 +230,13 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         // return hoaDon list
         return hoaDonList;
     }
+
     public List<HoaDon> getAllHoaDonByMaLoTrinh(String mlt) {
         Log.i(TAG, "MyDatabaseHelper.getAllHoaDons ... ");
 
         List<HoaDon> hoaDonList = new ArrayList<HoaDon>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_HOADON +" WHERE "+COLUMN_HOADON_MALOTRINH+" = '"+mlt+"'";
+        String selectQuery = "SELECT  * FROM " + TABLE_HOADON + " WHERE " + COLUMN_HOADON_MALOTRINH + " = '" + mlt + "'";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -242,14 +247,29 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             do {
                 HoaDon hoaDon = new HoaDon();
                 hoaDon.setId(Integer.parseInt(cursor.getString(0)));
-                hoaDon.setChiSoCu(cursor.getString(1));
-                hoaDon.setChiSoMoi(cursor.getString(2));
-                hoaDon.setCode(cursor.getString(3));
-                hoaDon.setDanhBo(cursor.getString(4));
-                hoaDon.setDot(cursor.getString(5));
+                hoaDon.setDanhBo(cursor.getString(2));
                 hoaDon.setTenKhachHang(cursor.getString(6));
-                hoaDon.setKy(cursor.getString(7));
+
+                hoaDon.setCode(cursor.getString(3));
+                hoaDon.setChiSoCu(cursor.getString(1));
+
                 hoaDon.setMaLoTrinh(cursor.getString(8));
+//                COLUMN_HOADON_ID,
+//                        COLUMN_HOADON_CHISOCU,
+//                        COLUMN_HOADON_CHISOMOI,
+//                        COLUMN_HOADON_CODE,
+//                        COLUMN_HOADON_DANHBO,
+//                        COLUMN_HOADON_DOT,
+//                        COLUMN_HOADON_KHACHHANG,
+//                        COLUMN_HOADON_KY,
+//                        COLUMN_HOADON_MALOTRINH
+//                hoaDon.setSoNha(cursor.getString(cursor.getColumnIndex("SONHA")));
+//                hoaDon.setDuong(cursor.getString(cursor.getColumnIndex("DUONG")));
+//                hoaDon.setGiaBieu(cursor.getString(cursor.getColumnIndex("GIABIEU")));
+//                hoaDon.setDinhMuc(cursor.getString(cursor.getColumnIndex("DINHMUC")));
+
+
+
 
 
                 // Thêm vào danh sách.
@@ -260,6 +280,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         // return hoaDon list
         return hoaDonList;
     }
+
     public int getHoaDonsCount() {
         Log.i(TAG, "MyDatabaseHelper.getHoaDonsCount ... ");
 
@@ -307,8 +328,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void addAllHoaDon(List<HoaDon> hoaDons) {
-        for (HoaDon hd: hoaDons
-             ) {
+        for (HoaDon hd : hoaDons
+                ) {
             this.addHoaDon(hd);
         }
     }

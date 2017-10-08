@@ -248,8 +248,7 @@
                     android:width="0dp"
                     android:ems="10"
                     android:gravity="right"
-                    android:inputType="number"
-                    android:text="7001" />
+                    android:inputType="number" />
             </TableRow>
         </TableLayout>
 

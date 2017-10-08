@@ -1,11 +1,79 @@
 package com.ditagis.hcm.docsotanhoa.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * @author fuhi
  *
  */
-public class HoaDon {
+public class HoaDon implements Parcelable{
 	private int id;
+
+	protected HoaDon(Parcel in) {
+		id = in.readInt();
+		khu = in.readString();
+		dot = in.readString();
+		danhBo = in.readString();
+		cuLy = in.readString();
+		hopDong = in.readString();
+		tenKhachHang = in.readString();
+		soNha = in.readString();
+		duong = in.readString();
+		giaBieu = in.readString();
+		dinhMuc = in.readString();
+		ky = in.readString();
+		nam = in.readString();
+		code = in.readString();
+		codeFU = in.readString();
+		chiSoCu = in.readString();
+		chiSoMoi = in.readString();
+		quan = in.readString();
+		phuong = in.readString();
+		maLoTrinh = in.readString();
+	}
+
+	public static final Creator<HoaDon> CREATOR = new Creator<HoaDon>() {
+		@Override
+		public HoaDon createFromParcel(Parcel in) {
+			return new HoaDon(in);
+		}
+
+		@Override
+		public HoaDon[] newArray(int size) {
+			return new HoaDon[size];
+		}
+	};
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(id);
+		dest.writeString(khu);
+		dest.writeString(dot);
+		dest.writeString(danhBo);
+		dest.writeString(cuLy);
+		dest.writeString(hopDong);
+		dest.writeString(tenKhachHang);
+		dest.writeString(soNha);
+		dest.writeString(duong);
+		dest.writeString(giaBieu);
+		dest.writeString(dinhMuc);
+		dest.writeString(ky);
+		dest.writeString(nam);
+		dest.writeString(code);
+		dest.writeString(codeFU);
+		dest.writeString(chiSoCu);
+		dest.writeString(chiSoMoi);
+		dest.writeString(quan);
+		dest.writeString(phuong);
+		dest.writeString(maLoTrinh);
+	}
+
 	private String khu;
 	private String dot;
 	private String danhBo;

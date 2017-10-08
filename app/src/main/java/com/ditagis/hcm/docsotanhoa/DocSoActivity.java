@@ -1,7 +1,6 @@
 package com.ditagis.hcm.docsotanhoa;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,8 +10,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ditagis.hcm.docsotanhoa.conectDB.HoaDonDB;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
+import com.ditagis.hcm.docsotanhoa.localdb.MyDatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,25 +21,19 @@ public class DocSoActivity extends AppCompatActivity {
     String mMlt;
     String mDanhBo;
     String mArrMlt[];
-    String mDB[];
-    final HoaDonDB hoaDonDB = new HoaDonDB();
+    List<String> mDB = new ArrayList<String>();
+    private MyDatabaseHelper m_databaseHelper;
+    //    final HoaDonDB hoaDonDB = new HoaDonDB();
     Spinner spinDB = null;
-    DocSoActivity.ItemClickHandle itemClickHandle = new ItemClickHandle();
+//    DocSoActivity.ItemClickHandle itemClickHandle = new ItemClickHandle();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doc_so);
-
+        m_databaseHelper = new MyDatabaseHelper(this);
         Bundle extras = getIntent().getExtras();
-        ArrayList<String> llt_mlt = extras.getStringArrayList("mMlt");
-        boolean llt_chkposition[] = extras.getBooleanArray("chkPosition");
-        mArrMlt = new String[extras.getInt("sum_mlt")];
+        mArrMlt =extras.getStringArray("mMltArr");
 
-        int j = 0;
-        for (int i = 0; i < llt_mlt.size(); i++) {
-            if (llt_chkposition[i])
-                mArrMlt[j++] = llt_mlt.get(i);
-        }
 
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, mArrMlt);
@@ -54,15 +47,13 @@ public class DocSoActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mMlt = mArrMlt[position];
-
-
-                List<String> result = null;
                 try {
-                    result = hoaDonDB.get_DanhBo_ByMLT(mMlt);
-                    Collections.sort(result);
-                    mDB = new String[result.size()];
-                    for (int i = 0; i < result.size(); i++)
-                        mDB[i] = result.get(i);
+                    List<HoaDon> hoaDonList= m_databaseHelper.getAllHoaDonByMaLoTrinh(mMlt);
+
+                    for (HoaDon hoaDon : hoaDonList) {
+                           mDB.add(hoaDon.getDanhBo());
+                    }
+                    Collections.sort(mDB);
                     ArrayAdapter<String> adapterDB = new ArrayAdapter<String>(DocSoActivity.this, R.layout.spinner_item, mDB);
                     adapterDB.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
                     spinDB.setAdapter(adapterDB);
@@ -71,8 +62,8 @@ public class DocSoActivity extends AppCompatActivity {
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //                            itemClickHandle.execute(spinDB.getSelectedItem().toString());
                             DocSoActivity.this.mDanhBo = spinDB.getSelectedItem().toString();
-                            HoaDon hoaDon = hoaDonDB.getByDanhBo(DocSoActivity.this.mDanhBo);
-
+//                            HoaDon hoaDon = hoaDonDB.getByDanhBo(DocSoActivity.this.mDanhBo);
+                            HoaDon hoaDon = m_databaseHelper.getHoaDon(DocSoActivity.this.mDanhBo);
                             ((TextView) findViewById(R.id.txt_ds_tenKH)).setText(hoaDon.getTenKhachHang());
                             ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
                             ((TextView) findViewById(R.id.txt_ds_CSC)).setText(hoaDon.getChiSoCu());
@@ -99,36 +90,36 @@ public class DocSoActivity extends AppCompatActivity {
 
     }
 
-    public class ItemClickHandle extends AsyncTask<String, HoaDon, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            Toast.makeText(DocSoActivity.this, "Đang tải thông tin khách hàng", Toast.LENGTH_LONG).show();
-        }
-
-
-        @Override
-        protected Void doInBackground(String... params) {
-            HoaDon hoaDon = hoaDonDB.getByDanhBo(params[0]);
-            publishProgress(hoaDon);
-            return null;
-        }
-
-        @Override
-        protected void onProgressUpdate(HoaDon... values) {
-            super.onProgressUpdate(values);
-            HoaDon hoaDon = values[0];
-
-            ((TextView) findViewById(R.id.txt_ds_tenKH)).setText(hoaDon.getTenKhachHang());
-            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
-            ((TextView) findViewById(R.id.txt_ds_CSC)).setText(hoaDon.getChiSoCu());
-            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
-            ((TextView) findViewById(R.id.txt_ds_giabieu)).setText(hoaDon.getGiaBieu());
-        }
-
-
-    }
+//    public class ItemClickHandle extends AsyncTask<String, HoaDon, Void> {
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            Toast.makeText(DocSoActivity.this, "Đang tải thông tin khách hàng", Toast.LENGTH_LONG).show();
+//        }
+//
+//
+//        @Override
+//        protected Void doInBackground(String... params) {
+//            HoaDon hoaDon = hoaDonDB.getByDanhBo(params[0]);
+//            publishProgress(hoaDon);
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onProgressUpdate(HoaDon... values) {
+//            super.onProgressUpdate(values);
+//            HoaDon hoaDon = values[0];
+//
+//            ((TextView) findViewById(R.id.txt_ds_tenKH)).setText(hoaDon.getTenKhachHang());
+//            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
+//            ((TextView) findViewById(R.id.txt_ds_CSC)).setText(hoaDon.getChiSoCu());
+//            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
+//            ((TextView) findViewById(R.id.txt_ds_giabieu)).setText(hoaDon.getGiaBieu());
+//        }
+//
+//
+//    }
 
     public void doPrev(View v) {
         int i = spinDB.getSelectedItemPosition();
@@ -144,6 +135,7 @@ public class DocSoActivity extends AppCompatActivity {
     public void doCamera(View v) {
         Intent intent = new Intent(DocSoActivity.this, DocSoChupAnhActivity.class);
         intent.putExtra("danhbo", this.mDanhBo);
+
         startActivity(intent);
     }
 
