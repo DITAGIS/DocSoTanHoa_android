@@ -2,11 +2,11 @@ package com.ditagis.hcm.docsotanhoa;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class LayLoTrinhActivity extends AppCompatActivity {
@@ -43,16 +45,12 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     //Dùng mảng 1 chiều hoặc ArrayList để lưu một số dữ liệu
     private ArrayList<String> m_mlt;
     private int m_DanhBo[];
-    private boolean m_checked_position[]; //TODO: cần chuyển thành int[] với mỗi phần tử là vị trí được check
+    private HashMap<String, Integer> m_MLT_TongDanhBo; //TODO: cần chuyển thành int[] với mỗi phần tử là danh bộ được check
     LayLoTrinh m_layLoTrinh;
-    private int m_sum_mlt = 0;
-    private int m_sum_db = 0;
     private GridViewLayLoTrinhAdapter da;
     private MyDatabaseHelper m_databaseHelper;
     private List<HoaDon> mHoaDons;
     private ProgressBar spinner;
-    private Handler handler = new Handler();
-    private int progressStatus = 0;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,12 +129,13 @@ public class LayLoTrinhActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (isOnline()) {
+                    LinearLayout layout_row = (LinearLayout) view.findViewById(R.id.row_llt_layout);
                     TextView txt_row_MLT = (TextView) view.findViewById(R.id.row_llt_txt_malotrinh);
                     TextView txt_row_DanhBo = (TextView) view.findViewById(R.id.row_llt_txt_tongDanhBo);
                     ImageView img_row_View = (ImageView) view.findViewById(R.id.row_llt_img_Check);
 
 
-                    AsyncTask<String, Object, String> execute = new ItemClickHandle(txt_row_DanhBo, img_row_View, position).execute(txt_row_MLT.getText().toString());
+                    AsyncTask<String, Object, String> execute = new ItemClickHandle(layout_row, txt_row_DanhBo, img_row_View, position).execute(txt_row_MLT.getText().toString());
                 } else {
                     Toast.makeText(LayLoTrinhActivity.this, "Kiểm tra kết nối Internet và thử lại", Toast.LENGTH_SHORT).show();
                     //TODO
@@ -148,33 +147,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
 
     }
-    public void initProgresBar(){
-        new Thread(new Runnable() {
-            public void run() {
-                while (progressStatus < 1000) {
-                    progressStatus += 1;
-                    // Update the progress bar and display the
 
-                    //current value in the text view
-                    handler.post(new Runnable() {
-                        public void run() {
-                            spinner.setProgress(progressStatus);
-//                            textView.setText(progressStatus+"/"+spinner.getMax());
-                        }
-                    });
-                    try {
-                        // Sleep for 200 milliseconds.
-
-                        //Just to display the progress slowly
-                        Thread.sleep(200);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-
-    }
     protected boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
@@ -214,12 +187,8 @@ public class LayLoTrinhActivity extends AppCompatActivity {
                         Toast.makeText(LayLoTrinhActivity.this, "Đã lấy xong mã lộ trình", Toast.LENGTH_SHORT).show();
                         spinner.setVisibility(View.INVISIBLE);
                         int count = m_mlt.size();
-                        LayLoTrinhActivity.this.m_checked_position = new boolean[count];
+                        LayLoTrinhActivity.this.m_MLT_TongDanhBo = new HashMap<String, Integer>();
                         LayLoTrinhActivity.this.m_DanhBo = new int[count];
-                        for (int i = 0; i < count; i++) {
-                            LayLoTrinhActivity.this.m_checked_position[i] = false;
-                            LayLoTrinhActivity.this.m_DanhBo[i] = 0;
-                        }
                     }
                 });
 
@@ -248,12 +217,14 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
     //Menu
     public class ItemClickHandle extends AsyncTask<String, Object, String> {
-
+        private String mlt;
+        private LinearLayout layout_row;
         private TextView txt_row_DanhBo;
         private ImageView img_row_check;
         private int pos;
 
-        public ItemClickHandle(TextView txt_row_DanhBo, ImageView img_row_check, int pos) {
+        public ItemClickHandle(LinearLayout layout_row, TextView txt_row_DanhBo, ImageView img_row_check, int pos) {
+            this.layout_row = layout_row;
             this.txt_row_DanhBo = txt_row_DanhBo;
             this.img_row_check = img_row_check;
             this.pos = pos;
@@ -269,7 +240,13 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            String mlt = params[0];
+            mlt = params[0];
+            LayLoTrinhActivity.this.mHoaDons = LayLoTrinhActivity.this.m_databaseHelper.getAllHoaDons();
+            if(LayLoTrinhActivity.this.m_MLT_TongDanhBo.containsKey(mlt)){
+                publishProgress(LayLoTrinhActivity.this.mHoaDons.size());
+                LayLoTrinhActivity.this.m_DanhBo[this.pos] = LayLoTrinhActivity.this.mHoaDons.size();
+                return LayLoTrinhActivity.this.mHoaDons.size() + "";
+            }
             ConnectionDB condb = new ConnectionDB();
             Connection cnn = condb.getConnect();
             LayLoTrinhActivity.this.mHoaDons = new ArrayList<HoaDon>();
@@ -318,21 +295,22 @@ public class LayLoTrinhActivity extends AppCompatActivity {
             super.onProgressUpdate(values);
             int danhBo = (int) values[0];
             this.txt_row_DanhBo.setText(danhBo + "");
-            int count = LayLoTrinhActivity.this.m_checked_position.length;
-            if (!LayLoTrinhActivity.this.m_checked_position[this.pos]) {
-                LayLoTrinhActivity.this.m_checked_position[this.pos] = true;
+            int count = LayLoTrinhActivity.this.m_MLT_TongDanhBo.size();
+            if (!LayLoTrinhActivity.this.m_MLT_TongDanhBo.containsKey(mlt)) {
+                LayLoTrinhActivity.this.m_MLT_TongDanhBo.put(mlt, danhBo);
                 this.img_row_check.setImageResource(R.drawable.checked);
-                LayLoTrinhActivity.this.m_sum_mlt++;
-                LayLoTrinhActivity.this.m_sum_db += danhBo;
-
+                this.layout_row.setBackgroundColor(Color.parseColor("#99FFCC"));
             } else {
-                LayLoTrinhActivity.this.m_checked_position[this.pos] = false;
+                LayLoTrinhActivity.this.m_MLT_TongDanhBo.remove(mlt);
                 this.img_row_check.setImageResource(0);
-                LayLoTrinhActivity.this.m_sum_mlt--;
-                LayLoTrinhActivity.this.m_sum_db -= danhBo;
+                this.layout_row.setBackgroundColor(Color.parseColor("#FFFFFF"));
             }
-            LayLoTrinhActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + LayLoTrinhActivity.this.m_sum_mlt);
-            LayLoTrinhActivity.this.m_txtTongDB.setText("Danh bộ: " + LayLoTrinhActivity.this.m_sum_db);
+            LayLoTrinhActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + LayLoTrinhActivity.this.m_MLT_TongDanhBo.size());
+
+            int sum_db = 0;
+            for (Integer db : LayLoTrinhActivity.this.m_MLT_TongDanhBo.values())
+                sum_db += db;
+            LayLoTrinhActivity.this.m_txtTongDB.setText("Danh bộ: " + sum_db);
             spinner.setVisibility(View.INVISIBLE);
         }
 
@@ -344,20 +322,19 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     }
 
     public void doDocSo(View v) {
-        if (this.m_sum_mlt == 0)
+        if (this.m_MLT_TongDanhBo.size() == 0)
             Toast.makeText(this, "Chưa có lộ trình!!!", Toast.LENGTH_SHORT).show();
         else {
             Intent intent = new Intent(LayLoTrinhActivity.this, DocSoActivity.class);
             Bundle extras = new Bundle();
 
-            String[] mltArr = new String[this.m_sum_mlt];
+            String[] mltArr = new String[this.m_MLT_TongDanhBo.size()];
             int j = 0;
-            for (int i = 0; i < this.m_checked_position.length; i++)
-                if (this.m_checked_position[i])
-                    mltArr[j++] = this.m_mlt.get(i);
+            for (String mlt : this.m_MLT_TongDanhBo.keySet())
+                mltArr[j++] = mlt;
             extras.putStringArray("mMltArr", mltArr);
 //            extras.putStringArrayList("mMlt", LayLoTrinhActivity.this.m_mlt);
-//            extras.putBooleanArray("chkPosition", LayLoTrinhActivity.this.m_checked_position);
+//            extras.putBooleanArray("chkPosition", LayLoTrinhActivity.this.m_MLT_TongDanhBo);
             intent.putExtras(extras);
             startActivity(intent);
         }
