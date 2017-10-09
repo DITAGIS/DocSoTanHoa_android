@@ -182,7 +182,6 @@ public void Create(){
         db.close();
     }
 
-
     public HoaDon getHoaDon(String danhbo) {
         Log.i(TAG, "MyDatabaseHelper.getHoaDon ... " + id);
 

@@ -2,6 +2,7 @@ package com.ditagis.hcm.docsotanhoa;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.localdb.MyDatabaseHelper;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -32,6 +35,7 @@ public class DocSoActivity extends AppCompatActivity {
     //    final HoaDonDB hoaDonDB = new HoaDonDB();
     Spinner spinDB = null;
     Spinner spinCode;
+    ImageButton imgbtn_Save;
 //    DocSoActivity.ItemClickHandle itemClickHandle = new ItemClickHandle();
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,7 @@ public class DocSoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_doc_so);
         m_databaseHelper = new MyDatabaseHelper(this);
         editTextCSM = (EditText) findViewById(R.id.etxt_ds_CSM);
+        imgbtn_Save = (ImageButton) findViewById(R.id.imgbtn_ds_Save);
         txtCSM = (TextView) findViewById(R.id.txt_ds_CSM);
         String[] codes = {"4", "5", "6", "8", "F", "K", "M", "N", "Q"};
         Bundle extras = getIntent().getExtras();
@@ -75,10 +80,10 @@ public class DocSoActivity extends AppCompatActivity {
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             DocSoActivity.this.mDanhBo = spinDB.getSelectedItem().toString();
                             HoaDon hoaDon = m_databaseHelper.getHoaDon(DocSoActivity.this.mDanhBo);
-                            txtCSC = (TextView) findViewById(R.id.txt_ds_tenKH);
-                            txtCSC.setText(hoaDon.getTenKhachHang());
+                            ((TextView) findViewById(R.id.txt_ds_tenKH)).setText(hoaDon.getTenKhachHang());
 //                            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
-                            ((TextView) findViewById(R.id.txt_ds_CSC)).setText(hoaDon.getChiSoCu());
+                            txtCSC = (TextView) findViewById(R.id.txt_ds_CSC);
+                            txtCSC.setText(hoaDon.getChiSoCu());
 //                            ((TextView) findViewById(R.id.txt_ds_giabieu)).setText(hoaDon.getGiaBieu());
                             ((TextView) findViewById(R.id.txt_ds_diachi)).setText(hoaDon.getDiaChi());
                         }
@@ -112,8 +117,32 @@ public class DocSoActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (Integer.parseInt(editTextCSM.getText().toString()) < Integer.parseInt(txtCSC.getText().toString()))
-                    Toast.makeText(DocSoActivity.this, "Chỉ số mới đang nhỏ hơn chỉ số cũ", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        imgbtn_Save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // kiểm tra hình ảnh
+                File sdCardDirectory = Environment.getExternalStorageDirectory();
+                File image = new File(sdCardDirectory, "DocSoTanHoa" + File.separator + mDanhBo + ".png");
+                if (!image.exists()) {
+                    Toast.makeText(DocSoActivity.this, "Thiếu hình ảnh!!!", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    Toast.makeText(DocSoActivity.this, "Đã có hình ảnh!!!", Toast.LENGTH_SHORT).show();
+                }
+                // kiểm tra chỉ số mới
+                int csc = 0;
+                int csm = 0;
+                if (txtCSM.getText().length() > 0) {
+                    csm = Integer.parseInt(txtCSM.getText().toString());
+                    csc = Integer.parseInt(txtCSC.getText().toString());
+                    if (csm < csc) {
+                        // kiểm tra code
+                    }
+                }
             }
         });
     }

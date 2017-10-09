@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
@@ -7,163 +8,174 @@
 
     >
 
-    <!--Layout hiển thị thông tin-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_dark"
-        android:minHeight="25px"
-        android:minWidth="25px"
-        android:orientation="vertical"
-
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin">
-
-        <requestFocus />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tổng số"
-            android:textColor="@android:color/white"
-            android:textSize="25dp" />
-
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <!--Layout hiển thị thông tin-->
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/activity_vertical_margin"
-            android:paddingTop="5dp">
+            android:background="@android:color/holo_blue_dark"
+            android:minHeight="25px"
+            android:minWidth="25px"
+            android:orientation="vertical"
+
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
+
+            <requestFocus />
 
             <TextView
-                android:id="@+id/txt_llt_mlt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mã lộ trình: 0"
+                android:text="Tổng số"
                 android:textColor="@android:color/white"
-                android:textSize="18dp" />
+                android:textSize="25dp" />
 
-            <TextView
-                android:id="@+id/txt_llt_db"
+            <LinearLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="Danh bộ: 0"
-                android:textColor="@android:color/white"
-                android:textSize="18dp" />
-        </LinearLayout>
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_vertical_margin"
+                android:paddingTop="5dp">
 
-        <!--<ImageButton-->
+                <TextView
+                    android:id="@+id/txt_llt_mlt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mã lộ trình: 0"
+                    android:textColor="@android:color/white"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/txt_llt_db"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="Danh bộ: 0"
+                    android:textColor="@android:color/white"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <!--<ImageButton-->
             <!--android:id="@+id/imgbtn_llt_check"-->
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="wrap_content"-->
             <!--android:layout_gravity="right"-->
             <!--android:onClick="doCheck"-->
             <!--android:src="@drawable/checked" />-->
-    </LinearLayout>
-    <!--Layout xem danh sách lộ trình-->
-    <!--height = 0 dp thì android sẽ lấy theo weight-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4.7"
-
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/etxt_llt_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:hint="Tìm kiếm mã lộ trình"
-            android:inputType="number"
-            android:maxLength="5"
-            android:paddingRight="@dimen/activity_horizontal_margin" />
-        <!--android:imeOptions="actionSearch"-->
-
-
+        </LinearLayout>
+        <!--Layout xem danh sách lộ trình-->
+        <!--height = 0 dp thì android sẽ lấy theo weight-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/darker_gray"
+            android:layout_height="0dp"
+            android:layout_weight="4.7"
+
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/etxt_llt_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:hint="Tìm kiếm mã lộ trình"
+                android:inputType="number"
+                android:maxLength="5"
+                android:paddingRight="@dimen/activity_horizontal_margin" />
+            <!--android:imeOptions="actionSearch"-->
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/darker_gray"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Mã lộ trình"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Danh bộ"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Chọn MLT"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <GridView
+                android:id="@+id/grid_llt_danhSachLoTrinh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:numColumns="1"
+                android:paddingTop="@dimen/activity_vertical_margin" />
+            <!--</ScrollView>-->
+        </LinearLayout>
+        <!--Layout menu-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <ImageButton
+                android:id="@+id/btn_qllt_qllt"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="Mã lộ trình"
-                android:textSize="17dp"
-                android:textStyle="bold" />
+                android:background="@android:color/holo_red_dark"
+                android:src="@drawable/rider" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <ImageButton
+                android:id="@+id/btn_qllt_ds"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_column="0"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="Danh bộ"
-                android:textSize="17dp"
-                android:textStyle="bold" />
+                android:background="@android:color/background_light"
+                android:onClick="doDocSo"
+                android:src="@drawable/number_read" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <ImageButton
+                android:id="@+id/btn_qllt_qlds"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_column="0"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="Chọn MLT"
-                android:textSize="17dp"
-                android:textStyle="bold" />
+
+                android:background="@android:color/background_light"
+                android:onClick="doQuanLyDocSo"
+                android:src="@drawable/num_list" />
         </LinearLayout>
-
-        <GridView
-            android:id="@+id/grid_llt_danhSachLoTrinh"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:numColumns="1"
-            android:paddingTop="@dimen/activity_vertical_margin" />
-        <!--</ScrollView>-->
     </LinearLayout>
-    <!--Layout menu-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/btn_qllt_qllt"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:background="@android:color/holo_red_dark"
-            android:src="@drawable/rider" />
-
-        <ImageButton
-            android:id="@+id/btn_qllt_ds"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_column="0"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:background="@android:color/background_light"
-            android:onClick="doDocSo"
-            android:src="@drawable/number_read" />
-
-        <ImageButton
-            android:id="@+id/btn_qllt_qlds"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_column="0"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-
-            android:background="@android:color/background_light"
-            android:onClick="doQuanLyDocSo"
-            android:src="@drawable/num_list" />
-    </LinearLayout>
-</LinearLayout>
+    <ProgressBar
+        android:id="@+id/myProgress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"/>
+</FrameLayout>

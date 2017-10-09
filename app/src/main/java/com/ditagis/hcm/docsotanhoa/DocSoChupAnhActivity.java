@@ -1,11 +1,14 @@
 package com.ditagis.hcm.docsotanhoa;
 
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -54,6 +57,10 @@ public class DocSoChupAnhActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 File sdCardDirectory = Environment.getExternalStorageDirectory();
+                if (sdCardDirectory.getAbsolutePath().length() == 0) {
+                    saveToInternalStorage(mBpImage);
+                    return;
+                }
                 File image = new File(sdCardDirectory, "DocSoTanHoa" + File.separator + mDanhBo + ".png");
                 boolean success = false;
 
@@ -76,6 +83,7 @@ public class DocSoChupAnhActivity extends AppCompatActivity {
                 if (success) {
                     Toast.makeText(getApplicationContext(), "Đã lưu!!",
                             Toast.LENGTH_LONG).show();
+                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Có lỗi xảy ra trong quá trình lưu!", Toast.LENGTH_LONG).show();
@@ -83,6 +91,36 @@ public class DocSoChupAnhActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @NonNull
+    private String saveToInternalStorage(Bitmap bitmapImage) {
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("DocSoTanHoa", Context.MODE_PRIVATE);
+        // Create imageDir
+        File mypath = new File(directory, this.mDanhBo + ".png");
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(mypath);
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            Toast.makeText(getApplicationContext(), "Đã lưu!!",
+                    Toast.LENGTH_LONG).show();
+            finish();
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(),
+                    "Có lỗi xảy ra trong quá trình lưu!", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        } finally {
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return directory.getAbsolutePath();
     }
 
     private void captureImage() {

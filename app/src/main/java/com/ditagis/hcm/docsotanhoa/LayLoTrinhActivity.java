@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,9 +50,13 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     private GridViewLayLoTrinhAdapter da;
     private MyDatabaseHelper m_databaseHelper;
     private List<HoaDon> mHoaDons;
+    private ProgressBar spinner;
+    private Handler handler = new Handler();
+    private int progressStatus = 0;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_lay_lo_trinh);
 
         m_mlt = new ArrayList<String>();
@@ -105,9 +111,18 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         gridView.setAdapter(da);
         registerForContextMenu(LayLoTrinhActivity.this.gridView);
         m_layLoTrinh = new LayLoTrinh();
-        if (isOnline())
+        if (isOnline()) {
+            //-------
+
+//            textView = (TextView) findViewById(R.id.progressTextView);
+
+
+            // set the drawable as progress drawable
+//            initProgresBar();
+            //-----------------
+
             m_layLoTrinh.execute();
-        else {
+        } else {
             Toast.makeText(this, "Kiểm tra kết nối Internet và thử lại", Toast.LENGTH_SHORT).show();
             //TODO
         }
@@ -132,9 +147,34 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         });
 
 
+    }
+    public void initProgresBar(){
+        new Thread(new Runnable() {
+            public void run() {
+                while (progressStatus < 1000) {
+                    progressStatus += 1;
+                    // Update the progress bar and display the
+
+                    //current value in the text view
+                    handler.post(new Runnable() {
+                        public void run() {
+                            spinner.setProgress(progressStatus);
+//                            textView.setText(progressStatus+"/"+spinner.getMax());
+                        }
+                    });
+                    try {
+                        // Sleep for 200 milliseconds.
+
+                        //Just to display the progress slowly
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
 
     }
-
     protected boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
@@ -147,6 +187,9 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             Toast.makeText(LayLoTrinhActivity.this, "Đang lấy danh sách mã lộ trình", Toast.LENGTH_LONG).show();
+            spinner = (ProgressBar) findViewById(R.id.myProgress);
+            spinner.setVisibility(View.GONE);
+            spinner.setVisibility(View.VISIBLE);
         }
 
 
@@ -169,6 +212,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Toast.makeText(LayLoTrinhActivity.this, "Đã lấy xong mã lộ trình", Toast.LENGTH_SHORT).show();
+                        spinner.setVisibility(View.INVISIBLE);
                         int count = m_mlt.size();
                         LayLoTrinhActivity.this.m_checked_position = new boolean[count];
                         LayLoTrinhActivity.this.m_DanhBo = new int[count];
@@ -219,6 +263,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             Toast.makeText(LayLoTrinhActivity.this, "Đang tính tổng số danh bộ...", Toast.LENGTH_LONG).show();
+            spinner.setVisibility(View.VISIBLE);
         }
 
 
@@ -288,6 +333,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
             }
             LayLoTrinhActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + LayLoTrinhActivity.this.m_sum_mlt);
             LayLoTrinhActivity.this.m_txtTongDB.setText("Danh bộ: " + LayLoTrinhActivity.this.m_sum_db);
+            spinner.setVisibility(View.INVISIBLE);
         }
 
         @Override
