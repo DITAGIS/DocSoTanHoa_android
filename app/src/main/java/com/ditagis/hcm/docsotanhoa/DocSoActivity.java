@@ -27,9 +27,11 @@ public class DocSoActivity extends AppCompatActivity {
     List<String> mDB = new ArrayList<String>();
     EditText editTextCSM;
     TextView txtCSM;
+    TextView txtCSC;
     private MyDatabaseHelper m_databaseHelper;
     //    final HoaDonDB hoaDonDB = new HoaDonDB();
     Spinner spinDB = null;
+    Spinner spinCode;
 //    DocSoActivity.ItemClickHandle itemClickHandle = new ItemClickHandle();
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,14 +40,18 @@ public class DocSoActivity extends AppCompatActivity {
         m_databaseHelper = new MyDatabaseHelper(this);
         editTextCSM = (EditText) findViewById(R.id.etxt_ds_CSM);
         txtCSM = (TextView) findViewById(R.id.txt_ds_CSM);
-
+        String[] codes = {"4", "5", "6", "8", "F", "K", "M", "N", "Q"};
         Bundle extras = getIntent().getExtras();
         mArrMlt = extras.getStringArray("mMltArr");
 
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, mArrMlt);
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-
+        ArrayAdapter<String> adapterCode = new ArrayAdapter<String>(this, R.layout.spinner_item, codes);
+        adapterCode.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        spinCode = (Spinner) findViewById(R.id.spin_ds_code);
+        spinCode.setAdapter(adapterCode);
+        spinCode.setSelection(0);
         Spinner spinMLT = (Spinner) findViewById(R.id.spin_ds_mlt);
         spinDB = (Spinner) findViewById(R.id.spin_ds_db);
         spinMLT.setAdapter(adapter);
@@ -69,10 +75,11 @@ public class DocSoActivity extends AppCompatActivity {
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             DocSoActivity.this.mDanhBo = spinDB.getSelectedItem().toString();
                             HoaDon hoaDon = m_databaseHelper.getHoaDon(DocSoActivity.this.mDanhBo);
-                            ((TextView) findViewById(R.id.txt_ds_tenKH)).setText(hoaDon.getTenKhachHang());
-                            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
+                            txtCSC = (TextView) findViewById(R.id.txt_ds_tenKH);
+                            txtCSC.setText(hoaDon.getTenKhachHang());
+//                            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
                             ((TextView) findViewById(R.id.txt_ds_CSC)).setText(hoaDon.getChiSoCu());
-                            ((TextView) findViewById(R.id.txt_ds_giabieu)).setText(hoaDon.getGiaBieu());
+//                            ((TextView) findViewById(R.id.txt_ds_giabieu)).setText(hoaDon.getGiaBieu());
                             ((TextView) findViewById(R.id.txt_ds_diachi)).setText(hoaDon.getDiaChi());
                         }
 
@@ -105,7 +112,8 @@ public class DocSoActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                if (Integer.parseInt(editTextCSM.getText().toString()) < Integer.parseInt(txtCSC.getText().toString()))
+                    Toast.makeText(DocSoActivity.this, "Chỉ số mới đang nhỏ hơn chỉ số cũ", Toast.LENGTH_SHORT).show();
             }
         });
     }

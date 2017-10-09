@@ -31,7 +31,7 @@
                     android:layout_column="0"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="Mã lộ trình"
+                    android:text="Mã LT: "
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/white" />
 
@@ -50,7 +50,7 @@
                 <TextView
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="Danh bộ"
+                    android:text="Danh bộ: "
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/white" />
 
@@ -87,7 +87,7 @@
                     android:layout_column="0"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="Tên KH"
+                    android:text="Tên KH: "
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/white" />
 
@@ -107,7 +107,7 @@
                     android:layout_column="0"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="Địa chỉ"
+                    android:text="Địa chỉ: "
 
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/white" />
@@ -120,44 +120,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/white" />
             </TableRow>
-            <!--Table row giá biểu-->
-            <TableRow android:layout_weight="1">
 
-                <TextView
-                    android:layout_column="0"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:text="Giá biểu"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-
-                <TextView
-                    android:layout_gravity="center_vertical"
-                    android:layout_span="4"
-                    android:layout_weight="1"
-                    android:id="@+id/txt_ds_giabieu"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-            </TableRow>
-            <!--Table row Định mức-->
-            <TableRow android:layout_weight="1">
-
-                <TextView
-                    android:layout_column="0"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:text="Định mức"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-
-                <TextView
-                    android:layout_gravity="center_vertical"
-                    android:layout_span="4"
-                    android:layout_weight="1"
-                    android:id="@+id/txt_ds_dinhmuc"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-            </TableRow>
             <!--Table row chỉ số cũ-->
             <TableRow android:layout_weight="1">
 
@@ -165,15 +128,15 @@
                     android:layout_column="0"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="Chỉ số cũ"
+                    android:text="CS cũ: "
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/white" />
 
                 <TextView
+                    android:id="@+id/txt_ds_CSC"
                     android:layout_gravity="center_vertical"
                     android:layout_span="4"
                     android:layout_weight="1"
-                    android:id="@+id/txt_ds_CSC"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/white" />
             </TableRow>
@@ -184,7 +147,7 @@
                     android:layout_column="0"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="Chỉ số mới"
+                    android:text="CS mới: "
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/white" />
 
@@ -196,6 +159,45 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/white" />
             </TableRow>
+
+            <!--&lt;!&ndash;Table row giá biểu&ndash;&gt;-->
+            <!--<TableRow android:layout_weight="1">-->
+
+                <!--<TextView-->
+                    <!--android:layout_column="0"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:text="Giá biểu"-->
+                    <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+                    <!--android:textColor="@android:color/white" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/txt_ds_giabieu"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:layout_span="4"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+                    <!--android:textColor="@android:color/white" />-->
+            <!--</TableRow>-->
+            <!--&lt;!&ndash;Table row Định mức&ndash;&gt;-->
+            <!--<TableRow android:layout_weight="1">-->
+
+                <!--<TextView-->
+                    <!--android:layout_column="0"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:text="Định mức"-->
+                    <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+                    <!--android:textColor="@android:color/white" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/txt_ds_dinhmuc"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:layout_span="4"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+                    <!--android:textColor="@android:color/white" />-->
+            <!--</TableRow>-->
             <!--Table row tiền nước-->
             <TableRow android:layout_weight="1">
 
@@ -208,10 +210,10 @@
                     android:textColor="@android:color/white" />
 
                 <TextView
+                    android:id="@+id/txt_ds_tiennuoc"
                     android:layout_gravity="center_vertical"
                     android:layout_span="4"
                     android:layout_weight="1"
-                    android:id="@+id/txt_ds_tiennuoc"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/white" />
             </TableRow>
@@ -223,14 +225,16 @@
         android:layout_height="0dp"
         android:layout_weight="2"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin">
+
+        >
 
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:background="#66CDAA"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
             <!--Table row nhập code-->
             <TableRow android:layout_weight="1">
 
@@ -243,6 +247,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <Spinner
+                    android:id="@+id/spin_ds_code"
                     android:layout_width="0dp"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
@@ -268,8 +273,8 @@
                     android:width="0dp"
                     android:ems="10"
                     android:gravity="right"
-                    android:maxLength="5"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:maxLength="5" />
             </TableRow>
         </TableLayout>
 
