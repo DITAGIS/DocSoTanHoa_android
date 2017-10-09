@@ -177,6 +177,25 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/white" />
             </TableRow>
+            <!--Table row chỉ số mới-->
+            <TableRow android:layout_weight="1">
+
+                <TextView
+                    android:layout_column="0"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="Chỉ số mới"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:id="@+id/txt_ds_CSM"
+                    android:layout_gravity="center_vertical"
+                    android:layout_span="4"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/white" />
+            </TableRow>
             <!--Table row tiền nước-->
             <TableRow android:layout_weight="1">
 
@@ -242,12 +261,14 @@
 
                 <EditText
 
+                    android:id="@+id/etxt_ds_CSM"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:width="0dp"
                     android:ems="10"
                     android:gravity="right"
+                    android:maxLength="5"
                     android:inputType="number" />
             </TableRow>
         </TableLayout>

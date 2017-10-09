@@ -98,7 +98,7 @@ public class HoaDon implements Parcelable{
 
 	}
 
-	public HoaDon(int id, String dot, String danhBo, String tenKhachHang, String ky, String code, String chiSoCu, String chiSoMoi, String maLoTrinh) {
+	public HoaDon(int id, String dot, String danhBo, String tenKhachHang, String ky, String code, String chiSoCu, String chiSoMoi, String maLoTrinh,String soNha,String duong,String giaBieu,String dinhMuc) {
 		this.id = id;
 		this.dot = dot;
 		this.danhBo = danhBo;
@@ -108,6 +108,7 @@ public class HoaDon implements Parcelable{
 		this.chiSoCu = chiSoCu;
 		this.chiSoMoi = chiSoMoi;
 		this.maLoTrinh = maLoTrinh;
+		this.soNha = soNha;this.duong = duong;this.giaBieu =  giaBieu;this.dinhMuc=dinhMuc;
 	}
 
 	public HoaDon(String danhBo, String tenKhachHang, String soNha, String duong, String ky, String nam, String code,
@@ -272,6 +273,10 @@ public class HoaDon implements Parcelable{
 	}
 	public void setMaLoTrinh(String maLoTrinh) {
 		this.maLoTrinh = maLoTrinh;
+	}
+
+	public String getDiaChi() {
+			return getSoNha() + " " + getDuong() ;
 	}
 
 	@Override

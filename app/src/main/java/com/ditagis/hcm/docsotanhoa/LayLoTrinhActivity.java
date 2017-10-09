@@ -54,12 +54,12 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lay_lo_trinh);
 
         m_mlt = new ArrayList<String>();
-//
         m_databaseHelper = new MyDatabaseHelper(this);
+        m_databaseHelper.Upgrade();
+        m_databaseHelper.Create();
         m_txtTongMLT = (TextView) findViewById(R.id.txt_llt_mlt);
         m_txtTongDB = (TextView) findViewById(R.id.txt_llt_db);
         editTextSearch = (EditText) findViewById(R.id.etxt_llt_search);
-//        imgbtnCheck = (ImageButton) findViewById(R.id.imgbtn_llt_check);
         gridView = (GridView) findViewById(R.id.grid_llt_danhSachLoTrinh);
 
         editTextSearch.addTextChangedListener(new TextWatcher() {

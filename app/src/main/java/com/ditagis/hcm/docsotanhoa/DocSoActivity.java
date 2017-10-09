@@ -3,9 +3,12 @@ package com.ditagis.hcm.docsotanhoa;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +25,8 @@ public class DocSoActivity extends AppCompatActivity {
     String mDanhBo;
     String mArrMlt[];
     List<String> mDB = new ArrayList<String>();
+    EditText editTextCSM;
+    TextView txtCSM;
     private MyDatabaseHelper m_databaseHelper;
     //    final HoaDonDB hoaDonDB = new HoaDonDB();
     Spinner spinDB = null;
@@ -31,9 +36,11 @@ public class DocSoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doc_so);
         m_databaseHelper = new MyDatabaseHelper(this);
-        Bundle extras = getIntent().getExtras();
-        mArrMlt =extras.getStringArray("mMltArr");
+        editTextCSM = (EditText) findViewById(R.id.etxt_ds_CSM);
+        txtCSM = (TextView) findViewById(R.id.txt_ds_CSM);
 
+        Bundle extras = getIntent().getExtras();
+        mArrMlt = extras.getStringArray("mMltArr");
 
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, mArrMlt);
@@ -48,10 +55,10 @@ public class DocSoActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mMlt = mArrMlt[position];
                 try {
-                    List<HoaDon> hoaDonList= m_databaseHelper.getAllHoaDonByMaLoTrinh(mMlt);
+                    List<HoaDon> hoaDonList = m_databaseHelper.getAllHoaDonByMaLoTrinh(mMlt);
 
                     for (HoaDon hoaDon : hoaDonList) {
-                           mDB.add(hoaDon.getDanhBo());
+                        mDB.add(hoaDon.getDanhBo());
                     }
                     Collections.sort(mDB);
                     ArrayAdapter<String> adapterDB = new ArrayAdapter<String>(DocSoActivity.this, R.layout.spinner_item, mDB);
@@ -60,16 +67,13 @@ public class DocSoActivity extends AppCompatActivity {
                     spinDB.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                            itemClickHandle.execute(spinDB.getSelectedItem().toString());
                             DocSoActivity.this.mDanhBo = spinDB.getSelectedItem().toString();
-//                            HoaDon hoaDon = hoaDonDB.getByDanhBo(DocSoActivity.this.mDanhBo);
                             HoaDon hoaDon = m_databaseHelper.getHoaDon(DocSoActivity.this.mDanhBo);
                             ((TextView) findViewById(R.id.txt_ds_tenKH)).setText(hoaDon.getTenKhachHang());
                             ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
                             ((TextView) findViewById(R.id.txt_ds_CSC)).setText(hoaDon.getChiSoCu());
-                            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
                             ((TextView) findViewById(R.id.txt_ds_giabieu)).setText(hoaDon.getGiaBieu());
-// ((TextView)findViewById(R.id.txt_ds_tiennuoc)).setText(0);
+                            ((TextView) findViewById(R.id.txt_ds_diachi)).setText(hoaDon.getDiaChi());
                         }
 
                         @Override
@@ -88,38 +92,23 @@ public class DocSoActivity extends AppCompatActivity {
             }
         });
 
-    }
+        editTextCSM.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-//    public class ItemClickHandle extends AsyncTask<String, HoaDon, Void> {
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            Toast.makeText(DocSoActivity.this, "Đang tải thông tin khách hàng", Toast.LENGTH_LONG).show();
-//        }
-//
-//
-//        @Override
-//        protected Void doInBackground(String... params) {
-//            HoaDon hoaDon = hoaDonDB.getByDanhBo(params[0]);
-//            publishProgress(hoaDon);
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onProgressUpdate(HoaDon... values) {
-//            super.onProgressUpdate(values);
-//            HoaDon hoaDon = values[0];
-//
-//            ((TextView) findViewById(R.id.txt_ds_tenKH)).setText(hoaDon.getTenKhachHang());
-//            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
-//            ((TextView) findViewById(R.id.txt_ds_CSC)).setText(hoaDon.getChiSoCu());
-//            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
-//            ((TextView) findViewById(R.id.txt_ds_giabieu)).setText(hoaDon.getGiaBieu());
-//        }
-//
-//
-//    }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                txtCSM.setText(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
 
     public void doPrev(View v) {
         int i = spinDB.getSelectedItemPosition();
@@ -128,7 +117,6 @@ public class DocSoActivity extends AppCompatActivity {
 
     public void doNext(View v) {
         int i = spinDB.getSelectedItemPosition();
-        Toast.makeText(DocSoActivity.this, spinDB.getCount() + "", Toast.LENGTH_SHORT).show();
         spinDB.setSelection(i == spinDB.getCount() - 1 ? i : i + 1);
     }
 
@@ -144,9 +132,10 @@ public class DocSoActivity extends AppCompatActivity {
     }
 
     public void doQuanLyDocSo(View v) {
-        Intent intent = new Intent(DocSoActivity.this, QuanLyDocSoActivity.class);
-
-        startActivity(intent);
+//        Intent intent = new Intent(DocSoActivity.this, QuanLyDocSoActivity.class);
+//
+//        startActivity(intent);
+        Toast.makeText(this, "Chức năng đang được cập nhật", Toast.LENGTH_SHORT).show();
     }
 }
 

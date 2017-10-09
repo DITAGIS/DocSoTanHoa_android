@@ -44,6 +44,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_MALOTRINH = "LoTrinh";
     private static final String COLUMN_MALOTRINH_ID = "MaLoTrinh_ID";
     private static final String COLUMN_MALOTRINH_SOLUONG = "MaLoTrinh_SoLuong";
+    private static final String COLUMN_HOADON_SONHA = "MaLoTrinh_SoNha";
+    private static final String COLUMN_HOADON_DUONG = "MaLoTrinh_Duong";
+    private static final String COLUMN_HOADON_GIABIEU = "MaLoTrinh_GiaBieu";
+    private static final String COLUMN_HOADON_DINHMUC = "MaloTrinh_DinhMuc";
 
 
     public MyDatabaseHelper(Context context) {
@@ -53,6 +57,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     // Tạo các bảng.
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_HOADON);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MALOTRINH);
         Log.i(TAG, "MyDatabaseHelper.onCreate ... ");
         // Script tạo bảng.
         String script = "CREATE TABLE " + TABLE_HOADON + "("
@@ -88,6 +94,36 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public void Upgrade() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_HOADON);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MALOTRINH);
+
+    }
+public void Create(){
+    SQLiteDatabase db = this.getWritableDatabase();
+    String script = "CREATE TABLE " + TABLE_HOADON + "("
+            + COLUMN_HOADON_ID + " INTEGER PRIMARY KEY,"
+            + COLUMN_HOADON_DOT + " TEXT,"
+            + COLUMN_HOADON_DANHBO + " TEXT,"
+            + COLUMN_HOADON_KHACHHANG + " TEXT,"
+            + COLUMN_HOADON_KY + " TEXT,"
+            + COLUMN_HOADON_CODE + " TEXT,"
+            + COLUMN_HOADON_CHISOCU + " TEXT,"
+            + COLUMN_HOADON_CHISOMOI + " TEXT,"
+            + COLUMN_HOADON_MALOTRINH + " TEXT,"
+            + COLUMN_HOADON_SONHA + " TEXT,"
+            + COLUMN_HOADON_DUONG + " TEXT,"
+            + COLUMN_HOADON_GIABIEU + " TEXT,"
+            + COLUMN_HOADON_DINHMUC + " TEXT" + ")";
+    // Chạy lệnh tạo bảng.
+    String script1 = "CREATE TABLE " + TABLE_MALOTRINH + "("
+            + COLUMN_MALOTRINH_ID + " TEXT PRIMARY KEY,"
+            + COLUMN_MALOTRINH_SOLUONG + " INTEGER )";
+    // Chạy lệnh tạo bảng.
+    db.execSQL(script);
+    db.execSQL(script1);
+}
     // Nếu trong bảng HoaDon chưa có dữ liệu,
     // Trèn vào mặc định 2 bản ghi.
     public void createDefaultHoaDonsIfNeed() {
@@ -133,6 +169,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_HOADON_KHACHHANG, hoaDon.getTenKhachHang());
         values.put(COLUMN_HOADON_KY, hoaDon.getKy());
         values.put(COLUMN_HOADON_MALOTRINH, hoaDon.getMaLoTrinh());
+        values.put(COLUMN_HOADON_SONHA, hoaDon.getSoNha());
+        values.put(COLUMN_HOADON_DUONG, hoaDon.getDuong());
+        values.put(COLUMN_HOADON_GIABIEU, hoaDon.getGiaBieu());
+        values.put(COLUMN_HOADON_DINHMUC, hoaDon.getDinhMuc());
 
         // Trèn một dòng dữ liệu vào bảng.
         db.insert(TABLE_HOADON, null, values);
@@ -150,21 +190,25 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
         Cursor cursor = db.query(TABLE_HOADON, new String[]{
                         COLUMN_HOADON_ID,
-                        COLUMN_HOADON_CHISOCU,
-                        COLUMN_HOADON_CHISOMOI,
-                        COLUMN_HOADON_CODE,
-                        COLUMN_HOADON_DANHBO,
                         COLUMN_HOADON_DOT,
+                        COLUMN_HOADON_DANHBO,
                         COLUMN_HOADON_KHACHHANG,
                         COLUMN_HOADON_KY,
-                        COLUMN_HOADON_MALOTRINH
+                        COLUMN_HOADON_CODE,
+                        COLUMN_HOADON_CHISOCU,
+                        COLUMN_HOADON_CHISOMOI,
+                        COLUMN_HOADON_MALOTRINH,
+                        COLUMN_HOADON_SONHA,
+                        COLUMN_HOADON_DUONG,
+                        COLUMN_HOADON_GIABIEU,
+                        COLUMN_HOADON_DINHMUC
                 }, COLUMN_HOADON_DANHBO + "=?",
                 new String[]{String.valueOf(danhbo)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
         HoaDon hoaDon = new HoaDon(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
+                cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8),cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12));
         // return hoaDon
         return hoaDon;
     }
@@ -248,29 +292,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 HoaDon hoaDon = new HoaDon();
                 hoaDon.setId(Integer.parseInt(cursor.getString(0)));
                 hoaDon.setDanhBo(cursor.getString(2));
-                hoaDon.setTenKhachHang(cursor.getString(6));
+                hoaDon.setTenKhachHang(cursor.getString(3));
 
-                hoaDon.setCode(cursor.getString(3));
-                hoaDon.setChiSoCu(cursor.getString(1));
+                hoaDon.setCode(cursor.getString(5));
+                hoaDon.setChiSoCu(cursor.getString(6));
 
                 hoaDon.setMaLoTrinh(cursor.getString(8));
-//                COLUMN_HOADON_ID,
-//                        COLUMN_HOADON_CHISOCU,
-//                        COLUMN_HOADON_CHISOMOI,
-//                        COLUMN_HOADON_CODE,
-//                        COLUMN_HOADON_DANHBO,
-//                        COLUMN_HOADON_DOT,
-//                        COLUMN_HOADON_KHACHHANG,
-//                        COLUMN_HOADON_KY,
-//                        COLUMN_HOADON_MALOTRINH
-//                hoaDon.setSoNha(cursor.getString(cursor.getColumnIndex("SONHA")));
-//                hoaDon.setDuong(cursor.getString(cursor.getColumnIndex("DUONG")));
-//                hoaDon.setGiaBieu(cursor.getString(cursor.getColumnIndex("GIABIEU")));
-//                hoaDon.setDinhMuc(cursor.getString(cursor.getColumnIndex("DINHMUC")));
-
-
-
-
 
                 // Thêm vào danh sách.
                 hoaDonList.add(hoaDon);
