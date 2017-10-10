@@ -45,6 +45,8 @@
             android:layout_weight="0.5"
             android:minHeight="25px"
             android:minWidth="25px"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="horizontal">
 
             <ImageView
@@ -69,6 +71,8 @@
             android:layout_weight="0.5"
             android:minHeight="25px"
             android:minWidth="25px"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="horizontal">
 
             <ImageView
