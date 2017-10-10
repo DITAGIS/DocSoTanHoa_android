@@ -160,26 +160,26 @@
                     android:textColor="@android:color/white" />
             </TableRow>
 
-            <!--&lt;!&ndash;Table row giá biểu&ndash;&gt;-->
-            <!--<TableRow android:layout_weight="1">-->
+            <!--Table row giá biểu-->
+            <TableRow android:layout_weight="1">
 
-            <!--<TextView-->
-            <!--android:layout_column="0"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:layout_weight="1"-->
-            <!--android:text="Giá biểu"-->
-            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
-            <!--android:textColor="@android:color/white" />-->
+                <TextView
+                    android:layout_column="0"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="Giá biểu"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/white" />
 
-            <!--<TextView-->
-            <!--android:id="@+id/txt_ds_giabieu"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:layout_span="4"-->
-            <!--android:layout_weight="1"-->
-            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
-            <!--android:textColor="@android:color/white" />-->
-            <!--</TableRow>-->
-            <!--&lt;!&ndash;Table row Định mức&ndash;&gt;-->
+                <TextView
+                    android:id="@+id/txt_ds_giabieu"
+                    android:layout_gravity="center_vertical"
+                    android:layout_span="4"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/white" />
+            </TableRow>
+            <!--Table row Định mức-->
             <!--<TableRow android:layout_weight="1">-->
 
             <!--<TextView-->

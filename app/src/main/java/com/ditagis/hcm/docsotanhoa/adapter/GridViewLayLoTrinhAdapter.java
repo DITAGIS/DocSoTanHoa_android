@@ -1,11 +1,13 @@
 package com.ditagis.hcm.docsotanhoa.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ditagis.hcm.docsotanhoa.R;
@@ -20,9 +22,9 @@ public class GridViewLayLoTrinhAdapter extends ArrayAdapter<GridViewLayLoTrinhAd
     public static class Item {
         String mtl;
         int danhbo;
-        int checkpos;
+        boolean checkpos;
 
-        public Item(String mtl, int danhbo, int checkpos) {
+        public Item(String mtl, int danhbo, boolean checkpos) {
             this.mtl = mtl;
             this.danhbo = danhbo;
             this.checkpos = checkpos;
@@ -44,11 +46,11 @@ public class GridViewLayLoTrinhAdapter extends ArrayAdapter<GridViewLayLoTrinhAd
             this.danhbo = danhbo;
         }
 
-        public int getCheckpos() {
+        public boolean getCheckpos() {
             return checkpos;
         }
 
-        public void setCheckpos(int checkpos) {
+        public void setCheckpos(boolean checkpos) {
             this.checkpos = checkpos;
         }
     }
@@ -71,8 +73,11 @@ public class GridViewLayLoTrinhAdapter extends ArrayAdapter<GridViewLayLoTrinhAd
         return items.size();
     }
 
-    @Override
-    public Item getItem(int position) {
+
+    public Item getItem(String mlt) {
+        for (Item item : this.items)
+            if (item.getMtl().equals(mlt))
+                return item;
         return null;
     }
 
@@ -95,10 +100,15 @@ public class GridViewLayLoTrinhAdapter extends ArrayAdapter<GridViewLayLoTrinhAd
         txtTongDanhBo.setText(item.getDanhbo() == 0 ? "Chưa xác định" : item.getDanhbo() + "");
 
         ImageView imgCheck = (ImageView) convertView.findViewById(R.id.row_llt_img_Check);
-        if (item.getCheckpos() == 1)
+
+        LinearLayout row_layout = (LinearLayout) convertView.findViewById(R.id.row_llt_layout);
+        if (item.getCheckpos()) {
             imgCheck.setImageResource(R.drawable.checked);
-        else
+            row_layout.setBackgroundColor(Color.parseColor("#99FFCC"));
+        } else {
             imgCheck.setImageResource(0);
+            row_layout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        }
         return convertView;
     }
 }

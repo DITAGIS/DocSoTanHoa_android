@@ -56,7 +56,6 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_lay_lo_trinh);
-
         m_mlt = new ArrayList<String>();
         m_databaseHelper = new MyDatabaseHelper(this);
         m_databaseHelper.Upgrade();
@@ -75,19 +74,19 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!s.equals("")) {
+                if (s.length() != 0) {
 //                    System.out.println(gridView.getAdapter().getItem(0).toString());
                     List<String> result = new ArrayList<String>();
                     //Lấy dữ liệu bắt đầu với text search
                     for (String mlt : m_mlt) {
-                        if (mlt.startsWith(s.toString()))
+                        if (mlt.contains(s.toString()))
                             result.add(mlt);
                     }
                     //Gán dữ liệu vào data source
                     if (da != null && result.size() > 0) {
                         da.clear();
                         for (String mlt : result)
-                            da.add(new GridViewLayLoTrinhAdapter.Item(mlt, 0, 0));
+                            da.add(new GridViewLayLoTrinhAdapter.Item(mlt, 0, false));
                     }
 
                 } else {
@@ -209,7 +208,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
             String mlt = (String) values[0];
             if (da != null) {
                 m_mlt.add(mlt);
-                da.add(new GridViewLayLoTrinhAdapter.Item(mlt, 0, 0));
+                da.add(new GridViewLayLoTrinhAdapter.Item(mlt, 0, false));
             }
         }
 
@@ -241,8 +240,9 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             mlt = params[0];
+
             LayLoTrinhActivity.this.mHoaDons = LayLoTrinhActivity.this.m_databaseHelper.getAllHoaDons();
-            if(LayLoTrinhActivity.this.m_MLT_TongDanhBo.containsKey(mlt)){
+            if (LayLoTrinhActivity.this.da.getItem(mlt).getDanhbo() != 0) {
                 publishProgress(LayLoTrinhActivity.this.mHoaDons.size());
                 LayLoTrinhActivity.this.m_DanhBo[this.pos] = LayLoTrinhActivity.this.mHoaDons.size();
                 return LayLoTrinhActivity.this.mHoaDons.size() + "";
@@ -294,15 +294,18 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         protected void onProgressUpdate(Object... values) {
             super.onProgressUpdate(values);
             int danhBo = (int) values[0];
+            LayLoTrinhActivity.this.da.getItem(mlt).setDanhbo(danhBo);
             this.txt_row_DanhBo.setText(danhBo + "");
             int count = LayLoTrinhActivity.this.m_MLT_TongDanhBo.size();
             if (!LayLoTrinhActivity.this.m_MLT_TongDanhBo.containsKey(mlt)) {
                 LayLoTrinhActivity.this.m_MLT_TongDanhBo.put(mlt, danhBo);
                 this.img_row_check.setImageResource(R.drawable.checked);
+                LayLoTrinhActivity.this.da.getItem(mlt).setCheckpos(true);
                 this.layout_row.setBackgroundColor(Color.parseColor("#99FFCC"));
             } else {
                 LayLoTrinhActivity.this.m_MLT_TongDanhBo.remove(mlt);
                 this.img_row_check.setImageResource(0);
+                LayLoTrinhActivity.this.da.getItem(mlt).setCheckpos(false);
                 this.layout_row.setBackgroundColor(Color.parseColor("#FFFFFF"));
             }
             LayLoTrinhActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + LayLoTrinhActivity.this.m_MLT_TongDanhBo.size());

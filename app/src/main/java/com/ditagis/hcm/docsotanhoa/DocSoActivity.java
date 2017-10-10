@@ -84,8 +84,10 @@ public class DocSoActivity extends AppCompatActivity {
 //                            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
                             txtCSC = (TextView) findViewById(R.id.txt_ds_CSC);
                             txtCSC.setText(hoaDon.getChiSoCu());
-//                            ((TextView) findViewById(R.id.txt_ds_giabieu)).setText(hoaDon.getGiaBieu());
+                            ((TextView) findViewById(R.id.txt_ds_giabieu)).setText(hoaDon.getGiaBieu());
                             ((TextView) findViewById(R.id.txt_ds_diachi)).setText(hoaDon.getDiaChi());
+                            DocSoActivity.this.editTextCSM.setText("");
+                            DocSoActivity.this.txtCSM.setText("");
                         }
 
                         @Override
