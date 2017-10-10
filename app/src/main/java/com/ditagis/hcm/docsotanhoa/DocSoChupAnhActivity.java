@@ -1,14 +1,18 @@
 package com.ditagis.hcm.docsotanhoa;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -29,7 +33,7 @@ public class DocSoChupAnhActivity extends AppCompatActivity {
     private Bitmap mBpImage;
     private String mDanhBo; // lay danh bo
     private static final int REQUEST_ID_READ_WRITE_PERMISSION = 99;
-    private static final int REQUEST_ID_IMAGE_CAPTURE = 100;
+    private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,12 +128,20 @@ public class DocSoChupAnhActivity extends AppCompatActivity {
     }
 
     private void captureImage() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
+                    REQUEST_ID_IMAGE_CAPTURE);
+        }
+        if (Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Không cho phép bật CAMERA", Toast.LENGTH_SHORT).show();
+        }
         // Tạo một Intent không tường minh,
         // để yêu cầu hệ thống mở Camera chuẩn bị chụp hình.
         this.intentCaptureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-        // Start Activity chụp hình, và chờ đợi kết quả trả về.
-        this.startActivityForResult(this.intentCaptureImage, REQUEST_ID_IMAGE_CAPTURE);
+        if (this.intentCaptureImage.resolveActivity(getPackageManager()) != null)
+            // Start Activity chụp hình, và chờ đợi kết quả trả về.
+            this.startActivityForResult(this.intentCaptureImage, REQUEST_ID_IMAGE_CAPTURE);
     }
 
 
