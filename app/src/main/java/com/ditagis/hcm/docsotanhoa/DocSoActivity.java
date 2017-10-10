@@ -1,8 +1,15 @@
 package com.ditagis.hcm.docsotanhoa;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -37,14 +44,19 @@ public class DocSoActivity extends AppCompatActivity {
     Spinner spinDB = null;
     Spinner spinCode;
     ImageButton imgbtn_Save;
+    private Intent intentCaptureImage;
+    private Bitmap mBpImage;
+    private static final int REQUEST_ID_READ_WRITE_PERMISSION = 99;
+    private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
+
 //    DocSoActivity.ItemClickHandle itemClickHandle = new ItemClickHandle();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doc_so);
         Calendar calander = Calendar.getInstance();
-        ((TextView)findViewById(R.id.txt_ds_ky)).setText( calander.get(Calendar.DAY_OF_MONTH) + "");
-        ((TextView)findViewById(R.id.txt_ds_dot)).setText(calander.get(Calendar.MONTH) + 1 + "");
+        ((TextView) findViewById(R.id.txt_ds_ky)).setText(calander.get(Calendar.MONTH) + 1+"");
+        ((TextView) findViewById(R.id.txt_ds_dot)).setText(calander.get(Calendar.DAY_OF_MONTH) + "");
         m_databaseHelper = new LocalDatabase(this);
         editTextCSM = (EditText) findViewById(R.id.etxt_ds_CSM);
         imgbtn_Save = (ImageButton) findViewById(R.id.imgbtn_ds_Save);
@@ -164,10 +176,43 @@ public class DocSoActivity extends AppCompatActivity {
     }
 
     public void doCamera(View v) {
-        Intent intent = new Intent(DocSoActivity.this, DocSoChupAnhActivity.class);
-        intent.putExtra("danhbo", this.mDanhBo);
+        if (!requestPermissonCamera())
+            return;
+        // Tạo một Intent không tường minh,
+        // để yêu cầu hệ thống mở Camera chuẩn bị chụp hình.
+        this.intentCaptureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (this.intentCaptureImage.resolveActivity(getPackageManager()) != null)
+            // Start Activity chụp hình, và chờ đợi kết quả trả về.
+            this.startActivityForResult(this.intentCaptureImage, REQUEST_ID_IMAGE_CAPTURE);
+    }
 
-        startActivity(intent);
+    public boolean requestPermissonCamera() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
+                    REQUEST_ID_IMAGE_CAPTURE);
+        }
+        if (Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Không cho phép bật CAMERA", Toast.LENGTH_SHORT).show();
+            return false;
+        } else
+            return true;
+    }
+
+    // Khi activy chụp hình (Hoặc quay video) hoàn thành, phương thức này sẽ được gọi.
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_ID_IMAGE_CAPTURE) {
+            if (resultCode == RESULT_OK) {
+                mBpImage = (Bitmap) data.getExtras().get("data");
+            } else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(this, "Hủy chụp hình", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Lỗi khi chụp hình", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     public void doLayLoTrinh(View v) {

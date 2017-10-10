@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class XemLoTrinhDaTai extends AppCompatActivity {
+public class XemLoTrinhDaTaiActivity extends AppCompatActivity {
     TextView m_txtTongMLT;
     TextView m_txtTongDB;
     EditText editTextSearch;
@@ -84,7 +84,7 @@ LocalDatabase localDatabase;
 
         //Gán DataSource vào ArrayAdapter
 
-        da = new GridViewXemLoTrinhDaTaiAdapter(XemLoTrinhDaTai.this, new ArrayList<GridViewXemLoTrinhDaTaiAdapter.Item>());
+        da = new GridViewXemLoTrinhDaTaiAdapter(XemLoTrinhDaTaiActivity.this, new ArrayList<GridViewXemLoTrinhDaTaiAdapter.Item>());
 
         for (HashMap.Entry<String, Integer> entry : this.m_MLT_TongDanhBo.entrySet()) {
             da.add(new GridViewXemLoTrinhDaTaiAdapter.Item(entry.getKey(), entry.getValue(), true));
@@ -95,7 +95,7 @@ LocalDatabase localDatabase;
         //gán Datasource vào GridView
 
         gridView.setAdapter(da);
-        registerForContextMenu(XemLoTrinhDaTai.this.gridView);
+        registerForContextMenu(XemLoTrinhDaTaiActivity.this.gridView);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -108,12 +108,12 @@ LocalDatabase localDatabase;
                 String danhbo = txt_row_danhbo.getText().toString();
                 if (da.getItem(mlt).getCheckpos()) {
                     da.getItem(mlt).setCheckpos(false);
-                    XemLoTrinhDaTai.this.m_MLT_TongDanhBo.remove(mlt);
+                    XemLoTrinhDaTaiActivity.this.m_MLT_TongDanhBo.remove(mlt);
                     imgCheck.setImageResource(0);
                     row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_uncheck));
                 } else {
                     da.getItem(mlt).setCheckpos(true);
-                    XemLoTrinhDaTai.this.m_MLT_TongDanhBo.put(mlt, Integer.parseInt(danhbo));
+                    XemLoTrinhDaTaiActivity.this.m_MLT_TongDanhBo.put(mlt, Integer.parseInt(danhbo));
                     imgCheck.setImageResource(R.drawable.checked);
                     row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_check));
                 }
@@ -133,7 +133,7 @@ LocalDatabase localDatabase;
         if (this.m_MLT_TongDanhBo.size() == 0)
             Toast.makeText(this, "Chưa có lộ trình!!!", Toast.LENGTH_SHORT).show();
         else {
-            Intent intent = new Intent(XemLoTrinhDaTai.this, DocSoActivity.class);
+            Intent intent = new Intent(XemLoTrinhDaTaiActivity.this, DocSoActivity.class);
             Bundle extras = new Bundle();
 
             String[] mltArr = new String[this.m_MLT_TongDanhBo.size()];
@@ -149,7 +149,7 @@ LocalDatabase localDatabase;
     }
 
     public void doQuanLyDocSo(View v) {
-        Intent intent = new Intent(XemLoTrinhDaTai.this, QuanLyDocSoActivity.class);
+        Intent intent = new Intent(XemLoTrinhDaTaiActivity.this, QuanLyDocSoActivity.class);
 
         startActivity(intent);
     }

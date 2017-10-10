@@ -30,9 +30,6 @@
             android:name=".DocSoActivity"
             android:label="@string/title_activity_doc_so" />
         <activity
-            android:name=".DocSoChupAnhActivity"
-            android:label="@string/title_activity_chup_anh" />
-        <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login">
             <intent-filter>
@@ -45,7 +42,7 @@
             android:name=".QuanLyDocSoActivity"
             android:label="Quản lý đọc số" />
         <activity android:name=".LayLoTrinhActivity" />
-        <activity android:name=".XemLoTrinhDaTai"></activity>
+        <activity android:name=".XemLoTrinhDaTaiActivity"></activity>
     </application>
 
 </manifest>

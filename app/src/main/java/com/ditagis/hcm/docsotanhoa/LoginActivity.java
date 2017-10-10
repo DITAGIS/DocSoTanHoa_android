@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (checkInfo())
                         startActivity(intent);
                 } else {
-                    Intent intent1 = new Intent(LoginActivity.this, XemLoTrinhDaTai.class);
+                    Intent intent1 = new Intent(LoginActivity.this, XemLoTrinhDaTaiActivity.class);
                     startActivity(intent1);
                 }
             }

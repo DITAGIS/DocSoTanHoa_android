@@ -331,7 +331,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         if(size == 0)
             Toast.makeText(this, "Chưa có lộ trình!!!", Toast.LENGTH_SHORT).show();
         else {
-            Intent intent = new Intent(LayLoTrinhActivity.this, XemLoTrinhDaTai.class);
+            Intent intent = new Intent(LayLoTrinhActivity.this, XemLoTrinhDaTaiActivity.class);
             startActivity(intent);
         }
     }
