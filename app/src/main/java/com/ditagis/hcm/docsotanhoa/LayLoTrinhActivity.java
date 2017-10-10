@@ -25,7 +25,8 @@ import com.ditagis.hcm.docsotanhoa.adapter.GridViewLayLoTrinhAdapter;
 import com.ditagis.hcm.docsotanhoa.conectDB.ConnectionDB;
 import com.ditagis.hcm.docsotanhoa.conectDB.HoaDonDB;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
-import com.ditagis.hcm.docsotanhoa.localdb.MyDatabaseHelper;
+import com.ditagis.hcm.docsotanhoa.entities.LoTrinh;
+import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -48,7 +49,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     private HashMap<String, Integer> m_MLT_TongDanhBo; //TODO: cần chuyển thành int[] với mỗi phần tử là danh bộ được check
     LayLoTrinh m_layLoTrinh;
     private GridViewLayLoTrinhAdapter da;
-    private MyDatabaseHelper m_databaseHelper;
+    private LocalDatabase m_databaseHelper;
     private List<HoaDon> mHoaDons;
     private ProgressBar spinner;
 
@@ -57,9 +58,9 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_lay_lo_trinh);
         m_mlt = new ArrayList<String>();
-        m_databaseHelper = new MyDatabaseHelper(this);
-        m_databaseHelper.Upgrade();
-        m_databaseHelper.Create();
+        m_databaseHelper = new LocalDatabase(this);
+//        m_databaseHelper.Upgrade();
+//        m_databaseHelper.Create();
         m_txtTongMLT = (TextView) findViewById(R.id.txt_llt_mlt);
         m_txtTongDB = (TextView) findViewById(R.id.txt_llt_db);
         editTextSearch = (EditText) findViewById(R.id.etxt_llt_search);
@@ -286,6 +287,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
             }
 
             publishProgress(LayLoTrinhActivity.this.mHoaDons.size());
+            m_databaseHelper.addLoTrinh(new LoTrinh(mlt, LayLoTrinhActivity.this.mHoaDons.size()));
             LayLoTrinhActivity.this.m_DanhBo[this.pos] = LayLoTrinhActivity.this.mHoaDons.size();
             return LayLoTrinhActivity.this.mHoaDons.size() + "";
         }
@@ -321,6 +323,18 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Log.w(s, s);
+        }
+    }
+
+    public void doViewDownloadMLT(View v) {
+        if (this.m_MLT_TongDanhBo == null)
+            Toast.makeText(this, "Chưa có lộ trình!!!", Toast.LENGTH_SHORT).show();
+        else if (this.m_MLT_TongDanhBo.size() == 0)
+            Toast.makeText(this, "Chưa có lộ trình!!!", Toast.LENGTH_SHORT).show();
+        else {
+            Intent intent = new Intent(LayLoTrinhActivity.this, XemLoTrinhDaTai.class);
+            intent.putExtra("data", this.m_MLT_TongDanhBo);
+            startActivity(intent);
         }
     }
 

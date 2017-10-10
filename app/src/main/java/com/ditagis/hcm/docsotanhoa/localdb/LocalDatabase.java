@@ -11,12 +11,13 @@ import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.entities.LoTrinh;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static android.R.attr.id;
 
 
-public class MyDatabaseHelper extends SQLiteOpenHelper {
+public class LocalDatabase extends SQLiteOpenHelper {
 
     private static final String TAG = "SQLite";
 
@@ -50,7 +51,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_HOADON_DINHMUC = "MaloTrinh_DinhMuc";
 
 
-    public MyDatabaseHelper(Context context) {
+    public LocalDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -59,7 +60,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_HOADON);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MALOTRINH);
-        Log.i(TAG, "MyDatabaseHelper.onCreate ... ");
+        Log.i(TAG, "LocalDatabase.onCreate ... ");
         // Script tạo bảng.
         String script = "CREATE TABLE " + TABLE_HOADON + "("
                 + COLUMN_HOADON_ID + " INTEGER PRIMARY KEY,"
@@ -84,7 +85,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        Log.i(TAG, "MyDatabaseHelper.onUpgrade ... ");
+        Log.i(TAG, "LocalDatabase.onUpgrade ... ");
 
         // Hủy (drop) bảng cũ nếu nó đã tồn tại.
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_HOADON);
@@ -100,30 +101,32 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MALOTRINH);
 
     }
-public void Create(){
-    SQLiteDatabase db = this.getWritableDatabase();
-    String script = "CREATE TABLE " + TABLE_HOADON + "("
-            + COLUMN_HOADON_ID + " INTEGER PRIMARY KEY,"
-            + COLUMN_HOADON_DOT + " TEXT,"
-            + COLUMN_HOADON_DANHBO + " TEXT,"
-            + COLUMN_HOADON_KHACHHANG + " TEXT,"
-            + COLUMN_HOADON_KY + " TEXT,"
-            + COLUMN_HOADON_CODE + " TEXT,"
-            + COLUMN_HOADON_CHISOCU + " TEXT,"
-            + COLUMN_HOADON_CHISOMOI + " TEXT,"
-            + COLUMN_HOADON_MALOTRINH + " TEXT,"
-            + COLUMN_HOADON_SONHA + " TEXT,"
-            + COLUMN_HOADON_DUONG + " TEXT,"
-            + COLUMN_HOADON_GIABIEU + " TEXT,"
-            + COLUMN_HOADON_DINHMUC + " TEXT" + ")";
-    // Chạy lệnh tạo bảng.
-    String script1 = "CREATE TABLE " + TABLE_MALOTRINH + "("
-            + COLUMN_MALOTRINH_ID + " TEXT PRIMARY KEY,"
-            + COLUMN_MALOTRINH_SOLUONG + " INTEGER )";
-    // Chạy lệnh tạo bảng.
-    db.execSQL(script);
-    db.execSQL(script1);
-}
+
+    public void Create() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String script = "CREATE TABLE " + TABLE_HOADON + "("
+                + COLUMN_HOADON_ID + " INTEGER PRIMARY KEY,"
+                + COLUMN_HOADON_DOT + " TEXT,"
+                + COLUMN_HOADON_DANHBO + " TEXT,"
+                + COLUMN_HOADON_KHACHHANG + " TEXT,"
+                + COLUMN_HOADON_KY + " TEXT,"
+                + COLUMN_HOADON_CODE + " TEXT,"
+                + COLUMN_HOADON_CHISOCU + " TEXT,"
+                + COLUMN_HOADON_CHISOMOI + " TEXT,"
+                + COLUMN_HOADON_MALOTRINH + " TEXT,"
+                + COLUMN_HOADON_SONHA + " TEXT,"
+                + COLUMN_HOADON_DUONG + " TEXT,"
+                + COLUMN_HOADON_GIABIEU + " TEXT,"
+                + COLUMN_HOADON_DINHMUC + " TEXT" + ")";
+        // Chạy lệnh tạo bảng.
+        String script1 = "CREATE TABLE " + TABLE_MALOTRINH + "("
+                + COLUMN_MALOTRINH_ID + " TEXT PRIMARY KEY,"
+                + COLUMN_MALOTRINH_SOLUONG + " INTEGER )";
+        // Chạy lệnh tạo bảng.
+        db.execSQL(script);
+        db.execSQL(script1);
+    }
+
     // Nếu trong bảng HoaDon chưa có dữ liệu,
     // Trèn vào mặc định 2 bản ghi.
     public void createDefaultHoaDonsIfNeed() {
@@ -155,7 +158,7 @@ public void Create(){
     }
 
     public void addHoaDon(HoaDon hoaDon) {
-        Log.i(TAG, "MyDatabaseHelper.addHoaDon ... " + hoaDon.getId());
+        Log.i(TAG, "LocalDatabase.addHoaDon ... " + hoaDon.getId());
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -183,7 +186,7 @@ public void Create(){
     }
 
     public HoaDon getHoaDon(String danhbo) {
-        Log.i(TAG, "MyDatabaseHelper.getHoaDon ... " + id);
+        Log.i(TAG, "LocalDatabase.getHoaDon ... " + id);
 
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -207,13 +210,27 @@ public void Create(){
             cursor.moveToFirst();
 
         HoaDon hoaDon = new HoaDon(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8),cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12));
+                cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12));
         // return hoaDon
         return hoaDon;
     }
 
+    public HashMap<String, Integer> getAllMLT() {
+        Log.i(TAG, "LocalDatabase.getAllHoaDons ... ");
+        HashMap<String, Integer> result = new HashMap<String, Integer>();
+
+        List<LoTrinh> loTrinhs = getAllMaLoTrinh();
+        String mlt;
+        for (LoTrinh loTrinh : loTrinhs) {
+            result.put(loTrinh.getMaLoTrinh(), loTrinh.getSoLuong());
+        }
+
+        // return hoaDon list
+        return result;
+    }
+
     public List<LoTrinh> getAllMaLoTrinh() {
-        Log.i(TAG, "MyDatabaseHelper.getAllHoaDons ... ");
+        Log.i(TAG, "LocalDatabase.getAllHoaDons ... ");
 
         List<LoTrinh> loTrinhs = new ArrayList<LoTrinh>();
         // Select All Query
@@ -240,7 +257,7 @@ public void Create(){
     }
 
     public ArrayList<HoaDon> getAllHoaDons() {
-        Log.i(TAG, "MyDatabaseHelper.getAllHoaDons ... ");
+        Log.i(TAG, "LocalDatabase.getAllHoaDons ... ");
 
         ArrayList<HoaDon> hoaDonList = new ArrayList<HoaDon>();
         // Select All Query
@@ -275,7 +292,7 @@ public void Create(){
     }
 
     public List<HoaDon> getAllHoaDonByMaLoTrinh(String mlt) {
-        Log.i(TAG, "MyDatabaseHelper.getAllHoaDons ... ");
+        Log.i(TAG, "LocalDatabase.getAllHoaDons ... ");
 
         List<HoaDon> hoaDonList = new ArrayList<HoaDon>();
         // Select All Query
@@ -308,7 +325,7 @@ public void Create(){
     }
 
     public int getHoaDonsCount() {
-        Log.i(TAG, "MyDatabaseHelper.getHoaDonsCount ... ");
+        Log.i(TAG, "LocalDatabase.getHoaDonsCount ... ");
 
         String countQuery = "SELECT  * FROM " + TABLE_HOADON;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -345,7 +362,7 @@ public void Create(){
     }
 
     public void deleteHoaDon(HoaDon hoaDon) {
-        Log.i(TAG, "MyDatabaseHelper.updateHoaDon ... " + hoaDon.getId());
+        Log.i(TAG, "LocalDatabase.updateHoaDon ... " + hoaDon.getId());
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_HOADON, COLUMN_HOADON_ID + " = ?",

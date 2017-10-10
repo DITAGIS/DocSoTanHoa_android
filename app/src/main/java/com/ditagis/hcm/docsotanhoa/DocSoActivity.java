@@ -16,7 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
-import com.ditagis.hcm.docsotanhoa.localdb.MyDatabaseHelper;
+import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class DocSoActivity extends AppCompatActivity {
     EditText editTextCSM;
     TextView txtCSM;
     TextView txtCSC;
-    private MyDatabaseHelper m_databaseHelper;
+    private LocalDatabase m_databaseHelper;
     //    final HoaDonDB hoaDonDB = new HoaDonDB();
     Spinner spinDB = null;
     Spinner spinCode;
@@ -41,7 +41,7 @@ public class DocSoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doc_so);
-        m_databaseHelper = new MyDatabaseHelper(this);
+        m_databaseHelper = new LocalDatabase(this);
         editTextCSM = (EditText) findViewById(R.id.etxt_ds_CSM);
         imgbtn_Save = (ImageButton) findViewById(R.id.imgbtn_ds_Save);
         txtCSM = (TextView) findViewById(R.id.txt_ds_CSM);

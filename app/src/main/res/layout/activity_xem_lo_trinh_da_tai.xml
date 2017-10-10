@@ -139,9 +139,9 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|right"
-                    android:text="Xem MLT"
-                    android:onClick="doViewDownloadMLT"
+                    android:layout_gravity="center_vertical|left"
+                    android:text="Tải MLT"
+                    android:onClick="doDownloadMLT"
                     android:textColor="@color/colorWhite"
                     android:background="@color/colorGreen"/>
             </FrameLayout>
@@ -189,10 +189,4 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/myProgress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|center_horizontal" />
 </FrameLayout>
