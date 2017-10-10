@@ -327,13 +327,11 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     }
 
     public void doViewDownloadMLT(View v) {
-        if (this.m_MLT_TongDanhBo == null)
-            Toast.makeText(this, "Chưa có lộ trình!!!", Toast.LENGTH_SHORT).show();
-        else if (this.m_MLT_TongDanhBo.size() == 0)
+        int size = this.m_databaseHelper.getAllMLT().size();
+        if(size == 0)
             Toast.makeText(this, "Chưa có lộ trình!!!", Toast.LENGTH_SHORT).show();
         else {
             Intent intent = new Intent(LayLoTrinhActivity.this, XemLoTrinhDaTai.class);
-            intent.putExtra("data", this.m_MLT_TongDanhBo);
             startActivity(intent);
         }
     }

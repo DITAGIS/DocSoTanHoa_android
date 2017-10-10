@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewXemLoTrinhDaTaiAdapter;
+import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,10 +31,10 @@ public class XemLoTrinhDaTai extends AppCompatActivity {
     private ArrayList<String> m_mlt;
     private HashMap<String, Integer> m_MLT_TongDanhBo;
     private GridViewXemLoTrinhDaTaiAdapter da;
-
+LocalDatabase localDatabase;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        localDatabase = new LocalDatabase(this);
         setContentView(R.layout.activity_xem_lo_trinh_da_tai);
         m_mlt = new ArrayList<String>();
         m_txtTongMLT = (TextView) findViewById(R.id.txt_llt_mlt);
@@ -41,7 +42,7 @@ public class XemLoTrinhDaTai extends AppCompatActivity {
 
         editTextSearch = (EditText) findViewById(R.id.etxt_llt_search);
         gridView = (GridView) findViewById(R.id.grid_llt_danhSachLoTrinh);
-        this.m_MLT_TongDanhBo = (HashMap<String, Integer>) getIntent().getSerializableExtra("data");
+        this.m_MLT_TongDanhBo = localDatabase.getAllMLT();
 
         m_txtTongMLT.setText("Mã lộ trình: " + this.m_MLT_TongDanhBo.size());
         int sum_db = 0;

@@ -11,10 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
-
-import java.util.HashMap;
-
 public class LoginActivity extends AppCompatActivity {
 
     @Override
@@ -30,11 +26,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (checkInfo())
                         startActivity(intent);
                 } else {
-                    LocalDatabase databaseHelper = new LocalDatabase(LoginActivity.this);
-                   HashMap<String, Integer> mltArr = databaseHelper.getAllMLT();
-
                     Intent intent1 = new Intent(LoginActivity.this, XemLoTrinhDaTai.class);
-                    intent1.putExtra("data", mltArr);
                     startActivity(intent1);
                 }
             }
