@@ -24,6 +24,45 @@
             android:layout_weight="5"
             android:minHeight="25px"
             android:minWidth="25px">
+
+            <!--Table row kỳ-->
+            <TableRow android:layout_weight="1">
+
+                <TextView
+                    android:layout_column="0"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="Kỳ: "
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:id="@+id/txt_ds_ky"
+                    android:layout_gravity="center_vertical"
+                    android:layout_span="4"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/white" />
+            </TableRow>
+            <!--Table row đợt-->
+            <TableRow android:layout_weight="1">
+
+                <TextView
+                    android:layout_column="0"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="Đợt: "
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:id="@+id/txt_ds_dot"
+                    android:layout_gravity="center_vertical"
+                    android:layout_span="4"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/white" />
+            </TableRow>
             <!--Table row mã lộ trình-->
             <TableRow android:layout_weight="1">
 
@@ -120,7 +159,29 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/white" />
             </TableRow>
+            <!--Table row nhập sđt-->
+            <TableRow android:layout_weight="1">
 
+                <TextView
+                    android:textColor="@android:color/white"
+                    android:layout_width="0dp"
+                    android:layout_column="0"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="SĐT: "
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <EditText
+                    android:id="@+id/etxt_ds_sdt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:width="0dp"
+                    android:ems="10"
+                    android:gravity="right"
+                    android:inputType="number"
+                    android:maxLength="11" />
+            </TableRow>
             <!--Table row chỉ số cũ-->
             <TableRow android:layout_weight="1">
 
@@ -179,25 +240,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/white" />
             </TableRow>
-            <!--Table row Định mức-->
-            <!--<TableRow android:layout_weight="1">-->
 
-            <!--<TextView-->
-            <!--android:layout_column="0"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:layout_weight="1"-->
-            <!--android:text="Định mức"-->
-            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
-            <!--android:textColor="@android:color/white" />-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/txt_ds_dinhmuc"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:layout_span="4"-->
-            <!--android:layout_weight="1"-->
-            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
-            <!--android:textColor="@android:color/white" />-->
-            <!--</TableRow>-->
             <!--Table row tiền nước-->
             <TableRow android:layout_weight="1">
 
