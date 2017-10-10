@@ -54,9 +54,9 @@ public class DocSoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doc_so);
-        Calendar calander = Calendar.getInstance();
-        ((TextView) findViewById(R.id.txt_ds_ky)).setText(calander.get(Calendar.MONTH) + 1+"");
-        ((TextView) findViewById(R.id.txt_ds_dot)).setText(calander.get(Calendar.DAY_OF_MONTH) + "");
+        Calendar calendar = Calendar.getInstance();
+        ((TextView) findViewById(R.id.txt_ds_ky)).setText(calendar.get(Calendar.MONTH) + 1+"");
+        ((TextView) findViewById(R.id.txt_ds_dot)).setText(calendar.get(Calendar.DAY_OF_MONTH) + "");
         m_databaseHelper = new LocalDatabase(this);
         editTextCSM = (EditText) findViewById(R.id.etxt_ds_CSM);
         imgbtn_Save = (ImageButton) findViewById(R.id.imgbtn_ds_Save);
@@ -164,7 +164,9 @@ public class DocSoActivity extends AppCompatActivity {
             }
         });
     }
+    public void doScan(View v) {
 
+    }
     public void doPrev(View v) {
         int i = spinDB.getSelectedItemPosition();
         spinDB.setSelection(i == 0 ? i : i - 1);

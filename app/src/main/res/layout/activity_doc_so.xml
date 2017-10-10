@@ -261,6 +261,14 @@
                     android:textColor="@android:color/white" />
             </TableRow>
         </TableLayout>
+
+        <!--<FrameLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:visibility="invisible">-->
+
+
+        <!--</FrameLayout>-->
     </LinearLayout>
     <!--Layout nhập chỉ số mới, code-->
     <LinearLayout
@@ -328,6 +336,14 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin">
 
+            <ImageButton
+                android:id="@+id/imgBtn_ds_scan"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:onClick="doScan"
+                android:src="@drawable/barcode" />
             <ImageButton
                 android:id="@+id/imgBtn_ds_camera"
                 android:layout_width="match_parent"
