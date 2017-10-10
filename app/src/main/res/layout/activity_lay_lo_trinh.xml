@@ -122,14 +122,27 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <GridView
-                android:id="@+id/grid_llt_danhSachLoTrinh"
-                android:background="@android:color/white"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:numColumns="1"
-                android:paddingTop="@dimen/activity_vertical_margin" />
+                android:layout_height="match_parent">
+
+                <GridView
+                    android:id="@+id/grid_llt_danhSachLoTrinh"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:gravity="center"
+                    android:numColumns="1"
+                    android:paddingTop="@dimen/activity_vertical_margin" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    android:text="Xem MLT"
+                    android:textColor="@color/colorWhite"
+                    android:background="@color/colorGreen"/>
+            </FrameLayout>
             <!--</ScrollView>-->
         </LinearLayout>
         <!--Layout menu-->
@@ -173,10 +186,11 @@
                 android:src="@drawable/num_list" />
         </LinearLayout>
     </LinearLayout>
+
     <ProgressBar
         android:id="@+id/myProgress"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|center_horizontal"/>
+        android:layout_gravity="center_vertical|center_horizontal" />
 </FrameLayout>

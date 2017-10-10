@@ -2,11 +2,11 @@ package com.ditagis.hcm.docsotanhoa;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -301,12 +301,12 @@ public class LayLoTrinhActivity extends AppCompatActivity {
                 LayLoTrinhActivity.this.m_MLT_TongDanhBo.put(mlt, danhBo);
                 this.img_row_check.setImageResource(R.drawable.checked);
                 LayLoTrinhActivity.this.da.getItem(mlt).setCheckpos(true);
-                this.layout_row.setBackgroundColor(Color.parseColor("#99FFCC"));
+                this.layout_row.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.color_row_check));
             } else {
                 LayLoTrinhActivity.this.m_MLT_TongDanhBo.remove(mlt);
                 this.img_row_check.setImageResource(0);
                 LayLoTrinhActivity.this.da.getItem(mlt).setCheckpos(false);
-                this.layout_row.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                this.layout_row.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.color_row_uncheck));
             }
             LayLoTrinhActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + LayLoTrinhActivity.this.m_MLT_TongDanhBo.size());
 

@@ -1,7 +1,7 @@
 package com.ditagis.hcm.docsotanhoa.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,10 +104,10 @@ public class GridViewLayLoTrinhAdapter extends ArrayAdapter<GridViewLayLoTrinhAd
         LinearLayout row_layout = (LinearLayout) convertView.findViewById(R.id.row_llt_layout);
         if (item.getCheckpos()) {
             imgCheck.setImageResource(R.drawable.checked);
-            row_layout.setBackgroundColor(Color.parseColor("#99FFCC"));
+            row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_check));
         } else {
             imgCheck.setImageResource(0);
-            row_layout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_uncheck));
         }
         return convertView;
     }
