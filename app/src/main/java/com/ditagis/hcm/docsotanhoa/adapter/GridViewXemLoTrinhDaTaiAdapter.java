@@ -81,6 +81,14 @@ public class GridViewXemLoTrinhDaTaiAdapter extends ArrayAdapter<GridViewXemLoTr
         return null;
     }
 
+    public boolean removeItem(String mlt) {
+        for (Item item : this.items)
+            if (item.getMtl().equals(mlt)) {
+                this.items.remove(item);
+                return true;
+            }
+        return false;
+    }
     @Override
     public long getItemId(int position) {
         return 0;

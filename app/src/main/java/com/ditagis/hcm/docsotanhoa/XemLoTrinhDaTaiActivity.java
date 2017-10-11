@@ -1,8 +1,10 @@
 package com.ditagis.hcm.docsotanhoa;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,7 +33,9 @@ public class XemLoTrinhDaTaiActivity extends AppCompatActivity {
     private ArrayList<String> m_mlt;
     private HashMap<String, Integer> m_MLT_TongDanhBo;
     private GridViewXemLoTrinhDaTaiAdapter da;
-LocalDatabase localDatabase;
+    LocalDatabase localDatabase;
+    private int mSumMLT, mSumDanhBo;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         localDatabase = new LocalDatabase(this);
@@ -41,11 +45,13 @@ LocalDatabase localDatabase;
         m_txtTongDB = (TextView) findViewById(R.id.txt_llt_db);
 
         editTextSearch = (EditText) findViewById(R.id.etxt_llt_search);
-        gridView = (GridView) findViewById(R.id.grid_llt_danhSachLoTrinh);
+        gridView = (GridView) findViewById(R.id.grid_xltd_danhSachLoTrinh);
         this.m_MLT_TongDanhBo = localDatabase.getAllMLT();
 
-        m_txtTongMLT.setText("Mã lộ trình: " + this.m_MLT_TongDanhBo.size());
-        int sum_db = 0;
+
+        this.mSumMLT = this.m_MLT_TongDanhBo.size();
+        m_txtTongMLT.setText("Mã lộ trình: " + this.mSumMLT);
+
 
         editTextSearch.addTextChangedListener(new TextWatcher() {
 
@@ -88,22 +94,69 @@ LocalDatabase localDatabase;
 
         for (HashMap.Entry<String, Integer> entry : this.m_MLT_TongDanhBo.entrySet()) {
             da.add(new GridViewXemLoTrinhDaTaiAdapter.Item(entry.getKey(), entry.getValue(), true));
-            sum_db += entry.getValue();
+            this.mSumDanhBo += entry.getValue();
         }
 
-        m_txtTongDB.setText("Danh bộ: " + sum_db);
+        m_txtTongDB.setText("Danh bộ: " + this.mSumDanhBo);
         //gán Datasource vào GridView
 
         gridView.setAdapter(da);
         registerForContextMenu(XemLoTrinhDaTaiActivity.this.gridView);
 
+        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final String mlt = ((TextView) view.findViewById(R.id.row_xltdt_txt_malotrinh)).getText().toString();
+//                final Button btnDelete = new Button(XemLoTrinhDaTaiActivity.this);
+//
+//                btnDelete.setText("Xóa");
+//                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//                params.gravity = Gravity.CENTER;
+//                btnDelete.setLayoutParams(params);
+//                btnDelete.setBackgroundColor(ContextCompat.getColor(XemLoTrinhDaTaiActivity.this, R.color.colorWhite));
+//                final FrameLayout layout = (FrameLayout) findViewById(R.id.layout_xltdt_containsGridView);
+//                btnDelete.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        XemLoTrinhDaTaiActivity.this.localDatabase.deleteMLT(mlt);
+//                        XemLoTrinhDaTaiActivity.this.da.removeItem(mlt);
+//                        XemLoTrinhDaTaiActivity.this.gridView.setAdapter(XemLoTrinhDaTaiActivity.this.da);
+//                        layout.removeView(btnDelete);
+//                    }
+//                });
+//                layout.addView(btnDelete);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(XemLoTrinhDaTaiActivity.this);
+                builder.setMessage("Xóa mã lộ trình: " + mlt + "?")
+                        .setCancelable(true)
+                        .setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                XemLoTrinhDaTaiActivity.this.localDatabase.deleteMLT(mlt);
+                                XemLoTrinhDaTaiActivity.this.da.removeItem(mlt);
+                                XemLoTrinhDaTaiActivity.this.gridView.setAdapter(XemLoTrinhDaTaiActivity.this.da);
+//                                layout.removeView(btnDelete);
+                            }
+                        });
+                builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+                return false;
+
+
+            }
+        });
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView txt_row_MLT = (TextView) view.findViewById(R.id.row_xltdt_txt_malotrinh);
                 TextView txt_row_danhbo = (TextView) view.findViewById(R.id.row_xltdt_txt_tongDanhBo);
-                ImageView imgCheck = (ImageView) findViewById(R.id.row_xltdt_img_Check);
-                LinearLayout row_layout = (LinearLayout) findViewById(R.id.row_xltdt_layout);
+                ImageView imgCheck = (ImageView) view.findViewById(R.id.row_xltdt_img_Check);
+                LinearLayout row_layout = (LinearLayout) view.findViewById(R.id.row_xltdt_layout);
                 String mlt = txt_row_MLT.getText().toString();
                 String danhbo = txt_row_danhbo.getText().toString();
                 if (da.getItem(mlt).getCheckpos()) {

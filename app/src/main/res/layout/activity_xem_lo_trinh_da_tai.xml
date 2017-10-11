@@ -70,63 +70,68 @@
         </LinearLayout>
         <!--Layout xem danh sách lộ trình-->
         <!--height = 0 dp thì android sẽ lấy theo weight-->
-        <LinearLayout
+        <FrameLayout
+            android:id="@+id/layout_xltdt_containsGridView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="6.3"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/etxt_llt_search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:hint="Tìm kiếm mã lộ trình"
-                android:inputType="number"
-                android:maxLength="5"
-                android:paddingRight="@dimen/activity_horizontal_margin" />
-            <!--android:imeOptions="actionSearch"-->
-
+            android:layout_weight="6.3">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/darker_gray"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical">
 
-                <TextView
+                <EditText
+                    android:id="@+id/etxt_llt_search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Mã lộ trình"
-                    android:textSize="17dp"
-                    android:textStyle="bold" />
+                    android:gravity="right"
+                    android:hint="Tìm kiếm mã lộ trình"
+                    android:inputType="number"
+                    android:maxLength="5"
+                    android:paddingRight="@dimen/activity_horizontal_margin" />
+                <!--android:imeOptions="actionSearch"-->
 
-                <TextView
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Danh bộ"
-                    android:textSize="17dp"
-                    android:textStyle="bold" />
+                    android:background="@android:color/darker_gray"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Chọn MLT"
-                    android:textSize="17dp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Mã lộ trình"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Danh bộ"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Chọn MLT"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
 
                 <GridView
-                    android:id="@+id/grid_llt_danhSachLoTrinh"
+                    android:id="@+id/grid_xltd_danhSachLoTrinh"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/white"
@@ -134,8 +139,9 @@
                     android:numColumns="1"
                     android:paddingTop="@dimen/activity_vertical_margin" />
 
-            <!--</ScrollView>-->
-        </LinearLayout>
+                <!--</ScrollView>-->
+            </LinearLayout>
+        </FrameLayout>
         <!--Layout menu-->
         <LinearLayout
             android:layout_width="match_parent"

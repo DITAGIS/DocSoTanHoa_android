@@ -369,7 +369,14 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 new String[]{String.valueOf(hoaDon.getId())});
         db.close();
     }
+    public void deleteMLT(String mlt) {
+        Log.i(TAG, "LocalDatabase.updateMaLoTrinh ... " + mlt);
 
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_MALOTRINH, COLUMN_MALOTRINH_ID + " = ?",
+                new String[]{mlt});
+        db.close();
+    }
     public void addAllHoaDon(List<HoaDon> hoaDons) {
         for (HoaDon hd : hoaDons
                 ) {

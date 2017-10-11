@@ -7,11 +7,13 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,21 +48,23 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     //Dùng mảng 1 chiều hoặc ArrayList để lưu một số dữ liệu
     private ArrayList<String> m_mlt;
     private int m_DanhBo[];
-    LayLoTrinh m_layLoTrinh;
     private GridViewLayLoTrinhAdapter da;
-    private LocalDatabase m_databaseHelper;
+    private LocalDatabase mLocalDatabase;
     private List<HoaDon> mHoaDons;
     private ProgressBar spinner;
     private int mSumDanhBo;
-private int mSumMLT;
+    private int mSumMLT;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_lay_lo_trinh);
+
+        this.mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_llt_swipeRefreshLayout);
         m_mlt = new ArrayList<String>();
-        m_databaseHelper = new LocalDatabase(this);
-//        m_databaseHelper.Upgrade();
-//        m_databaseHelper.Create();
+        mLocalDatabase = new LocalDatabase(this);
+//        mLocalDatabase.Upgrade();
+//        mLocalDatabase.Create();
         m_txtTongMLT = (TextView) findViewById(R.id.txt_llt_mlt);
         m_txtTongDB = (TextView) findViewById(R.id.txt_llt_db);
         editTextSearch = (EditText) findViewById(R.id.etxt_llt_search);
@@ -108,7 +112,6 @@ private int mSumMLT;
 
         gridView.setAdapter(da);
         registerForContextMenu(LayLoTrinhActivity.this.gridView);
-        m_layLoTrinh = new LayLoTrinh();
         if (isOnline()) {
             //-------
 
@@ -119,12 +122,24 @@ private int mSumMLT;
 //            initProgresBar();
             //-----------------
 
-            m_layLoTrinh.execute();
+            new LayLoTrinh().execute();
         } else {
             Toast.makeText(this, "Kiểm tra kết nối Internet và thử lại", Toast.LENGTH_SHORT).show();
             //TODO
         }
+        gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
 
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem + visibleItemCount <= totalItemCount) {
+
+                }
+            }
+        });
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -144,7 +159,14 @@ private int mSumMLT;
             }
 
         });
+        this.mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                da.clear();
+                new LayLoTrinh().execute();
 
+            }
+        });
 
     }
 
@@ -161,26 +183,34 @@ private int mSumMLT;
         protected void onPreExecute() {
             super.onPreExecute();
             Toast.makeText(LayLoTrinhActivity.this, "Đang lấy danh sách mã lộ trình", Toast.LENGTH_LONG).show();
-            loTrinhs = LayLoTrinhActivity.this.m_databaseHelper.getAllMaLoTrinh();
+            loTrinhs = LayLoTrinhActivity.this.mLocalDatabase.getAllMaLoTrinh();
             LayLoTrinhActivity.this.mSumMLT = loTrinhs.size();
-            LayLoTrinhActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + LayLoTrinhActivity.this.mSumMLT );
+            LayLoTrinhActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + LayLoTrinhActivity.this.mSumMLT);
             LayLoTrinhActivity.this.mSumDanhBo = 0;
             for (LoTrinh loTrinh : loTrinhs)
                 LayLoTrinhActivity.this.mSumDanhBo += loTrinh.getSoLuong();
 
             LayLoTrinhActivity.this.m_txtTongDB.setText("Danh bộ: " + LayLoTrinhActivity.this.mSumDanhBo);
             spinner = (ProgressBar) findViewById(R.id.myProgress);
-            spinner.setVisibility(View.GONE);
-            spinner.setVisibility(View.VISIBLE);
+            if (!LayLoTrinhActivity.this.mSwipeRefreshLayout.isRefreshing()) {
+                spinner.setVisibility(View.GONE);
+                spinner.setVisibility(View.VISIBLE);
+            }
         }
 
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (LayLoTrinhActivity.this.mSwipeRefreshLayout.isRefreshing())
+                LayLoTrinhActivity.this.mSwipeRefreshLayout.setRefreshing(false);
+        }
 
         @Override
         protected Void doInBackground(Void... params) {
 
             ConnectionDB condb = new ConnectionDB();
             Connection cnn = condb.getConnect();
-            List<LoTrinh> loTrinhs = LayLoTrinhActivity.this.m_databaseHelper.getAllMaLoTrinh();
+            List<LoTrinh> loTrinhs = LayLoTrinhActivity.this.mLocalDatabase.getAllMaLoTrinh();
             try {
                 Statement statement = cnn.createStatement();
                 ResultSet rs = statement.executeQuery("SELECT DISTINCT MLT FROM HOADON");
@@ -259,7 +289,7 @@ private int mSumMLT;
         protected String doInBackground(String... params) {
             mlt = params[0];
 
-            LayLoTrinhActivity.this.mHoaDons = LayLoTrinhActivity.this.m_databaseHelper.getAllHoaDons();
+            LayLoTrinhActivity.this.mHoaDons = LayLoTrinhActivity.this.mLocalDatabase.getAllHoaDons();
             if (LayLoTrinhActivity.this.da.getItem(mlt).getDanhbo() != 0) {
                 publishProgress(LayLoTrinhActivity.this.mHoaDons.size());
                 LayLoTrinhActivity.this.m_DanhBo[this.pos] = LayLoTrinhActivity.this.mHoaDons.size();
@@ -297,14 +327,14 @@ private int mSumMLT;
                     String maLoTrinh = rs.getString(23);
                     HoaDon hoaDon = new HoaDon(id, khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
                     LayLoTrinhActivity.this.mHoaDons.add(hoaDon);
-                    m_databaseHelper.addHoaDon(hoaDon);
+                    mLocalDatabase.addHoaDon(hoaDon);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
 
             publishProgress(LayLoTrinhActivity.this.mHoaDons.size());
-            m_databaseHelper.addLoTrinh(new LoTrinh(mlt, LayLoTrinhActivity.this.mHoaDons.size()));
+            mLocalDatabase.addLoTrinh(new LoTrinh(mlt, LayLoTrinhActivity.this.mHoaDons.size()));
             da.removeItem(mlt);
             LayLoTrinhActivity.this.m_DanhBo[this.pos] = LayLoTrinhActivity.this.mHoaDons.size();
             return LayLoTrinhActivity.this.mHoaDons.size() + "";
@@ -343,7 +373,7 @@ private int mSumMLT;
 //                this.layout_row.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.color_row_uncheck));
 //            }
             LayLoTrinhActivity.this.mSumMLT += 1;
-            LayLoTrinhActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + LayLoTrinhActivity.this.mSumMLT );
+            LayLoTrinhActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + LayLoTrinhActivity.this.mSumMLT);
 //
 //            int sum_db = 0;
 //            for (Integer db : LayLoTrinhActivity.this.m_MLT_TongDanhBo.values())
@@ -360,8 +390,9 @@ private int mSumMLT;
         }
     }
 
+
     public void doViewDownloadMLT(View v) {
-        int size = this.m_databaseHelper.getAllMLT().size();
+        int size = this.mLocalDatabase.getAllMLT().size();
         if (size == 0)
             Toast.makeText(this, "Chưa có lộ trình!!!", Toast.LENGTH_SHORT).show();
         else {
