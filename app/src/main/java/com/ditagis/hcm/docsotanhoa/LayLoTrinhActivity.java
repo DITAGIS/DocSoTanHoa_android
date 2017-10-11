@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -33,7 +34,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class LayLoTrinhActivity extends AppCompatActivity {
@@ -46,13 +46,13 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     //Dùng mảng 1 chiều hoặc ArrayList để lưu một số dữ liệu
     private ArrayList<String> m_mlt;
     private int m_DanhBo[];
-    private HashMap<String, Integer> m_MLT_TongDanhBo; //TODO: cần chuyển thành int[] với mỗi phần tử là danh bộ được check
     LayLoTrinh m_layLoTrinh;
     private GridViewLayLoTrinhAdapter da;
     private LocalDatabase m_databaseHelper;
     private List<HoaDon> mHoaDons;
     private ProgressBar spinner;
-
+    private int mSumDanhBo;
+private int mSumMLT;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -155,11 +155,20 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     }
 
     public class LayLoTrinh extends AsyncTask<Void, Object, Void> {
+        List<LoTrinh> loTrinhs;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             Toast.makeText(LayLoTrinhActivity.this, "Đang lấy danh sách mã lộ trình", Toast.LENGTH_LONG).show();
+            loTrinhs = LayLoTrinhActivity.this.m_databaseHelper.getAllMaLoTrinh();
+            LayLoTrinhActivity.this.mSumMLT = loTrinhs.size();
+            LayLoTrinhActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + LayLoTrinhActivity.this.mSumMLT );
+            LayLoTrinhActivity.this.mSumDanhBo = 0;
+            for (LoTrinh loTrinh : loTrinhs)
+                LayLoTrinhActivity.this.mSumDanhBo += loTrinh.getSoLuong();
+
+            LayLoTrinhActivity.this.m_txtTongDB.setText("Danh bộ: " + LayLoTrinhActivity.this.mSumDanhBo);
             spinner = (ProgressBar) findViewById(R.id.myProgress);
             spinner.setVisibility(View.GONE);
             spinner.setVisibility(View.VISIBLE);
@@ -171,6 +180,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
             ConnectionDB condb = new ConnectionDB();
             Connection cnn = condb.getConnect();
+            List<LoTrinh> loTrinhs = LayLoTrinhActivity.this.m_databaseHelper.getAllMaLoTrinh();
             try {
                 Statement statement = cnn.createStatement();
                 ResultSet rs = statement.executeQuery("SELECT DISTINCT MLT FROM HOADON");
@@ -178,7 +188,15 @@ public class LayLoTrinhActivity extends AppCompatActivity {
                 while (rs.next()) {
 
                     String maLoTrinh = rs.getString(1);
+                    boolean isFound = false;
+                    for (LoTrinh loTrinh : loTrinhs)
+                        if (loTrinh.getMaLoTrinh().equals(maLoTrinh)) {
+                            isFound = true;
+                            break;
+                        }
 
+                    if (isFound)
+                        continue;
                     publishProgress(maLoTrinh, 0, 0);
                 }
                 LayLoTrinhActivity.this.runOnUiThread(new Runnable() {
@@ -187,7 +205,6 @@ public class LayLoTrinhActivity extends AppCompatActivity {
                         Toast.makeText(LayLoTrinhActivity.this, "Đã lấy xong mã lộ trình", Toast.LENGTH_SHORT).show();
                         spinner.setVisibility(View.INVISIBLE);
                         int count = m_mlt.size();
-                        LayLoTrinhActivity.this.m_MLT_TongDanhBo = new HashMap<String, Integer>();
                         LayLoTrinhActivity.this.m_DanhBo = new int[count];
                     }
                 });
@@ -288,6 +305,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
             publishProgress(LayLoTrinhActivity.this.mHoaDons.size());
             m_databaseHelper.addLoTrinh(new LoTrinh(mlt, LayLoTrinhActivity.this.mHoaDons.size()));
+            da.removeItem(mlt);
             LayLoTrinhActivity.this.m_DanhBo[this.pos] = LayLoTrinhActivity.this.mHoaDons.size();
             return LayLoTrinhActivity.this.mHoaDons.size() + "";
         }
@@ -296,26 +314,42 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         protected void onProgressUpdate(Object... values) {
             super.onProgressUpdate(values);
             int danhBo = (int) values[0];
-            LayLoTrinhActivity.this.da.getItem(mlt).setDanhbo(danhBo);
-            this.txt_row_DanhBo.setText(danhBo + "");
-            int count = LayLoTrinhActivity.this.m_MLT_TongDanhBo.size();
-            if (!LayLoTrinhActivity.this.m_MLT_TongDanhBo.containsKey(mlt)) {
-                LayLoTrinhActivity.this.m_MLT_TongDanhBo.put(mlt, danhBo);
-                this.img_row_check.setImageResource(R.drawable.checked);
-                LayLoTrinhActivity.this.da.getItem(mlt).setCheckpos(true);
-                this.layout_row.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.color_row_check));
-            } else {
-                LayLoTrinhActivity.this.m_MLT_TongDanhBo.remove(mlt);
-                this.img_row_check.setImageResource(0);
-                LayLoTrinhActivity.this.da.getItem(mlt).setCheckpos(false);
-                this.layout_row.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.color_row_uncheck));
-            }
-            LayLoTrinhActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + LayLoTrinhActivity.this.m_MLT_TongDanhBo.size());
+            this.layout_row.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.color_row_check));
+            try {
+                Thread.sleep(500);
+                Button btnViewDownloadMLT = (Button) findViewById(R.id.btn_llt_viewdownloadMLT);
+                btnViewDownloadMLT.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.color_row_check));
 
-            int sum_db = 0;
-            for (Integer db : LayLoTrinhActivity.this.m_MLT_TongDanhBo.values())
-                sum_db += db;
-            LayLoTrinhActivity.this.m_txtTongDB.setText("Danh bộ: " + sum_db);
+                Thread.sleep(500);
+                btnViewDownloadMLT.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.colorGreen));
+                Thread.sleep(500);
+                gridView.setAdapter(da);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+//            LayLoTrinhActivity.this.da.getItem(mlt).setDanhbo(danhBo);
+//            this.txt_row_DanhBo.setText(danhBo + "");
+//            int count = LayLoTrinhActivity.this.m_MLT_TongDanhBo.size();
+//            if (!LayLoTrinhActivity.this.m_MLT_TongDanhBo.containsKey(mlt)) {
+//                LayLoTrinhActivity.this.m_MLT_TongDanhBo.put(mlt, danhBo);
+//                this.img_row_check.setImageResource(R.drawable.checked);
+//                LayLoTrinhActivity.this.da.getItem(mlt).setCheckpos(true);
+//                this.layout_row.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.color_row_check));
+//            } else {
+//                LayLoTrinhActivity.this.m_MLT_TongDanhBo.remove(mlt);
+//                this.img_row_check.setImageResource(0);
+//                LayLoTrinhActivity.this.da.getItem(mlt).setCheckpos(false);
+//                this.layout_row.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.color_row_uncheck));
+//            }
+            LayLoTrinhActivity.this.mSumMLT += 1;
+            LayLoTrinhActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + LayLoTrinhActivity.this.mSumMLT );
+//
+//            int sum_db = 0;
+//            for (Integer db : LayLoTrinhActivity.this.m_MLT_TongDanhBo.values())
+//                sum_db += db;
+            LayLoTrinhActivity.this.mSumDanhBo += danhBo;
+            LayLoTrinhActivity.this.m_txtTongDB.setText("Danh bộ: " + LayLoTrinhActivity.this.mSumDanhBo);
             spinner.setVisibility(View.INVISIBLE);
         }
 
@@ -328,7 +362,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
     public void doViewDownloadMLT(View v) {
         int size = this.m_databaseHelper.getAllMLT().size();
-        if(size == 0)
+        if (size == 0)
             Toast.makeText(this, "Chưa có lộ trình!!!", Toast.LENGTH_SHORT).show();
         else {
             Intent intent = new Intent(LayLoTrinhActivity.this, XemLoTrinhDaTaiActivity.class);
@@ -337,22 +371,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     }
 
     public void doDocSo(View v) {
-        if (this.m_MLT_TongDanhBo.size() == 0)
-            Toast.makeText(this, "Chưa có lộ trình!!!", Toast.LENGTH_SHORT).show();
-        else {
-            Intent intent = new Intent(LayLoTrinhActivity.this, DocSoActivity.class);
-            Bundle extras = new Bundle();
-
-            String[] mltArr = new String[this.m_MLT_TongDanhBo.size()];
-            int j = 0;
-            for (String mlt : this.m_MLT_TongDanhBo.keySet())
-                mltArr[j++] = mlt;
-            extras.putStringArray("mMltArr", mltArr);
-//            extras.putStringArrayList("mMlt", LayLoTrinhActivity.this.m_mlt);
-//            extras.putBooleanArray("chkPosition", LayLoTrinhActivity.this.m_MLT_TongDanhBo);
-            intent.putExtras(extras);
-            startActivity(intent);
-        }
+        doViewDownloadMLT(v);
     }
 
     public void doQuanLyDocSo(View v) {

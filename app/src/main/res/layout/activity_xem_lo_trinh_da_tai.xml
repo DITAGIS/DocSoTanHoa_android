@@ -15,7 +15,8 @@
         <!--Layout hiển thị thông tin-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.7"
             android:background="@android:color/holo_blue_dark"
             android:minHeight="25px"
             android:minWidth="25px"
@@ -29,7 +30,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tổng số"
+                android:text="Tổng lộ trình đã tải"
                 android:textColor="@android:color/white"
                 android:textSize="25dp" />
 
@@ -72,7 +73,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4.7"
+            android:layout_weight="6.3"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="vertical">
@@ -123,9 +124,6 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
                 <GridView
                     android:id="@+id/grid_llt_danhSachLoTrinh"
@@ -136,22 +134,13 @@
                     android:numColumns="1"
                     android:paddingTop="@dimen/activity_vertical_margin" />
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|left"
-                    android:text="Tải MLT"
-                    android:onClick="doDownloadMLT"
-                    android:textColor="@color/colorWhite"
-                    android:background="@color/colorGreen"/>
-            </FrameLayout>
             <!--</ScrollView>-->
         </LinearLayout>
         <!--Layout menu-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
 
             android:orientation="horizontal">
 
@@ -189,4 +178,12 @@
         </LinearLayout>
     </LinearLayout>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|right"
+        android:background="@color/colorGreen"
+        android:onClick="doDownloadMLT"
+        android:text="Tải MLT"
+        android:textColor="@color/colorWhite" />
 </FrameLayout>

@@ -39,6 +39,7 @@ public class DocSoActivity extends AppCompatActivity {
     EditText editTextCSM;
     TextView txtCSM;
     TextView txtCSC;
+    TextView txtComplete;
     private LocalDatabase m_databaseHelper;
     //    final HoaDonDB hoaDonDB = new HoaDonDB();
     Spinner spinDB = null;
@@ -48,6 +49,7 @@ public class DocSoActivity extends AppCompatActivity {
     private Bitmap mBpImage;
     private static final int REQUEST_ID_READ_WRITE_PERMISSION = 99;
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
+    private int mSumDanhBo, mDanhBoHoanThanh;
 
 //    DocSoActivity.ItemClickHandle itemClickHandle = new ItemClickHandle();
 
@@ -55,8 +57,9 @@ public class DocSoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doc_so);
         Calendar calendar = Calendar.getInstance();
-        ((TextView) findViewById(R.id.txt_ds_ky)).setText(calendar.get(Calendar.MONTH) + 1+"");
+        ((TextView) findViewById(R.id.txt_ds_ky)).setText(calendar.get(Calendar.MONTH) + 1 + "");
         ((TextView) findViewById(R.id.txt_ds_dot)).setText(calendar.get(Calendar.DAY_OF_MONTH) + "");
+        this.txtComplete = (TextView) findViewById(R.id.txt_ds_complete);
         m_databaseHelper = new LocalDatabase(this);
         editTextCSM = (EditText) findViewById(R.id.etxt_ds_CSM);
         imgbtn_Save = (ImageButton) findViewById(R.id.imgbtn_ds_Save);
@@ -83,7 +86,9 @@ public class DocSoActivity extends AppCompatActivity {
                 mMlt = mArrMlt[position];
                 try {
                     List<HoaDon> hoaDonList = m_databaseHelper.getAllHoaDonByMaLoTrinh(mMlt);
-
+                    DocSoActivity.this.mSumDanhBo = hoaDonList.size();
+                    DocSoActivity.this.mDanhBoHoanThanh = 0;
+                    DocSoActivity.this.txtComplete.setText(DocSoActivity.this.mDanhBoHoanThanh + "/" + DocSoActivity.this.mSumDanhBo);
                     for (HoaDon hoaDon : hoaDonList) {
                         mDB.add(hoaDon.getDanhBo());
                     }
@@ -154,7 +159,9 @@ public class DocSoActivity extends AppCompatActivity {
                 // kiểm tra chỉ số mới
                 int csc = 0;
                 int csm = 0;
-                if (txtCSM.getText().length() > 0) {
+                if (txtCSM.getText().length() == 0) {
+
+                } else {
                     csm = Integer.parseInt(txtCSM.getText().toString());
                     csc = Integer.parseInt(txtCSC.getText().toString());
                     if (csm < csc) {
@@ -164,9 +171,11 @@ public class DocSoActivity extends AppCompatActivity {
             }
         });
     }
+
     public void doScan(View v) {
 
     }
+
     public void doPrev(View v) {
         int i = spinDB.getSelectedItemPosition();
         spinDB.setSelection(i == 0 ? i : i - 1);

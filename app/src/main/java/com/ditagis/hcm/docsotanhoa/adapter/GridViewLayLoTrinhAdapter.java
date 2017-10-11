@@ -1,13 +1,10 @@
 package com.ditagis.hcm.docsotanhoa.adapter;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ditagis.hcm.docsotanhoa.R;
@@ -81,6 +78,15 @@ public class GridViewLayLoTrinhAdapter extends ArrayAdapter<GridViewLayLoTrinhAd
         return null;
     }
 
+    public boolean removeItem(String mlt) {
+        for (Item item : this.items)
+            if (item.getMtl().equals(mlt)) {
+                this.items.remove(item);
+                return true;
+            }
+        return false;
+    }
+
     @Override
     public long getItemId(int position) {
         return 0;
@@ -99,16 +105,16 @@ public class GridViewLayLoTrinhAdapter extends ArrayAdapter<GridViewLayLoTrinhAd
         TextView txtTongDanhBo = (TextView) convertView.findViewById(R.id.row_llt_txt_tongDanhBo);
         txtTongDanhBo.setText(item.getDanhbo() == 0 ? "Chưa xác định" : item.getDanhbo() + "");
 
-        ImageView imgCheck = (ImageView) convertView.findViewById(R.id.row_llt_img_Check);
-
-        LinearLayout row_layout = (LinearLayout) convertView.findViewById(R.id.row_llt_layout);
-        if (item.getCheckpos()) {
-            imgCheck.setImageResource(R.drawable.checked);
-            row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_check));
-        } else {
-            imgCheck.setImageResource(0);
-            row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_uncheck));
-        }
+//        ImageView imgCheck = (ImageView) convertView.findViewById(R.id.row_llt_img_Check);
+//
+//        LinearLayout row_layout = (LinearLayout) convertView.findViewById(R.id.row_llt_layout);
+//        if (item.getCheckpos()) {
+//            imgCheck.setImageResource(R.drawable.checked);
+//            row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_check));
+//        } else {
+//            imgCheck.setImageResource(0);
+//            row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_uncheck));
+//        }
         return convertView;
     }
 }
