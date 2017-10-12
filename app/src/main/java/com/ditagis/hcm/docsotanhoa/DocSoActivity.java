@@ -30,6 +30,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ditagis.hcm.docsotanhoa.entities.DanhBo_ChiSoMoi;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 
@@ -51,6 +52,7 @@ public class DocSoActivity extends AppCompatActivity {
     TextView txtCSM;
     TextView txtCSC;
     TextView txtComplete;
+    TextView txtSaveState;
     private LocalDatabase mLocalDatabase;
     //    final HoaDonDB hoaDonDB = new HoaDonDB();
     Spinner spinDB = null;
@@ -64,14 +66,23 @@ public class DocSoActivity extends AppCompatActivity {
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
     private int mSumDanhBo, mDanhBoHoanThanh;
     private boolean isThayMoiDongHo;
+    private int mKy;
+    private int mDot;
+    private final String SAVED = "Đã lưu";
+    private final String UN_SAVED = "Chưa lưu";
 //    DocSoActivity.ItemClickHandle itemClickHandle = new ItemClickHandle();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doc_so);
+
         Calendar calendar = Calendar.getInstance();
-        ((TextView) findViewById(R.id.txt_ds_ky)).setText(calendar.get(Calendar.MONTH) + 1 + "");
-        ((TextView) findViewById(R.id.txt_ds_dot)).setText(calendar.get(Calendar.DAY_OF_MONTH) + "");
+        this.mKy = calendar.get(Calendar.MONTH) + 1;
+        this.mDot = calendar.get(Calendar.DAY_OF_MONTH);
+        ((TextView) findViewById(R.id.txt_ds_ky)).setText(this.mKy + "");
+        ((TextView) findViewById(R.id.txt_ds_dot)).setText(this.mDot + "");
+        this.txtSaveState = (TextView) findViewById(R.id.txt_ds_save);
+
         this.txtComplete = (TextView) findViewById(R.id.txt_ds_complete);
         mLocalDatabase = new LocalDatabase(this);
         editTextCSM = (EditText) findViewById(R.id.etxt_ds_CSM);
@@ -125,6 +136,16 @@ public class DocSoActivity extends AppCompatActivity {
                             ((TextView) findViewById(R.id.txt_ds_diachi)).setText(hoaDon.getDiaChi());
                             DocSoActivity.this.editTextCSM.setText("");
                             DocSoActivity.this.txtCSM.setText("");
+
+                            if (DocSoActivity.this.mLocalDatabase.getStateDanhBo_CSM(DocSoActivity.this.mDanhBo)) {
+                                DocSoActivity.this.txtSaveState.setText(SAVED);
+                                DocSoActivity.this.txtSaveState.setTextColor(ContextCompat.getColor(DocSoActivity.this,
+                                        R.color.colorBlueLight));
+                            } else {
+                                DocSoActivity.this.txtSaveState.setText(UN_SAVED);
+                                DocSoActivity.this.txtSaveState.setTextColor(ContextCompat.getColor(DocSoActivity.this,
+                                        R.color.colorAccent));
+                            }
                         }
 
                         @Override
@@ -178,19 +199,36 @@ public class DocSoActivity extends AppCompatActivity {
                     csc = Integer.parseInt(txtCSC.getText().toString());
                     if (csm < csc) {
                         if (alertCSM()) {
-
-                            DocSoActivity.this.mDanhBoHoanThanh++;
-                            DocSoActivity.this.txtComplete.setText(DocSoActivity.this.mDanhBoHoanThanh + "/" + DocSoActivity.this.mSumDanhBo);
-
+                            saveDB_CSM(csm);
                             //Xử lý lưu danh bộ
                         } else {
                             //TODO
                         }
                         DocSoActivity.this.isThayMoiDongHo = false;
+                    } else {
+                        saveDB_CSM(csm);
                     }
                 }
             }
         });
+    }
+
+    private void saveDB_CSM(int csm) {
+        DanhBo_ChiSoMoi danhBo_chiSoMoi = new DanhBo_ChiSoMoi(DocSoActivity.this.mDanhBo,
+                DocSoActivity.this.mMlt,
+                DocSoActivity.this.mDot + "",
+                DocSoActivity.this.mKy + "",
+                DocSoActivity.this.spinCode.getSelectedItem().toString(),
+                csm + "",
+                1);
+        DocSoActivity.this.mLocalDatabase.saveDanhBo_CSM(danhBo_chiSoMoi);
+        DocSoActivity.this.mDanhBoHoanThanh++;
+        DocSoActivity.this.txtComplete.setText(DocSoActivity.this.mDanhBoHoanThanh + "/" + DocSoActivity.this.mSumDanhBo);
+        DocSoActivity.this.txtSaveState.setText(SAVED);
+        DocSoActivity.this.txtSaveState.setTextColor(ContextCompat.getColor(DocSoActivity.this,
+                R.color.colorBlueLight));
+
+        Toast.makeText(DocSoActivity.this, "Đã lưu chỉ số mới", Toast.LENGTH_SHORT).show();
     }
 
     private void showImage(File f) {

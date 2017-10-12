@@ -36,6 +36,10 @@ public class LoginActivity extends AppCompatActivity {
 //        new LocalDatabase(this).Upgrade();
 
 
+
+
+
+
         final Button btnLogin = (Button) findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override

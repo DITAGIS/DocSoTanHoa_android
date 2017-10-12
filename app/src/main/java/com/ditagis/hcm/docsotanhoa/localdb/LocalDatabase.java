@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.ditagis.hcm.docsotanhoa.entities.DanhBo_ChiSoMoi;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.entities.LoTrinh;
 
@@ -52,8 +53,14 @@ public class LocalDatabase extends SQLiteOpenHelper {
     private static final String COLUMN_HOADON_DINHMUC = "MaloTrinh_DinhMuc";
 
     private static final String TABLE_LUUDANHBO = "LuuDanhBo";
+
     private static final String COLUMN_LUUDANHBO_DANHBO = "LuuDanhBo_DanhBo";
-    private static final String COLUMN_LUUDANHBO_LUU = "LuuDanhBo_Luu";
+    private static final String COLUMN_LUUDANHBO_MALOTRINH = "LuuDanhBo_MaLoTrinh";
+    private static final String COLUMN_LUUDANHBO_DOT = "LuuDanhBo_Dot";
+    private static final String COLUMN_LUUDANHBO_KY = "LuuDanhBo_Ky";
+    private static final String COLUMN_LUUDANHBO_CODE = "LuuDanhBo_Code";
+    private static final String COLUMN_LUUDANHBO_CSM = "LuuDanhBo_ChiSoMoi";
+    private static final String COLUMN_LUUDANHBO_LUU = "LuuDanhBo_Luu"; // lwu khi có hinh ảnh
 
     public LocalDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -88,7 +95,12 @@ public class LocalDatabase extends SQLiteOpenHelper {
 
         String script2 = "CREATE TABLE " + TABLE_LUUDANHBO + "("
                 + COLUMN_LUUDANHBO_DANHBO + " TEXT PRIMARY KEY,"
-                + COLUMN_LUUDANHBO_LUU + " BIT )";
+                + COLUMN_LUUDANHBO_MALOTRINH + " TEXT,"
+                + COLUMN_LUUDANHBO_DOT + " TEXT,"
+                + COLUMN_LUUDANHBO_KY + " TEXT,"
+                + COLUMN_LUUDANHBO_CODE + " TEXT,"
+                + COLUMN_LUUDANHBO_CSM + " TEXT,"
+                + COLUMN_LUUDANHBO_LUU + " TEXT )";
         // Chạy lệnh tạo bảng.
         db.execSQL(script);
         db.execSQL(script1);
@@ -401,5 +413,48 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 ) {
             this.addHoaDon(hd);
         }
+    }
+
+    public boolean saveDanhBo_CSM(DanhBo_ChiSoMoi danhBoChiSoMoi) {
+        Log.i(TAG, "LocalDatabase.addHoaDon ... " + danhBoChiSoMoi.getDanhBo());
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(COLUMN_LUUDANHBO_DANHBO, danhBoChiSoMoi.getDanhBo());
+        values.put(COLUMN_LUUDANHBO_MALOTRINH, danhBoChiSoMoi.getMaLoTrinh());
+        values.put(COLUMN_LUUDANHBO_DOT, danhBoChiSoMoi.getDot());
+        values.put(COLUMN_LUUDANHBO_KY, danhBoChiSoMoi.getKy());
+        values.put(COLUMN_LUUDANHBO_CODE, danhBoChiSoMoi.getCode());
+        values.put(COLUMN_LUUDANHBO_CSM, danhBoChiSoMoi.getChiSoMoi());
+        values.put(COLUMN_LUUDANHBO_LUU, danhBoChiSoMoi.getHasImage());
+        // Trèn một dòng dữ liệu vào bảng.
+        long result = db.insert(TABLE_LUUDANHBO, null, values);
+
+
+        // Đóng kết nối database.
+        db.close();
+        return result > 0;
+    }
+
+    public boolean getStateDanhBo_CSM(String danhBo) {
+        ArrayList<HoaDon> hoaDonList = new ArrayList<HoaDon>();
+        // Select All Query
+        String selectQuery = "SELECT " + this.COLUMN_LUUDANHBO_LUU +
+                " FROM " + TABLE_LUUDANHBO +
+                " where " + this.COLUMN_LUUDANHBO_DANHBO + "='" + danhBo + "'";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+
+        // Duyệt trên con trỏ, và thêm vào danh sách.
+        if (cursor.moveToFirst()) {
+            do {
+                return cursor.getInt(0) > 0;
+            } while (cursor.moveToNext());
+        }
+        return false;
     }
 }
