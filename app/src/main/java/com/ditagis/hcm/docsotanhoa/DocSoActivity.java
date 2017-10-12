@@ -208,6 +208,8 @@ public class DocSoActivity extends AppCompatActivity {
         }).setNegativeButton("Chụp lại", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                capture();
+                dialog.dismiss();
             }
         });
         AlertDialog dialog = builder.create();
@@ -267,14 +269,20 @@ public class DocSoActivity extends AppCompatActivity {
             return;
         if (getImageFileName().exists()) {
             showImage(getImageFileName());
+
+
         } else {
-            Intent cameraIntent = new Intent(
-                    android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI.getPath());
-            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, "new-photo-name.jpg");
-            startActivityForResult(cameraIntent, REQUEST_ID_IMAGE_CAPTURE);
+            capture();
         }
+    }
+
+    private void capture() {
+        Intent cameraIntent = new Intent(
+                android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI.getPath());
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, "new-photo-name.jpg");
+        startActivityForResult(cameraIntent, REQUEST_ID_IMAGE_CAPTURE);
     }
 
     public boolean requestPermissonCamera() {
