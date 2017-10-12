@@ -5,7 +5,7 @@
 
 
     <LinearLayout
-
+android:background="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
@@ -69,7 +69,7 @@
                     android:layout_weight="2"
                     android:hint="Tên đăng nhập"
                     android:inputType="textPersonName"
-                    android:nextFocusDown="@+id/txtPassword"/>
+                    android:nextFocusDown="@+id/txtPassword" />
             </LinearLayout>
             <!--Layout hiển thị icon password và password-->
             <LinearLayout
@@ -89,15 +89,30 @@
                     android:layout_weight="0.5"
                     android:src="@drawable/password" />
 
-                <EditText
-                    android:id="@+id/txtPassword"
+                <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:hint="Mật khẩu"
-                    android:inputType="textPassword"
-                    android:nextFocusDown="@+id/btnLogin"/>
+                    android:layout_weight="2">
+
+                    <EditText
+                        android:id="@+id/txtPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:hint="Mật khẩu"
+                        android:inputType="textPassword"
+                        android:nextFocusDown="@+id/btnLogin" />
+
+                    <ImageButton
+                        android:id="@+id/imgBtn_login_viewPassword"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="right|center_vertical"
+                        android:src="@drawable/un_view_password"
+                        android:background="@color/colorWhite"/>
+                </FrameLayout>
             </LinearLayout>
+
             <!--Checkout ghi nhớ đăng nhập-->
             <CheckBox
                 android:id="@+id/chkRemember"

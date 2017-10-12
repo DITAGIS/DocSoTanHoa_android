@@ -7,9 +7,12 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.PasswordTransformationMethod;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.ditagis.hcm.docsotanhoa.conectDB.LogInDB;
@@ -20,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText txtUserName;
     EditText txtPassword;
     LoginAsync loginAsync;
+    ImageButton mImgBtnViewPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +32,28 @@ public class LoginActivity extends AppCompatActivity {
         txtUserName = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
         loginAsync = new LoginAsync();
+        this.mImgBtnViewPassword = (ImageButton) findViewById(R.id.imgBtn_login_viewPassword);
 
 
 //        spinner = (ProgressBar) findViewById(R.id.progessLogin);
 
 
 //        new LocalDatabase(this).Upgrade();
+        this.mImgBtnViewPassword.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    LoginActivity.this.mImgBtnViewPassword.setImageResource(R.drawable.view_password);
+                    LoginActivity.this.txtPassword.setTransformationMethod(null);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    LoginActivity.this.mImgBtnViewPassword.setImageResource(R.drawable.un_view_password);
+                    LoginActivity.this.txtPassword.setTransformationMethod(new PasswordTransformationMethod());
+                }
+                return false;
+            }
+        });
 
 
         final Button btnLogin = (Button) findViewById(R.id.btnLogin);

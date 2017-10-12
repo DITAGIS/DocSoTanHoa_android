@@ -17,6 +17,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,7 +90,14 @@ public class DocSoActivity extends AppCompatActivity {
         editTextCSM = (EditText) findViewById(R.id.etxt_ds_CSM);
         imgbtn_Save = (ImageButton) findViewById(R.id.imgbtn_ds_Save);
         txtCSM = (TextView) findViewById(R.id.txt_ds_CSM);
-        String[] codes = {"4", "5", "6", "8", "F", "K", "M", "N", "Q"};
+
+
+        String[] codes = {"40", "41", "42", "54", "55", "56", "58", "5F", "5K",
+                "60", "61", "62", "63", "64", "65", "66", "81", "82",
+                "83", "F1", "F2", "F3", "F4", "M1", "M2", "M3", "N",
+                "RT", "K", "Q"};
+
+
         Bundle extras = getIntent().getExtras();
         mArrMlt = extras.getStringArray("mMltArr");
 
@@ -328,6 +336,7 @@ public class DocSoActivity extends AppCompatActivity {
         final EditText input = new EditText(this);
         input.setMaxLines(5);
         input.setText(this.mGhiChu);
+        input.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Ghi chú");
         builder.setCancelable(false);

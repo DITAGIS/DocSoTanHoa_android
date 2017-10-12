@@ -20,9 +20,9 @@ import java.util.List;
 public class LogInDB extends AbstractDB implements IDB<User, Boolean, String> {
 
     private final String TABLE_NAME = "USER_ACCOUNT";
-    private final String SQL_SELECT =   "select * from " + TABLE_NAME +" where username = ? and password = ?";
+    private final String SQL_SELECT = "select * from " + TABLE_NAME + " where username = ? and password = ?";
     private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + " VALUES(?,?)";
-    //    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET CSC=? WHERE CSM=?";
+    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET password=? WHERE username=?";
     private final String SQL_DELETE = "DELETE FROM " + TABLE_NAME + " WHERE USERNAME=?";
 
     private Boolean createTable() {
@@ -114,6 +114,33 @@ public class LogInDB extends AbstractDB implements IDB<User, Boolean, String> {
         return false;
     }
 
+    public boolean changePassword(User user, String newPassword) {
+        if (logIn(user)) {
+            Connection cnn = this.condb.getConnect();
+            String sql = this.SQL_UPDATE;
+
+            try {
+                PreparedStatement st = cnn.prepareStatement(sql);
+                st.setString(1, encodeMD5(newPassword));
+                st.setString(2, user.getUserName());
+                ResultSet result = st.executeQuery();
+                if (result.next()) {
+                    st.close();
+                    cnn.close();
+                    return true;
+                }
+                st.close();
+                cnn.close();
+
+
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            return false;
+        } else
+            return false;
+    }
+
     @Override
     public List<User> getAll() {
         List<User> result = new ArrayList<User>();
@@ -159,7 +186,54 @@ public class LogInDB extends AbstractDB implements IDB<User, Boolean, String> {
 
     public static void main(String[] args) {
         LogInDB logInDB = new LogInDB();
-        logInDB.add(new User("th","th"));
-        System.out.print(logInDB.logIn(new User("nv1", "123")));
+//        String[] msnv = new String[]{
+//                "016",
+//                "024",
+//                "044",
+//                "068",
+//                "102",
+//                "103",
+//                "117",
+//                "127",
+//                "139",
+//                "143",
+//                "145",
+//                "146",
+//                "163",
+//                "167",
+//                "168",
+//                "170",
+//                "207",
+//                "225",
+//                "226",
+//                "275",
+//                "313",
+//                "326",
+//                "333",
+//                "334",
+//                "335",
+//                "336",
+//                "342",
+//                "343",
+//                "344",
+//                "355",
+//                "358",
+//                "361",
+//                "370",
+//                "387",
+//                "388",
+//                "390",
+//                "391",
+//                "398",
+//                "399",
+//                "408",
+//                "410",
+//                "411",
+//                "412",
+//                "421",
+//        };
+//        for (String maNV : msnv)
+//            logInDB.add(new User(maNV, "54321"));
+
     }
 }
