@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,11 +18,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,7 +63,7 @@ public class DocSoActivity extends AppCompatActivity {
     private static final int REQUEST_ID_READ_WRITE_PERMISSION = 99;
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
     private int mSumDanhBo, mDanhBoHoanThanh;
-
+    private boolean isThayMoiDongHo;
 //    DocSoActivity.ItemClickHandle itemClickHandle = new ItemClickHandle();
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,30 +177,75 @@ public class DocSoActivity extends AppCompatActivity {
                     csm = Integer.parseInt(txtCSM.getText().toString());
                     csc = Integer.parseInt(txtCSC.getText().toString());
                     if (csm < csc) {
-                        alertCSM();
-                    } else {
-                        DocSoActivity.this.mDanhBoHoanThanh++;
-                        DocSoActivity.this.txtComplete.setText(DocSoActivity.this.mDanhBoHoanThanh + "/" + DocSoActivity.this.mSumDanhBo);
+                        if (alertCSM()) {
 
-                        //Xử lý lưu danh bộ
+                            DocSoActivity.this.mDanhBoHoanThanh++;
+                            DocSoActivity.this.txtComplete.setText(DocSoActivity.this.mDanhBoHoanThanh + "/" + DocSoActivity.this.mSumDanhBo);
+
+                            //Xử lý lưu danh bộ
+                        } else {
+                            //TODO
+                        }
+                        DocSoActivity.this.isThayMoiDongHo = false;
                     }
                 }
             }
         });
     }
 
-    private void alertCSM() {
+    private void showImage(File f) {
+        //get bitmap from file
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        Bitmap bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(), options);
+        //--------------------
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).setNegativeButton("Chụp lại", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        AlertDialog dialog = builder.create();
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogLayout = inflater.inflate(R.layout.layout_imageview_docso, null);
+        dialog.setView(dialogLayout);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        // Without this line there is a very small border around the image (1px)
+        dialog.getWindow().setBackgroundDrawable(null);
+
+        dialog.show();
+        ImageView image = (ImageView) dialog.findViewById(R.id.imgView_docso);
+
+        BitmapDrawable resizedDialogImage = new BitmapDrawable(this.getResources(), Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), false));
+
+        image.setBackground(resizedDialogImage);
+
+    }
+
+    private boolean alertCSM() {
         AlertDialog.Builder builder = new AlertDialog.Builder(DocSoActivity.this);
         builder.setTitle("Chỉ số mới nhỏ hơn chỉ số cũ");
         builder.setMessage("Kiểm tra danh bộ hiện tại thuộc diện thay mới đồng hồ?")
                 .setCancelable(true)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        DocSoActivity.this.isThayMoiDongHo = true;
+                    }
+                })
+                .setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
                     }
                 });
         AlertDialog alert = builder.create();
         alert.show();
+        return this.isThayMoiDongHo;
     }
 
     public void doScan(View v) {
@@ -215,23 +265,16 @@ public class DocSoActivity extends AppCompatActivity {
     public void doCamera(View v) {
         if (!requestPermissonCamera())
             return;
-        // Tạo một Intent không tường minh,
-        // để yêu cầu hệ thống mở Camera chuẩn bị chụp hình.
-//        this.intentCaptureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        if (this.intentCaptureImage.resolveActivity(getPackageManager()) != null)
-//            // Start Activity chụp hình, và chờ đợi kết quả trả về.
-//            this.startActivityForResult(this.intentCaptureImage, REQUEST_ID_IMAGE_CAPTURE);
-//        this.camera = Camera.open(cameraId);
-//
-//        camera.startPreview();
-//        camera.takePicture(null, null,
-//                new PhotoHandler(getApplicationContext(), this.mDanhBo));
-        Intent cameraIntent = new Intent(
-                android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI.getPath());
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, "new-photo-name.jpg");
-        startActivityForResult(cameraIntent, REQUEST_ID_IMAGE_CAPTURE);
+        if (getImageFileName().exists()) {
+            showImage(getImageFileName());
+        } else {
+            Intent cameraIntent = new Intent(
+                    android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI.getPath());
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, "new-photo-name.jpg");
+            startActivityForResult(cameraIntent, REQUEST_ID_IMAGE_CAPTURE);
+        }
     }
 
     public boolean requestPermissonCamera() {

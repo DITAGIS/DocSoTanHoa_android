@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -18,6 +19,7 @@ public class LoginActivity extends AppCompatActivity {
     //    private ProgressBar spinner;
     EditText txtUserName;
     EditText txtPassword;
+    LoginAsync loginAsync;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         txtUserName = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
+        loginAsync = new LoginAsync();
+
+
 //        spinner = (ProgressBar) findViewById(R.id.progessLogin);
 
 
@@ -39,13 +44,12 @@ public class LoginActivity extends AppCompatActivity {
 //                spinner.setVisibility(View.VISIBLE);
                 btnLogin.setEnabled(false);
                 Toast.makeText(LoginActivity.this, "Đang kiểm tra thông tin đăng nhập...", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(LoginActivity.this, LayLoTrinhActivity.class);
+
                 if (isOnline()) {
-                    if (checkInfo())
-                        startActivity(intent);
+                    loginAsync.execute(txtUserName.getText().toString(), txtPassword.getText().toString());
+
                 } else {
-                    Intent intent1 = new Intent(LoginActivity.this, XemLoTrinhDaTaiActivity.class);
-                    startActivity(intent1);
+                    Toast.makeText(LoginActivity.this, "Kiểm tra kết nối Internet và thử lại", Toast.LENGTH_SHORT).show();
                 }
 
                 btnLogin.setEnabled(true);
@@ -61,24 +65,36 @@ public class LoginActivity extends AppCompatActivity {
         return netInfo != null && netInfo.isConnected();
     }
 
-    private boolean checkInfo() {
+    class LoginAsync extends AsyncTask<String, Boolean, Void> {
+        private LogInDB loginDB = new LogInDB();
 
-        String username = ((EditText) findViewById(R.id.txtUsername)).getText().toString();
-        String password = ((EditText) findViewById(R.id.txtPassword)).getText().toString();
-
-        if (username.length() == 0 | password.length() == 0) {
-            Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        LogInDB logInDB = new LogInDB();
-        if (logInDB.logIn(new User(username, password))) {
-//            spinner.setVisibility(View.INVISIBLE);
-            return true;
-        } else {
-//            spinner.setVisibility(View.INVISIBLE);
-            Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
-            return false;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
         }
 
+        @Override
+        protected Void doInBackground(String... params) {
+            String username = params[0];
+            String password = params[1];
+            boolean isValid = this.loginDB.logIn(new User(username, password));
+
+            publishProgress(isValid);
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Boolean... values) {
+            super.onProgressUpdate(values);
+            boolean isValid = values[0];
+            if (isValid) {
+                Intent intent = new Intent(LoginActivity.this, LayLoTrinhActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
+                Intent intent1 = new Intent(LoginActivity.this, XemLoTrinhDaTaiActivity.class);
+                startActivity(intent1);
+            }
+        }
     }
 }
