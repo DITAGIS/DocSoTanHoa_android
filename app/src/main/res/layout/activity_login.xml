@@ -68,7 +68,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:hint="Tên đăng nhập"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:nextFocusDown="@+id/txtPassword"/>
             </LinearLayout>
             <!--Layout hiển thị icon password và password-->
             <LinearLayout
@@ -94,7 +95,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:hint="Mật khẩu"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:nextFocusDown="@+id/btnLogin"/>
             </LinearLayout>
             <!--Checkout ghi nhớ đăng nhập-->
             <CheckBox

@@ -15,21 +15,25 @@ import com.ditagis.hcm.docsotanhoa.conectDB.LogInDB;
 import com.ditagis.hcm.docsotanhoa.entities.User;
 
 public class LoginActivity extends AppCompatActivity {
-//    private ProgressBar spinner;
+    //    private ProgressBar spinner;
+    EditText txtUserName;
+    EditText txtPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        txtUserName = (EditText) findViewById(R.id.txtUsername);
+        txtPassword = (EditText) findViewById(R.id.txtPassword);
 //        spinner = (ProgressBar) findViewById(R.id.progessLogin);
 
-        Button btnLogin = (Button) findViewById(R.id.btnLogin);
+        final Button btnLogin = (Button) findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                spinner.setVisibility(View.GONE);
 //                spinner.setVisibility(View.VISIBLE);
+                btnLogin.setEnabled(false);
                 Toast.makeText(LoginActivity.this, "Đang kiểm tra thông tin đăng nhập...", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(LoginActivity.this, LayLoTrinhActivity.class);
                 if (isOnline()) {
@@ -39,8 +43,12 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent1 = new Intent(LoginActivity.this, XemLoTrinhDaTaiActivity.class);
                     startActivity(intent1);
                 }
+
+                btnLogin.setEnabled(true);
             }
         });
+
+
     }
 
     protected boolean isOnline() {
@@ -54,7 +62,10 @@ public class LoginActivity extends AppCompatActivity {
         String username = ((EditText) findViewById(R.id.txtUsername)).getText().toString();
         String password = ((EditText) findViewById(R.id.txtPassword)).getText().toString();
 
-
+        if (username.length() == 0 | password.length() == 0) {
+            Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         LogInDB logInDB = new LogInDB();
         if (logInDB.logIn(new User(username, password))) {
 //            spinner.setVisibility(View.INVISIBLE);

@@ -1,13 +1,11 @@
 package com.ditagis.hcm.docsotanhoa;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.hardware.Camera;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -31,6 +29,9 @@ import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -158,14 +159,10 @@ public class DocSoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // kiểm tra hình ảnh
-//                File sdCardDirectory = Environment.getExternalStorageDirectory();
-//                File image = new File(sdCardDirectory, "DocSoTanHoa" + File.separator + mDanhBo + ".png");
-//                if (!image.exists()) {
-//                    Toast.makeText(DocSoActivity.this, "Thiếu hình ảnh!!!", Toast.LENGTH_SHORT).show();
-//                    return;
-//                } else {
-//                    Toast.makeText(DocSoActivity.this, "Đã có hình ảnh!!!", Toast.LENGTH_SHORT).show();
-//                }
+                if (!getImageFileName().exists()) {
+                    Toast.makeText(DocSoActivity.this, "Chưa có hình ảnh!!!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 // kiểm tra chỉ số mới
                 int csc = 0;
                 int csm = 0;
@@ -185,43 +182,6 @@ public class DocSoActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    /* Checks if external storage is available for read and write */
-    public boolean isExternalStorageWritable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            return true;
-        }
-        return false;
-    }
-
-    /* Checks if external storage is available to at least read */
-    public boolean isExternalStorageReadable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state) ||
-                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            return true;
-        }
-        return false;
-    }
-
-    public File getAlbumStorageDir(String albumName) {
-        // Get the directory for the user's public pictures directory.
-        File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), albumName);
-        if (!file.mkdirs()) {
-        }
-        return file;
-    }
-
-    public File getAlbumStorageDir(Context context, String albumName) {
-        // Get the directory for the app's private pictures directory.
-        File file = new File(context.getExternalFilesDir(
-                Environment.DIRECTORY_PICTURES), albumName);
-        if (!file.mkdirs()) {
-        }
-        return file;
     }
 
     private void alertCSM() {
@@ -266,12 +226,12 @@ public class DocSoActivity extends AppCompatActivity {
 //        camera.startPreview();
 //        camera.takePicture(null, null,
 //                new PhotoHandler(getApplicationContext(), this.mDanhBo));
-        String fileName = File.separator + "Docsotanhoa" + File.separator + this.mDanhBo + ".png";
-        File file = new File(Environment.getExternalStorageDirectory(), fileName);
-
-        Intent in = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        in.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-        startActivityForResult(in, 1);
+        Intent cameraIntent = new Intent(
+                android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI.getPath());
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, "new-photo-name.jpg");
+        startActivityForResult(cameraIntent, REQUEST_ID_IMAGE_CAPTURE);
     }
 
     public boolean requestPermissonCamera() {
@@ -287,14 +247,57 @@ public class DocSoActivity extends AppCompatActivity {
             return true;
     }
 
+    public boolean requestPermissonWriteFile() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_ID_IMAGE_CAPTURE);
+        }
+        if (Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Không cho phép lưu ảnh!!!", Toast.LENGTH_SHORT).show();
+            return false;
+        } else
+            return true;
+    }
+
+    public File getImageFileName() {
+        String path = Environment.getExternalStorageDirectory().getPath();
+//                path = path.substring(0, path.length() - 1).concat("1");
+        File outFile = new File(path, "DocSoTanHoa");
+
+        if (!outFile.exists())
+            outFile.mkdir();
+        File f = new File(outFile, mDanhBo + ".jpeg");
+        return f;
+    }
+
     // Khi activy chụp hình (Hoặc quay video) hoàn thành, phương thức này sẽ được gọi.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 100) {
+        if (requestCode == REQUEST_ID_IMAGE_CAPTURE) {
             if (resultCode == RESULT_OK) {
+                if (!requestPermissonWriteFile())
+                    return;
                 mBpImage = (Bitmap) data.getExtras().get("data");
+
+                FileOutputStream fos = null;
+                try {
+
+                    fos = new FileOutputStream(getImageFileName());
+                    mBpImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                    fos.flush();
+                    fos.close();
+                    Toast.makeText(this, "Đã lưu ảnh", Toast.LENGTH_SHORT).show();
+                } catch (FileNotFoundException e) {
+                    Toast.makeText(this, "Lỗi khi lưu ảnh", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    Toast.makeText(this, "Lỗi khi lưu ảnh", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, "Hủy chụp hình", Toast.LENGTH_LONG).show();
             } else {
