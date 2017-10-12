@@ -11,16 +11,26 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.ditagis.hcm.docsotanhoa.conectDB.LogInDB;
+import com.ditagis.hcm.docsotanhoa.entities.User;
+
 public class LoginActivity extends AppCompatActivity {
+//    private ProgressBar spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+//        spinner = (ProgressBar) findViewById(R.id.progessLogin);
+
         Button btnLogin = (Button) findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                spinner.setVisibility(View.GONE);
+//                spinner.setVisibility(View.VISIBLE);
+                Toast.makeText(LoginActivity.this, "Đang kiểm tra thông tin đăng nhập...", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(LoginActivity.this, LayLoTrinhActivity.class);
                 if (isOnline()) {
                     if (checkInfo())
@@ -44,9 +54,13 @@ public class LoginActivity extends AppCompatActivity {
         String username = ((EditText) findViewById(R.id.txtUsername)).getText().toString();
         String password = ((EditText) findViewById(R.id.txtPassword)).getText().toString();
 
-        if (username.equals("") && password.equals("")) {
+
+        LogInDB logInDB = new LogInDB();
+        if (logInDB.logIn(new User(username, password))) {
+//            spinner.setVisibility(View.INVISIBLE);
             return true;
         } else {
+//            spinner.setVisibility(View.INVISIBLE);
             Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
             return false;
         }

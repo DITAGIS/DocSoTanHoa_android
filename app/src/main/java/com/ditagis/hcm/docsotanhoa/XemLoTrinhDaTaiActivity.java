@@ -164,11 +164,22 @@ public class XemLoTrinhDaTaiActivity extends AppCompatActivity {
                     XemLoTrinhDaTaiActivity.this.m_MLT_TongDanhBo.remove(mlt);
                     imgCheck.setImageResource(0);
                     row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_uncheck));
+                    XemLoTrinhDaTaiActivity.this.mSumMLT --;
+                    XemLoTrinhDaTaiActivity.this.mSumDanhBo -=Integer.parseInt(danhbo);
+
+                    XemLoTrinhDaTaiActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + XemLoTrinhDaTaiActivity.this.mSumMLT);
+                    XemLoTrinhDaTaiActivity.this.m_txtTongDB.setText("Danh bộ: " + XemLoTrinhDaTaiActivity.this.mSumDanhBo);
                 } else {
                     da.getItem(mlt).setCheckpos(true);
                     XemLoTrinhDaTaiActivity.this.m_MLT_TongDanhBo.put(mlt, Integer.parseInt(danhbo));
                     imgCheck.setImageResource(R.drawable.checked);
                     row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_check));
+
+                    XemLoTrinhDaTaiActivity.this.mSumMLT ++;
+                    XemLoTrinhDaTaiActivity.this.mSumDanhBo +=Integer.parseInt(danhbo);
+
+                    XemLoTrinhDaTaiActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + XemLoTrinhDaTaiActivity.this.mSumMLT);
+                    XemLoTrinhDaTaiActivity.this.m_txtTongDB.setText("Danh bộ: " + XemLoTrinhDaTaiActivity.this.mSumDanhBo);
                 }
 
             }

@@ -18,7 +18,7 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
     private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + " VALUES(?,?,?,?,?)";
     private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET CSC=? WHERE CSM=?";
     private final String SQL_DELETE = "DELETE FROM " + TABLE_NAME + " WHERE ClassId=?";
-    private final String SQL_FIND = "SELECT * FROM " + TABLE_NAME + " WHERE ID=?";
+//    private final String SQL_FIND = "SELECT * FROM " + TABLE_NAME + " WHERE ID=?";
 
     @Override
     public Boolean add(HoaDon e) {

@@ -1,109 +1,118 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/login_activity_vertical_margin"
-    android:paddingLeft="@dimen/login_activity_horizontal_margin"
-    android:paddingRight="@dimen/login_activity_horizontal_margin"
-    android:paddingTop="@dimen/login_activity_vertical_margin"
-    tools:context="com.ditagis.hcm.docsotanhoa.LoginActivity">
+    android:layout_height="match_parent">
 
 
-    <!--Layout top hiển thị logo-->
     <LinearLayout
+
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="0.5"
-        android:minHeight="25px"
-        android:minWidth="25px"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/login_activity_vertical_margin"
+        android:paddingLeft="@dimen/login_activity_horizontal_margin"
+        android:paddingRight="@dimen/login_activity_horizontal_margin"
+        android:paddingTop="@dimen/login_activity_vertical_margin"
+        tools:context="com.ditagis.hcm.docsotanhoa.LoginActivity">
 
 
-        <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+        <!--Layout top hiển thị logo-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.5"
+            android:minHeight="25px"
+            android:minWidth="25px"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_weight="1"
+                android:src="@drawable/tanhoa_icon" />
+        </LinearLayout>
+        <!--Layout bottom-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/tanhoa_icon" />
-    </LinearLayout>
-    <!--Layout bottom-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:minHeight="25px"
-        android:minWidth="25px"
-        android:orientation="vertical">
-
-
-        <!--Layout hiển thị icon đăng nhập và tên đăng nhập-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
             android:minHeight="25px"
             android:minWidth="25px"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_vertical"
+
+            <!--Layout hiển thị icon đăng nhập và tên đăng nhập-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:src="@drawable/username" />
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:minHeight="25px"
+                android:minWidth="25px"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/txtUsername"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:hint="Tên đăng nhập"
-                android:inputType="textPersonName" />
-        </LinearLayout>
-        <!--Layout hiển thị icon password và password-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:minHeight="25px"
-            android:minWidth="25px"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.5"
+                    android:src="@drawable/username" />
 
-            <ImageView
-                android:layout_width="42dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_vertical"
+                <EditText
+                    android:id="@+id/txtUsername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:hint="Tên đăng nhập"
+                    android:inputType="textPersonName" />
+            </LinearLayout>
+            <!--Layout hiển thị icon password và password-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:src="@drawable/password" />
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:minHeight="25px"
+                android:minWidth="25px"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/txtPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:hint="Mật khẩu"
-                android:inputType="textPassword" />
+                <ImageView
+                    android:layout_width="42dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.5"
+                    android:src="@drawable/password" />
+
+                <EditText
+                    android:id="@+id/txtPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:hint="Mật khẩu"
+                    android:inputType="textPassword" />
+            </LinearLayout>
+            <!--Checkout ghi nhớ đăng nhập-->
+            <CheckBox
+                android:id="@+id/chkRemember"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="Ghi nhớ mật khẩu" />
+            <!--Button đăng nhập-->
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:text="Đăng nhập" />
+
         </LinearLayout>
-        <!--Checkout ghi nhớ đăng nhập-->
-        <CheckBox
-            android:id="@+id/chkRemember"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:text="Ghi nhớ mật khẩu" />
-        <!--Button đăng nhập-->
-        <Button
-            android:id="@+id/btnLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.2"
-            android:text="Đăng nhập" />
-
     </LinearLayout>
-</LinearLayout>
+
+
+</FrameLayout>

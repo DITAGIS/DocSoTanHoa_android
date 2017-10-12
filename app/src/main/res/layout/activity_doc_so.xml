@@ -41,10 +41,9 @@
                     android:layout_width="0dp"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:textColor="@color/color_row_check"
                     android:gravity="right"
-                    android:text="sfsdf"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/color_row_check" />
             </TableRow>
             <!--Table row kỳ-->
             <TableRow android:layout_weight="1">
@@ -321,6 +320,7 @@
                     android:id="@+id/spin_ds_code"
                     android:layout_width="0dp"
                     android:layout_gravity="center_vertical"
+                    android:gravity="right"
                     android:layout_weight="1"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </TableRow>

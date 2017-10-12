@@ -1,15 +1,20 @@
 package com.ditagis.hcm.docsotanhoa;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.hardware.Camera;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -40,13 +45,15 @@ public class DocSoActivity extends AppCompatActivity {
     TextView txtCSM;
     TextView txtCSC;
     TextView txtComplete;
-    private LocalDatabase m_databaseHelper;
+    private LocalDatabase mLocalDatabase;
     //    final HoaDonDB hoaDonDB = new HoaDonDB();
     Spinner spinDB = null;
     Spinner spinCode;
     ImageButton imgbtn_Save;
     private Intent intentCaptureImage;
+    private int cameraId = 0;
     private Bitmap mBpImage;
+    private Camera camera;
     private static final int REQUEST_ID_READ_WRITE_PERMISSION = 99;
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
     private int mSumDanhBo, mDanhBoHoanThanh;
@@ -60,7 +67,7 @@ public class DocSoActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.txt_ds_ky)).setText(calendar.get(Calendar.MONTH) + 1 + "");
         ((TextView) findViewById(R.id.txt_ds_dot)).setText(calendar.get(Calendar.DAY_OF_MONTH) + "");
         this.txtComplete = (TextView) findViewById(R.id.txt_ds_complete);
-        m_databaseHelper = new LocalDatabase(this);
+        mLocalDatabase = new LocalDatabase(this);
         editTextCSM = (EditText) findViewById(R.id.etxt_ds_CSM);
         imgbtn_Save = (ImageButton) findViewById(R.id.imgbtn_ds_Save);
         txtCSM = (TextView) findViewById(R.id.txt_ds_CSM);
@@ -68,7 +75,11 @@ public class DocSoActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         mArrMlt = extras.getStringArray("mMltArr");
 
-
+        DocSoActivity.this.mSumDanhBo = 0;
+        for (String mlt : mArrMlt)
+            DocSoActivity.this.mSumDanhBo += this.mLocalDatabase.getAllHoaDonByMaLoTrinh(mlt).size();
+        DocSoActivity.this.mDanhBoHoanThanh = 0;
+        DocSoActivity.this.txtComplete.setText(DocSoActivity.this.mDanhBoHoanThanh + "/" + DocSoActivity.this.mSumDanhBo);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, mArrMlt);
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         ArrayAdapter<String> adapterCode = new ArrayAdapter<String>(this, R.layout.spinner_item, codes);
@@ -85,10 +96,9 @@ public class DocSoActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mMlt = mArrMlt[position];
                 try {
-                    List<HoaDon> hoaDonList = m_databaseHelper.getAllHoaDonByMaLoTrinh(mMlt);
-                    DocSoActivity.this.mSumDanhBo = hoaDonList.size();
-                    DocSoActivity.this.mDanhBoHoanThanh = 0;
-                    DocSoActivity.this.txtComplete.setText(DocSoActivity.this.mDanhBoHoanThanh + "/" + DocSoActivity.this.mSumDanhBo);
+                    List<HoaDon> hoaDonList = mLocalDatabase.getAllHoaDonByMaLoTrinh(mMlt);
+
+
                     for (HoaDon hoaDon : hoaDonList) {
                         mDB.add(hoaDon.getDanhBo());
                     }
@@ -100,7 +110,7 @@ public class DocSoActivity extends AppCompatActivity {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             DocSoActivity.this.mDanhBo = spinDB.getSelectedItem().toString();
-                            HoaDon hoaDon = m_databaseHelper.getHoaDon(DocSoActivity.this.mDanhBo);
+                            HoaDon hoaDon = mLocalDatabase.getHoaDon(DocSoActivity.this.mDanhBo);
                             ((TextView) findViewById(R.id.txt_ds_tenKH)).setText(hoaDon.getTenKhachHang());
 //                            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
                             txtCSC = (TextView) findViewById(R.id.txt_ds_CSC);
@@ -148,28 +158,84 @@ public class DocSoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // kiểm tra hình ảnh
-                File sdCardDirectory = Environment.getExternalStorageDirectory();
-                File image = new File(sdCardDirectory, "DocSoTanHoa" + File.separator + mDanhBo + ".png");
-                if (!image.exists()) {
-                    Toast.makeText(DocSoActivity.this, "Thiếu hình ảnh!!!", Toast.LENGTH_SHORT).show();
-                    return;
-                } else {
-                    Toast.makeText(DocSoActivity.this, "Đã có hình ảnh!!!", Toast.LENGTH_SHORT).show();
-                }
+//                File sdCardDirectory = Environment.getExternalStorageDirectory();
+//                File image = new File(sdCardDirectory, "DocSoTanHoa" + File.separator + mDanhBo + ".png");
+//                if (!image.exists()) {
+//                    Toast.makeText(DocSoActivity.this, "Thiếu hình ảnh!!!", Toast.LENGTH_SHORT).show();
+//                    return;
+//                } else {
+//                    Toast.makeText(DocSoActivity.this, "Đã có hình ảnh!!!", Toast.LENGTH_SHORT).show();
+//                }
                 // kiểm tra chỉ số mới
                 int csc = 0;
                 int csm = 0;
                 if (txtCSM.getText().length() == 0) {
-
+                    //kiem tra code
                 } else {
                     csm = Integer.parseInt(txtCSM.getText().toString());
                     csc = Integer.parseInt(txtCSC.getText().toString());
                     if (csm < csc) {
-                        // kiểm tra code
+                        alertCSM();
+                    } else {
+                        DocSoActivity.this.mDanhBoHoanThanh++;
+                        DocSoActivity.this.txtComplete.setText(DocSoActivity.this.mDanhBoHoanThanh + "/" + DocSoActivity.this.mSumDanhBo);
+
+                        //Xử lý lưu danh bộ
                     }
                 }
             }
         });
+    }
+
+    /* Checks if external storage is available for read and write */
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    /* Checks if external storage is available to at least read */
+    public boolean isExternalStorageReadable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    public File getAlbumStorageDir(String albumName) {
+        // Get the directory for the user's public pictures directory.
+        File file = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), albumName);
+        if (!file.mkdirs()) {
+        }
+        return file;
+    }
+
+    public File getAlbumStorageDir(Context context, String albumName) {
+        // Get the directory for the app's private pictures directory.
+        File file = new File(context.getExternalFilesDir(
+                Environment.DIRECTORY_PICTURES), albumName);
+        if (!file.mkdirs()) {
+        }
+        return file;
+    }
+
+    private void alertCSM() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(DocSoActivity.this);
+        builder.setTitle("Chỉ số mới nhỏ hơn chỉ số cũ");
+        builder.setMessage("Kiểm tra danh bộ hiện tại thuộc diện thay mới đồng hồ?")
+                .setCancelable(true)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     public void doScan(View v) {
@@ -191,10 +257,21 @@ public class DocSoActivity extends AppCompatActivity {
             return;
         // Tạo một Intent không tường minh,
         // để yêu cầu hệ thống mở Camera chuẩn bị chụp hình.
-        this.intentCaptureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (this.intentCaptureImage.resolveActivity(getPackageManager()) != null)
-            // Start Activity chụp hình, và chờ đợi kết quả trả về.
-            this.startActivityForResult(this.intentCaptureImage, REQUEST_ID_IMAGE_CAPTURE);
+//        this.intentCaptureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        if (this.intentCaptureImage.resolveActivity(getPackageManager()) != null)
+//            // Start Activity chụp hình, và chờ đợi kết quả trả về.
+//            this.startActivityForResult(this.intentCaptureImage, REQUEST_ID_IMAGE_CAPTURE);
+//        this.camera = Camera.open(cameraId);
+//
+//        camera.startPreview();
+//        camera.takePicture(null, null,
+//                new PhotoHandler(getApplicationContext(), this.mDanhBo));
+        String fileName = File.separator + "Docsotanhoa" + File.separator + this.mDanhBo + ".png";
+        File file = new File(Environment.getExternalStorageDirectory(), fileName);
+
+        Intent in = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        in.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+        startActivityForResult(in, 1);
     }
 
     public boolean requestPermissonCamera() {
@@ -215,7 +292,7 @@ public class DocSoActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_ID_IMAGE_CAPTURE) {
+        if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
                 mBpImage = (Bitmap) data.getExtras().get("data");
             } else if (resultCode == RESULT_CANCELED) {
