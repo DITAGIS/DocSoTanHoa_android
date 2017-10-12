@@ -214,11 +214,13 @@ public class LayLoTrinhActivity extends AppCompatActivity {
             try {
                 Statement statement = cnn.createStatement();
                 ResultSet rs = statement.executeQuery("SELECT DISTINCT MLT FROM HOADON");
-                LayLoTrinhActivity.this.mHoaDons = new ArrayList<HoaDon>();
+//                LayLoTrinhActivity.this.mHoaDons = new ArrayList<HoaDon>();
                 while (rs.next()) {
 
                     String maLoTrinh = rs.getString(1);
                     boolean isFound = false;
+
+                    //Bỏ những lộ trình đã tải về
                     for (LoTrinh loTrinh : loTrinhs)
                         if (loTrinh.getMaLoTrinh().equals(maLoTrinh)) {
                             isFound = true;
@@ -288,12 +290,13 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             mlt = params[0];
-
-            LayLoTrinhActivity.this.mHoaDons = LayLoTrinhActivity.this.mLocalDatabase.getAllHoaDons();
-            if (LayLoTrinhActivity.this.da.getItem(mlt).getDanhbo() != 0) {
-                publishProgress(LayLoTrinhActivity.this.mHoaDons.size());
-                LayLoTrinhActivity.this.m_DanhBo[this.pos] = LayLoTrinhActivity.this.mHoaDons.size();
-                return LayLoTrinhActivity.this.mHoaDons.size() + "";
+int danhbo;
+//            LayLoTrinhActivity.this.mHoaDons = LayLoTrinhActivity.this.mLocalDatabase.getAllHoaDons();
+            danhbo = LayLoTrinhActivity.this.da.getItem(mlt).getDanhbo();
+            if (danhbo != 0) {
+                publishProgress(danhbo);
+                LayLoTrinhActivity.this.m_DanhBo[this.pos] = danhbo;
+                return danhbo+ "";
             }
             ConnectionDB condb = new ConnectionDB();
             Connection cnn = condb.getConnect();
@@ -327,7 +330,10 @@ public class LayLoTrinhActivity extends AppCompatActivity {
                     String maLoTrinh = rs.getString(23);
                     HoaDon hoaDon = new HoaDon(id, khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
                     LayLoTrinhActivity.this.mHoaDons.add(hoaDon);
-                    mLocalDatabase.addHoaDon(hoaDon);
+                    if(mLocalDatabase.addHoaDon(hoaDon));
+                    else{
+                        //TODO
+                    }
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

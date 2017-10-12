@@ -42,6 +42,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
     private static final String COLUMN_HOADON_CHISOCU = "HoaDon_ChiSoCu";
     private static final String COLUMN_HOADON_CHISOMOI = "HoaDon_ChiSoMoi";
     private static final String COLUMN_HOADON_MALOTRINH = "HoaDon_MaLoTrinh";
+
     private static final String TABLE_MALOTRINH = "LoTrinh";
     private static final String COLUMN_MALOTRINH_ID = "MaLoTrinh_ID";
     private static final String COLUMN_MALOTRINH_SOLUONG = "MaLoTrinh_SoLuong";
@@ -50,6 +51,9 @@ public class LocalDatabase extends SQLiteOpenHelper {
     private static final String COLUMN_HOADON_GIABIEU = "MaLoTrinh_GiaBieu";
     private static final String COLUMN_HOADON_DINHMUC = "MaloTrinh_DinhMuc";
 
+    private static final String TABLE_LUUDANHBO = "LuuDanhBo";
+    private static final String COLUMN_LUUDANHBO_DANHBO = "LuuDanhBo_DanhBo";
+    private static final String COLUMN_LUUDANHBO_LUU = "LuuDanhBo_Luu";
 
     public LocalDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -60,6 +64,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_HOADON);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MALOTRINH);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LUUDANHBO);
         Log.i(TAG, "LocalDatabase.onCreate ... ");
         // Script tạo bảng.
         String script = "CREATE TABLE " + TABLE_HOADON + "("
@@ -71,14 +76,23 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 + COLUMN_HOADON_CODE + " TEXT,"
                 + COLUMN_HOADON_CHISOCU + " TEXT,"
                 + COLUMN_HOADON_CHISOMOI + " TEXT,"
-                + COLUMN_HOADON_MALOTRINH + " TEXT" + ")";
+                + COLUMN_HOADON_MALOTRINH + " TEXT,"
+                + COLUMN_HOADON_SONHA + " TEXT,"
+                + COLUMN_HOADON_DUONG + " TEXT,"
+                + COLUMN_HOADON_GIABIEU + " TEXT,"
+                + COLUMN_HOADON_DINHMUC + " TEXT" + ")";
         // Chạy lệnh tạo bảng.
         String script1 = "CREATE TABLE " + TABLE_MALOTRINH + "("
                 + COLUMN_MALOTRINH_ID + " TEXT PRIMARY KEY,"
                 + COLUMN_MALOTRINH_SOLUONG + " INTEGER )";
+
+        String script2 = "CREATE TABLE " + TABLE_LUUDANHBO + "("
+                + COLUMN_LUUDANHBO_DANHBO + " TEXT PRIMARY KEY,"
+                + COLUMN_LUUDANHBO_LUU + " BIT )";
         // Chạy lệnh tạo bảng.
         db.execSQL(script);
         db.execSQL(script1);
+        db.execSQL(script2);
     }
 
 
@@ -90,7 +104,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         // Hủy (drop) bảng cũ nếu nó đã tồn tại.
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_HOADON);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MALOTRINH);
-
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LUUDANHBO);
         // Và tạo lại.
         onCreate(db);
     }
@@ -99,7 +113,9 @@ public class LocalDatabase extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_HOADON);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MALOTRINH);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LUUDANHBO);
 
+        onCreate(db);
     }
 
     public void Create() {
@@ -157,7 +173,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addHoaDon(HoaDon hoaDon) {
+    public boolean addHoaDon(HoaDon hoaDon) {
         Log.i(TAG, "LocalDatabase.addHoaDon ... " + hoaDon.getId());
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -178,11 +194,12 @@ public class LocalDatabase extends SQLiteOpenHelper {
         values.put(COLUMN_HOADON_DINHMUC, hoaDon.getDinhMuc());
 
         // Trèn một dòng dữ liệu vào bảng.
-        db.insert(TABLE_HOADON, null, values);
+        long result = db.insert(TABLE_HOADON, null, values);
 
 
         // Đóng kết nối database.
         db.close();
+        return result > 0;
     }
 
     public HoaDon getHoaDon(String danhbo) {
@@ -369,6 +386,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 new String[]{String.valueOf(hoaDon.getId())});
         db.close();
     }
+
     public void deleteMLT(String mlt) {
         Log.i(TAG, "LocalDatabase.updateMaLoTrinh ... " + mlt);
 
@@ -377,6 +395,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 new String[]{mlt});
         db.close();
     }
+
     public void addAllHoaDon(List<HoaDon> hoaDons) {
         for (HoaDon hd : hoaDons
                 ) {

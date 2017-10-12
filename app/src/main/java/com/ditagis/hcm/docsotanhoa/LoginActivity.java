@@ -27,6 +27,10 @@ public class LoginActivity extends AppCompatActivity {
         txtPassword = (EditText) findViewById(R.id.txtPassword);
 //        spinner = (ProgressBar) findViewById(R.id.progessLogin);
 
+
+//        new LocalDatabase(this).Upgrade();
+
+
         final Button btnLogin = (Button) findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
