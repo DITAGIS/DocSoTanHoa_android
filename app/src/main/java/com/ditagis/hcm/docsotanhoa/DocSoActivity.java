@@ -68,6 +68,7 @@ public class DocSoActivity extends AppCompatActivity {
     private boolean isThayMoiDongHo;
     private int mKy;
     private int mDot;
+    private String mGhiChu;
     private final String SAVED = "Đã lưu";
     private final String UN_SAVED = "Chưa lưu";
 //    DocSoActivity.ItemClickHandle itemClickHandle = new ItemClickHandle();
@@ -126,7 +127,9 @@ public class DocSoActivity extends AppCompatActivity {
                     spinDB.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                             DocSoActivity.this.mDanhBo = spinDB.getSelectedItem().toString();
+                            DanhBo_ChiSoMoi danhBo_csm = DocSoActivity.this.mLocalDatabase.getDanhBo_CSM(DocSoActivity.this.mDanhBo);
                             HoaDon hoaDon = mLocalDatabase.getHoaDon(DocSoActivity.this.mDanhBo);
                             ((TextView) findViewById(R.id.txt_ds_tenKH)).setText(hoaDon.getTenKhachHang());
 //                            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
@@ -134,18 +137,34 @@ public class DocSoActivity extends AppCompatActivity {
                             txtCSC.setText(hoaDon.getChiSoCu());
                             ((TextView) findViewById(R.id.txt_ds_giabieu)).setText(hoaDon.getGiaBieu());
                             ((TextView) findViewById(R.id.txt_ds_diachi)).setText(hoaDon.getDiaChi());
-                            DocSoActivity.this.editTextCSM.setText("");
-                            DocSoActivity.this.txtCSM.setText("");
 
-                            if (DocSoActivity.this.mLocalDatabase.getStateDanhBo_CSM(DocSoActivity.this.mDanhBo)) {
+                            if (danhBo_csm != null) {
+                                DocSoActivity.this.editTextCSM.setText(danhBo_csm.getChiSoMoi());
+                                DocSoActivity.this.txtCSM.setText(danhBo_csm.getChiSoMoi());
+                                DocSoActivity.this.mGhiChu = danhBo_csm.getNote();
+
                                 DocSoActivity.this.txtSaveState.setText(SAVED);
                                 DocSoActivity.this.txtSaveState.setTextColor(ContextCompat.getColor(DocSoActivity.this,
                                         R.color.colorBlueLight));
-                            } else {
+                            }
+                            else{
+                                DocSoActivity.this.mGhiChu = "";
+                                DocSoActivity.this.editTextCSM.setText("");
+                                DocSoActivity.this.txtCSM.setText("");
+
                                 DocSoActivity.this.txtSaveState.setText(UN_SAVED);
                                 DocSoActivity.this.txtSaveState.setTextColor(ContextCompat.getColor(DocSoActivity.this,
                                         R.color.colorAccent));
                             }
+//                            if (DocSoActivity.this.mLocalDatabase.getStateDanhBo_CSM(DocSoActivity.this.mDanhBo)) {
+//                                DocSoActivity.this.txtSaveState.setText(SAVED);
+//                                DocSoActivity.this.txtSaveState.setTextColor(ContextCompat.getColor(DocSoActivity.this,
+//                                        R.color.colorBlueLight));
+//                            } else {
+//                                DocSoActivity.this.txtSaveState.setText(UN_SAVED);
+//                                DocSoActivity.this.txtSaveState.setTextColor(ContextCompat.getColor(DocSoActivity.this,
+//                                        R.color.colorAccent));
+//                            }
                         }
 
                         @Override
@@ -199,27 +218,29 @@ public class DocSoActivity extends AppCompatActivity {
                     csc = Integer.parseInt(txtCSC.getText().toString());
                     if (csm < csc) {
                         if (alertCSM()) {
-                            saveDB_CSM(csm);
+                            saveDB_CSM(getImageFileName().getAbsolutePath(), csm);
                             //Xử lý lưu danh bộ
                         } else {
                             //TODO
                         }
                         DocSoActivity.this.isThayMoiDongHo = false;
                     } else {
-                        saveDB_CSM(csm);
+                        saveDB_CSM(getImageFileName().getAbsolutePath(), csm);
                     }
                 }
             }
         });
     }
 
-    private void saveDB_CSM(int csm) {
+    private void saveDB_CSM(String image, int csm) {
         DanhBo_ChiSoMoi danhBo_chiSoMoi = new DanhBo_ChiSoMoi(DocSoActivity.this.mDanhBo,
                 DocSoActivity.this.mMlt,
                 DocSoActivity.this.mDot + "",
                 DocSoActivity.this.mKy + "",
                 DocSoActivity.this.spinCode.getSelectedItem().toString(),
                 csm + "",
+                this.mGhiChu,
+                image,
                 1);
         DocSoActivity.this.mLocalDatabase.saveDanhBo_CSM(danhBo_chiSoMoi);
         DocSoActivity.this.mDanhBoHoanThanh++;
@@ -288,10 +309,6 @@ public class DocSoActivity extends AppCompatActivity {
         return this.isThayMoiDongHo;
     }
 
-    public void doScan(View v) {
-
-    }
-
     public void doPrev(View v) {
         int i = spinDB.getSelectedItemPosition();
         spinDB.setSelection(i == 0 ? i : i - 1);
@@ -300,6 +317,35 @@ public class DocSoActivity extends AppCompatActivity {
     public void doNext(View v) {
         int i = spinDB.getSelectedItemPosition();
         spinDB.setSelection(i == spinDB.getCount() - 1 ? i : i + 1);
+    }
+
+    public void doScan(View v) {
+
+    }
+
+    public void doNote(View v) {
+        //--------------------
+        final EditText input = new EditText(this);
+        input.setMaxLines(5);
+        input.setText(this.mGhiChu);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Ghi chú");
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                DocSoActivity.this.mGhiChu = input.getText().toString();
+                dialog.dismiss();
+            }
+        }).setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        final AlertDialog dialog = builder.create();
+        dialog.setView(input);
+        dialog.show();
     }
 
     public void doCamera(View v) {

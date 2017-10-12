@@ -389,6 +389,14 @@
                 android:layout_weight="1"
                 android:onClick="doScan"
                 android:src="@drawable/barcode" />
+            <ImageButton
+                android:id="@+id/etxt_ds_note"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:onClick="doNote"
+                android:src="@drawable/note" />
 
             <ImageButton
                 android:id="@+id/imgBtn_ds_camera"
