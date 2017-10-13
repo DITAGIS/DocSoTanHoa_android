@@ -7,20 +7,24 @@ package com.ditagis.hcm.docsotanhoa.entities;
 public class DanhBo_ChiSoMoi {
     private String danhBo;
     private String maLoTrinh;
-    private String dot;
-    private String ky;
+    private String tenKH;
+    private String diaChi;
+    private String sdt;
     private String code;
+    private String chiSoCu;
     private String chiSoMoi;
     private String note;
     private String image;
     private int hasImage;// 1 là đã lưu, 0 là chưa lưu
 
-    public DanhBo_ChiSoMoi(String danhBo, String maLoTrinh, String dot, String ky, String code, String chiSoMoi, String note, String image, int hasImage) {
+    public DanhBo_ChiSoMoi(String danhBo, String maLoTrinh, String tenKH, String diaChi, String sdt, String code, String chiSoCu, String chiSoMoi, String note, String image, int hasImage) {
         this.danhBo = danhBo;
         this.maLoTrinh = maLoTrinh;
-        this.dot = dot;
-        this.ky = ky;
+        this.tenKH = tenKH;
+        this.diaChi = diaChi;
+        this.sdt = sdt;
         this.code = code;
+        this.chiSoCu = chiSoCu;
         this.chiSoMoi = chiSoMoi;
         this.note = note;
         this.image = image;
@@ -43,20 +47,28 @@ public class DanhBo_ChiSoMoi {
         this.maLoTrinh = maLoTrinh;
     }
 
-    public String getDot() {
-        return dot;
+    public String getTenKH() {
+        return tenKH;
     }
 
-    public void setDot(String dot) {
-        this.dot = dot;
+    public void setTenKH(String tenKH) {
+        this.tenKH = tenKH;
     }
 
-    public String getKy() {
-        return ky;
+    public String getDiaChi() {
+        return diaChi;
     }
 
-    public void setKy(String ky) {
-        this.ky = ky;
+    public void setDiaChi(String diaChi) {
+        this.diaChi = diaChi;
+    }
+
+    public String getSdt() {
+        return sdt;
+    }
+
+    public void setSdt(String sdt) {
+        this.sdt = sdt;
     }
 
     public String getCode() {
@@ -65,6 +77,14 @@ public class DanhBo_ChiSoMoi {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getChiSoCu() {
+        return chiSoCu;
+    }
+
+    public void setChiSoCu(String chiSoCu) {
+        this.chiSoCu = chiSoCu;
     }
 
     public String getChiSoMoi() {

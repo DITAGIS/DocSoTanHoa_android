@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -48,7 +47,7 @@ public class DocSoActivity extends AppCompatActivity {
     String mMlt;
     String mDanhBo;
     String mArrMlt[];
-    List<String> mDB = new ArrayList<String>();
+    List<String> mDBs = new ArrayList<String>();
     EditText editTextCSM;
     TextView txtCSM;
     TextView txtCSC;
@@ -56,13 +55,11 @@ public class DocSoActivity extends AppCompatActivity {
     TextView txtSaveState;
     private LocalDatabase mLocalDatabase;
     //    final HoaDonDB hoaDonDB = new HoaDonDB();
+    Spinner spinMLT;
     Spinner spinDB = null;
     Spinner spinCode;
     ImageButton imgbtn_Save;
-    private Intent intentCaptureImage;
-    private int cameraId = 0;
     private Bitmap mBpImage;
-    private Camera camera;
     private static final int REQUEST_ID_READ_WRITE_PERMISSION = 99;
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
     private int mSumDanhBo, mDanhBoHoanThanh;
@@ -113,23 +110,23 @@ public class DocSoActivity extends AppCompatActivity {
         spinCode = (Spinner) findViewById(R.id.spin_ds_code);
         spinCode.setAdapter(adapterCode);
         spinCode.setSelection(0);
-        Spinner spinMLT = (Spinner) findViewById(R.id.spin_ds_mlt);
+        spinMLT = (Spinner) findViewById(R.id.spin_ds_mlt);
         spinDB = (Spinner) findViewById(R.id.spin_ds_db);
         spinMLT.setAdapter(adapter);
 
         spinMLT.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mMlt = mArrMlt[position];
+                mMlt = DocSoActivity.this.spinMLT.getSelectedItem().toString();
                 try {
                     List<HoaDon> hoaDonList = mLocalDatabase.getAllHoaDonByMaLoTrinh(mMlt);
 
-
+                    mDBs.clear();
                     for (HoaDon hoaDon : hoaDonList) {
-                        mDB.add(hoaDon.getDanhBo());
+                        mDBs.add(hoaDon.getDanhBo());
                     }
-                    Collections.sort(mDB);
-                    ArrayAdapter<String> adapterDB = new ArrayAdapter<String>(DocSoActivity.this, R.layout.spinner_item, mDB);
+                    Collections.sort(mDBs);
+                    ArrayAdapter<String> adapterDB = new ArrayAdapter<String>(DocSoActivity.this, R.layout.spinner_item, mDBs);
                     adapterDB.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
                     spinDB.setAdapter(adapterDB);
                     spinDB.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -154,8 +151,7 @@ public class DocSoActivity extends AppCompatActivity {
                                 DocSoActivity.this.txtSaveState.setText(SAVED);
                                 DocSoActivity.this.txtSaveState.setTextColor(ContextCompat.getColor(DocSoActivity.this,
                                         R.color.colorBlueLight));
-                            }
-                            else{
+                            } else {
                                 DocSoActivity.this.mGhiChu = "";
                                 DocSoActivity.this.editTextCSM.setText("");
                                 DocSoActivity.this.txtCSM.setText("");
@@ -226,26 +222,28 @@ public class DocSoActivity extends AppCompatActivity {
                     csc = Integer.parseInt(txtCSC.getText().toString());
                     if (csm < csc) {
                         if (alertCSM()) {
-                            saveDB_CSM(getImageFileName().getAbsolutePath(), csm);
+                            saveDB_CSM(getImageFileName().getAbsolutePath(), csc, csm);
                             //Xử lý lưu danh bộ
                         } else {
                             //TODO
                         }
                         DocSoActivity.this.isThayMoiDongHo = false;
                     } else {
-                        saveDB_CSM(getImageFileName().getAbsolutePath(), csm);
+                        saveDB_CSM(getImageFileName().getAbsolutePath(), csc, csm);
                     }
                 }
             }
         });
     }
 
-    private void saveDB_CSM(String image, int csm) {
+    private void saveDB_CSM(String image, int csc, int csm) {
         DanhBo_ChiSoMoi danhBo_chiSoMoi = new DanhBo_ChiSoMoi(DocSoActivity.this.mDanhBo,
                 DocSoActivity.this.mMlt,
-                DocSoActivity.this.mDot + "",
-                DocSoActivity.this.mKy + "",
+                ((TextView)findViewById(R.id.txt_ds_tenKH)).getText().toString(),
+                ((TextView)findViewById(R.id.txt_ds_diachi)).getText().toString(),
+                ((EditText)findViewById(R.id.etxt_ds_sdt)).getText().toString(),
                 DocSoActivity.this.spinCode.getSelectedItem().toString(),
+                csc + "",
                 csm + "",
                 this.mGhiChu,
                 image,
@@ -455,10 +453,10 @@ public class DocSoActivity extends AppCompatActivity {
     }
 
     public void doQuanLyDocSo(View v) {
-//        Intent intent = new Intent(DocSoActivity.this, QuanLyDocSoActivity.class);
-//
-//        startActivity(intent);
-        Toast.makeText(this, "Chức năng đang được cập nhật", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(DocSoActivity.this, QuanLyDocSoActivity.class);
+
+        startActivity(intent);
+//        Toast.makeText(this, "Chức năng đang được cập nhật", Toast.LENGTH_SHORT).show();
     }
 }
 

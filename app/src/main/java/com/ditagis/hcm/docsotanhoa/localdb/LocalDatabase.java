@@ -56,9 +56,11 @@ public class LocalDatabase extends SQLiteOpenHelper {
 
     private static final String COLUMN_LUUDANHBO_DANHBO = "LuuDanhBo_DanhBo";
     private static final String COLUMN_LUUDANHBO_MALOTRINH = "LuuDanhBo_MaLoTrinh";
-    private static final String COLUMN_LUUDANHBO_DOT = "LuuDanhBo_Dot";
-    private static final String COLUMN_LUUDANHBO_KY = "LuuDanhBo_Ky";
+    private static final String COLUMN_LUUDANHBO_TEN_KH = "LuuDanhBo_TenKH";
+    private static final String COLUMN_LUUDANHBO_DIA_CHI = "LuuDanhBo_DiaChi";
+    private static final String COLUMN_LUUDANHBO_SDT = "LuuDanhBo_SDT";
     private static final String COLUMN_LUUDANHBO_CODE = "LuuDanhBo_Code";
+    private static final String COLUMN_LUUDANHBO_CSC = "LuuDanhBo_ChiSoCu";
     private static final String COLUMN_LUUDANHBO_CSM = "LuuDanhBo_ChiSoMoi";
     private static final String COLUMN_LUUDANHBO_GHI_CHU = "LuuDanhBo_GhiChu";
     private static final String COLUMN_LUUDANHBO_HINHANH = "LuuDanhBo_HinhAnh";
@@ -98,9 +100,11 @@ public class LocalDatabase extends SQLiteOpenHelper {
         String script2 = "CREATE TABLE " + TABLE_LUUDANHBO + "("
                 + COLUMN_LUUDANHBO_DANHBO + " TEXT PRIMARY KEY,"
                 + COLUMN_LUUDANHBO_MALOTRINH + " TEXT,"
-                + COLUMN_LUUDANHBO_DOT + " TEXT,"
-                + COLUMN_LUUDANHBO_KY + " TEXT,"
+                + COLUMN_LUUDANHBO_TEN_KH + " TEXT,"
+                + COLUMN_LUUDANHBO_DIA_CHI + " TEXT,"
+                + COLUMN_LUUDANHBO_SDT + " TEXT,"
                 + COLUMN_LUUDANHBO_CODE + " TEXT,"
+                + COLUMN_LUUDANHBO_CSC + " TEXT,"
                 + COLUMN_LUUDANHBO_CSM + " TEXT,"
                 + COLUMN_LUUDANHBO_GHI_CHU + " TEXT,"
                 + COLUMN_LUUDANHBO_HINHANH + " TEXT,"
@@ -134,44 +138,6 @@ public class LocalDatabase extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void Create() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        String script = "CREATE TABLE " + TABLE_HOADON + "("
-                + COLUMN_HOADON_ID + " INTEGER PRIMARY KEY,"
-                + COLUMN_HOADON_DOT + " TEXT,"
-                + COLUMN_HOADON_DANHBO + " TEXT,"
-                + COLUMN_HOADON_KHACHHANG + " TEXT,"
-                + COLUMN_HOADON_KY + " TEXT,"
-                + COLUMN_HOADON_CODE + " TEXT,"
-                + COLUMN_HOADON_CHISOCU + " TEXT,"
-                + COLUMN_HOADON_CHISOMOI + " TEXT,"
-                + COLUMN_HOADON_MALOTRINH + " TEXT,"
-                + COLUMN_HOADON_SONHA + " TEXT,"
-                + COLUMN_HOADON_DUONG + " TEXT,"
-                + COLUMN_HOADON_GIABIEU + " TEXT,"
-                + COLUMN_HOADON_DINHMUC + " TEXT" + ")";
-        // Chạy lệnh tạo bảng.
-        String script1 = "CREATE TABLE " + TABLE_MALOTRINH + "("
-                + COLUMN_MALOTRINH_ID + " TEXT PRIMARY KEY,"
-                + COLUMN_MALOTRINH_SOLUONG + " INTEGER )";
-        // Chạy lệnh tạo bảng.
-        db.execSQL(script);
-        db.execSQL(script1);
-    }
-
-    // Nếu trong bảng HoaDon chưa có dữ liệu,
-    // Trèn vào mặc định 2 bản ghi.
-    public void createDefaultHoaDonsIfNeed() {
-//        int count = this.getHoaDonsCount();
-//        if(count ==0 ) {
-//            HoaDon hoaDon1 = new HoaDon("Firstly see Android ListView",
-//                    "See Android ListView Example in o7planning.org");
-//            HoaDon hoaDon2 = new HoaDon("Learning Android SQLite",
-//                    "See Android SQLite Example in o7planning.org");
-//            this.addHoaDon(hoaDon1);
-//            this.addHoaDon(hoaDon2);
-//        }
-    }
 
     public void addLoTrinh(LoTrinh loTrinh) {
 
@@ -325,53 +291,36 @@ public class LocalDatabase extends SQLiteOpenHelper {
     }
 
     public List<HoaDon> getAllHoaDonByMaLoTrinh(String mlt) {
-        Log.i(TAG, "LocalDatabase.getAllHoaDons ... ");
+        List<HoaDon> hoaDons = new ArrayList<HoaDon>();
+        Log.i(TAG, "LocalDatabase.getHoaDon ... " + id);
 
-        List<HoaDon> hoaDonList = new ArrayList<HoaDon>();
-        // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_HOADON + " WHERE " + COLUMN_HOADON_MALOTRINH + " = '" + mlt + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
 
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-
-        // Duyệt trên con trỏ, và thêm vào danh sách.
+        Cursor cursor = db.query(TABLE_HOADON, new String[]{
+                        COLUMN_HOADON_ID,
+                        COLUMN_HOADON_DOT,
+                        COLUMN_HOADON_DANHBO,
+                        COLUMN_HOADON_KHACHHANG,
+                        COLUMN_HOADON_KY,
+                        COLUMN_HOADON_CODE,
+                        COLUMN_HOADON_CHISOCU,
+                        COLUMN_HOADON_CHISOMOI,
+                        COLUMN_HOADON_MALOTRINH,
+                        COLUMN_HOADON_SONHA,
+                        COLUMN_HOADON_DUONG,
+                        COLUMN_HOADON_GIABIEU,
+                        COLUMN_HOADON_DINHMUC
+                }, COLUMN_HOADON_MALOTRINH + "=?",
+                new String[]{String.valueOf(mlt)}, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
-                HoaDon hoaDon = new HoaDon();
-                hoaDon.setId(Integer.parseInt(cursor.getString(0)));
-                hoaDon.setDanhBo(cursor.getString(2));
-                hoaDon.setTenKhachHang(cursor.getString(3));
-
-                hoaDon.setCode(cursor.getString(5));
-                hoaDon.setChiSoCu(cursor.getString(6));
-
-                hoaDon.setMaLoTrinh(cursor.getString(8));
-
-                // Thêm vào danh sách.
-                hoaDonList.add(hoaDon);
+                HoaDon hoaDon = new HoaDon(Integer.parseInt(cursor.getString(0)),
+                        cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12));
+                hoaDons.add(hoaDon);
             } while (cursor.moveToNext());
         }
-
-        // return hoaDon list
-        return hoaDonList;
+        return hoaDons;
     }
-
-    public int getHoaDonsCount() {
-        Log.i(TAG, "LocalDatabase.getHoaDonsCount ... ");
-
-        String countQuery = "SELECT  * FROM " + TABLE_HOADON;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
-
-        int count = cursor.getCount();
-
-        cursor.close();
-
-        // return count
-        return count;
-    }
-
 
     public int updateHoaDon(HoaDon hoaDon) {
 
@@ -419,6 +368,42 @@ public class LocalDatabase extends SQLiteOpenHelper {
         }
     }
 
+    public ArrayList<DanhBo_ChiSoMoi> getAllDanhBo_CSM() {
+        Log.i(TAG, "LocalDatabase.getAllDanhbo_ChiSoMoi ... ");
+
+        ArrayList<DanhBo_ChiSoMoi> danhBoChiSoMois = new ArrayList<DanhBo_ChiSoMoi>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_LUUDANHBO;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+
+        // Duyệt trên con trỏ, và thêm vào danh sách.
+        if (cursor.moveToFirst()) {
+            do {
+                DanhBo_ChiSoMoi danhBo_chiSoMoi = new DanhBo_ChiSoMoi(cursor.getString(0),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        cursor.getString(5),
+                        cursor.getString(6),
+                        cursor.getString(7),
+                        cursor.getString(8),
+                        cursor.getString(9),
+                        cursor.getInt(10));
+
+
+                // Thêm vào danh sách.
+                danhBoChiSoMois.add(danhBo_chiSoMoi);
+            } while (cursor.moveToNext());
+        }
+
+        // return hoaDon list
+        return danhBoChiSoMois;
+    }
+
     public boolean saveDanhBo_CSM(DanhBo_ChiSoMoi danhBoChiSoMoi) {
         Log.i(TAG, "LocalDatabase.addHoaDon ... " + danhBoChiSoMoi.getDanhBo());
 
@@ -428,9 +413,11 @@ public class LocalDatabase extends SQLiteOpenHelper {
 
         values.put(COLUMN_LUUDANHBO_DANHBO, danhBoChiSoMoi.getDanhBo());
         values.put(COLUMN_LUUDANHBO_MALOTRINH, danhBoChiSoMoi.getMaLoTrinh());
-        values.put(COLUMN_LUUDANHBO_DOT, danhBoChiSoMoi.getDot());
-        values.put(COLUMN_LUUDANHBO_KY, danhBoChiSoMoi.getKy());
+        values.put(COLUMN_LUUDANHBO_TEN_KH, danhBoChiSoMoi.getTenKH());
+        values.put(COLUMN_LUUDANHBO_DIA_CHI, danhBoChiSoMoi.getDiaChi());
+        values.put(COLUMN_LUUDANHBO_SDT, danhBoChiSoMoi.getSdt());
         values.put(COLUMN_LUUDANHBO_CODE, danhBoChiSoMoi.getCode());
+        values.put(COLUMN_LUUDANHBO_CSC, danhBoChiSoMoi.getChiSoCu());
         values.put(COLUMN_LUUDANHBO_CSM, danhBoChiSoMoi.getChiSoMoi());
         values.put(COLUMN_LUUDANHBO_GHI_CHU, danhBoChiSoMoi.getNote());
         values.put(COLUMN_LUUDANHBO_HINHANH, danhBoChiSoMoi.getImage());
@@ -443,6 +430,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         db.close();
         return result > 0;
     }
+
     public DanhBo_ChiSoMoi getDanhBo_CSM(String danhBo) {
         ArrayList<HoaDon> hoaDonList = new ArrayList<HoaDon>();
         // Select All Query
@@ -465,12 +453,15 @@ public class LocalDatabase extends SQLiteOpenHelper {
                         cursor.getString(5),
                         cursor.getString(6),
                         cursor.getString(7),
-                        cursor.getInt(8)
+                        cursor.getString(8),
+                        cursor.getString(9),
+                        cursor.getInt(10)
                 );
             } while (cursor.moveToNext());
         }
         return null;
     }
+
     public boolean getStateDanhBo_CSM(String danhBo) {
         ArrayList<HoaDon> hoaDonList = new ArrayList<HoaDon>();
         // Select All Query

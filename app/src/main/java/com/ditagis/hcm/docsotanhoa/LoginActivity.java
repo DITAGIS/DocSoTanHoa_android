@@ -1,11 +1,16 @@
 package com.ditagis.hcm.docsotanhoa;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.PasswordTransformationMethod;
 import android.view.MotionEvent;
@@ -24,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText txtPassword;
     LoginAsync loginAsync;
     ImageButton mImgBtnViewPassword;
+    private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +39,8 @@ public class LoginActivity extends AppCompatActivity {
         txtPassword = (EditText) findViewById(R.id.txtPassword);
         loginAsync = new LoginAsync();
         this.mImgBtnViewPassword = (ImageButton) findViewById(R.id.imgBtn_login_viewPassword);
-
-
+        requestPermissonCamera();
+        requestPermissonWriteFile();
 //        spinner = (ProgressBar) findViewById(R.id.progessLogin);
 
 
@@ -112,9 +118,35 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             } else {
                 Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
-                Intent intent1 = new Intent(LoginActivity.this, XemLoTrinhDaTaiActivity.class);
-                startActivity(intent1);
+//                Intent intent1 = new Intent(LoginActivity.this, XemLoTrinhDaTaiActivity.class);
+//                startActivity(intent1);
             }
         }
+    }
+
+    public boolean requestPermissonCamera() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
+                    REQUEST_ID_IMAGE_CAPTURE);
+        }
+        if (Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+//            Toast.makeText(this, "Không cho phép bật CAMERA", Toast.LENGTH_SHORT).show();
+            return false;
+        } else
+            return true;
+    }
+
+    public boolean requestPermissonWriteFile() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_ID_IMAGE_CAPTURE);
+        }
+        if (Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//            Toast.makeText(this, "Không cho phép lưu ảnh!!!", Toast.LENGTH_SHORT).show();
+            return false;
+        } else
+            return true;
     }
 }

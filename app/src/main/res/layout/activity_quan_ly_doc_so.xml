@@ -1,425 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:orientation="vertical">
-    <!--Layout hiển thị thông tin-->
+    android:orientation="vertical"
+
+    >
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5"
-        android:background="@android:color/holo_blue_dark"
-        android:minHeight="25px"
-        android:minWidth="25px"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin">
-
-
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:minHeight="25px"
-            android:minWidth="25px">
-            <!--Table row hiển thị số danh bộ đã đọc-->
-            <TableRow android:layout_weight="1">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_column="0"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:text="Hoàn thành: "
-                    android:textColor="@android:color/white"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <TextView
-                    android:id="@+id/txt_ds_complete"
-                    android:layout_width="0dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:textColor="@color/color_row_check"
-                    android:gravity="right"
-                    android:text="sfsdf"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-            </TableRow>
-            <!--Table row kỳ-->
-            <TableRow android:layout_weight="1">
-
-                <TextView
-                    android:layout_column="0"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:text="Kỳ: "
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-
-                <TextView
-                    android:id="@+id/txt_ds_ky"
-                    android:layout_gravity="center_vertical"
-                    android:layout_span="4"
-                    android:layout_weight="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-            </TableRow>
-            <!--Table row đợt-->
-            <TableRow android:layout_weight="1">
-
-                <TextView
-                    android:layout_column="0"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:text="Đợt: "
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-
-                <TextView
-                    android:id="@+id/txt_ds_dot"
-                    android:layout_gravity="center_vertical"
-                    android:layout_span="4"
-                    android:layout_weight="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-            </TableRow>
-            <!--Table row mã lộ trình-->
-            <TableRow android:layout_weight="1">
-
-                <TextView
-                    android:layout_column="0"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:text="Mã LT: "
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-
-                <Spinner
-                    android:id="@+id/spin_ds_mlt"
-                    android:layout_gravity="center_vertical"
-                    android:layout_span="4"
-                    android:layout_weight="1"
-                    android:text="1029385"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-            </TableRow>
-            <!--Table row danh bộ-->
-            <TableRow android:layout_weight="1">
-
-                <TextView
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:text="Danh bộ: "
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-
-                <Spinner
-                    android:id="@+id/spin_ds_db"
-                    android:layout_width="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="0.5"
-                    android:inputType="number"
-                    android:maxLength="11"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-
-                <ImageButton
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="0.5"
-                    android:background="@color/colorPrimary"
-                    android:onClick="doPrev"
-                    android:src="@drawable/prev" />
-
-                <Space android:layout_weight="0.5" />
-
-                <ImageButton
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="0.5"
-                    android:background="@color/colorPrimary"
-                    android:onClick="doNext"
-                    android:src="@drawable/next" />
-            </TableRow>
-            <!--Table row tên khách hàng-->
-            <TableRow android:layout_weight="1">
-
-                <TextView
-                    android:layout_column="0"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:text="Tên KH: "
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-
-                <TextView
-                    android:id="@+id/txt_ds_tenKH"
-                    android:layout_gravity="center_vertical"
-                    android:layout_span="4"
-                    android:layout_weight="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-            </TableRow>
-
-            <!--Table row địa chỉ-->
-            <TableRow android:layout_weight="1">
-
-                <TextView
-                    android:layout_column="0"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:text="Địa chỉ: "
-
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-
-                <TextView
-                    android:id="@+id/txt_ds_diachi"
-                    android:layout_gravity="center_vertical"
-                    android:layout_span="4"
-                    android:layout_weight="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-            </TableRow>
-            <!--Table row nhập sđt-->
-            <TableRow android:layout_weight="1">
-
-                <TextView
-                    android:textColor="@android:color/white"
-                    android:layout_width="0dp"
-                    android:layout_column="0"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:text="SĐT: "
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <EditText
-                    android:id="@+id/etxt_ds_sdt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:width="0dp"
-                    android:ems="10"
-                    android:gravity="right"
-                    android:inputType="number"
-                    android:maxLength="11" />
-            </TableRow>
-            <!--Table row chỉ số cũ-->
-            <TableRow android:layout_weight="1">
-
-                <TextView
-                    android:layout_column="0"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:text="CS cũ: "
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-
-                <TextView
-                    android:id="@+id/txt_ds_CSC"
-                    android:layout_gravity="center_vertical"
-                    android:layout_span="4"
-                    android:layout_weight="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-            </TableRow>
-            <!--Table row chỉ số mới-->
-            <TableRow android:layout_weight="1">
-
-                <TextView
-                    android:layout_column="0"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:text="CS mới: "
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-
-                <TextView
-                    android:id="@+id/txt_ds_CSM"
-                    android:layout_gravity="center_vertical"
-                    android:layout_span="4"
-                    android:layout_weight="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-            </TableRow>
-
-            <!--Table row giá biểu-->
-            <TableRow android:layout_weight="1">
-
-                <TextView
-                    android:layout_column="0"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:text="Giá biểu"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-
-                <TextView
-                    android:id="@+id/txt_ds_giabieu"
-                    android:layout_gravity="center_vertical"
-                    android:layout_span="4"
-                    android:layout_weight="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-            </TableRow>
-
-            <!--Table row tiền nước-->
-            <TableRow android:layout_weight="1">
-
-                <TextView
-                    android:layout_column="0"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:text="Tiền nước"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-
-                <TextView
-                    android:id="@+id/txt_ds_tiennuoc"
-                    android:layout_gravity="center_vertical"
-                    android:layout_span="4"
-                    android:layout_weight="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-            </TableRow>
-        </TableLayout>
-
-        <!--<FrameLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:visibility="invisible">-->
-
-
-        <!--</FrameLayout>-->
-    </LinearLayout>
-    <!--Layout nhập chỉ số mới, code-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <TableLayout
+        <!--Layout hiển thị thông tin-->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#66CDAA"
+            android:layout_height="0dp"
+            android:layout_weight="0.7"
+            android:background="@android:color/holo_blue_dark"
+            android:minHeight="25px"
+            android:minWidth="25px"
+            android:orientation="vertical"
+
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin">
 
-            <!--Table row nhập code-->
-            <TableRow android:layout_weight="1">
+            <requestFocus />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quản lý đọc số"
+                android:textColor="@android:color/white"
+                android:textSize="25dp" />
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_vertical_margin"
+                android:paddingTop="5dp">
+
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_column="0"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:text="Code"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <Spinner
-                    android:id="@+id/spin_ds_code"
-                    android:layout_width="0dp"
-                    android:layout_gravity="center_vertical"
+                    android:id="@+id/txt_qlds_tienTrinh"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="right"
-                    android:layout_weight="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-            </TableRow>
-            <!--Table row nhập chỉ số mới-->
-            <TableRow android:layout_weight="1">
+                    android:text="Tiến trình: 0/1"
+                    android:textColor="@android:color/white"
+                    android:textSize="18dp" />
+            </LinearLayout>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_column="0"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:text="Chỉ số mới"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            <!--<ImageButton-->
+            <!--android:id="@+id/imgbtn_llt_check"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="right"-->
+            <!--android:onClick="doCheck"-->
+            <!--android:src="@drawable/checked" />-->
+        </LinearLayout>
+        <!--Layout xem danh sách lộ trình-->
+        <!--height = 0 dp thì android sẽ lấy theo weight-->
+        <FrameLayout
+            android:id="@+id/layout_qlds_containsGridView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="6.3">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical">
 
                 <EditText
-
-                    android:id="@+id/etxt_ds_CSM"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/etxt_qlds_search"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:width="0dp"
-                    android:ems="10"
                     android:gravity="right"
+                    android:hint="Tìm kiếm danh bộ"
                     android:inputType="number"
-                    android:maxLength="5" />
-            </TableRow>
-        </TableLayout>
+                    android:maxLength="5"
+                    android:paddingRight="@dimen/activity_horizontal_margin" />
+                <!--android:imeOptions="actionSearch"-->
 
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/darker_gray"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Mã LT"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Danh bộ"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="CSC"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="CSM"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+
+                <GridView
+                    android:id="@+id/grid_qlds_danhSachDocSo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:gravity="center"
+                    android:numColumns="1"
+                    android:paddingTop="@dimen/activity_vertical_margin" />
+
+                <!--</ScrollView>-->
+            </LinearLayout>
+        </FrameLayout>
+        <!--Layout menu-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin">
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+
+            android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/imgBtn_ds_scan"
-                android:layout_width="match_parent"
+
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:onClick="doScan"
-                android:src="@drawable/barcode" />
-            <ImageButton
-                android:id="@+id/imgBtn_ds_camera"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:onClick="doCamera"
-                android:src="@drawable/camera" />
-
+                android:background="@android:color/background_light"
+                android:src="@drawable/rider" />
 
             <ImageButton
-                android:id="@+id/imgbtn_ds_Save"
-                android:layout_width="match_parent"
+
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_column="0"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:src="@drawable/checked" />
+                android:background="@android:color/background_light"
+                android:onClick="doDocSo"
+                android:src="@drawable/number_read" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_column="0"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@android:color/holo_red_dark"
+
+                android:onClick="doQuanLyDocSo"
+                android:src="@drawable/num_list" />
         </LinearLayout>
     </LinearLayout>
-    <!--Layout menu-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5"
 
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:background="@android:color/background_light"
-            android:onClick="doLayLoTrinh"
-            android:src="@drawable/rider" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_column="0"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:background="@android:color/holo_red_dark"
-            android:src="@drawable/number_read" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_column="0"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:background="@android:color/background_light"
-            android:onClick="doQuanLyDocSo"
-            android:src="@drawable/num_list" />
-    </LinearLayout>
-</LinearLayout>
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_vertical|right"
+        android:background="@color/colorBlueDard"
+        android:onClick="doDownloadMLT"
+        android:src="@drawable/sync"
+        android:textColor="@color/colorWhite" />
+</FrameLayout>
