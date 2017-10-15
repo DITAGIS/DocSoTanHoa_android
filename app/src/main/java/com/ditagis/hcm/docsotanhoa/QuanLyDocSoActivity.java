@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -20,11 +21,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewQuanLyDocSoAdapter;
+import com.ditagis.hcm.docsotanhoa.conectDB.Uploading;
 import com.ditagis.hcm.docsotanhoa.entities.DanhBo_ChiSoMoi;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class QuanLyDocSoActivity extends AppCompatActivity {
     EditText editTextSearch;
@@ -33,7 +36,11 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
     private HashMap<String, Integer> m_MLT_TongDanhBo;
     private GridViewQuanLyDocSoAdapter da;
     LocalDatabase localDatabase;
-    private int mSumDanhBo;
+    private int mSumDanhBo = 0;
+    public static final String FILE_UPLOAD_URL = "http://103.74.117.51/AndroidFileUpload/fileUpload.php";
+
+    // Directory name to store captured images and videos
+    public static final String IMAGE_DIRECTORY_NAME = "DocSoTanHoa";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +50,7 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
         editTextSearch = (EditText) findViewById(R.id.etxt_qlds_search);
         gridView = (GridView) findViewById(R.id.grid_qlds_danhSachDocSo);
         danhBo_chiSoMois = localDatabase.getAllDanhBo_CSM();
-
+        this.mSumDanhBo = danhBo_chiSoMois.size();
         editTextSearch.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -136,36 +143,6 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
 
             }
         });
-//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                TextView txt_row_MLT = (TextView) view.findViewById(R.id.row_xltdt_txt_malotrinh);
-//                TextView txt_row_danhbo = (TextView) view.findViewById(R.id.row_xltdt_txt_tongDanhBo);
-//                ImageView imgCheck = (ImageView) view.findViewById(R.id.row_xltdt_img_Check);
-//                LinearLayout row_layout = (LinearLayout) view.findViewById(R.id.row_xltdt_layout);
-//                String mlt = txt_row_MLT.getText().toString();
-//                String danhbo = txt_row_danhbo.getText().toString();
-//                if (da.getItem(mlt).getCheckpos()) {
-//                    da.getItem(mlt).setCheckpos(false);
-//                    QuanLyDocSoActivity.this.m_MLT_TongDanhBo.remove(mlt);
-//                    imgCheck.setImageResource(0);
-//                    row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_uncheck));
-//                    QuanLyDocSoActivity.this.mSumDanhBo -= Integer.parseInt(danhbo);
-//
-//                } else {
-//                    da.getItem(mlt).setCheckpos(true);
-//                    QuanLyDocSoActivity.this.m_MLT_TongDanhBo.put(mlt, Integer.parseInt(danhbo));
-//                    imgCheck.setImageResource(R.drawable.checked);
-//                    row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_check));
-//
-//                    QuanLyDocSoActivity.this.mSumDanhBo += Integer.parseInt(danhbo);
-//
-//                }
-//
-//            }
-//
-//        });
-
 
     }
 
@@ -192,9 +169,66 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
         }
     }
 
-    public void doQuanLyDocSo(View v) {
-        Intent intent = new Intent(QuanLyDocSoActivity.this, QuanLyDocSoActivity.class);
+    public void doUpLoad(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(QuanLyDocSoActivity.this);
+        builder.setTitle("Đồng bộ " + this.mSumDanhBo + " danh bộ?");
+        builder.setMessage("Dữ liệu sau khi đồng bộ sẽ không thể chỉnh sửa!")
+                .setCancelable(true)
+                .setPositiveButton("Đồng bộ", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        upLoadData();
+                        upLoadImage();
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 
-        startActivity(intent);
+    //TODO: xử lý async
+    private void upLoadData() {
+        new UploadingAsync().execute();
+
+
+    }
+
+    private void upLoadImage() {
+
+    }
+
+    class UploadingAsync extends AsyncTask<String, Boolean, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+            Uploading uploading = new Uploading();
+            Boolean isValid = false;
+            List<DanhBo_ChiSoMoi> danhBo_chiSoMois = QuanLyDocSoActivity.this.localDatabase.getAllDanhBo_CSM();
+            for (DanhBo_ChiSoMoi danhBo_chiSoMoi : danhBo_chiSoMois) {
+                isValid = uploading.update(danhBo_chiSoMoi);
+            }
+            publishProgress(isValid);
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Boolean... values) {
+            super.onProgressUpdate(values);
+            boolean isValid = values[0];
+            if (isValid) {
+                Toast.makeText(QuanLyDocSoActivity.this, "Đồng bộ thành công", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(QuanLyDocSoActivity.this, "Đồng bộ thất bại", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

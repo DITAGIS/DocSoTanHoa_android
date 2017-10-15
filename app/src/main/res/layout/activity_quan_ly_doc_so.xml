@@ -189,7 +189,7 @@
         android:layout_height="50dp"
         android:layout_gravity="center_vertical|right"
         android:background="@color/colorBlueDard"
-        android:onClick="doDownloadMLT"
+        android:onClick="doUpLoad"
         android:src="@drawable/sync"
         android:textColor="@color/colorWhite" />
 </FrameLayout>

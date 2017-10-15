@@ -82,7 +82,53 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        ((Button) findViewById(R.id.btnChangePassword)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(LoginActivity.this, "Tính năng đang cập nhật", Toast.LENGTH_SHORT).show();
+                return;
 
+//                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+//                builder.setTitle("Đổi mật khẩu");
+//                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                }).setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//                AlertDialog dialog = builder.create();
+//                LayoutInflater inflater = getLayoutInflater();
+//                View dialogLayout = inflater.inflate(R.layout.layout_change_password, null);
+//                final ImageButton viewPassword = (ImageButton) findViewById(R.id.imgBtn_changePassword_viewPassword);
+//                ImageButton viewNewPassword = (ImageButton) findViewById(R.id.imgBtn_changePassword_viewNewPassword);
+//                ImageButton viewNewPasswordAgain = (ImageButton) findViewById(R.id.imgBtn_changePassword_viewNewPasswordAgain);
+//                viewPassword.setOnTouchListener(new View.OnTouchListener() {
+//                    @Override
+//                    public boolean onTouch(View v, MotionEvent event) {
+//                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//                            viewPassword.setImageResource(R.drawable.view_password);
+//                            LoginActivity.this.txtPassword.setTransformationMethod(null);
+//                        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+//                            LoginActivity.this.mImgBtnViewPassword.setImageResource(R.drawable.un_view_password);
+//                            LoginActivity.this.txtPassword.setTransformationMethod(new PasswordTransformationMethod());
+//                        }
+//                        return false;
+//                    }
+//                });
+//
+//
+//                dialog.setView(dialogLayout);
+//
+//                dialog.show();
+
+
+            }
+        });
     }
 
     protected boolean isOnline() {

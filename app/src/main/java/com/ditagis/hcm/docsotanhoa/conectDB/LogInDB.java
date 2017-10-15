@@ -1,5 +1,7 @@
 package com.ditagis.hcm.docsotanhoa.conectDB;
 
+import android.support.annotation.NonNull;
+
 import com.ditagis.hcm.docsotanhoa.entities.User;
 
 import java.security.MessageDigest;
@@ -25,6 +27,7 @@ public class LogInDB extends AbstractDB implements IDB<User, Boolean, String> {
     private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET password=? WHERE username=?";
     private final String SQL_DELETE = "DELETE FROM " + TABLE_NAME + " WHERE USERNAME=?";
 
+    @NonNull
     private Boolean createTable() {
         Connection cnn = this.condb.getConnect();
         Statement statement = null;
