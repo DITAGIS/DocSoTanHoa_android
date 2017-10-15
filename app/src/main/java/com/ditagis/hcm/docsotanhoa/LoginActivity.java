@@ -70,7 +70,6 @@ public class LoginActivity extends AppCompatActivity {
 //                spinner.setVisibility(View.VISIBLE);
                 btnLogin.setEnabled(false);
                 Toast.makeText(LoginActivity.this, "Đang kiểm tra thông tin đăng nhập...", Toast.LENGTH_SHORT).show();
-
                 if (isOnline()) {
                     loginAsync.execute(txtUserName.getText().toString(), txtPassword.getText().toString());
 

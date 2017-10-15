@@ -1,7 +1,5 @@
 package com.ditagis.hcm.docsotanhoa.conectDB;
 
-import android.os.StrictMode;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -18,8 +16,8 @@ public class ConnectionDB {
 	private static final String PASSWORD = "Docso123";
 
 	public Connection getConnect() {
-		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-		StrictMode.setThreadPolicy(policy);
+//		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//		StrictMode.setThreadPolicy(policy);
 		String url = "jdbc:jtds:sqlserver://" + SERVER + ":1433/"
 				+ database + ";instance=" + INSTANCT_NAME;
 		Connection cnn = null;

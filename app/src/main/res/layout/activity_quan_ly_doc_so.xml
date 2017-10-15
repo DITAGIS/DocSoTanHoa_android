@@ -120,6 +120,7 @@
                         android:text="CSC"
                         android:textSize="17dp"
                         android:textStyle="bold" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -192,4 +193,6 @@
         android:onClick="doUpLoad"
         android:src="@drawable/sync"
         android:textColor="@color/colorWhite" />
+
+
 </FrameLayout>

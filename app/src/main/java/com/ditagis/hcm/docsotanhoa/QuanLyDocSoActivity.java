@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +28,6 @@ import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class QuanLyDocSoActivity extends AppCompatActivity {
     EditText editTextSearch;
@@ -38,15 +38,21 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
     LocalDatabase localDatabase;
     private int mSumDanhBo = 0;
     public static final String FILE_UPLOAD_URL = "http://103.74.117.51/AndroidFileUpload/fileUpload.php";
-
+    private ProgressBar progressUploading;
     // Directory name to store captured images and videos
     public static final String IMAGE_DIRECTORY_NAME = "DocSoTanHoa";
+    private int progressStatus = 0;
+    private TextView txtProgressStatus;
+    private Uploading uploading;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        localDatabase = new LocalDatabase(this);
         setContentView(R.layout.activity_quan_ly_doc_so);
 
+        localDatabase = new LocalDatabase(this);
+        QuanLyDocSoActivity.this.uploading = new Uploading();
+        this.progressUploading = (ProgressBar) findViewById(R.id.progressUploading);
+        this.txtProgressStatus = (TextView) findViewById(R.id.txtProgressStatus);
         editTextSearch = (EditText) findViewById(R.id.etxt_qlds_search);
         gridView = (GridView) findViewById(R.id.grid_qlds_danhSachDocSo);
         danhBo_chiSoMois = localDatabase.getAllDanhBo_CSM();
@@ -144,6 +150,7 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
     public void doDownloadMLT(View v) {
@@ -191,14 +198,60 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
         alert.show();
     }
 
-    //TODO: xử lý async
+    //TODO: progress bar
     private void upLoadData() {
         new UploadingAsync().execute();
-
-
+//        boolean isFinished = false;
+//
+//        while (!isFinished) {
+//            if (uploading.isConnected()) {
+//
+//                final List<DanhBo_ChiSoMoi> danhBo_chiSoMois = QuanLyDocSoActivity.this.localDatabase.getAllDanhBo_CSM();
+//                final int total = danhBo_chiSoMois.size();
+//
+//
+//                AlertDialog.Builder builder = new AlertDialog.Builder(QuanLyDocSoActivity.this);
+//                builder.setTitle("Tải dữ liệu lên server");
+//                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//                AlertDialog dialog = builder.create();
+//                LayoutInflater inflater = getLayoutInflater();
+//                View dialogLayout = inflater.inflate(R.layout.progress_horizontal_uploading, null);
+//
+//
+//                dialog.setView(dialogLayout);
+//
+//                dialog.show();
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        QuanLyDocSoActivity.this.progressUploading.setMax(total);
+//
+//                        for (DanhBo_ChiSoMoi danhBo_chiSoMoi : danhBo_chiSoMois) {
+////                            isValid = uploading.update(danhBo_chiSoMoi);
+//
+//                            QuanLyDocSoActivity.this.progressUploading.setProgress(QuanLyDocSoActivity.this.progressStatus);
+//
+//                            QuanLyDocSoActivity.this.txtProgressStatus.setText(progressStatus + "/" + total);
+//
+//                            QuanLyDocSoActivity.this.progressStatus += 1;
+//                            // refresh gridview
+//
+//                        }
+//                        QuanLyDocSoActivity.this.progressStatus = 0;
+//                        uploading.disConnect();
+//                    }
+//                });
+//            }
+//        }
     }
 
     private void upLoadImage() {
+
 
     }
 
@@ -210,14 +263,23 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(String... params) {
-            Uploading uploading = new Uploading();
+
             Boolean isValid = false;
-            List<DanhBo_ChiSoMoi> danhBo_chiSoMois = QuanLyDocSoActivity.this.localDatabase.getAllDanhBo_CSM();
-            for (DanhBo_ChiSoMoi danhBo_chiSoMoi : danhBo_chiSoMois) {
-                isValid = uploading.update(danhBo_chiSoMoi);
+            QuanLyDocSoActivity.this.uploading.connect();
+
+            for (int i = 0; i < QuanLyDocSoActivity.this.danhBo_chiSoMois.size(); i++) {
+                DanhBo_ChiSoMoi danhBo_chiSoMoi = QuanLyDocSoActivity.this.danhBo_chiSoMois.get(i);
+                uploading.update(danhBo_chiSoMoi);
+                uploading.add(danhBo_chiSoMoi);
+                danhBo_chiSoMois.remove(danhBo_chiSoMoi);
+                QuanLyDocSoActivity.this.da.removeItem(danhBo_chiSoMoi.getMaLoTrinh());
+                i--;
             }
+
+            QuanLyDocSoActivity.this.uploading.disConnect();
             publishProgress(isValid);
             return null;
+
         }
 
         @Override

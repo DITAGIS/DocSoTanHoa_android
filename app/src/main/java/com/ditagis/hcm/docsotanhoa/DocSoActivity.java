@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class DocSoActivity extends AppCompatActivity {
@@ -69,6 +70,7 @@ public class DocSoActivity extends AppCompatActivity {
     private String mGhiChu;
     private final String SAVED = "Đã lưu";
     private final String UN_SAVED = "Chưa lưu";
+    private Date currentTime;
 //    DocSoActivity.ItemClickHandle itemClickHandle = new ItemClickHandle();
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,7 @@ public class DocSoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_doc_so);
 
         Calendar calendar = Calendar.getInstance();
+        currentTime = Calendar.getInstance().getTime();
         this.mKy = calendar.get(Calendar.MONTH) + 1;
         this.mDot = calendar.get(Calendar.DAY_OF_MONTH);
         ((TextView) findViewById(R.id.txt_ds_ky)).setText(this.mKy + "");
@@ -208,7 +211,7 @@ public class DocSoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // kiểm tra hình ảnh
-                if (!getImageFileName().exists()) {
+                if (!getImageFileName(false).exists()) {
                     Toast.makeText(DocSoActivity.this, "Chưa có hình ảnh!!!", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -222,14 +225,14 @@ public class DocSoActivity extends AppCompatActivity {
                     csc = Integer.parseInt(txtCSC.getText().toString());
                     if (csm < csc) {
                         if (alertCSM()) {
-                            saveDB_CSM(getImageFileName().getAbsolutePath(), csc, csm);
+                            saveDB_CSM(getImageFileName(false).getAbsolutePath(), csc, csm);
                             //Xử lý lưu danh bộ
                         } else {
                             //TODO
                         }
                         DocSoActivity.this.isThayMoiDongHo = false;
                     } else {
-                        saveDB_CSM(getImageFileName().getAbsolutePath(), csc, csm);
+                        saveDB_CSM(getImageFileName(false).getAbsolutePath(), csc, csm);
                     }
                 }
             }
@@ -239,9 +242,9 @@ public class DocSoActivity extends AppCompatActivity {
     private void saveDB_CSM(String image, int csc, int csm) {
         DanhBo_ChiSoMoi danhBo_chiSoMoi = new DanhBo_ChiSoMoi(DocSoActivity.this.mDanhBo,
                 DocSoActivity.this.mMlt,
-                ((TextView)findViewById(R.id.txt_ds_tenKH)).getText().toString(),
-                ((TextView)findViewById(R.id.txt_ds_diachi)).getText().toString(),
-                ((EditText)findViewById(R.id.etxt_ds_sdt)).getText().toString(),
+                ((TextView) findViewById(R.id.txt_ds_tenKH)).getText().toString(),
+                ((TextView) findViewById(R.id.txt_ds_diachi)).getText().toString(),
+                ((EditText) findViewById(R.id.etxt_ds_sdt)).getText().toString(),
                 DocSoActivity.this.spinCode.getSelectedItem().toString(),
                 csc + "",
                 csm + "",
@@ -358,8 +361,8 @@ public class DocSoActivity extends AppCompatActivity {
     public void doCamera(View v) {
         if (!requestPermissonCamera())
             return;
-        if (getImageFileName().exists()) {
-            showImage(getImageFileName());
+        if (getImageFileName(false).exists()) {
+            showImage(getImageFileName(true));
 
 
         } else {
@@ -402,14 +405,16 @@ public class DocSoActivity extends AppCompatActivity {
             return true;
     }
 
-    public File getImageFileName() {
+    public File getImageFileName(boolean isCapture) {
         String path = Environment.getExternalStorageDirectory().getPath();
 //                path = path.substring(0, path.length() - 1).concat("1");
         File outFile = new File(path, "DocSoTanHoa");
 
         if (!outFile.exists())
             outFile.mkdir();
-        File f = new File(outFile, mDanhBo + ".jpeg");
+        if (isCapture)
+            this.currentTime = Calendar.getInstance().getTime();
+        File f = new File(outFile, currentTime.toString() + "_" + this.mDanhBo + ".jpeg");
         return f;
     }
 
@@ -427,7 +432,7 @@ public class DocSoActivity extends AppCompatActivity {
                 FileOutputStream fos = null;
                 try {
 
-                    fos = new FileOutputStream(getImageFileName());
+                    fos = new FileOutputStream(getImageFileName(false));
                     mBpImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                     fos.flush();
                     fos.close();
