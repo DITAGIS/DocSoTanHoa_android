@@ -211,7 +211,7 @@ public class DocSoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // kiểm tra hình ảnh
-                if (!getImageFileName(false).exists()) {
+                if (!getImageFileName().exists()) {
                     Toast.makeText(DocSoActivity.this, "Chưa có hình ảnh!!!", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -225,14 +225,14 @@ public class DocSoActivity extends AppCompatActivity {
                     csc = Integer.parseInt(txtCSC.getText().toString());
                     if (csm < csc) {
                         if (alertCSM()) {
-                            saveDB_CSM(getImageFileName(false).getAbsolutePath(), csc, csm);
+                            saveDB_CSM(getImageFileName().getAbsolutePath(), csc, csm);
                             //Xử lý lưu danh bộ
                         } else {
                             //TODO
                         }
                         DocSoActivity.this.isThayMoiDongHo = false;
                     } else {
-                        saveDB_CSM(getImageFileName(false).getAbsolutePath(), csc, csm);
+                        saveDB_CSM(getImageFileName().getAbsolutePath(), csc, csm);
                     }
                 }
             }
@@ -361,8 +361,8 @@ public class DocSoActivity extends AppCompatActivity {
     public void doCamera(View v) {
         if (!requestPermissonCamera())
             return;
-        if (getImageFileName(false).exists()) {
-            showImage(getImageFileName(true));
+        if (getImageFileName().exists()) {
+            showImage(getImageFileName());
 
 
         } else {
@@ -405,15 +405,14 @@ public class DocSoActivity extends AppCompatActivity {
             return true;
     }
 
-    public File getImageFileName(boolean isCapture) {
+    public File getImageFileName() {
         String path = Environment.getExternalStorageDirectory().getPath();
 //                path = path.substring(0, path.length() - 1).concat("1");
         File outFile = new File(path, "DocSoTanHoa");
 
         if (!outFile.exists())
             outFile.mkdir();
-        if (isCapture)
-            this.currentTime = Calendar.getInstance().getTime();
+
         File f = new File(outFile, currentTime.toString() + "_" + this.mDanhBo + ".jpeg");
         return f;
     }
@@ -428,11 +427,11 @@ public class DocSoActivity extends AppCompatActivity {
                 if (!requestPermissonWriteFile())
                     return;
                 mBpImage = (Bitmap) data.getExtras().get("data");
-
+                this.currentTime = Calendar.getInstance().getTime();
                 FileOutputStream fos = null;
                 try {
 
-                    fos = new FileOutputStream(getImageFileName(false));
+                    fos = new FileOutputStream(getImageFileName());
                     mBpImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                     fos.flush();
                     fos.close();

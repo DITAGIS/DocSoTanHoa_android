@@ -274,7 +274,10 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
                 danhBo_chiSoMois.remove(danhBo_chiSoMoi);
                 QuanLyDocSoActivity.this.da.removeItem(danhBo_chiSoMoi.getMaLoTrinh());
                 i--;
+                QuanLyDocSoActivity.this.localDatabase.deleteDanhBo_CSM(danhBo_chiSoMoi);
             }
+            if (QuanLyDocSoActivity.this.localDatabase.getAllDanhBo_CSM().size() == 0)
+                isValid = true;
 
             QuanLyDocSoActivity.this.uploading.disConnect();
             publishProgress(isValid);
@@ -287,6 +290,7 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
             super.onProgressUpdate(values);
             boolean isValid = values[0];
             if (isValid) {
+                QuanLyDocSoActivity.this.da.notifyDataSetChanged();
                 Toast.makeText(QuanLyDocSoActivity.this, "Đồng bộ thành công", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(QuanLyDocSoActivity.this, "Đồng bộ thất bại", Toast.LENGTH_SHORT).show();
