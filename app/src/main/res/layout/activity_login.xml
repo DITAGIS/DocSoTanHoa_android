@@ -1,151 +1,156 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
-
-    <LinearLayout
+    <FrameLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorWhite"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/login_activity_vertical_margin"
-        android:paddingLeft="@dimen/login_activity_horizontal_margin"
-        android:paddingRight="@dimen/login_activity_horizontal_margin"
-        android:paddingTop="@dimen/login_activity_vertical_margin"
-        tools:context="com.ditagis.hcm.docsotanhoa.LoginActivity">
+        android:layout_height="match_parent">
 
 
-        <!--Layout top hiển thị logo-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="0.5"
-            android:minHeight="25px"
-            android:minWidth="25px"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:background="@color/colorWhite"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/login_activity_vertical_margin"
+            android:paddingLeft="@dimen/login_activity_horizontal_margin"
+            android:paddingRight="@dimen/login_activity_horizontal_margin"
+            android:paddingTop="@dimen/login_activity_vertical_margin"
+            tools:context="com.ditagis.hcm.docsotanhoa.LoginActivity">
 
 
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_weight="1"
-                android:src="@drawable/tanhoa_icon" />
-        </LinearLayout>
-        <!--Layout bottom-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:minHeight="25px"
-            android:minWidth="25px"
-            android:orientation="vertical">
-
-
-            <!--Layout hiển thị icon đăng nhập và tên đăng nhập-->
+            <!--Layout top hiển thị logo-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="0.5"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:minHeight="25px"
                 android:minWidth="25px"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="0.5"
-                    android:src="@drawable/username" />
 
-                <EditText
-                    android:id="@+id/txtUsername"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:hint="Tên đăng nhập"
-                    android:inputType="textPersonName"
-                    android:nextFocusDown="@+id/txtPassword" />
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/tanhoa_icon" />
             </LinearLayout>
-            <!--Layout hiển thị icon password và password-->
+            <!--Layout bottom-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
+                android:layout_weight="1"
                 android:minHeight="25px"
                 android:minWidth="25px"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="42dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_vertical"
+
+                <!--Layout hiển thị icon đăng nhập và tên đăng nhập-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:src="@drawable/password" />
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:minHeight="25px"
+                    android:minWidth="25px"
+                    android:orientation="horizontal">
 
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2">
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.5"
+                        android:src="@drawable/username" />
 
                     <EditText
-                        android:id="@+id/txtPassword"
-                        android:layout_width="match_parent"
+                        android:id="@+id/txtUsername"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="2"
-                        android:hint="Mật khẩu"
-                        android:inputType="textPassword"
-                        android:nextFocusDown="@+id/btnLogin" />
-
-                    <ImageButton
-                        android:id="@+id/imgBtn_login_viewPassword"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="right|center_vertical"
-                        android:background="@color/colorWhite"
-                        android:src="@drawable/un_view_password" />
-                </FrameLayout>
-            </LinearLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.5" />
-            <!--Checkout ghi nhớ đăng nhập-->
-            <!--<CheckBox-->
-            <!--android:id="@+id/chkRemember"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="0.5"-->
-            <!--android:text="Ghi nhớ mật khẩu" />-->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <!--Button đăng nhập-->
-                <Button
-                    android:id="@+id/btnChangePassword"
+                        android:hint="Tên đăng nhập"
+                        android:inputType="textPersonName"
+                        android:nextFocusDown="@+id/txtPassword" />
+                </LinearLayout>
+                <!--Layout hiển thị icon password và password-->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.2"
-                    android:text="Đổi mật khẩu" />
-                <!--Button đăng nhập-->
-                <Button
-                    android:id="@+id/btnLogin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.2"
-                    android:text="Đăng nhập" />
-            </LinearLayout>
+                    android:layout_weight="0.5"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:minHeight="25px"
+                    android:minWidth="25px"
+                    android:orientation="horizontal">
 
+                    <ImageView
+                        android:layout_width="42dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.5"
+                        android:src="@drawable/password" />
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2">
+
+                        <EditText
+                            android:id="@+id/txtPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:hint="Mật khẩu"
+                            android:inputType="textPassword"
+                            android:nextFocusDown="@+id/btnLogin" />
+
+                        <ImageButton
+                            android:id="@+id/imgBtn_login_viewPassword"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="right|center_vertical"
+                            android:background="@color/colorWhite"
+                            android:src="@drawable/un_view_password" />
+                    </FrameLayout>
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5" />
+                <!--Checkout ghi nhớ đăng nhập-->
+                <!--<CheckBox-->
+                <!--android:id="@+id/chkRemember"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="0.5"-->
+                <!--android:text="Ghi nhớ mật khẩu" />-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <!--Button đăng nhập-->
+                    <Button
+                        android:id="@+id/btnChangePassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"
+                        android:text="Đổi mật khẩu" />
+                    <!--Button đăng nhập-->
+                    <Button
+                        android:id="@+id/btnLogin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"
+                        android:text="Đăng nhập" />
+                </LinearLayout>
+
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
 
-</FrameLayout>
+    </FrameLayout>
+</ScrollView>

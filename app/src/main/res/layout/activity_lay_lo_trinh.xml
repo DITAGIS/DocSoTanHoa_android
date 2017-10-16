@@ -1,270 +1,275 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
+    android:fillViewport="true">
 
-    >
-
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <!--Layout hiển thị thông tin-->
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+
+        >
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.7"
-            android:background="@android:color/holo_blue_dark"
-            android:minHeight="25px"
-            android:minWidth="25px"
-            android:orientation="vertical"
-
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin">
-
-            <requestFocus />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tổng lộ trình đã tải"
-                android:textColor="@android:color/white"
-                android:textSize="25dp" />
-
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!--Layout hiển thị thông tin-->
             <LinearLayout
-
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/activity_vertical_margin"
-                android:paddingTop="5dp">
+                android:layout_height="0dp"
+                android:layout_weight="0.7"
+                android:background="@android:color/holo_blue_dark"
+                android:minHeight="25px"
+                android:minWidth="25px"
+                android:orientation="vertical"
+
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin">
+
+                <requestFocus />
 
                 <TextView
-                    android:id="@+id/txt_llt_mlt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mã lộ trình: 0"
+                    android:text="Tổng lộ trình đã tải"
                     android:textColor="@android:color/white"
-                    android:textSize="18dp" />
+                    android:textSize="25dp" />
 
-                <TextView
-                    android:id="@+id/txt_llt_db"
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/activity_vertical_margin"
+                    android:paddingTop="5dp">
+
+                    <TextView
+                        android:id="@+id/txt_llt_mlt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mã lộ trình: 0"
+                        android:textColor="@android:color/white"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:id="@+id/txt_llt_db"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="Danh bộ: 0"
+                        android:textColor="@android:color/white"
+                        android:textSize="18dp" />
+                </LinearLayout>
+
+                <!--<ImageButton-->
+                <!--android:id="@+id/imgbtn_llt_check"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="right"-->
+                <!--android:onClick="doCheck"-->
+                <!--android:src="@drawable/checked" />-->
+            </LinearLayout>
+            <!--Layout xem danh sách lộ trình-->
+            <!--height = 0 dp thì android sẽ lấy theo weight-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="6.3"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical">
+
+
+                <EditText
+                    android:id="@+id/etxt_llt_search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="right"
-                    android:text="Danh bộ: 0"
-                    android:textColor="@android:color/white"
-                    android:textSize="18dp" />
+                    android:hint="Tìm kiếm mã lộ trình"
+                    android:inputType="number"
+                    android:maxLength="5"
+                    android:paddingRight="@dimen/activity_horizontal_margin" />
+                <!--android:imeOptions="actionSearch"-->
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/darker_gray"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Mã lộ trình"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Danh bộ"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Chọn MLT"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:id="@+id/swipe_llt_swipeRefreshLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <GridView
+                        android:id="@+id/grid_llt_danhSachLoTrinh"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/white"
+                        android:gravity="center"
+                        android:numColumns="1"
+                        android:paddingTop="@dimen/activity_vertical_margin" />
+                </android.support.v4.widget.SwipeRefreshLayout>
+
+                <!--</ScrollView>-->
             </LinearLayout>
-
-            <!--<ImageButton-->
-            <!--android:id="@+id/imgbtn_llt_check"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="right"-->
-            <!--android:onClick="doCheck"-->
-            <!--android:src="@drawable/checked" />-->
-        </LinearLayout>
-        <!--Layout xem danh sách lộ trình-->
-        <!--height = 0 dp thì android sẽ lấy theo weight-->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="6.3"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:orientation="vertical">
-
-
-            <EditText
-                android:id="@+id/etxt_llt_search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:hint="Tìm kiếm mã lộ trình"
-                android:inputType="number"
-                android:maxLength="5"
-                android:paddingRight="@dimen/activity_horizontal_margin" />
-            <!--android:imeOptions="actionSearch"-->
-
-
+            <!--Layout menu-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/darker_gray"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+
                 android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Mã lộ trình"
-                    android:textSize="17dp"
-                    android:textStyle="bold" />
+                    android:background="@android:color/holo_red_dark">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Danh bộ"
-                    android:textSize="17dp"
-                    android:textStyle="bold" />
+                    <ImageButton
+                        android:id="@+id/btn_qllt_qllt"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:background="@android:color/holo_red_dark"
+                        android:src="@drawable/rider" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|bottom"
+                        android:text="Lấy lộ trình"
+                        android:textSize="20dp" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Chọn MLT"
-                    android:textSize="17dp"
-                    android:textStyle="bold" />
+                    android:background="@android:color/background_light">
+
+                    <ImageButton
+                        android:id="@+id/btn_qllt_ds"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_column="0"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:background="@android:color/background_light"
+                        android:onClick="doDocSo"
+                        android:src="@drawable/number_read" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|bottom"
+                        android:text="Đọc số"
+                        android:textSize="20dp" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/background_light">
+
+                    <ImageButton
+                        android:id="@+id/btn_qllt_qlds"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_column="0"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+
+                        android:background="@android:color/background_light"
+                        android:onClick="doQuanLyDocSo"
+                        android:src="@drawable/num_list" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|bottom"
+                        android:text="Quản lý đọc số"
+                        android:textSize="20dp" />
+                </FrameLayout>
             </LinearLayout>
-
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/swipe_llt_swipeRefreshLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <GridView
-                    android:id="@+id/grid_llt_danhSachLoTrinh"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/white"
-                    android:gravity="center"
-                    android:numColumns="1"
-                    android:paddingTop="@dimen/activity_vertical_margin" />
-            </android.support.v4.widget.SwipeRefreshLayout>
-
-            <!--</ScrollView>-->
         </LinearLayout>
-        <!--Layout menu-->
+
+        <ProgressBar
+            android:id="@+id/myProgress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal" />
+
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|right"
+            android:orientation="vertical">
 
-            android:orientation="horizontal">
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+            <Button
+                android:id="@+id/btn_llt_loadMLT"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="@android:color/holo_red_dark">
+                android:background="@color/colorGreen"
+                android:onClick="doViewDownloadMLT"
+                android:text="Lấy ds MLT"
+                android:textColor="@color/colorWhite" />
 
-                <ImageButton
-                    android:id="@+id/btn_qllt_qllt"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:background="@android:color/holo_red_dark"
-                    android:src="@drawable/rider" />
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center|bottom"
-                    android:text="Lấy lộ trình"
-                    android:textSize="20dp" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+            <Button
+                android:id="@+id/btn_llt_viewdownloadMLT"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="@android:color/background_light">
+                android:background="@color/colorGreen"
+                android:onClick="doViewDownloadMLT"
+                android:text="Xem MLT"
+                android:textColor="@color/colorWhite" />
 
-                <ImageButton
-                    android:id="@+id/btn_qllt_ds"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_column="0"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:background="@android:color/background_light"
-                    android:onClick="doDocSo"
-                    android:src="@drawable/number_read" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center|bottom"
-                    android:text="Đọc số"
-                    android:textSize="20dp" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@android:color/background_light">
-
-                <ImageButton
-                    android:id="@+id/btn_qllt_qlds"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_column="0"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-
-                    android:background="@android:color/background_light"
-                    android:onClick="doQuanLyDocSo"
-                    android:src="@drawable/num_list" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center|bottom"
-                    android:text="Quản lý đọc số"
-                    android:textSize="20dp" />
-            </FrameLayout>
         </LinearLayout>
-    </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/myProgress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|center_horizontal" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|right"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/btn_llt_loadMLT"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@color/colorGreen"
-            android:onClick="doViewDownloadMLT"
-            android:text="Lấy ds MLT"
-            android:textColor="@color/colorWhite" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/btn_llt_viewdownloadMLT"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@color/colorGreen"
-            android:onClick="doViewDownloadMLT"
-            android:text="Xem MLT"
-            android:textColor="@color/colorWhite" />
-
-    </LinearLayout>
-
-</FrameLayout>
+    </FrameLayout>
+</ScrollView>
