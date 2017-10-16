@@ -32,11 +32,13 @@ import java.util.HashMap;
 public class QuanLyDocSoActivity extends AppCompatActivity {
     EditText editTextSearch;
     GridView gridView;
+    TextView txtComplete;
     private ArrayList<DanhBo_ChiSoMoi> danhBo_chiSoMois;
     private HashMap<String, Integer> m_MLT_TongDanhBo;
     private GridViewQuanLyDocSoAdapter da;
     LocalDatabase localDatabase;
-    private int mSumDanhBo = 0;
+    private int mSumDanhBo = 0, mDanhBoHoanThanh;
+
     public static final String FILE_UPLOAD_URL = "http://103.74.117.51/AndroidFileUpload/fileUpload.php";
     private ProgressBar progressUploading;
     // Directory name to store captured images and videos
@@ -49,6 +51,8 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quan_ly_doc_so);
 
+
+        txtComplete = (TextView) findViewById(R.id.txt_qlds_tienTrinh);
         localDatabase = new LocalDatabase(this);
         QuanLyDocSoActivity.this.uploading = new Uploading();
         this.progressUploading = (ProgressBar) findViewById(R.id.progressUploading);
@@ -57,6 +61,13 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
         gridView = (GridView) findViewById(R.id.grid_qlds_danhSachDocSo);
         danhBo_chiSoMois = localDatabase.getAllDanhBo_CSM();
         this.mSumDanhBo = danhBo_chiSoMois.size();
+
+        m_MLT_TongDanhBo = localDatabase.getAllMLT();
+        for (HashMap.Entry<String, Integer> entry : this.m_MLT_TongDanhBo.entrySet()) {
+            this.mSumDanhBo += entry.getValue();
+        }
+        QuanLyDocSoActivity.this.mDanhBoHoanThanh = danhBo_chiSoMois.size();
+        QuanLyDocSoActivity.this.txtComplete.setText(QuanLyDocSoActivity.this.mDanhBoHoanThanh + "/" + QuanLyDocSoActivity.this.mSumDanhBo);
         editTextSearch.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -153,8 +164,9 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
 
     }
 
-    public void doDownloadMLT(View v) {
-        finish();
+    public void doLayLoTrinh(View v) {
+        Intent intent = new Intent(QuanLyDocSoActivity.this, LayLoTrinhActivity.class);
+        startActivity(intent);
     }
 
     public void doDocSo(View v) {

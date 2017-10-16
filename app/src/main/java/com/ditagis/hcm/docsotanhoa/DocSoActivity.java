@@ -64,7 +64,6 @@ public class DocSoActivity extends AppCompatActivity {
     private static final int REQUEST_ID_READ_WRITE_PERMISSION = 99;
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
     private int mSumDanhBo, mDanhBoHoanThanh;
-    private boolean isThayMoiDongHo;
     private int mKy;
     private int mDot;
     private String mGhiChu;
@@ -228,13 +227,7 @@ public class DocSoActivity extends AppCompatActivity {
                 csm = Integer.parseInt(txtCSM.getText().toString());
                 csc = Integer.parseInt(txtCSC.getText().toString());
                 if (csm < csc) {
-                    if (alertCSM()) {
-                        saveDB_CSM(getImageFileName().getAbsolutePath(), csc, csm);
-                        //Xử lý lưu danh bộ
-                    } else {
-                        //TODO
-                    }
-                    DocSoActivity.this.isThayMoiDongHo = false;
+                    alertCSM(csc, csm);
                 } else {
                     saveDB_CSM(getImageFileName().getAbsolutePath(), csc, csm);
                 }
@@ -309,14 +302,15 @@ public class DocSoActivity extends AppCompatActivity {
 
     }
 
-    private boolean alertCSM() {
+    private void alertCSM(final int csc, final int csm) {
         AlertDialog.Builder builder = new AlertDialog.Builder(DocSoActivity.this);
         builder.setTitle("Chỉ số mới nhỏ hơn chỉ số cũ");
         builder.setMessage("Kiểm tra danh bộ hiện tại thuộc diện thay mới đồng hồ?")
                 .setCancelable(true)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        DocSoActivity.this.isThayMoiDongHo = true;
+                        saveDB_CSM(getImageFileName().getAbsolutePath(), csc, csm);
+                        dialog.dismiss();
                     }
                 })
                 .setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
@@ -326,7 +320,7 @@ public class DocSoActivity extends AppCompatActivity {
                 });
         AlertDialog alert = builder.create();
         alert.show();
-        return this.isThayMoiDongHo;
+
     }
 
     public void doPrev(View v) {

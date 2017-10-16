@@ -149,41 +149,81 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"
+            android:layout_weight="1"
 
             android:orientation="horizontal">
 
-            <ImageButton
-
-                android:layout_width="wrap_content"
+            <FrameLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:background="@android:color/background_light"
-                android:src="@drawable/rider" />
+                android:background="@android:color/background_light">
 
-            <ImageButton
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@android:color/background_light"
+                    android:onClick="doLayLoTrinh"
+                    android:src="@drawable/rider" />
 
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|bottom"
+                    android:text="Lấy lộ trình"
+                    android:textSize="20dp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_column="0"
-                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:background="@android:color/background_light"
-                android:onClick="doDocSo"
-                android:src="@drawable/number_read" />
+                android:background="@android:color/background_light">
 
-            <ImageButton
-                android:layout_width="wrap_content"
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_column="0"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:onClick="doDocSo"
+                    android:background="@android:color/background_light"
+                    android:src="@drawable/number_read" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|bottom"
+                    android:text="Đọc số"
+                    android:textSize="20dp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_column="0"
-                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:background="@android:color/holo_red_dark"
+                android:background="@android:color/holo_red_dark">
 
-                android:onClick="doQuanLyDocSo"
-                android:src="@drawable/num_list" />
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_column="0"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@android:color/holo_red_dark"
+                    android:src="@drawable/num_list" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|bottom"
+                    android:text="Quản lý đọc số"
+                    android:textSize="20dp" />
+            </FrameLayout>
         </LinearLayout>
+
     </LinearLayout>
 
     <ImageButton
