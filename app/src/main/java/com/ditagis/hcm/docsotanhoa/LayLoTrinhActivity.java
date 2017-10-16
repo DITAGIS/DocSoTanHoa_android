@@ -59,7 +59,8 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lay_lo_trinh);
-
+        spinner = (ProgressBar) findViewById(R.id.myProgress);
+        spinner.setVisibility(View.INVISIBLE);
         this.mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_llt_swipeRefreshLayout);
         m_mlt = new ArrayList<String>();
         mLocalDatabase = new LocalDatabase(this);
@@ -112,21 +113,36 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
         gridView.setAdapter(da);
         registerForContextMenu(LayLoTrinhActivity.this.gridView);
-        if (isOnline()) {
-            //-------
+
+        List<LoTrinh> loTrinhs = LayLoTrinhActivity.this.mLocalDatabase.getAllMaLoTrinh();
+        LayLoTrinhActivity.this.mSumMLT = loTrinhs.size();
+        LayLoTrinhActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + LayLoTrinhActivity.this.mSumMLT);
+        LayLoTrinhActivity.this.mSumDanhBo = 0;
+        for (LoTrinh loTrinh : loTrinhs)
+            LayLoTrinhActivity.this.mSumDanhBo += loTrinh.getSoLuong();
+
+        LayLoTrinhActivity.this.m_txtTongDB.setText("Danh bộ: " + LayLoTrinhActivity.this.mSumDanhBo);
+        ((Button) findViewById(R.id.btn_llt_loadMLT)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isOnline()) {
+                    //-------
 
 //            textView = (TextView) findViewById(R.id.progressTextView);
 
 
-            // set the drawable as progress drawable
+                    // set the drawable as progress drawable
 //            initProgresBar();
-            //-----------------
+                    //-----------------
 
-            new LayLoTrinh().execute();
-        } else {
-            Toast.makeText(this, "Kiểm tra kết nối Internet và thử lại", Toast.LENGTH_SHORT).show();
-            //TODO
-        }
+                    new LayLoTrinh().execute();
+                } else {
+                    Toast.makeText(LayLoTrinhActivity.this, "Kiểm tra kết nối Internet và thử lại", Toast.LENGTH_SHORT).show();
+                    //TODO
+                }
+            }
+        });
+
         gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -177,21 +193,14 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     }
 
     public class LayLoTrinh extends AsyncTask<Void, Object, Void> {
-        List<LoTrinh> loTrinhs;
+
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             Toast.makeText(LayLoTrinhActivity.this, "Đang lấy danh sách mã lộ trình", Toast.LENGTH_LONG).show();
-            loTrinhs = LayLoTrinhActivity.this.mLocalDatabase.getAllMaLoTrinh();
-            LayLoTrinhActivity.this.mSumMLT = loTrinhs.size();
-            LayLoTrinhActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + LayLoTrinhActivity.this.mSumMLT);
-            LayLoTrinhActivity.this.mSumDanhBo = 0;
-            for (LoTrinh loTrinh : loTrinhs)
-                LayLoTrinhActivity.this.mSumDanhBo += loTrinh.getSoLuong();
 
-            LayLoTrinhActivity.this.m_txtTongDB.setText("Danh bộ: " + LayLoTrinhActivity.this.mSumDanhBo);
-            spinner = (ProgressBar) findViewById(R.id.myProgress);
+
             if (!LayLoTrinhActivity.this.mSwipeRefreshLayout.isRefreshing()) {
                 spinner.setVisibility(View.GONE);
                 spinner.setVisibility(View.VISIBLE);
@@ -290,13 +299,13 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             mlt = params[0];
-int danhbo;
+            int danhbo;
 //            LayLoTrinhActivity.this.mHoaDons = LayLoTrinhActivity.this.mLocalDatabase.getAllHoaDons();
             danhbo = LayLoTrinhActivity.this.da.getItem(mlt).getDanhbo();
             if (danhbo != 0) {
                 publishProgress(danhbo);
                 LayLoTrinhActivity.this.m_DanhBo[this.pos] = danhbo;
-                return danhbo+ "";
+                return danhbo + "";
             }
             ConnectionDB condb = new ConnectionDB();
             Connection cnn = condb.getConnect();
@@ -330,8 +339,8 @@ int danhbo;
                     String maLoTrinh = rs.getString(23);
                     HoaDon hoaDon = new HoaDon(id, khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
                     LayLoTrinhActivity.this.mHoaDons.add(hoaDon);
-                    if(mLocalDatabase.addHoaDon(hoaDon));
-                    else{
+                    if (mLocalDatabase.addHoaDon(hoaDon)) ;
+                    else {
                         //TODO
                     }
                 }
@@ -342,6 +351,7 @@ int danhbo;
             publishProgress(LayLoTrinhActivity.this.mHoaDons.size());
             mLocalDatabase.addLoTrinh(new LoTrinh(mlt, LayLoTrinhActivity.this.mHoaDons.size()));
             da.removeItem(mlt);
+            m_mlt.remove(mlt);
             LayLoTrinhActivity.this.m_DanhBo[this.pos] = LayLoTrinhActivity.this.mHoaDons.size();
             return LayLoTrinhActivity.this.mHoaDons.size() + "";
         }

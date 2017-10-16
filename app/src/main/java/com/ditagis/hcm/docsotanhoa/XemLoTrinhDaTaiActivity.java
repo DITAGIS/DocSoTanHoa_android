@@ -164,8 +164,8 @@ public class XemLoTrinhDaTaiActivity extends AppCompatActivity {
                     XemLoTrinhDaTaiActivity.this.m_MLT_TongDanhBo.remove(mlt);
                     imgCheck.setImageResource(0);
                     row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_uncheck));
-                    XemLoTrinhDaTaiActivity.this.mSumMLT --;
-                    XemLoTrinhDaTaiActivity.this.mSumDanhBo -=Integer.parseInt(danhbo);
+                    XemLoTrinhDaTaiActivity.this.mSumMLT--;
+                    XemLoTrinhDaTaiActivity.this.mSumDanhBo -= Integer.parseInt(danhbo);
 
                     XemLoTrinhDaTaiActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + XemLoTrinhDaTaiActivity.this.mSumMLT);
                     XemLoTrinhDaTaiActivity.this.m_txtTongDB.setText("Danh bộ: " + XemLoTrinhDaTaiActivity.this.mSumDanhBo);
@@ -175,8 +175,8 @@ public class XemLoTrinhDaTaiActivity extends AppCompatActivity {
                     imgCheck.setImageResource(R.drawable.checked);
                     row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_check));
 
-                    XemLoTrinhDaTaiActivity.this.mSumMLT ++;
-                    XemLoTrinhDaTaiActivity.this.mSumDanhBo +=Integer.parseInt(danhbo);
+                    XemLoTrinhDaTaiActivity.this.mSumMLT++;
+                    XemLoTrinhDaTaiActivity.this.mSumDanhBo += Integer.parseInt(danhbo);
 
                     XemLoTrinhDaTaiActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + XemLoTrinhDaTaiActivity.this.mSumMLT);
                     XemLoTrinhDaTaiActivity.this.m_txtTongDB.setText("Danh bộ: " + XemLoTrinhDaTaiActivity.this.mSumDanhBo);
@@ -190,6 +190,9 @@ public class XemLoTrinhDaTaiActivity extends AppCompatActivity {
     }
 
     public void doDownloadMLT(View v) {
+//        Intent intent = new Intent(XemLoTrinhDaTaiActivity.this, LayLoTrinhActivity.class);
+//
+//        startActivity(intent);
         finish();
     }
 
