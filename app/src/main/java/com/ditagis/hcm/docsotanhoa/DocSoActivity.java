@@ -71,11 +71,13 @@ public class DocSoActivity extends AppCompatActivity {
     private final String SAVED = "Đã lưu";
     private final String UN_SAVED = "Chưa lưu";
     private Date currentTime;
+    private ArrayAdapter<String> adapterDB;
 //    DocSoActivity.ItemClickHandle itemClickHandle = new ItemClickHandle();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doc_so);
+
 
         Calendar calendar = Calendar.getInstance();
         currentTime = Calendar.getInstance().getTime();
@@ -88,6 +90,7 @@ public class DocSoActivity extends AppCompatActivity {
         this.txtComplete = (TextView) findViewById(R.id.txt_ds_complete);
         mLocalDatabase = new LocalDatabase(this);
         editTextCSM = (EditText) findViewById(R.id.etxt_ds_CSM);
+        editTextCSM.setEnabled(false);
         imgbtn_Save = (ImageButton) findViewById(R.id.imgbtn_ds_Save);
         txtCSM = (TextView) findViewById(R.id.txt_ds_CSM);
 
@@ -104,7 +107,8 @@ public class DocSoActivity extends AppCompatActivity {
         DocSoActivity.this.mSumDanhBo = 0;
         for (String mlt : mArrMlt)
             DocSoActivity.this.mSumDanhBo += this.mLocalDatabase.getAllHoaDonByMaLoTrinh(mlt).size();
-        DocSoActivity.this.mDanhBoHoanThanh = 0;
+
+        DocSoActivity.this.mDanhBoHoanThanh = DocSoActivity.this.mLocalDatabase.getAllDanhBo_CSM().size();
         DocSoActivity.this.txtComplete.setText(DocSoActivity.this.mDanhBoHoanThanh + "/" + DocSoActivity.this.mSumDanhBo);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, mArrMlt);
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
@@ -129,7 +133,7 @@ public class DocSoActivity extends AppCompatActivity {
                         mDBs.add(hoaDon.getDanhBo());
                     }
                     Collections.sort(mDBs);
-                    ArrayAdapter<String> adapterDB = new ArrayAdapter<String>(DocSoActivity.this, R.layout.spinner_item, mDBs);
+                    DocSoActivity.this.adapterDB = new ArrayAdapter<String>(DocSoActivity.this, R.layout.spinner_item, mDBs);
                     adapterDB.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
                     spinDB.setAdapter(adapterDB);
                     spinDB.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -218,23 +222,23 @@ public class DocSoActivity extends AppCompatActivity {
                 // kiểm tra chỉ số mới
                 int csc = 0;
                 int csm = 0;
-                if (txtCSM.getText().length() == 0) {
-                    //kiem tra code
-                } else {
-                    csm = Integer.parseInt(txtCSM.getText().toString());
-                    csc = Integer.parseInt(txtCSC.getText().toString());
-                    if (csm < csc) {
-                        if (alertCSM()) {
-                            saveDB_CSM(getImageFileName().getAbsolutePath(), csc, csm);
-                            //Xử lý lưu danh bộ
-                        } else {
-                            //TODO
-                        }
-                        DocSoActivity.this.isThayMoiDongHo = false;
-                    } else {
+//                if (txtCSM.getText().length() == 0) {
+//                    //kiem tra code
+//                } else {
+                csm = Integer.parseInt(txtCSM.getText().toString());
+                csc = Integer.parseInt(txtCSC.getText().toString());
+                if (csm < csc) {
+                    if (alertCSM()) {
                         saveDB_CSM(getImageFileName().getAbsolutePath(), csc, csm);
+                        //Xử lý lưu danh bộ
+                    } else {
+                        //TODO
                     }
+                    DocSoActivity.this.isThayMoiDongHo = false;
+                } else {
+                    saveDB_CSM(getImageFileName().getAbsolutePath(), csc, csm);
                 }
+//                }
             }
         });
     }
@@ -259,6 +263,13 @@ public class DocSoActivity extends AppCompatActivity {
                 R.color.colorBlueLight));
 
         Toast.makeText(DocSoActivity.this, "Đã lưu chỉ số mới", Toast.LENGTH_SHORT).show();
+
+        //select next danhbo
+
+
+//        int i = spinDB.getSelectedItemPosition();
+//        spinDB.setSelection(i == spinDB.getCount() - 1 ? i : i + 1);
+//        DocSoActivity.this.adapterDB.remove(DocSoActivity.this.mDanhBo);
     }
 
     private void showImage(File f) {
@@ -436,6 +447,7 @@ public class DocSoActivity extends AppCompatActivity {
                     fos.flush();
                     fos.close();
                     Toast.makeText(this, "Đã lưu ảnh", Toast.LENGTH_SHORT).show();
+                    DocSoActivity.this.editTextCSM.setEnabled(true);
                 } catch (FileNotFoundException e) {
                     Toast.makeText(this, "Lỗi khi lưu ảnh", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();

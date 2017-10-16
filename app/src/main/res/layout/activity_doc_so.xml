@@ -22,299 +22,333 @@
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin">
 
-
-            <TableLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:minHeight="25px"
-                android:minWidth="25px">
-                <!--Table row hiển thị số danh bộ đã đọc-->
-                <TableRow android:layout_weight="1">
+                android:layout_height="match_parent">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_column="0"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:text="Tiến trình:"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:minHeight="25px"
+                    android:minWidth="25px">
+                    <!--Table row hiển thị số danh bộ đã đọc-->
+                    <TableRow android:layout_weight="1">
 
-                    <TextView
-                        android:id="@+id/txt_ds_complete"
-                        android:layout_width="0dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@color/color_row_check" />
-                </TableRow>
-                <!--Table row hiển thị tình trạng :đã lưu/chưa lưu-->
-                <TableRow android:layout_weight="1">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_column="0"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:text="Tiến trình:"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_column="0"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:text="Tình trạng:"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
+                        <TextView
+                            android:id="@+id/txt_ds_complete"
+                            android:layout_width="0dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/color_row_check" />
+                    </TableRow>
+                    <!--Table row hiển thị tình trạng :đã lưu/chưa lưu-->
+                    <TableRow android:layout_weight="1">
 
-                    <TextView
-                        android:id="@+id/txt_ds_save"
-                        android:layout_width="0dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@color/color_row_check" />
-                </TableRow>
-                <!--Table row kỳ-->
-                <TableRow android:layout_weight="1">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_column="0"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:text="Tình trạng:"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
 
-                    <TextView
-                        android:layout_column="0"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:text="Kỳ: "
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
+                        <TextView
+                            android:id="@+id/txt_ds_save"
+                            android:layout_width="0dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/color_row_check" />
+                    </TableRow>
+                    <!--Table row kỳ-->
+                    <TableRow android:layout_weight="1">
 
-                    <TextView
-                        android:id="@+id/txt_ds_ky"
-                        android:layout_gravity="center_vertical"
-                        android:layout_span="4"
-                        android:layout_weight="1"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
-                </TableRow>
-                <!--Table row đợt-->
-                <TableRow android:layout_weight="1">
+                        <TextView
+                            android:layout_column="0"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:text="Kỳ: "
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
 
-                    <TextView
-                        android:layout_column="0"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:text="Đợt: "
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
+                        <TextView
+                            android:id="@+id/txt_ds_ky"
+                            android:layout_gravity="center_vertical"
+                            android:layout_span="4"
+                            android:layout_weight="1"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
+                    </TableRow>
+                    <!--Table row đợt-->
+                    <TableRow android:layout_weight="1">
 
-                    <TextView
-                        android:id="@+id/txt_ds_dot"
-                        android:layout_gravity="center_vertical"
-                        android:layout_span="4"
-                        android:layout_weight="1"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
-                </TableRow>
-                <!--Table row mã lộ trình-->
-                <TableRow android:layout_weight="1">
+                        <TextView
+                            android:layout_column="0"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:text="Đợt: "
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
 
-                    <TextView
-                        android:layout_column="0"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:text="Mã LT: "
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
+                        <TextView
+                            android:id="@+id/txt_ds_dot"
+                            android:layout_gravity="center_vertical"
+                            android:layout_span="4"
+                            android:layout_weight="1"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
+                    </TableRow>
+                    <!--Table row mã lộ trình-->
+                    <TableRow android:layout_weight="1">
 
-                    <Spinner
-                        android:id="@+id/spin_ds_mlt"
-                        android:layout_gravity="center_vertical"
-                        android:layout_span="4"
-                        android:layout_weight="1"
-                        android:text="1029385"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
-                </TableRow>
-                <!--Table row danh bộ-->
-                <TableRow android:layout_weight="1">
+                        <TextView
+                            android:layout_column="0"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:text="Mã LT: "
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
 
-                    <TextView
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:text="Danh bộ: "
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
+                        <Spinner
+                            android:id="@+id/spin_ds_mlt"
+                            android:layout_gravity="center_vertical"
+                            android:layout_span="4"
+                            android:layout_weight="1"
+                            android:text="1029385"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
+                    </TableRow>
+                    <!--Table row tìm kiếm danh bộ-->
+                    <TableRow android:layout_weight="1">
 
-                    <Spinner
-                        android:id="@+id/spin_ds_db"
-                        android:layout_width="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="0.5"
-                        android:inputType="number"
-                        android:maxLength="11"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_column="0"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:text="Tìm kiếm"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
 
-                    <ImageButton
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="0.5"
-                        android:background="@color/colorPrimary"
-                        android:onClick="doPrev"
-                        android:src="@drawable/prev" />
+                        <EditText
+                            android:id="@+id/etxt_ds_search"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:width="0dp"
+                            android:ems="10"
+                            android:gravity="left"
+                            android:hint="Tìm kiếm danh bộ"
+                            android:inputType="number"
+                            android:maxLength="11"
+                            android:textColor="@color/colorWhite"
+                            android:textColorHint="@color/colorWhite" />
 
-                    <Space android:layout_weight="0.5" />
+                    </TableRow>
 
-                    <ImageButton
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="0.5"
-                        android:background="@color/colorPrimary"
-                        android:onClick="doNext"
-                        android:src="@drawable/next" />
-                </TableRow>
-                <!--Table row tên khách hàng-->
-                <TableRow android:layout_weight="1">
+                    <!--Table row danh bộ-->
+                    <TableRow android:layout_weight="1">
 
-                    <TextView
-                        android:layout_column="0"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:text="Tên KH: "
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
+                        <TextView
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:text="Danh bộ: "
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
 
-                    <TextView
-                        android:id="@+id/txt_ds_tenKH"
-                        android:layout_gravity="center_vertical"
-                        android:layout_span="4"
-                        android:layout_weight="1"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
-                </TableRow>
+                        <Spinner
+                            android:id="@+id/spin_ds_db"
+                            android:layout_width="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="0.5"
+                            android:inputType="number"
+                            android:maxLength="11"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
 
-                <!--Table row địa chỉ-->
-                <TableRow android:layout_weight="1">
+                        <ImageButton
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="0.5"
+                            android:background="@color/colorPrimary"
+                            android:onClick="doPrev"
+                            android:src="@drawable/prev" />
 
-                    <TextView
-                        android:layout_column="0"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:text="Địa chỉ: "
+                        <Space android:layout_weight="0.5" />
 
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
+                        <ImageButton
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="0.5"
+                            android:background="@color/colorPrimary"
+                            android:onClick="doNext"
+                            android:src="@drawable/next" />
+                    </TableRow>
+                    <!--Table row tên khách hàng-->
+                    <TableRow android:layout_weight="1">
 
-                    <TextView
-                        android:id="@+id/txt_ds_diachi"
-                        android:layout_gravity="center_vertical"
-                        android:layout_span="4"
-                        android:layout_weight="1"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
-                </TableRow>
-                <!--Table row nhập sđt-->
-                <TableRow android:layout_weight="1">
+                        <TextView
+                            android:layout_column="0"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:text="Tên KH: "
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_column="0"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:text="SĐT: "
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
+                        <TextView
+                            android:id="@+id/txt_ds_tenKH"
+                            android:layout_gravity="center_vertical"
+                            android:layout_span="4"
+                            android:layout_weight="1"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
+                    </TableRow>
 
-                    <EditText
-                        android:id="@+id/etxt_ds_sdt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:width="0dp"
-                        android:ems="10"
-                        android:gravity="right"
-                        android:inputType="number"
-                        android:maxLength="11" />
-                </TableRow>
-                <!--Table row chỉ số cũ-->
-                <TableRow android:layout_weight="1">
+                    <!--Table row địa chỉ-->
+                    <TableRow android:layout_weight="1">
 
-                    <TextView
-                        android:layout_column="0"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:text="CS cũ: "
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
+                        <TextView
+                            android:layout_column="0"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:text="Địa chỉ: "
 
-                    <TextView
-                        android:id="@+id/txt_ds_CSC"
-                        android:layout_gravity="center_vertical"
-                        android:layout_span="4"
-                        android:layout_weight="1"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
-                </TableRow>
-                <!--Table row chỉ số mới-->
-                <TableRow android:layout_weight="1">
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
 
-                    <TextView
-                        android:layout_column="0"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:text="CS mới: "
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
+                        <TextView
+                            android:id="@+id/txt_ds_diachi"
+                            android:layout_gravity="center_vertical"
+                            android:layout_span="4"
+                            android:layout_weight="1"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
+                    </TableRow>
+                    <!--Table row nhập sđt-->
+                    <TableRow android:layout_weight="1">
 
-                    <TextView
-                        android:id="@+id/txt_ds_CSM"
-                        android:layout_gravity="center_vertical"
-                        android:layout_span="4"
-                        android:layout_weight="1"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
-                </TableRow>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_column="0"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:text="SĐT: "
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
 
-                <!--Table row giá biểu-->
-                <TableRow android:layout_weight="1">
+                        <EditText
+                            android:id="@+id/etxt_ds_sdt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:width="0dp"
+                            android:ems="10"
+                            android:gravity="left"
+                            android:inputType="number"
+                            android:maxLength="11"
+                            android:textColor="@color/colorWhite" />
+                    </TableRow>
+                    <!--Table row chỉ số cũ-->
+                    <TableRow android:layout_weight="1">
 
-                    <TextView
-                        android:layout_column="0"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:text="Giá biểu"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
+                        <TextView
+                            android:layout_column="0"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:text="CS cũ: "
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
 
-                    <TextView
-                        android:id="@+id/txt_ds_giabieu"
-                        android:layout_gravity="center_vertical"
-                        android:layout_span="4"
-                        android:layout_weight="1"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
-                </TableRow>
+                        <TextView
+                            android:id="@+id/txt_ds_CSC"
+                            android:layout_gravity="center_vertical"
+                            android:layout_span="4"
+                            android:layout_weight="1"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
+                    </TableRow>
+                    <!--Table row chỉ số mới-->
+                    <TableRow android:layout_weight="1">
 
-                <!--Table row tiền nước-->
-                <TableRow android:layout_weight="1">
+                        <TextView
+                            android:layout_column="0"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:text="CS mới: "
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
 
-                    <TextView
-                        android:layout_column="0"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:text="Tiền nước"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
+                        <TextView
+                            android:id="@+id/txt_ds_CSM"
+                            android:layout_gravity="center_vertical"
+                            android:layout_span="4"
+                            android:layout_weight="1"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
+                    </TableRow>
 
-                    <TextView
-                        android:id="@+id/txt_ds_tiennuoc"
-                        android:layout_gravity="center_vertical"
-                        android:layout_span="4"
-                        android:layout_weight="1"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
-                </TableRow>
-            </TableLayout>
+                    <!--Table row giá biểu-->
+                    <TableRow android:layout_weight="1">
 
-            <!--<FrameLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:visibility="invisible">-->
+                        <TextView
+                            android:layout_column="0"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:text="Giá biểu"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
 
+                        <TextView
+                            android:id="@+id/txt_ds_giabieu"
+                            android:layout_gravity="center_vertical"
+                            android:layout_span="4"
+                            android:layout_weight="1"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
+                    </TableRow>
 
-            <!--</FrameLayout>-->
+                    <!--Table row tiền nước-->
+                    <TableRow android:layout_weight="1">
+
+                        <TextView
+                            android:layout_column="0"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:text="Tiền nước"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/txt_ds_tiennuoc"
+                            android:layout_gravity="center_vertical"
+                            android:layout_span="4"
+                            android:layout_weight="1"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
+                    </TableRow>
+                </TableLayout>
+
+                <ImageButton
+                    android:id="@+id/imgBtn_ds_camera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:layout_weight="1"
+                    android:onClick="doCamera"
+                    android:src="@drawable/camera" />
+            </FrameLayout>
         </LinearLayout>
         <!--Layout nhập chỉ số mới, code-->
         <LinearLayout
@@ -403,15 +437,6 @@
                     android:layout_weight="1"
                     android:onClick="doNote"
                     android:src="@drawable/note" />
-
-                <ImageButton
-                    android:id="@+id/imgBtn_ds_camera"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:onClick="doCamera"
-                    android:src="@drawable/camera" />
 
 
                 <ImageButton
