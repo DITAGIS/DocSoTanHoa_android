@@ -113,13 +113,17 @@
                 </FrameLayout>
             </LinearLayout>
 
-            <!--Checkout ghi nhớ đăng nhập-->
-            <CheckBox
-                android:id="@+id/chkRemember"
+            <Space
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="Ghi nhớ mật khẩu" />
+                android:layout_height="0dp"
+                android:layout_weight="0.5" />
+            <!--Checkout ghi nhớ đăng nhập-->
+            <!--<CheckBox-->
+            <!--android:id="@+id/chkRemember"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="0.5"-->
+            <!--android:text="Ghi nhớ mật khẩu" />-->
 
             <LinearLayout
                 android:layout_width="match_parent"

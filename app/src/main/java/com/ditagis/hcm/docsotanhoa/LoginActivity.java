@@ -1,6 +1,7 @@
 package com.ditagis.hcm.docsotanhoa;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,6 +10,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +30,12 @@ public class LoginActivity extends AppCompatActivity {
     EditText txtUserName;
     EditText txtPassword;
     LoginAsync loginAsync;
+    private Button btnLogin;
+    private Button btnChangePassword;
     ImageButton mImgBtnViewPassword;
+    private ProgressDialog progressBar;
+    private int progressBarStatus = 0;
+    private Handler progressBarbHandler = new Handler();
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
 
     @Override
@@ -37,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         txtUserName = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
+        btnChangePassword= (Button)findViewById(R.id.btnChangePassword);
         loginAsync = new LoginAsync();
         this.mImgBtnViewPassword = (ImageButton) findViewById(R.id.imgBtn_login_viewPassword);
         requestPermissonCamera();
@@ -62,13 +70,13 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-        final Button btnLogin = (Button) findViewById(R.id.btnLogin);
+        btnLogin = (Button) findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                spinner.setVisibility(View.GONE);
 //                spinner.setVisibility(View.VISIBLE);
-                btnLogin.setEnabled(false);
+                setEnable(false);
                 Toast.makeText(LoginActivity.this, "Đang kiểm tra thông tin đăng nhập...", Toast.LENGTH_SHORT).show();
                 if (isOnline()) {
                     loginAsync.execute(txtUserName.getText().toString(), txtPassword.getText().toString());
@@ -77,11 +85,10 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Kiểm tra kết nối Internet và thử lại", Toast.LENGTH_SHORT).show();
                 }
 
-                btnLogin.setEnabled(true);
             }
         });
 
-        ((Button) findViewById(R.id.btnChangePassword)).setOnClickListener(new View.OnClickListener() {
+       btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(LoginActivity.this, "Tính năng đang cập nhật", Toast.LENGTH_SHORT).show();
@@ -136,20 +143,28 @@ public class LoginActivity extends AppCompatActivity {
         return netInfo != null && netInfo.isConnected();
     }
 
+    private void setEnable(boolean enable) {
+        LoginActivity.this.txtPassword.setEnabled(enable);
+        LoginActivity.this.txtUserName.setEnabled(enable);
+        LoginActivity.this.btnLogin.setEnabled(enable);
+        LoginActivity.this.btnChangePassword.setEnabled(enable);
+    }
+
     class LoginAsync extends AsyncTask<String, Boolean, Void> {
         private LogInDB loginDB = new LogInDB();
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
         }
 
         @Override
         protected Void doInBackground(String... params) {
             String username = params[0];
             String password = params[1];
-            boolean isValid = this.loginDB.logIn(new User(username, password));
 
+            boolean isValid = this.loginDB.logIn(new User(username, password));
             publishProgress(isValid);
             return null;
         }
@@ -166,6 +181,12 @@ public class LoginActivity extends AppCompatActivity {
 //                Intent intent1 = new Intent(LoginActivity.this, XemLoTrinhDaTaiActivity.class);
 //                startActivity(intent1);
             }
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            setEnable(true);
         }
     }
 
