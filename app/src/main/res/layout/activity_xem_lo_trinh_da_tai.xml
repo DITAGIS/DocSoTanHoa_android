@@ -83,16 +83,16 @@
                 android:focusableInTouchMode="true"
                 android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/etxt_llt_search"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:hint="Tìm kiếm mã lộ trình"
-                    android:inputType="number"
-                    android:maxLength="5"
-                    android:paddingRight="@dimen/activity_horizontal_margin" />
-                <!--android:imeOptions="actionSearch"-->
+                <!--<EditText-->
+                    <!--android:id="@+id/etxt_llt_search"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="right"-->
+                    <!--android:hint="Tìm kiếm mã lộ trình"-->
+                    <!--android:inputType="number"-->
+                    <!--android:maxLength="5"-->
+                    <!--android:paddingRight="@dimen/activity_horizontal_margin" />-->
+                <!--&lt;!&ndash;android:imeOptions="actionSearch"&ndash;&gt;-->
 
 
                 <LinearLayout
@@ -143,44 +143,123 @@
             </LinearLayout>
         </FrameLayout>
         <!--Layout menu-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="0.5"-->
+
+            <!--android:orientation="horizontal">-->
+
+            <!--<ImageButton-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@android:color/holo_red_dark"-->
+                <!--android:src="@drawable/rider" />-->
+
+            <!--<ImageButton-->
+                <!--android:id="@+id/btn_qllt_ds"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_column="0"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@android:color/background_light"-->
+                <!--android:onClick="doDocSo"-->
+                <!--android:src="@drawable/number_read" />-->
+
+            <!--<ImageButton-->
+                <!--android:id="@+id/btn_qllt_qlds"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_column="0"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_weight="1"-->
+
+                <!--android:background="@android:color/background_light"-->
+                <!--android:onClick="doQuanLyDocSo"-->
+                <!--android:src="@drawable/num_list" />-->
+        <!--</LinearLayout>-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"
+            android:layout_weight="1"
 
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/btn_qllt_qllt"
-                android:layout_width="wrap_content"
+            <FrameLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:background="@android:color/holo_red_dark"
-                android:src="@drawable/rider" />
+                android:background="@android:color/holo_red_dark">
 
-            <ImageButton
-                android:id="@+id/btn_qllt_ds"
-                android:layout_width="wrap_content"
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@android:color/holo_red_dark"
+                    android:src="@drawable/rider" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|bottom"
+                    android:text="Lấy lộ trình"
+                    android:textSize="20dp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_column="0"
-                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:background="@android:color/background_light"
-                android:onClick="doDocSo"
-                android:src="@drawable/number_read" />
+                android:background="@android:color/background_light">
 
-            <ImageButton
-                android:id="@+id/btn_qllt_qlds"
-                android:layout_width="wrap_content"
+                <ImageButton
+                    android:id="@+id/btn_qllt_ds"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_column="0"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@android:color/background_light"
+                    android:onClick="doDocSo"
+                    android:src="@drawable/number_read" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|bottom"
+                    android:text="Đọc số"
+                    android:textSize="20dp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_column="0"
-                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
+                android:background="@android:color/background_light">
 
-                android:background="@android:color/background_light"
-                android:onClick="doQuanLyDocSo"
-                android:src="@drawable/num_list" />
+                <ImageButton
+                    android:id="@+id/btn_qllt_qlds"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_column="0"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+
+                    android:background="@android:color/background_light"
+                    android:onClick="doQuanLyDocSo"
+                    android:src="@drawable/num_list" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|bottom"
+                    android:text="Quản lý đọc số"
+                    android:textSize="20dp" />
+            </FrameLayout>
         </LinearLayout>
     </LinearLayout>
 

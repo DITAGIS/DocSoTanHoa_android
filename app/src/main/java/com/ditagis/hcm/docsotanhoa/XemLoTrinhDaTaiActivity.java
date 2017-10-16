@@ -6,11 +6,8 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,12 +19,10 @@ import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class XemLoTrinhDaTaiActivity extends AppCompatActivity {
     TextView m_txtTongMLT;
     TextView m_txtTongDB;
-    EditText editTextSearch;
     GridView gridView;
     //Dùng mảng 1 chiều hoặc ArrayList để lưu một số dữ liệu
     private ArrayList<String> m_mlt;
@@ -44,7 +39,6 @@ public class XemLoTrinhDaTaiActivity extends AppCompatActivity {
         m_txtTongMLT = (TextView) findViewById(R.id.txt_llt_mlt);
         m_txtTongDB = (TextView) findViewById(R.id.txt_llt_db);
 
-        editTextSearch = (EditText) findViewById(R.id.etxt_llt_search);
         gridView = (GridView) findViewById(R.id.grid_xltd_danhSachLoTrinh);
         this.m_MLT_TongDanhBo = localDatabase.getAllMLT();
 
@@ -53,40 +47,6 @@ public class XemLoTrinhDaTaiActivity extends AppCompatActivity {
         m_txtTongMLT.setText("Mã lộ trình: " + this.mSumMLT);
 
 
-        editTextSearch.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() != 0) {
-//                    System.out.println(gridView.getAdapter().getItem(0).toString());
-                    List<String> result = new ArrayList<String>();
-                    //Lấy dữ liệu bắt đầu với text search
-                    for (String mlt : m_mlt) {
-                        if (mlt.contains(s.toString()))
-                            result.add(mlt);
-                    }
-                    //Gán dữ liệu vào data source
-                    if (da != null && result.size() > 0) {
-                        da.clear();
-                        for (String mlt : result)
-                            da.add(new GridViewXemLoTrinhDaTaiAdapter.Item(mlt, 0, false));
-                    }
-
-                } else {
-                    //TODO
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
 
         //Gán DataSource vào ArrayAdapter
 
