@@ -144,8 +144,8 @@
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@android:color/white" />
 
-                        <EditText
-                            android:id="@+id/etxt_ds_search"
+                        <AutoCompleteTextView
+                            android:id="@+id/editauto"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -467,8 +467,8 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:background="@android:color/background_light"
                     android:onClick="doLayLoTrinh"
+                    android:background="@android:color/background_light"
                     android:src="@drawable/rider" />
 
                 <TextView
@@ -509,6 +509,7 @@
                 android:background="@android:color/background_light">
 
                 <ImageButton
+                    android:id="@+id/btn_qllt_qlds"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_column="0"

@@ -196,7 +196,6 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
                 .setPositiveButton("Đồng bộ", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         upLoadData();
-                        upLoadImage();
                         dialog.dismiss();
                     }
                 })
@@ -262,10 +261,6 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
 //        }
     }
 
-    private void upLoadImage() {
-
-
-    }
 
     class UploadingAsync extends AsyncTask<String, Boolean, Void> {
         @Override

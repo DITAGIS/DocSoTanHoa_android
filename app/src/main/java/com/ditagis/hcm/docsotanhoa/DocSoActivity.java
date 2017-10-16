@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -40,7 +41,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -71,27 +71,62 @@ public class DocSoActivity extends AppCompatActivity {
     private final String UN_SAVED = "Chưa lưu";
     private Date currentTime;
     private ArrayAdapter<String> adapterDB;
+    AutoCompleteTextView singleComplete;
 //    DocSoActivity.ItemClickHandle itemClickHandle = new ItemClickHandle();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doc_so);
 
+        singleComplete = (AutoCompleteTextView) findViewById(R.id.editauto);
+        singleComplete.setAdapter(
+                new ArrayAdapter<String>
+                        (
+                                this,
+                                android.R.layout.simple_list_item_1,
+                                mDBs
+                        ));
+
 
         Calendar calendar = Calendar.getInstance();
-        currentTime = Calendar.getInstance().getTime();
+        currentTime = Calendar.getInstance().
+
+                getTime();
         this.mKy = calendar.get(Calendar.MONTH) + 1;
         this.mDot = calendar.get(Calendar.DAY_OF_MONTH);
-        ((TextView) findViewById(R.id.txt_ds_ky)).setText(this.mKy + "");
-        ((TextView) findViewById(R.id.txt_ds_dot)).setText(this.mDot + "");
-        this.txtSaveState = (TextView) findViewById(R.id.txt_ds_save);
+        ((TextView)
 
-        this.txtComplete = (TextView) findViewById(R.id.txt_ds_complete);
-        mLocalDatabase = new LocalDatabase(this);
-        editTextCSM = (EditText) findViewById(R.id.etxt_ds_CSM);
+                findViewById(R.id.txt_ds_ky)).
+
+                setText(this.mKy + "");
+        ((TextView)
+
+                findViewById(R.id.txt_ds_dot)).
+
+                setText(this.mDot + "");
+        this.txtSaveState = (TextView)
+
+                findViewById(R.id.txt_ds_save);
+
+        this.txtComplete = (TextView)
+
+                findViewById(R.id.txt_ds_complete);
+
+        mLocalDatabase = new
+
+                LocalDatabase(this);
+
+        editTextCSM = (EditText)
+
+                findViewById(R.id.etxt_ds_CSM);
         editTextCSM.setEnabled(false);
-        imgbtn_Save = (ImageButton) findViewById(R.id.imgbtn_ds_Save);
-        txtCSM = (TextView) findViewById(R.id.txt_ds_CSM);
+        imgbtn_Save = (ImageButton)
+
+                findViewById(R.id.imgbtn_ds_Save);
+
+        txtCSM = (TextView)
+
+                findViewById(R.id.txt_ds_CSM);
 
 
         String[] codes = {"40", "41", "42", "54", "55", "56", "58", "5F", "5K",
@@ -104,23 +139,38 @@ public class DocSoActivity extends AppCompatActivity {
         mArrMlt = extras.getStringArray("mMltArr");
 
         DocSoActivity.this.mSumDanhBo = 0;
-        for (String mlt : mArrMlt)
-            DocSoActivity.this.mSumDanhBo += this.mLocalDatabase.getAllHoaDonByMaLoTrinh(mlt).size();
+        for (
+                String mlt : mArrMlt)
+            DocSoActivity.this.mSumDanhBo += this.mLocalDatabase.getAllHoaDonByMaLoTrinh(mlt).
 
-        DocSoActivity.this.mDanhBoHoanThanh = DocSoActivity.this.mLocalDatabase.getAllDanhBo_CSM().size();
+                    size();
+
+        DocSoActivity.this.mDanhBoHoanThanh = DocSoActivity.this.mLocalDatabase.getAllDanhBo_CSM().
+
+                size();
+
         DocSoActivity.this.txtComplete.setText(DocSoActivity.this.mDanhBoHoanThanh + "/" + DocSoActivity.this.mSumDanhBo);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, mArrMlt);
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         ArrayAdapter<String> adapterCode = new ArrayAdapter<String>(this, R.layout.spinner_item, codes);
         adapterCode.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-        spinCode = (Spinner) findViewById(R.id.spin_ds_code);
+        spinCode = (Spinner)
+
+                findViewById(R.id.spin_ds_code);
         spinCode.setAdapter(adapterCode);
         spinCode.setSelection(0);
-        spinMLT = (Spinner) findViewById(R.id.spin_ds_mlt);
-        spinDB = (Spinner) findViewById(R.id.spin_ds_db);
+        spinMLT = (Spinner)
+
+                findViewById(R.id.spin_ds_mlt);
+
+        spinDB = (Spinner)
+
+                findViewById(R.id.spin_ds_db);
         spinMLT.setAdapter(adapter);
 
-        spinMLT.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinMLT.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+
+        {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mMlt = DocSoActivity.this.spinMLT.getSelectedItem().toString();
@@ -131,7 +181,6 @@ public class DocSoActivity extends AppCompatActivity {
                     for (HoaDon hoaDon : hoaDonList) {
                         mDBs.add(hoaDon.getDanhBo());
                     }
-                    Collections.sort(mDBs);
                     DocSoActivity.this.adapterDB = new ArrayAdapter<String>(DocSoActivity.this, R.layout.spinner_item, mDBs);
                     adapterDB.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
                     spinDB.setAdapter(adapterDB);
@@ -192,7 +241,27 @@ public class DocSoActivity extends AppCompatActivity {
 
             }
         });
+        singleComplete.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                for(int i = 0; i < DocSoActivity.this.mDBs.size(); i++){
+                    if(s.toString().equals(DocSoActivity.this.mDBs.get(i))){
+                        DocSoActivity.this.spinDB.setSelection(i);
+                    }
+                }
+            }
+        });
         editTextCSM.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -210,7 +279,9 @@ public class DocSoActivity extends AppCompatActivity {
             }
         });
 
-        imgbtn_Save.setOnClickListener(new View.OnClickListener() {
+        imgbtn_Save.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View v) {
                 // kiểm tra hình ảnh
@@ -459,7 +530,9 @@ public class DocSoActivity extends AppCompatActivity {
     }
 
     public void doLayLoTrinh(View v) {
-        finish();
+        Intent intent = new Intent(DocSoActivity.this, LayLoTrinhActivity.class);
+
+        startActivity(intent);
     }
 
     public void doQuanLyDocSo(View v) {
