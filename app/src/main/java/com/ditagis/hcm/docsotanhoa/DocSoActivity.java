@@ -4,12 +4,16 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -18,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -39,6 +44,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -72,12 +78,15 @@ public class DocSoActivity extends AppCompatActivity {
     private Date currentTime;
     private ArrayAdapter<String> adapterDB;
     AutoCompleteTextView singleComplete;
+    Uri uri;
 //    DocSoActivity.ItemClickHandle itemClickHandle = new ItemClickHandle();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doc_so);
 
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
         singleComplete = (AutoCompleteTextView) findViewById(R.id.editauto);
         singleComplete.setAdapter(
                 new ArrayAdapter<String>
@@ -255,8 +264,8 @@ public class DocSoActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
 
-                for(int i = 0; i < DocSoActivity.this.mDBs.size(); i++){
-                    if(s.toString().equals(DocSoActivity.this.mDBs.get(i))){
+                for (int i = 0; i < DocSoActivity.this.mDBs.size(); i++) {
+                    if (s.toString().equals(DocSoActivity.this.mDBs.get(i))) {
                         DocSoActivity.this.spinDB.setSelection(i);
                     }
                 }
@@ -451,7 +460,13 @@ public class DocSoActivity extends AppCompatActivity {
                 android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI.getPath());
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, "new-photo-name.jpg");
+
+        this.currentTime = Calendar.getInstance().getTime();
+        File photo = getImageFileName();
+//        this.uri= FileProvider.getUriForFile(DocSoActivity.this, DocSoActivity.this.getApplicationContext().getPackageName() + ".my.package.name.provider", photo);
+        this.uri = Uri.fromFile(photo);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, this.uri);
+//        this.uri = Uri.fromFile(photo);
         startActivityForResult(cameraIntent, REQUEST_ID_IMAGE_CAPTURE);
     }
 
@@ -493,7 +508,16 @@ public class DocSoActivity extends AppCompatActivity {
         return f;
     }
 
-    // Khi activy chụp hình (Hoặc quay video) hoàn thành, phương thức này sẽ được gọi.
+    private String pathFromUri(Uri imageUri) {
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(imageUri, filePathColumn,
+                null, null, null);
+        cursor.moveToFirst();
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        String filePath = cursor.getString(columnIndex);
+        return filePath;
+    }    // Khi activy chụp hình (Hoặc quay video) hoàn thành, phương thức này sẽ được gọi.
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -502,30 +526,104 @@ public class DocSoActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 if (!requestPermissonWriteFile())
                     return;
-                mBpImage = (Bitmap) data.getExtras().get("data");
-                this.currentTime = Calendar.getInstance().getTime();
-                FileOutputStream fos = null;
-                try {
+//                BitmapFactory.Options options = new BitmapFactory.Options();
+//                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+//                mBpImage = BitmapFactory.decodeFile(pathFromUri(DocSoActivity.this.uri), options);
+                if (DocSoActivity.this.uri != null) {
+                    Uri selectedImage = DocSoActivity.this.uri;
+                    getContentResolver().notifyChange(selectedImage, null);
+                    mBpImage = getBitmap(DocSoActivity.this.uri.getPath());
+//                    mBpImage = (Bitmap) data.getExtras().get("data");
+//                    this.currentTime = Calendar.getInstance().getTime();
+                    FileOutputStream fos = null;
+                    try {
+                        if (mBpImage != null) {
+                            fos = new FileOutputStream(getImageFileName());
 
-                    fos = new FileOutputStream(getImageFileName());
-                    mBpImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                    fos.flush();
-                    fos.close();
-                    Toast.makeText(this, "Đã lưu ảnh", Toast.LENGTH_SHORT).show();
-                    DocSoActivity.this.editTextCSM.setEnabled(true);
-                } catch (FileNotFoundException e) {
-                    Toast.makeText(this, "Lỗi khi lưu ảnh", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    Toast.makeText(this, "Lỗi khi lưu ảnh", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
+                            Matrix matrix = new Matrix();
+
+                            matrix.postRotate(90);
+                            Bitmap rotatedBitmap = Bitmap.createBitmap(mBpImage, 0, 0, mBpImage.getWidth(), mBpImage.getHeight(), matrix, true);
+                            rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                            fos.flush();
+                            fos.close();
+                            Toast.makeText(this, "Đã lưu ảnh", Toast.LENGTH_SHORT).show();
+                            DocSoActivity.this.editTextCSM.setEnabled(true);
+                        }
+                    } catch (FileNotFoundException e) {
+                        Toast.makeText(this, "Lỗi khi lưu ảnh", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        Toast.makeText(this, "Lỗi khi lưu ảnh", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
                 }
-
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, "Hủy chụp hình", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Lỗi khi chụp hình", Toast.LENGTH_LONG).show();
             }
+        }
+    }
+
+    private Bitmap getBitmap(String path) {
+
+        Uri uri = Uri.fromFile(new File(path));
+        InputStream in = null;
+        try {
+            final int IMAGE_MAX_SIZE = 1200000; // 1.2MP
+            in = getContentResolver().openInputStream(uri);
+
+            // Decode image size
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(in, null, o);
+            in.close();
+
+
+            int scale = 1;
+            while ((o.outWidth * o.outHeight) * (1 / Math.pow(scale, 2)) >
+                    IMAGE_MAX_SIZE) {
+                scale++;
+            }
+            Log.d("", "scale = " + scale + ", orig-width: " + o.outWidth + ", orig-height: " + o.outHeight);
+
+            Bitmap b = null;
+            in = getContentResolver().openInputStream(uri);
+            if (scale > 1) {
+                scale--;
+                // scale to max possible inSampleSize that still yields an image
+                // larger than target
+                o = new BitmapFactory.Options();
+                o.inSampleSize = scale;
+                b = BitmapFactory.decodeStream(in, null, o);
+
+                // resize to desired dimensions
+                int height = b.getHeight();
+                int width = b.getWidth();
+                Log.d("", "1th scale operation dimenions - width: " + width + ", height: " + height);
+
+                double y = Math.sqrt(IMAGE_MAX_SIZE
+                        / (((double) width) / height));
+                double x = (y / height) * width;
+
+                Bitmap scaledBitmap = Bitmap.createScaledBitmap(b, (int) x,
+                        (int) y, true);
+                b.recycle();
+                b = scaledBitmap;
+
+                System.gc();
+            } else {
+                b = BitmapFactory.decodeStream(in);
+            }
+            in.close();
+
+            Log.d("", "bitmap size - width: " + b.getWidth() + ", height: " +
+                    b.getHeight());
+            return b;
+        } catch (IOException e) {
+            Log.e("", e.getMessage(), e);
+            return null;
         }
     }
 
@@ -542,4 +640,3 @@ public class DocSoActivity extends AppCompatActivity {
 //        Toast.makeText(this, "Chức năng đang được cập nhật", Toast.LENGTH_SHORT).show();
     }
 }
-
