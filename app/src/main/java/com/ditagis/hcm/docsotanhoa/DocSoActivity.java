@@ -214,7 +214,7 @@ public class DocSoActivity extends AppCompatActivity {
 
                                 DocSoActivity.this.txtSaveState.setText(SAVED);
                                 DocSoActivity.this.txtSaveState.setTextColor(ContextCompat.getColor(DocSoActivity.this,
-                                        R.color.colorBlueLight));
+                                        R.color.colorSave));
                             } else {
                                 DocSoActivity.this.mGhiChu = "";
                                 DocSoActivity.this.editTextCSM.setText("");
@@ -222,7 +222,7 @@ public class DocSoActivity extends AppCompatActivity {
 
                                 DocSoActivity.this.txtSaveState.setText(UN_SAVED);
                                 DocSoActivity.this.txtSaveState.setTextColor(ContextCompat.getColor(DocSoActivity.this,
-                                        R.color.colorAccent));
+                                        R.color.colorUnsave));
                             }
 //                            if (DocSoActivity.this.mLocalDatabase.getStateDanhBo_CSM(DocSoActivity.this.mDanhBo)) {
 //                                DocSoActivity.this.txtSaveState.setText(SAVED);
@@ -299,19 +299,19 @@ public class DocSoActivity extends AppCompatActivity {
                     return;
                 }
                 // kiểm tra chỉ số mới
-                int csc = 0;
+                int csc = Integer.parseInt(txtCSC.getText().toString());
                 int csm = 0;
-//                if (txtCSM.getText().length() == 0) {
-//                    //kiem tra code
-//                } else {
-                csm = Integer.parseInt(txtCSM.getText().toString());
-                csc = Integer.parseInt(txtCSC.getText().toString());
-                if (csm < csc) {
-                    alertCSM(csc, csm);
+                if (txtCSM.getText().toString().length() == 0) {
+                    alertCSM_Null(csc, csm);
                 } else {
-                    saveDB_CSM(getImageFileName().getAbsolutePath(), csc, csm);
+                    csm = Integer.parseInt(txtCSM.getText().toString());
+
+                    if (csm < csc) {
+                        alertCSM(csc, csm);
+                    } else {
+                        saveDB_CSM(getImageFileName().getAbsolutePath(), csc, csm);
+                    }
                 }
-//                }
             }
         });
     }
@@ -333,16 +333,20 @@ public class DocSoActivity extends AppCompatActivity {
         DocSoActivity.this.txtComplete.setText(DocSoActivity.this.mDanhBoHoanThanh + "/" + DocSoActivity.this.mSumDanhBo);
         DocSoActivity.this.txtSaveState.setText(SAVED);
         DocSoActivity.this.txtSaveState.setTextColor(ContextCompat.getColor(DocSoActivity.this,
-                R.color.colorBlueLight));
+                R.color.colorSave));
 
         Toast.makeText(DocSoActivity.this, "Đã lưu chỉ số mới", Toast.LENGTH_SHORT).show();
 
         //select next danhbo
-
-
+//        String danhBo = DocSoActivity.this.mDanhBo;
+//
 //        int i = spinDB.getSelectedItemPosition();
 //        spinDB.setSelection(i == spinDB.getCount() - 1 ? i : i + 1);
-//        DocSoActivity.this.adapterDB.remove(DocSoActivity.this.mDanhBo);
+
+//        DocSoActivity.this.adapterDB.remove(danhBo);
+//
+//        i = spinDB.getSelectedItemPosition();
+//        spinDB.setSelection(i == 0 ? i : i - 1);
     }
 
     private void showImage(File f) {
@@ -382,18 +386,39 @@ public class DocSoActivity extends AppCompatActivity {
 
     }
 
-    private void alertCSM(final int csc, final int csm) {
+    private void alertCSM_Null(final int csc, final int csm) {
         AlertDialog.Builder builder = new AlertDialog.Builder(DocSoActivity.this);
-        builder.setTitle("Chỉ số mới nhỏ hơn chỉ số cũ");
-        builder.setMessage("Kiểm tra danh bộ hiện tại thuộc diện thay mới đồng hồ?")
+        builder.setTitle("Chưa nhập chỉ số mới");
+        builder.setMessage("Kiểm tra code?")
                 .setCancelable(true)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         saveDB_CSM(getImageFileName().getAbsolutePath(), csc, csm);
                         dialog.dismiss();
                     }
                 })
-                .setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Kiểm tra lại", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+
+    }
+
+    private void alertCSM(final int csc, final int csm) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(DocSoActivity.this);
+        builder.setTitle("Chỉ số mới nhỏ hơn chỉ số cũ");
+        builder.setMessage("Kiểm tra danh bộ hiện tại thuộc diện thay mới đồng hồ?")
+                .setCancelable(true)
+                .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        saveDB_CSM(getImageFileName().getAbsolutePath(), csc, csm);
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("Kiểm tra lại", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
                     }

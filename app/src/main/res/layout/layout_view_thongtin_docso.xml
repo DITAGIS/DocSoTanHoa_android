@@ -1,176 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
-    <ImageView
-        android:id="@+id/imgView_qlds"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:adjustViewBounds="true" />
-    <!--Thông tin danh bộ đã đọc-->
-    <TableLayout
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="25px"
-        android:minWidth="25px">
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
 
-        <!--Table row mã lộ trình-->
-        <TableRow android:layout_weight="1">
+        <ImageView
+            android:id="@+id/imgView_qlds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true" />
+        <!--Thông tin danh bộ đã đọc-->
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="25px"
+            android:minWidth="25px">
 
-            <TextView
-                android:layout_column="0"
-                android:layout_weight="1"
-                android:text="Mã LT: "
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <!--Table row mã lộ trình-->
+            <TableRow android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/txt_layout_qlds_MLT"
-                android:gravity="left"
-                android:layout_weight="3"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-        </TableRow>
-        <!--Table row tên khách hàng-->
-        <TableRow android:layout_weight="1">
+                <TextView
+                    android:layout_column="0"
+                    android:layout_weight="1"
+                    android:text="Mã LT: "
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
-                android:layout_column="0"
-                android:layout_weight="1"
-                android:text="Tên KH: "
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                <TextView
+                    android:id="@+id/txt_layout_qlds_MLT"
+                    android:layout_weight="3"
+                    android:gravity="left"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </TableRow>
+            <!--Table row tên khách hàng-->
+            <TableRow android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/txt_layout_qlds_tenKH"
-                android:layout_weight="3"
-                android:gravity="left"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-        </TableRow>
+                <TextView
+                    android:layout_column="0"
+                    android:layout_weight="1"
+                    android:text="Tên KH: "
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <!--Table row địa chỉ-->
-        <TableRow android:layout_weight="1">
+                <TextView
+                    android:id="@+id/txt_layout_qlds_tenKH"
+                    android:layout_weight="3"
+                    android:layout_width="wrap_content"
+                    android:gravity="left"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </TableRow>
 
-            <TextView
-                android:layout_column="0"
-                android:layout_weight="1"
-                android:text="Địa chỉ: "
+            <!--Table row địa chỉ-->
+            <TableRow android:layout_weight="1">
 
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                <TextView
+                    android:layout_column="0"
+                    android:layout_weight="1"
+                    android:text="Địa chỉ: "
 
-            <TextView
-                android:id="@+id/txt_layout_qlds_diaChi"
-                android:gravity="left"
-                android:layout_weight="3"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-        </TableRow>
-        <!--Table row số điện thoại-->
-        <TableRow android:layout_weight="1">
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
-                android:layout_column="0"
-                android:layout_weight="1"
-                android:text="SĐT: "
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                <TextView
+                    android:id="@+id/txt_layout_qlds_diaChi"
+                    android:layout_weight="3"
+                    android:gravity="left"
+                    android:layout_width="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </TableRow>
+            <!--Table row số điện thoại-->
+            <TableRow android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/txt_layout_qlds_SDT"
-                android:gravity="left"
-                android:layout_weight="3"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-        </TableRow>
-        <!--Table row chỉ số cũ-->
-        <TableRow android:layout_weight="1">
+                <TextView
+                    android:layout_column="0"
+                    android:layout_weight="1"
+                    android:text="SĐT: "
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
-                android:layout_column="0"
-                android:layout_weight="1"
-                android:text="CS cũ: "
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                <TextView
+                    android:id="@+id/txt_layout_qlds_SDT"
+                    android:layout_weight="3"
+                    android:gravity="left"
+                    android:layout_width="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </TableRow>
+            <!--Table row chỉ số cũ-->
+            <TableRow android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/txt_layout_qlds_CSC"
-                android:gravity="left"
-                android:layout_weight="3"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-        </TableRow>
-        <!--Table row chỉ số mới-->
-        <TableRow android:layout_weight="1">
+                <TextView
+                    android:layout_column="0"
+                    android:layout_weight="1"
+                    android:text="CS cũ: "
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
-                android:layout_column="0"
-                android:layout_weight="1"
-                android:text="CS mới: "
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                <TextView
+                    android:id="@+id/txt_layout_qlds_CSC"
+                    android:layout_weight="3"
+                    android:gravity="left"
+                    android:layout_width="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </TableRow>
+            <!--Table row chỉ số mới-->
+            <TableRow android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/txt_layout_qlds_CSM"
-                android:gravity="left"
-                android:layout_weight="3"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-        </TableRow>
+                <TextView
+                    android:layout_column="0"
+                    android:layout_weight="1"
+                    android:text="CS mới: "
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <!--Table row code-->
-        <TableRow android:layout_weight="1">
+                <TextView
+                    android:id="@+id/txt_layout_qlds_CSM"
+                    android:layout_weight="3"
+                    android:layout_width="wrap_content"
+                    android:gravity="left"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </TableRow>
 
-            <TextView
-                android:layout_column="0"
-                android:layout_weight="1"
-                android:text="Code: "
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <!--Table row code-->
+            <TableRow android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/txt_layout_qlds_code"
-                android:gravity="left"
-                android:layout_weight="3"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-        </TableRow>
-        <!--Table row giá biểu-->
-        <TableRow android:layout_weight="1">
+                <TextView
+                    android:layout_column="0"
+                    android:layout_weight="1"
+                    android:text="Code: "
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
-                android:layout_column="0"
-                android:layout_weight="1"
-                android:text="Giá biểu: "
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                <TextView
+                    android:id="@+id/txt_layout_qlds_code"
+                    android:layout_weight="3"
+                    android:layout_width="wrap_content"
+                    android:gravity="left"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </TableRow>
+            <!--Table row giá biểu-->
+            <TableRow android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/txt_layout_qlds_giaBieu"
-                android:gravity="left"
-                android:layout_weight="3"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-        </TableRow>
+                <TextView
+                    android:layout_column="0"
+                    android:layout_weight="1"
+                    android:text="Giá biểu: "
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <!--Table row tiền nước-->
-        <TableRow android:layout_weight="1">
+                <TextView
+                    android:id="@+id/txt_layout_qlds_giaBieu"
+                    android:layout_weight="3"
+                    android:layout_width="wrap_content"
+                    android:gravity="left"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </TableRow>
 
-            <TextView
-                android:layout_column="0"
-                android:layout_weight="1"
-                android:text="Tiền nước: "
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <!--Table row tiền nước-->
+            <TableRow android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/txt_layout_qlds_tienNuoc"
-                android:gravity="left"
-                android:layout_weight="3"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-        </TableRow>
-        <!--Table row ghi chú-->
-        <TableRow android:layout_weight="1">
+                <TextView
+                    android:layout_column="0"
+                    android:layout_weight="1"
+                    android:text="Tiền nước: "
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
-                android:layout_column="0"
-                android:layout_weight="1"
-                android:text="Ghi chú:"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                <TextView
+                    android:id="@+id/txt_layout_qlds_tienNuoc"
+                    android:layout_weight="3"
+                    android:layout_width="wrap_content"
+                    android:gravity="left"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </TableRow>
+            <!--Table row ghi chú-->
+            <TableRow android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/txt_layout_qlds_ghiChu"
-                android:gravity="left"
-                android:layout_weight="3"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-        </TableRow>
-    </TableLayout>
-</LinearLayout>
+                <TextView
+                    android:layout_column="0"
+                    android:layout_weight="1"
+                    android:text="Ghi chú:"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/txt_layout_qlds_ghiChu"
+                    android:layout_weight="3"
+                    android:layout_width="wrap_content"
+                    android:gravity="left"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+</ScrollView>

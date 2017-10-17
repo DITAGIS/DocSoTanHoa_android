@@ -255,40 +255,6 @@ public class LocalDatabase extends SQLiteOpenHelper {
         return loTrinhs;
     }
 
-    public ArrayList<HoaDon> getAllHoaDons() {
-        Log.i(TAG, "LocalDatabase.getAllHoaDons ... ");
-
-        ArrayList<HoaDon> hoaDonList = new ArrayList<HoaDon>();
-        // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_HOADON;
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-
-        // Duyệt trên con trỏ, và thêm vào danh sách.
-        if (cursor.moveToFirst()) {
-            do {
-                HoaDon hoaDon = new HoaDon();
-                hoaDon.setId(Integer.parseInt(cursor.getString(0)));
-                hoaDon.setChiSoCu(cursor.getString(1));
-                hoaDon.setChiSoMoi(cursor.getString(2));
-                hoaDon.setCode(cursor.getString(3));
-                hoaDon.setDanhBo(cursor.getString(4));
-                hoaDon.setDot(cursor.getString(5));
-                hoaDon.setTenKhachHang(cursor.getString(6));
-                hoaDon.setKy(cursor.getString(7));
-                hoaDon.setMaLoTrinh(cursor.getString(8));
-
-
-                // Thêm vào danh sách.
-                hoaDonList.add(hoaDon);
-            } while (cursor.moveToNext());
-        }
-
-        // return hoaDon list
-        return hoaDonList;
-    }
 
     public List<HoaDon> getAllHoaDonByMaLoTrinh(String mlt) {
         List<HoaDon> hoaDons = new ArrayList<HoaDon>();
@@ -322,33 +288,12 @@ public class LocalDatabase extends SQLiteOpenHelper {
         return hoaDons;
     }
 
-    public int updateHoaDon(HoaDon hoaDon) {
-
-
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_HOADON_ID, hoaDon.getId());
-        values.put(COLUMN_HOADON_CHISOCU, hoaDon.getChiSoCu());
-        values.put(COLUMN_HOADON_CHISOMOI, hoaDon.getChiSoMoi());
-        values.put(COLUMN_HOADON_CODE, hoaDon.getCode());
-        values.put(COLUMN_HOADON_DANHBO, hoaDon.getDanhBo());
-        values.put(COLUMN_HOADON_DOT, hoaDon.getDot());
-        values.put(COLUMN_HOADON_KHACHHANG, hoaDon.getTenKhachHang());
-        values.put(COLUMN_HOADON_KY, hoaDon.getKy());
-        values.put(COLUMN_HOADON_MALOTRINH, hoaDon.getMaLoTrinh());
-
-        // updating row
-        return db.update(TABLE_HOADON, values, COLUMN_HOADON_ID + " = ?",
-                new String[]{String.valueOf(hoaDon.getId())});
-    }
-
     public void deleteHoaDon(HoaDon hoaDon) {
-        Log.i(TAG, "LocalDatabase.updateHoaDon ... " + hoaDon.getId());
+        Log.i(TAG, "LocalDatabase.updateHoaDon ... " + hoaDon.getDanhBo());
 
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_HOADON, COLUMN_HOADON_ID + " = ?",
-                new String[]{String.valueOf(hoaDon.getId())});
+        db.delete(TABLE_HOADON, COLUMN_HOADON_DANHBO + " = ?",
+                new String[]{String.valueOf(hoaDon.getDanhBo())});
         db.close();
     }
     public void deleteDanhBo_CSM(DanhBo_ChiSoMoi danhBo_chiSoMoi) {

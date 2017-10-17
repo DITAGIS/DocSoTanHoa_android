@@ -207,6 +207,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|bottom"
                     android:text="Lấy lộ trình"
+                    android:textColor="@color/colorWhite"
                     android:textSize="20dp" />
             </FrameLayout>
 
