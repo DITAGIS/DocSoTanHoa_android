@@ -44,8 +44,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         txtUserName = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
-        btnChangePassword= (Button)findViewById(R.id.btnChangePassword);
-        loginAsync = new LoginAsync();
+        btnChangePassword = (Button) findViewById(R.id.btnChangePassword);
+
         this.mImgBtnViewPassword = (ImageButton) findViewById(R.id.imgBtn_login_viewPassword);
         requestPermissonCamera();
         requestPermissonWriteFile();
@@ -76,9 +76,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 //                spinner.setVisibility(View.GONE);
 //                spinner.setVisibility(View.VISIBLE);
+                if (txtUserName.getText().toString().length() == 0 || txtPassword.getText().toString().length() == 0) {
+                    Toast.makeText(LoginActivity.this, "Tên đăng nhập hoặc mật khẩu không được để trống!!!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 setEnable(false);
                 Toast.makeText(LoginActivity.this, "Đang kiểm tra thông tin đăng nhập...", Toast.LENGTH_SHORT).show();
                 if (isOnline()) {
+                    loginAsync = new LoginAsync();
                     loginAsync.execute(txtUserName.getText().toString(), txtPassword.getText().toString());
 
                 } else {
@@ -88,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-       btnChangePassword.setOnClickListener(new View.OnClickListener() {
+        btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(LoginActivity.this, "Tính năng đang cập nhật", Toast.LENGTH_SHORT).show();
@@ -148,6 +153,7 @@ public class LoginActivity extends AppCompatActivity {
         LoginActivity.this.txtUserName.setEnabled(enable);
         LoginActivity.this.btnLogin.setEnabled(enable);
         LoginActivity.this.btnChangePassword.setEnabled(enable);
+        LoginActivity.this.mImgBtnViewPassword.setEnabled(enable);
     }
 
     class LoginAsync extends AsyncTask<String, Boolean, Void> {
