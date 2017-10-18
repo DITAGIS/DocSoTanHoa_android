@@ -57,7 +57,8 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     private int mSumMLT;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private int mKy;
-    private int mNam;
+    private int mNam, mDot;
+    private String mUsername;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,12 +67,14 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         this.mKy = calendar.get(Calendar.MONTH) + 1;
         this.mNam = calendar.get(Calendar.YEAR);
+        this.mDot = calendar.get(Calendar.DAY_OF_MONTH);
 //        Toast.makeText(this, mKy + "/" + mNam, Toast.LENGTH_SHORT).show();
         spinner = (ProgressBar) findViewById(R.id.myProgress);
         spinner.setVisibility(View.INVISIBLE);
         this.mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_llt_swipeRefreshLayout);
         m_mlt = new ArrayList<String>();
         mLocalDatabase = new LocalDatabase(this);
+        mUsername = getIntent().getExtras().getString("mayds");
 //        mLocalDatabase.Upgrade();
 //        mLocalDatabase.Create();
         m_txtTongMLT = (TextView) findViewById(R.id.txt_llt_mlt);
@@ -227,11 +230,12 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
             ConnectionDB condb = new ConnectionDB();
             Connection cnn = condb.getConnect();
+            String like = LayLoTrinhActivity.this.mDot + LayLoTrinhActivity.this.mUsername + "%";
             List<LoTrinh> loTrinhs = LayLoTrinhActivity.this.mLocalDatabase.getAllMaLoTrinh();
             try {
                 Statement statement = cnn.createStatement();
                 ResultSet rs = statement.executeQuery("SELECT DISTINCT MLT2 FROM DocSo where nam = "
-                        + LayLoTrinhActivity.this.mNam + " and ky = " + LayLoTrinhActivity.this.mKy);
+                        + LayLoTrinhActivity.this.mNam + " and ky = " + LayLoTrinhActivity.this.mKy + " and mlt2 like '" + like + "'");
 //                LayLoTrinhActivity.this.mHoaDons = new ArrayList<HoaDon>();
                 while (rs.next()) {
 
@@ -353,8 +357,8 @@ public class LayLoTrinhActivity extends AppCompatActivity {
                     if (rs1.next()) {
                         hopDong = rs1.getString(1);
                         tenKhachHang = rs1.getString(2);
-                        quan = rs1.getString(3) == null? "": rs1.getString(3);
-                        phuong = rs1.getString(4) == null? "": rs1.getString(4);
+                        quan = rs1.getString(3) == null ? "" : rs1.getString(3);
+                        phuong = rs1.getString(4) == null ? "" : rs1.getString(4);
 
                     }
                     HoaDon hoaDon = new HoaDon(id, khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);

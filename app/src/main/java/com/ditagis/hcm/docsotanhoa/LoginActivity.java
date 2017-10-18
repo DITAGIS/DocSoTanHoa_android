@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private int progressBarStatus = 0;
     private Handler progressBarbHandler = new Handler();
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
+    private String mUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 //                spinner.setVisibility(View.GONE);
 //                spinner.setVisibility(View.VISIBLE);
+                LoginActivity.this.mUsername = txtUserName.getText().toString();
                 if (txtUserName.getText().toString().length() == 0 || txtPassword.getText().toString().length() == 0) {
                     Toast.makeText(LoginActivity.this, "Tên đăng nhập hoặc mật khẩu không được để trống!!!", Toast.LENGTH_SHORT).show();
                     return;
@@ -88,8 +90,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 } else if (txtPassword.getText().toString().equals(loadPreferences(txtUserName.getText().toString()))) {
                     Toast.makeText(LoginActivity.this, "Đang đăng nhập với tài khoản trước...", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(LoginActivity.this, LayLoTrinhActivity.class);
-                    startActivity(intent);
+                    doLayLoTrinh();
                 } else {
                     Toast.makeText(LoginActivity.this, "Kiểm tra kết nối Internet và thử lại", Toast.LENGTH_SHORT).show();
                 }
@@ -200,8 +201,7 @@ public class LoginActivity extends AppCompatActivity {
             super.onProgressUpdate(values);
             boolean isValid = values[0];
             if (isValid) {
-                Intent intent = new Intent(LoginActivity.this, LayLoTrinhActivity.class);
-                startActivity(intent);
+                doLayLoTrinh();
             } else {
                 Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
 //                Intent intent1 = new Intent(LoginActivity.this, XemLoTrinhDaTaiActivity.class);
@@ -218,6 +218,12 @@ public class LoginActivity extends AppCompatActivity {
             }
             setEnable(true);
         }
+    }
+
+    public void doLayLoTrinh() {
+        Intent intent = new Intent(LoginActivity.this, LayLoTrinhActivity.class);
+        intent.putExtra("mayds", LoginActivity.this.mUsername);
+        startActivity(intent);
     }
 
     public boolean requestPermissonCamera() {
