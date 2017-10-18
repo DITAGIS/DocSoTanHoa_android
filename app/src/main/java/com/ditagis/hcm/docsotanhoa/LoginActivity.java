@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -80,11 +81,15 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Tên đăng nhập hoặc mật khẩu không được để trống!!!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                setEnable(false);
+//                setEnable(false);
                 if (isOnline()) {
                     loginAsync = new LoginAsync();
                     loginAsync.execute(txtUserName.getText().toString(), txtPassword.getText().toString());
 
+                } else if (txtPassword.getText().toString().equals(loadPreferences(txtUserName.getText().toString()))) {
+                    Toast.makeText(LoginActivity.this, "Đang đăng nhập với tài khoản trước...", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(LoginActivity.this, LayLoTrinhActivity.class);
+                    startActivity(intent);
                 } else {
                     Toast.makeText(LoginActivity.this, "Kiểm tra kết nối Internet và thử lại", Toast.LENGTH_SHORT).show();
                 }
@@ -162,6 +167,7 @@ public class LoginActivity extends AppCompatActivity {
         public LoginAsync() {
             this.dialog = new ProgressDialog(LoginActivity.this);
         }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -176,6 +182,15 @@ public class LoginActivity extends AppCompatActivity {
             String password = params[1];
 
             boolean isValid = this.loginDB.logIn(new User(username, password));
+            if (isValid) {
+                for (int i = 1; i <= 70; i++) {
+                    if (i < 10) {
+                        deletePreferences("0" + i);
+                    } else
+                        deletePreferences(i + "");
+                }
+                savePreferences(username, password);
+            }
             publishProgress(isValid);
             return null;
         }
@@ -229,5 +244,41 @@ public class LoginActivity extends AppCompatActivity {
             return false;
         } else
             return true;
+    }
+
+    public SharedPreferences getPreferences() {
+        return getSharedPreferences("LOGGED_IN", MODE_PRIVATE);
+    }
+
+    /**
+     * Method used to save Preferences
+     */
+    public void savePreferences(String key, String value) {
+        SharedPreferences sharedPreferences = getPreferences();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(key, value);
+        editor.commit();
+    }
+
+    /**
+     * Method used to load Preferences
+     */
+    public String loadPreferences(String key) {
+        try {
+            SharedPreferences sharedPreferences = getPreferences();
+            String strSavedMemo = sharedPreferences.getString(key, "");
+            return strSavedMemo;
+        } catch (NullPointerException nullPointerException) {
+            return null;
+        }
+    }
+
+    /**
+     * Method used to delete Preferences
+     */
+    public boolean deletePreferences(String key) {
+        SharedPreferences.Editor editor = getPreferences().edit();
+        editor.remove(key).commit();
+        return false;
     }
 }
