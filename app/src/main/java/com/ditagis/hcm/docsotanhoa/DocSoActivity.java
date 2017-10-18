@@ -224,15 +224,6 @@ public class DocSoActivity extends AppCompatActivity {
                                 DocSoActivity.this.txtSaveState.setTextColor(ContextCompat.getColor(DocSoActivity.this,
                                         R.color.colorUnsave));
                             }
-//                            if (DocSoActivity.this.mLocalDatabase.getStateDanhBo_CSM(DocSoActivity.this.mDanhBo)) {
-//                                DocSoActivity.this.txtSaveState.setText(SAVED);
-//                                DocSoActivity.this.txtSaveState.setTextColor(ContextCompat.getColor(DocSoActivity.this,
-//                                        R.color.colorBlueLight));
-//                            } else {
-//                                DocSoActivity.this.txtSaveState.setText(UN_SAVED);
-//                                DocSoActivity.this.txtSaveState.setTextColor(ContextCompat.getColor(DocSoActivity.this,
-//                                        R.color.colorAccent));
-//                            }
                         }
 
                         @Override

@@ -36,6 +36,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class LayLoTrinhActivity extends AppCompatActivity {
@@ -55,10 +56,17 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     private int mSumDanhBo;
     private int mSumMLT;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private int mKy;
+    private int mNam;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lay_lo_trinh);
+
+        Calendar calendar = Calendar.getInstance();
+        this.mKy = calendar.get(Calendar.MONTH) + 1;
+        this.mNam = calendar.get(Calendar.YEAR);
+//        Toast.makeText(this, mKy + "/" + mNam, Toast.LENGTH_SHORT).show();
         spinner = (ProgressBar) findViewById(R.id.myProgress);
         spinner.setVisibility(View.INVISIBLE);
         this.mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_llt_swipeRefreshLayout);
@@ -222,7 +230,8 @@ public class LayLoTrinhActivity extends AppCompatActivity {
             List<LoTrinh> loTrinhs = LayLoTrinhActivity.this.mLocalDatabase.getAllMaLoTrinh();
             try {
                 Statement statement = cnn.createStatement();
-                ResultSet rs = statement.executeQuery("SELECT DISTINCT MLT FROM HOADON");
+                ResultSet rs = statement.executeQuery("SELECT DISTINCT MLT2 FROM DocSo where nam = "
+                        + LayLoTrinhActivity.this.mNam + " and ky = " + LayLoTrinhActivity.this.mKy);
 //                LayLoTrinhActivity.this.mHoaDons = new ArrayList<HoaDon>();
                 while (rs.next()) {
 
@@ -310,33 +319,44 @@ public class LayLoTrinhActivity extends AppCompatActivity {
             ConnectionDB condb = new ConnectionDB();
             Connection cnn = condb.getConnect();
             LayLoTrinhActivity.this.mHoaDons = new ArrayList<HoaDon>();
-            Statement statement = null;
+            Statement statement = null, sttm1;
             try {
                 statement = cnn.createStatement();
 
-                ResultSet rs = statement.executeQuery("SELECT * FROM HOADON WHERE MLT = '" + mlt + "'");
+                ResultSet rs = statement.executeQuery("SELECT * FROM DocSo where nam = "
+                        + LayLoTrinhActivity.this.mNam + " and ky = " + LayLoTrinhActivity.this.mKy + " and MLT2 = '" + mlt + "'");
                 while (rs.next()) {
-                    int id = rs.getInt(1);
+                    int id = 0; //TODO xem vụ tạo DocSoID
+                    String khu = "";
+                    String dot = "";
+                    String danhBo = rs.getString(2);
+                    String cuLy = "";
+                    String hopDong = "";
+                    String tenKhachHang = "";
+                    String soNha = rs.getString(5);
+                    String duong = rs.getString(7);
+                    String giaBieu = rs.getString(9);
+                    String dinhMuc = rs.getString(10);
+                    String nam = LayLoTrinhActivity.this.mNam + "";
+                    String ky = LayLoTrinhActivity.this.mKy + "";
+                    String chiSoCu = rs.getInt(18) + ""; // lấy chỉ số mới của kỳ trước
+                    String chiSoMoi = "";
+                    String code = "";
+                    String codeFU = "";
 
-                    String khu = rs.getString(2);
-                    String dot = rs.getString(3);
-                    String danhBo = rs.getString(4);
-                    String cuLy = rs.getString(5);
-                    String hopDong = rs.getString(6);
-                    String tenKhachHang = rs.getString(7);
-                    String soNha = rs.getString(8);
-                    String duong = rs.getString(9);
-                    String giaBieu = rs.getString(10);
-                    String dinhMuc = rs.getString(11);
-                    String ky = rs.getString(12);
-                    String nam = rs.getString(13);
-                    String code = rs.getString(14);
-                    String codeFU = rs.getString(15);
-                    String chiSoCu = rs.getString(16);
-                    String chiSoMoi = rs.getString(17);
-                    String quan = rs.getString(18);
-                    String phuong = rs.getString(19);
-                    String maLoTrinh = rs.getString(23);
+                    String quan = "";
+                    String phuong = "";
+                    String maLoTrinh = mlt;
+
+                    sttm1 = cnn.createStatement();
+                    ResultSet rs1 = sttm1.executeQuery("SELECT HopDong, tenkh, quan, phuong FROM KhachHang where MLT2 = '" + mlt + "'");
+                    if (rs1.next()) {
+                        hopDong = rs1.getString(1);
+                        tenKhachHang = rs1.getString(2);
+                        quan = rs1.getString(3) == null? "": rs1.getString(3);
+                        phuong = rs1.getString(4) == null? "": rs1.getString(4);
+
+                    }
                     HoaDon hoaDon = new HoaDon(id, khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
                     LayLoTrinhActivity.this.mHoaDons.add(hoaDon);
                     if (mLocalDatabase.addHoaDon(hoaDon)) ;

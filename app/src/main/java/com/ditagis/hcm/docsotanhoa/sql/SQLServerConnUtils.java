@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class SQLServerConnUtils {
     public static String HOST_NAME = "103.74.117.51";//"112.78.4.175";
     public static String INSTANCE_NAME = "MSSQLSERVER";
-    public static String database = "HCM_DocSoTanHoa";
+    public static String database = "DocSoTH";
     public static String PASSWORD = "Docso123";
     public static String USERNAME = "docsotanhoa";
 
