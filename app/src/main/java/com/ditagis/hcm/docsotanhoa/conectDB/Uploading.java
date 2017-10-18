@@ -22,8 +22,9 @@ import java.util.List;
 public class Uploading extends AbstractDB implements IDB<DanhBo_ChiSoMoi, Boolean, String> {
     private final String TABLE_NAME = "HOADON";
     private final String NEW_TABLE_NAME = "HoaDonMoi";
+    private final String TABLE_NAME_DOCSO = "DocSo";
     private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET CSMOI=?, CODE=? WHERE DANHBO=?";
+    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME_DOCSO + " SET CSMOI=?, CODEMoi=? WHERE DANHBO=?";
     private final String SQL_DELETE = "DELETE FROM " + TABLE_NAME + " WHERE ClassId=?";
     private final String SQL_INSERT = "INSERT INTO " + NEW_TABLE_NAME + " VALUES(?,?,?,?,?,?,?,?,?,?,?)";
     private Connection cnn = null;
@@ -128,9 +129,9 @@ public class Uploading extends AbstractDB implements IDB<DanhBo_ChiSoMoi, Boolea
             st.setString(1, danhBo_chiSoMoi.getChiSoMoi());
             st.setString(2, danhBo_chiSoMoi.getCode());
             st.setString(3, danhBo_chiSoMoi.getDanhBo());
-            boolean result = st.execute();
+            int result = st.executeUpdate();
             st.close();
-            return result;
+            return result == 1;
 
         } catch (SQLException e1) {
             e1.printStackTrace();

@@ -1,11 +1,13 @@
 package com.ditagis.hcm.docsotanhoa.entities;
 
+import static android.R.attr.id;
+
 /**
  * @author fuhi
  *
  */
 public class HoaDon {
-	private int id;
+
 	private String khu;
 	private String dot;
 	private String danhBo;
@@ -30,8 +32,8 @@ public class HoaDon {
 
 	}
 
-	public HoaDon(int id, String dot, String danhBo, String tenKhachHang, String ky, String code, String chiSoCu, String chiSoMoi, String maLoTrinh,String soNha,String duong,String giaBieu,String dinhMuc) {
-		this.id = id;
+	public HoaDon( String dot, String danhBo, String tenKhachHang, String ky, String code, String chiSoCu, String chiSoMoi, String maLoTrinh,String soNha,String duong,String giaBieu,String dinhMuc) {
+
 		this.dot = dot;
 		this.danhBo = danhBo;
 		this.tenKhachHang = tenKhachHang;
@@ -58,11 +60,11 @@ public class HoaDon {
 		this.maLoTrinh = maLoTrinh;
 	}
 
-	public HoaDon(int id, String khu, String dot, String danhBo, String cuLy, String hopDong, String tenKhachHang,
+	public HoaDon(String khu, String dot, String danhBo, String cuLy, String hopDong, String tenKhachHang,
 			String soNha, String duong, String giaBieu, String dinhMuc, String ky, String nam, String code,
 			String codeFU, String chiSoCu, String chiSoMoi, String quan, String phuong, String maLoTrinh) {
 		super();
-		this.id = id;
+
 		this.khu = khu;
 		this.dot = dot;
 		this.danhBo = danhBo;
@@ -86,12 +88,6 @@ public class HoaDon {
 	
 	
 
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public String getKhu() {
 		return khu;
 	}

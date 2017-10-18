@@ -33,7 +33,6 @@ public class LocalDatabase extends SQLiteOpenHelper {
 
     // Tên bảng: HoaDon.
     private static final String TABLE_HOADON = "HoaDon";
-    private static final String COLUMN_HOADON_ID = "HoaDon_Id";
     private static final String COLUMN_HOADON_DOT = "HoaDon_Dot";
     private static final String COLUMN_HOADON_DANHBO = "HoaDon_DanhBo";
     private static final String COLUMN_HOADON_CULY = "HoaDon_CuLy";
@@ -43,14 +42,18 @@ public class LocalDatabase extends SQLiteOpenHelper {
     private static final String COLUMN_HOADON_CHISOCU = "HoaDon_ChiSoCu";
     private static final String COLUMN_HOADON_CHISOMOI = "HoaDon_ChiSoMoi";
     private static final String COLUMN_HOADON_MALOTRINH = "HoaDon_MaLoTrinh";
+    private static final String COLUMN_HOADON_SONHA = "HoaDon_SoNha";
+    private static final String COLUMN_HOADON_DUONG = "HoaDon_Duong";
+    private static final String COLUMN_HOADON_GIABIEU = "HoaDon_GiaBieu";
+    private static final String COLUMN_HOADON_DINHMUC = "HoaDon_DinhMuc";
 
     private static final String TABLE_MALOTRINH = "LoTrinh";
     private static final String COLUMN_MALOTRINH_ID = "MaLoTrinh_ID";
     private static final String COLUMN_MALOTRINH_SOLUONG = "MaLoTrinh_SoLuong";
-    private static final String COLUMN_HOADON_SONHA = "MaLoTrinh_SoNha";
-    private static final String COLUMN_HOADON_DUONG = "MaLoTrinh_Duong";
-    private static final String COLUMN_HOADON_GIABIEU = "MaLoTrinh_GiaBieu";
-    private static final String COLUMN_HOADON_DINHMUC = "MaloTrinh_DinhMuc";
+//    private static final String COLUMN_MALOTRINH_SONHA = "MaLoTrinh_SoNha";
+//    private static final String COLUMN_MALOTRINH_DUONG = "MaLoTrinh_Duong";
+//    private static final String COLUMN_MALOTRINH_GIABIEU = "MaLoTrinh_GiaBieu";
+//    private static final String COLUMN_MALOTRINH_DINHMUC = "MaloTrinh_DinhMuc";
 
     private static final String TABLE_LUUDANHBO = "LuuDanhBo";
 
@@ -84,9 +87,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
         Log.i(TAG, "LocalDatabase.onCreate ... ");
         // Script tạo bảng.
         String script = "CREATE TABLE " + TABLE_HOADON + "("
-                + COLUMN_HOADON_ID + " INTEGER PRIMARY KEY,"
                 + COLUMN_HOADON_DOT + " TEXT,"
-                + COLUMN_HOADON_DANHBO + " TEXT,"
+                + COLUMN_HOADON_DANHBO + " TEXT PRIMARY KEY,"
                 + COLUMN_HOADON_KHACHHANG + " TEXT,"
                 + COLUMN_HOADON_KY + " TEXT,"
                 + COLUMN_HOADON_CODE + " TEXT,"
@@ -167,15 +169,15 @@ public class LocalDatabase extends SQLiteOpenHelper {
     }
 
     public boolean addHoaDon(HoaDon hoaDon) {
-        Log.i(TAG, "LocalDatabase.addHoaDon ... " + hoaDon.getId());
+        Log.i(TAG, "LocalDatabase.addHoaDon ... " + hoaDon.getDanhBo());
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(COLUMN_HOADON_ID, hoaDon.getId());
+
         values.put(COLUMN_HOADON_CHISOCU, hoaDon.getChiSoCu());
-        values.put(COLUMN_HOADON_CHISOMOI, hoaDon.getChiSoMoi());
-        values.put(COLUMN_HOADON_CODE, hoaDon.getCode());
+        values.put(COLUMN_HOADON_CHISOMOI, "");
+        values.put(COLUMN_HOADON_CODE, "");
         values.put(COLUMN_HOADON_DANHBO, hoaDon.getDanhBo());
         values.put(COLUMN_HOADON_DOT, hoaDon.getDot());
         values.put(COLUMN_HOADON_KHACHHANG, hoaDon.getTenKhachHang());
@@ -201,7 +203,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_HOADON, new String[]{
-                        COLUMN_HOADON_ID,
+
                         COLUMN_HOADON_DOT,
                         COLUMN_HOADON_DANHBO,
                         COLUMN_HOADON_KHACHHANG,
@@ -219,9 +221,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
-        HoaDon hoaDon = new HoaDon(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12));
-        // return hoaDon
+        HoaDon hoaDon = new HoaDon(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11));
         return hoaDon;
     }
 
@@ -274,7 +274,6 @@ public class LocalDatabase extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_HOADON, new String[]{
-                        COLUMN_HOADON_ID,
                         COLUMN_HOADON_DOT,
                         COLUMN_HOADON_DANHBO,
                         COLUMN_HOADON_KHACHHANG,
@@ -291,8 +290,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 new String[]{String.valueOf(mlt)}, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
-                HoaDon hoaDon = new HoaDon(Integer.parseInt(cursor.getString(0)),
-                        cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12));
+                HoaDon hoaDon = new HoaDon(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11));
                 hoaDons.add(hoaDon);
             } while (cursor.moveToNext());
         }

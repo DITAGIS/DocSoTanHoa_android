@@ -314,12 +314,12 @@ public class LayLoTrinhActivity extends AppCompatActivity {
             mlt = params[0];
             int danhbo;
 //            LayLoTrinhActivity.this.mHoaDons = LayLoTrinhActivity.this.mLocalDatabase.getAllHoaDons();
-            danhbo = LayLoTrinhActivity.this.da.getItem(mlt).getDanhbo();
-            if (danhbo != 0) {
-                publishProgress(danhbo);
-                LayLoTrinhActivity.this.m_DanhBo[this.pos] = danhbo;
-                return danhbo + "";
-            }
+//            danhbo = LayLoTrinhActivity.this.da.getItem(mlt).getDanhbo();
+//            if (danhbo != 0) {
+//                publishProgress(danhbo);
+//                LayLoTrinhActivity.this.m_DanhBo[this.pos] = danhbo;
+//                return danhbo + "";
+//            }
             ConnectionDB condb = new ConnectionDB();
             Connection cnn = condb.getConnect();
             LayLoTrinhActivity.this.mHoaDons = new ArrayList<HoaDon>();
@@ -343,7 +343,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
                     String dinhMuc = rs.getString(10);
                     String nam = LayLoTrinhActivity.this.mNam + "";
                     String ky = LayLoTrinhActivity.this.mKy + "";
-                    String chiSoCu = rs.getInt(18) + ""; // lấy chỉ số mới của kỳ trước
+                    String chiSoCu = rs.getInt(17) + ""; // lấy chỉ số mới của kỳ trước
                     String chiSoMoi = "";
                     String code = "";
                     String codeFU = "";
@@ -361,7 +361,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
                         phuong = rs1.getString(4) == null ? "" : rs1.getString(4);
 
                     }
-                    HoaDon hoaDon = new HoaDon(id, khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
+                    HoaDon hoaDon = new HoaDon(khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
                     LayLoTrinhActivity.this.mHoaDons.add(hoaDon);
                     if (mLocalDatabase.addHoaDon(hoaDon)) ;
                     else {

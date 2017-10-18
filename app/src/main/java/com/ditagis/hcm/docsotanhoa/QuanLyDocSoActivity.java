@@ -287,7 +287,7 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
             for (int i = 0; i < QuanLyDocSoActivity.this.danhBo_chiSoMois.size(); i++) {
                 DanhBo_ChiSoMoi danhBo_chiSoMoi = QuanLyDocSoActivity.this.danhBo_chiSoMois.get(i);
 //                uploading.update(danhBo_chiSoMoi);
-                uploading.add(danhBo_chiSoMoi);
+                uploading.update(danhBo_chiSoMoi);
                 danhBo_chiSoMois.remove(danhBo_chiSoMoi);
                 QuanLyDocSoActivity.this.da.removeItem(danhBo_chiSoMoi.getMaLoTrinh());
                 i--;

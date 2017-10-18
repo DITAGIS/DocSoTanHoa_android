@@ -97,7 +97,6 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
             CallableStatement cal = cnn.prepareCall(this.SQL_SELECT, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = cal.executeQuery();
             while (rs.next()) {
-                int id = rs.getInt(1);
                 String khu = rs.getString(2);
                 String dot = rs.getString(3);
                 String danhBo = rs.getString(4);
@@ -117,7 +116,7 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
                 String quan = rs.getString(18);
                 String phuong = rs.getString(19);
                 String maLoTrinh = rs.getString(20);
-                HoaDon course = new HoaDon(id, khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
+                HoaDon course = new HoaDon(khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
                 result.add(course);
             }
             rs.close();
@@ -178,7 +177,7 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
                 String quan = rs.getString(18);
                 String phuong = rs.getString(19);
 
-                HoaDon course = new HoaDon(id, khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
+                HoaDon course = new HoaDon(khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
                 result.add(course);
             }
             rs.close();
@@ -215,7 +214,7 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
                 String quan = rs.getString(18);
                 String phuong = rs.getString(19);
                 String maLoTrinh = rs.getString(20);
-                hoaDon = new HoaDon(id, khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
+                hoaDon = new HoaDon(khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
 
             }
             rs.close();
