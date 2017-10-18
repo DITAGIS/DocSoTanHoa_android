@@ -66,6 +66,11 @@ public class LocalDatabase extends SQLiteOpenHelper {
     private static final String COLUMN_LUUDANHBO_HINHANH = "LuuDanhBo_HinhAnh";
     private static final String COLUMN_LUUDANHBO_LUU = "LuuDanhBo_Luu"; // lwu khi có hinh ảnh
 
+
+    private static final String TABLE_LOGGEDIN = "Login";
+    private static final String COLUMN_USERNAME = "Username";
+    private static final String COLUMN_PASSWORD = "Password";
+
     public LocalDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -109,10 +114,16 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 + COLUMN_LUUDANHBO_GHI_CHU + " TEXT,"
                 + COLUMN_LUUDANHBO_HINHANH + " TEXT,"
                 + COLUMN_LUUDANHBO_LUU + " TEXT )";
+
+        // Chạy lệnh tạo bảng.
+        String script3 = "CREATE TABLE " + TABLE_LOGGEDIN + "("
+                + COLUMN_USERNAME + " TEXT PRIMARY KEY,"
+                + COLUMN_PASSWORD + " INTEGER )";
         // Chạy lệnh tạo bảng.
         db.execSQL(script);
         db.execSQL(script1);
         db.execSQL(script2);
+        db.execSQL(script3);
     }
 
 
@@ -296,6 +307,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 new String[]{String.valueOf(hoaDon.getDanhBo())});
         db.close();
     }
+
     public void deleteDanhBo_CSM(DanhBo_ChiSoMoi danhBo_chiSoMoi) {
         Log.i(TAG, "LocalDatabase.updateDanhBoChiSoMoi ... " + danhBo_chiSoMoi.getDanhBo());
 
@@ -304,6 +316,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 new String[]{danhBo_chiSoMoi.getDanhBo()});
         db.close();
     }
+
     public void deleteMLT(String mlt) {
         Log.i(TAG, "LocalDatabase.updateMaLoTrinh ... " + mlt);
 
