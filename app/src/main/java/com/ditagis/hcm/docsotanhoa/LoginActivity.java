@@ -81,7 +81,6 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 setEnable(false);
-                Toast.makeText(LoginActivity.this, "Đang kiểm tra thông tin đăng nhập...", Toast.LENGTH_SHORT).show();
                 if (isOnline()) {
                     loginAsync = new LoginAsync();
                     loginAsync.execute(txtUserName.getText().toString(), txtPassword.getText().toString());
@@ -158,11 +157,17 @@ public class LoginActivity extends AppCompatActivity {
 
     class LoginAsync extends AsyncTask<String, Boolean, Void> {
         private LogInDB loginDB = new LogInDB();
+        private ProgressDialog dialog;
 
+        public LoginAsync() {
+            this.dialog = new ProgressDialog(LoginActivity.this);
+        }
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
+            dialog.setMessage("Đang kiểm tra thông tin đăng nhập...");
+            dialog.setCancelable(false);
+            dialog.show();
         }
 
         @Override
@@ -189,9 +194,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
 
+
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
             setEnable(true);
         }
     }

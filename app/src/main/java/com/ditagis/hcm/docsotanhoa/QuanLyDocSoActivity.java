@@ -1,5 +1,6 @@
 package com.ditagis.hcm.docsotanhoa;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -263,9 +264,18 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
 
 
     class UploadingAsync extends AsyncTask<String, Boolean, Void> {
+        private ProgressDialog dialog;
+
+        public UploadingAsync() {
+            this.dialog = new ProgressDialog(QuanLyDocSoActivity.this);
+        }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            dialog.setMessage("Đang đồng bộ dữ liệu đọc số...");
+            dialog.setCancelable(false);
+            dialog.show();
         }
 
         @Override
@@ -301,6 +311,14 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
                 Toast.makeText(QuanLyDocSoActivity.this, "Đồng bộ thành công", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(QuanLyDocSoActivity.this, "Đồng bộ thất bại", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (dialog.isShowing()) {
+                dialog.dismiss();
             }
         }
     }
