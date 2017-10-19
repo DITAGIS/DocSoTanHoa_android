@@ -55,7 +55,6 @@ import java.util.List;
 public class DocSoActivity extends AppCompatActivity {
     String mMlt;
     String mDanhBo;
-    String mArrMlt[];
     List<String> mDBs = new ArrayList<String>();
     EditText editTextCSM;
     TextView txtCSM;
@@ -80,7 +79,9 @@ public class DocSoActivity extends AppCompatActivity {
     private Date currentTime;
     private ArrayAdapter<String> adapterDB;
     AutoCompleteTextView singleComplete;
+    List<String> mMLTs;
     Uri uri;
+    private ArrayAdapter<String> adapterMLT;
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 //    DocSoActivity.ItemClickHandle itemClickHandle = new ItemClickHandle();
 
@@ -128,19 +129,19 @@ public class DocSoActivity extends AppCompatActivity {
 
 
         List<HoaDon> hoaDons = this.mLocalDatabase.getAllHoaDon();
-        mArrMlt = new String[hoaDons.size()];
+        mMLTs = new ArrayList<String>();
         int i = 0;
         for (HoaDon hoaDon : hoaDons) {
-            mArrMlt[i++] = hoaDon.getMaLoTrinh();
+            mMLTs.add(hoaDon.getMaLoTrinh());
         }
         DocSoActivity.this.mSumDanhBo = 0;
-        for (String mlt : mArrMlt)
+        for (String mlt : mMLTs)
             DocSoActivity.this.mSumDanhBo += this.mLocalDatabase.getAllHoaDonByMaLoTrinh(mlt).size();
         DocSoActivity.this.mDanhBoHoanThanh = DocSoActivity.this.mLocalDatabase.getAllDanhBo_CSM().size();
 
         DocSoActivity.this.txtComplete.setText(DocSoActivity.this.mDanhBoHoanThanh + "/" + DocSoActivity.this.mSumDanhBo);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, mArrMlt);
-        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        adapterMLT = new ArrayAdapter<String>(this, R.layout.spinner_item, mMLTs);
+        adapterMLT.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         ArrayAdapter<String> adapterCode = new ArrayAdapter<String>(this, R.layout.spinner_item, codes);
         adapterCode.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spinCode = (Spinner)
@@ -150,62 +151,11 @@ public class DocSoActivity extends AppCompatActivity {
         spinCode.setSelection(0);
         spinMLT = (Spinner) findViewById(R.id.spin_ds_mlt);
         spinDB = (Spinner) findViewById(R.id.spin_ds_db);
-        spinMLT.setAdapter(adapter);
+        spinMLT.setAdapter(adapterMLT);
         spinMLT.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mMlt = DocSoActivity.this.spinMLT.getSelectedItem().toString();
-                try {
-                    List<HoaDon> hoaDonList = mLocalDatabase.getAllHoaDonByMaLoTrinh(mMlt);
-
-                    mDBs.clear();
-                    for (HoaDon hoaDon : hoaDonList) {
-                        mDBs.add(hoaDon.getDanhBo());
-                    }
-                    DocSoActivity.this.adapterDB = new ArrayAdapter<String>(DocSoActivity.this, R.layout.spinner_item, mDBs);
-                    adapterDB.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-                    spinDB.setAdapter(adapterDB);
-                    spinDB.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                            DocSoActivity.this.mDanhBo = spinDB.getSelectedItem().toString();
-                            DanhBo_ChiSoMoi danhBo_csm = DocSoActivity.this.mLocalDatabase.getDanhBo_CSM(DocSoActivity.this.mDanhBo);
-                            HoaDon hoaDon = mLocalDatabase.getHoaDon(DocSoActivity.this.mDanhBo);
-                            ((TextView) findViewById(R.id.txt_ds_tenKH)).setText(hoaDon.getTenKhachHang());
-//                            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
-                            txtCSC = (TextView) findViewById(R.id.txt_ds_CSC);
-                            txtCSC.setText(hoaDon.getChiSoCu());
-                            ((TextView) findViewById(R.id.txt_ds_giabieu)).setText(hoaDon.getGiaBieu());
-                            ((TextView) findViewById(R.id.txt_ds_diachi)).setText(hoaDon.getDiaChi());
-
-                            if (danhBo_csm != null) {
-                                DocSoActivity.this.editTextCSM.setText(danhBo_csm.getChiSoMoi());
-                                DocSoActivity.this.txtCSM.setText(danhBo_csm.getChiSoMoi());
-                                DocSoActivity.this.mGhiChu = danhBo_csm.getNote();
-
-                                DocSoActivity.this.txtSaveState.setText(SAVED);
-                                DocSoActivity.this.txtSaveState.setTextColor(ContextCompat.getColor(DocSoActivity.this,
-                                        R.color.colorSave));
-                            } else {
-                                DocSoActivity.this.mGhiChu = "";
-                                DocSoActivity.this.editTextCSM.setText("");
-                                DocSoActivity.this.txtCSM.setText("");
-
-                                DocSoActivity.this.txtSaveState.setText(UN_SAVED);
-                                DocSoActivity.this.txtSaveState.setTextColor(ContextCompat.getColor(DocSoActivity.this,
-                                        R.color.colorUnsave));
-                            }
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                selectMLT(DocSoActivity.this.mMLTs.get(position));
             }
 
             @Override
@@ -279,6 +229,61 @@ public class DocSoActivity extends AppCompatActivity {
         });
     }
 
+    public void selectMLT(String mlt) {
+        mMlt = mlt;
+        try {
+            List<HoaDon> hoaDonList = mLocalDatabase.getAllHoaDonByMaLoTrinh(mMlt);
+
+            mDBs.clear();
+            for (HoaDon hoaDon : hoaDonList) {
+                mDBs.add(hoaDon.getDanhBo());
+            }
+            DocSoActivity.this.adapterDB = new ArrayAdapter<String>(DocSoActivity.this, R.layout.spinner_item, mDBs);
+            adapterDB.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+            spinDB.setAdapter(adapterDB);
+            spinDB.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                    DocSoActivity.this.mDanhBo = spinDB.getSelectedItem().toString();
+                    DanhBo_ChiSoMoi danhBo_csm = DocSoActivity.this.mLocalDatabase.getDanhBo_CSM(DocSoActivity.this.mDanhBo);
+                    HoaDon hoaDon = mLocalDatabase.getHoaDon(DocSoActivity.this.mDanhBo);
+                    ((TextView) findViewById(R.id.txt_ds_tenKH)).setText(hoaDon.getTenKhachHang());
+//                            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
+                    txtCSC = (TextView) findViewById(R.id.txt_ds_CSC);
+                    txtCSC.setText(hoaDon.getChiSoCu());
+                    ((TextView) findViewById(R.id.txt_ds_giabieu)).setText(hoaDon.getGiaBieu());
+                    ((TextView) findViewById(R.id.txt_ds_diachi)).setText(hoaDon.getDiaChi());
+
+                    if (danhBo_csm != null) {
+                        DocSoActivity.this.editTextCSM.setText(danhBo_csm.getChiSoMoi());
+                        DocSoActivity.this.txtCSM.setText(danhBo_csm.getChiSoMoi());
+                        DocSoActivity.this.mGhiChu = danhBo_csm.getNote();
+
+                        DocSoActivity.this.txtSaveState.setText(SAVED);
+                        DocSoActivity.this.txtSaveState.setTextColor(ContextCompat.getColor(DocSoActivity.this,
+                                R.color.colorSave));
+                    } else {
+                        DocSoActivity.this.mGhiChu = "";
+                        DocSoActivity.this.editTextCSM.setText("");
+                        DocSoActivity.this.txtCSM.setText("");
+
+                        DocSoActivity.this.txtSaveState.setText(UN_SAVED);
+                        DocSoActivity.this.txtSaveState.setTextColor(ContextCompat.getColor(DocSoActivity.this,
+                                R.color.colorUnsave));
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void saveDB_CSM(String image, int csc, int csm) {
         DanhBo_ChiSoMoi danhBo_chiSoMoi = new DanhBo_ChiSoMoi(DocSoActivity.this.mDanhBo,
                 DocSoActivity.this.mMlt,
@@ -292,6 +297,16 @@ public class DocSoActivity extends AppCompatActivity {
                 image,
                 1);
         DocSoActivity.this.mLocalDatabase.saveDanhBo_CSM(danhBo_chiSoMoi);
+        DocSoActivity.this.mLocalDatabase.deleteHoaDon(danhBo_chiSoMoi.getDanhBo());
+
+        int i = spinMLT.getSelectedItemPosition();
+        DocSoActivity.this.adapterMLT.remove(danhBo_chiSoMoi.getMaLoTrinh());
+        DocSoActivity.this.mMLTs.remove(danhBo_chiSoMoi.getMaLoTrinh());
+        selectMLT(DocSoActivity.this.mMLTs.get(i == DocSoActivity.this.mMLTs.size() ? i - 1 : i));
+//
+//        spinMLT.setSelection(i == spinMLT.getCount() - 1 ? i : i + 1);
+//        spinMLT.setSelection(i+1);
+//        spinMLT.setSelection(i);
         DocSoActivity.this.mDanhBoHoanThanh++;
         DocSoActivity.this.txtComplete.setText(DocSoActivity.this.mDanhBoHoanThanh + "/" + DocSoActivity.this.mSumDanhBo);
         DocSoActivity.this.txtSaveState.setText(SAVED);
