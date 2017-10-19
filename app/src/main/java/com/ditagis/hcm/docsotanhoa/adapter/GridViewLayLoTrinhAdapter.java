@@ -18,10 +18,10 @@ import java.util.List;
 public class GridViewLayLoTrinhAdapter extends ArrayAdapter<GridViewLayLoTrinhAdapter.Item> {
     public static class Item {
         String mtl;
-        int danhbo;
+        String danhbo;
         boolean checkpos;
 
-        public Item(String mtl, int danhbo, boolean checkpos) {
+        public Item(String mtl, String danhbo, boolean checkpos) {
             this.mtl = mtl;
             this.danhbo = danhbo;
             this.checkpos = checkpos;
@@ -35,11 +35,11 @@ public class GridViewLayLoTrinhAdapter extends ArrayAdapter<GridViewLayLoTrinhAd
             this.mtl = mtl;
         }
 
-        public int getDanhbo() {
+        public String getDanhbo() {
             return danhbo;
         }
 
-        public void setDanhbo(int danhbo) {
+        public void setDanhbo(String danhbo) {
             this.danhbo = danhbo;
         }
 
@@ -53,7 +53,7 @@ public class GridViewLayLoTrinhAdapter extends ArrayAdapter<GridViewLayLoTrinhAd
     }
 
     private Context context;
-    private List<Item> items;
+    public List<Item> items;
 
     public GridViewLayLoTrinhAdapter(Context context, List<Item> items) {
         super(context, 0, items);
@@ -103,7 +103,7 @@ public class GridViewLayLoTrinhAdapter extends ArrayAdapter<GridViewLayLoTrinhAd
         txtMaLoTrinh.setText(item.getMtl());
 
         TextView txtTongDanhBo = (TextView) convertView.findViewById(R.id.row_llt_txt_tongDanhBo);
-        txtTongDanhBo.setText(item.getDanhbo() == 0 ? "Chưa xác định" : item.getDanhbo() + "");
+        txtTongDanhBo.setText(item.getDanhbo() == null ? "Chưa xác định" : item.getDanhbo() + "");
 
 //        ImageView imgCheck = (ImageView) convertView.findViewById(R.id.row_llt_img_Check);
 //

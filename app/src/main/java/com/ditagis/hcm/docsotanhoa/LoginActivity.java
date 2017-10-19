@@ -216,7 +216,7 @@ public class LoginActivity extends AppCompatActivity {
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
-            setEnable(true);
+//            setEnable(true);
         }
     }
 

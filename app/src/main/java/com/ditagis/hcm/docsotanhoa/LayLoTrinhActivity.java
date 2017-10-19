@@ -1,26 +1,20 @@
 package com.ditagis.hcm.docsotanhoa;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,14 +45,15 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     private int m_DanhBo[];
     private GridViewLayLoTrinhAdapter da;
     private LocalDatabase mLocalDatabase;
-    private List<HoaDon> mHoaDons;
-    private ProgressBar spinner;
+    //    private List<HoaDon> mHoaDons;
     private int mSumDanhBo;
     private int mSumMLT;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private int mKy;
     private int mNam, mDot;
     private String mUsername;
+    ConnectionDB condb = new ConnectionDB();
+    Connection cnn = condb.getConnect();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,10 +62,8 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         this.mKy = calendar.get(Calendar.MONTH) + 1;
         this.mNam = calendar.get(Calendar.YEAR);
-        this.mDot = calendar.get(Calendar.DAY_OF_MONTH);
+//        this.mDot = calendar.get(Calendar.DAY_OF_MONTH);
 //        Toast.makeText(this, mKy + "/" + mNam, Toast.LENGTH_SHORT).show();
-        spinner = (ProgressBar) findViewById(R.id.myProgress);
-        spinner.setVisibility(View.INVISIBLE);
         this.mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_llt_swipeRefreshLayout);
         m_mlt = new ArrayList<String>();
         mLocalDatabase = new LocalDatabase(this);
@@ -102,8 +95,12 @@ public class LayLoTrinhActivity extends AppCompatActivity {
                     //Gán dữ liệu vào data source
                     if (da != null && result.size() > 0) {
                         da.clear();
-                        for (String mlt : result)
-                            da.add(new GridViewLayLoTrinhAdapter.Item(mlt, 0, false));
+                        for (String mlt : result) {
+                            List<HoaDon> hoaDons = LayLoTrinhActivity.this.mLocalDatabase.getAllHoaDonByMaLoTrinh(mlt);
+                            for (HoaDon hoaDon : hoaDons)
+                                da.add(new GridViewLayLoTrinhAdapter.Item(mlt, hoaDon.getDanhBo(), true));
+                        }
+
                     }
 
                 } else {
@@ -121,7 +118,9 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
         da = new GridViewLayLoTrinhAdapter(LayLoTrinhActivity.this, new ArrayList<GridViewLayLoTrinhAdapter.Item>());
         //gán Datasource vào GridView
-
+        List<HoaDon> hoaDons = this.mLocalDatabase.getAllHoaDon();
+        for (HoaDon hoaDon : hoaDons)
+            da.add(new GridViewLayLoTrinhAdapter.Item(hoaDon.getMaLoTrinh(), hoaDon.getDanhBo(), true));
         gridView.setAdapter(da);
         registerForContextMenu(LayLoTrinhActivity.this.gridView);
 
@@ -137,15 +136,6 @@ public class LayLoTrinhActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (isOnline()) {
-                    //-------
-
-//            textView = (TextView) findViewById(R.id.progressTextView);
-
-
-                    // set the drawable as progress drawable
-//            initProgresBar();
-                    //-----------------
-
                     new LayLoTrinh().execute();
                 } else {
                     Toast.makeText(LayLoTrinhActivity.this, "Kiểm tra kết nối Internet và thử lại", Toast.LENGTH_SHORT).show();
@@ -154,38 +144,25 @@ public class LayLoTrinhActivity extends AppCompatActivity {
             }
         });
 
-        gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (firstVisibleItem + visibleItemCount <= totalItemCount) {
-
-                }
-            }
-        });
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (isOnline()) {
-                    LinearLayout layout_row = (LinearLayout) view.findViewById(R.id.row_llt_layout);
-                    TextView txt_row_MLT = (TextView) view.findViewById(R.id.row_llt_txt_malotrinh);
-                    TextView txt_row_DanhBo = (TextView) view.findViewById(R.id.row_llt_txt_tongDanhBo);
-                    ImageView img_row_View = (ImageView) view.findViewById(R.id.row_llt_img_Check);
-
-
-                    AsyncTask<String, Object, String> execute = new ItemClickHandle(layout_row, txt_row_DanhBo, img_row_View, position).execute(txt_row_MLT.getText().toString());
-                } else {
-                    Toast.makeText(LayLoTrinhActivity.this, "Kiểm tra kết nối Internet và thử lại", Toast.LENGTH_SHORT).show();
-                    //TODO
-                }
-
-            }
-
-        });
+//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                if (isOnline()) {
+//                    LinearLayout layout_row = (LinearLayout) view.findViewById(R.id.row_llt_layout);
+//                    TextView txt_row_MLT = (TextView) view.findViewById(R.id.row_llt_txt_malotrinh);
+//                    TextView txt_row_DanhBo = (TextView) view.findViewById(R.id.row_llt_txt_tongDanhBo);
+//                    ImageView img_row_View = (ImageView) view.findViewById(R.id.row_llt_img_Check);
+//
+//
+////                    AsyncTask<String, Object, String> execute = new ItemClickHandle(layout_row, txt_row_DanhBo, img_row_View, position).execute(txt_row_MLT.getText().toString());
+//                } else {
+//                    Toast.makeText(LayLoTrinhActivity.this, "Kiểm tra kết nối Internet và thử lại", Toast.LENGTH_SHORT).show();
+//                    //TODO
+//                }
+//
+//            }
+//
+//        });
         this.mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -204,139 +181,67 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     }
 
     public class LayLoTrinh extends AsyncTask<Void, Object, Void> {
+        private ProgressDialog dialog;
 
+        public LayLoTrinh() {
+            this.dialog = new ProgressDialog(LayLoTrinhActivity.this);
+        }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Toast.makeText(LayLoTrinhActivity.this, "Đang lấy danh sách mã lộ trình", Toast.LENGTH_LONG).show();
-
-
-            if (!LayLoTrinhActivity.this.mSwipeRefreshLayout.isRefreshing()) {
-                spinner.setVisibility(View.GONE);
-                spinner.setVisibility(View.VISIBLE);
-            }
+            dialog.setMessage("Đang tải danh bộ...");
+            dialog.setCancelable(false);
+            dialog.show();
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            String mlt;
+            List<HoaDon> hoaDons = LayLoTrinhActivity.this.mLocalDatabase.getAllHoaDon();
+            for (HoaDon hoaDon : hoaDons) {
+                da.add(new GridViewLayLoTrinhAdapter.Item(hoaDon.getMaLoTrinh(), hoaDon.getDanhBo(), true));
+            }
             if (LayLoTrinhActivity.this.mSwipeRefreshLayout.isRefreshing())
                 LayLoTrinhActivity.this.mSwipeRefreshLayout.setRefreshing(false);
+
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
         }
 
         @Override
         protected Void doInBackground(Void... params) {
 
-            ConnectionDB condb = new ConnectionDB();
-            Connection cnn = condb.getConnect();
-            String like = LayLoTrinhActivity.this.mDot + LayLoTrinhActivity.this.mUsername + "%";
-            List<LoTrinh> loTrinhs = LayLoTrinhActivity.this.mLocalDatabase.getAllMaLoTrinh();
+//            ConnectionDB condb = new ConnectionDB();
+//            Connection cnn = condb.getConnect();
+            String like = "";//LayLoTrinhActivity.this.mDot + LayLoTrinhActivity.this.mUsername + "%";
+//            List<LoTrinh> loTrinhs = LayLoTrinhActivity.this.mLocalDatabase.getAllMaLoTrinh();
             try {
-                Statement statement = cnn.createStatement();
-                ResultSet rs = statement.executeQuery("SELECT DISTINCT MLT2 FROM DocSo where nam = "
+                Statement statement = cnn.createStatement(), sttm1;
+                ResultSet rsDot = statement.executeQuery("SELECT TOP 1 dot from DocSo where nam = "
+                        + LayLoTrinhActivity.this.mNam + " and ky = " + LayLoTrinhActivity.this.mKy + " order by dot desc");
+                String dot = null;
+                if (rsDot.next()) {
+                    dot = rsDot.getString(1);
+                }
+                rsDot.close();
+
+                like = dot + LayLoTrinhActivity.this.mUsername + "%";
+                ResultSet rs = statement.executeQuery("SELECT * FROM DocSo where nam = "
                         + LayLoTrinhActivity.this.mNam + " and ky = " + LayLoTrinhActivity.this.mKy + " and mlt2 like '" + like + "'");
 //                LayLoTrinhActivity.this.mHoaDons = new ArrayList<HoaDon>();
                 while (rs.next()) {
 
-                    String maLoTrinh = rs.getString(1);
-                    boolean isFound = false;
 
-                    //Bỏ những lộ trình đã tải về
-                    for (LoTrinh loTrinh : loTrinhs)
-                        if (loTrinh.getMaLoTrinh().equals(maLoTrinh)) {
-                            isFound = true;
-                            break;
-                        }
-
-                    if (isFound)
-                        continue;
-                    publishProgress(maLoTrinh, 0, 0);
-                }
-                LayLoTrinhActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(LayLoTrinhActivity.this, "Đã lấy xong mã lộ trình", Toast.LENGTH_SHORT).show();
-                        spinner.setVisibility(View.INVISIBLE);
-                        int count = m_mlt.size();
-                        LayLoTrinhActivity.this.m_DanhBo = new int[count];
-                    }
-                });
-
-                rs.close();
-                statement.close();
-                cnn.close();
-
-            } catch (SQLException e) {
-
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onProgressUpdate(Object... values) {
-            super.onProgressUpdate(values);
-            String mlt = (String) values[0];
-            if (da != null) {
-                m_mlt.add(mlt);
-                da.add(new GridViewLayLoTrinhAdapter.Item(mlt, 0, false));
-            }
-        }
-
-    }
-
-    //Menu
-    public class ItemClickHandle extends AsyncTask<String, Object, String> {
-        private String mlt;
-        private LinearLayout layout_row;
-        private TextView txt_row_DanhBo;
-        private ImageView img_row_check;
-        private int pos;
-
-        public ItemClickHandle(LinearLayout layout_row, TextView txt_row_DanhBo, ImageView img_row_check, int pos) {
-            this.layout_row = layout_row;
-            this.txt_row_DanhBo = txt_row_DanhBo;
-            this.img_row_check = img_row_check;
-            this.pos = pos;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            Toast.makeText(LayLoTrinhActivity.this, "Đang tính tổng số danh bộ...", Toast.LENGTH_LONG).show();
-            spinner.setVisibility(View.VISIBLE);
-        }
-
-
-        @Override
-        protected String doInBackground(String... params) {
-            mlt = params[0];
-            int danhbo;
-//            LayLoTrinhActivity.this.mHoaDons = LayLoTrinhActivity.this.mLocalDatabase.getAllHoaDons();
-//            danhbo = LayLoTrinhActivity.this.da.getItem(mlt).getDanhbo();
-//            if (danhbo != 0) {
-//                publishProgress(danhbo);
-//                LayLoTrinhActivity.this.m_DanhBo[this.pos] = danhbo;
-//                return danhbo + "";
-//            }
-            ConnectionDB condb = new ConnectionDB();
-            Connection cnn = condb.getConnect();
-            LayLoTrinhActivity.this.mHoaDons = new ArrayList<HoaDon>();
-            Statement statement = null, sttm1;
-            try {
-                statement = cnn.createStatement();
-
-                ResultSet rs = statement.executeQuery("SELECT * FROM DocSo where nam = "
-                        + LayLoTrinhActivity.this.mNam + " and ky = " + LayLoTrinhActivity.this.mKy + " and MLT2 = '" + mlt + "'");
-                while (rs.next()) {
-                    int id = 0; //TODO xem vụ tạo DocSoID
+//                    int id = rs.getInt(1); //TODO xem vụ tạo DocSoID
                     String khu = "";
-                    String dot = "";
                     String danhBo = rs.getString(2);
                     String cuLy = "";
                     String hopDong = "";
                     String tenKhachHang = "";
+                    String maLoTrinh = rs.getString(4);
                     String soNha = rs.getString(5);
                     String duong = rs.getString(7);
                     String giaBieu = rs.getString(9);
@@ -350,10 +255,10 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
                     String quan = "";
                     String phuong = "";
-                    String maLoTrinh = mlt;
+
 
                     sttm1 = cnn.createStatement();
-                    ResultSet rs1 = sttm1.executeQuery("SELECT HopDong, tenkh, quan, phuong FROM KhachHang where MLT2 = '" + mlt + "'");
+                    ResultSet rs1 = sttm1.executeQuery("SELECT HopDong, tenkh, quan, phuong FROM KhachHang where MLT2 = '" + maLoTrinh + "'");
                     if (rs1.next()) {
                         hopDong = rs1.getString(1);
                         tenKhachHang = rs1.getString(2);
@@ -362,77 +267,191 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
                     }
                     HoaDon hoaDon = new HoaDon(khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
-                    LayLoTrinhActivity.this.mHoaDons.add(hoaDon);
+//                    LayLoTrinhActivity.this.mHoaDons.add(hoaDon);
                     if (mLocalDatabase.addHoaDon(hoaDon)) ;
                     else {
                         //TODO
                     }
+                    sttm1.close();
+                    rs1.close();
+                    publishProgress(maLoTrinh, 0, 0);
+//                    mLocalDatabase.addLoTrinh(new LoTrinh(maLoTrinh, LayLoTrinhActivity.this.mHoaDons.size()));
                 }
+                LayLoTrinhActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(LayLoTrinhActivity.this, "Đã lấy xong mã lộ trình", Toast.LENGTH_SHORT).show();
+                        int count = m_mlt.size();
+                        LayLoTrinhActivity.this.m_DanhBo = new int[count];
+                    }
+                });
+
+                rs.close();
+                statement.close();
+
+
+//                cnn.close();
+
             } catch (SQLException e) {
+
                 e.printStackTrace();
             }
-
-            publishProgress(LayLoTrinhActivity.this.mHoaDons.size());
-            mLocalDatabase.addLoTrinh(new LoTrinh(mlt, LayLoTrinhActivity.this.mHoaDons.size()));
-            da.removeItem(mlt);
-            m_mlt.remove(mlt);
-            LayLoTrinhActivity.this.m_DanhBo[this.pos] = LayLoTrinhActivity.this.mHoaDons.size();
-            return LayLoTrinhActivity.this.mHoaDons.size() + "";
+            return null;
         }
 
         @Override
         protected void onProgressUpdate(Object... values) {
             super.onProgressUpdate(values);
-            int danhBo = (int) values[0];
-            this.layout_row.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.color_row_check));
-            try {
-                Thread.sleep(500);
-                Button btnViewDownloadMLT = (Button) findViewById(R.id.btn_llt_viewdownloadMLT);
-                btnViewDownloadMLT.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.color_row_check));
-
-                Thread.sleep(500);
-                btnViewDownloadMLT.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.colorGreen));
-                Thread.sleep(500);
-                gridView.setAdapter(da);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-//            LayLoTrinhActivity.this.da.getItem(mlt).setDanhbo(danhBo);
-//            this.txt_row_DanhBo.setText(danhBo + "");
-//            int count = LayLoTrinhActivity.this.m_MLT_TongDanhBo.size();
-//            if (!LayLoTrinhActivity.this.m_MLT_TongDanhBo.containsKey(mlt)) {
-//                LayLoTrinhActivity.this.m_MLT_TongDanhBo.put(mlt, danhBo);
-//                this.img_row_check.setImageResource(R.drawable.checked);
-//                LayLoTrinhActivity.this.da.getItem(mlt).setCheckpos(true);
-//                this.layout_row.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.color_row_check));
-//            } else {
-//                LayLoTrinhActivity.this.m_MLT_TongDanhBo.remove(mlt);
-//                this.img_row_check.setImageResource(0);
-//                LayLoTrinhActivity.this.da.getItem(mlt).setCheckpos(false);
-//                this.layout_row.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.color_row_uncheck));
+            String mlt = (String) values[0];
+//            if (da != null) {
+//                m_mlt.add(mlt);
+//                da.add(new GridViewLayLoTrinhAdapter.Item(mlt, 0, false));
 //            }
-            LayLoTrinhActivity.this.mSumMLT += 1;
-            LayLoTrinhActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + LayLoTrinhActivity.this.mSumMLT);
-//
-//            int sum_db = 0;
-//            for (Integer db : LayLoTrinhActivity.this.m_MLT_TongDanhBo.values())
-//                sum_db += db;
-            LayLoTrinhActivity.this.mSumDanhBo += danhBo;
-            LayLoTrinhActivity.this.m_txtTongDB.setText("Danh bộ: " + LayLoTrinhActivity.this.mSumDanhBo);
-            spinner.setVisibility(View.INVISIBLE);
         }
 
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            Log.w(s, s);
-        }
     }
+
+    //Menu
+//    public class ItemClickHandle extends AsyncTask<String, Object, String> {
+//        private String mlt;
+////        private LinearLayout layout_row;
+////        private int pos;
+//
+//        public ItemClickHandle() {
+////            this.layout_row = layout_row;
+////            this.pos = pos;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+////            Toast.makeText(LayLoTrinhActivity.this, "Đang tính tổng số danh bộ...", Toast.LENGTH_LONG).show();
+//        }
+//
+//
+//        @Override
+//        protected String doInBackground(String... params) {
+//            mlt = params[0];
+//            int danhbo;
+////            LayLoTrinhActivity.this.mHoaDons = LayLoTrinhActivity.this.mLocalDatabase.getAllHoaDons();
+////            danhbo = LayLoTrinhActivity.this.da.getItem(mlt).getDanhbo();
+////            if (danhbo != 0) {
+////                publishProgress(danhbo);
+////                LayLoTrinhActivity.this.m_DanhBo[this.pos] = danhbo;
+////                return danhbo + "";
+////            }
+//
+////            LayLoTrinhActivity.this.mHoaDons = new ArrayList<HoaDon>();
+//            Statement statement = null, sttm1;
+//            try {
+//                statement = cnn.createStatement();
+//
+//                ResultSet rs = statement.executeQuery("SELECT * FROM DocSo where nam = "
+//                        + LayLoTrinhActivity.this.mNam + " and ky = " + LayLoTrinhActivity.this.mKy + " and MLT2 = '" + mlt + "'");
+//                while (rs.next()) {
+//                    int id = 0; //TODO xem vụ tạo DocSoID
+//                    String khu = "";
+//                    String dot = "";
+//                    String danhBo = rs.getString(2);
+//                    String cuLy = "";
+//                    String hopDong = "";
+//                    String tenKhachHang = "";
+//                    String soNha = rs.getString(5);
+//                    String duong = rs.getString(7);
+//                    String giaBieu = rs.getString(9);
+//                    String dinhMuc = rs.getString(10);
+//                    String nam = LayLoTrinhActivity.this.mNam + "";
+//                    String ky = LayLoTrinhActivity.this.mKy + "";
+//                    String chiSoCu = rs.getInt(17) + ""; // lấy chỉ số mới của kỳ trước
+//                    String chiSoMoi = "";
+//                    String code = "";
+//                    String codeFU = "";
+//
+//                    String quan = "";
+//                    String phuong = "";
+//                    String maLoTrinh = mlt;
+//
+//                    sttm1 = cnn.createStatement();
+//                    ResultSet rs1 = sttm1.executeQuery("SELECT HopDong, tenkh, quan, phuong FROM KhachHang where MLT2 = '" + mlt + "'");
+//                    if (rs1.next()) {
+//                        hopDong = rs1.getString(1);
+//                        tenKhachHang = rs1.getString(2);
+//                        quan = rs1.getString(3) == null ? "" : rs1.getString(3);
+//                        phuong = rs1.getString(4) == null ? "" : rs1.getString(4);
+//
+//                    }
+//                    HoaDon hoaDon = new HoaDon(khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
+////                    LayLoTrinhActivity.this.mHoaDons.add(hoaDon);
+//                    if (mLocalDatabase.addHoaDon(hoaDon)) ;
+//                    else {
+//                        //TODO
+//                    }
+//                }
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//
+////            publishProgress(LayLoTrinhActivity.this.mHoaDons.size());
+////            mLocalDatabase.addLoTrinh(new LoTrinh(mlt, LayLoTrinhActivity.this.mHoaDons.size()));
+//            da.removeItem(mlt);
+//            m_mlt.remove(mlt);
+////            LayLoTrinhActivity.this.m_DanhBo[this.pos] = LayLoTrinhActivity.this.mHoaDons.size();
+////            return LayLoTrinhActivity.this.mHoaDons.size() + "";
+//            return "";
+//        }
+//
+//        @Override
+//        protected void onProgressUpdate(Object... values) {
+//            super.onProgressUpdate(values);
+//            int danhBo = (int) values[0];
+////            this.layout_row.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.color_row_check));
+//            try {
+//                Thread.sleep(500);
+//                Button btnViewDownloadMLT = (Button) findViewById(R.id.btn_llt_viewdownloadMLT);
+//                btnViewDownloadMLT.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.color_row_check));
+//
+//                Thread.sleep(500);
+//                btnViewDownloadMLT.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.colorGreen));
+//                Thread.sleep(500);
+//                gridView.setAdapter(da);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//
+////            LayLoTrinhActivity.this.da.getItem(mlt).setDanhbo(danhBo);
+////            this.txt_row_DanhBo.setText(danhBo + "");
+////            int count = LayLoTrinhActivity.this.m_MLT_TongDanhBo.size();
+////            if (!LayLoTrinhActivity.this.m_MLT_TongDanhBo.containsKey(mlt)) {
+////                LayLoTrinhActivity.this.m_MLT_TongDanhBo.put(mlt, danhBo);
+////                this.img_row_check.setImageResource(R.drawable.checked);
+////                LayLoTrinhActivity.this.da.getItem(mlt).setCheckpos(true);
+////                this.layout_row.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.color_row_check));
+////            } else {
+////                LayLoTrinhActivity.this.m_MLT_TongDanhBo.remove(mlt);
+////                this.img_row_check.setImageResource(0);
+////                LayLoTrinhActivity.this.da.getItem(mlt).setCheckpos(false);
+////                this.layout_row.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.color_row_uncheck));
+////            }
+//            LayLoTrinhActivity.this.mSumMLT += 1;
+//            LayLoTrinhActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + LayLoTrinhActivity.this.mSumMLT);
+////
+////            int sum_db = 0;
+////            for (Integer db : LayLoTrinhActivity.this.m_MLT_TongDanhBo.values())
+////                sum_db += db;
+//            LayLoTrinhActivity.this.mSumDanhBo += danhBo;
+//            LayLoTrinhActivity.this.m_txtTongDB.setText("Danh bộ: " + LayLoTrinhActivity.this.mSumDanhBo);
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String s) {
+//            super.onPostExecute(s);
+//            Log.w(s, s);
+//        }
+//    }
 
 
     public void doViewDownloadMLT(View v) {
-        int size = this.mLocalDatabase.getAllMLT().size();
+        int size = this.mLocalDatabase.getAllHoaDon().size();
         if (size == 0)
             Toast.makeText(this, "Chưa có lộ trình!!!", Toast.LENGTH_SHORT).show();
         else {
@@ -442,7 +461,14 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     }
 
     public void doDocSo(View v) {
-        doViewDownloadMLT(v);
+        int size = this.mLocalDatabase.getAllHoaDon().size();
+        if (size == 0)
+            Toast.makeText(this, "Chưa có lộ trình!!!", Toast.LENGTH_SHORT).show();
+        else {
+            Intent intent = new Intent(LayLoTrinhActivity.this, DocSoActivity.class);
+
+            startActivity(intent);
+        }
     }
 
     public void doQuanLyDocSo(View v) {

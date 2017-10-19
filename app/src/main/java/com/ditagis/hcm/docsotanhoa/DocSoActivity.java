@@ -45,6 +45,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -79,6 +81,7 @@ public class DocSoActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapterDB;
     AutoCompleteTextView singleComplete;
     Uri uri;
+    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 //    DocSoActivity.ItemClickHandle itemClickHandle = new ItemClickHandle();
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,38 +99,18 @@ public class DocSoActivity extends AppCompatActivity {
                                 mDBs
                         ));
 
-
         Calendar calendar = Calendar.getInstance();
-        currentTime = Calendar.getInstance().
-
-                getTime();
+        currentTime = Calendar.getInstance().getTime();
         this.mKy = calendar.get(Calendar.MONTH) + 1;
         this.mDot = calendar.get(Calendar.DAY_OF_MONTH);
-        ((TextView)
+        ((TextView) findViewById(R.id.txt_ds_ky)).setText(this.mKy + "");
+        ((TextView) findViewById(R.id.txt_ds_dot)).setText(this.mDot + "");
+        this.txtSaveState = (TextView) findViewById(R.id.txt_ds_save);
+        this.txtComplete = (TextView) findViewById(R.id.txt_ds_complete);
 
-                findViewById(R.id.txt_ds_ky)).
+        mLocalDatabase = new LocalDatabase(this);
 
-                setText(this.mKy + "");
-        ((TextView)
-
-                findViewById(R.id.txt_ds_dot)).
-
-                setText(this.mDot + "");
-        this.txtSaveState = (TextView)
-
-                findViewById(R.id.txt_ds_save);
-
-        this.txtComplete = (TextView)
-
-                findViewById(R.id.txt_ds_complete);
-
-        mLocalDatabase = new
-
-                LocalDatabase(this);
-
-        editTextCSM = (EditText)
-
-                findViewById(R.id.etxt_ds_CSM);
+        editTextCSM = (EditText) findViewById(R.id.etxt_ds_CSM);
         editTextCSM.setEnabled(false);
         imgbtn_Save = (ImageButton)
 
@@ -144,9 +127,12 @@ public class DocSoActivity extends AppCompatActivity {
                 "RT", "K", "Q"};
 
 
-        Bundle extras = getIntent().getExtras();
-        mArrMlt = extras.getStringArray("mMltArr");
-
+        List<HoaDon> hoaDons = this.mLocalDatabase.getAllHoaDon();
+        mArrMlt = new String[hoaDons.size()];
+        int i = 0;
+        for (HoaDon hoaDon : hoaDons) {
+            mArrMlt[i++] = hoaDon.getMaLoTrinh();
+        }
         DocSoActivity.this.mSumDanhBo = 0;
         for (
                 String mlt : mArrMlt)
@@ -519,8 +505,8 @@ public class DocSoActivity extends AppCompatActivity {
 
         if (!outFile.exists())
             outFile.mkdir();
-
-        File f = new File(outFile, currentTime.toString() + "_" + this.mDanhBo + ".jpeg");
+        String datetime = DocSoActivity.this.formatter.format(DocSoActivity.this.currentTime);
+        File f = new File(outFile, datetime + "_" + this.mDanhBo + ".jpeg");
         return f;
     }
 

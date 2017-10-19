@@ -13,6 +13,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,11 +28,13 @@ public class Uploading extends AbstractDB implements IDB<DanhBo_ChiSoMoi, Boolea
     private final String NEW_TABLE_NAME = "HoaDonMoi";
     private final String TABLE_NAME_DOCSO = "DocSo";
     private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME_DOCSO + " SET CSMOI=?, CODEMoi=? WHERE DANHBO=?";
+    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME_DOCSO + " SET CSMOI=?, CODEMoi=?, GhiChuDS=? WHERE DANHBa=?";
+    private final String TABLE_NAME_HINHDHN = "HinhDHN";
+    private final String SQL_INSERT_HINHDHN = "INSERT INTO " + TABLE_NAME_HINHDHN + " VALUES(?,?,?,?,?,?)";
     private final String SQL_DELETE = "DELETE FROM " + TABLE_NAME + " WHERE ClassId=?";
-    private final String SQL_INSERT = "INSERT INTO " + NEW_TABLE_NAME + " VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+    private final String SQL_INSERT = "INSERT INTO " + NEW_TABLE_NAME + " VALUES(?,?,?,?,?,?,?,?,?,?)";
     private Connection cnn = null;
-
+    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     public void connect() {
         if (cnn == null)
             cnn = this.condb.getConnect();
@@ -123,18 +129,46 @@ public class Uploading extends AbstractDB implements IDB<DanhBo_ChiSoMoi, Boolea
     @Override
     public Boolean update(DanhBo_ChiSoMoi danhBo_chiSoMoi) {
         String sql = this.SQL_UPDATE;
+        String sqlInsert_HinhDHN = this.SQL_INSERT_HINHDHN;
         //TODO: cập nhật chỉ số cũ = chỉ số mới
         try {
             PreparedStatement st = cnn.prepareStatement(sql);
             st.setString(1, danhBo_chiSoMoi.getChiSoMoi());
             st.setString(2, danhBo_chiSoMoi.getCode());
-            st.setString(3, danhBo_chiSoMoi.getDanhBo());
-            int result = st.executeUpdate();
+            st.setString(3, danhBo_chiSoMoi.getNote());
+            st.setString(4, danhBo_chiSoMoi.getDanhBo());
+            st.executeUpdate();
             st.close();
-            return result == 1;
+
+
+            PreparedStatement st1 = cnn.prepareStatement(sqlInsert_HinhDHN, Statement.RETURN_GENERATED_KEYS);
+
+            st1.setString(1, danhBo_chiSoMoi.getDanhBo());
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+            Bitmap bit = BitmapFactory.decodeFile(danhBo_chiSoMoi.getImage());
+            bit.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+
+            st1.setBytes(2, outputStream.toByteArray());
+
+            st1.setString(3, "0.0");
+            st1.setString(4, "0.0");
+            st1.setString(5, "0");
+            String path = Environment.getExternalStorageDirectory().getPath();
+//                path = path.substring(0, path.length() - 1).concat("1");
+            File outFile = new File(path, "DocSoTanHoa");
+            String fileName = danhBo_chiSoMoi.getImage().substring(outFile.getAbsolutePath().length() + 1).split("\\.")[0];
+            String stringDate = fileName.substring(0,19);
+            Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
+            st1.setTimestamp(6, new java.sql.Timestamp(date.getTime()));
+            st1.executeUpdate();
+            return true;// && result1 == 1;
 
         } catch (SQLException e1) {
             e1.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         return false;
     }

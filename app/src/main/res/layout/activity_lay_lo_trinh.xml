@@ -232,12 +232,6 @@
             </LinearLayout>
         </LinearLayout>
 
-        <ProgressBar
-            android:id="@+id/myProgress"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center_horizontal" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -251,24 +245,9 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:background="@color/colorGreen"
-                android:onClick="doViewDownloadMLT"
                 android:text="Lấy ds MLT"
                 android:textColor="@color/colorWhite" />
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/btn_llt_viewdownloadMLT"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="@color/colorGreen"
-                android:onClick="doViewDownloadMLT"
-                android:text="Xem MLT"
-                android:textColor="@color/colorWhite" />
 
         </LinearLayout>
 

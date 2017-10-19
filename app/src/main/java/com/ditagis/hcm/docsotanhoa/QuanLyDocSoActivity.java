@@ -119,13 +119,13 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                    }
-                }).setNegativeButton("Chỉnh sửa", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                    }});
+//                });.setNegativeButton("Chỉnh sửa", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                });
                 AlertDialog dialog = builder.create();
                 LayoutInflater inflater = getLayoutInflater();
                 View dialogLayout = inflater.inflate(R.layout.layout_view_thongtin_docso, null);
@@ -157,12 +157,8 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
 
                 ((TextView) dialog.findViewById(R.id.txt_layout_qlds_ghiChu)).setText(danhBo_CSM.getNote());
                 return false;
-
-
             }
         });
-
-
     }
 
     public void doLayLoTrinh(View v) {
@@ -191,7 +187,7 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
 
     public void doUpLoad(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(QuanLyDocSoActivity.this);
-        builder.setTitle("Đồng bộ " + this.mSumDanhBo + " danh bộ?");
+        builder.setTitle("Đồng bộ danh bộ?");
         builder.setMessage("Dữ liệu sau khi đồng bộ sẽ không thể chỉnh sửa!")
                 .setCancelable(true)
                 .setPositiveButton("Đồng bộ", new DialogInterface.OnClickListener() {
@@ -261,8 +257,6 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
 //            }
 //        }
     }
-
-
     class UploadingAsync extends AsyncTask<String, Boolean, Void> {
         private ProgressDialog dialog;
 
@@ -287,11 +281,13 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
             for (int i = 0; i < QuanLyDocSoActivity.this.danhBo_chiSoMois.size(); i++) {
                 DanhBo_ChiSoMoi danhBo_chiSoMoi = QuanLyDocSoActivity.this.danhBo_chiSoMois.get(i);
 //                uploading.update(danhBo_chiSoMoi);
-                uploading.update(danhBo_chiSoMoi);
-                danhBo_chiSoMois.remove(danhBo_chiSoMoi);
-                QuanLyDocSoActivity.this.da.removeItem(danhBo_chiSoMoi.getMaLoTrinh());
-                i--;
-                QuanLyDocSoActivity.this.localDatabase.deleteDanhBo_CSM(danhBo_chiSoMoi);
+                boolean success = uploading.update(danhBo_chiSoMoi);
+                if(success) {
+                    danhBo_chiSoMois.remove(danhBo_chiSoMoi);
+                    QuanLyDocSoActivity.this.da.removeItem(danhBo_chiSoMoi.getMaLoTrinh());
+                    i--;
+                    QuanLyDocSoActivity.this.localDatabase.deleteDanhBo_CSM(danhBo_chiSoMoi);
+                }
             }
             if (QuanLyDocSoActivity.this.localDatabase.getAllDanhBo_CSM().size() == 0)
                 isValid = true;
