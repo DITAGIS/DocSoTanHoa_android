@@ -148,18 +148,10 @@ public class DocSoActivity extends AppCompatActivity {
                 findViewById(R.id.spin_ds_code);
         spinCode.setAdapter(adapterCode);
         spinCode.setSelection(0);
-        spinMLT = (Spinner)
-
-                findViewById(R.id.spin_ds_mlt);
-
-        spinDB = (Spinner)
-
-                findViewById(R.id.spin_ds_db);
+        spinMLT = (Spinner) findViewById(R.id.spin_ds_mlt);
+        spinDB = (Spinner) findViewById(R.id.spin_ds_db);
         spinMLT.setAdapter(adapter);
-
-        spinMLT.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-
-        {
+        spinMLT.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mMlt = DocSoActivity.this.spinMLT.getSelectedItem().toString();
@@ -400,13 +392,13 @@ public class DocSoActivity extends AppCompatActivity {
     }
 
     public void doPrev(View v) {
-        int i = spinDB.getSelectedItemPosition();
-        spinDB.setSelection(i == 0 ? i : i - 1);
+        int i = spinMLT.getSelectedItemPosition();
+        spinMLT.setSelection(i == 0 ? i : i - 1);
     }
 
     public void doNext(View v) {
-        int i = spinDB.getSelectedItemPosition();
-        spinDB.setSelection(i == spinDB.getCount() - 1 ? i : i + 1);
+        int i = spinMLT.getSelectedItemPosition();
+        spinMLT.setSelection(i == spinMLT.getCount() - 1 ? i : i + 1);
     }
 
     public void doScan(View v) {
