@@ -632,13 +632,13 @@ public class DocSoActivity extends AppCompatActivity {
 
     public void doLayLoTrinh(View v) {
         Intent intent = new Intent(DocSoActivity.this, LayLoTrinhActivity.class);
-
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT );
         startActivity(intent);
     }
 
     public void doQuanLyDocSo(View v) {
         Intent intent = new Intent(DocSoActivity.this, QuanLyDocSoActivity.class);
-
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT );
         startActivity(intent);
 //        Toast.makeText(this, "Chức năng đang được cập nhật", Toast.LENGTH_SHORT).show();
     }

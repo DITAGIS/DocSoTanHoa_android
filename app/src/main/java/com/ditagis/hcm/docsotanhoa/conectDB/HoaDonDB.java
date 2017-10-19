@@ -188,6 +188,83 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
         }
         return result;
     }
+
+    public List<HoaDon> getAllByUserName(String userName, int nam, int ky) {
+        Connection cnn = this.condb.getConnect();
+        List<HoaDon> hoaDons = new ArrayList<HoaDon>();
+        try {
+            Statement statement = cnn.createStatement(), sttm1;
+            ResultSet rsDot = statement.executeQuery("SELECT TOP 1 dot from DocSo where nam = "
+                    + nam + " and ky = " + ky + " order by dot desc");
+            String dot = null;
+            if (rsDot.next()) {
+                dot = rsDot.getString(1);
+            }
+            rsDot.close();
+
+            String like = dot + userName + "%";
+            ResultSet rs = statement.executeQuery("SELECT * FROM DocSo where nam = "
+                    + nam + " and ky = " + ky + " and mlt2 like '" + like + "' and (csmoi is null or csmoi = 0 )");
+//                LayLoTrinhActivity.this.mHoaDons = new ArrayList<HoaDon>();
+            while (rs.next()) {
+
+
+//                    int id = rs.getInt(1); //TODO xem vụ tạo DocSoID
+                String khu = "";
+                String danhBo = rs.getString(2);
+                String cuLy = "";
+                String hopDong = "";
+                String tenKhachHang = "";
+                String maLoTrinh = rs.getString(4);
+                String soNha = rs.getString(5);
+                String duong = rs.getString(7);
+                String giaBieu = rs.getString(9);
+                String dinhMuc = rs.getString(10);
+                String chiSoCu = rs.getInt(17) + ""; // lấy chỉ số mới của kỳ trước
+                String chiSoMoi = "";
+                String code = "";
+                String codeFU = "";
+
+                String quan = "";
+                String phuong = "";
+
+
+                sttm1 = cnn.createStatement();
+                ResultSet rs1 = sttm1.executeQuery("SELECT HopDong, tenkh, quan, phuong FROM KhachHang where MLT2 = '" + maLoTrinh + "'");
+                if (rs1.next()) {
+                    hopDong = rs1.getString(1);
+                    tenKhachHang = rs1.getString(2);
+                    quan = rs1.getString(3) == null ? "" : rs1.getString(3);
+                    phuong = rs1.getString(4) == null ? "" : rs1.getString(4);
+
+                }
+                HoaDon hoaDon = new HoaDon(khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky + "", nam + "", code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
+                hoaDons.add(hoaDon);
+//                    LayLoTrinhActivity.this.mHoaDons.add(hoaDon);
+//                if (mLocalDatabase.addHoaDon(hoaDon)) ;
+//                else {
+//                    //TODO
+//                }
+                sttm1.close();
+                rs1.close();
+//                publishProgress(maLoTrinh, 0, 0);
+//                    mLocalDatabase.addLoTrinh(new LoTrinh(maLoTrinh, LayLoTrinhActivity.this.mHoaDons.size()));
+            }
+
+
+            rs.close();
+            statement.close();
+
+
+//                cnn.close();
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+        return hoaDons;
+    }
+
     public HoaDon getByDanhBo(String danhBo) {
         HoaDon hoaDon = null;
         Connection cnn = this.condb.getConnect();
@@ -225,12 +302,13 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
         }
         return hoaDon;
     }
+
     public int getNum_DanhBo_ByMLT(String maLoTrinh) {
         int result = 0;
         Connection cnn = this.condb.getConnect();
         try {
             Statement statement = cnn.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT COUNT(DANHBO) FROM " + TABLE_NAME+" WHERE MLT = '" + maLoTrinh + "'");
+            ResultSet rs = statement.executeQuery("SELECT COUNT(DANHBO) FROM " + TABLE_NAME + " WHERE MLT = '" + maLoTrinh + "'");
             if (rs.next()) {
                 result = rs.getInt(1);
             }
@@ -243,6 +321,7 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
         }
         return result;
     }
+
     public List<String> get_DanhBo_ByMLT(String maLoTrinh) {
         List<String> result = new ArrayList<String>();
         Connection cnn = this.condb.getConnect();
@@ -267,7 +346,7 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
         List<String> result = null;
         try {
             result = cdb.get_DanhBo_ByMLT("00005");
-            for(String s: result)
+            for (String s : result)
                 System.out.println(s);
         } catch (Exception e) {
             e.printStackTrace();

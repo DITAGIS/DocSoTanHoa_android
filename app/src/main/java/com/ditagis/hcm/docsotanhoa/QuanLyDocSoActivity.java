@@ -61,12 +61,10 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
         editTextSearch = (EditText) findViewById(R.id.etxt_qlds_search);
         gridView = (GridView) findViewById(R.id.grid_qlds_danhSachDocSo);
         danhBo_chiSoMois = localDatabase.getAllDanhBo_CSM();
-        this.mSumDanhBo = danhBo_chiSoMois.size();
+        this.mSumDanhBo =localDatabase.getAllHoaDon().size();
 
         m_MLT_TongDanhBo = localDatabase.getAllMLT();
-        for (HashMap.Entry<String, Integer> entry : this.m_MLT_TongDanhBo.entrySet()) {
-            this.mSumDanhBo += entry.getValue();
-        }
+
         QuanLyDocSoActivity.this.mDanhBoHoanThanh = danhBo_chiSoMois.size();
         QuanLyDocSoActivity.this.txtComplete.setText(QuanLyDocSoActivity.this.mDanhBoHoanThanh + "/" + QuanLyDocSoActivity.this.mSumDanhBo);
         editTextSearch.addTextChangedListener(new TextWatcher() {
@@ -163,24 +161,27 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
 
     public void doLayLoTrinh(View v) {
         Intent intent = new Intent(QuanLyDocSoActivity.this, LayLoTrinhActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT );
         startActivity(intent);
     }
 
     public void doDocSo(View v) {
-        if (this.m_MLT_TongDanhBo.size() == 0)
+        int size = this.localDatabase.getAllHoaDon().size();
+        if (size == 0)
             Toast.makeText(this, "Chưa có lộ trình!!!", Toast.LENGTH_SHORT).show();
         else {
             Intent intent = new Intent(QuanLyDocSoActivity.this, DocSoActivity.class);
-            Bundle extras = new Bundle();
-
-            String[] mltArr = new String[this.m_MLT_TongDanhBo.size()];
-            int j = 0;
-            for (String mlt : this.m_MLT_TongDanhBo.keySet())
-                mltArr[j++] = mlt;
-            extras.putStringArray("mMltArr", mltArr);
-//            extras.putStringArrayList("mMlt", LayLoTrinhActivity.this.m_mlt);
-//            extras.putBooleanArray("chkPosition", LayLoTrinhActivity.this.m_MLT_TongDanhBo);
-            intent.putExtras(extras);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT );
+//            Bundle extras = new Bundle();
+//
+//            String[] mltArr = new String[this.m_MLT_TongDanhBo.size()];
+//            int j = 0;
+//            for (String mlt : this.m_MLT_TongDanhBo.keySet())
+//                mltArr[j++] = mlt;
+//            extras.putStringArray("mMltArr", mltArr);
+////            extras.putStringArrayList("mMlt", LayLoTrinhActivity.this.m_mlt);
+////            extras.putBooleanArray("chkPosition", LayLoTrinhActivity.this.m_MLT_TongDanhBo);
+//            intent.putExtras(extras);
             startActivity(intent);
         }
     }

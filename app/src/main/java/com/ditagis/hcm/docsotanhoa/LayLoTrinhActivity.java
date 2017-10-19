@@ -12,23 +12,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewLayLoTrinhAdapter;
-import com.ditagis.hcm.docsotanhoa.conectDB.ConnectionDB;
 import com.ditagis.hcm.docsotanhoa.conectDB.HoaDonDB;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
-import com.ditagis.hcm.docsotanhoa.entities.LoTrinh;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -39,7 +32,6 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     EditText editTextSearch;
     GridView gridView;
     //    ImageButton imgbtnCheck;
-    HoaDonDB hoaDonDB = new HoaDonDB();
     private int m_DanhBo[];
     private GridViewLayLoTrinhAdapter da;
     private LocalDatabase mLocalDatabase;
@@ -49,9 +41,8 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private int mKy;
     private int mNam, mDot;
-    private String mUsername;
-    ConnectionDB condb = new ConnectionDB();
-    Connection cnn = condb.getConnect();
+    private static String mUsername;
+    private HoaDonDB hoaDonDB;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +54,8 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
         this.mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_llt_swipeRefreshLayout);
         mLocalDatabase = new LocalDatabase(this);
-        mUsername = getIntent().getExtras().getString("mayds");
+        if (getIntent().getExtras().getString("mayds") != null)
+            LayLoTrinhActivity.mUsername = getIntent().getExtras().getString("mayds");
 //        mLocalDatabase.Upgrade();
 //        mLocalDatabase.Create();
         m_txtTongMLT = (TextView) findViewById(R.id.txt_llt_mlt);
@@ -118,31 +110,29 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
         da = new GridViewLayLoTrinhAdapter(LayLoTrinhActivity.this, new ArrayList<GridViewLayLoTrinhAdapter.Item>());
         //gán Datasource vào GridView
-        List<HoaDon> hoaDons = this.mLocalDatabase.getAllHoaDon();
-        for (HoaDon hoaDon : hoaDons)
-            da.add(new GridViewLayLoTrinhAdapter.Item(hoaDon.getMaLoTrinh(), hoaDon.getDanhBo(), true));
+//        List<HoaDon> hoaDons = this.mLocalDatabase.getAllHoaDon();
+//        for (HoaDon hoaDon : hoaDons)
+//            da.add(new GridViewLayLoTrinhAdapter.Item(hoaDon.getMaLoTrinh(), hoaDon.getDanhBo(), true));
         gridView.setAdapter(da);
         registerForContextMenu(LayLoTrinhActivity.this.gridView);
 
-        List<LoTrinh> loTrinhs = LayLoTrinhActivity.this.mLocalDatabase.getAllMaLoTrinh();
-        LayLoTrinhActivity.this.mSumMLT = da.items.size();
-        LayLoTrinhActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + LayLoTrinhActivity.this.mSumMLT);
-        LayLoTrinhActivity.this.mSumDanhBo = da.items.size();
-        for (LoTrinh loTrinh : loTrinhs)
-            LayLoTrinhActivity.this.mSumDanhBo += loTrinh.getSoLuong();
+//        List<LoTrinh> loTrinhs = LayLoTrinhActivity.this.mLocalDatabase.getAllMaLoTrinh();
 
-        LayLoTrinhActivity.this.m_txtTongDB.setText("Danh bộ: " + LayLoTrinhActivity.this.mSumDanhBo);
-        ((Button) findViewById(R.id.btn_llt_loadMLT)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isOnline()) {
-                    new LayLoTrinh().execute();
-                } else {
-                    Toast.makeText(LayLoTrinhActivity.this, "Kiểm tra kết nối Internet và thử lại", Toast.LENGTH_SHORT).show();
-                    //TODO
-                }
-            }
-        });
+//        ((Button) findViewById(R.id.btn_llt_loadMLT)).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
+//
+        new LayLoTrinh(hoaDonDB).execute(isOnline());
+
+//        if (isOnline()) {
+//
+//        } else {
+//            Toast.makeText(LayLoTrinhActivity.this, "Kiểm tra kết nối Internet và thử lại", Toast.LENGTH_SHORT).show();
+//            //TODO
+//        }
 
 //        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
@@ -166,9 +156,15 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         this.mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                da.clear();
-                new LayLoTrinh().execute();
 
+                if (isOnline()) {
+                    da.clear();
+                    new LayLoTrinh(hoaDonDB).execute(true);
+                } else {
+                    Toast.makeText(LayLoTrinhActivity.this, "Kiểm tra kết nối Internet và thử lại!!!", Toast.LENGTH_LONG).show();
+                    if (LayLoTrinhActivity.this.mSwipeRefreshLayout.isRefreshing())
+                        LayLoTrinhActivity.this.mSwipeRefreshLayout.setRefreshing(false);
+                }
             }
         });
 
@@ -180,11 +176,13 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         return netInfo != null && netInfo.isConnected();
     }
 
-    public class LayLoTrinh extends AsyncTask<Void, Object, Void> {
+    public class LayLoTrinh extends AsyncTask<Boolean, List<HoaDon>, Void> {
         private ProgressDialog dialog;
+        private HoaDonDB _hoadonDB;
 
-        public LayLoTrinh() {
+        public LayLoTrinh(HoaDonDB hoaDonDB) {
             this.dialog = new ProgressDialog(LayLoTrinhActivity.this);
+            this._hoadonDB = hoaDonDB;
         }
 
         @Override
@@ -199,10 +197,13 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            List<HoaDon> hoaDons = LayLoTrinhActivity.this.mLocalDatabase.getAllHoaDon();
-            for (HoaDon hoaDon : hoaDons) {
-                da.add(new GridViewLayLoTrinhAdapter.Item(hoaDon.getMaLoTrinh(), hoaDon.getDanhBo(), true));
-            }
+            LayLoTrinhActivity.this.mSumMLT = da.items.size();
+            LayLoTrinhActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + LayLoTrinhActivity.this.mSumMLT);
+            LayLoTrinhActivity.this.mSumDanhBo = da.items.size();
+//        for (LoTrinh loTrinh : loTrinhs)
+//            LayLoTrinhActivity.this.mSumDanhBo += loTrinh.getSoLuong();
+
+            LayLoTrinhActivity.this.m_txtTongDB.setText("Danh bộ: " + LayLoTrinhActivity.this.mSumDanhBo);
             if (LayLoTrinhActivity.this.mSwipeRefreshLayout.isRefreshing())
                 LayLoTrinhActivity.this.mSwipeRefreshLayout.setRefreshing(false);
 
@@ -213,242 +214,33 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Void doInBackground(Boolean... params) {
+            boolean isOffline = !params[0];
+            List<HoaDon> hoaDons = new ArrayList<>();
+            if (isOffline) {
+                hoaDons = LayLoTrinhActivity.this.mLocalDatabase.getAllHoaDon();
+            } else {
+                if (_hoadonDB == null)
+                    _hoadonDB = new HoaDonDB();
+                hoaDons = _hoadonDB.getAllByUserName(LayLoTrinhActivity.this.mUsername, LayLoTrinhActivity.this.mNam, LayLoTrinhActivity.this.mKy);
 
-//            ConnectionDB condb = new ConnectionDB();
-//            Connection cnn = condb.getConnect();
-            String like = "";//LayLoTrinhActivity.this.mDot + LayLoTrinhActivity.this.mUsername + "%";
-//            List<LoTrinh> loTrinhs = LayLoTrinhActivity.this.mLocalDatabase.getAllMaLoTrinh();
-            try {
-                Statement statement = cnn.createStatement(), sttm1;
-                ResultSet rsDot = statement.executeQuery("SELECT TOP 1 dot from DocSo where nam = "
-                        + LayLoTrinhActivity.this.mNam + " and ky = " + LayLoTrinhActivity.this.mKy + " order by dot desc");
-                String dot = null;
-                if (rsDot.next()) {
-                    dot = rsDot.getString(1);
-                }
-                rsDot.close();
-
-                like = dot + LayLoTrinhActivity.this.mUsername + "%";
-                ResultSet rs = statement.executeQuery("SELECT * FROM DocSo where nam = "
-                        + LayLoTrinhActivity.this.mNam + " and ky = " + LayLoTrinhActivity.this.mKy + " and mlt2 like '" + like + "'");
-//                LayLoTrinhActivity.this.mHoaDons = new ArrayList<HoaDon>();
-                while (rs.next()) {
-
-
-//                    int id = rs.getInt(1); //TODO xem vụ tạo DocSoID
-                    String khu = "";
-                    String danhBo = rs.getString(2);
-                    String cuLy = "";
-                    String hopDong = "";
-                    String tenKhachHang = "";
-                    String maLoTrinh = rs.getString(4);
-                    String soNha = rs.getString(5);
-                    String duong = rs.getString(7);
-                    String giaBieu = rs.getString(9);
-                    String dinhMuc = rs.getString(10);
-                    String nam = LayLoTrinhActivity.this.mNam + "";
-                    String ky = LayLoTrinhActivity.this.mKy + "";
-                    String chiSoCu = rs.getInt(17) + ""; // lấy chỉ số mới của kỳ trước
-                    String chiSoMoi = "";
-                    String code = "";
-                    String codeFU = "";
-
-                    String quan = "";
-                    String phuong = "";
-
-
-                    sttm1 = cnn.createStatement();
-                    ResultSet rs1 = sttm1.executeQuery("SELECT HopDong, tenkh, quan, phuong FROM KhachHang where MLT2 = '" + maLoTrinh + "'");
-                    if (rs1.next()) {
-                        hopDong = rs1.getString(1);
-                        tenKhachHang = rs1.getString(2);
-                        quan = rs1.getString(3) == null ? "" : rs1.getString(3);
-                        phuong = rs1.getString(4) == null ? "" : rs1.getString(4);
-
-                    }
-                    HoaDon hoaDon = new HoaDon(khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
-//                    LayLoTrinhActivity.this.mHoaDons.add(hoaDon);
-                    if (mLocalDatabase.addHoaDon(hoaDon)) ;
-                    else {
-                        //TODO
-                    }
-                    sttm1.close();
-                    rs1.close();
-                    publishProgress(maLoTrinh, 0, 0);
-//                    mLocalDatabase.addLoTrinh(new LoTrinh(maLoTrinh, LayLoTrinhActivity.this.mHoaDons.size()));
-                }
-
-
-                rs.close();
-                statement.close();
-
-
-//                cnn.close();
-
-            } catch (SQLException e) {
-
-                e.printStackTrace();
             }
+            publishProgress(hoaDons);
             return null;
         }
 
         @Override
-        protected void onProgressUpdate(Object... values) {
+        protected void onProgressUpdate(List<HoaDon>... values) {
             super.onProgressUpdate(values);
-
+            List<HoaDon> hoaDons = values[0];
+            for (HoaDon hoaDon : hoaDons) {
+                da.add(new GridViewLayLoTrinhAdapter.Item(hoaDon.getMaLoTrinh(), hoaDon.getDanhBo(), true));
+                LayLoTrinhActivity.this.mLocalDatabase.addHoaDon(hoaDon);
+            }
         }
 
     }
 
-    //Menu
-//    public class ItemClickHandle extends AsyncTask<String, Object, String> {
-//        private String mlt;
-////        private LinearLayout layout_row;
-////        private int pos;
-//
-//        public ItemClickHandle() {
-////            this.layout_row = layout_row;
-////            this.pos = pos;
-//        }
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-////            Toast.makeText(LayLoTrinhActivity.this, "Đang tính tổng số danh bộ...", Toast.LENGTH_LONG).show();
-//        }
-//
-//
-//        @Override
-//        protected String doInBackground(String... params) {
-//            mlt = params[0];
-//            int danhbo;
-////            LayLoTrinhActivity.this.mHoaDons = LayLoTrinhActivity.this.mLocalDatabase.getAllHoaDons();
-////            danhbo = LayLoTrinhActivity.this.da.getItem(mlt).getDanhbo();
-////            if (danhbo != 0) {
-////                publishProgress(danhbo);
-////                LayLoTrinhActivity.this.m_DanhBo[this.pos] = danhbo;
-////                return danhbo + "";
-////            }
-//
-////            LayLoTrinhActivity.this.mHoaDons = new ArrayList<HoaDon>();
-//            Statement statement = null, sttm1;
-//            try {
-//                statement = cnn.createStatement();
-//
-//                ResultSet rs = statement.executeQuery("SELECT * FROM DocSo where nam = "
-//                        + LayLoTrinhActivity.this.mNam + " and ky = " + LayLoTrinhActivity.this.mKy + " and MLT2 = '" + mlt + "'");
-//                while (rs.next()) {
-//                    int id = 0; //TODO xem vụ tạo DocSoID
-//                    String khu = "";
-//                    String dot = "";
-//                    String danhBo = rs.getString(2);
-//                    String cuLy = "";
-//                    String hopDong = "";
-//                    String tenKhachHang = "";
-//                    String soNha = rs.getString(5);
-//                    String duong = rs.getString(7);
-//                    String giaBieu = rs.getString(9);
-//                    String dinhMuc = rs.getString(10);
-//                    String nam = LayLoTrinhActivity.this.mNam + "";
-//                    String ky = LayLoTrinhActivity.this.mKy + "";
-//                    String chiSoCu = rs.getInt(17) + ""; // lấy chỉ số mới của kỳ trước
-//                    String chiSoMoi = "";
-//                    String code = "";
-//                    String codeFU = "";
-//
-//                    String quan = "";
-//                    String phuong = "";
-//                    String maLoTrinh = mlt;
-//
-//                    sttm1 = cnn.createStatement();
-//                    ResultSet rs1 = sttm1.executeQuery("SELECT HopDong, tenkh, quan, phuong FROM KhachHang where MLT2 = '" + mlt + "'");
-//                    if (rs1.next()) {
-//                        hopDong = rs1.getString(1);
-//                        tenKhachHang = rs1.getString(2);
-//                        quan = rs1.getString(3) == null ? "" : rs1.getString(3);
-//                        phuong = rs1.getString(4) == null ? "" : rs1.getString(4);
-//
-//                    }
-//                    HoaDon hoaDon = new HoaDon(khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
-////                    LayLoTrinhActivity.this.mHoaDons.add(hoaDon);
-//                    if (mLocalDatabase.addHoaDon(hoaDon)) ;
-//                    else {
-//                        //TODO
-//                    }
-//                }
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
-//
-////            publishProgress(LayLoTrinhActivity.this.mHoaDons.size());
-////            mLocalDatabase.addLoTrinh(new LoTrinh(mlt, LayLoTrinhActivity.this.mHoaDons.size()));
-//            da.removeItem(mlt);
-//            m_mlt.remove(mlt);
-////            LayLoTrinhActivity.this.m_DanhBo[this.pos] = LayLoTrinhActivity.this.mHoaDons.size();
-////            return LayLoTrinhActivity.this.mHoaDons.size() + "";
-//            return "";
-//        }
-//
-//        @Override
-//        protected void onProgressUpdate(Object... values) {
-//            super.onProgressUpdate(values);
-//            int danhBo = (int) values[0];
-////            this.layout_row.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.color_row_check));
-//            try {
-//                Thread.sleep(500);
-//                Button btnViewDownloadMLT = (Button) findViewById(R.id.btn_llt_viewdownloadMLT);
-//                btnViewDownloadMLT.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.color_row_check));
-//
-//                Thread.sleep(500);
-//                btnViewDownloadMLT.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.colorGreen));
-//                Thread.sleep(500);
-//                gridView.setAdapter(da);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//
-////            LayLoTrinhActivity.this.da.getItem(mlt).setDanhbo(danhBo);
-////            this.txt_row_DanhBo.setText(danhBo + "");
-////            int count = LayLoTrinhActivity.this.m_MLT_TongDanhBo.size();
-////            if (!LayLoTrinhActivity.this.m_MLT_TongDanhBo.containsKey(mlt)) {
-////                LayLoTrinhActivity.this.m_MLT_TongDanhBo.put(mlt, danhBo);
-////                this.img_row_check.setImageResource(R.drawable.checked);
-////                LayLoTrinhActivity.this.da.getItem(mlt).setCheckpos(true);
-////                this.layout_row.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.color_row_check));
-////            } else {
-////                LayLoTrinhActivity.this.m_MLT_TongDanhBo.remove(mlt);
-////                this.img_row_check.setImageResource(0);
-////                LayLoTrinhActivity.this.da.getItem(mlt).setCheckpos(false);
-////                this.layout_row.setBackgroundColor(ContextCompat.getColor(LayLoTrinhActivity.this, R.color.color_row_uncheck));
-////            }
-//            LayLoTrinhActivity.this.mSumMLT += 1;
-//            LayLoTrinhActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + LayLoTrinhActivity.this.mSumMLT);
-////
-////            int sum_db = 0;
-////            for (Integer db : LayLoTrinhActivity.this.m_MLT_TongDanhBo.values())
-////                sum_db += db;
-//            LayLoTrinhActivity.this.mSumDanhBo += danhBo;
-//            LayLoTrinhActivity.this.m_txtTongDB.setText("Danh bộ: " + LayLoTrinhActivity.this.mSumDanhBo);
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String s) {
-//            super.onPostExecute(s);
-//            Log.w(s, s);
-//        }
-//    }
-
-
-    public void doViewDownloadMLT(View v) {
-        int size = this.mLocalDatabase.getAllHoaDon().size();
-        if (size == 0)
-            Toast.makeText(this, "Chưa có lộ trình!!!", Toast.LENGTH_SHORT).show();
-        else {
-            Intent intent = new Intent(LayLoTrinhActivity.this, XemLoTrinhDaTaiActivity.class);
-            startActivity(intent);
-        }
-    }
 
     public void doDocSo(View v) {
         int size = this.mLocalDatabase.getAllHoaDon().size();

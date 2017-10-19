@@ -239,15 +239,6 @@
             android:layout_gravity="center_vertical|right"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btn_llt_loadMLT"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="@color/colorGreen"
-                android:text="Lấy ds MLT"
-                android:textColor="@color/colorWhite" />
-
 
         </LinearLayout>
 

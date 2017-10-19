@@ -169,6 +169,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
     }
 
     public boolean addHoaDon(HoaDon hoaDon) {
+        if(getHoaDon(hoaDon.getDanhBo()) != null)
+            return false;
         Log.i(TAG, "LocalDatabase.addHoaDon ... " + hoaDon.getDanhBo());
 
         SQLiteDatabase db = this.getWritableDatabase();

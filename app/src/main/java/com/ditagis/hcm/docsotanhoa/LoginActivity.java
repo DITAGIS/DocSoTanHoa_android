@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.method.PasswordTransformationMethod;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -160,7 +161,13 @@ public class LoginActivity extends AppCompatActivity {
         LoginActivity.this.btnChangePassword.setEnabled(enable);
         LoginActivity.this.mImgBtnViewPassword.setEnabled(enable);
     }
-
+private void hideKeyboard(){
+    View view = this.getCurrentFocus();
+    if (view != null) {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+}
     class LoginAsync extends AsyncTask<String, Boolean, Void> {
         private LogInDB loginDB = new LogInDB();
         private ProgressDialog dialog;
@@ -172,6 +179,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            hideKeyboard();
             dialog.setMessage("Đang kiểm tra thông tin đăng nhập...");
             dialog.setCancelable(false);
             dialog.show();
