@@ -134,15 +134,9 @@ public class DocSoActivity extends AppCompatActivity {
             mArrMlt[i++] = hoaDon.getMaLoTrinh();
         }
         DocSoActivity.this.mSumDanhBo = 0;
-        for (
-                String mlt : mArrMlt)
-            DocSoActivity.this.mSumDanhBo += this.mLocalDatabase.getAllHoaDonByMaLoTrinh(mlt).
-
-                    size();
-
-        DocSoActivity.this.mDanhBoHoanThanh = DocSoActivity.this.mLocalDatabase.getAllDanhBo_CSM().
-
-                size();
+        for (String mlt : mArrMlt)
+            DocSoActivity.this.mSumDanhBo += this.mLocalDatabase.getAllHoaDonByMaLoTrinh(mlt).size();
+        DocSoActivity.this.mDanhBoHoanThanh = DocSoActivity.this.mLocalDatabase.getAllDanhBo_CSM().size();
 
         DocSoActivity.this.txtComplete.setText(DocSoActivity.this.mDanhBoHoanThanh + "/" + DocSoActivity.this.mSumDanhBo);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, mArrMlt);

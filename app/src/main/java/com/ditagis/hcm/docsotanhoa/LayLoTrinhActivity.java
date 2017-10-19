@@ -40,8 +40,6 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     GridView gridView;
     //    ImageButton imgbtnCheck;
     HoaDonDB hoaDonDB = new HoaDonDB();
-    //Dùng mảng 1 chiều hoặc ArrayList để lưu một số dữ liệu
-    private ArrayList<String> m_mlt;
     private int m_DanhBo[];
     private GridViewLayLoTrinhAdapter da;
     private LocalDatabase mLocalDatabase;
@@ -62,10 +60,8 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         this.mKy = calendar.get(Calendar.MONTH) + 1;
         this.mNam = calendar.get(Calendar.YEAR);
-//        this.mDot = calendar.get(Calendar.DAY_OF_MONTH);
-//        Toast.makeText(this, mKy + "/" + mNam, Toast.LENGTH_SHORT).show();
+
         this.mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_llt_swipeRefreshLayout);
-        m_mlt = new ArrayList<String>();
         mLocalDatabase = new LocalDatabase(this);
         mUsername = getIntent().getExtras().getString("mayds");
 //        mLocalDatabase.Upgrade();
@@ -76,10 +72,14 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         gridView = (GridView) findViewById(R.id.grid_llt_danhSachLoTrinh);
 
         editTextSearch.addTextChangedListener(new TextWatcher() {
+            List<String> mlts = new ArrayList<String>();
+
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon()) {
+                    mlts.add((hoaDon.getMaLoTrinh()));
+                }
             }
 
             @Override
@@ -88,7 +88,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 //                    System.out.println(gridView.getAdapter().getItem(0).toString());
                     List<String> result = new ArrayList<String>();
                     //Lấy dữ liệu bắt đầu với text search
-                    for (String mlt : m_mlt) {
+                    for (String mlt : mlts) {
                         if (mlt.contains(s.toString()))
                             result.add(mlt);
                     }
@@ -125,9 +125,9 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         registerForContextMenu(LayLoTrinhActivity.this.gridView);
 
         List<LoTrinh> loTrinhs = LayLoTrinhActivity.this.mLocalDatabase.getAllMaLoTrinh();
-        LayLoTrinhActivity.this.mSumMLT = loTrinhs.size();
+        LayLoTrinhActivity.this.mSumMLT = da.items.size();
         LayLoTrinhActivity.this.m_txtTongMLT.setText("Mã lộ trình: " + LayLoTrinhActivity.this.mSumMLT);
-        LayLoTrinhActivity.this.mSumDanhBo = 0;
+        LayLoTrinhActivity.this.mSumDanhBo = da.items.size();
         for (LoTrinh loTrinh : loTrinhs)
             LayLoTrinhActivity.this.mSumDanhBo += loTrinh.getSoLuong();
 
@@ -198,7 +198,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            String mlt;
+
             List<HoaDon> hoaDons = LayLoTrinhActivity.this.mLocalDatabase.getAllHoaDon();
             for (HoaDon hoaDon : hoaDons) {
                 da.add(new GridViewLayLoTrinhAdapter.Item(hoaDon.getMaLoTrinh(), hoaDon.getDanhBo(), true));
@@ -209,6 +209,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
+            Toast.makeText(LayLoTrinhActivity.this, "Đã tải xong mã lộ trình!!!", Toast.LENGTH_LONG).show();
         }
 
         @Override
@@ -277,14 +278,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
                     publishProgress(maLoTrinh, 0, 0);
 //                    mLocalDatabase.addLoTrinh(new LoTrinh(maLoTrinh, LayLoTrinhActivity.this.mHoaDons.size()));
                 }
-                LayLoTrinhActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(LayLoTrinhActivity.this, "Đã lấy xong mã lộ trình", Toast.LENGTH_SHORT).show();
-                        int count = m_mlt.size();
-                        LayLoTrinhActivity.this.m_DanhBo = new int[count];
-                    }
-                });
+
 
                 rs.close();
                 statement.close();
@@ -302,11 +296,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(Object... values) {
             super.onProgressUpdate(values);
-            String mlt = (String) values[0];
-//            if (da != null) {
-//                m_mlt.add(mlt);
-//                da.add(new GridViewLayLoTrinhAdapter.Item(mlt, 0, false));
-//            }
+
         }
 
     }

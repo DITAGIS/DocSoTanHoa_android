@@ -201,6 +201,7 @@ public class LoginActivity extends AppCompatActivity {
             super.onProgressUpdate(values);
             boolean isValid = values[0];
             if (isValid) {
+//                Toast.makeText(LoginActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                 doLayLoTrinh();
             } else {
                 Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
