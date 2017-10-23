@@ -459,6 +459,7 @@ public class DocSoActivity extends AppCompatActivity {
     }
 
     private void capture() {
+        requestPermissonWriteFile();
         Intent cameraIntent = new Intent(
                 android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,

@@ -169,7 +169,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
     }
 
     public boolean addHoaDon(HoaDon hoaDon) {
-        if(getHoaDon(hoaDon.getDanhBo()) != null)
+        if (getHoaDon(hoaDon.getDanhBo()) != null)
             return false;
         Log.i(TAG, "LocalDatabase.addHoaDon ... " + hoaDon.getDanhBo());
 
@@ -201,7 +201,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
 
     public HoaDon getHoaDon(String danhbo) {
         Log.i(TAG, "LocalDatabase.getHoaDon ... " + id);
-
+        HoaDon hoaDon = null;
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_HOADON, new String[]{
@@ -220,10 +220,11 @@ public class LocalDatabase extends SQLiteOpenHelper {
                         COLUMN_HOADON_DINHMUC
                 }, COLUMN_HOADON_DANHBO + "=?",
                 new String[]{String.valueOf(danhbo)}, null, null, null, null);
-        if (cursor != null)
+        if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
 
-        HoaDon hoaDon = new HoaDon(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11));
+            hoaDon = new HoaDon(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11));
+        }
         return hoaDon;
     }
 
@@ -298,6 +299,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         }
         return hoaDons;
     }
+
     public List<HoaDon> getAllHoaDon() {
         List<HoaDon> hoaDons = new ArrayList<HoaDon>();
         Log.i(TAG, "LocalDatabase.getHoaDon ... " + id);
@@ -305,19 +307,19 @@ public class LocalDatabase extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_HOADON, new String[]{
-                        COLUMN_HOADON_DOT,
-                        COLUMN_HOADON_DANHBO,
-                        COLUMN_HOADON_KHACHHANG,
-                        COLUMN_HOADON_KY,
-                        COLUMN_HOADON_CODE,
-                        COLUMN_HOADON_CHISOCU,
-                        COLUMN_HOADON_CHISOMOI,
-                        COLUMN_HOADON_MALOTRINH,
-                        COLUMN_HOADON_SONHA,
-                        COLUMN_HOADON_DUONG,
-                        COLUMN_HOADON_GIABIEU,
-                        COLUMN_HOADON_DINHMUC
-                },null, null, null, null, null);
+                COLUMN_HOADON_DOT,
+                COLUMN_HOADON_DANHBO,
+                COLUMN_HOADON_KHACHHANG,
+                COLUMN_HOADON_KY,
+                COLUMN_HOADON_CODE,
+                COLUMN_HOADON_CHISOCU,
+                COLUMN_HOADON_CHISOMOI,
+                COLUMN_HOADON_MALOTRINH,
+                COLUMN_HOADON_SONHA,
+                COLUMN_HOADON_DUONG,
+                COLUMN_HOADON_GIABIEU,
+                COLUMN_HOADON_DINHMUC
+        }, null, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
                 HoaDon hoaDon = new HoaDon(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11));
@@ -326,6 +328,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         }
         return hoaDons;
     }
+
     public void deleteHoaDon(String danhBo) {
         Log.i(TAG, "LocalDatabase.updateHoaDon ... " + danhBo);
 

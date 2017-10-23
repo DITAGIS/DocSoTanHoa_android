@@ -3,6 +3,7 @@ package com.ditagis.hcm.docsotanhoa;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -11,85 +12,76 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.PasswordTransformationMethod;
-import android.view.MotionEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ditagis.hcm.docsotanhoa.conectDB.LogInDB;
 import com.ditagis.hcm.docsotanhoa.entities.User;
 
 public class LoginActivity extends AppCompatActivity {
-    //    private ProgressBar spinner;
-    EditText txtUserName;
-    EditText txtPassword;
-    LoginAsync loginAsync;
+
+    private EditText txtUsername;
+    private EditText txtPassword;
     private Button btnLogin;
     private Button btnChangePassword;
-    ImageButton mImgBtnViewPassword;
-    private ProgressDialog progressBar;
-    private int progressBarStatus = 0;
-    private Handler progressBarbHandler = new Handler();
-    private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
+    private ImageButton mImgBtnViewPassword;
+
+    private LoginAsync mLoginAsync;
     private String mUsername;
+    private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_ID_WRITE_FILE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        txtUserName = (EditText) findViewById(R.id.txtUsername);
+
+
+        txtUsername = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
         btnChangePassword = (Button) findViewById(R.id.btnChangePassword);
 
         this.mImgBtnViewPassword = (ImageButton) findViewById(R.id.imgBtn_login_viewPassword);
         requestPermissonCamera();
         requestPermissonWriteFile();
-//        spinner = (ProgressBar) findViewById(R.id.progessLogin);
-
-
-//        new LocalDatabase(this).Upgrade();
-        this.mImgBtnViewPassword.setOnTouchListener(new View.OnTouchListener() {
-
+        this.mImgBtnViewPassword.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    LoginActivity.this.mImgBtnViewPassword.setImageResource(R.drawable.view_password);
-                    LoginActivity.this.txtPassword.setTransformationMethod(null);
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    LoginActivity.this.mImgBtnViewPassword.setImageResource(R.drawable.un_view_password);
+            public void onClick(View v) {
+                if (LoginActivity.this.txtPassword.getTransformationMethod() == null) {
+                    ((ImageButton) v).setImageResource(R.drawable.un_view_password);
                     LoginActivity.this.txtPassword.setTransformationMethod(new PasswordTransformationMethod());
+                } else {
+                    ((ImageButton) v).setImageResource(R.drawable.view_password);
+                    LoginActivity.this.txtPassword.setTransformationMethod(null);
                 }
-                return false;
             }
         });
-
 
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                spinner.setVisibility(View.GONE);
-//                spinner.setVisibility(View.VISIBLE);
-                LoginActivity.this.mUsername = txtUserName.getText().toString();
-                if (txtUserName.getText().toString().length() == 0 || txtPassword.getText().toString().length() == 0) {
+                LoginActivity.this.mUsername = txtUsername.getText().toString();
+                if (txtUsername.getText().toString().length() == 0 || txtPassword.getText().toString().length() == 0) {
                     Toast.makeText(LoginActivity.this, "Tên đăng nhập hoặc mật khẩu không được để trống!!!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-//                setEnable(false);
                 if (isOnline()) {
-                    loginAsync = new LoginAsync();
-                    loginAsync.execute(txtUserName.getText().toString(), txtPassword.getText().toString());
+                    mLoginAsync = new LoginAsync();
+                    mLoginAsync.execute(txtUsername.getText().toString(), txtPassword.getText().toString());
 
-                } else if (txtPassword.getText().toString().equals(loadPreferences(txtUserName.getText().toString()))) {
+                } else if (txtPassword.getText().toString().equals(loadPreferences(txtUsername.getText().toString()))) {
                     Toast.makeText(LoginActivity.this, "Đang đăng nhập với tài khoản trước...", Toast.LENGTH_LONG).show();
                     doLayLoTrinh();
                 } else {
@@ -102,47 +94,106 @@ public class LoginActivity extends AppCompatActivity {
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(LoginActivity.this, "Tính năng đang cập nhật", Toast.LENGTH_SHORT).show();
-                return;
 
-//                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-//                builder.setTitle("Đổi mật khẩu");
-//                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                    }
-//                }).setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                    }
-//                });
-//                AlertDialog dialog = builder.create();
-//                LayoutInflater inflater = getLayoutInflater();
-//                View dialogLayout = inflater.inflate(R.layout.layout_change_password, null);
-//                final ImageButton viewPassword = (ImageButton) findViewById(R.id.imgBtn_changePassword_viewPassword);
-//                ImageButton viewNewPassword = (ImageButton) findViewById(R.id.imgBtn_changePassword_viewNewPassword);
-//                ImageButton viewNewPasswordAgain = (ImageButton) findViewById(R.id.imgBtn_changePassword_viewNewPasswordAgain);
-//                viewPassword.setOnTouchListener(new View.OnTouchListener() {
-//                    @Override
-//                    public boolean onTouch(View v, MotionEvent event) {
-//                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//                            viewPassword.setImageResource(R.drawable.view_password);
-//                            LoginActivity.this.txtPassword.setTransformationMethod(null);
-//                        } else if (event.getAction() == MotionEvent.ACTION_UP) {
-//                            LoginActivity.this.mImgBtnViewPassword.setImageResource(R.drawable.un_view_password);
-//                            LoginActivity.this.txtPassword.setTransformationMethod(new PasswordTransformationMethod());
-//                        }
-//                        return false;
-//                    }
-//                });
-//
-//
-//                dialog.setView(dialogLayout);
-//
-//                dialog.show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                builder.setTitle("Đổi mật khẩu");
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).setCancelable(false);
+                AlertDialog dialog = builder.create();
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogLayout = inflater.inflate(R.layout.layout_change_password, null);
 
+
+                dialog.setView(dialogLayout);
+                dialog.show();
+
+
+                final TextView txtChangePwUsername = (TextView) dialog.findViewById(R.id.txt_changePw_userName);
+                final TextView txtChangePwOldPw = (TextView) dialog.findViewById(R.id.txt_changePw_oldPassword);
+                final TextView txtChangePwNewPw = (TextView) dialog.findViewById(R.id.txt_changePw_newPw);
+                final TextView txtChangePwConfirmPw = (TextView) dialog.findViewById(R.id.txt_changePw_confirmPw);
+
+                final EditText etxtChangePwUsername = (EditText) dialog.findViewById(R.id.etxt_changePw_userName);
+                final EditText etxtChangePwOldPw = (EditText) dialog.findViewById(R.id.etxt_changePw_oldPw);
+                final EditText etxtChangePwNewPw = (EditText) dialog.findViewById(R.id.etxt_changePw_NewPw);
+                final EditText etxtChangePwConfirmPw = (EditText) dialog.findViewById(R.id.etxt_changePw_ConfirmPw);
+
+                etxtChangePwUsername.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        txtChangePwUsername.setVisibility(View.VISIBLE);
+                        etxtChangePwUsername.setHint("");
+                    }
+                });
+                etxtChangePwOldPw.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        txtChangePwOldPw.setVisibility(View.VISIBLE);
+                        etxtChangePwOldPw.setHint("");
+                    }
+                });
+                etxtChangePwNewPw.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        txtChangePwNewPw.setVisibility(View.VISIBLE);
+                        etxtChangePwNewPw.setHint("");
+                    }
+                });
+                etxtChangePwConfirmPw.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        txtChangePwConfirmPw.setVisibility(View.VISIBLE);
+                        etxtChangePwConfirmPw.setHint("");
+                    }
+                });
+
+                ((ImageButton) dialog.findViewById(R.id.imgBtn_changePassword_viewOldPassword)).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (etxtChangePwOldPw.getTransformationMethod() == null) {
+                            ((ImageButton) v).setImageResource(R.drawable.un_view_password);
+                            etxtChangePwOldPw.setTransformationMethod(new PasswordTransformationMethod());
+                        } else {
+                            ((ImageButton) v).setImageResource(R.drawable.view_password);
+                            etxtChangePwOldPw.setTransformationMethod(null);
+                        }
+                    }
+                });
+
+                ((ImageButton) dialog.findViewById(R.id.imgBtn_changePassword_viewNewPassword)).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (etxtChangePwNewPw.getTransformationMethod() == null) {
+                            ((ImageButton) v).setImageResource(R.drawable.un_view_password);
+                            etxtChangePwNewPw.setTransformationMethod(new PasswordTransformationMethod());
+                        } else {
+                            ((ImageButton) v).setImageResource(R.drawable.view_password);
+                            etxtChangePwNewPw.setTransformationMethod(null);
+                        }
+                    }
+                });
+
+                ((ImageButton) dialog.findViewById(R.id.imgBtn_changePassword_viewConfirmPassword)).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (etxtChangePwConfirmPw.getTransformationMethod() == null) {
+                            ((ImageButton) v).setImageResource(R.drawable.un_view_password);
+                            etxtChangePwConfirmPw.setTransformationMethod(new PasswordTransformationMethod());
+                        } else {
+                            ((ImageButton) v).setImageResource(R.drawable.view_password);
+                            etxtChangePwConfirmPw.setTransformationMethod(null);
+                        }
+                    }
+                });
 
             }
         });
@@ -154,20 +205,14 @@ public class LoginActivity extends AppCompatActivity {
         return netInfo != null && netInfo.isConnected();
     }
 
-    private void setEnable(boolean enable) {
-        LoginActivity.this.txtPassword.setEnabled(enable);
-        LoginActivity.this.txtUserName.setEnabled(enable);
-        LoginActivity.this.btnLogin.setEnabled(enable);
-        LoginActivity.this.btnChangePassword.setEnabled(enable);
-        LoginActivity.this.mImgBtnViewPassword.setEnabled(enable);
+    private void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
-private void hideKeyboard(){
-    View view = this.getCurrentFocus();
-    if (view != null) {
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
-}
+
     class LoginAsync extends AsyncTask<String, Boolean, Void> {
         private LogInDB loginDB = new LogInDB();
         private ProgressDialog dialog;
@@ -209,12 +254,9 @@ private void hideKeyboard(){
             super.onProgressUpdate(values);
             boolean isValid = values[0];
             if (isValid) {
-//                Toast.makeText(LoginActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                 doLayLoTrinh();
             } else {
                 Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
-//                Intent intent1 = new Intent(LoginActivity.this, XemLoTrinhDaTaiActivity.class);
-//                startActivity(intent1);
             }
         }
 
@@ -225,7 +267,6 @@ private void hideKeyboard(){
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
-//            setEnable(true);
         }
     }
 
@@ -242,7 +283,6 @@ private void hideKeyboard(){
         }
         if (Build.VERSION.SDK_INT >= 23 &&
                 ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-//            Toast.makeText(this, "Không cho phép bật CAMERA", Toast.LENGTH_SHORT).show();
             return false;
         } else
             return true;
@@ -251,11 +291,10 @@ private void hideKeyboard(){
     public boolean requestPermissonWriteFile() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    REQUEST_ID_IMAGE_CAPTURE);
+                    REQUEST_ID_WRITE_FILE);
         }
         if (Build.VERSION.SDK_INT >= 23 &&
                 ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//            Toast.makeText(this, "Không cho phép lưu ảnh!!!", Toast.LENGTH_SHORT).show();
             return false;
         } else
             return true;

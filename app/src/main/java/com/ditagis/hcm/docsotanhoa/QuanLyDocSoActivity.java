@@ -118,6 +118,7 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }});
+                //TODO chỉnh sửa khách hàng
 //                });.setNegativeButton("Chỉnh sửa", new DialogInterface.OnClickListener() {
 //                    @Override
 //                    public void onClick(DialogInterface dialog, int which) {
@@ -172,16 +173,6 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
         else {
             Intent intent = new Intent(QuanLyDocSoActivity.this, DocSoActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT );
-//            Bundle extras = new Bundle();
-//
-//            String[] mltArr = new String[this.m_MLT_TongDanhBo.size()];
-//            int j = 0;
-//            for (String mlt : this.m_MLT_TongDanhBo.keySet())
-//                mltArr[j++] = mlt;
-//            extras.putStringArray("mMltArr", mltArr);
-////            extras.putStringArrayList("mMlt", LayLoTrinhActivity.this.m_mlt);
-////            extras.putBooleanArray("chkPosition", LayLoTrinhActivity.this.m_MLT_TongDanhBo);
-//            intent.putExtras(extras);
             startActivity(intent);
         }
     }
@@ -210,53 +201,7 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
     //TODO: progress bar
     private void upLoadData() {
         new UploadingAsync().execute();
-//        boolean isFinished = false;
-//
-//        while (!isFinished) {
-//            if (uploading.isConnected()) {
-//
-//                final List<DanhBo_ChiSoMoi> danhBo_chiSoMois = QuanLyDocSoActivity.this.localDatabase.getAllDanhBo_CSM();
-//                final int total = danhBo_chiSoMois.size();
-//
-//
-//                AlertDialog.Builder builder = new AlertDialog.Builder(QuanLyDocSoActivity.this);
-//                builder.setTitle("Tải dữ liệu lên server");
-//                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                    }
-//                });
-//                AlertDialog dialog = builder.create();
-//                LayoutInflater inflater = getLayoutInflater();
-//                View dialogLayout = inflater.inflate(R.layout.progress_horizontal_uploading, null);
-//
-//
-//                dialog.setView(dialogLayout);
-//
-//                dialog.show();
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        QuanLyDocSoActivity.this.progressUploading.setMax(total);
-//
-//                        for (DanhBo_ChiSoMoi danhBo_chiSoMoi : danhBo_chiSoMois) {
-////                            isValid = uploading.update(danhBo_chiSoMoi);
-//
-//                            QuanLyDocSoActivity.this.progressUploading.setProgress(QuanLyDocSoActivity.this.progressStatus);
-//
-//                            QuanLyDocSoActivity.this.txtProgressStatus.setText(progressStatus + "/" + total);
-//
-//                            QuanLyDocSoActivity.this.progressStatus += 1;
-//                            // refresh gridview
-//
-//                        }
-//                        QuanLyDocSoActivity.this.progressStatus = 0;
-//                        uploading.disConnect();
-//                    }
-//                });
-//            }
-//        }
+
     }
     class UploadingAsync extends AsyncTask<String, Boolean, Void> {
         private ProgressDialog dialog;
