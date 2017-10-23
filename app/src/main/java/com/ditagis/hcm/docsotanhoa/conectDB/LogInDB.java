@@ -2,10 +2,9 @@ package com.ditagis.hcm.docsotanhoa.conectDB;
 
 import android.support.annotation.NonNull;
 
+import com.ditagis.hcm.docsotanhoa.entities.EncodeMD5;
 import com.ditagis.hcm.docsotanhoa.entities.User;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,7 +18,7 @@ import java.util.List;
  * Created by ThanLe on 12/10/2017.
  */
 
-public class LogInDB extends AbstractDB implements IDB<User, Boolean, String> {
+public class LogInDB implements IDB<User, Boolean, String> {
 
     private final String TABLE_NAME = "MayDS";
     private final String SQL_SELECT = "select * from " + TABLE_NAME + " where may = ? and password = ?";
@@ -30,7 +29,7 @@ public class LogInDB extends AbstractDB implements IDB<User, Boolean, String> {
 
     @NonNull
     private Boolean createTable() {
-        Connection cnn = this.condb.getConnect();
+        Connection cnn = ConnectionDB.getInstance().getConnection();
         Statement statement = null;
         try {
             statement = cnn.createStatement();
@@ -52,13 +51,13 @@ public class LogInDB extends AbstractDB implements IDB<User, Boolean, String> {
 
     @Override
     public Boolean add(User user) {
-        Connection cnn = this.condb.getConnect();
+        Connection cnn = ConnectionDB.getInstance().getConnection();
         String sql = this.SQL_INSERT;
 
         try {
             PreparedStatement st = cnn.prepareStatement(sql);
             st.setString(1, user.getUserName());
-            st.setString(2, encodeMD5(user.getPassWord()));
+            st.setString(2, (new EncodeMD5()).encode(user.getPassWord()));
             boolean result = st.execute();
             st.close();
             cnn.close();
@@ -72,7 +71,7 @@ public class LogInDB extends AbstractDB implements IDB<User, Boolean, String> {
 
     @Override
     public Boolean delete(String k) {
-        Connection cnn = this.condb.getConnect();
+        Connection cnn = ConnectionDB.getInstance().getConnection();
         try {
             PreparedStatement pst = cnn.prepareStatement(this.SQL_DELETE);
             pst.setString(1, k);
@@ -95,13 +94,13 @@ public class LogInDB extends AbstractDB implements IDB<User, Boolean, String> {
     }
 
     public boolean logIn(User user) {
-        Connection cnn = this.condb.getConnect();
+        Connection cnn = ConnectionDB.getInstance().getConnection();
         String sql = this.SQL_SELECT;
 
         try {
             PreparedStatement st = cnn.prepareStatement(sql);
             st.setString(1, user.getUserName());
-            st.setString(2, encodeMD5(user.getPassWord()));
+            st.setString(2, (new EncodeMD5()).encode(user.getPassWord()));
             ResultSet result = st.executeQuery();
             if (result.next()) {
                 st.close();
@@ -118,32 +117,7 @@ public class LogInDB extends AbstractDB implements IDB<User, Boolean, String> {
         return false;
     }
 
-    public boolean changePassword(User user, String newPassword) {
-        if (logIn(user)) {
-            Connection cnn = this.condb.getConnect();
-            String sql = this.SQL_UPDATE;
 
-            try {
-                PreparedStatement st = cnn.prepareStatement(sql);
-                st.setString(1, encodeMD5(newPassword));
-                st.setString(2, user.getUserName());
-                ResultSet result = st.executeQuery();
-                if (result.next()) {
-                    st.close();
-                    cnn.close();
-                    return true;
-                }
-                st.close();
-                cnn.close();
-
-
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-            return false;
-        } else
-            return false;
-    }
 
     public boolean setPassword(Connection cnn, String password) {
 
@@ -152,7 +126,7 @@ public class LogInDB extends AbstractDB implements IDB<User, Boolean, String> {
 
         try {
             PreparedStatement st = cnn.prepareStatement(sql);
-            st.setString(1, encodeMD5(password));
+            st.setString(1, (new EncodeMD5()).encode(password));
             int result = st.executeUpdate();
             if (result > 0) {
                 st.close();
@@ -173,7 +147,7 @@ public class LogInDB extends AbstractDB implements IDB<User, Boolean, String> {
     @Override
     public List<User> getAll() {
         List<User> result = new ArrayList<User>();
-        Connection cnn = this.condb.getConnect();
+        Connection cnn = ConnectionDB.getInstance().getConnection();
         try {
             CallableStatement cal = cnn.prepareCall(this.SQL_SELECT, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = cal.executeQuery();
@@ -194,28 +168,11 @@ public class LogInDB extends AbstractDB implements IDB<User, Boolean, String> {
         return result;
     }
 
-    public String encodeMD5(String password) {
-        MessageDigest md = null;
-        try {
-            md = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        md.update(password.getBytes());
 
-        byte byteData[] = md.digest();
-
-        //convert the byte to hex format method 1
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < byteData.length; i++) {
-            sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
-        }
-        return sb.toString();
-    }
 
     public static void main(String[] args) {
         LogInDB logInDB = new LogInDB();
-        Connection cnn = logInDB.condb.getConnect();
+        Connection cnn = ConnectionDB.getInstance().getConnection();
         for (int i = 1; i <= 70; i++)
             logInDB.setPassword(cnn, "54321");
 

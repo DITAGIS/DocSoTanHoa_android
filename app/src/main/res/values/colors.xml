@@ -10,6 +10,7 @@
     <color name="colorTextViewChangePassword">#27ae60</color>
     <color name="colorBlueDard">#000066</color>
     <color name="colorUnsave">#e74c3c</color>
+    <color name="colorRed">#e74c3c</color>
     <color name="colorSave">#ecf0f1</color>
     <color name="colorBlueLight">#ccccff</color>
 

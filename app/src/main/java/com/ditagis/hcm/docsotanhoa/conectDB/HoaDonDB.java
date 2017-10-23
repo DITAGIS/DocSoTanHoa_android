@@ -11,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String> {
+public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
     private final String TABLE_NAME = "HOADON";
     private final String SQL_SELECT = "SELECT ID,KHU,DOT,DANHBO,CULY,HOPDONG,TENKH,SONHA,DUONG,GIABIEU,DINHMUC,KY,NAM,CODE,CODEFU,CSCU,CSMOI,QUAN,PHUONG,MLT FROM " + TABLE_NAME;
     private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
@@ -22,7 +22,7 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
 
     @Override
     public Boolean add(HoaDon e) {
-        Connection cnn = this.condb.getConnect();
+        Connection cnn = ConnectionDB.getInstance().getConnection();
         String sql = this.SQL_INSERT;
 
         try {
@@ -40,7 +40,7 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
 
     @Override
     public Boolean delete(String k) {
-        Connection cnn = this.condb.getConnect();
+        Connection cnn = ConnectionDB.getInstance().getConnection();
         try {
             PreparedStatement pst = cnn.prepareStatement(this.SQL_DELETE);
             pst.setString(1, k);
@@ -54,7 +54,7 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
 
     @Override
     public Boolean update(HoaDon e) {
-        Connection cnn = this.condb.getConnect();
+        Connection cnn = ConnectionDB.getInstance().getConnection();
         try {
             CallableStatement cbs = cnn.prepareCall(this.SQL_UPDATE);
             cbs.setString(1, e.getChiSoCu());
@@ -92,7 +92,7 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
     @Override
     public List<HoaDon> getAll() {
         List<HoaDon> result = new ArrayList<HoaDon>();
-        Connection cnn = this.condb.getConnect();
+        Connection cnn = ConnectionDB.getInstance().getConnection();
         try {
             CallableStatement cal = cnn.prepareCall(this.SQL_SELECT, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = cal.executeQuery();
@@ -131,7 +131,7 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
 
     public List<String> getAllMaLoTrinh() throws SQLException {
         List<String> result = new ArrayList<String>();
-        Connection cnn = this.condb.getConnect();
+        Connection cnn = ConnectionDB.getInstance().getConnection();
         try {
             Statement statement = cnn.createStatement();
             ResultSet rs = statement.executeQuery("SELECT DISTINCT MLT FROM " + this.TABLE_NAME);
@@ -152,7 +152,7 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
 
     public List<HoaDon> getByMaLoTrinh(String maLoTrinh) {
         List<HoaDon> result = new ArrayList<HoaDon>();
-        Connection cnn = this.condb.getConnect();
+        Connection cnn = ConnectionDB.getInstance().getConnection();
         try {
             Statement statement = cnn.createStatement();
             ResultSet rs = statement.executeQuery(this.SQL_SELECT + " WHERE MLT = '" + maLoTrinh + "'");
@@ -190,7 +190,7 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
     }
 
     public List<HoaDon> getAllByUserName(String userName, int nam, int ky) {
-        Connection cnn = this.condb.getConnect();
+        Connection cnn = ConnectionDB.getInstance().getConnection();
         List<HoaDon> hoaDons = new ArrayList<HoaDon>();
         try {
             Statement statement = cnn.createStatement(), sttm1;
@@ -267,7 +267,7 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
 
     public HoaDon getByDanhBo(String danhBo) {
         HoaDon hoaDon = null;
-        Connection cnn = this.condb.getConnect();
+        Connection cnn = ConnectionDB.getInstance().getConnection();
         try {
             Statement statement = cnn.createStatement();
             ResultSet rs = statement.executeQuery(this.SQL_SELECT + " WHERE DANHBO = '" + danhBo + "'");
@@ -305,7 +305,7 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
 
     public int getNum_DanhBo_ByMLT(String maLoTrinh) {
         int result = 0;
-        Connection cnn = this.condb.getConnect();
+        Connection cnn = ConnectionDB.getInstance().getConnection();
         try {
             Statement statement = cnn.createStatement();
             ResultSet rs = statement.executeQuery("SELECT COUNT(DANHBO) FROM " + TABLE_NAME + " WHERE MLT = '" + maLoTrinh + "'");
@@ -324,7 +324,7 @@ public class HoaDonDB extends AbstractDB implements IDB<HoaDon, Boolean, String>
 
     public List<String> get_DanhBo_ByMLT(String maLoTrinh) {
         List<String> result = new ArrayList<String>();
-        Connection cnn = this.condb.getConnect();
+        Connection cnn = ConnectionDB.getInstance().getConnection();
         try {
             Statement statement = cnn.createStatement();
             ResultSet rs = statement.executeQuery(this.SQL_SELECT_DANHBO + " WHERE MLT = '" + maLoTrinh + "'");

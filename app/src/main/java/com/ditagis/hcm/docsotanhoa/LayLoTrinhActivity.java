@@ -31,16 +31,13 @@ public class LayLoTrinhActivity extends AppCompatActivity {
     TextView m_txtTongDB;
     EditText editTextSearch;
     GridView gridView;
-    //    ImageButton imgbtnCheck;
-    private int m_DanhBo[];
     private GridViewLayLoTrinhAdapter da;
     private LocalDatabase mLocalDatabase;
-    //    private List<HoaDon> mHoaDons;
     private int mSumDanhBo;
     private int mSumMLT;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private int mKy;
-    private int mNam, mDot;
+    private int mNam;
     private static String mUsername;
     private HoaDonDB hoaDonDB;
 
@@ -56,8 +53,6 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         mLocalDatabase = new LocalDatabase(this);
         if (getIntent().getExtras().getString("mayds") != null)
             LayLoTrinhActivity.mUsername = getIntent().getExtras().getString("mayds");
-//        mLocalDatabase.Upgrade();
-//        mLocalDatabase.Create();
         m_txtTongMLT = (TextView) findViewById(R.id.txt_llt_mlt);
         m_txtTongDB = (TextView) findViewById(R.id.txt_llt_db);
         editTextSearch = (EditText) findViewById(R.id.etxt_llt_search);
@@ -109,50 +104,10 @@ public class LayLoTrinhActivity extends AppCompatActivity {
         //Gán DataSource vào ArrayAdapter
 
         da = new GridViewLayLoTrinhAdapter(LayLoTrinhActivity.this, new ArrayList<GridViewLayLoTrinhAdapter.Item>());
-        //gán Datasource vào GridView
-//        List<HoaDon> hoaDons = this.mLocalDatabase.getAllHoaDon();
-//        for (HoaDon hoaDon : hoaDons)
-//            da.add(new GridViewLayLoTrinhAdapter.Item(hoaDon.getMaLoTrinh(), hoaDon.getDanhBo(), true));
         gridView.setAdapter(da);
         registerForContextMenu(LayLoTrinhActivity.this.gridView);
 
-//        List<LoTrinh> loTrinhs = LayLoTrinhActivity.this.mLocalDatabase.getAllMaLoTrinh();
-
-//        ((Button) findViewById(R.id.btn_llt_loadMLT)).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
 //
-//            }
-//        });
-//
-        new LayLoTrinh(hoaDonDB).execute(isOnline());
-
-//        if (isOnline()) {
-//
-//        } else {
-//            Toast.makeText(LayLoTrinhActivity.this, "Kiểm tra kết nối Internet và thử lại", Toast.LENGTH_SHORT).show();
-//            //TODO
-//        }
-
-//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                if (isOnline()) {
-//                    LinearLayout layout_row = (LinearLayout) view.findViewById(R.id.row_llt_layout);
-//                    TextView txt_row_MLT = (TextView) view.findViewById(R.id.row_llt_txt_malotrinh);
-//                    TextView txt_row_DanhBo = (TextView) view.findViewById(R.id.row_llt_txt_tongDanhBo);
-//                    ImageView img_row_View = (ImageView) view.findViewById(R.id.row_llt_img_Check);
-//
-//
-////                    AsyncTask<String, Object, String> execute = new ItemClickHandle(layout_row, txt_row_DanhBo, img_row_View, position).execute(txt_row_MLT.getText().toString());
-//                } else {
-//                    Toast.makeText(LayLoTrinhActivity.this, "Kiểm tra kết nối Internet và thử lại", Toast.LENGTH_SHORT).show();
-//                    //TODO
-//                }
-//
-//            }
-//
-//        });
         this.mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

@@ -23,7 +23,7 @@ import java.util.List;
  * Created by ThanLe on 15/10/2017.
  */
 
-public class Uploading extends AbstractDB implements IDB<DanhBo_ChiSoMoi, Boolean, String> {
+public class Uploading implements IDB<DanhBo_ChiSoMoi, Boolean, String> {
     private final String TABLE_NAME = "HOADON";
     private final String NEW_TABLE_NAME = "HoaDonMoi";
     private final String TABLE_NAME_DOCSO = "DocSo";
@@ -37,13 +37,8 @@ public class Uploading extends AbstractDB implements IDB<DanhBo_ChiSoMoi, Boolea
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     public void connect() {
         if (cnn == null)
-            cnn = this.condb.getConnect();
+            cnn = ConnectionDB.getInstance().getConnection();
     }
-
-    public boolean isConnected() {
-        return cnn != null;
-    }
-
     public void disConnect() {
         if (cnn != null)
             try {
