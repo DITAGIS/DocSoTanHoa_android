@@ -56,7 +56,6 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
         if (getIntent().getExtras().getInt("dot") > 0)
             this.mDot = getIntent().getExtras().getInt("dot");
 
-        ((TextView) findViewById(R.id.txt_ds_dot)).setText(this.mDot + "");
         if (getIntent().getExtras().getString("username") != null)
             this.mUsername = getIntent().getExtras().getString("username");
         txtComplete = (TextView) findViewById(R.id.txt_qlds_tienTrinh);
