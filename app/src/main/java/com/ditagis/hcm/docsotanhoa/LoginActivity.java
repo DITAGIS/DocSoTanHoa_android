@@ -12,6 +12,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -91,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
         LoginActivity.this.mUsername = txtUsername.getText().toString();
         LoginActivity.this.mPassword = txtPassword.getText().toString();
         if (LoginActivity.this.mUsername.length() == 0 || LoginActivity.this.mPassword.length() == 0) {
-            Toast.makeText(LoginActivity.this, "Tên đăng nhập hoặc mật khẩu không được để trống!!!", Toast.LENGTH_SHORT).show();
+            snackbarMake(btnLogin, "Tên đăng nhập hoặc mật khẩu không được để trống!!!", true);
             return;
         }
         if (isOnline()) {
@@ -102,14 +103,20 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "Đang đăng nhập với tài khoản trước...", Toast.LENGTH_SHORT).show();
             doLayLoTrinh();
         } else {
-            Toast.makeText(LoginActivity.this, "Kiểm tra kết nối Internet và thử lại", Toast.LENGTH_SHORT).show();
+            snackbarMake(btnLogin, "Kiểm tra kết nối internet và thử lại", true);
         }
 
     }
 
+    private void snackbarMake(View view, String text, boolean isLong) {
+        int time = isLong ? Snackbar.LENGTH_LONG : Snackbar.LENGTH_SHORT;
+        Snackbar.make(view, text, time)
+                .setAction("Action", null).show();
+    }
+
     private void changePassword() {
         if (!isOnline()) {
-            Toast.makeText(LoginActivity.this, "Kiểm tra kết nối Internet và thử lại", Toast.LENGTH_SHORT).show();
+            snackbarMake(btnLogin, "Kiểm tra kết nối internet và thử lại", true);
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
@@ -371,7 +378,7 @@ public class LoginActivity extends AppCompatActivity {
             if (result.getmStaffName().length() > 0) {
                 doLayLoTrinh();
             } else {
-                Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
+                snackbarMake(btnLogin, "Đăng nhập thất bại", true);
             }
         }
 
