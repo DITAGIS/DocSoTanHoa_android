@@ -387,7 +387,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void doLayLoTrinh() {
-        Intent intent = new Intent(LoginActivity.this, LayLoTrinhActivity.class);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.putExtra("mayds", LoginActivity.this.mUsername);
         intent.putExtra("staffname", loadPreferences(LoginActivity.this.mPassword));
         intent.putExtra("dot", Integer.parseInt(loadPreferences(loadPreferences(LoginActivity.this.mPassword))));
@@ -455,4 +455,26 @@ public class LoginActivity extends AppCompatActivity {
         editor.remove(key).commit();
         return false;
     }
+
+    @Override
+    public void onBackPressed() {
+        final AlertDialog.Builder builer = new AlertDialog.Builder(LoginActivity.this);
+        builer.setCancelable(true);
+        builer.setTitle("Thoát ứng dụng Đọc số tân hòa?");
+        builer.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        builer.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builer.create();
+        dialog.show();
+    }
+
 }

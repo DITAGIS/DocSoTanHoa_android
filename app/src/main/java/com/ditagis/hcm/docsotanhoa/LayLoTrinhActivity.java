@@ -127,21 +127,21 @@ public class LayLoTrinhActivity extends AppCompatActivity {
                 ((TextView) findViewById(R.id.txt_llt_dot)).setText("Đợt: " + output.getDot());
             }
         });
-        this.mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-
-                if (isOnline()) {
-                    da.clear();
-                    mLayLoTrinhAsync.execute(true);
-//                    new LayLoTrinh(hoaDonDB).execute(true);
-                } else {
-                    Toast.makeText(LayLoTrinhActivity.this, "Kiểm tra kết nối Internet và thử lại!!!", Toast.LENGTH_LONG).show();
-                    if (LayLoTrinhActivity.this.mSwipeRefreshLayout.isRefreshing())
-                        LayLoTrinhActivity.this.mSwipeRefreshLayout.setRefreshing(false);
-                }
-            }
-        });
+//        this.mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//
+//                if (isOnline()) {
+//                    da.clear();
+//                    mLayLoTrinhAsync.execute(true);
+////                    new LayLoTrinh(hoaDonDB).execute(true);
+//                } else {
+//                    Toast.makeText(LayLoTrinhActivity.this, "Kiểm tra kết nối Internet và thử lại!!!", Toast.LENGTH_LONG).show();
+//                    if (LayLoTrinhActivity.this.mSwipeRefreshLayout.isRefreshing())
+//                        LayLoTrinhActivity.this.mSwipeRefreshLayout.setRefreshing(false);
+//                }
+//            }
+//        });
         mLayLoTrinhAsync.execute(isOnline());
 //        new LayLoTrinh(hoaDonDB).execute(isOnline());
     }
@@ -168,8 +168,14 @@ public class LayLoTrinhActivity extends AppCompatActivity {
 
     public void doQuanLyDocSo(View v) {
         Intent intent = new Intent(LayLoTrinhActivity.this, QuanLyDocSoActivity.class);
+        intent.putExtra("ky", mKy);
         intent.putExtra("dot", mDot);
         intent.putExtra("username", mUsername);
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        
     }
 }

@@ -38,7 +38,7 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
     private GridViewQuanLyDocSoAdapter da;
     LocalDatabase localDatabase;
     private int mSumDanhBo = 0, mDanhBoHoanThanh;
-    private int mDot;
+    private int mDot, mKy;
     private String mUsername;
     private Uploading uploading;
 
@@ -48,7 +48,8 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
 
         if (getIntent().getExtras().getInt("dot") > 0)
             this.mDot = getIntent().getExtras().getInt("dot");
-
+        if (getIntent().getExtras().getInt("ky") > 0)
+            this.mKy = getIntent().getExtras().getInt("ky");
         if (getIntent().getExtras().getString("username") != null)
             this.mUsername = getIntent().getExtras().getString("username");
         txtComplete = (TextView) findViewById(R.id.txt_qlds_tienTrinh);
@@ -171,6 +172,9 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
         else {
             Intent intent = new Intent(QuanLyDocSoActivity.this, DocSoActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            intent.putExtra("ky", mKy);
+            intent.putExtra("dot", mDot);
+            intent.putExtra("username", mUsername);
             startActivity(intent);
         }
     }
@@ -262,5 +266,11 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+
     }
 }

@@ -608,4 +608,10 @@ DocSoActivity.this.mSumDanhBo += DocSoActivity.this.mDanhBoHoanThanh;
         startActivity(intent);
 //        Toast.makeText(this, "Chức năng đang được cập nhật", Toast.LENGTH_SHORT).show();
     }
+
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }
