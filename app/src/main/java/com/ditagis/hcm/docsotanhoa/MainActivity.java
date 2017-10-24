@@ -11,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.Calendar;
+
 import static com.ditagis.hcm.docsotanhoa.R.id.container;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,11 +34,22 @@ public class MainActivity extends AppCompatActivity {
     private int mKy;
     private int mNam;
     private int mDot;
-    private String mUsername;
+    private String mUsername, mStaffName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Calendar calendar = Calendar.getInstance();
+        this.mKy = calendar.get(Calendar.MONTH) + 1;
+        this.mNam = calendar.get(Calendar.YEAR);
+        if (getIntent().getExtras().getString("mayds") != null)
+            this.mUsername = getIntent().getExtras().getString("mayds");
+        if (getIntent().getExtras().getString("staffname") != null)
+            this.mStaffName = getIntent().getExtras().getString("staffname");
+        if (getIntent().getExtras().getInt("dot") > 0)
+            this.mDot = getIntent().getExtras().getInt("dot");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -101,11 +114,11 @@ public class MainActivity extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return new LayLoTrinh();
+                    return new LayLoTrinh(MainActivity.this.mKy, MainActivity.this.mNam, MainActivity.this.mDot, MainActivity.this.mUsername, MainActivity.this.mStaffName);
                 case 1:
                 case 2:
                 default:
-                    return new LayLoTrinh();
+                    return new LayLoTrinh(MainActivity.this.mKy, MainActivity.this.mNam, MainActivity.this.mDot, MainActivity.this.mUsername, MainActivity.this.mStaffName);
             }
         }
 
@@ -127,5 +140,9 @@ public class MainActivity extends AppCompatActivity {
             }
             return null;
         }
+    }
+    @Override
+    public void onBackPressed() {
+
     }
 }

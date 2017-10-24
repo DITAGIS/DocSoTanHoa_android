@@ -80,7 +80,7 @@ public class LayLoTrinhActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() != 0) {
-//                    System.out.println(gridView.getAdapter().getItem(0).toString());
+//                    System.out.println(mGridView.getAdapter().getItem(0).toString());
                     List<String> result = new ArrayList<String>();
                     //Lấy dữ liệu bắt đầu với text search
                     for (String mlt : mlts) {

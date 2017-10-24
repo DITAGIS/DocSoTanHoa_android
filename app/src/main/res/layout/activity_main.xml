@@ -20,7 +20,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/color_row_check"
+            android:background="@color/colorWhite"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/Theme.AppCompat.Light.NoActionBar"
             app:titleTextColor="@color/colorBlueDard">
@@ -31,7 +31,7 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_row_check"
+            android:background="@color/colorWhite"
             app:tabSelectedTextColor="@color/colorAccent"
             app:tabTextColor="@color/colorBlueDard" />
 

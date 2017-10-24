@@ -80,7 +80,7 @@ public class XemLoTrinhDaTaiActivity extends AppCompatActivity {
 //                    public void onClick(View v) {
 //                        XemLoTrinhDaTaiActivity.this.localDatabase.deleteMLT(mlt);
 //                        XemLoTrinhDaTaiActivity.this.da.removeItem(mlt);
-//                        XemLoTrinhDaTaiActivity.this.gridView.setAdapter(XemLoTrinhDaTaiActivity.this.da);
+//                        XemLoTrinhDaTaiActivity.this.mGridView.setAdapter(XemLoTrinhDaTaiActivity.this.da);
 //                        layout.removeView(btnDelete);
 //                    }
 //                });

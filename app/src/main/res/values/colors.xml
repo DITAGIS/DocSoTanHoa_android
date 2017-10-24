@@ -11,7 +11,7 @@
     <color name="colorBlueDard">#000066</color>
     <color name="colorUnsave">#e74c3c</color>
     <color name="colorRed">#e74c3c</color>
-    <color name="colorSave">#ecf0f1</color>
+    <color name="cloud">#ffffff</color>
     <color name="colorBlueLight">#ccccff</color>
-
+    <color name="peter_driver">#3498db</color>
 </resources>
