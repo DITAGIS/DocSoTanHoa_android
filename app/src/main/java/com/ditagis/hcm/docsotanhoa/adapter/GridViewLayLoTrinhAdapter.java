@@ -19,12 +19,10 @@ public class GridViewLayLoTrinhAdapter extends ArrayAdapter<GridViewLayLoTrinhAd
     public static class Item {
         String mtl;
         String danhbo;
-        boolean checkpos;
 
-        public Item(String mtl, String danhbo, boolean checkpos) {
+        public Item(String mtl, String danhbo) {
             this.mtl = mtl;
             this.danhbo = danhbo;
-            this.checkpos = checkpos;
         }
 
         public String getMtl() {
@@ -43,13 +41,6 @@ public class GridViewLayLoTrinhAdapter extends ArrayAdapter<GridViewLayLoTrinhAd
             this.danhbo = danhbo;
         }
 
-        public boolean getCheckpos() {
-            return checkpos;
-        }
-
-        public void setCheckpos(boolean checkpos) {
-            this.checkpos = checkpos;
-        }
     }
 
     private Context context;

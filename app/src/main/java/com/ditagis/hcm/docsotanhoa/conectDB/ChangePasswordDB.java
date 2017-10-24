@@ -18,7 +18,7 @@ import java.util.List;
  * Created by ThanLe on 23/10/2017.
  */
 
-public class ChangePasswordDB extends AsyncTask<String, Boolean, Boolean> implements IDB<User, Boolean, String> {
+public class ChangePasswordDB extends AsyncTask<String, Boolean, LogInDB.Result> implements IDB<User, Boolean, String> {
     private String userName;
     private String oldPassword;
     private String newPassword;
@@ -28,9 +28,11 @@ public class ChangePasswordDB extends AsyncTask<String, Boolean, Boolean> implem
     private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET password=? WHERE may=?";
     private ProgressDialog dialog;
     private Context mContext;
+
     public interface AsyncResponse {
-        void processFinish(Boolean output);
+        void processFinish(LogInDB.Result output);
     }
+
     public AsyncResponse delegate = null;
 
 
@@ -54,8 +56,8 @@ public class ChangePasswordDB extends AsyncTask<String, Boolean, Boolean> implem
     }
 
     @Override
-    protected Boolean doInBackground(String... params) {
-        boolean result = changePassword();
+    protected LogInDB.Result doInBackground(String... params) {
+        LogInDB.Result result = changePassword();
         return result;
     }
 
@@ -71,16 +73,16 @@ public class ChangePasswordDB extends AsyncTask<String, Boolean, Boolean> implem
     }
 
     @Override
-    protected void onPostExecute(Boolean aBoolean) {
-        delegate.processFinish(aBoolean);
-        super.onPostExecute(aBoolean);
+    protected void onPostExecute(LogInDB.Result staffName) {
+        delegate.processFinish(staffName);
+//        super.onPostExecute(aBoolean);
         if (dialog.isShowing()) {
             dialog.dismiss();
         }
     }
 
 
-    private boolean logIn() {
+    private String logIn() {
         Connection cnn = ConnectionDB.getInstance().getConnection();
         String sql = this.SQL_SELECT;
         try {
@@ -88,20 +90,25 @@ public class ChangePasswordDB extends AsyncTask<String, Boolean, Boolean> implem
             st.setString(1, userName);
             st.setString(2, (new EncodeMD5()).encode(oldPassword));
             ResultSet result = st.executeQuery();
+            String staffName = "";
             if (result.next()) {
-                st.close();
-                return true;
+
+                staffName = result.getString(1);
+
             }
+            result.close();
             st.close();
+            return staffName;
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
-        return false;
+        return "";
     }
 
-    private boolean changePassword() {
+    private LogInDB.Result changePassword() {
         Connection cnn = ConnectionDB.getInstance().getConnection();
-        if (logIn()) {
+        LogInDB.Result result = new LogInDB().logIn(new User(userName,oldPassword));
+        if (result.getmStaffName().length() > 0) {
 
             String sql = this.SQL_UPDATE;
 
@@ -109,11 +116,11 @@ public class ChangePasswordDB extends AsyncTask<String, Boolean, Boolean> implem
                 PreparedStatement st = cnn.prepareStatement(sql);
                 st.setString(1, (new EncodeMD5()).encode(newPassword));
                 st.setString(2, userName);
-                int result = st.executeUpdate();
-                if (result > 0) {
+                int executeUpdate = st.executeUpdate();
+                if (executeUpdate > 0) {
                     st.close();
 
-                    return true;
+                    return result;
                 }
                 st.close();
 
@@ -121,9 +128,9 @@ public class ChangePasswordDB extends AsyncTask<String, Boolean, Boolean> implem
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
-            return false;
+            return null;
         } else
-            return false;
+            return null;
     }
 
     @Override

@@ -19,8 +19,7 @@
             <!--Layout hiển thị thông tin-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.7"
+                android:layout_height="wrap_content"
                 android:background="@android:color/holo_blue_dark"
                 android:minHeight="25px"
                 android:minWidth="25px"
@@ -34,10 +33,34 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tổng lộ trình đã tải"
+                    android:text="Thông tin"
                     android:textColor="@android:color/white"
                     android:textSize="25dp" />
+                <LinearLayout
 
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/activity_vertical_margin"
+                    android:paddingTop="5dp">
+
+                    <TextView
+                        android:id="@+id/txt_llt_dot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Đợt: "
+                        android:textColor="@android:color/white"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:id="@+id/txt_llt_may"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="Máy: "
+                        android:textColor="@android:color/white"
+                        android:textSize="18dp" />
+                </LinearLayout>
                 <LinearLayout
 
                     android:layout_width="match_parent"
@@ -50,7 +73,7 @@
                         android:id="@+id/txt_llt_mlt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Mã lộ trình: 0"
+                        android:text="Tổng mã lộ trình: 0"
                         android:textColor="@android:color/white"
                         android:textSize="18dp" />
 
@@ -59,11 +82,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"
-                        android:text="Danh bộ: 0"
+                        android:text="Tổng danh bộ: 0"
                         android:textColor="@android:color/white"
                         android:textSize="18dp" />
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/txt_llt_tenNV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/activity_vertical_margin"
+                    android:paddingTop="5dp"
+                    android:gravity="left"
+                    android:text="Nhân viên: "
+                    android:textColor="@android:color/white"
+                    android:textSize="18dp" />
                 <!--<ImageButton-->
                 <!--android:id="@+id/imgbtn_llt_check"-->
                 <!--android:layout_width="wrap_content"-->
@@ -110,7 +143,10 @@
                         android:text="Mã lộ trình"
                         android:textSize="17dp"
                         android:textStyle="bold" />
-
+                    <View
+                        android:layout_width="2dip"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorWhite" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -120,14 +156,14 @@
                         android:textSize="17dp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Chọn MLT"
-                        android:textSize="17dp"
-                        android:textStyle="bold" />
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="Chọn MLT"-->
+                        <!--android:textSize="17dp"-->
+                        <!--android:textStyle="bold" />-->
                 </LinearLayout>
 
                 <android.support.v4.widget.SwipeRefreshLayout

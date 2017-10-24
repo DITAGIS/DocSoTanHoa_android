@@ -71,7 +71,7 @@ public class DocSoActivity extends AppCompatActivity {
     private static final int REQUEST_ID_READ_WRITE_PERMISSION = 99;
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
     private int mSumDanhBo, mDanhBoHoanThanh;
-    private int mKy;
+    private String mUsername;
     private int mDot;
     private String mGhiChu;
     private final String SAVED = "Đã lưu";
@@ -83,6 +83,7 @@ public class DocSoActivity extends AppCompatActivity {
     Uri uri;
     private ArrayAdapter<String> adapterMLT;
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
 //    DocSoActivity.ItemClickHandle itemClickHandle = new ItemClickHandle();
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,12 +101,14 @@ public class DocSoActivity extends AppCompatActivity {
                                 mDBs
                         ));
 
-        Calendar calendar = Calendar.getInstance();
-        currentTime = Calendar.getInstance().getTime();
-        this.mKy = calendar.get(Calendar.MONTH) + 1;
-        this.mDot = calendar.get(Calendar.DAY_OF_MONTH);
-        ((TextView) findViewById(R.id.txt_ds_ky)).setText(this.mKy + "");
+        if (getIntent().getExtras().getInt("ky") > 0)
+            ((TextView) findViewById(R.id.txt_ds_ky)).setText(getIntent().getExtras().getInt("ky") + "");
+        if (getIntent().getExtras().getInt("dot") > 0)
+            this.mDot = getIntent().getExtras().getInt("dot");
+
         ((TextView) findViewById(R.id.txt_ds_dot)).setText(this.mDot + "");
+        if (getIntent().getExtras().getString("username") != null)
+            this.mUsername = getIntent().getExtras().getString("username");
         this.txtSaveState = (TextView) findViewById(R.id.txt_ds_save);
         this.txtComplete = (TextView) findViewById(R.id.txt_ds_complete);
 
@@ -128,7 +131,7 @@ public class DocSoActivity extends AppCompatActivity {
                 "RT", "K", "Q"};
 
 
-        List<HoaDon> hoaDons = this.mLocalDatabase.getAllHoaDon();
+        List<HoaDon> hoaDons = this.mLocalDatabase.getAllHoaDon(mDot + mUsername + "%");
         mMLTs = new ArrayList<String>();
         int i = 0;
         for (HoaDon hoaDon : hoaDons) {
@@ -633,13 +636,15 @@ public class DocSoActivity extends AppCompatActivity {
 
     public void doLayLoTrinh(View v) {
         Intent intent = new Intent(DocSoActivity.this, LayLoTrinhActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT );
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 
     public void doQuanLyDocSo(View v) {
         Intent intent = new Intent(DocSoActivity.this, QuanLyDocSoActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT );
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.putExtra("dot", mDot);
+        intent.putExtra("username", mUsername);
         startActivity(intent);
 //        Toast.makeText(this, "Chức năng đang được cập nhật", Toast.LENGTH_SHORT).show();
     }

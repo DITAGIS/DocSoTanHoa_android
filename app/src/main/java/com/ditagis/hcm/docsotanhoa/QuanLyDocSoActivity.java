@@ -39,7 +39,8 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
     private GridViewQuanLyDocSoAdapter da;
     LocalDatabase localDatabase;
     private int mSumDanhBo = 0, mDanhBoHoanThanh;
-
+    private int mDot;
+    private String mUsername;
     public static final String FILE_UPLOAD_URL = "http://103.74.117.51/AndroidFileUpload/fileUpload.php";
     private ProgressBar progressUploading;
     // Directory name to store captured images and videos
@@ -52,7 +53,12 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quan_ly_doc_so);
 
+        if (getIntent().getExtras().getInt("dot") > 0)
+            this.mDot = getIntent().getExtras().getInt("dot");
 
+        ((TextView) findViewById(R.id.txt_ds_dot)).setText(this.mDot + "");
+        if (getIntent().getExtras().getString("username") != null)
+            this.mUsername = getIntent().getExtras().getString("username");
         txtComplete = (TextView) findViewById(R.id.txt_qlds_tienTrinh);
         localDatabase = new LocalDatabase(this);
         QuanLyDocSoActivity.this.uploading = new Uploading();
@@ -61,7 +67,7 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
         editTextSearch = (EditText) findViewById(R.id.etxt_qlds_search);
         gridView = (GridView) findViewById(R.id.grid_qlds_danhSachDocSo);
         danhBo_chiSoMois = localDatabase.getAllDanhBo_CSM();
-        this.mSumDanhBo =localDatabase.getAllHoaDon().size();
+        this.mSumDanhBo = localDatabase.getAllHoaDon(this.mDot + this.mUsername + "%").size();
 
         m_MLT_TongDanhBo = localDatabase.getAllMLT();
 
@@ -117,7 +123,8 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                    }});
+                    }
+                });
                 //TODO chỉnh sửa khách hàng
 //                });.setNegativeButton("Chỉnh sửa", new DialogInterface.OnClickListener() {
 //                    @Override
@@ -162,17 +169,17 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
 
     public void doLayLoTrinh(View v) {
         Intent intent = new Intent(QuanLyDocSoActivity.this, LayLoTrinhActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT );
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 
     public void doDocSo(View v) {
-        int size = this.localDatabase.getAllHoaDon().size();
+        int size = this.localDatabase.getAllHoaDon(this.mDot + this.mUsername + "%").size();
         if (size == 0)
             Toast.makeText(this, "Chưa có lộ trình!!!", Toast.LENGTH_SHORT).show();
         else {
             Intent intent = new Intent(QuanLyDocSoActivity.this, DocSoActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT );
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
         }
     }
@@ -203,6 +210,7 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
         new UploadingAsync().execute();
 
     }
+
     class UploadingAsync extends AsyncTask<String, Boolean, Void> {
         private ProgressDialog dialog;
 
@@ -228,7 +236,7 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
                 DanhBo_ChiSoMoi danhBo_chiSoMoi = QuanLyDocSoActivity.this.danhBo_chiSoMois.get(i);
 //                uploading.update(danhBo_chiSoMoi);
                 boolean success = uploading.update(danhBo_chiSoMoi);
-                if(success) {
+                if (success) {
                     danhBo_chiSoMois.remove(danhBo_chiSoMoi);
                     QuanLyDocSoActivity.this.da.removeItem(danhBo_chiSoMoi.getMaLoTrinh());
                     i--;

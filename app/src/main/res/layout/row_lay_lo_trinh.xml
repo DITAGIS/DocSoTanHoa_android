@@ -14,7 +14,10 @@ android:id="@+id/row_llt_layout"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_weight="1" />
-
+    <View
+        android:layout_width="2dip"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite" />
     <TextView
         android:id="@+id/row_llt_txt_tongDanhBo"
         android:layout_width="match_parent"
@@ -28,10 +31,10 @@ android:id="@+id/row_llt_layout"
         <!--android:layout_height="wrap_content"-->
         <!--android:layout_weight="1"-->
         <!--android:layout_gravity="right" />-->
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-       android:id="@+id/row_llt_img_Check"
-        android:layout_weight="1"
-        />
+    <!--<ImageView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+       <!--android:id="@+id/row_llt_img_Check"-->
+        <!--android:layout_weight="1"-->
+        <!--/>-->
 </LinearLayout>

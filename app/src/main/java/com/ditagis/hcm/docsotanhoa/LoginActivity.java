@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     private ImageButton mImgBtnViewPassword;
 
     private LoginAsync mLoginAsync;
-    private String mUsername;
+    private String mUsername, mPassword;
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
     private static final int REQUEST_ID_WRITE_FILE = 2;
 
@@ -76,13 +76,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 LoginActivity.this.mUsername = txtUsername.getText().toString();
-                if (txtUsername.getText().toString().length() == 0 || txtPassword.getText().toString().length() == 0) {
+                LoginActivity.this.mPassword = txtPassword.getText().toString();
+                if (LoginActivity.this.mUsername.length() == 0 || LoginActivity.this.mPassword.length() == 0) {
                     Toast.makeText(LoginActivity.this, "Tên đăng nhập hoặc mật khẩu không được để trống!!!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (isOnline()) {
                     mLoginAsync = new LoginAsync();
-                    mLoginAsync.execute(txtUsername.getText().toString(), txtPassword.getText().toString());
+                    mLoginAsync.execute(LoginActivity.this.mUsername, LoginActivity.this.mPassword);
 
                 } else if (txtPassword.getText().toString().equals(loadPreferences(txtUsername.getText().toString()))) {
                     Toast.makeText(LoginActivity.this, "Đang đăng nhập với tài khoản trước...", Toast.LENGTH_LONG).show();
@@ -97,8 +98,10 @@ public class LoginActivity extends AppCompatActivity {
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
+                if (!isOnline()) {
+                    Toast.makeText(LoginActivity.this, "Kiểm tra kết nối Internet và thử lại", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                 builder.setTitle("Đổi mật khẩu");
                 builder.setCancelable(false);
@@ -240,9 +243,9 @@ public class LoginActivity extends AppCompatActivity {
                                 etxtChangePwOldPw.getText().toString(), etxtChangePwNewPw.getText().toString(), etxtChangePwConfirmPw.getText().toString(),
                                 new ChangePasswordDB.AsyncResponse() {
                                     @Override
-                                    public void processFinish(Boolean output) {
+                                    public void processFinish(final LogInDB.Result output) {
                                         hideKeyboard();
-                                        if(output) {
+                                        if (output.getmStaffName().length() > 0) {
                                             dialogChangePw.dismiss();
 
                                             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
@@ -315,7 +318,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    class LoginAsync extends AsyncTask<String, Boolean, Void> {
+    class LoginAsync extends AsyncTask<String, LogInDB.Result, LogInDB.Result> {
         private LogInDB loginDB = new LogInDB();
         private ProgressDialog dialog;
 
@@ -333,29 +336,32 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Void doInBackground(String... params) {
+        protected LogInDB.Result doInBackground(String... params) {
             String username = params[0];
             String password = params[1];
 
-            boolean isValid = this.loginDB.logIn(new User(username, password));
-            if (isValid) {
+            LogInDB.Result result = this.loginDB.logIn(new User(username, password));
+            if (result.getmStaffName() == null || result.getmStaffName().length() > 0) {
                 for (int i = 1; i <= 70; i++) {
                     if (i < 10) {
                         deletePreferences("0" + i);
                     } else
                         deletePreferences(i + "");
                 }
+                deletePreferences(password);
                 savePreferences(username, password);
+                savePreferences(password, result.getmStaffName());
+                savePreferences(result.getmStaffName(), result.getmDot());
             }
-            publishProgress(isValid);
-            return null;
+            publishProgress(result);
+            return result;
         }
 
         @Override
-        protected void onProgressUpdate(Boolean... values) {
+        protected void onProgressUpdate(LogInDB.Result... values) {
             super.onProgressUpdate(values);
-            boolean isValid = values[0];
-            if (isValid) {
+            LogInDB.Result result = values[0];
+            if (result.getmStaffName().length() > 0) {
                 doLayLoTrinh();
             } else {
                 Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
@@ -364,8 +370,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
+        protected void onPostExecute(LogInDB.Result result) {
+            super.onPostExecute(result);
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
@@ -376,6 +382,8 @@ public class LoginActivity extends AppCompatActivity {
     public void doLayLoTrinh() {
         Intent intent = new Intent(LoginActivity.this, LayLoTrinhActivity.class);
         intent.putExtra("mayds", LoginActivity.this.mUsername);
+        intent.putExtra("staffname", loadPreferences(LoginActivity.this.mPassword));
+        intent.putExtra("dot", Integer.parseInt(loadPreferences(loadPreferences(LoginActivity.this.mPassword))));
         startActivity(intent);
     }
 

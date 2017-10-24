@@ -5,13 +5,13 @@ import android.support.annotation.NonNull;
 import com.ditagis.hcm.docsotanhoa.entities.EncodeMD5;
 import com.ditagis.hcm.docsotanhoa.entities.User;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -21,11 +21,30 @@ import java.util.List;
 public class LogInDB implements IDB<User, Boolean, String> {
 
     private final String TABLE_NAME = "MayDS";
-    private final String SQL_SELECT = "select * from " + TABLE_NAME + " where may = ? and password = ?";
+    private final String SQL_SELECT = "select NhanVienID from " + TABLE_NAME + " where may = ? and password = ?";
     private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + " VALUES(?,?)";
     private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET password=? WHERE username=?";
     private final String SQL_UPDATE_ALL = "UPDATE " + TABLE_NAME + " SET password=?";
     private final String SQL_DELETE = "DELETE FROM " + TABLE_NAME + " WHERE USERNAME=?";
+
+
+    public class Result {
+        private String mDot;
+        private String mStaffName;
+
+        public Result(String mDot, String mStaffName) {
+            this.mDot = mDot;
+            this.mStaffName = mStaffName;
+        }
+
+        public String getmDot() {
+            return mDot;
+        }
+
+        public String getmStaffName() {
+            return mStaffName;
+        }
+    }
 
     @NonNull
     private Boolean createTable() {
@@ -91,7 +110,11 @@ public class LogInDB implements IDB<User, Boolean, String> {
         return null;
     }
 
-    public boolean logIn(User user) {
+    public Result logIn(User user) {
+
+        Calendar calendar = Calendar.getInstance();
+        int ky = calendar.get(Calendar.MONTH) + 1;
+        int nam = calendar.get(Calendar.YEAR);
         Connection cnn = ConnectionDB.getInstance().getConnection();
         String sql = this.SQL_SELECT;
 
@@ -99,20 +122,31 @@ public class LogInDB implements IDB<User, Boolean, String> {
             PreparedStatement st = cnn.prepareStatement(sql);
             st.setString(1, user.getUserName());
             st.setString(2, (new EncodeMD5()).encode(user.getPassWord()));
-            ResultSet result = st.executeQuery();
-            if (result.next()) {
-                st.close();
-                return true;
-            }
-            st.close();
+            ResultSet resultSet = st.executeQuery();
+            String staffName = "";
+            if (resultSet.next()) {
+                staffName = resultSet.getString(1);
 
+            }
+            resultSet.close();
+            st.close();
+            Statement statement = cnn.createStatement(), sttm1;
+            ResultSet rsDot = statement.executeQuery("SELECT TOP 1 dot from DocSo where nam = "
+                    + nam + " and ky = " + ky + " order by dot desc");
+            String mDot = null;
+            if (rsDot.next()) {
+                mDot = rsDot.getString(1);
+            }
+            statement.close();
+            rsDot.close();
+            Result result = new Result(mDot, staffName);
+            return result;
 
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
-        return false;
+        return null;
     }
-
 
 
     public boolean setPassword(Connection cnn, String password) {
@@ -141,26 +175,25 @@ public class LogInDB implements IDB<User, Boolean, String> {
     @Override
     public List<User> getAll() {
         List<User> result = new ArrayList<User>();
-        Connection cnn = ConnectionDB.getInstance().getConnection();
-        try {
-            CallableStatement cal = cnn.prepareCall(this.SQL_SELECT, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ResultSet rs = cal.executeQuery();
-            while (rs.next()) {
-                String username = rs.getString(1);
-                String pass = rs.getString(2);
-
-                User user = new User(username, pass);
-                result.add(user);
-            }
-            rs.close();
-            cal.close();
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-        }
+//        Connection cnn = ConnectionDB.getInstance().getConnection();
+//        try {
+//            CallableStatement cal = cnn.prepareCall(this.SQL_SELECT, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+//            ResultSet rs = cal.executeQuery();
+//            while (rs.next()) {
+//                String username = rs.getString(1);
+//                String pass = rs.getString(2);
+//
+//                User user = new User(username, pass);
+//                result.add(user);
+//            }
+//            rs.close();
+//            cal.close();
+//        } catch (SQLException e) {
+//
+//            e.printStackTrace();
+//        }
         return result;
     }
-
 
 
     public static void main(String[] args) {

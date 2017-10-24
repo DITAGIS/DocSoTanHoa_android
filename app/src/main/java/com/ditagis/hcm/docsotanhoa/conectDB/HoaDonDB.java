@@ -18,7 +18,20 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
     private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + " VALUES(?,?,?,?,?)";
     private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET CSC=? WHERE DANHBO=?";
     private final String SQL_DELETE = "DELETE FROM " + TABLE_NAME + " WHERE ClassId=?";
-//    private final String SQL_FIND = "SELECT * FROM " + TABLE_NAME + " WHERE ID=?";
+
+    private String mDot;
+    private String mStaffname;
+
+    public String getmDot() {
+        return mDot;
+    }
+
+
+    public String getmStaffname() {
+        return mStaffname;
+    }
+
+    //    private final String SQL_FIND = "SELECT * FROM " + TABLE_NAME + " WHERE ID=?";
 
     @Override
     public Boolean add(HoaDon e) {
@@ -189,18 +202,11 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
         return result;
     }
 
-    public List<HoaDon> getAllByUserName(String userName, int nam, int ky) {
+    public List<HoaDon> getAllByUserName(String userName,int dot,  int nam, int ky) {
         Connection cnn = ConnectionDB.getInstance().getConnection();
         List<HoaDon> hoaDons = new ArrayList<HoaDon>();
         try {
             Statement statement = cnn.createStatement(), sttm1;
-            ResultSet rsDot = statement.executeQuery("SELECT TOP 1 dot from DocSo where nam = "
-                    + nam + " and ky = " + ky + " order by dot desc");
-            String dot = null;
-            if (rsDot.next()) {
-                dot = rsDot.getString(1);
-            }
-            rsDot.close();
 
             String like = dot + userName + "%";
             ResultSet rs = statement.executeQuery("SELECT * FROM DocSo where nam = "
@@ -238,7 +244,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                     phuong = rs1.getString(4) == null ? "" : rs1.getString(4);
 
                 }
-                HoaDon hoaDon = new HoaDon(khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky + "", nam + "", code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
+                HoaDon hoaDon = new HoaDon(khu, mDot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky + "", nam + "", code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
                 hoaDons.add(hoaDon);
 //                    LayLoTrinhActivity.this.mHoaDons.add(hoaDon);
 //                if (mLocalDatabase.addHoaDon(hoaDon)) ;
