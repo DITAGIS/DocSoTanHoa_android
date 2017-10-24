@@ -1,5 +1,10 @@
 package com.ditagis.hcm.docsotanhoa.conectDB;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
+import android.widget.Toast;
+
 import com.ditagis.hcm.docsotanhoa.entities.EncodeMD5;
 import com.ditagis.hcm.docsotanhoa.entities.User;
 
@@ -13,23 +18,65 @@ import java.util.List;
  * Created by ThanLe on 23/10/2017.
  */
 
-public class ChangePasswordDB implements IDB<User, Boolean, String> {
+public class ChangePasswordDB extends AsyncTask<String, Boolean, Boolean> implements IDB<User, Boolean, String> {
     private String userName;
     private String oldPassword;
     private String newPassword;
     private String confirmPassword;
     private final String TABLE_NAME = "MayDS";
     private final String SQL_SELECT = "select * from " + TABLE_NAME + " where may = ? and password = ?";
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET password=? WHERE username=?";
-
-    public ChangePasswordDB() {
+    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET password=? WHERE may=?";
+    private ProgressDialog dialog;
+    private Context mContext;
+    public interface AsyncResponse {
+        void processFinish(Boolean output);
     }
+    public AsyncResponse delegate = null;
 
-    public ChangePasswordDB(String userName, String oldPassword, String newPassword, String confirmPassword) {
+
+    public ChangePasswordDB(Context context, String userName, String oldPassword, String newPassword, String confirmPassword, AsyncResponse delegate) {
         this.userName = userName;
         this.oldPassword = oldPassword;
         this.newPassword = newPassword;
         this.confirmPassword = confirmPassword;
+        this.mContext = context;
+        this.dialog = new ProgressDialog(this.mContext);
+        this.delegate = delegate;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+//        hideKeyboard();
+        dialog.setMessage("Đang đổi mật khẩu...");
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+
+    @Override
+    protected Boolean doInBackground(String... params) {
+        boolean result = changePassword();
+        return result;
+    }
+
+    @Override
+    protected void onProgressUpdate(Boolean... values) {
+        super.onProgressUpdate(values);
+        boolean result = values[0];
+        if (result) {
+            Toast.makeText(this.mContext, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this.mContext, "Đổi mật khẩu thất bại :(", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onPostExecute(Boolean aBoolean) {
+        delegate.processFinish(aBoolean);
+        super.onPostExecute(aBoolean);
+        if (dialog.isShowing()) {
+            dialog.dismiss();
+        }
     }
 
 
@@ -43,7 +90,6 @@ public class ChangePasswordDB implements IDB<User, Boolean, String> {
             ResultSet result = st.executeQuery();
             if (result.next()) {
                 st.close();
-                cnn.close();
                 return true;
             }
             st.close();
@@ -53,7 +99,7 @@ public class ChangePasswordDB implements IDB<User, Boolean, String> {
         return false;
     }
 
-    public boolean changePassword() {
+    private boolean changePassword() {
         Connection cnn = ConnectionDB.getInstance().getConnection();
         if (logIn()) {
 
@@ -63,14 +109,13 @@ public class ChangePasswordDB implements IDB<User, Boolean, String> {
                 PreparedStatement st = cnn.prepareStatement(sql);
                 st.setString(1, (new EncodeMD5()).encode(newPassword));
                 st.setString(2, userName);
-                ResultSet result = st.executeQuery();
-                if (result.next()) {
+                int result = st.executeUpdate();
+                if (result > 0) {
                     st.close();
-                    cnn.close();
+
                     return true;
                 }
                 st.close();
-                cnn.close();
 
 
             } catch (SQLException e1) {

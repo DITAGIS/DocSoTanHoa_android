@@ -39,7 +39,6 @@ public class LogInDB implements IDB<User, Boolean, String> {
                     "PRIMARY KEY ( username))";
             statement.execute(sql);
             statement.close();
-            cnn.close();
         } catch (SQLException e) {
 
             e.printStackTrace();
@@ -60,7 +59,6 @@ public class LogInDB implements IDB<User, Boolean, String> {
             st.setString(2, (new EncodeMD5()).encode(user.getPassWord()));
             boolean result = st.execute();
             st.close();
-            cnn.close();
             return result;
 
         } catch (SQLException e1) {
@@ -104,11 +102,9 @@ public class LogInDB implements IDB<User, Boolean, String> {
             ResultSet result = st.executeQuery();
             if (result.next()) {
                 st.close();
-                cnn.close();
                 return true;
             }
             st.close();
-            cnn.close();
 
 
         } catch (SQLException e1) {
@@ -130,11 +126,9 @@ public class LogInDB implements IDB<User, Boolean, String> {
             int result = st.executeUpdate();
             if (result > 0) {
                 st.close();
-//                    cnn.close();
                 return true;
             }
             st.close();
-//                cnn.close();
 
 
         } catch (SQLException e1) {
@@ -160,7 +154,6 @@ public class LogInDB implements IDB<User, Boolean, String> {
             }
             rs.close();
             cal.close();
-            cnn.close();
         } catch (SQLException e) {
 
             e.printStackTrace();

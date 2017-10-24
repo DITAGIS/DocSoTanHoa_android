@@ -3,6 +3,7 @@ package com.ditagis.hcm.docsotanhoa;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -101,23 +102,23 @@ public class LoginActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                 builder.setTitle("Đổi mật khẩu");
                 builder.setCancelable(false);
-                final AlertDialog dialog = builder.create();
+                final AlertDialog dialogChangePw = builder.create();
                 LayoutInflater inflater = getLayoutInflater();
                 View dialogLayout = inflater.inflate(R.layout.layout_change_password, null);
-                dialog.setView(dialogLayout);
-                dialog.show();
+                dialogChangePw.setView(dialogLayout);
+                dialogChangePw.show();
 
 
-                final TextView txtChangePwUsername = (TextView) dialog.findViewById(R.id.txt_changePw_userName);
-                final TextView txtChangePwOldPw = (TextView) dialog.findViewById(R.id.txt_changePw_oldPassword);
-                final TextView txtChangePwNewPw = (TextView) dialog.findViewById(R.id.txt_changePw_newPw);
-                final TextView txtChangePwConfirmPw = (TextView) dialog.findViewById(R.id.txt_changePw_confirmPw);
-                final TextView txtAlertNotCorrect = (TextView) dialog.findViewById(R.id.txt_changePassword_Alert_NotCorrect);
+                final TextView txtChangePwUsername = (TextView) dialogChangePw.findViewById(R.id.txt_changePw_userName);
+                final TextView txtChangePwOldPw = (TextView) dialogChangePw.findViewById(R.id.txt_changePw_oldPassword);
+                final TextView txtChangePwNewPw = (TextView) dialogChangePw.findViewById(R.id.txt_changePw_newPw);
+                final TextView txtChangePwConfirmPw = (TextView) dialogChangePw.findViewById(R.id.txt_changePw_confirmPw);
+                final TextView txtAlertNotCorrect = (TextView) dialogChangePw.findViewById(R.id.txt_changePassword_Alert_NotCorrect);
 
-                final EditText etxtChangePwUsername = (EditText) dialog.findViewById(R.id.etxt_changePw_userName);
-                final EditText etxtChangePwOldPw = (EditText) dialog.findViewById(R.id.etxt_changePw_oldPw);
-                final EditText etxtChangePwNewPw = (EditText) dialog.findViewById(R.id.etxt_changePw_NewPw);
-                final EditText etxtChangePwConfirmPw = (EditText) dialog.findViewById(R.id.etxt_changePw_ConfirmPw);
+                final EditText etxtChangePwUsername = (EditText) dialogChangePw.findViewById(R.id.etxt_changePw_userName);
+                final EditText etxtChangePwOldPw = (EditText) dialogChangePw.findViewById(R.id.etxt_changePw_oldPw);
+                final EditText etxtChangePwNewPw = (EditText) dialogChangePw.findViewById(R.id.etxt_changePw_NewPw);
+                final EditText etxtChangePwConfirmPw = (EditText) dialogChangePw.findViewById(R.id.etxt_changePw_ConfirmPw);
 
 
                 etxtChangePwUsername.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -174,7 +175,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
 
 
-                ((ImageButton) dialog.findViewById(R.id.imgBtn_changePassword_viewOldPassword)).
+                ((ImageButton) dialogChangePw.findViewById(R.id.imgBtn_changePassword_viewOldPassword)).
 
                         setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -189,7 +190,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         });
 
-                ((ImageButton) dialog.findViewById(R.id.imgBtn_changePassword_viewNewPassword)).
+                ((ImageButton) dialogChangePw.findViewById(R.id.imgBtn_changePassword_viewNewPassword)).
 
                         setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -204,7 +205,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         });
 
-                ((ImageButton) dialog.findViewById(R.id.imgBtn_changePassword_viewConfirmPassword)).
+                ((ImageButton) dialogChangePw.findViewById(R.id.imgBtn_changePassword_viewConfirmPassword)).
 
                         setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -219,52 +220,82 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         });
 
-                ((Button) dialog.findViewById(R.id.btn_changePassword_Dismiss)).
+                ((Button) dialogChangePw.findViewById(R.id.btn_changePassword_Dismiss)).
 
                         setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                dialog.dismiss();
+                                dialogChangePw.dismiss();
                             }
                         });
 
-                final ChangePasswordDB changePasswordHandling = new ChangePasswordDB(etxtChangePwUsername.getText().toString(),
-                        etxtChangePwOldPw.getText().toString(), etxtChangePwNewPw.getText().toString(), etxtChangePwConfirmPw.getText().toString());
-                final Button btnOK = (Button) dialog.findViewById(R.id.btn_changePassword_OK);
+                final Button btnOK = (Button) dialogChangePw.findViewById(R.id.btn_changePassword_OK);
                 btnOK.setOnClickListener(new View.OnClickListener()
 
                 {
                     @Override
                     public void onClick(View v) {
-                        changePasswordHandling.changePassword();
+                        ChangePasswordDB changePasswordHandling = new ChangePasswordDB(LoginActivity.this,
+                                etxtChangePwUsername.getText().toString(),
+                                etxtChangePwOldPw.getText().toString(), etxtChangePwNewPw.getText().toString(), etxtChangePwConfirmPw.getText().toString(),
+                                new ChangePasswordDB.AsyncResponse() {
+                                    @Override
+                                    public void processFinish(Boolean output) {
+                                        hideKeyboard();
+                                        if(output) {
+                                            dialogChangePw.dismiss();
+
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                            builder.setTitle("Đổi mật khẩu thành công!");
+                                            builder.setMessage("Đăng nhập với tài khoản này?");
+                                            builder.setCancelable(false);
+                                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    doLayLoTrinh();
+                                                }
+                                            }).setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+
+                                            final AlertDialog dialog = builder.create();
+                                            dialog.show();
+                                        }
+                                    }
+                                });
+
+                        changePasswordHandling.execute();
+
+
                     }
                 });
-                etxtChangePwConfirmPw.addTextChangedListener(new
+                etxtChangePwConfirmPw.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count,
+                                                  int after) {
 
-                                                                     TextWatcher() {
-                                                                         @Override
-                                                                         public void beforeTextChanged(CharSequence s, int start, int count,
-                                                                                                       int after) {
+                    }
 
-                                                                         }
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        if (etxtChangePwNewPw.getText().toString().equals(etxtChangePwConfirmPw.getText().toString())) {
+                            txtAlertNotCorrect.setVisibility(View.INVISIBLE);
+                            btnOK.setEnabled(true);
 
-                                                                         @Override
-                                                                         public void onTextChanged(CharSequence s, int start, int before, int count) {
-                                                                             if (etxtChangePwNewPw.getText().toString().equals(etxtChangePwConfirmPw.getText().toString())) {
-                                                                                 txtAlertNotCorrect.setVisibility(View.INVISIBLE);
-                                                                                 btnOK.setEnabled(true);
+                        } else {
+                            txtAlertNotCorrect.setVisibility(View.VISIBLE);
+                            btnOK.setEnabled(false);
+                        }
+                    }
 
-                                                                             } else {
-                                                                                 txtAlertNotCorrect.setVisibility(View.VISIBLE);
-                                                                                 btnOK.setEnabled(false);
-                                                                             }
-                                                                         }
+                    @Override
+                    public void afterTextChanged(Editable s) {
 
-                                                                         @Override
-                                                                         public void afterTextChanged(Editable s) {
-
-                                                                         }
-                                                                     });
+                    }
+                });
             }
         });
     }
