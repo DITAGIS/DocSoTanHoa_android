@@ -62,6 +62,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
     private static final String COLUMN_LUUDANHBO_TEN_KH = "LuuDanhBo_TenKH";
     private static final String COLUMN_LUUDANHBO_DIA_CHI = "LuuDanhBo_DiaChi";
     private static final String COLUMN_LUUDANHBO_SDT = "LuuDanhBo_SDT";
+    private static final String COLUMN_LUUDANHBO_GIA_BIEU = "LuuDanhBo_GiaBieu";
     private static final String COLUMN_LUUDANHBO_CODE = "LuuDanhBo_Code";
     private static final String COLUMN_LUUDANHBO_CSC = "LuuDanhBo_ChiSoCu";
     private static final String COLUMN_LUUDANHBO_CSM = "LuuDanhBo_ChiSoMoi";
@@ -110,6 +111,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 + COLUMN_LUUDANHBO_TEN_KH + " TEXT,"
                 + COLUMN_LUUDANHBO_DIA_CHI + " TEXT,"
                 + COLUMN_LUUDANHBO_SDT + " TEXT,"
+                + COLUMN_LUUDANHBO_GIA_BIEU + " TEXT,"
                 + COLUMN_LUUDANHBO_CODE + " TEXT,"
                 + COLUMN_LUUDANHBO_CSC + " TEXT,"
                 + COLUMN_LUUDANHBO_CSM + " TEXT,"
@@ -388,7 +390,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                         cursor.getString(7),
                         cursor.getString(8),
                         cursor.getString(9),
-                        cursor.getInt(10));
+                        cursor.getString(10),
+                        cursor.getInt(11));
 
 
                 // Thêm vào danh sách.
@@ -412,6 +415,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         values.put(COLUMN_LUUDANHBO_TEN_KH, danhBoChiSoMoi.getTenKH());
         values.put(COLUMN_LUUDANHBO_DIA_CHI, danhBoChiSoMoi.getDiaChi());
         values.put(COLUMN_LUUDANHBO_SDT, danhBoChiSoMoi.getSdt());
+        values.put(COLUMN_LUUDANHBO_GIA_BIEU, danhBoChiSoMoi.getGiaBieu());
         values.put(COLUMN_LUUDANHBO_CODE, danhBoChiSoMoi.getCode());
         values.put(COLUMN_LUUDANHBO_CSC, danhBoChiSoMoi.getChiSoCu());
         values.put(COLUMN_LUUDANHBO_CSM, danhBoChiSoMoi.getChiSoMoi());
@@ -451,7 +455,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                         cursor.getString(7),
                         cursor.getString(8),
                         cursor.getString(9),
-                        cursor.getInt(10)
+                        cursor.getString(10),
+                        cursor.getInt(11)
                 );
             } while (cursor.moveToNext());
         }

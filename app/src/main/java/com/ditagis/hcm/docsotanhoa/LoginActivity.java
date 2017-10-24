@@ -56,8 +56,8 @@ public class LoginActivity extends AppCompatActivity {
         btnChangePassword = (Button) findViewById(R.id.btnChangePassword);
 
         this.mImgBtnViewPassword = (ImageButton) findViewById(R.id.imgBtn_login_viewPassword);
-        requestPermissonCamera();
-        requestPermissonWriteFile();
+        requestPermisson();
+//        requestPermissonWriteFile();
         this.mImgBtnViewPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,234 +75,241 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoginActivity.this.mUsername = txtUsername.getText().toString();
-                LoginActivity.this.mPassword = txtPassword.getText().toString();
-                if (LoginActivity.this.mUsername.length() == 0 || LoginActivity.this.mPassword.length() == 0) {
-                    Toast.makeText(LoginActivity.this, "Tên đăng nhập hoặc mật khẩu không được để trống!!!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (isOnline()) {
-                    mLoginAsync = new LoginAsync();
-                    mLoginAsync.execute(LoginActivity.this.mUsername, LoginActivity.this.mPassword);
-
-                } else if (txtPassword.getText().toString().equals(loadPreferences(txtUsername.getText().toString()))) {
-                    Toast.makeText(LoginActivity.this, "Đang đăng nhập với tài khoản trước...", Toast.LENGTH_LONG).show();
-                    doLayLoTrinh();
-                } else {
-                    Toast.makeText(LoginActivity.this, "Kiểm tra kết nối Internet và thử lại", Toast.LENGTH_SHORT).show();
-                }
-
+                login();
             }
         });
 
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isOnline()) {
-                    Toast.makeText(LoginActivity.this, "Kiểm tra kết nối Internet và thử lại", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                builder.setTitle("Đổi mật khẩu");
-                builder.setCancelable(false);
-                final AlertDialog dialogChangePw = builder.create();
-                LayoutInflater inflater = getLayoutInflater();
-                View dialogLayout = inflater.inflate(R.layout.layout_change_password, null);
-                dialogChangePw.setView(dialogLayout);
-                dialogChangePw.show();
-
-
-                final TextView txtChangePwUsername = (TextView) dialogChangePw.findViewById(R.id.txt_changePw_userName);
-                final TextView txtChangePwOldPw = (TextView) dialogChangePw.findViewById(R.id.txt_changePw_oldPassword);
-                final TextView txtChangePwNewPw = (TextView) dialogChangePw.findViewById(R.id.txt_changePw_newPw);
-                final TextView txtChangePwConfirmPw = (TextView) dialogChangePw.findViewById(R.id.txt_changePw_confirmPw);
-                final TextView txtAlertNotCorrect = (TextView) dialogChangePw.findViewById(R.id.txt_changePassword_Alert_NotCorrect);
-
-                final EditText etxtChangePwUsername = (EditText) dialogChangePw.findViewById(R.id.etxt_changePw_userName);
-                final EditText etxtChangePwOldPw = (EditText) dialogChangePw.findViewById(R.id.etxt_changePw_oldPw);
-                final EditText etxtChangePwNewPw = (EditText) dialogChangePw.findViewById(R.id.etxt_changePw_NewPw);
-                final EditText etxtChangePwConfirmPw = (EditText) dialogChangePw.findViewById(R.id.etxt_changePw_ConfirmPw);
-
-
-                etxtChangePwUsername.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        if (hasFocus) {
-                            txtChangePwUsername.setVisibility(View.VISIBLE);
-                            etxtChangePwUsername.setHint("");
-                        } else {
-                            txtChangePwUsername.setVisibility(View.INVISIBLE);
-                            etxtChangePwUsername.setHint("Tên đăng nhập");
-                        }
-                    }
-                });
-                etxtChangePwOldPw.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        if (hasFocus) {
-                            txtChangePwOldPw.setVisibility(View.VISIBLE);
-                            etxtChangePwOldPw.setHint("");
-                        } else {
-                            txtChangePwOldPw.setVisibility(View.INVISIBLE);
-                            etxtChangePwOldPw.setHint("Mật khẩu cũ");
-                        }
-                    }
-                });
-                etxtChangePwNewPw.setOnFocusChangeListener(new View.OnFocusChangeListener()
-
-                {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        if (hasFocus) {
-                            txtChangePwNewPw.setVisibility(View.VISIBLE);
-                            etxtChangePwNewPw.setHint("");
-                        } else {
-                            txtChangePwNewPw.setVisibility(View.INVISIBLE);
-                            etxtChangePwNewPw.setHint("Mật khẩu mới");
-                        }
-                    }
-                });
-                etxtChangePwConfirmPw.setOnFocusChangeListener(new View.OnFocusChangeListener()
-
-                {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        if (hasFocus) {
-                            txtChangePwConfirmPw.setVisibility(View.VISIBLE);
-                            etxtChangePwConfirmPw.setHint("");
-                        } else {
-                            txtChangePwConfirmPw.setVisibility(View.INVISIBLE);
-                            etxtChangePwConfirmPw.setHint("Nhập lại mật khẩu mới");
-                        }
-                    }
-                });
-
-
-                ((ImageButton) dialogChangePw.findViewById(R.id.imgBtn_changePassword_viewOldPassword)).
-
-                        setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (etxtChangePwOldPw.getTransformationMethod() == null) {
-                                    ((ImageButton) v).setImageResource(R.drawable.un_view_password);
-                                    etxtChangePwOldPw.setTransformationMethod(new PasswordTransformationMethod());
-                                } else {
-                                    ((ImageButton) v).setImageResource(R.drawable.view_password);
-                                    etxtChangePwOldPw.setTransformationMethod(null);
-                                }
-                            }
-                        });
-
-                ((ImageButton) dialogChangePw.findViewById(R.id.imgBtn_changePassword_viewNewPassword)).
-
-                        setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (etxtChangePwNewPw.getTransformationMethod() == null) {
-                                    ((ImageButton) v).setImageResource(R.drawable.un_view_password);
-                                    etxtChangePwNewPw.setTransformationMethod(new PasswordTransformationMethod());
-                                } else {
-                                    ((ImageButton) v).setImageResource(R.drawable.view_password);
-                                    etxtChangePwNewPw.setTransformationMethod(null);
-                                }
-                            }
-                        });
-
-                ((ImageButton) dialogChangePw.findViewById(R.id.imgBtn_changePassword_viewConfirmPassword)).
-
-                        setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (etxtChangePwConfirmPw.getTransformationMethod() == null) {
-                                    ((ImageButton) v).setImageResource(R.drawable.un_view_password);
-                                    etxtChangePwConfirmPw.setTransformationMethod(new PasswordTransformationMethod());
-                                } else {
-                                    ((ImageButton) v).setImageResource(R.drawable.view_password);
-                                    etxtChangePwConfirmPw.setTransformationMethod(null);
-                                }
-                            }
-                        });
-
-                ((Button) dialogChangePw.findViewById(R.id.btn_changePassword_Dismiss)).
-
-                        setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialogChangePw.dismiss();
-                            }
-                        });
-
-                final Button btnOK = (Button) dialogChangePw.findViewById(R.id.btn_changePassword_OK);
-                btnOK.setOnClickListener(new View.OnClickListener()
-
-                {
-                    @Override
-                    public void onClick(View v) {
-                        ChangePasswordDB changePasswordHandling = new ChangePasswordDB(LoginActivity.this,
-                                etxtChangePwUsername.getText().toString(),
-                                etxtChangePwOldPw.getText().toString(), etxtChangePwNewPw.getText().toString(), etxtChangePwConfirmPw.getText().toString(),
-                                new ChangePasswordDB.AsyncResponse() {
-                                    @Override
-                                    public void processFinish(final LogInDB.Result output) {
-                                        hideKeyboard();
-                                        if (output.getmStaffName().length() > 0) {
-                                            dialogChangePw.dismiss();
-
-                                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                                            builder.setTitle("Đổi mật khẩu thành công!");
-                                            builder.setMessage("Đăng nhập với tài khoản này?");
-                                            builder.setCancelable(false);
-                                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    doLayLoTrinh();
-                                                }
-                                            }).setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    dialog.dismiss();
-                                                }
-                                            });
-
-                                            final AlertDialog dialog = builder.create();
-                                            dialog.show();
-                                        }
-                                    }
-                                });
-
-                        changePasswordHandling.execute();
-
-
-                    }
-                });
-                etxtChangePwConfirmPw.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count,
-                                                  int after) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        if (etxtChangePwNewPw.getText().toString().equals(etxtChangePwConfirmPw.getText().toString())) {
-                            txtAlertNotCorrect.setVisibility(View.INVISIBLE);
-                            btnOK.setEnabled(true);
-
-                        } else {
-                            txtAlertNotCorrect.setVisibility(View.VISIBLE);
-                            btnOK.setEnabled(false);
-                        }
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-
-                    }
-                });
+                changePassword();
             }
         });
     }
 
+    private void login() {
+        LoginActivity.this.mUsername = txtUsername.getText().toString();
+        LoginActivity.this.mPassword = txtPassword.getText().toString();
+        if (LoginActivity.this.mUsername.length() == 0 || LoginActivity.this.mPassword.length() == 0) {
+            Toast.makeText(LoginActivity.this, "Tên đăng nhập hoặc mật khẩu không được để trống!!!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (isOnline()) {
+            mLoginAsync = new LoginAsync();
+            mLoginAsync.execute(LoginActivity.this.mUsername, LoginActivity.this.mPassword);
+
+        } else if (txtPassword.getText().toString().equals(loadPreferences(txtUsername.getText().toString()))) {
+            Toast.makeText(LoginActivity.this, "Đang đăng nhập với tài khoản trước...", Toast.LENGTH_SHORT).show();
+            doLayLoTrinh();
+        } else {
+            Toast.makeText(LoginActivity.this, "Kiểm tra kết nối Internet và thử lại", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private void changePassword() {
+        if (!isOnline()) {
+            Toast.makeText(LoginActivity.this, "Kiểm tra kết nối Internet và thử lại", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+        builder.setTitle("Đổi mật khẩu");
+        builder.setCancelable(false);
+        final AlertDialog dialogChangePw = builder.create();
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogLayout = inflater.inflate(R.layout.layout_change_password, null);
+        dialogChangePw.setView(dialogLayout);
+        dialogChangePw.show();
+
+
+        final TextView txtChangePwUsername = (TextView) dialogChangePw.findViewById(R.id.txt_changePw_userName);
+        final TextView txtChangePwOldPw = (TextView) dialogChangePw.findViewById(R.id.txt_changePw_oldPassword);
+        final TextView txtChangePwNewPw = (TextView) dialogChangePw.findViewById(R.id.txt_changePw_newPw);
+        final TextView txtChangePwConfirmPw = (TextView) dialogChangePw.findViewById(R.id.txt_changePw_confirmPw);
+        final TextView txtAlertNotCorrect = (TextView) dialogChangePw.findViewById(R.id.txt_changePassword_Alert_NotCorrect);
+
+        final EditText etxtChangePwUsername = (EditText) dialogChangePw.findViewById(R.id.etxt_changePw_userName);
+        final EditText etxtChangePwOldPw = (EditText) dialogChangePw.findViewById(R.id.etxt_changePw_oldPw);
+        final EditText etxtChangePwNewPw = (EditText) dialogChangePw.findViewById(R.id.etxt_changePw_NewPw);
+        final EditText etxtChangePwConfirmPw = (EditText) dialogChangePw.findViewById(R.id.etxt_changePw_ConfirmPw);
+
+
+        etxtChangePwUsername.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    txtChangePwUsername.setVisibility(View.VISIBLE);
+                    etxtChangePwUsername.setHint("");
+                } else {
+                    txtChangePwUsername.setVisibility(View.INVISIBLE);
+                    etxtChangePwUsername.setHint("Tên đăng nhập");
+                }
+            }
+        });
+        etxtChangePwOldPw.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    txtChangePwOldPw.setVisibility(View.VISIBLE);
+                    etxtChangePwOldPw.setHint("");
+                } else {
+                    txtChangePwOldPw.setVisibility(View.INVISIBLE);
+                    etxtChangePwOldPw.setHint("Mật khẩu cũ");
+                }
+            }
+        });
+        etxtChangePwNewPw.setOnFocusChangeListener(new View.OnFocusChangeListener()
+
+        {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    txtChangePwNewPw.setVisibility(View.VISIBLE);
+                    etxtChangePwNewPw.setHint("");
+                } else {
+                    txtChangePwNewPw.setVisibility(View.INVISIBLE);
+                    etxtChangePwNewPw.setHint("Mật khẩu mới");
+                }
+            }
+        });
+        etxtChangePwConfirmPw.setOnFocusChangeListener(new View.OnFocusChangeListener()
+
+        {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    txtChangePwConfirmPw.setVisibility(View.VISIBLE);
+                    etxtChangePwConfirmPw.setHint("");
+                } else {
+                    txtChangePwConfirmPw.setVisibility(View.INVISIBLE);
+                    etxtChangePwConfirmPw.setHint("Nhập lại mật khẩu mới");
+                }
+            }
+        });
+
+
+        ((ImageButton) dialogChangePw.findViewById(R.id.imgBtn_changePassword_viewOldPassword)).
+
+                setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (etxtChangePwOldPw.getTransformationMethod() == null) {
+                            ((ImageButton) v).setImageResource(R.drawable.un_view_password);
+                            etxtChangePwOldPw.setTransformationMethod(new PasswordTransformationMethod());
+                        } else {
+                            ((ImageButton) v).setImageResource(R.drawable.view_password);
+                            etxtChangePwOldPw.setTransformationMethod(null);
+                        }
+                    }
+                });
+
+        ((ImageButton) dialogChangePw.findViewById(R.id.imgBtn_changePassword_viewNewPassword)).
+
+                setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (etxtChangePwNewPw.getTransformationMethod() == null) {
+                            ((ImageButton) v).setImageResource(R.drawable.un_view_password);
+                            etxtChangePwNewPw.setTransformationMethod(new PasswordTransformationMethod());
+                        } else {
+                            ((ImageButton) v).setImageResource(R.drawable.view_password);
+                            etxtChangePwNewPw.setTransformationMethod(null);
+                        }
+                    }
+                });
+
+        ((ImageButton) dialogChangePw.findViewById(R.id.imgBtn_changePassword_viewConfirmPassword)).
+
+                setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (etxtChangePwConfirmPw.getTransformationMethod() == null) {
+                            ((ImageButton) v).setImageResource(R.drawable.un_view_password);
+                            etxtChangePwConfirmPw.setTransformationMethod(new PasswordTransformationMethod());
+                        } else {
+                            ((ImageButton) v).setImageResource(R.drawable.view_password);
+                            etxtChangePwConfirmPw.setTransformationMethod(null);
+                        }
+                    }
+                });
+
+        ((Button) dialogChangePw.findViewById(R.id.btn_changePassword_Dismiss)).
+
+                setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogChangePw.dismiss();
+                    }
+                });
+
+        final Button btnOK = (Button) dialogChangePw.findViewById(R.id.btn_changePassword_OK);
+        btnOK.setOnClickListener(new View.OnClickListener()
+
+        {
+            @Override
+            public void onClick(View v) {
+                ChangePasswordDB changePasswordHandling = new ChangePasswordDB(LoginActivity.this,
+                        etxtChangePwUsername.getText().toString(),
+                        etxtChangePwOldPw.getText().toString(), etxtChangePwNewPw.getText().toString(), etxtChangePwConfirmPw.getText().toString(),
+                        new ChangePasswordDB.AsyncResponse() {
+                            @Override
+                            public void processFinish(final LogInDB.Result output) {
+                                hideKeyboard();
+                                if (output.getmStaffName().length() > 0) {
+                                    dialogChangePw.dismiss();
+
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                    builder.setTitle("Đổi mật khẩu thành công!");
+                                    builder.setMessage("Đăng nhập với tài khoản này?");
+                                    builder.setCancelable(false);
+                                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            doLayLoTrinh();
+                                        }
+                                    }).setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+
+                                    final AlertDialog dialog = builder.create();
+                                    dialog.show();
+                                }
+                            }
+                        });
+
+                changePasswordHandling.execute();
+
+
+            }
+        });
+        etxtChangePwConfirmPw.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (etxtChangePwNewPw.getText().toString().equals(etxtChangePwConfirmPw.getText().toString())) {
+                    txtAlertNotCorrect.setVisibility(View.INVISIBLE);
+                    btnOK.setEnabled(true);
+
+                } else {
+                    txtAlertNotCorrect.setVisibility(View.VISIBLE);
+                    btnOK.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
 
     protected boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -387,13 +394,15 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public boolean requestPermissonCamera() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
+    public boolean requestPermisson() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     REQUEST_ID_IMAGE_CAPTURE);
         }
         if (Build.VERSION.SDK_INT >= 23 &&
-                ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             return false;
         } else
             return true;

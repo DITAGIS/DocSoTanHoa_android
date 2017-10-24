@@ -1,22 +1,18 @@
 package com.ditagis.hcm.docsotanhoa;
 
-import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -60,22 +56,21 @@ public class DocSoActivity extends AppCompatActivity {
     TextView txtCSM;
     TextView txtCSC;
     TextView txtComplete;
-    TextView txtSaveState;
-    private LocalDatabase mLocalDatabase;
+
     //    final HoaDonDB hoaDonDB = new HoaDonDB();
     Spinner spinMLT;
     Spinner spinDB = null;
     Spinner spinCode;
     ImageButton imgbtn_Save;
     private Bitmap mBpImage;
+
+    private LocalDatabase mLocalDatabase;
     private static final int REQUEST_ID_READ_WRITE_PERMISSION = 99;
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
     private int mSumDanhBo, mDanhBoHoanThanh;
     private String mUsername;
     private int mDot;
     private String mGhiChu;
-    private final String SAVED = "Đã lưu";
-    private final String UN_SAVED = "Chưa lưu";
     private Date currentTime;
     private ArrayAdapter<String> adapterDB;
     AutoCompleteTextView singleComplete;
@@ -109,7 +104,6 @@ public class DocSoActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.txt_ds_dot)).setText(this.mDot + "");
         if (getIntent().getExtras().getString("username") != null)
             this.mUsername = getIntent().getExtras().getString("username");
-        this.txtSaveState = (TextView) findViewById(R.id.txt_ds_save);
         this.txtComplete = (TextView) findViewById(R.id.txt_ds_complete);
 
         mLocalDatabase = new LocalDatabase(this);
@@ -141,7 +135,7 @@ public class DocSoActivity extends AppCompatActivity {
         for (String mlt : mMLTs)
             DocSoActivity.this.mSumDanhBo += this.mLocalDatabase.getAllHoaDonByMaLoTrinh(mlt).size();
         DocSoActivity.this.mDanhBoHoanThanh = DocSoActivity.this.mLocalDatabase.getAllDanhBo_CSM().size();
-
+DocSoActivity.this.mSumDanhBo += DocSoActivity.this.mDanhBoHoanThanh;
         DocSoActivity.this.txtComplete.setText(DocSoActivity.this.mDanhBoHoanThanh + "/" + DocSoActivity.this.mSumDanhBo);
         adapterMLT = new ArrayAdapter<String>(this, R.layout.spinner_item, mMLTs);
         adapterMLT.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
@@ -263,17 +257,11 @@ public class DocSoActivity extends AppCompatActivity {
                         DocSoActivity.this.txtCSM.setText(danhBo_csm.getChiSoMoi());
                         DocSoActivity.this.mGhiChu = danhBo_csm.getNote();
 
-                        DocSoActivity.this.txtSaveState.setText(SAVED);
-                        DocSoActivity.this.txtSaveState.setTextColor(ContextCompat.getColor(DocSoActivity.this,
-                                R.color.colorSave));
                     } else {
                         DocSoActivity.this.mGhiChu = "";
                         DocSoActivity.this.editTextCSM.setText("");
                         DocSoActivity.this.txtCSM.setText("");
 
-                        DocSoActivity.this.txtSaveState.setText(UN_SAVED);
-                        DocSoActivity.this.txtSaveState.setTextColor(ContextCompat.getColor(DocSoActivity.this,
-                                R.color.colorUnsave));
                     }
                 }
 
@@ -293,6 +281,7 @@ public class DocSoActivity extends AppCompatActivity {
                 ((TextView) findViewById(R.id.txt_ds_tenKH)).getText().toString(),
                 ((TextView) findViewById(R.id.txt_ds_diachi)).getText().toString(),
                 ((EditText) findViewById(R.id.etxt_ds_sdt)).getText().toString(),
+                ((TextView) findViewById(R.id.txt_ds_giabieu)).getText().toString(),
                 DocSoActivity.this.spinCode.getSelectedItem().toString(),
                 csc + "",
                 csm + "",
@@ -311,10 +300,7 @@ public class DocSoActivity extends AppCompatActivity {
 //        spinMLT.setSelection(i+1);
 //        spinMLT.setSelection(i);
         DocSoActivity.this.mDanhBoHoanThanh++;
-        DocSoActivity.this.txtComplete.setText(DocSoActivity.this.mDanhBoHoanThanh + "/" + DocSoActivity.this.mSumDanhBo);
-        DocSoActivity.this.txtSaveState.setText(SAVED);
-        DocSoActivity.this.txtSaveState.setTextColor(ContextCompat.getColor(DocSoActivity.this,
-                R.color.colorSave));
+        DocSoActivity.this.txtComplete.setText(DocSoActivity.this.mDanhBoHoanThanh + "/" + DocSoActivity.this.mSumDanhBo );
 
         Toast.makeText(DocSoActivity.this, "Đã lưu chỉ số mới", Toast.LENGTH_SHORT).show();
 
@@ -450,9 +436,8 @@ public class DocSoActivity extends AppCompatActivity {
     }
 
     public void doCamera(View v) {
-        if (!requestPermissonCamera())
-            return;
-        if (getImageFileName().exists()) {
+        File f = getImageFileName();
+        if (f != null && f.exists()) {
             showImage(getImageFileName());
 
 
@@ -462,7 +447,6 @@ public class DocSoActivity extends AppCompatActivity {
     }
 
     private void capture() {
-        requestPermissonWriteFile();
         Intent cameraIntent = new Intent(
                 android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,
@@ -477,33 +461,10 @@ public class DocSoActivity extends AppCompatActivity {
         startActivityForResult(cameraIntent, REQUEST_ID_IMAGE_CAPTURE);
     }
 
-    public boolean requestPermissonCamera() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
-                    REQUEST_ID_IMAGE_CAPTURE);
-        }
-        if (Build.VERSION.SDK_INT >= 23 &&
-                ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "Không cho phép bật CAMERA", Toast.LENGTH_SHORT).show();
-            return false;
-        } else
-            return true;
-    }
-
-    public boolean requestPermissonWriteFile() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    REQUEST_ID_IMAGE_CAPTURE);
-        }
-        if (Build.VERSION.SDK_INT >= 23 &&
-                ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "Không cho phép lưu ảnh!!!", Toast.LENGTH_SHORT).show();
-            return false;
-        } else
-            return true;
-    }
 
     public File getImageFileName() {
+        if (DocSoActivity.this.currentTime == null)
+            return null;
         String path = Environment.getExternalStorageDirectory().getPath();
 //                path = path.substring(0, path.length() - 1).concat("1");
         File outFile = new File(path, "DocSoTanHoa");
@@ -531,8 +492,6 @@ public class DocSoActivity extends AppCompatActivity {
 
         if (requestCode == REQUEST_ID_IMAGE_CAPTURE) {
             if (resultCode == RESULT_OK) {
-                if (!requestPermissonWriteFile())
-                    return;
 //                BitmapFactory.Options options = new BitmapFactory.Options();
 //                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
 //                mBpImage = BitmapFactory.decodeFile(pathFromUri(DocSoActivity.this.uri), options);
@@ -573,6 +532,7 @@ public class DocSoActivity extends AppCompatActivity {
         }
     }
 
+    @Nullable
     private Bitmap getBitmap(String path) {
 
         Uri uri = Uri.fromFile(new File(path));

@@ -18,7 +18,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,12 +40,6 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
     private int mSumDanhBo = 0, mDanhBoHoanThanh;
     private int mDot;
     private String mUsername;
-    public static final String FILE_UPLOAD_URL = "http://103.74.117.51/AndroidFileUpload/fileUpload.php";
-    private ProgressBar progressUploading;
-    // Directory name to store captured images and videos
-    public static final String IMAGE_DIRECTORY_NAME = "DocSoTanHoa";
-    private int progressStatus = 0;
-    private TextView txtProgressStatus;
     private Uploading uploading;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +54,6 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
         txtComplete = (TextView) findViewById(R.id.txt_qlds_tienTrinh);
         localDatabase = new LocalDatabase(this);
         QuanLyDocSoActivity.this.uploading = new Uploading();
-        this.progressUploading = (ProgressBar) findViewById(R.id.progressUploading);
-        this.txtProgressStatus = (TextView) findViewById(R.id.txtProgressStatus);
         editTextSearch = (EditText) findViewById(R.id.etxt_qlds_search);
         gridView = (GridView) findViewById(R.id.grid_qlds_danhSachDocSo);
         danhBo_chiSoMois = localDatabase.getAllDanhBo_CSM();
@@ -71,6 +62,7 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
         m_MLT_TongDanhBo = localDatabase.getAllMLT();
 
         QuanLyDocSoActivity.this.mDanhBoHoanThanh = danhBo_chiSoMois.size();
+        QuanLyDocSoActivity.this.mSumDanhBo += QuanLyDocSoActivity.this.mDanhBoHoanThanh;
         QuanLyDocSoActivity.this.txtComplete.setText(QuanLyDocSoActivity.this.mDanhBoHoanThanh + "/" + QuanLyDocSoActivity.this.mSumDanhBo);
         editTextSearch.addTextChangedListener(new TextWatcher() {
 
@@ -157,7 +149,7 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
                 ((TextView) dialog.findViewById(R.id.txt_layout_qlds_CSC)).setText(danhBo_CSM.getChiSoCu());
                 ((TextView) dialog.findViewById(R.id.txt_layout_qlds_CSM)).setText(danhBo_CSM.getChiSoMoi());
                 ((TextView) dialog.findViewById(R.id.txt_layout_qlds_code)).setText(danhBo_CSM.getCode());
-                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_giaBieu)).setText(QuanLyDocSoActivity.this.localDatabase.getHoaDon(danhBo_CSM.getDanhBo()).getGiaBieu());
+                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_giaBieu)).setText(danhBo_CSM.getGiaBieu());
                 ((TextView) dialog.findViewById(R.id.txt_layout_qlds_tienNuoc)).setText("");//TODO tien nuoc
 
                 ((TextView) dialog.findViewById(R.id.txt_layout_qlds_ghiChu)).setText(danhBo_CSM.getNote());

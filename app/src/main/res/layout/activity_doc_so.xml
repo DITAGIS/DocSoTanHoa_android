@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:focusableInTouchMode="true">
         <!--Layout hiển thị thông tin-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,7 +41,7 @@
                             android:layout_column="0"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
-                            android:text="Tiến trình:"
+                            android:text="Đã hoàn thành:"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@android:color/white" />
 
@@ -53,27 +54,7 @@
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/color_row_check" />
                     </TableRow>
-                    <!--Table row hiển thị tình trạng :đã lưu/chưa lưu-->
-                    <TableRow android:layout_weight="1">
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_column="0"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:text="Tình trạng:"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@android:color/white" />
-
-                        <TextView
-                            android:id="@+id/txt_ds_save"
-                            android:layout_width="0dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:gravity="right"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/color_row_check" />
-                    </TableRow>
                     <!--Table row kỳ-->
                     <TableRow android:layout_weight="1">
 
