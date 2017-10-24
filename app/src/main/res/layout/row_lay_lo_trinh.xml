@@ -1,40 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/row_llt_layout"
+    android:id="@+id/row_llt_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="?android:attr/listPreferredItemHeightSmall"
-    android:orientation="horizontal"
     android:gravity="center_vertical"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+    android:orientation="vertical"
     android:textAppearance="?android:attr/textAppearanceListItemSmall">
 
-    <TextView
-        android:id="@+id/row_llt_txt_malotrinh"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_weight="1" />
-    <View
-        android:layout_width="2dip"
-        android:layout_height="match_parent"
-        android:background="@color/colorWhite" />
-    <TextView
-        android:id="@+id/row_llt_txt_tongDanhBo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center" />
+        android:orientation="horizontal">
 
-    <!--<CheckBox-->
+        <TextView
+            android:id="@+id/row_llt_txt_malotrinh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center" />
+
+        <View
+            android:layout_width="2dip"
+            android:layout_height="match_parent"
+            android:background="@color/colorWhite" />
+
+        <TextView
+            android:id="@+id/row_llt_txt_tongDanhBo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center" />
+
+        <!--<CheckBox-->
         <!--android:id="@+id/row_llt_chk"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:layout_weight="1"-->
         <!--android:layout_gravity="right" />-->
-    <!--<ImageView-->
+        <!--<ImageView-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
-       <!--android:id="@+id/row_llt_img_Check"-->
+        <!--android:id="@+id/row_llt_img_Check"-->
         <!--android:layout_weight="1"-->
         <!--/>-->
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:background="@color/color_row_check" />
 </LinearLayout>
