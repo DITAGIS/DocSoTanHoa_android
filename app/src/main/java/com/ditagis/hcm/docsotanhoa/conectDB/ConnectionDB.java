@@ -24,6 +24,8 @@ public class ConnectionDB {
     }
 
     public Connection getConnection() {
+        if(connection == null)
+            connection = getConnect();
         return connection;
     }
 

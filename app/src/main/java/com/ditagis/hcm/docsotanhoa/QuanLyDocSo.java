@@ -1,13 +1,17 @@
 package com.ditagis.hcm.docsotanhoa;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
@@ -49,9 +53,11 @@ public class QuanLyDocSo extends Fragment {
     private Uploading mUploading;
     private View mRootView;
 
-    public QuanLyDocSo(LayoutInflater inflater) {
+    public QuanLyDocSo(LayoutInflater inflater, int dot, String userName) {
         mRootView = inflater.inflate(R.layout.quan_ly_doc_so_fragment, null);
 
+        mDot = dot;
+        mUsername = userName;
         mTxtComplete = (TextView) mRootView.findViewById(R.id.txt_qlds_tienTrinh);
         mLocalDatabase = new LocalDatabase(mRootView.getContext());
         mUploading = new Uploading();
@@ -75,7 +81,12 @@ public class QuanLyDocSo extends Fragment {
         ((ImageButton) mRootView.findViewById(R.id.imgBtn_qlds_upload)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doUpLoad();
+                if (isOnline()) {
+                    doUpLoad();
+                    setTextProgress();
+                } else {
+                    snackbarMake(mGridView, "Kiểm tra kết nối Internet và thử lại", false);
+                }
             }
         });
     }
@@ -88,12 +99,9 @@ public class QuanLyDocSo extends Fragment {
     }
 
     public void refresh() {
-        this.mSumDanhBo = mLocalDatabase.getAllHoaDon(this.mDot + this.mUsername + "%").size();
-        m_MLT_TongDanhBo = mLocalDatabase.getAllMLT();
+        setTextProgress();
         mDanhBo_chiSoMois = mLocalDatabase.getAllDanhBo_CSM();
-        mDanhBoHoanThanh = mDanhBo_chiSoMois.size();
-        mSumDanhBo += mDanhBoHoanThanh;
-        mTxtComplete.setText(mDanhBoHoanThanh + "/" + mSumDanhBo);
+
         mEditTextSearch.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -122,6 +130,27 @@ public class QuanLyDocSo extends Fragment {
                     danhBo_chiSoMoi.getChiSoMoi()));
         }
         mQuanLyDocSoAdapter.notifyDataSetChanged();
+    }
+
+    private void setTextProgress() {
+
+        this.mSumDanhBo = mLocalDatabase.getAllHoaDon(this.mDot + this.mUsername + "%").size();
+        this.mDanhBoHoanThanh = this.mLocalDatabase.getAllDanhBo_CSM().size();
+        this.mSumDanhBo += this.mDanhBoHoanThanh;
+        this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
+
+    }
+
+    private boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) mRootView.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnected();
+    }
+
+    private void snackbarMake(View view, String text, boolean isLong) {
+        int time = isLong ? Snackbar.LENGTH_LONG : Snackbar.LENGTH_SHORT;
+        Snackbar.make(view, text, time)
+                .setAction("Action", null).show();
     }
 
     private void showMoreInfro(View view) {
@@ -222,7 +251,6 @@ public class QuanLyDocSo extends Fragment {
         protected Void doInBackground(String... params) {
 
             Boolean isValid = false;
-            mUploading.connect();
 
             for (int i = 0; i < mDanhBo_chiSoMois.size(); i++) {
                 DanhBo_ChiSoMoi danhBo_chiSoMoi = mDanhBo_chiSoMois.get(i);
@@ -238,7 +266,6 @@ public class QuanLyDocSo extends Fragment {
             if (mLocalDatabase.getAllDanhBo_CSM().size() == 0)
                 isValid = true;
 
-            mUploading.disConnect();
             publishProgress(isValid);
             return null;
 

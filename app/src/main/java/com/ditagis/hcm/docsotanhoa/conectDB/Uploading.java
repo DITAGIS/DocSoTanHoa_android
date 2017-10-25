@@ -33,20 +33,8 @@ public class Uploading implements IDB<DanhBo_ChiSoMoi, Boolean, String> {
     private final String SQL_INSERT_HINHDHN = "INSERT INTO " + TABLE_NAME_HINHDHN + " VALUES(?,?,?,?,?,?)";
     private final String SQL_DELETE = "DELETE FROM " + TABLE_NAME + " WHERE ClassId=?";
     private final String SQL_INSERT = "INSERT INTO " + NEW_TABLE_NAME + " VALUES(?,?,?,?,?,?,?,?,?,?)";
-    private Connection cnn = null;
+    private Connection cnn = ConnectionDB.getInstance().getConnection();
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-    public void connect() {
-        if (cnn == null)
-            cnn = ConnectionDB.getInstance().getConnection();
-    }
-    public void disConnect() {
-        if (cnn != null)
-            try {
-                cnn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-    }
 
     @NonNull
     private Boolean createTable() {
@@ -127,6 +115,7 @@ public class Uploading implements IDB<DanhBo_ChiSoMoi, Boolean, String> {
         String sqlInsert_HinhDHN = this.SQL_INSERT_HINHDHN;
         //TODO: cập nhật chỉ số cũ = chỉ số mới
         try {
+            cnn = ConnectionDB.getInstance().getConnection();
             PreparedStatement st = cnn.prepareStatement(sql);
             st.setString(1, danhBo_chiSoMoi.getChiSoMoi());
             st.setString(2, danhBo_chiSoMoi.getCode());
@@ -180,9 +169,7 @@ public class Uploading implements IDB<DanhBo_ChiSoMoi, Boolean, String> {
 
     public static void main(String[] args) {
         Uploading uploading = new Uploading();
-        uploading.connect();
         uploading.createTable();
 
-        uploading.disConnect();
     }
 }

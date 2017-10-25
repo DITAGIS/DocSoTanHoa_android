@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
         mLayLoTrinh = new LayLoTrinh(getLayoutInflater(), mKy, mNam, mDot, mUsername, mStaffName);
         mDocSo = new DocSo(getLayoutInflater(), mKy, mDot, mUsername);
-        mQuanLyDocSo = new QuanLyDocSo(getLayoutInflater());
+        mQuanLyDocSo = new QuanLyDocSo(getLayoutInflater(), mDot, mUsername);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
