@@ -30,10 +30,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".DocSoActivity"
-            android:label="@string/title_activity_doc_so"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait">
@@ -43,16 +39,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".QuanLyDocSoActivity"
-            android:label="Quản lý đọc số"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".LayLoTrinhActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".XemLoTrinhDaTaiActivity"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"

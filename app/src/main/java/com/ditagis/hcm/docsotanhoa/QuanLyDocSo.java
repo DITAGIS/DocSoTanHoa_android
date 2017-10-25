@@ -2,18 +2,19 @@ package com.ditagis.hcm.docsotanhoa;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -29,43 +30,44 @@ import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class QuanLyDocSoActivity extends AppCompatActivity {
-    EditText editTextSearch;
-    GridView gridView;
-    TextView txtComplete;
-    private ArrayList<DanhBo_ChiSoMoi> danhBo_chiSoMois;
+/**
+ * Created by ThanLe on 25/10/2017.
+ */
+
+public class QuanLyDocSo extends Fragment {
+    EditText mEditTextSearch;
+    GridView mGridView;
+    TextView mTxtComplete;
+    private ArrayList<DanhBo_ChiSoMoi> mDanhBo_chiSoMois;
     private HashMap<String, Integer> m_MLT_TongDanhBo;
-    private GridViewQuanLyDocSoAdapter da;
-    LocalDatabase localDatabase;
+    private GridViewQuanLyDocSoAdapter mQuanLyDocSoAdapter;
+    LocalDatabase mLocalDatabase;
     private int mSumDanhBo = 0, mDanhBoHoanThanh;
     private int mDot, mKy;
     private String mUsername;
-    private Uploading uploading;
+    private Uploading mUploading;
+    private View mRootView;
 
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quan_ly_doc_so);
 
-        if (getIntent().getExtras().getInt("dot") > 0)
-            this.mDot = getIntent().getExtras().getInt("dot");
-        if (getIntent().getExtras().getInt("ky") > 0)
-            this.mKy = getIntent().getExtras().getInt("ky");
-        if (getIntent().getExtras().getString("username") != null)
-            this.mUsername = getIntent().getExtras().getString("username");
-        txtComplete = (TextView) findViewById(R.id.txt_qlds_tienTrinh);
-        localDatabase = new LocalDatabase(this);
-        QuanLyDocSoActivity.this.uploading = new Uploading();
-        editTextSearch = (EditText) findViewById(R.id.etxt_qlds_search);
-        gridView = (GridView) findViewById(R.id.grid_qlds_danhSachDocSo);
-        danhBo_chiSoMois = localDatabase.getAllDanhBo_CSM();
-        this.mSumDanhBo = localDatabase.getAllHoaDon(this.mDot + this.mUsername + "%").size();
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mRootView = inflater.inflate(R.layout.quan_ly_doc_so_fragment, container, false);
 
-        m_MLT_TongDanhBo = localDatabase.getAllMLT();
+        mTxtComplete = (TextView) mRootView.findViewById(R.id.txt_qlds_tienTrinh);
+        mLocalDatabase = new LocalDatabase(mRootView.getContext());
+        mUploading = new Uploading();
+        mEditTextSearch = (EditText) mRootView.findViewById(R.id.etxt_qlds_search);
+        mGridView = (GridView) mRootView.findViewById(R.id.grid_qlds_danhSachDocSo);
+        mDanhBo_chiSoMois = mLocalDatabase.getAllDanhBo_CSM();
+        this.mSumDanhBo = mLocalDatabase.getAllHoaDon(this.mDot + this.mUsername + "%").size();
 
-        QuanLyDocSoActivity.this.mDanhBoHoanThanh = danhBo_chiSoMois.size();
-        QuanLyDocSoActivity.this.mSumDanhBo += QuanLyDocSoActivity.this.mDanhBoHoanThanh;
-        QuanLyDocSoActivity.this.txtComplete.setText(QuanLyDocSoActivity.this.mDanhBoHoanThanh + "/" + QuanLyDocSoActivity.this.mSumDanhBo);
-        editTextSearch.addTextChangedListener(new TextWatcher() {
+        m_MLT_TongDanhBo = mLocalDatabase.getAllMLT();
+
+        mDanhBoHoanThanh = mDanhBo_chiSoMois.size();
+        mSumDanhBo += mDanhBoHoanThanh;
+        mTxtComplete.setText(mDanhBoHoanThanh + "/" + mSumDanhBo);
+        mEditTextSearch.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -87,10 +89,10 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
 
         //Gán DataSource vào ArrayAdapter
 
-        da = new GridViewQuanLyDocSoAdapter(QuanLyDocSoActivity.this, new ArrayList<GridViewQuanLyDocSoAdapter.Item>());
+        mQuanLyDocSoAdapter = new GridViewQuanLyDocSoAdapter(mRootView.getContext(), new ArrayList<GridViewQuanLyDocSoAdapter.Item>());
 
-        for (DanhBo_ChiSoMoi danhBo_chiSoMoi : this.danhBo_chiSoMois) {
-            da.add(new GridViewQuanLyDocSoAdapter.Item(
+        for (DanhBo_ChiSoMoi danhBo_chiSoMoi : this.mDanhBo_chiSoMois) {
+            mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
                     danhBo_chiSoMoi.getMaLoTrinh(),
                     danhBo_chiSoMoi.getDanhBo(),
                     danhBo_chiSoMoi.getChiSoCu(),
@@ -99,17 +101,17 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
 
         //gán Datasource vào GridView
 
-        gridView.setAdapter(da);
-        registerForContextMenu(QuanLyDocSoActivity.this.gridView);
+        mGridView.setAdapter(mQuanLyDocSoAdapter);
+        registerForContextMenu(mGridView);
 
-        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        mGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 String danhBo = ((TextView) view.findViewById(R.id.row_qlds_txt_danhBo)).getText().toString();
-                DanhBo_ChiSoMoi danhBo_CSM = QuanLyDocSoActivity.this.localDatabase.getDanhBo_CSM(danhBo);
+                DanhBo_ChiSoMoi danhBo_CSM = mLocalDatabase.getDanhBo_CSM(danhBo);
 
                 //--------------------
-                AlertDialog.Builder builder = new AlertDialog.Builder(QuanLyDocSoActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext());
                 builder.setTitle("Danh bộ: " + danhBo);
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
@@ -125,7 +127,7 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
 //                    }
 //                });
                 AlertDialog dialog = builder.create();
-                LayoutInflater inflater = getLayoutInflater();
+                LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
                 View dialogLayout = inflater.inflate(R.layout.layout_view_thongtin_docso, null);
 
 
@@ -138,7 +140,7 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
                 Bitmap bitmap = BitmapFactory.decodeFile(danhBo_CSM.getImage(), options);
 
                 ImageView image = (ImageView) dialog.findViewById(R.id.imgView_qlds);
-                BitmapDrawable resizedDialogImage = new BitmapDrawable(QuanLyDocSoActivity.this.getResources(), Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), false));
+                BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), false));
 
                 image.setBackground(resizedDialogImage);
 
@@ -157,30 +159,11 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
                 return false;
             }
         });
-    }
-
-    public void doLayLoTrinh(View v) {
-        Intent intent = new Intent(QuanLyDocSoActivity.this, LayLoTrinhActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intent);
-    }
-
-    public void doDocSo(View v) {
-        int size = this.localDatabase.getAllHoaDon(this.mDot + this.mUsername + "%").size();
-        if (size == 0)
-            Toast.makeText(this, "Chưa có lộ trình!!!", Toast.LENGTH_SHORT).show();
-        else {
-            Intent intent = new Intent(QuanLyDocSoActivity.this, DocSoActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            intent.putExtra("ky", mKy);
-            intent.putExtra("dot", mDot);
-            intent.putExtra("username", mUsername);
-            startActivity(intent);
-        }
+        return mRootView;
     }
 
     public void doUpLoad(View v) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(QuanLyDocSoActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext());
         builder.setTitle("Đồng bộ danh bộ?");
         builder.setMessage("Dữ liệu sau khi đồng bộ sẽ không thể chỉnh sửa!")
                 .setCancelable(true)
@@ -210,7 +193,7 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
         private ProgressDialog dialog;
 
         public UploadingAsync() {
-            this.dialog = new ProgressDialog(QuanLyDocSoActivity.this);
+            this.dialog = new ProgressDialog(mRootView.getContext());
         }
 
         @Override
@@ -225,23 +208,23 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
         protected Void doInBackground(String... params) {
 
             Boolean isValid = false;
-            QuanLyDocSoActivity.this.uploading.connect();
+            mUploading.connect();
 
-            for (int i = 0; i < QuanLyDocSoActivity.this.danhBo_chiSoMois.size(); i++) {
-                DanhBo_ChiSoMoi danhBo_chiSoMoi = QuanLyDocSoActivity.this.danhBo_chiSoMois.get(i);
-//                uploading.update(danhBo_chiSoMoi);
-                boolean success = uploading.update(danhBo_chiSoMoi);
+            for (int i = 0; i < mDanhBo_chiSoMois.size(); i++) {
+                DanhBo_ChiSoMoi danhBo_chiSoMoi = mDanhBo_chiSoMois.get(i);
+//                mUploading.update(danhBo_chiSoMoi);
+                boolean success = mUploading.update(danhBo_chiSoMoi);
                 if (success) {
-                    danhBo_chiSoMois.remove(danhBo_chiSoMoi);
-                    QuanLyDocSoActivity.this.da.removeItem(danhBo_chiSoMoi.getMaLoTrinh());
+                    mDanhBo_chiSoMois.remove(danhBo_chiSoMoi);
+                    mQuanLyDocSoAdapter.removeItem(danhBo_chiSoMoi.getMaLoTrinh());
                     i--;
-                    QuanLyDocSoActivity.this.localDatabase.deleteDanhBo_CSM(danhBo_chiSoMoi);
+                    mLocalDatabase.deleteDanhBo_CSM(danhBo_chiSoMoi);
                 }
             }
-            if (QuanLyDocSoActivity.this.localDatabase.getAllDanhBo_CSM().size() == 0)
+            if (mLocalDatabase.getAllDanhBo_CSM().size() == 0)
                 isValid = true;
 
-            QuanLyDocSoActivity.this.uploading.disConnect();
+            mUploading.disConnect();
             publishProgress(isValid);
             return null;
 
@@ -252,10 +235,10 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
             super.onProgressUpdate(values);
             boolean isValid = values[0];
             if (isValid) {
-                QuanLyDocSoActivity.this.da.notifyDataSetChanged();
-                Toast.makeText(QuanLyDocSoActivity.this, "Đồng bộ thành công", Toast.LENGTH_SHORT).show();
+                mQuanLyDocSoAdapter.notifyDataSetChanged();
+                Toast.makeText(mRootView.getContext(), "Đồng bộ thành công", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(QuanLyDocSoActivity.this, "Đồng bộ thất bại", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mRootView.getContext(), "Đồng bộ thất bại", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -268,9 +251,4 @@ public class QuanLyDocSoActivity extends AppCompatActivity {
         }
     }
 
-
-    @Override
-    public void onBackPressed() {
-
-    }
 }

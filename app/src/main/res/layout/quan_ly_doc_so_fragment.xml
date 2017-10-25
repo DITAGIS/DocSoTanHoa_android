@@ -1,16 +1,162 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin">
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
 
-    <TextView
-        android:id="@+id/section_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Quản lý đọc số" />
+    >
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <!--Layout hiển thị thông tin-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7"
+            android:background="@android:color/holo_blue_dark"
+            android:minHeight="25px"
+            android:minWidth="25px"
+            android:orientation="vertical"
+android:gravity="center_vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
+
+            <requestFocus />
+
+
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_vertical_margin"
+                android:paddingTop="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="Đã hoàn thành: "
+                    android:textColor="@android:color/white"
+                    android:textSize="18dp" />
+                <TextView
+                    android:id="@+id/txt_qlds_tienTrinh"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="0/1"
+                    android:textColor="@android:color/white"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <!--<ImageButton-->
+            <!--android:id="@+id/imgbtn_llt_check"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="right"-->
+            <!--android:onClick="doCheck"-->
+            <!--android:src="@drawable/checked" />-->
+        </LinearLayout>
+        <!--Layout xem danh sách lộ trình-->
+        <!--height = 0 dp thì android sẽ lấy theo weight-->
+        <FrameLayout
+            android:id="@+id/layout_qlds_containsGridView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="6.3">
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/etxt_qlds_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:hint="Tìm kiếm danh bộ"
+                    android:inputType="number"
+                    android:maxLength="9"
+                    android:paddingRight="@dimen/activity_horizontal_margin" />
+                <!--android:imeOptions="actionSearch"-->
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/darker_gray"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Mã LT"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Danh bộ"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="CSC"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="CSM"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+
+                <GridView
+                    android:id="@+id/grid_qlds_danhSachDocSo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:gravity="center"
+                    android:numColumns="1"
+                    android:paddingTop="@dimen/activity_vertical_margin" />
+
+                <!--</ScrollView>-->
+            </LinearLayout>
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <ImageButton
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center_vertical|right"
+        android:background="@color/peter_driver"
+        android:onClick="doUpLoad"
+        android:src="@drawable/sync"
+        android:textColor="@color/colorWhite" />
+
+
+</FrameLayout>

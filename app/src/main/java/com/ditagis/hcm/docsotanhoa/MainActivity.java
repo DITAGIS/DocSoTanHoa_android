@@ -37,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
     private int mDot;
     private String mUsername, mStaffName;
 
+    private LayLoTrinh mLayLoTrinh;
+    private DocSo mDocSo;
+    private QuanLyDocSo mQuanLyDocSo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
         if (getIntent().getExtras().getInt("dot") > 0)
             this.mDot = getIntent().getExtras().getInt("dot");
 
+        mLayLoTrinh = new LayLoTrinh(mKy, mNam, mDot, mUsername, mStaffName);
+        mDocSo = new DocSo(mKy, mDot, mUsername);
+        mQuanLyDocSo = new QuanLyDocSo();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -140,11 +147,13 @@ public class MainActivity extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return new LayLoTrinh(MainActivity.this.mKy, MainActivity.this.mNam, MainActivity.this.mDot, MainActivity.this.mUsername, MainActivity.this.mStaffName);
+                    return mLayLoTrinh;
                 case 1:
+                    return mDocSo;
                 case 2:
+                    return mQuanLyDocSo;
                 default:
-                    return new LayLoTrinh(MainActivity.this.mKy, MainActivity.this.mNam, MainActivity.this.mDot, MainActivity.this.mUsername, MainActivity.this.mStaffName);
+                    return mLayLoTrinh;
             }
         }
 
