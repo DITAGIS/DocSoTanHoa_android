@@ -130,9 +130,7 @@ public class DocSo extends Fragment {
         for (HoaDon hoaDon : hoaDons) {
             mMLTs.add(hoaDon.getMaLoTrinh());
         }
-        this.mSumDanhBo = 0;
-        for (String mlt : mMLTs)
-            this.mSumDanhBo += this.mLocalDatabase.getAllHoaDonByMaLoTrinh(mlt).size();
+        this.mSumDanhBo = mLocalDatabase.getAllHoaDon(this.mDot + this.mUsername + "%").size();
         this.mDanhBoHoanThanh = this.mLocalDatabase.getAllDanhBo_CSM().size();
         this.mSumDanhBo += this.mDanhBoHoanThanh;
         this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
@@ -235,7 +233,14 @@ public class DocSo extends Fragment {
 
         return mRootView;
     }
+public void setTextProgress() {
 
+    this.mSumDanhBo = mLocalDatabase.getAllHoaDon(this.mDot + this.mUsername + "%").size();
+    this.mDanhBoHoanThanh = mLocalDatabase.getAllDanhBo_CSM().size();
+    this.mSumDanhBo += this.mDanhBoHoanThanh;
+    this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
+
+}
     private void saveImage(View v) {
         // kiểm tra hình ảnh
         if (!getImageFileName().exists()) {

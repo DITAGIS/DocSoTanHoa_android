@@ -99,6 +99,20 @@ public class LayLoTrinh extends Fragment {
         return mRootView;
     }
 
+    public void setTextProgress() {
+        List<HoaDon> hoaDons = mLocalDatabase.getAllHoaDon(this.mDot + this.mUsername + "%");
+        LayLoTrinh.this.mSumMLT = hoaDons.size();
+        LayLoTrinh.this.m_txtTongMLT.setText("Tổng mã lộ trình: " + mSumMLT);
+        LayLoTrinh.this.mSumDanhBo = mSumMLT;
+        LayLoTrinh.this.m_txtTongDB.setText("Tổng danh bộ: " + mSumDanhBo);
+
+        mLayLoTrinhAdapter.clear();
+        for (HoaDon hoaDon : hoaDons)
+            mLayLoTrinhAdapter.add(new GridViewLayLoTrinhAdapter.Item(hoaDon.getMaLoTrinh(), hoaDon.getDanhBo()));
+        mLayLoTrinhAdapter.notifyDataSetChanged();
+
+    }
+
     private boolean isOnline(View rootView) {
         ConnectivityManager cm = (ConnectivityManager) rootView.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();

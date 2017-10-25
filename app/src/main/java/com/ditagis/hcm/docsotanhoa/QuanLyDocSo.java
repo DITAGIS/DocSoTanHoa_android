@@ -33,7 +33,6 @@ import com.ditagis.hcm.docsotanhoa.entities.DanhBo_ChiSoMoi;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by ThanLe on 25/10/2017.
@@ -44,7 +43,6 @@ public class QuanLyDocSo extends Fragment {
     GridView mGridView;
     TextView mTxtComplete;
     private ArrayList<DanhBo_ChiSoMoi> mDanhBo_chiSoMois;
-    private HashMap<String, Integer> m_MLT_TongDanhBo;
     private GridViewQuanLyDocSoAdapter mQuanLyDocSoAdapter;
     LocalDatabase mLocalDatabase;
     private int mSumDanhBo = 0, mDanhBoHoanThanh;
@@ -83,7 +81,7 @@ public class QuanLyDocSo extends Fragment {
             public void onClick(View v) {
                 if (isOnline()) {
                     doUpLoad();
-                    setTextProgress();
+
                 } else {
                     snackbarMake(mGridView, "Kiểm tra kết nối Internet và thử lại", false);
                 }
@@ -99,8 +97,9 @@ public class QuanLyDocSo extends Fragment {
     }
 
     public void refresh() {
-        setTextProgress();
         mDanhBo_chiSoMois = mLocalDatabase.getAllDanhBo_CSM();
+        setTextProgress();
+
 
         mEditTextSearch.addTextChangedListener(new TextWatcher() {
 
@@ -135,7 +134,7 @@ public class QuanLyDocSo extends Fragment {
     private void setTextProgress() {
 
         this.mSumDanhBo = mLocalDatabase.getAllHoaDon(this.mDot + this.mUsername + "%").size();
-        this.mDanhBoHoanThanh = this.mLocalDatabase.getAllDanhBo_CSM().size();
+        this.mDanhBoHoanThanh = mQuanLyDocSoAdapter.getCount();
         this.mSumDanhBo += this.mDanhBoHoanThanh;
         this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
 
@@ -289,6 +288,7 @@ public class QuanLyDocSo extends Fragment {
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
+            setTextProgress();
         }
     }
 

@@ -79,8 +79,16 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if (position == 2) {
-                    mQuanLyDocSo.refresh();
+                switch (position) {
+                    case 0:
+                        mLayLoTrinh.setTextProgress();
+                        break;
+                    case 1:
+                        mDocSo.setTextProgress();
+                        break;
+                    case 2:
+                        mQuanLyDocSo.refresh();
+                        break;
                 }
             }
 
