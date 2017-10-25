@@ -1,5 +1,6 @@
 package com.ditagis.hcm.docsotanhoa;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -91,11 +92,36 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_log_out) {
+            String password = loadPreferences(this.mUsername);
+            deletePreferences(this.mUsername);
+            deletePreferences(password);
+            deletePreferences(this.mStaffName);
+            finish();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public SharedPreferences getPreferences() {
+        return getSharedPreferences("LOGGED_IN", MODE_PRIVATE);
+    }
+
+    public boolean deletePreferences(String key) {
+        SharedPreferences.Editor editor = getPreferences().edit();
+        editor.remove(key).commit();
+        return false;
+    }
+
+    public String loadPreferences(String key) {
+        try {
+            SharedPreferences sharedPreferences = getPreferences();
+            String strSavedMemo = sharedPreferences.getString(key, "");
+            return strSavedMemo;
+        } catch (NullPointerException nullPointerException) {
+            return null;
+        }
     }
 
     /**
@@ -141,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
+
     @Override
     public void onBackPressed() {
 
