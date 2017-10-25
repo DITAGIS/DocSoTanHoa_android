@@ -34,9 +34,8 @@ import com.ditagis.hcm.docsotanhoa.conectDB.LogInDB;
 import com.ditagis.hcm.docsotanhoa.entities.User;
 
 public class LoginActivity extends AppCompatActivity {
-
-    private EditText txtUsername;
-    private EditText txtPassword;
+    private EditText mTxtUsername;
+    private EditText mTxtPassword;
     private Button btnLogin;
     private Button btnChangePassword;
     private ImageButton mImgBtnViewPassword;
@@ -52,8 +51,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
 
-        txtUsername = (EditText) findViewById(R.id.txtUsername);
-        txtPassword = (EditText) findViewById(R.id.txtPassword);
+        mTxtUsername = (EditText) findViewById(R.id.txtUsername);
+        mTxtPassword = (EditText) findViewById(R.id.txtPassword);
         btnChangePassword = (Button) findViewById(R.id.btnChangePassword);
 
         this.mImgBtnViewPassword = (ImageButton) findViewById(R.id.imgBtn_login_viewPassword);
@@ -62,12 +61,12 @@ public class LoginActivity extends AppCompatActivity {
         this.mImgBtnViewPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (LoginActivity.this.txtPassword.getTransformationMethod() == null) {
+                if (LoginActivity.this.mTxtPassword.getTransformationMethod() == null) {
                     ((ImageButton) v).setImageResource(R.drawable.un_view_password);
-                    LoginActivity.this.txtPassword.setTransformationMethod(new PasswordTransformationMethod());
+                    LoginActivity.this.mTxtPassword.setTransformationMethod(new PasswordTransformationMethod());
                 } else {
                     ((ImageButton) v).setImageResource(R.drawable.view_password);
-                    LoginActivity.this.txtPassword.setTransformationMethod(null);
+                    LoginActivity.this.mTxtPassword.setTransformationMethod(null);
                 }
             }
         });
@@ -79,7 +78,6 @@ public class LoginActivity extends AppCompatActivity {
                 login();
             }
         });
-
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,8 +87,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
-        LoginActivity.this.mUsername = txtUsername.getText().toString();
-        LoginActivity.this.mPassword = txtPassword.getText().toString();
+        LoginActivity.this.mUsername = mTxtUsername.getText().toString();
+        LoginActivity.this.mPassword = mTxtPassword.getText().toString();
         if (LoginActivity.this.mUsername.length() == 0 || LoginActivity.this.mPassword.length() == 0) {
             snackbarMake(btnLogin, "Tên đăng nhập hoặc mật khẩu không được để trống!!!", true);
             return;
@@ -99,7 +97,10 @@ public class LoginActivity extends AppCompatActivity {
             mLoginAsync = new LoginAsync();
             mLoginAsync.execute(LoginActivity.this.mUsername, LoginActivity.this.mPassword);
 
-        } else if (txtPassword.getText().toString().equals(loadPreferences(txtUsername.getText().toString()))) {
+        } else if (mTxtPassword.getText().toString().equals(loadPreferences(mTxtUsername.getText().toString()))) {
+
+            mTxtPassword.setText("");
+            mTxtUsername.setText("");
             Toast.makeText(LoginActivity.this, "Đang đăng nhập với tài khoản trước...", Toast.LENGTH_SHORT).show();
             doLayLoTrinh();
         } else {
@@ -318,7 +319,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    protected boolean isOnline() {
+    private boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnected();
@@ -376,6 +377,9 @@ public class LoginActivity extends AppCompatActivity {
             super.onProgressUpdate(values);
             LogInDB.Result result = values[0];
             if (result.getmStaffName().length() > 0) {
+
+                mTxtPassword.setText("");
+                mTxtUsername.setText("");
                 doLayLoTrinh();
             } else {
                 snackbarMake(btnLogin, "Đăng nhập thất bại", true);

@@ -18,15 +18,14 @@
             android:layout_height="0dp"
             android:layout_weight="0.7"
             android:background="@android:color/holo_blue_dark"
+            android:gravity="center_vertical"
             android:minHeight="25px"
             android:minWidth="25px"
             android:orientation="vertical"
-android:gravity="center_vertical"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin">
 
             <requestFocus />
-
 
 
             <LinearLayout
@@ -44,6 +43,7 @@ android:gravity="center_vertical"
                     android:text="Đã hoàn thành: "
                     android:textColor="@android:color/white"
                     android:textSize="18dp" />
+
                 <TextView
                     android:id="@+id/txt_qlds_tienTrinh"
                     android:layout_width="match_parent"
@@ -64,97 +64,113 @@ android:gravity="center_vertical"
         </LinearLayout>
         <!--Layout xem danh sách lộ trình-->
         <!--height = 0 dp thì android sẽ lấy theo weight-->
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/layout_qlds_containsGridView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="6.3">
+            android:layout_weight="6.3"
+            android:orientation="vertical">
 
             <LinearLayout
-
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingTop="@dimen/activity_vertical_margin">
 
                 <EditText
                     android:id="@+id/etxt_qlds_search"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
+                    android:layout_gravity="center_vertical"
+                    android:background="@android:color/transparent"
+                    android:gravity="left"
                     android:hint="Tìm kiếm danh bộ"
                     android:inputType="number"
-                    android:maxLength="9"
+                    android:maxLength="11"
                     android:paddingRight="@dimen/activity_horizontal_margin" />
-                <!--android:imeOptions="actionSearch"-->
 
+                <ImageButton
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:adjustViewBounds="true"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    android:src="@android:drawable/ic_search_category_default" />
+            </LinearLayout>
 
-                <LinearLayout
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/darker_gray"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingTop="@dimen/activity_vertical_margin">
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/darker_gray"
-                    android:orientation="horizontal">
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:text="MLT"
+                    android:textColor="@color/colorWhite"
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Mã LT"
-                        android:textSize="17dp"
-                        android:textStyle="bold" />
+                    android:textSize="18dp" />
+                <!--<View-->
+                <!--android:layout_width="2dip"-->
+                <!--android:layout_height="match_parent"-->
+                android:background="@color/colorWhite" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Danh bộ"
-                        android:textSize="17dp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="CSC"
-                        android:textSize="17dp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="CSM"
-                        android:textSize="17dp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-
-                <GridView
-                    android:id="@+id/grid_qlds_danhSachDocSo"
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/white"
-                    android:gravity="center"
-                    android:numColumns="1"
-                    android:paddingTop="@dimen/activity_vertical_margin" />
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:text="DANH BỘ"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18dp" />
 
-                <!--</ScrollView>-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:text="CSC"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:text="CSM"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18dp" />
             </LinearLayout>
-        </FrameLayout>
+
+
+            <GridView
+                android:id="@+id/grid_qlds_danhSachDocSo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:numColumns="1"
+                android:paddingTop="@dimen/activity_vertical_margin" />
+
+            <!--</ScrollView>-->
+        </LinearLayout>
 
     </LinearLayout>
 
     <ImageButton
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:id="@+id/imgBtn_qlds_upload"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_gravity="center_vertical|right"
         android:background="@color/peter_driver"
-        android:onClick="doUpLoad"
         android:src="@drawable/sync"
         android:textColor="@color/colorWhite" />
 

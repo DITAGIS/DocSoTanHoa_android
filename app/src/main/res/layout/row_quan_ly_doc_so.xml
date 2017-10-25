@@ -12,7 +12,9 @@ android:id="@+id/row_qlds_layout"
         android:id="@+id/row_qlds_txt_malotrinh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:textSize="15dp"
+        android:gravity="center_horizontal"
+        android:textColor="@color/colorBlueDard"
         android:layout_weight="1" />
 
     <TextView
@@ -20,12 +22,16 @@ android:id="@+id/row_qlds_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center" />
+        android:textSize="15dp"
+        android:gravity="center_horizontal"
+        android:textColor="@color/colorBlueDard" />
     <TextView
         android:id="@+id/row_qlds_txt_csc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:textSize="15dp"
+        android:gravity="center_horizontal"
+        android:textColor="@color/colorBlueDard"
         android:layout_weight="1" />
 
     <TextView
@@ -33,6 +39,8 @@ android:id="@+id/row_qlds_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center" />
+        android:textSize="15dp"
+        android:gravity="center_horizontal"
+        android:textColor="@color/colorBlueDard" />
 
 </LinearLayout>

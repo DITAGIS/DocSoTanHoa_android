@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
@@ -50,6 +51,7 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
+import static com.ditagis.hcm.docsotanhoa.R.id.container;
 
 /**
  * Created by ThanLe on 25/10/2017.
@@ -87,15 +89,12 @@ public class DocSo extends Fragment {
     private View mRootView;
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
-    public DocSo(int mKy, int mDot, String mUsername) {
+    public DocSo(LayoutInflater inflater, int mKy, int mDot, String mUsername) {
         this.mUsername = mUsername;
         this.mDot = mDot;
         this.mKy = mKy;
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.doc_so_fragment, container, false);
+        mRootView = inflater.inflate(R.layout.doc_so_fragment, null);
 
         //for camera
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
@@ -229,13 +228,18 @@ public class DocSo extends Fragment {
                 saveImage(v);
             }
         });
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         return mRootView;
     }
 
     private void saveImage(View v) {
         // kiểm tra hình ảnh
         if (!getImageFileName().exists()) {
-            Toast.makeText(mRootView.getContext(), "Chưa có hình ảnh!!!", Toast.LENGTH_SHORT).show();
+            snackbarMake(mRootView, "Chưa có hình ảnh", false);
             return;
         }
         // kiểm tra chỉ số mới
@@ -535,19 +539,24 @@ public class DocSo extends Fragment {
                             this.mEditTextCSM.setEnabled(true);
                         }
                     } catch (FileNotFoundException e) {
-                        Toast.makeText(mRootView.getContext(), "Lỗi khi lưu ảnh", Toast.LENGTH_SHORT).show();
+                        snackbarMake(mRootView, "Lỗi khi lưu ảnh", false);
                         e.printStackTrace();
                     } catch (IOException e) {
-                        Toast.makeText(mRootView.getContext(), "Lỗi khi lưu ảnh", Toast.LENGTH_SHORT).show();
+                        snackbarMake(mRootView, "Lỗi khi lưu ảnh", false);
                         e.printStackTrace();
                     }
                 }
             } else if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(mRootView.getContext(), "Hủy chụp hình", Toast.LENGTH_LONG).show();
+                snackbarMake(mRootView, "Hủy chụp ảnh", false);
             } else {
-                Toast.makeText(mRootView.getContext(), "Lỗi khi chụp hình", Toast.LENGTH_LONG).show();
+                snackbarMake(mRootView, "Lỗi khi chụp ảnh", false);
             }
         }
+    }
+    private void snackbarMake(View view, String text, boolean isLong) {
+        int time = isLong ? Snackbar.LENGTH_LONG : Snackbar.LENGTH_SHORT;
+        Snackbar.make(view, text, time)
+                .setAction("Action", null).show();
     }
 
     @Nullable

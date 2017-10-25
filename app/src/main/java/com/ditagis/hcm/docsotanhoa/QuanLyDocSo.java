@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,22 +49,48 @@ public class QuanLyDocSo extends Fragment {
     private Uploading mUploading;
     private View mRootView;
 
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.quan_ly_doc_so_fragment, container, false);
+    public QuanLyDocSo(LayoutInflater inflater) {
+        mRootView = inflater.inflate(R.layout.quan_ly_doc_so_fragment, null);
 
         mTxtComplete = (TextView) mRootView.findViewById(R.id.txt_qlds_tienTrinh);
         mLocalDatabase = new LocalDatabase(mRootView.getContext());
         mUploading = new Uploading();
         mEditTextSearch = (EditText) mRootView.findViewById(R.id.etxt_qlds_search);
         mGridView = (GridView) mRootView.findViewById(R.id.grid_qlds_danhSachDocSo);
-        mDanhBo_chiSoMois = mLocalDatabase.getAllDanhBo_CSM();
+        //Gán DataSource vào ArrayAdapter
+        mQuanLyDocSoAdapter = new GridViewQuanLyDocSoAdapter(mRootView.getContext(), new ArrayList<GridViewQuanLyDocSoAdapter.Item>());
+
+        //gán Datasource vào GridView
+
+        mGridView.setAdapter(mQuanLyDocSoAdapter);
+        registerForContextMenu(mGridView);
+
+        mGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                showMoreInfro(view);
+                return false;
+            }
+        });
+        ((ImageButton) mRootView.findViewById(R.id.imgBtn_qlds_upload)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doUpLoad();
+            }
+        });
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        refresh();
+        return mRootView;
+    }
+
+    public void refresh() {
         this.mSumDanhBo = mLocalDatabase.getAllHoaDon(this.mDot + this.mUsername + "%").size();
-
         m_MLT_TongDanhBo = mLocalDatabase.getAllMLT();
-
+        mDanhBo_chiSoMois = mLocalDatabase.getAllDanhBo_CSM();
         mDanhBoHoanThanh = mDanhBo_chiSoMois.size();
         mSumDanhBo += mDanhBoHoanThanh;
         mTxtComplete.setText(mDanhBoHoanThanh + "/" + mSumDanhBo);
@@ -86,11 +113,7 @@ public class QuanLyDocSo extends Fragment {
 
             }
         });
-
-        //Gán DataSource vào ArrayAdapter
-
-        mQuanLyDocSoAdapter = new GridViewQuanLyDocSoAdapter(mRootView.getContext(), new ArrayList<GridViewQuanLyDocSoAdapter.Item>());
-
+        mQuanLyDocSoAdapter.clear();
         for (DanhBo_ChiSoMoi danhBo_chiSoMoi : this.mDanhBo_chiSoMois) {
             mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
                     danhBo_chiSoMoi.getMaLoTrinh(),
@@ -98,71 +121,62 @@ public class QuanLyDocSo extends Fragment {
                     danhBo_chiSoMoi.getChiSoCu(),
                     danhBo_chiSoMoi.getChiSoMoi()));
         }
+        mQuanLyDocSoAdapter.notifyDataSetChanged();
+    }
 
-        //gán Datasource vào GridView
+    private void showMoreInfro(View view) {
+        String danhBo = ((TextView) view.findViewById(R.id.row_qlds_txt_danhBo)).getText().toString();
+        DanhBo_ChiSoMoi danhBo_CSM = mLocalDatabase.getDanhBo_CSM(danhBo);
 
-        mGridView.setAdapter(mQuanLyDocSoAdapter);
-        registerForContextMenu(mGridView);
-
-        mGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        //--------------------
+        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext());
+        builder.setTitle("Danh bộ: " + danhBo);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                String danhBo = ((TextView) view.findViewById(R.id.row_qlds_txt_danhBo)).getText().toString();
-                DanhBo_ChiSoMoi danhBo_CSM = mLocalDatabase.getDanhBo_CSM(danhBo);
-
-                //--------------------
-                AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext());
-                builder.setTitle("Danh bộ: " + danhBo);
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                //TODO chỉnh sửa khách hàng
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        //TODO chỉnh sửa khách hàng
 //                });.setNegativeButton("Chỉnh sửa", new DialogInterface.OnClickListener() {
 //                    @Override
 //                    public void onClick(DialogInterface dialog, int which) {
 //                        dialog.dismiss();
 //                    }
 //                });
-                AlertDialog dialog = builder.create();
-                LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
-                View dialogLayout = inflater.inflate(R.layout.layout_view_thongtin_docso, null);
+        AlertDialog dialog = builder.create();
+        LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
+        View dialogLayout = inflater.inflate(R.layout.layout_view_thongtin_docso, null);
 
 
-                dialog.setView(dialogLayout);
+        dialog.setView(dialogLayout);
 
-                dialog.show();
+        dialog.show();
 
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-                Bitmap bitmap = BitmapFactory.decodeFile(danhBo_CSM.getImage(), options);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        Bitmap bitmap = BitmapFactory.decodeFile(danhBo_CSM.getImage(), options);
 
-                ImageView image = (ImageView) dialog.findViewById(R.id.imgView_qlds);
-                BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), false));
+        ImageView image = (ImageView) dialog.findViewById(R.id.imgView_qlds);
+        BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), false));
 
-                image.setBackground(resizedDialogImage);
+        image.setBackground(resizedDialogImage);
 
-                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_MLT)).setText(danhBo_CSM.getMaLoTrinh());
+        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_MLT)).setText(danhBo_CSM.getMaLoTrinh());
 //                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_DanhBo)).setText(danhBo_CSM.getDanhBo());
-                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_tenKH)).setText(danhBo_CSM.getTenKH());
-                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_diaChi)).setText(danhBo_CSM.getDiaChi());
-                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_SDT)).setText(danhBo_CSM.getSdt());
-                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_CSC)).setText(danhBo_CSM.getChiSoCu());
-                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_CSM)).setText(danhBo_CSM.getChiSoMoi());
-                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_code)).setText(danhBo_CSM.getCode());
-                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_giaBieu)).setText(danhBo_CSM.getGiaBieu());
-                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_tienNuoc)).setText("");//TODO tien nuoc
+        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_tenKH)).setText(danhBo_CSM.getTenKH());
+        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_diaChi)).setText(danhBo_CSM.getDiaChi());
+        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_SDT)).setText(danhBo_CSM.getSdt());
+        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_CSC)).setText(danhBo_CSM.getChiSoCu());
+        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_CSM)).setText(danhBo_CSM.getChiSoMoi());
+        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_code)).setText(danhBo_CSM.getCode());
+        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_giaBieu)).setText(danhBo_CSM.getGiaBieu());
+        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_tienNuoc)).setText("");//TODO tien nuoc
 
-                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_ghiChu)).setText(danhBo_CSM.getNote());
-                return false;
-            }
-        });
-        return mRootView;
+        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_ghiChu)).setText(danhBo_CSM.getNote());
     }
 
-    public void doUpLoad(View v) {
+    private void doUpLoad() {
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext());
         builder.setTitle("Đồng bộ danh bộ?");
         builder.setMessage("Dữ liệu sau khi đồng bộ sẽ không thể chỉnh sửa!")

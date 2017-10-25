@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
@@ -45,32 +46,30 @@ public class LayLoTrinh extends Fragment {
     private String mUsername, mStaffName;
     private HoaDonDB hoaDonDB;
     private LayLoTrinhAsync mLayLoTrinhAsync;
+    private View mRootView;
 
-    public LayLoTrinh(int mKy, int mNam, int mDot, String mUsername, String mStaffName) {
+    public LayLoTrinh(LayoutInflater inflater, int mKy, int mNam, int mDot, String mUsername, String mStaffName) {
         this.mKy = mKy;
         this.mNam = mNam;
         this.mDot = mDot;
         this.mUsername = mUsername;
         this.mStaffName = mStaffName;
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.lay_lo_trinh_fragment, container, false);
-        ((TextView) rootView.findViewById(R.id.txt_llt_dot)).setText("Đợt: " + this.mDot);
-        ((TextView) rootView.findViewById(R.id.txt_llt_may)).setText("Máy: " + this.mUsername);
-        ((TextView) rootView.findViewById(R.id.txt_llt_tenNV)).setText("Nhân viên: " + this.mStaffName);
-        this.m_txtTongMLT = (TextView) rootView.findViewById(R.id.txt_llt_mlt);
-        this.m_txtTongDB = (TextView) rootView.findViewById(R.id.txt_llt_db);
-        this.mEditTextSearch = (EditText) rootView.findViewById(R.id.etxt_llt_search);
-        this.mGridView = (GridView) rootView.findViewById(R.id.grid_llt_danhSachLoTrinh);
-        this.mLocalDatabase = new LocalDatabase(rootView.getContext());
+        mRootView = inflater.inflate(R.layout.lay_lo_trinh_fragment, null);
+        ((TextView) mRootView.findViewById(R.id.txt_llt_dot)).setText("Đợt: " + this.mDot);
+        ((TextView) mRootView.findViewById(R.id.txt_llt_may)).setText("Máy: " + this.mUsername);
+        ((TextView) mRootView.findViewById(R.id.txt_llt_tenNV)).setText("Nhân viên: " + this.mStaffName);
+        this.m_txtTongMLT = (TextView) mRootView.findViewById(R.id.txt_llt_mlt);
+        this.m_txtTongDB = (TextView) mRootView.findViewById(R.id.txt_llt_db);
+        this.mEditTextSearch = (EditText) mRootView.findViewById(R.id.etxt_llt_search);
+        this.mGridView = (GridView) mRootView.findViewById(R.id.grid_llt_danhSachLoTrinh);
+        this.mLocalDatabase = new LocalDatabase(mRootView.getContext());
         this.mEditTextSearch.addTextChangedListener(new TextWatcher() {
             List<String> mlts = new ArrayList<String>();
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon(mDot + mUsername + "%")) {
+                for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon(LayLoTrinh.this.mDot + LayLoTrinh.this.mUsername + "%")) {
                     mlts.add((hoaDon.getMaLoTrinh()));
                 }
             }
@@ -85,14 +84,19 @@ public class LayLoTrinh extends Fragment {
 
             }
         });
-        this.mLayLoTrinhAsync = new LayLoTrinhAsync(LayLoTrinh.this.hoaDonDB, LayLoTrinh.this.mLocalDatabase, LayLoTrinh.this.mUsername, LayLoTrinh.this.mDot, LayLoTrinh.this.mKy, LayLoTrinh.this.mNam, rootView.getContext(), new LayLoTrinhAsync.AsyncResponse() {
+        this.mLayLoTrinhAsync = new LayLoTrinhAsync(LayLoTrinh.this.hoaDonDB, LayLoTrinh.this.mLocalDatabase, LayLoTrinh.this.mUsername, LayLoTrinh.this.mDot, LayLoTrinh.this.mKy, LayLoTrinh.this.mNam, mRootView.getContext(), new LayLoTrinhAsync.AsyncResponse() {
             @Override
             public void processFinish(ResultLayLoTrinh output) {
-                finishLayLoTrinh(output, rootView);
+                finishLayLoTrinh(output, mRootView);
             }
         });
-        LayLoTrinh.this.mLayLoTrinhAsync.execute(isOnline(rootView));
-        return rootView;
+        LayLoTrinh.this.mLayLoTrinhAsync.execute(isOnline(mRootView));
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return mRootView;
     }
 
     private boolean isOnline(View rootView) {

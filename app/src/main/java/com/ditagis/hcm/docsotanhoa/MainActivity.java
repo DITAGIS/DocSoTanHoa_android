@@ -6,11 +6,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 
 import java.util.Calendar;
 
@@ -56,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
         if (getIntent().getExtras().getInt("dot") > 0)
             this.mDot = getIntent().getExtras().getInt("dot");
 
-        mLayLoTrinh = new LayLoTrinh(mKy, mNam, mDot, mUsername, mStaffName);
-        mDocSo = new DocSo(mKy, mDot, mUsername);
-        mQuanLyDocSo = new QuanLyDocSo();
+        mLayLoTrinh = new LayLoTrinh(getLayoutInflater(), mKy, mNam, mDot, mUsername, mStaffName);
+        mDocSo = new DocSo(getLayoutInflater(), mKy, mDot, mUsername);
+        mQuanLyDocSo = new QuanLyDocSo(getLayoutInflater());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -69,6 +71,24 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 2) {
+                    mQuanLyDocSo.refresh();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
@@ -141,10 +161,12 @@ public class MainActivity extends AppCompatActivity {
             super(fm);
         }
 
+
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
+//
             switch (position) {
                 case 0:
                     return mLayLoTrinh;
@@ -152,9 +174,21 @@ public class MainActivity extends AppCompatActivity {
                     return mDocSo;
                 case 2:
                     return mQuanLyDocSo;
-                default:
-                    return mLayLoTrinh;
             }
+            return null;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            FragmentManager manager = ((Fragment) object).getFragmentManager();
+            FragmentTransaction trans = manager.beginTransaction();
+            trans.remove((Fragment) object);
+            trans.commit();
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
 
         @Override
@@ -179,6 +213,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
+        //do nothing
     }
 }

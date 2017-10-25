@@ -137,7 +137,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:background="@android:color/transparent"
-                        android:gravity="right"
+                        android:gravity="left"
                         android:hint="Tìm kiếm mã lộ trình"
                         android:inputType="number"
                         android:maxLength="9"
