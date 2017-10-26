@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                         mLayLoTrinh.setTextProgress();
                         break;
                     case 1:
-                        mDocSo.setTextProgress();
+                        mDocSo.refresh();
                         break;
                     case 2:
                         mQuanLyDocSo.refresh();

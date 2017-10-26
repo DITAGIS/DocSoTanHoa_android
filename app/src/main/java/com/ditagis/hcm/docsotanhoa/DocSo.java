@@ -51,7 +51,6 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
-import static com.ditagis.hcm.docsotanhoa.R.id.container;
 
 /**
  * Created by ThanLe on 25/10/2017.
@@ -123,24 +122,12 @@ public class DocSo extends Fragment {
                 "60", "61", "62", "63", "64", "65", "66", "81", "82",
                 "83", "F1", "F2", "F3", "F4", "M1", "M2", "M3", "N",
                 "RT", "K", "Q"};
-
-        List<HoaDon> hoaDons = this.mLocalDatabase.getAllHoaDon(mDot + mUsername + "%");
         mMLTs = new ArrayList<String>();
-        int i = 0;
-        for (HoaDon hoaDon : hoaDons) {
-            mMLTs.add(hoaDon.getMaLoTrinh());
-        }
-        this.mSumDanhBo = mLocalDatabase.getAllHoaDon(this.mDot + this.mUsername + "%").size();
-        this.mDanhBoHoanThanh = this.mLocalDatabase.getAllDanhBo_CSM().size();
-        this.mSumDanhBo += this.mDanhBoHoanThanh;
-        this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
         mAdapterMLT = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item, mMLTs);
         mAdapterMLT.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         ArrayAdapter<String> adapterCode = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item, codes);
         adapterCode.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-        mSpinCode = (Spinner)
-
-                mRootView.findViewById(R.id.spin_ds_code);
+        mSpinCode = (Spinner) mRootView.findViewById(R.id.spin_ds_code);
         mSpinCode.setAdapter(adapterCode);
         mSpinCode.setSelection(0);
         mSpinMLT = (Spinner) mRootView.findViewById(R.id.spin_ds_mlt);
@@ -233,14 +220,25 @@ public class DocSo extends Fragment {
 
         return mRootView;
     }
-public void setTextProgress() {
 
-    this.mSumDanhBo = mLocalDatabase.getAllHoaDon(this.mDot + this.mUsername + "%").size();
-    this.mDanhBoHoanThanh = mLocalDatabase.getAllDanhBo_CSM().size();
-    this.mSumDanhBo += this.mDanhBoHoanThanh;
-    this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
+    public void refresh() {
 
-}
+        for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon(this.mDot + this.mUsername + "%")) {
+            mMLTs.add(hoaDon.getMaLoTrinh());
+        }
+        mAdapterMLT.notifyDataSetChanged();
+        setTextProgress();
+    }
+
+    private void setTextProgress() {
+
+        this.mSumDanhBo = mLocalDatabase.getAllHoaDon(this.mDot + this.mUsername + "%").size();
+        this.mDanhBoHoanThanh = mLocalDatabase.getAllDanhBo_CSM().size();
+        this.mSumDanhBo += this.mDanhBoHoanThanh;
+        this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
+
+    }
+
     private void saveImage(View v) {
         // kiểm tra hình ảnh
         if (!getImageFileName().exists()) {
@@ -332,25 +330,10 @@ public void setTextProgress() {
         this.mAdapterMLT.remove(danhBo_chiSoMoi.getMaLoTrinh());
         this.mMLTs.remove(danhBo_chiSoMoi.getMaLoTrinh());
         selectMLT(mMLTs.get(i == mMLTs.size() ? i - 1 : i));
-//
-//        mSpinMLT.setSelection(i == mSpinMLT.getCount() - 1 ? i : i + 1);
-//        mSpinMLT.setSelection(i+1);
-//        mSpinMLT.setSelection(i);
         this.mDanhBoHoanThanh++;
         this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
 
         Toast.makeText(mRootView.getContext(), "Đã lưu chỉ số mới", Toast.LENGTH_SHORT).show();
-
-        //select next danhbo
-//        String danhBo = this.mDanhBo;
-//
-//        int i = mSpinDB.getSelectedItemPosition();
-//        mSpinDB.setSelection(i == mSpinDB.getCount() - 1 ? i : i + 1);
-
-//        this.mAdapterDB.remove(danhBo);
-//
-//        i = mSpinDB.getSelectedItemPosition();
-//        mSpinDB.setSelection(i == 0 ? i : i - 1);
     }
 
     private void showImage(File f) {
@@ -558,6 +541,7 @@ public void setTextProgress() {
             }
         }
     }
+
     private void snackbarMake(View view, String text, boolean isLong) {
         int time = isLong ? Snackbar.LENGTH_LONG : Snackbar.LENGTH_SHORT;
         Snackbar.make(view, text, time)

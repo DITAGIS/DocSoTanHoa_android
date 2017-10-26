@@ -34,6 +34,8 @@ import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 
 import java.util.ArrayList;
 
+import static com.ditagis.hcm.docsotanhoa.R.id.container;
+
 /**
  * Created by ThanLe on 25/10/2017.
  */
@@ -79,9 +81,11 @@ public class QuanLyDocSo extends Fragment {
         ((ImageButton) mRootView.findViewById(R.id.imgBtn_qlds_upload)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnline()) {
+                if(mLocalDatabase.getAllDanhBo_CSM().size() == 0){
+                    snackbarMake(mGridView, "Chưa có danh bộ!!!", false);
+                }
+                else if (isOnline()) {
                     doUpLoad();
-
                 } else {
                     snackbarMake(mGridView, "Kiểm tra kết nối Internet và thử lại", false);
                 }
@@ -251,7 +255,7 @@ public class QuanLyDocSo extends Fragment {
 
             Boolean isValid = false;
 
-            for (int i = 0; i < mDanhBo_chiSoMois.size(); i++) {
+            for (int i = 0; i < mLocalDatabase.getAllDanhBo_CSM().size(); i++) {
                 DanhBo_ChiSoMoi danhBo_chiSoMoi = mDanhBo_chiSoMois.get(i);
 //                mUploading.update(danhBo_chiSoMoi);
                 boolean success = mUploading.update(danhBo_chiSoMoi);
