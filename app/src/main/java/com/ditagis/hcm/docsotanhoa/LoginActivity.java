@@ -12,7 +12,6 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -32,6 +31,7 @@ import android.widget.Toast;
 import com.ditagis.hcm.docsotanhoa.conectDB.ChangePasswordDB;
 import com.ditagis.hcm.docsotanhoa.conectDB.LogInDB;
 import com.ditagis.hcm.docsotanhoa.entities.User;
+import com.ditagis.hcm.docsotanhoa.utities.SnackBar;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText mTxtUsername;
@@ -90,12 +90,17 @@ public class LoginActivity extends AppCompatActivity {
         LoginActivity.this.mUsername = mTxtUsername.getText().toString();
         LoginActivity.this.mPassword = mTxtPassword.getText().toString();
         if (LoginActivity.this.mUsername.length() == 0 || LoginActivity.this.mPassword.length() == 0) {
-            snackbarMake(btnLogin, "Tên đăng nhập hoặc mật khẩu không được để trống!!!", true);
+            SnackBar.make(btnLogin, "Tên đăng nhập hoặc mật khẩu không được để trống!!!", true);
             return;
         }
         if (isOnline()) {
             mLoginAsync = new LoginAsync();
-            mLoginAsync.execute(LoginActivity.this.mUsername, LoginActivity.this.mPassword);
+            try {
+                mLoginAsync.execute(LoginActivity.this.mUsername, LoginActivity.this.mPassword);
+            } catch (Exception e) {
+                mLoginAsync.getDialog().dismiss();
+                SnackBar.make(btnLogin, "Mất kết nối internet!!!", false);
+            }
 
         } else if (mTxtPassword.getText().toString().equals(loadPreferences(mTxtUsername.getText().toString()))) {
 
@@ -104,20 +109,16 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "Đang đăng nhập với tài khoản trước...", Toast.LENGTH_SHORT).show();
             doLayLoTrinh();
         } else {
-            snackbarMake(btnLogin, "Kiểm tra kết nối internet và thử lại", true);
+
+            SnackBar.make(btnLogin, "Kiểm tra kết nối internet và thử lại", true);
         }
 
     }
 
-    private void snackbarMake(View view, String text, boolean isLong) {
-        int time = isLong ? Snackbar.LENGTH_LONG : Snackbar.LENGTH_SHORT;
-        Snackbar.make(view, text, time)
-                .setAction("Action", null).show();
-    }
 
     private void changePassword() {
         if (!isOnline()) {
-            snackbarMake(btnLogin, "Kiểm tra kết nối internet và thử lại", true);
+            SnackBar.make(btnLogin, "Kiểm tra kết nối internet và thử lại", true);
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
@@ -339,6 +340,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+
     class LoginAsync extends AsyncTask<String, LogInDB.Result, LogInDB.Result> {
         private LogInDB loginDB = new LogInDB();
         private ProgressDialog dialog;
@@ -353,7 +355,13 @@ public class LoginActivity extends AppCompatActivity {
             hideKeyboard();
             dialog.setMessage("Đang kiểm tra thông tin đăng nhập...");
             dialog.setCancelable(false);
+
             dialog.show();
+
+        }
+
+        public ProgressDialog getDialog() {
+            return dialog;
         }
 
         @Override
@@ -362,7 +370,9 @@ public class LoginActivity extends AppCompatActivity {
             String password = params[1];
 
             LogInDB.Result result = this.loginDB.logIn(new User(username, password));
-            if (result.getmStaffName() == null || result.getmStaffName().length() > 0) {
+            if (result == null)
+                ;
+            else if (result.getmStaffName() == null || result.getmStaffName().length() > 0) {
 //                for (int i = 1; i <= 70; i++) {
 //                    if (i < 10) {
 //                        deletePreferences("0" + i);
@@ -383,13 +393,15 @@ public class LoginActivity extends AppCompatActivity {
         protected void onProgressUpdate(LogInDB.Result... values) {
             super.onProgressUpdate(values);
             LogInDB.Result result = values[0];
-            if (result.getmStaffName().length() > 0) {
+            if (result == null) {
+                SnackBar.make(btnLogin, "Mất kết nối internet!!!", false);
+            } else if (result.getmStaffName().length() > 0) {
 
                 mTxtPassword.setText("");
                 mTxtUsername.setText("");
                 doLayLoTrinh();
             } else {
-                snackbarMake(btnLogin, "Đăng nhập thất bại", true);
+                SnackBar.make(btnLogin, "Đăng nhập thất bại", true);
             }
         }
 
@@ -397,7 +409,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(LogInDB.Result result) {
             super.onPostExecute(result);
-            if (dialog.isShowing()) {
+            if (dialog != null && dialog.isShowing()) {
                 dialog.dismiss();
             }
         }
@@ -473,11 +485,13 @@ public class LoginActivity extends AppCompatActivity {
         editor.remove(key).commit();
         return false;
     }
+
     public boolean deletePreferences() {
         SharedPreferences.Editor editor = getPreferences().edit();
         editor.clear().commit();
         return false;
     }
+
     @Override
     public void onBackPressed() {
         final AlertDialog.Builder builer = new AlertDialog.Builder(LoginActivity.this);

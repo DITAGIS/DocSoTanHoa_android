@@ -137,6 +137,8 @@ public class LogInDB implements IDB<User, Boolean, String> {
         String sql = this.SQL_SELECT;
 
         try {
+            if(cnn == null)
+                return null;
             PreparedStatement st = cnn.prepareStatement(sql);
             st.setString(1, user.getUserName());
             st.setString(2, (new EncodeMD5()).encode(user.getPassWord()));

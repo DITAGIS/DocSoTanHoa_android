@@ -199,6 +199,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
 
             e.printStackTrace();
         }
+
         return result;
     }
 

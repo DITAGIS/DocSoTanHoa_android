@@ -86,6 +86,8 @@ public class ChangePasswordDB extends AsyncTask<String, Boolean, LogInDB.Result>
         Connection cnn = ConnectionDB.getInstance().getConnection();
         String sql = this.SQL_SELECT;
         try {
+            if(cnn == null)
+                return "";
             PreparedStatement st = cnn.prepareStatement(sql);
             st.setString(1, userName);
             st.setString(2, (new EncodeMD5()).encode(oldPassword));
@@ -113,6 +115,8 @@ public class ChangePasswordDB extends AsyncTask<String, Boolean, LogInDB.Result>
             String sql = this.SQL_UPDATE;
 
             try {
+                if(cnn == null)
+                    return null;
                 PreparedStatement st = cnn.prepareStatement(sql);
                 st.setString(1, (new EncodeMD5()).encode(newPassword));
                 st.setString(2, userName);

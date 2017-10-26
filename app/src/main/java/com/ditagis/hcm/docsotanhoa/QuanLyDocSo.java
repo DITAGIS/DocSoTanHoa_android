@@ -11,7 +11,6 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
@@ -31,10 +30,9 @@ import com.ditagis.hcm.docsotanhoa.adapter.GridViewQuanLyDocSoAdapter;
 import com.ditagis.hcm.docsotanhoa.conectDB.Uploading;
 import com.ditagis.hcm.docsotanhoa.entities.DanhBo_ChiSoMoi;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
+import com.ditagis.hcm.docsotanhoa.utities.SnackBar;
 
 import java.util.ArrayList;
-
-import static com.ditagis.hcm.docsotanhoa.R.id.container;
 
 /**
  * Created by ThanLe on 25/10/2017.
@@ -82,12 +80,12 @@ public class QuanLyDocSo extends Fragment {
             @Override
             public void onClick(View v) {
                 if(mLocalDatabase.getAllDanhBo_CSM().size() == 0){
-                    snackbarMake(mGridView, "Chưa có danh bộ!!!", false);
+                    SnackBar.make(mGridView, "Chưa có danh bộ!!!", false);
                 }
                 else if (isOnline()) {
                     doUpLoad();
                 } else {
-                    snackbarMake(mGridView, "Kiểm tra kết nối Internet và thử lại", false);
+                    SnackBar.make(mGridView, "Kiểm tra kết nối Internet và thử lại", false);
                 }
             }
         });
@@ -150,11 +148,7 @@ public class QuanLyDocSo extends Fragment {
         return netInfo != null && netInfo.isConnected();
     }
 
-    private void snackbarMake(View view, String text, boolean isLong) {
-        int time = isLong ? Snackbar.LENGTH_LONG : Snackbar.LENGTH_SHORT;
-        Snackbar.make(view, text, time)
-                .setAction("Action", null).show();
-    }
+
 
     private void showMoreInfro(View view) {
         String danhBo = ((TextView) view.findViewById(R.id.row_qlds_txt_danhBo)).getText().toString();
