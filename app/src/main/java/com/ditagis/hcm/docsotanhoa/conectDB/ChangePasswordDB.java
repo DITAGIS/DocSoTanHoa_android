@@ -107,7 +107,7 @@ public class ChangePasswordDB extends AsyncTask<String, Boolean, LogInDB.Result>
 
     private LogInDB.Result changePassword() {
         Connection cnn = ConnectionDB.getInstance().getConnection();
-        LogInDB.Result result = new LogInDB().logIn(new User(userName,oldPassword));
+        LogInDB.Result result = new LogInDB().logIn(new User(userName, oldPassword));
         if (result.getmStaffName().length() > 0) {
 
             String sql = this.SQL_UPDATE;
@@ -119,7 +119,8 @@ public class ChangePasswordDB extends AsyncTask<String, Boolean, LogInDB.Result>
                 int executeUpdate = st.executeUpdate();
                 if (executeUpdate > 0) {
                     st.close();
-
+                    result.setUsername(userName);
+                    result.setPassword(newPassword);
                     return result;
                 }
                 st.close();

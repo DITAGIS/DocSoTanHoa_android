@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.7"
-            android:background="@android:color/holo_blue_dark"
+            android:background="@color/peter_driver"
             android:gravity="center_vertical"
             android:minHeight="25px"
             android:minWidth="25px"

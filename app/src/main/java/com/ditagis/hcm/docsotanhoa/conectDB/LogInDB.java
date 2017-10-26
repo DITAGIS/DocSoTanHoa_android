@@ -31,6 +31,8 @@ public class LogInDB implements IDB<User, Boolean, String> {
     public class Result {
         private String mDot;
         private String mStaffName;
+        private String username;
+        private String password;
 
         public Result(String mDot, String mStaffName) {
             this.mDot = mDot;
@@ -43,6 +45,22 @@ public class LogInDB implements IDB<User, Boolean, String> {
 
         public String getmStaffName() {
             return mStaffName;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
         }
     }
 

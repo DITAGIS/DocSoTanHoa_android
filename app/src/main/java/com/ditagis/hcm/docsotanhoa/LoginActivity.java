@@ -273,6 +273,12 @@ public class LoginActivity extends AppCompatActivity {
                                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
+                                            deletePreferences();
+                                            mUsername = output.getUsername();
+                                            mPassword = output.getPassword();
+                                            savePreferences(output.getUsername(), output.getPassword());
+                                            savePreferences(output.getPassword(), output.getmStaffName());
+                                            savePreferences(output.getmStaffName(), output.getmDot());
                                             doLayLoTrinh();
                                         }
                                     }).setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
@@ -357,13 +363,14 @@ public class LoginActivity extends AppCompatActivity {
 
             LogInDB.Result result = this.loginDB.logIn(new User(username, password));
             if (result.getmStaffName() == null || result.getmStaffName().length() > 0) {
-                for (int i = 1; i <= 70; i++) {
-                    if (i < 10) {
-                        deletePreferences("0" + i);
-                    } else
-                        deletePreferences(i + "");
-                }
-                deletePreferences(password);
+//                for (int i = 1; i <= 70; i++) {
+//                    if (i < 10) {
+//                        deletePreferences("0" + i);
+//                    } else
+//                        deletePreferences(i + "");
+//                }
+//                deletePreferences(password);
+                deletePreferences();
                 savePreferences(username, password);
                 savePreferences(password, result.getmStaffName());
                 savePreferences(result.getmStaffName(), result.getmDot());
@@ -466,7 +473,11 @@ public class LoginActivity extends AppCompatActivity {
         editor.remove(key).commit();
         return false;
     }
-
+    public boolean deletePreferences() {
+        SharedPreferences.Editor editor = getPreferences().edit();
+        editor.clear().commit();
+        return false;
+    }
     @Override
     public void onBackPressed() {
         final AlertDialog.Builder builer = new AlertDialog.Builder(LoginActivity.this);

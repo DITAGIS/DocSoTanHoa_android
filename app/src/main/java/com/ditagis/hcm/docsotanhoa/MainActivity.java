@@ -128,10 +128,8 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_log_out) {
-            String password = loadPreferences(this.mUsername);
-            deletePreferences(this.mUsername);
-            deletePreferences(password);
-            deletePreferences(this.mStaffName);
+            deletePreferences();
+
             finish();
             return true;
         }
@@ -146,6 +144,12 @@ public class MainActivity extends AppCompatActivity {
     public boolean deletePreferences(String key) {
         SharedPreferences.Editor editor = getPreferences().edit();
         editor.remove(key).commit();
+        return false;
+    }
+
+    public boolean deletePreferences() {
+        SharedPreferences.Editor editor = getPreferences().edit();
+        editor.clear().commit();
         return false;
     }
 
