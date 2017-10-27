@@ -12,7 +12,6 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
@@ -36,7 +35,7 @@ import android.widget.Toast;
 import com.ditagis.hcm.docsotanhoa.entities.DanhBo_ChiSoMoi;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
-import com.ditagis.hcm.docsotanhoa.utities.SnackBar;
+import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -243,7 +242,7 @@ public class DocSo extends Fragment {
     private void saveImage(View v) {
         // kiểm tra hình ảnh
         if (!getImageFileName().exists()) {
-            SnackBar.make(mRootView, "Chưa có hình ảnh", false);
+            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
             return;
         }
         // kiểm tra chỉ số mới
@@ -528,17 +527,17 @@ public class DocSo extends Fragment {
                             this.mEditTextCSM.setEnabled(true);
                         }
                     } catch (FileNotFoundException e) {
-                        SnackBar.make(mRootView, "Lỗi khi lưu ảnh", false);
+                        MySnackBar.make(mRootView, "Lỗi khi lưu ảnh", false);
                         e.printStackTrace();
                     } catch (IOException e) {
-                        SnackBar.make(mRootView, "Lỗi khi lưu ảnh", false);
+                        MySnackBar.make(mRootView, "Lỗi khi lưu ảnh", false);
                         e.printStackTrace();
                     }
                 }
             } else if (resultCode == RESULT_CANCELED) {
-                SnackBar.make(mRootView, "Hủy chụp ảnh", false);
+                MySnackBar.make(mRootView, "Hủy chụp ảnh", false);
             } else {
-                SnackBar.make(mRootView, "Lỗi khi chụp ảnh", false);
+                MySnackBar.make(mRootView, "Lỗi khi chụp ảnh", false);
             }
         }
     }

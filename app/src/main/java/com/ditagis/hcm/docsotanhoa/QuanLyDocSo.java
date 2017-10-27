@@ -30,7 +30,7 @@ import com.ditagis.hcm.docsotanhoa.adapter.GridViewQuanLyDocSoAdapter;
 import com.ditagis.hcm.docsotanhoa.conectDB.Uploading;
 import com.ditagis.hcm.docsotanhoa.entities.DanhBo_ChiSoMoi;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
-import com.ditagis.hcm.docsotanhoa.utities.SnackBar;
+import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 
 import java.util.ArrayList;
 
@@ -80,12 +80,12 @@ public class QuanLyDocSo extends Fragment {
             @Override
             public void onClick(View v) {
                 if(mLocalDatabase.getAllDanhBo_CSM().size() == 0){
-                    SnackBar.make(mGridView, "Chưa có danh bộ!!!", false);
+                    MySnackBar.make(mGridView, "Chưa có danh bộ!!!", false);
                 }
                 else if (isOnline()) {
                     doUpLoad();
                 } else {
-                    SnackBar.make(mGridView, "Kiểm tra kết nối Internet và thử lại", false);
+                    MySnackBar.make(mGridView, "Kiểm tra kết nối Internet và thử lại", false);
                 }
             }
         });

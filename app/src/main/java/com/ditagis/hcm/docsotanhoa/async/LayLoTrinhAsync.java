@@ -1,4 +1,4 @@
-package com.ditagis.hcm.docsotanhoa.conectDB;
+package com.ditagis.hcm.docsotanhoa.async;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewLayLoTrinhAdapter;
+import com.ditagis.hcm.docsotanhoa.conectDB.HoaDonDB;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.entities.ResultLayLoTrinh;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;

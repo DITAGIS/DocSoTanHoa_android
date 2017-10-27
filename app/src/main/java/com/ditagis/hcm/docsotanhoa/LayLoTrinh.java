@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewLayLoTrinhAdapter;
 import com.ditagis.hcm.docsotanhoa.conectDB.HoaDonDB;
-import com.ditagis.hcm.docsotanhoa.conectDB.LayLoTrinhAsync;
+import com.ditagis.hcm.docsotanhoa.async.LayLoTrinhAsync;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.entities.ResultLayLoTrinh;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;

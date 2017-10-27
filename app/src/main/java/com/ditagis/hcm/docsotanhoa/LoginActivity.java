@@ -2,13 +2,10 @@ package com.ditagis.hcm.docsotanhoa;
 
 import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,17 +18,19 @@ import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ditagis.hcm.docsotanhoa.conectDB.ChangePasswordDB;
+import com.ditagis.hcm.docsotanhoa.async.ChangePassswordAsync;
 import com.ditagis.hcm.docsotanhoa.conectDB.LogInDB;
 import com.ditagis.hcm.docsotanhoa.entities.User;
-import com.ditagis.hcm.docsotanhoa.utities.SnackBar;
+import com.ditagis.hcm.docsotanhoa.utities.AlertDialogDisConnect;
+import com.ditagis.hcm.docsotanhoa.utities.CheckConnect;
+import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
+import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText mTxtUsername;
@@ -90,35 +89,28 @@ public class LoginActivity extends AppCompatActivity {
         LoginActivity.this.mUsername = mTxtUsername.getText().toString();
         LoginActivity.this.mPassword = mTxtPassword.getText().toString();
         if (LoginActivity.this.mUsername.length() == 0 || LoginActivity.this.mPassword.length() == 0) {
-            SnackBar.make(btnLogin, "Tên đăng nhập hoặc mật khẩu không được để trống!!!", true);
+            MySnackBar.make(btnLogin, R.string.not_null_username_password, true);
             return;
-        }
-        if (isOnline()) {
+        } else if (CheckConnect.isOnline(LoginActivity.this)) {
             mLoginAsync = new LoginAsync();
-            try {
-                mLoginAsync.execute(LoginActivity.this.mUsername, LoginActivity.this.mPassword);
-            } catch (Exception e) {
-                mLoginAsync.getDialog().dismiss();
-                SnackBar.make(btnLogin, "Mất kết nối internet!!!", false);
-            }
-
+            mLoginAsync.execute(LoginActivity.this.mUsername, LoginActivity.this.mPassword);
         } else if (mTxtPassword.getText().toString().equals(loadPreferences(mTxtUsername.getText().toString()))) {
 
             mTxtPassword.setText("");
             mTxtUsername.setText("");
-            Toast.makeText(LoginActivity.this, "Đang đăng nhập với tài khoản trước...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, this.getString(R.string.login_with_saved_account), Toast.LENGTH_SHORT).show();
             doLayLoTrinh();
         } else {
-
-            SnackBar.make(btnLogin, "Kiểm tra kết nối internet và thử lại", true);
+            AlertDialogDisConnect.show(btnLogin.getContext(), LoginActivity.this);
+//            MySnackBar.make(btnLogin, R.string.no_connect, true);
         }
 
     }
 
 
     private void changePassword() {
-        if (!isOnline()) {
-            SnackBar.make(btnLogin, "Kiểm tra kết nối internet và thử lại", true);
+        if (!CheckConnect.isOnline(LoginActivity.this)) {
+            MySnackBar.make(btnLogin, R.string.no_connect, true);
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
@@ -151,7 +143,7 @@ public class LoginActivity extends AppCompatActivity {
                     etxtChangePwUsername.setHint("");
                 } else {
                     txtChangePwUsername.setVisibility(View.INVISIBLE);
-                    etxtChangePwUsername.setHint("Tên đăng nhập");
+                    etxtChangePwUsername.setHint(LoginActivity.this.getString(R.string.hint_username));
                 }
             }
         });
@@ -163,7 +155,7 @@ public class LoginActivity extends AppCompatActivity {
                     etxtChangePwOldPw.setHint("");
                 } else {
                     txtChangePwOldPw.setVisibility(View.INVISIBLE);
-                    etxtChangePwOldPw.setHint("Mật khẩu cũ");
+                    etxtChangePwOldPw.setHint(LoginActivity.this.getString(R.string.hint_old_password));
                 }
             }
         });
@@ -177,7 +169,7 @@ public class LoginActivity extends AppCompatActivity {
                     etxtChangePwNewPw.setHint("");
                 } else {
                     txtChangePwNewPw.setVisibility(View.INVISIBLE);
-                    etxtChangePwNewPw.setHint("Mật khẩu mới");
+                    etxtChangePwNewPw.setHint(LoginActivity.this.getString(R.string.hint_new_password));
                 }
             }
         });
@@ -191,7 +183,7 @@ public class LoginActivity extends AppCompatActivity {
                     etxtChangePwConfirmPw.setHint("");
                 } else {
                     txtChangePwConfirmPw.setVisibility(View.INVISIBLE);
-                    etxtChangePwConfirmPw.setHint("Nhập lại mật khẩu mới");
+                    etxtChangePwConfirmPw.setHint(LoginActivity.this.getString(R.string.hint_confirm_password));
                 }
             }
         });
@@ -257,21 +249,25 @@ public class LoginActivity extends AppCompatActivity {
         {
             @Override
             public void onClick(View v) {
-                ChangePasswordDB changePasswordHandling = new ChangePasswordDB(LoginActivity.this,
+                ChangePassswordAsync changePassswordAsync = new ChangePassswordAsync(btnLogin, LoginActivity.this, LoginActivity.this,
                         etxtChangePwUsername.getText().toString(),
-                        etxtChangePwOldPw.getText().toString(), etxtChangePwNewPw.getText().toString(), etxtChangePwConfirmPw.getText().toString(),
-                        new ChangePasswordDB.AsyncResponse() {
+                        etxtChangePwOldPw.getText().toString(),
+                        etxtChangePwNewPw.getText().toString(),
+                        etxtChangePwConfirmPw.getText().toString(),
+                        new ChangePassswordAsync.AsyncResponse() {
                             @Override
                             public void processFinish(final LogInDB.Result output) {
-                                hideKeyboard();
-                                if (output.getmStaffName().length() > 0) {
+
+                                if (output == null) {
+                                    ;
+                                } else if (output.getmStaffName().length() > 0) {
                                     dialogChangePw.dismiss();
 
                                     AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                                    builder.setTitle("Đổi mật khẩu thành công!");
-                                    builder.setMessage("Đăng nhập với tài khoản này?");
+                                    builder.setTitle(LoginActivity.this.getString(R.string.change_password_success));
+                                    builder.setMessage(LoginActivity.this.getString(R.string.ques_login_this_account));
                                     builder.setCancelable(false);
-                                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    builder.setPositiveButton(LoginActivity.this.getString(R.string.ok), new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             deletePreferences();
@@ -282,20 +278,20 @@ public class LoginActivity extends AppCompatActivity {
                                             savePreferences(output.getmStaffName(), output.getmDot());
                                             doLayLoTrinh();
                                         }
-                                    }).setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                                    }).setNegativeButton(LoginActivity.this.getString(R.string.cancel), new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             dialog.dismiss();
                                         }
                                     });
 
-                                    final AlertDialog dialog = builder.create();
+                                    AlertDialog dialog = builder.create();
                                     dialog.show();
                                 }
                             }
                         });
 
-                changePasswordHandling.execute();
+                changePassswordAsync.execute();
 
 
             }
@@ -326,34 +322,20 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnected();
-    }
-
-    private void hideKeyboard() {
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
-
 
     class LoginAsync extends AsyncTask<String, LogInDB.Result, LogInDB.Result> {
         private LogInDB loginDB = new LogInDB();
         private ProgressDialog dialog;
 
         public LoginAsync() {
-            this.dialog = new ProgressDialog(LoginActivity.this);
+            this.dialog = new ProgressDialog(LoginActivity.this, android.R.style.Theme_Material_Dialog_Alert);
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            hideKeyboard();
-            dialog.setMessage("Đang kiểm tra thông tin đăng nhập...");
+            HideKeyboard.hide(LoginActivity.this);
+            dialog.setMessage(LoginActivity.this.getString(R.string.checking_login));
             dialog.setCancelable(false);
 
             dialog.show();
@@ -373,13 +355,6 @@ public class LoginActivity extends AppCompatActivity {
             if (result == null)
                 ;
             else if (result.getmStaffName() == null || result.getmStaffName().length() > 0) {
-//                for (int i = 1; i <= 70; i++) {
-//                    if (i < 10) {
-//                        deletePreferences("0" + i);
-//                    } else
-//                        deletePreferences(i + "");
-//                }
-//                deletePreferences(password);
                 deletePreferences();
                 savePreferences(username, password);
                 savePreferences(password, result.getmStaffName());
@@ -394,14 +369,14 @@ public class LoginActivity extends AppCompatActivity {
             super.onProgressUpdate(values);
             LogInDB.Result result = values[0];
             if (result == null) {
-                SnackBar.make(btnLogin, "Mất kết nối internet!!!", false);
+                AlertDialogDisConnect.show(btnLogin.getContext(), LoginActivity.this);
             } else if (result.getmStaffName().length() > 0) {
 
                 mTxtPassword.setText("");
                 mTxtUsername.setText("");
                 doLayLoTrinh();
             } else {
-                SnackBar.make(btnLogin, "Đăng nhập thất bại", true);
+                MySnackBar.make(btnLogin, R.string.login_fail, true);
             }
         }
 
@@ -418,9 +393,9 @@ public class LoginActivity extends AppCompatActivity {
 
     public void doLayLoTrinh() {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        intent.putExtra("mayds", LoginActivity.this.mUsername);
-        intent.putExtra("staffname", loadPreferences(LoginActivity.this.mPassword));
-        intent.putExtra("dot", Integer.parseInt(loadPreferences(loadPreferences(LoginActivity.this.mPassword))));
+        intent.putExtra(this.getString(R.string.extra_username), LoginActivity.this.mUsername);
+        intent.putExtra(this.getString(R.string.extra_staffname), loadPreferences(LoginActivity.this.mPassword));
+        intent.putExtra(this.getString(R.string.extra_dot), Integer.parseInt(loadPreferences(loadPreferences(LoginActivity.this.mPassword))));
         startActivity(intent);
     }
 
@@ -496,14 +471,14 @@ public class LoginActivity extends AppCompatActivity {
     public void onBackPressed() {
         final AlertDialog.Builder builer = new AlertDialog.Builder(LoginActivity.this);
         builer.setCancelable(true);
-        builer.setTitle("Thoát ứng dụng Đọc số tân hòa?");
-        builer.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builer.setTitle(this.getString(R.string.quit));
+        builer.setPositiveButton(this.getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 finish();
             }
         });
-        builer.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+        builer.setNegativeButton(this.getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
