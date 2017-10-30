@@ -162,7 +162,8 @@ public class LogInDB implements IDB<User, Boolean, String> {
             Result result = new Result(mDot, staffName);
             return result;
 
-        } catch (SQLException e1) {
+        }
+        catch (SQLException e1) {
             e1.printStackTrace();
         }
         return null;

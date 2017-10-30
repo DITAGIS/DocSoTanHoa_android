@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.ditagis.hcm.docsotanhoa.MainActivity;
 import com.ditagis.hcm.docsotanhoa.R;
+import com.ditagis.hcm.docsotanhoa.conectDB.ConnectionDB;
 
 import static android.content.Context.CONNECTIVITY_SERVICE;
 
@@ -40,12 +41,14 @@ public class NetworkStateChangeReceiver extends BroadcastReceiver {
 //                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //                mActivity.startActivity(i);
                 mActivity.finish();
+//                this.setResultData("finish");
             } else {
                 dialog.setMessage(context.getString(R.string.disconnect_message));
                 dialog.setTitle(context.getString(R.string.disconnect_title
                 ));
                 dialog.show();
             }
+            ConnectionDB.getInstance().reConnect();
         }
     }
 

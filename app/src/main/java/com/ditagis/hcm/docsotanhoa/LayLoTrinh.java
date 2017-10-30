@@ -99,17 +99,20 @@ public class LayLoTrinh extends Fragment {
         });
         LayLoTrinh.this.mLayLoTrinhAsync.execute(isOnline(mRootView));
 
-//        stateChangeReceiver = new NetworkStateChangeReceiver(mGridView, mActivity);
-//        IntentFilter intentFilter = new IntentFilter();
-//        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-//        intentFilter.addAction("android.net.conn.WIFI_STATE_CHANGED");
-//        mActivity.registerReceiver(stateChangeReceiver, intentFilter);
+        stateChangeReceiver = new NetworkStateChangeReceiver(mGridView, mActivity);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        intentFilter.addAction("android.net.conn.WIFI_STATE_CHANGED");
+        mActivity.registerReceiver(stateChangeReceiver, intentFilter);
+//        if (stateChangeReceiver.getResultData().equals("finish")) {
+//            mActivity.finish();
+//        }
 
     }
 
     @Override
     public void onStop() {
-//        mActivity.unregisterReceiver(stateChangeReceiver);
+        mActivity.unregisterReceiver(stateChangeReceiver);
         super.onStop();
     }
 
