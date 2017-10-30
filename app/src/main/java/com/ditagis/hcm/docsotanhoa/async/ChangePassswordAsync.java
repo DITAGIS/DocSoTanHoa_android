@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import com.ditagis.hcm.docsotanhoa.conectDB.ChangePasswordDB;
 import com.ditagis.hcm.docsotanhoa.conectDB.LogInDB;
-import com.ditagis.hcm.docsotanhoa.utities.AlertDialogDisConnect;
 import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
 
 /**
@@ -64,7 +63,7 @@ public class ChangePassswordAsync extends AsyncTask<String, LogInDB.Result, LogI
         super.onProgressUpdate(values);
         LogInDB.Result result = values[0];
         if (result == null) {
-            AlertDialogDisConnect.show(mContext, mActivity);
+//            AlertDialogDisConnect.show(mContext, mActivity);
         } else if (result.getPassword().length() > 0) {
             Toast.makeText(this.mContext, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
         } else {

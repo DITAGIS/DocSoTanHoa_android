@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -27,7 +28,7 @@ import android.widget.Toast;
 import com.ditagis.hcm.docsotanhoa.async.ChangePassswordAsync;
 import com.ditagis.hcm.docsotanhoa.conectDB.LogInDB;
 import com.ditagis.hcm.docsotanhoa.entities.User;
-import com.ditagis.hcm.docsotanhoa.utities.AlertDialogDisConnect;
+import com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver;
 import com.ditagis.hcm.docsotanhoa.utities.CheckConnect;
 import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
@@ -41,7 +42,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private LoginAsync mLoginAsync;
     private String mUsername, mPassword;
+    private NetworkStateChangeReceiver mStateChangeReceiver;
+    private IntentFilter mIntentFilter;
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
+
     private static final int REQUEST_ID_WRITE_FILE = 2;
 
     @Override
@@ -77,12 +81,32 @@ public class LoginActivity extends AppCompatActivity {
                 login();
             }
         });
+
+        this.mStateChangeReceiver = new NetworkStateChangeReceiver(btnLogin, LoginActivity.this);
+        this.mIntentFilter = new IntentFilter();
+        this.mIntentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        this.mIntentFilter.addAction("android.net.conn.WIFI_STATE_CHANGED");
+        registerReceiver(mStateChangeReceiver, this.mIntentFilter);
+
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changePassword();
             }
         });
+//        CheckConnectRealTime.check(btnLogin.getContext(), LoginActivity.this);
+    }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+    }
+
+    @Override
+    protected void onStop() {
+        LoginActivity.this.unregisterReceiver(mStateChangeReceiver);
+        super.onStop();
     }
 
     private void login() {
@@ -100,10 +124,11 @@ public class LoginActivity extends AppCompatActivity {
             mTxtUsername.setText("");
             Toast.makeText(LoginActivity.this, this.getString(R.string.login_with_saved_account), Toast.LENGTH_SHORT).show();
             doLayLoTrinh();
-        } else {
-            AlertDialogDisConnect.show(btnLogin.getContext(), LoginActivity.this);
-//            MySnackBar.make(btnLogin, R.string.no_connect, true);
         }
+//        else {
+////            AlertDialogDisConnect.show(btnLogin.getContext(), LoginActivity.this);
+////            MySnackBar.make(btnLogin, R.string.no_connect, true);
+//        }
 
     }
 
@@ -369,7 +394,7 @@ public class LoginActivity extends AppCompatActivity {
             super.onProgressUpdate(values);
             LogInDB.Result result = values[0];
             if (result == null) {
-                AlertDialogDisConnect.show(btnLogin.getContext(), LoginActivity.this);
+//                AlertDialogDisConnect.show(btnLogin.getContext(), LoginActivity.this);
             } else if (result.getmStaffName().length() > 0) {
 
                 mTxtPassword.setText("");
@@ -392,6 +417,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void doLayLoTrinh() {
+//        CheckConnectRealTime.asyncTask.cancel(true);
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.putExtra(this.getString(R.string.extra_username), LoginActivity.this.mUsername);
         intent.putExtra(this.getString(R.string.extra_staffname), loadPreferences(LoginActivity.this.mPassword));

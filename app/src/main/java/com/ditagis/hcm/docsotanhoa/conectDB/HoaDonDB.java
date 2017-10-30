@@ -203,12 +203,14 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
         return result;
     }
 
-    public List<HoaDon> getAllByUserName(String userName,int dot,  int nam, int ky) {
+    public List<HoaDon> getAllByUserName(String userName, int dot, int nam, int ky) {
         Connection cnn = ConnectionDB.getInstance().getConnection();
-        List<HoaDon> hoaDons = new ArrayList<HoaDon>();
+        List<HoaDon> hoaDons = null;
         try {
+            if (cnn == null)
+                return null;
             Statement statement = cnn.createStatement(), sttm1;
-
+            hoaDons = new ArrayList<HoaDon>();
             String like = dot + userName + "%";
             ResultSet rs = statement.executeQuery("SELECT * FROM DocSo where nam = "
                     + nam + " and ky = " + ky + " and mlt2 like '" + like + "' and (csmoi is null or csmoi = 0 )");

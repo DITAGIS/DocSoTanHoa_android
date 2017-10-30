@@ -51,14 +51,14 @@ public class MainActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         this.mKy = calendar.get(Calendar.MONTH) + 1;
         this.mNam = calendar.get(Calendar.YEAR);
-        if (getIntent().getExtras().getString("mayds") != null)
-            this.mUsername = getIntent().getExtras().getString("mayds");
-        if (getIntent().getExtras().getString("staffname") != null)
-            this.mStaffName = getIntent().getExtras().getString("staffname");
-        if (getIntent().getExtras().getInt("dot") > 0)
-            this.mDot = getIntent().getExtras().getInt("dot");
+        if (getIntent().getExtras().getString(this.getString(R.string.extra_username)) != null)
+            this.mUsername = getIntent().getExtras().getString(this.getString(R.string.extra_username));
+        if (getIntent().getExtras().getString(this.getString(R.string.extra_staffname)) != null)
+            this.mStaffName = getIntent().getExtras().getString(this.getString(R.string.extra_staffname));
+        if (getIntent().getExtras().getInt(this.getString(R.string.extra_dot)) > 0)
+            this.mDot = getIntent().getExtras().getInt(this.getString(R.string.extra_dot));
 
-        mLayLoTrinh = new LayLoTrinh(getLayoutInflater(), mKy, mNam, mDot, mUsername, mStaffName);
+        mLayLoTrinh = new LayLoTrinh(MainActivity.this, getLayoutInflater(), mKy, mNam, mDot, mUsername, mStaffName);
         mDocSo = new DocSo(getLayoutInflater(), mKy, mDot, mUsername);
         mQuanLyDocSo = new QuanLyDocSo(getLayoutInflater(), mDot, mUsername);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

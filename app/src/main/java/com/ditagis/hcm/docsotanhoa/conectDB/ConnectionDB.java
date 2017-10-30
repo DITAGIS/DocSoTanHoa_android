@@ -24,7 +24,7 @@ public class ConnectionDB {
     }
 
     public Connection getConnection() {
-        if(connection == null)
+        if (connection == null)
             connection = getConnect();
         return connection;
     }
@@ -35,6 +35,10 @@ public class ConnectionDB {
 
     private ConnectionDB() {
         connection = getConnect();
+    }
+
+    public void reConnect() {
+        connection = null;
     }
 
     private Connection getConnect() {

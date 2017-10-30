@@ -1,6 +1,8 @@
 package com.ditagis.hcm.docsotanhoa;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -17,11 +19,12 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewLayLoTrinhAdapter;
-import com.ditagis.hcm.docsotanhoa.conectDB.HoaDonDB;
 import com.ditagis.hcm.docsotanhoa.async.LayLoTrinhAsync;
+import com.ditagis.hcm.docsotanhoa.conectDB.HoaDonDB;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.entities.ResultLayLoTrinh;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
+import com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +50,11 @@ public class LayLoTrinh extends Fragment {
     private HoaDonDB hoaDonDB;
     private LayLoTrinhAsync mLayLoTrinhAsync;
     private View mRootView;
+    private Activity mActivity;
+    private NetworkStateChangeReceiver stateChangeReceiver;
 
-    public LayLoTrinh(LayoutInflater inflater, int mKy, int mNam, int mDot, String mUsername, String mStaffName) {
+    public LayLoTrinh(Activity activity, LayoutInflater inflater, int mKy, int mNam, int mDot, String mUsername, String mStaffName) {
+        this.mActivity = activity;
         this.mKy = mKy;
         this.mNam = mNam;
         this.mDot = mDot;
@@ -84,13 +90,27 @@ public class LayLoTrinh extends Fragment {
 
             }
         });
-        this.mLayLoTrinhAsync = new LayLoTrinhAsync(LayLoTrinh.this.hoaDonDB, LayLoTrinh.this.mLocalDatabase, LayLoTrinh.this.mUsername, LayLoTrinh.this.mDot, LayLoTrinh.this.mKy, LayLoTrinh.this.mNam, mRootView.getContext(), new LayLoTrinhAsync.AsyncResponse() {
+        this.mLayLoTrinhAsync = new LayLoTrinhAsync(LayLoTrinh.this.hoaDonDB, LayLoTrinh.this.mLocalDatabase, LayLoTrinh.this.mUsername, LayLoTrinh.this.mDot, LayLoTrinh.this.mKy, LayLoTrinh.this.mNam, mRootView.getContext(), this.mActivity
+                , new LayLoTrinhAsync.AsyncResponse() {
             @Override
             public void processFinish(ResultLayLoTrinh output) {
                 finishLayLoTrinh(output, mRootView);
             }
         });
         LayLoTrinh.this.mLayLoTrinhAsync.execute(isOnline(mRootView));
+
+//        stateChangeReceiver = new NetworkStateChangeReceiver(mGridView, mActivity);
+//        IntentFilter intentFilter = new IntentFilter();
+//        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+//        intentFilter.addAction("android.net.conn.WIFI_STATE_CHANGED");
+//        mActivity.registerReceiver(stateChangeReceiver, intentFilter);
+
+    }
+
+    @Override
+    public void onStop() {
+//        mActivity.unregisterReceiver(stateChangeReceiver);
+        super.onStop();
     }
 
     @Nullable

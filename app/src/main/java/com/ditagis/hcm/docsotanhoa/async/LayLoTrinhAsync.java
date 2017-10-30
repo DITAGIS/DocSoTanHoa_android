@@ -1,10 +1,12 @@
 package com.ditagis.hcm.docsotanhoa.async;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.ditagis.hcm.docsotanhoa.R;
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewLayLoTrinhAdapter;
 import com.ditagis.hcm.docsotanhoa.conectDB.HoaDonDB;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
@@ -27,7 +29,7 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
     private int mKy;
     private int mNam;
     private int mDot;
-
+    private Activity mActivity;
 
     public interface AsyncResponse {
         void processFinish(ResultLayLoTrinh output);
@@ -35,9 +37,10 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
 
     public AsyncResponse mDelegate = null;
 
-    public LayLoTrinhAsync(HoaDonDB hoaDonDB, LocalDatabase localDatabase, String username, int dot, int ky, int nam, Context context, AsyncResponse delegate) {
+    public LayLoTrinhAsync(HoaDonDB hoaDonDB, LocalDatabase localDatabase, String username, int dot, int ky, int nam, Context context, Activity activity, AsyncResponse delegate) {
         this.mContext = context;
-        this.dialog = new ProgressDialog(this.mContext);
+        this.mActivity = activity;
+        this.dialog = new ProgressDialog(this.mContext, android.R.style.Theme_Material_Dialog_Alert);
         this._hoadonDB = hoaDonDB;
         this.mLocalDatabase = localDatabase;
         this.mUsername = username;
@@ -50,7 +53,8 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        this.dialog.setMessage("Đang tải danh bộ...");
+        this.dialog.setTitle(mContext.getString(R.string.load_danhbo_title));
+        this.dialog.setMessage(mContext.getString(R.string.load_danhbo_message));
         this.dialog.setCancelable(false);
         this.dialog.show();
     }
@@ -67,16 +71,20 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
             if (_hoadonDB == null)
                 _hoadonDB = new HoaDonDB();
             hoaDons = _hoadonDB.getAllByUserName(this.mUsername, this.mDot, this.mNam, this.mKy);
-            resultLayLoTrinh.setDot(_hoadonDB.getmDot());
+            if (hoaDons != null)
+                resultLayLoTrinh.setDot(_hoadonDB.getmDot());
 
         }
-        resultLayLoTrinh.setCount(hoaDons.size());
-        for (HoaDon hoaDon : hoaDons) {
-            resultLayLoTrinh.addItemToDa(new GridViewLayLoTrinhAdapter.Item(hoaDon.getMaLoTrinh(), hoaDon.getDanhBo()));
-            this.mLocalDatabase.addHoaDon(hoaDon);
+        if (hoaDons != null) {
+            resultLayLoTrinh.setCount(hoaDons.size());
+            for (HoaDon hoaDon : hoaDons) {
+                resultLayLoTrinh.addItemToDa(new GridViewLayLoTrinhAdapter.Item(hoaDon.getMaLoTrinh(), hoaDon.getDanhBo()));
+                this.mLocalDatabase.addHoaDon(hoaDon);
+            }
+            resultLayLoTrinh.setDot(this.mDot + "");
+            return resultLayLoTrinh;
         }
-        resultLayLoTrinh.setDot(this.mDot + "");
-        return resultLayLoTrinh;
+        return null;
     }
 
     @Override
@@ -86,10 +94,14 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
 //        if (LayLoTrinhActivity.this.mSwipeRefreshLayout.isRefreshing())
 //            LayLoTrinhActivity.this.mSwipeRefreshLayout.setRefreshing(false);
 
-        if (dialog.isShowing()) {
+        if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
-        Toast.makeText(this.mContext, "Đã tải xong mã lộ trình!!!", Toast.LENGTH_LONG).show();
+        if (resultLayLoTrinh == null) {
+
+        } else
+
+            Toast.makeText(this.mContext, "Đã tải xong mã lộ trình!!!", Toast.LENGTH_LONG).show();
     }
 
 }
