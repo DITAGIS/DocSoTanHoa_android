@@ -14,4 +14,7 @@
     <color name="cloud">#ffffff</color>
     <color name="colorBlueLight">#ccccff</color>
     <color name="peter_driver">#3498db</color>
+    <color name="peter_driver_light">#67b2e4</color>
+
+
 </resources>

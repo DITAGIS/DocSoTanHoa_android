@@ -31,7 +31,8 @@
             <LinearLayout
 
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/activity_vertical_margin"
                 android:paddingTop="5dp">
@@ -46,12 +47,28 @@
 
                 <TextView
                     android:id="@+id/txt_qlds_tienTrinh"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="right"
                     android:text="0/1"
                     android:textColor="@android:color/white"
                     android:textSize="18dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="right|center_vertical">
+
+                    <ImageButton
+                        android:id="@+id/imgBtn_qlds_upload"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+
+                        android:background="@color/peter_driver"
+                        android:src="@drawable/sync"
+                        android:textColor="@color/colorWhite" />
+                </LinearLayout>
+
             </LinearLayout>
 
             <!--<ImageButton-->
@@ -164,15 +181,6 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/imgBtn_qlds_upload"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center_vertical|right"
-        android:background="@color/peter_driver"
-        android:src="@drawable/sync"
-        android:textColor="@color/colorWhite" />
 
 
 </FrameLayout>

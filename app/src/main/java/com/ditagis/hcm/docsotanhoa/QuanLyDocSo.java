@@ -12,10 +12,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -76,17 +78,33 @@ public class QuanLyDocSo extends Fragment {
                 return false;
             }
         });
-        ((ImageButton) mRootView.findViewById(R.id.imgBtn_qlds_upload)).setOnClickListener(new View.OnClickListener() {
+        final ImageButton imgBtnUpload = (ImageButton) mRootView.findViewById(R.id.imgBtn_qlds_upload);
+        imgBtnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mLocalDatabase.getAllDanhBo_CSM().size() == 0){
-                    MySnackBar.make(mGridView, "Chưa có danh bộ!!!", false);
+
+
+            }
+        });
+        imgBtnUpload.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        v.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.peter_driver_light));
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        v.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.peter_driver));
+                        if (mLocalDatabase.getAllDanhBo_CSM().size() == 0) {
+                            MySnackBar.make(mGridView, "Chưa có danh bộ!!!", false);
+                        } else if (isOnline()) {
+                            doUpLoad();
+                        } else {
+                            MySnackBar.make(mGridView, "Kiểm tra kết nối Internet và thử lại", false);
+                        }
+                        return true;
                 }
-                else if (isOnline()) {
-                    doUpLoad();
-                } else {
-                    MySnackBar.make(mGridView, "Kiểm tra kết nối Internet và thử lại", false);
-                }
+                return false;
             }
         });
     }
@@ -147,7 +165,6 @@ public class QuanLyDocSo extends Fragment {
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnected();
     }
-
 
 
     private void showMoreInfro(View view) {
