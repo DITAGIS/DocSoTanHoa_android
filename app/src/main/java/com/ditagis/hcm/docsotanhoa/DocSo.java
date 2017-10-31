@@ -1,7 +1,9 @@
 package com.ditagis.hcm.docsotanhoa;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -35,6 +37,7 @@ import android.widget.Toast;
 import com.ditagis.hcm.docsotanhoa.entities.DanhBo_ChiSoMoi;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
+import com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 
 import java.io.File;
@@ -87,8 +90,11 @@ public class DocSo extends Fragment {
     private ArrayAdapter<String> mAdapterMLT;
     private View mRootView;
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    private Activity mActivity;
+    private NetworkStateChangeReceiver mStateChangeReceiver;
 
-    public DocSo(LayoutInflater inflater, int mKy, int mDot, String mUsername) {
+    public DocSo(Activity activity, LayoutInflater inflater, int mKy, int mDot, String mUsername) {
+        this.mActivity = activity;
         this.mUsername = mUsername;
         this.mDot = mDot;
         this.mKy = mKy;
@@ -213,6 +219,7 @@ public class DocSo extends Fragment {
                 saveImage(v);
             }
         });
+
     }
 
     @Override
@@ -541,7 +548,6 @@ public class DocSo extends Fragment {
             }
         }
     }
-
 
 
     @Nullable

@@ -1,5 +1,6 @@
 package com.ditagis.hcm.docsotanhoa;
 
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -13,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+
+import com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver;
 
 import java.util.Calendar;
 
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private LayLoTrinh mLayLoTrinh;
     private DocSo mDocSo;
     private QuanLyDocSo mQuanLyDocSo;
+    private NetworkStateChangeReceiver mStateChangeReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             this.mDot = getIntent().getExtras().getInt(this.getString(R.string.extra_dot));
 
         mLayLoTrinh = new LayLoTrinh(MainActivity.this, getLayoutInflater(), mKy, mNam, mDot, mUsername, mStaffName);
-        mDocSo = new DocSo(getLayoutInflater(), mKy, mDot, mUsername);
+        mDocSo = new DocSo(MainActivity.this, getLayoutInflater(), mKy, mDot, mUsername);
         mQuanLyDocSo = new QuanLyDocSo(getLayoutInflater(), mDot, mUsername);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -109,8 +113,24 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
+
+        mStateChangeReceiver = new NetworkStateChangeReceiver(tabLayout, MainActivity.this);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        intentFilter.addAction("android.net.conn.WIFI_STATE_CHANGED");
+        registerReceiver(mStateChangeReceiver, intentFilter);
     }
 
+    @Override
+    protected void onDestroy() {
+        try {
+            if (mStateChangeReceiver != null)
+                unregisterReceiver(mStateChangeReceiver);
+        } catch (IllegalArgumentException e) {
+            mStateChangeReceiver = null;
+        }
+        super.onDestroy();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

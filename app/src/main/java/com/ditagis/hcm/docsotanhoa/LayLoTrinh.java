@@ -51,7 +51,7 @@ public class LayLoTrinh extends Fragment {
     private LayLoTrinhAsync mLayLoTrinhAsync;
     private View mRootView;
     private Activity mActivity;
-    private NetworkStateChangeReceiver stateChangeReceiver;
+    private NetworkStateChangeReceiver mStateChangeReceiver;
 
     public LayLoTrinh(Activity activity, LayoutInflater inflater, int mKy, int mNam, int mDot, String mUsername, String mStaffName) {
         this.mActivity = activity;
@@ -99,21 +99,8 @@ public class LayLoTrinh extends Fragment {
         });
         LayLoTrinh.this.mLayLoTrinhAsync.execute(isOnline(mRootView));
 
-        stateChangeReceiver = new NetworkStateChangeReceiver(mGridView, mActivity);
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-        intentFilter.addAction("android.net.conn.WIFI_STATE_CHANGED");
-        mActivity.registerReceiver(stateChangeReceiver, intentFilter);
-//        if (stateChangeReceiver.getResultData().equals("finish")) {
-//            mActivity.finish();
-//        }
 
-    }
 
-    @Override
-    public void onStop() {
-        mActivity.unregisterReceiver(stateChangeReceiver);
-        super.onStop();
     }
 
     @Nullable

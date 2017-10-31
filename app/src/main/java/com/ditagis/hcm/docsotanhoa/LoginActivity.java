@@ -94,27 +94,12 @@ public class LoginActivity extends AppCompatActivity {
                 changePassword();
             }
         });
-//        CheckConnectRealTime.check(btnLogin.getContext(), LoginActivity.this);
     }
-
-    @Override
-    protected void onResume() {
-////        if (this.mStateChangeReceiver != null) {
-//            this.mStateChangeReceiver = new NetworkStateChangeReceiver(btnLogin, LoginActivity.this);
-//            this.mIntentFilter = new IntentFilter();
-//            this.mIntentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-//            this.mIntentFilter.addAction("android.net.conn.WIFI_STATE_CHANGED");
-//            registerReceiver(mStateChangeReceiver, this.mIntentFilter);
-////        }
-//        ConnectionDB.getInstance().reConnect();
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
+//    @Override
+//    protected void onPause() {
 //        LoginActivity.this.unregisterReceiver(mStateChangeReceiver);
-        super.onPause();
-    }
+//        super.onPause();
+//    }
 
     @Override
     protected void onDestroy() {
@@ -122,11 +107,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    @Override
-    protected void onStop() {
-//        LoginActivity.this.unregisterReceiver(mStateChangeReceiver);
-        super.onStop();
-    }
+
 
     private void login() {
         LoginActivity.this.mUsername = mTxtUsername.getText().toString();

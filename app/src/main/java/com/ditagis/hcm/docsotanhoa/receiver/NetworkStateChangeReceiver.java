@@ -36,18 +36,13 @@ public class NetworkStateChangeReceiver extends BroadcastReceiver {
 
         } else {
             if (context instanceof MainActivity) {
-//                Intent i = mActivity.getBaseContext().getPackageManager()
-//                        .getLaunchIntentForPackage(mActivity.getBaseContext().getPackageName());
-//                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                mActivity.startActivity(i);
                 mActivity.finish();
-//                this.setResultData("finish");
-            } else {
-                dialog.setMessage(context.getString(R.string.disconnect_message));
-                dialog.setTitle(context.getString(R.string.disconnect_title
-                ));
-                dialog.show();
             }
+            dialog.setMessage(context.getString(R.string.disconnect_message));
+            dialog.setTitle(context.getString(R.string.disconnect_title
+            ));
+            dialog.show();
+
             ConnectionDB.getInstance().reConnect();
         }
     }
