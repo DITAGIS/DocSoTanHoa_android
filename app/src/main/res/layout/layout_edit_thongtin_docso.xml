@@ -5,15 +5,15 @@
     android:fillViewport="true">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_padding">
 
         <ImageView
-            android:id="@+id/imgView_qlds"
+            android:id="@+id/imgView_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true" />
@@ -35,7 +35,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
-                    android:id="@+id/txt_layout_qlds_MLT"
+                    android:id="@+id/txt_layout_edit_MLT"
                     android:layout_weight="3"
                     android:gravity="left"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -55,7 +55,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
-                    android:id="@+id/txt_layout_qlds_tenKH"
+                    android:id="@+id/txt_layout_edit_tenKH"
                     android:layout_width="wrap_content"
                     android:layout_weight="3"
                     android:gravity="left"
@@ -77,7 +77,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
-                    android:id="@+id/txt_layout_qlds_diaChi"
+                    android:id="@+id/txt_layout_edit_diaChi"
                     android:layout_width="wrap_content"
                     android:layout_weight="3"
                     android:gravity="left"
@@ -99,7 +99,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
-                    android:id="@+id/txt_layout_qlds_SDT"
+                    android:id="@+id/txt_layout_edit_SDT"
                     android:layout_width="wrap_content"
                     android:layout_weight="3"
                     android:gravity="left"
@@ -121,7 +121,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
-                    android:id="@+id/txt_layout_qlds_CSC"
+                    android:id="@+id/txt_layout_edit_CSC"
                     android:layout_width="wrap_content"
                     android:layout_weight="3"
                     android:gravity="left"
@@ -139,11 +139,12 @@
                 <TextView
                     android:layout_column="0"
                     android:layout_weight="1"
+                    android:gravity="center_vertical"
                     android:text="CS mới: "
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                <TextView
-                    android:id="@+id/txt_layout_qlds_CSM"
+                <EditText
+                    android:id="@+id/etxt_layout_edit_CSM"
                     android:layout_width="wrap_content"
                     android:layout_weight="3"
                     android:gravity="left"
@@ -161,15 +162,18 @@
                 <TextView
                     android:layout_column="0"
                     android:layout_weight="1"
+                    android:gravity="center_vertical"
                     android:text="Code: "
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                <TextView
-                    android:id="@+id/txt_layout_qlds_code"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="3"
-                    android:gravity="left"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                <Spinner
+                    android:id="@+id/spin_edit_code"
+                    android:layout_gravity="center_vertical"
+                    android:layout_span="4"
+                    android:layout_weight="1"
+                    android:text="1029385"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/white" />
             </TableRow>
 
             <View
@@ -187,7 +191,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
-                    android:id="@+id/txt_layout_qlds_giaBieu"
+                    android:id="@+id/txt_layout_edit_giaBieu"
                     android:layout_width="wrap_content"
                     android:layout_weight="3"
                     android:gravity="left"
@@ -209,7 +213,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
-                    android:id="@+id/txt_layout_qlds_tienNuoc"
+                    android:id="@+id/txt_layout_edit_tienNuoc"
                     android:layout_width="wrap_content"
                     android:layout_weight="3"
                     android:gravity="left"
@@ -231,7 +235,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
-                    android:id="@+id/txt_layout_qlds_ghiChu"
+                    android:id="@+id/txt_layout_edit_ghiChu"
                     android:layout_width="wrap_content"
                     android:layout_weight="3"
                     android:gravity="left"
