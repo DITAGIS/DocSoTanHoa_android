@@ -403,6 +403,32 @@ public class LocalDatabase extends SQLiteOpenHelper {
         return danhBoChiSoMois;
     }
 
+    public boolean updateDanhBo_CSM(DanhBo_ChiSoMoi danhBoChiSoMoi) {
+        Log.i(TAG, "LocalDatabase.addHoaDon ... " + danhBoChiSoMoi.getDanhBo());
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(COLUMN_LUUDANHBO_DANHBO, danhBoChiSoMoi.getDanhBo());
+        values.put(COLUMN_LUUDANHBO_MALOTRINH, danhBoChiSoMoi.getMaLoTrinh());
+        values.put(COLUMN_LUUDANHBO_TEN_KH, danhBoChiSoMoi.getTenKH());
+        values.put(COLUMN_LUUDANHBO_DIA_CHI, danhBoChiSoMoi.getDiaChi());
+        values.put(COLUMN_LUUDANHBO_SDT, danhBoChiSoMoi.getSdt());
+        values.put(COLUMN_LUUDANHBO_GIA_BIEU, danhBoChiSoMoi.getGiaBieu());
+        values.put(COLUMN_LUUDANHBO_CODE, danhBoChiSoMoi.getCode());
+        values.put(COLUMN_LUUDANHBO_CSC, danhBoChiSoMoi.getChiSoCu());
+        values.put(COLUMN_LUUDANHBO_CSM, danhBoChiSoMoi.getChiSoMoi());
+        values.put(COLUMN_LUUDANHBO_GHI_CHU, danhBoChiSoMoi.getNote());
+        values.put(COLUMN_LUUDANHBO_HINHANH, danhBoChiSoMoi.getImage());
+        values.put(COLUMN_LUUDANHBO_LUU, danhBoChiSoMoi.getHasImage());
+        // Trèn một dòng dữ liệu vào bảng.
+        long result = db.update(TABLE_LUUDANHBO, values, COLUMN_LUUDANHBO_DANHBO + " = " + danhBoChiSoMoi.getDanhBo(), null);
+        // Đóng kết nối database.
+        db.close();
+        return result > 0;
+    }
+
     public boolean saveDanhBo_CSM(DanhBo_ChiSoMoi danhBoChiSoMoi) {
         Log.i(TAG, "LocalDatabase.addHoaDon ... " + danhBoChiSoMoi.getDanhBo());
 

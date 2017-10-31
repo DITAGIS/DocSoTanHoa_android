@@ -229,54 +229,32 @@ public class QuanLyDocSo extends Fragment {
                 "60", "61", "62", "63", "64", "65", "66", "81", "82",
                 "83", "F1", "F2", "F3", "F4", "M1", "M2", "M3", "N",
                 "RT", "K", "Q"};
-        String danhBo = ((TextView) view.findViewById(R.id.row_qlds_txt_danhBo)).getText().toString();
-        DanhBo_ChiSoMoi danhBo_CSM = mLocalDatabase.getDanhBo_CSM(danhBo);
+        final String danhBo = ((TextView) view.findViewById(R.id.row_qlds_txt_danhBo)).getText().toString();
+        final DanhBo_ChiSoMoi danhBo_CSM = mLocalDatabase.getDanhBo_CSM(danhBo);
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Cập nhật thông tin chỉ số");
-        builder.setPositiveButton("Hủy", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        }).setNegativeButton("Lưu thay đổi", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //TODO: lưu chỉnh sửa
-                dialog.dismiss();
 
-
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
         View dialogLayout = inflater.inflate(R.layout.layout_edit_thongtin_docso, null);
-
-
-        dialog.setView(dialogLayout);
-
-        dialog.show();
-
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         Bitmap bitmap = BitmapFactory.decodeFile(danhBo_CSM.getImage(), options);
 
-        ImageView image = (ImageView) dialog.findViewById(R.id.imgView_edit);
+        ImageView image = (ImageView) dialogLayout.findViewById(R.id.imgView_edit);
         BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), false));
 
         image.setBackground(resizedDialogImage);
 
-        ((TextView) dialog.findViewById(R.id.txt_layout_edit_MLT)).setText(danhBo_CSM.getMaLoTrinh());
+        ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_MLT)).setText(danhBo_CSM.getMaLoTrinh());
 //                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_DanhBo)).setText(danhBo_CSM.getDanhBo());
-        ((TextView) dialog.findViewById(R.id.txt_layout_edit_tenKH)).setText(danhBo_CSM.getTenKH());
-        ((TextView) dialog.findViewById(R.id.txt_layout_edit_diaChi)).setText(danhBo_CSM.getDiaChi());
-        ((TextView) dialog.findViewById(R.id.txt_layout_edit_SDT)).setText(danhBo_CSM.getSdt());
-        ((TextView) dialog.findViewById(R.id.txt_layout_edit_CSC)).setText(danhBo_CSM.getChiSoCu());
-        EditText etxtCSM = (EditText) dialog.findViewById(R.id.etxt_layout_edit_CSM);
+        ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_tenKH)).setText(danhBo_CSM.getTenKH());
+        ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_diaChi)).setText(danhBo_CSM.getDiaChi());
+        ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_SDT)).setText(danhBo_CSM.getSdt());
+        ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_CSC)).setText(danhBo_CSM.getChiSoCu());
+        final EditText etxtCSM = (EditText) dialogLayout.findViewById(R.id.etxt_layout_edit_CSM);
 
         etxtCSM.setText(danhBo_CSM.getChiSoMoi());
-        Spinner spinCode = (Spinner) dialog.findViewById(R.id.spin_edit_code);
+        final Spinner spinCode = (Spinner) dialogLayout.findViewById(R.id.spin_edit_code);
         ArrayAdapter<String> adapterCode = new ArrayAdapter<String>(mRootView.getContext(), android.R.layout.simple_spinner_dropdown_item, codes);
         adapterCode.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spinCode.setAdapter(adapterCode);
@@ -285,10 +263,37 @@ public class QuanLyDocSo extends Fragment {
                 spinCode.setSelection(i);
                 break;
             }
-        ((TextView) dialog.findViewById(R.id.txt_layout_edit_giaBieu)).setText(danhBo_CSM.getGiaBieu());
-        ((TextView) dialog.findViewById(R.id.txt_layout_edit_tienNuoc)).setText("");//TODO tien nuoc
+        ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_giaBieu)).setText(danhBo_CSM.getGiaBieu());
+        ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_tienNuoc)).setText("");//TODO tien nuoc
 
-        ((TextView) dialog.findViewById(R.id.txt_layout_edit_ghiChu)).setText(danhBo_CSM.getNote());
+        ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_ghiChu)).setText(danhBo_CSM.getNote());
+
+        builder.setView(dialogLayout)
+                .setPositiveButton("Hủy", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton("Lưu thay đổi", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //TODO: lưu chỉnh sửa
+                danhBo_CSM.setChiSoMoi(etxtCSM.getText().toString());
+                danhBo_CSM.setCode(spinCode.getSelectedItem().toString());
+
+                mLocalDatabase.updateDanhBo_CSM(danhBo_CSM);
+                refresh();
+                dialog.dismiss();
+
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.show();
+
+
     }
 
     private void doUpLoad() {

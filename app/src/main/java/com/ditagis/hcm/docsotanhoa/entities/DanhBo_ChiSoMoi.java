@@ -33,6 +33,18 @@ public class DanhBo_ChiSoMoi {
         this.hasImage = hasImage;
     }
 
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public void setChiSoMoi(String chiSoMoi) {
+        this.chiSoMoi = chiSoMoi;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
     public String getDanhBo() {
         return danhBo;
     }
