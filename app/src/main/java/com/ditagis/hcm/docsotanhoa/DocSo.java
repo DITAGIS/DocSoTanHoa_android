@@ -80,7 +80,7 @@ public class DocSo extends Fragment {
     private static final int REQUEST_ID_READ_WRITE_PERMISSION = 99;
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
     private int mSumDanhBo, mDanhBoHoanThanh;
-    private String mUsername;
+    private String mUsername, mStaffName;
     private int mDot, mKy;
     private String mGhiChu;
     private Date currentTime;
@@ -98,9 +98,10 @@ public class DocSo extends Fragment {
         this.mDot = mDot;
     }
 
-    public DocSo(Activity activity, LayoutInflater inflater, int mKy, int mDot, String mUsername) {
+    public DocSo(Activity activity, LayoutInflater inflater, int mKy, int mDot, String mUsername, String staffName) {
         this.mActivity = activity;
         this.mUsername = mUsername;
+        this.mStaffName = staffName;
         this.mDot = mDot;
         this.mKy = mKy;
 
@@ -119,7 +120,7 @@ public class DocSo extends Fragment {
                         ));
 
         ((TextView) mRootView.findViewById(R.id.txt_ds_ky)).setText(this.mKy + "");
-
+        ((TextView) mRootView.findViewById(R.id.txt_ds_staffName)).setText(this.mStaffName);
 
         mTxtComplete = (TextView) mRootView.findViewById(R.id.txt_ds_complete);
 

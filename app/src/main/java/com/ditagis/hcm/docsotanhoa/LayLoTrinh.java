@@ -3,18 +3,15 @@ package com.ditagis.hcm.docsotanhoa;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -37,7 +34,7 @@ import java.util.List;
  * Created by ThanLe on 24/10/2017.
  */
 
-public class LayLoTrinh extends Fragment {
+public class LayLoTrinh {
     TextView m_txtTongMLT;
     TextView m_txtTongDB;
     EditText mEditTextSearch;
@@ -109,14 +106,8 @@ public class LayLoTrinh extends Fragment {
         selectDot();
 
 
-
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return mRootView;
-    }
 
     public int selectDot() {
         final int[] dot = {mDot};
@@ -142,14 +133,14 @@ public class LayLoTrinh extends Fragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dot[0] =Integer.parseInt(spinCode.getSelectedItem().toString());
+                        dot[0] = Integer.parseInt(spinCode.getSelectedItem().toString());
                         mDot = dot[0];
                         dialog.dismiss();
                         LayLoTrinh.this.mLayLoTrinhAsync.setmDot(mDot);
                         LayLoTrinh.this.mLayLoTrinhAsync.execute(isOnline(mRootView));
 
-            }
-        });
+                    }
+                });
 
         AlertDialog dialog = builder.create();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -160,7 +151,7 @@ public class LayLoTrinh extends Fragment {
     public void setTextProgress() {
 
         String dotString = mDot + "";
-        if(this.mDot < 10)
+        if (this.mDot < 10)
             dotString = "0" + this.mDot;
         List<HoaDon> hoaDons = mLocalDatabase.getAllHoaDon(dotString + this.mUsername + "%");
         LayLoTrinh.this.mSumMLT = hoaDons.size();
@@ -207,16 +198,14 @@ public class LayLoTrinh extends Fragment {
     }
 
     private void finishLayLoTrinh(ResultLayLoTrinh output, View rootView) {
-        LayLoTrinh.this.mSumMLT = output.getCount();
-        LayLoTrinh.this.m_txtTongMLT.setText("Tổng mã lộ trình: " + LayLoTrinh.this.mSumMLT);
-        LayLoTrinh.this.mSumDanhBo = output.getCount();
-        LayLoTrinh.this.m_txtTongDB.setText("Tổng danh bộ: " + LayLoTrinh.this.mSumDanhBo);
-        LayLoTrinh.this.mLayLoTrinhAdapter = output.getDa();
 
-        LayLoTrinh.this.mGridView.setAdapter(LayLoTrinh.this.mLayLoTrinhAdapter);
+        Intent intent = new Intent(mActivity, MainActivity.class);
+        intent.putExtra(mActivity.getString(R.string.extra_username), mUsername);
+        intent.putExtra(mActivity.getString(R.string.extra_staffname), mStaffName);
+        intent.putExtra(mActivity.getString(R.string.extra_dot), mDot);
 
-        registerForContextMenu(LayLoTrinh.this.mGridView);
-        ((TextView) rootView.findViewById(R.id.txt_llt_dot)).setText("Đợt: " + output.getDot());
+        mActivity.startActivity(intent);
+
 
     }
 }

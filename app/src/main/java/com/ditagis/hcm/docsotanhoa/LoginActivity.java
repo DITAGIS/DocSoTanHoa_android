@@ -3,7 +3,6 @@ package com.ditagis.hcm.docsotanhoa;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -32,6 +31,8 @@ import com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver;
 import com.ditagis.hcm.docsotanhoa.utities.CheckConnect;
 import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
+
+import java.util.Calendar;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText mTxtUsername;
@@ -106,7 +107,6 @@ public class LoginActivity extends AppCompatActivity {
         LoginActivity.this.unregisterReceiver(mStateChangeReceiver);
         super.onDestroy();
     }
-
 
 
     private void login() {
@@ -418,11 +418,11 @@ public class LoginActivity extends AppCompatActivity {
 
     public void doLayLoTrinh() {
 //        CheckConnectRealTime.asyncTask.cancel(true);
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        intent.putExtra(this.getString(R.string.extra_username), LoginActivity.this.mUsername);
-        intent.putExtra(this.getString(R.string.extra_staffname), loadPreferences(LoginActivity.this.mPassword));
-        intent.putExtra(this.getString(R.string.extra_dot), Integer.parseInt(loadPreferences(loadPreferences(LoginActivity.this.mPassword))));
-        startActivity(intent);
+
+        Calendar calendar = Calendar.getInstance();
+        int ky = calendar.get(Calendar.MONTH) + 1;
+        int nam = calendar.get(Calendar.YEAR);
+        new LayLoTrinh(LoginActivity.this, getLayoutInflater(), ky, nam, Integer.parseInt(loadPreferences(loadPreferences(LoginActivity.this.mPassword))), mUsername, loadPreferences(LoginActivity.this.mPassword));
     }
 
     public boolean requestPermisson() {

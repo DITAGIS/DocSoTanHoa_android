@@ -47,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
     private QuanLyDocSo mQuanLyDocSo;
     private NetworkStateChangeReceiver mStateChangeReceiver;
 
+    public DocSo getmDocSo() {
+        return mDocSo;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
         if (getIntent().getExtras().getInt(this.getString(R.string.extra_dot)) > 0)
             this.mDot = getIntent().getExtras().getInt(this.getString(R.string.extra_dot));
 
-        mLayLoTrinh = new LayLoTrinh(MainActivity.this, getLayoutInflater(), mKy, mNam, mDot, mUsername, mStaffName);
-        mDocSo = new DocSo(MainActivity.this, getLayoutInflater(), mKy, mDot, mUsername);
+//        mLayLoTrinh = new LayLoTrinh(MainActivity.this, getLayoutInflater(), mKy, mNam, mDot, mUsername, mStaffName);
+        mDocSo = new DocSo(MainActivity.this, getLayoutInflater(), mKy, mDot, mUsername, mStaffName);
         mQuanLyDocSo = new QuanLyDocSo(getLayoutInflater(), mDot, mKy, mNam, mUsername);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -74,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
+        mDocSo.refresh();
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -84,16 +88,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 switch (position) {
+//                    case 0:
+//                        mLayLoTrinh.setTextProgress();
+//                        break;
                     case 0:
-                        mLayLoTrinh.setTextProgress();
-                        break;
-                    case 1:
-                        mDocSo.setmDot(mLayLoTrinh.getmDot());
+//                        mDocSo.setmDot(mLayLoTrinh.getmDot());
                         mDocSo.refresh();
                         break;
-                    case 2:
-                        mQuanLyDocSo.setmDot(mLayLoTrinh.getmDot());
-                        mQuanLyDocSo.getmUploading().setmDot(mLayLoTrinh.getmDot());
+                    case 1:
+//                        mQuanLyDocSo.setmDot(mLayLoTrinh.getmDot());
+//                        mQuanLyDocSo.getmUploading().setmDot(mLayLoTrinh.getmDot());
                         mQuanLyDocSo.refresh();
                         break;
                 }
@@ -203,11 +207,11 @@ public class MainActivity extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
 //
             switch (position) {
+//                case 0:
+//                    return mLayLoTrinh;
                 case 0:
-                    return mLayLoTrinh;
-                case 1:
                     return mDocSo;
-                case 2:
+                case 1:
                     return mQuanLyDocSo;
             }
             return null;
@@ -229,17 +233,17 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 2;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
+//                case 0:
+//                    return "Lấy lộ trình";
                 case 0:
-                    return "Lấy lộ trình";
-                case 1:
                     return "Đọc số";
-                case 2:
+                case 1:
                     return "Quản lý đọc số";
             }
             return null;
