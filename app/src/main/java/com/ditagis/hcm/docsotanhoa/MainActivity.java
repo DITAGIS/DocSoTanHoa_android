@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         mLayLoTrinh = new LayLoTrinh(MainActivity.this, getLayoutInflater(), mKy, mNam, mDot, mUsername, mStaffName);
         mDocSo = new DocSo(MainActivity.this, getLayoutInflater(), mKy, mDot, mUsername);
-        mQuanLyDocSo = new QuanLyDocSo(getLayoutInflater(), mDot, mUsername);
+        mQuanLyDocSo = new QuanLyDocSo(getLayoutInflater(), mDot, mKy, mNam, mUsername);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -92,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
                         mDocSo.refresh();
                         break;
                     case 2:
+                        mQuanLyDocSo.setmDot(mLayLoTrinh.getmDot());
+                        mQuanLyDocSo.getmUploading().setmDot(mLayLoTrinh.getmDot());
                         mQuanLyDocSo.refresh();
                         break;
                 }

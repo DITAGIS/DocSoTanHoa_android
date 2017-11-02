@@ -51,19 +51,25 @@ public class QuanLyDocSo extends Fragment {
     private GridViewQuanLyDocSoAdapter mQuanLyDocSoAdapter;
     LocalDatabase mLocalDatabase;
     private int mSumDanhBo = 0, mDanhBoHoanThanh;
-    private int mDot, mKy;
+    private int mDot, mKy, mNam;
     private String mUsername;
     private Uploading mUploading;
     private View mRootView;
 
-    public QuanLyDocSo(LayoutInflater inflater, int dot, String userName) {
+    public Uploading getmUploading() {
+        return mUploading;
+    }
+
+    public QuanLyDocSo(LayoutInflater inflater, int dot, int ky, int nam, String userName) {
         mRootView = inflater.inflate(R.layout.quan_ly_doc_so_fragment, null);
 
         mDot = dot;
+        mKy = ky;
+        mNam = nam;
         mUsername = userName;
         mTxtComplete = (TextView) mRootView.findViewById(R.id.txt_qlds_tienTrinh);
         mLocalDatabase = new LocalDatabase(mRootView.getContext());
-        mUploading = new Uploading();
+        mUploading = new Uploading(mDot, mKy, mNam);
         mEditTextSearch = (EditText) mRootView.findViewById(R.id.etxt_qlds_search);
         mGridView = (GridView) mRootView.findViewById(R.id.grid_qlds_danhSachDocSo);
         //Gán DataSource vào ArrayAdapter
@@ -110,6 +116,18 @@ public class QuanLyDocSo extends Fragment {
                 return false;
             }
         });
+    }
+
+    public void setmDot(int mDot) {
+        this.mDot = mDot;
+    }
+
+    public void setmKy(int mKy) {
+        this.mKy = mKy;
+    }
+
+    public void setmNam(int mNam) {
+        this.mNam = mNam;
     }
 
     @Nullable

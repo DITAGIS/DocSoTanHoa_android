@@ -28,13 +28,30 @@ public class Uploading implements IDB<DanhBo_ChiSoMoi, Boolean, String> {
     private final String NEW_TABLE_NAME = "HoaDonMoi";
     private final String TABLE_NAME_DOCSO = "DocSo";
     private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME_DOCSO + " SET CSMOI=?, CODEMoi=?, GhiChuDS=? WHERE DANHBa=?";
+    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME_DOCSO + " SET CSMOI=?, CODEMoi=?, GhiChuDS=? WHERE DANHBa=? and dot = ? and ky = ? and nam = ?";
     private final String TABLE_NAME_HINHDHN = "HinhDHN";
     private final String SQL_INSERT_HINHDHN = "INSERT INTO " + TABLE_NAME_HINHDHN + " VALUES(?,?,?,?,?,?)";
     private final String SQL_DELETE = "DELETE FROM " + TABLE_NAME + " WHERE ClassId=?";
     private final String SQL_INSERT = "INSERT INTO " + NEW_TABLE_NAME + " VALUES(?,?,?,?,?,?,?,?,?,?)";
     private Connection cnn = ConnectionDB.getInstance().getConnection();
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    private String mDot, mKy, mNam;
+
+    public Uploading(int dot, int ky, int nam) {
+        this.mDot = dot + "";
+        if (dot < 10)
+            this.mDot = "0" + dot;
+        this.mKy = ky + "";
+        if (ky < 10)
+            this.mKy = "0" + ky;
+        this.mNam = nam + "";
+    }
+
+    public void setmDot(int dot) {
+        this.mDot = dot + "";
+        if (dot < 10)
+            this.mDot = "0" + dot;
+    }
 
     @NonNull
     private Boolean createTable() {
@@ -121,7 +138,10 @@ public class Uploading implements IDB<DanhBo_ChiSoMoi, Boolean, String> {
             st.setString(2, danhBo_chiSoMoi.getCode());
             st.setString(3, danhBo_chiSoMoi.getNote());
             st.setString(4, danhBo_chiSoMoi.getDanhBo());
-            st.executeUpdate();
+            st.setString(5, this.mDot);
+            st.setString(6, this.mKy);
+            st.setString(7, this.mNam);
+            int result1 = st.executeUpdate();
             st.close();
 
 
@@ -143,11 +163,11 @@ public class Uploading implements IDB<DanhBo_ChiSoMoi, Boolean, String> {
 //                path = path.substring(0, path.length() - 1).concat("1");
             File outFile = new File(path, "DocSoTanHoa");
             String fileName = danhBo_chiSoMoi.getImage().substring(outFile.getAbsolutePath().length() + 1).split("\\.")[0];
-            String stringDate = fileName.substring(0,19);
+            String stringDate = fileName.substring(0, 19);
             Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
             st1.setTimestamp(6, new java.sql.Timestamp(date.getTime()));
-            st1.executeUpdate();
-            return true;// && result1 == 1;
+            int result2 = st1.executeUpdate();
+            return result1 > 0 && result2 > 0;
 
         } catch (SQLException e1) {
             e1.printStackTrace();
@@ -167,9 +187,4 @@ public class Uploading implements IDB<DanhBo_ChiSoMoi, Boolean, String> {
         return null;
     }
 
-    public static void main(String[] args) {
-        Uploading uploading = new Uploading();
-        uploading.createTable();
-
-    }
 }
