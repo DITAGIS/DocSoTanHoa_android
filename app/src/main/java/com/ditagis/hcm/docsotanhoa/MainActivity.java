@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                         mLayLoTrinh.setTextProgress();
                         break;
                     case 1:
+                        mDocSo.setmDot(mLayLoTrinh.getmDot());
                         mDocSo.refresh();
                         break;
                     case 2:

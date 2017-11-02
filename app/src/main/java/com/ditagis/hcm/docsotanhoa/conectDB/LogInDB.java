@@ -132,6 +132,8 @@ public class LogInDB implements IDB<User, Boolean, String> {
 
         Calendar calendar = Calendar.getInstance();
         int ky = calendar.get(Calendar.MONTH) + 1;
+//        int ky  = 10; // lay ky 10
+        int dot = calendar.get(Calendar.DAY_OF_MONTH);
         int nam = calendar.get(Calendar.YEAR);
         Connection cnn = ConnectionDB.getInstance().getConnection();
         String sql = this.SQL_SELECT;
@@ -157,6 +159,7 @@ public class LogInDB implements IDB<User, Boolean, String> {
             if (rsDot.next()) {
                 mDot = rsDot.getString(1);
             }
+            mDot = dot + "";
             statement.close();
             rsDot.close();
             Result result = new Result(mDot, staffName);

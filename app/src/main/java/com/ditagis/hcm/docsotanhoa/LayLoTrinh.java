@@ -2,20 +2,24 @@ package com.ditagis.hcm.docsotanhoa;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.IntentFilter;
+import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewLayLoTrinhAdapter;
@@ -53,6 +57,10 @@ public class LayLoTrinh extends Fragment {
     private Activity mActivity;
     private NetworkStateChangeReceiver mStateChangeReceiver;
 
+    public int getmDot() {
+        return mDot;
+    }
+
     public LayLoTrinh(Activity activity, LayoutInflater inflater, int mKy, int mNam, int mDot, String mUsername, String mStaffName) {
         this.mActivity = activity;
         this.mKy = mKy;
@@ -62,7 +70,7 @@ public class LayLoTrinh extends Fragment {
         this.mStaffName = mStaffName;
 
         mRootView = inflater.inflate(R.layout.lay_lo_trinh_fragment, null);
-        ((TextView) mRootView.findViewById(R.id.txt_llt_dot)).setText("Đợt: " + this.mDot);
+
         ((TextView) mRootView.findViewById(R.id.txt_llt_may)).setText("Máy: " + this.mUsername);
         ((TextView) mRootView.findViewById(R.id.txt_llt_tenNV)).setText("Nhân viên: " + this.mStaffName);
         this.m_txtTongMLT = (TextView) mRootView.findViewById(R.id.txt_llt_mlt);
@@ -97,7 +105,8 @@ public class LayLoTrinh extends Fragment {
                 finishLayLoTrinh(output, mRootView);
             }
         });
-        LayLoTrinh.this.mLayLoTrinhAsync.execute(isOnline(mRootView));
+
+        selectDot();
 
 
 
@@ -109,8 +118,51 @@ public class LayLoTrinh extends Fragment {
         return mRootView;
     }
 
+    public int selectDot() {
+        final int[] dot = {mDot};
+        String[] dots = new String[mDot];
+
+        for (int i = 1; i <= mDot; i++)
+            if (i < 10)
+                dots[i - 1] = "0" + i;
+            else
+                dots[i - 1] = i + "";
+        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
+        builder.setTitle("Chọn đợt đọc chỉ số");
+
+        LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
+        View dialogLayout = inflater.inflate(R.layout.layout_dialog_select_dot, null);
+
+        final Spinner spinCode = (Spinner) dialogLayout.findViewById(R.id.spin_select_dot);
+        ArrayAdapter<String> adapterCode = new ArrayAdapter<String>(mRootView.getContext(), android.R.layout.simple_spinner_dropdown_item, dots);
+        adapterCode.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        spinCode.setAdapter(adapterCode);
+        spinCode.setSelection(mDot - 1);
+        builder.setView(dialogLayout)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dot[0] =Integer.parseInt(spinCode.getSelectedItem().toString());
+                        mDot = dot[0];
+                        dialog.dismiss();
+                        LayLoTrinh.this.mLayLoTrinhAsync.setmDot(mDot);
+                        LayLoTrinh.this.mLayLoTrinhAsync.execute(isOnline(mRootView));
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.show();
+        return dot[0];
+    }
+
     public void setTextProgress() {
-        List<HoaDon> hoaDons = mLocalDatabase.getAllHoaDon(this.mDot + this.mUsername + "%");
+
+        String dotString = mDot + "";
+        if(this.mDot < 10)
+            dotString = "0" + this.mDot;
+        List<HoaDon> hoaDons = mLocalDatabase.getAllHoaDon(dotString + this.mUsername + "%");
         LayLoTrinh.this.mSumMLT = hoaDons.size();
         LayLoTrinh.this.m_txtTongMLT.setText("Tổng mã lộ trình: " + mSumMLT);
         LayLoTrinh.this.mSumDanhBo = mSumMLT;

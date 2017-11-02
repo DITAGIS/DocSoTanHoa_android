@@ -98,8 +98,8 @@
                     android:text="SĐT: "
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                <TextView
-                    android:id="@+id/txt_layout_edit_SDT"
+                <EditText
+                    android:id="@+id/etxt_layout_edit_SDT"
                     android:layout_width="wrap_content"
                     android:layout_weight="3"
                     android:gravity="left"
@@ -234,11 +234,13 @@
                     android:text="Ghi chú:"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                <TextView
-                    android:id="@+id/txt_layout_edit_ghiChu"
+                <EditText
+                    android:id="@+id/etxt_layout_edit_ghiChu"
                     android:layout_width="wrap_content"
                     android:layout_weight="3"
                     android:gravity="left"
+                    android:inputType="textMultiLine"
+                    android:maxLines="5"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </TableRow>
         </TableLayout>

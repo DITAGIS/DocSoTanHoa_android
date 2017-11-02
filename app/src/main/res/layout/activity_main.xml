@@ -21,10 +21,10 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorWhite"
-            app:layout_scrollFlags="scroll|enterAlways"
+
             app:popupTheme="@style/Theme.AppCompat.Light.NoActionBar"
             app:titleTextColor="@color/colorBlueDard">
-
+            <!--app:layout_scrollFlags="scroll|enterAlways"-->
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
@@ -33,7 +33,8 @@
             android:layout_height="wrap_content"
             android:background="@color/colorWhite"
             app:tabSelectedTextColor="@color/colorAccent"
-            app:tabTextColor="@color/colorBlueDard" />
+            app:tabTextColor="@color/colorBlueDard"
+            />
 
     </android.support.design.widget.AppBarLayout>
 

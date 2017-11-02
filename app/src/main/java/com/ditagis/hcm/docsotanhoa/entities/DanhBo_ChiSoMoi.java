@@ -45,6 +45,10 @@ public class DanhBo_ChiSoMoi {
         this.note = note;
     }
 
+    public void setSdt(String sdt) {
+        this.sdt = sdt;
+    }
+
     public String getDanhBo() {
         return danhBo;
     }

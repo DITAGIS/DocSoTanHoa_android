@@ -249,11 +249,17 @@ public class QuanLyDocSo extends Fragment {
 //                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_DanhBo)).setText(danhBo_CSM.getDanhBo());
         ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_tenKH)).setText(danhBo_CSM.getTenKH());
         ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_diaChi)).setText(danhBo_CSM.getDiaChi());
-        ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_SDT)).setText(danhBo_CSM.getSdt());
+        ((TextView) dialogLayout.findViewById(R.id.etxt_layout_edit_SDT)).setText(danhBo_CSM.getSdt());
         ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_CSC)).setText(danhBo_CSM.getChiSoCu());
         final EditText etxtCSM = (EditText) dialogLayout.findViewById(R.id.etxt_layout_edit_CSM);
-
         etxtCSM.setText(danhBo_CSM.getChiSoMoi());
+
+        final EditText etxtSDT = (EditText) dialogLayout.findViewById(R.id.etxt_layout_edit_SDT);
+        etxtCSM.setText(danhBo_CSM.getSdt());
+
+        final EditText etxtNote = (EditText) dialogLayout.findViewById(R.id.etxt_layout_edit_ghiChu);
+        etxtCSM.setText(danhBo_CSM.getNote());
+
         final Spinner spinCode = (Spinner) dialogLayout.findViewById(R.id.spin_edit_code);
         ArrayAdapter<String> adapterCode = new ArrayAdapter<String>(mRootView.getContext(), android.R.layout.simple_spinner_dropdown_item, codes);
         adapterCode.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
@@ -266,7 +272,7 @@ public class QuanLyDocSo extends Fragment {
         ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_giaBieu)).setText(danhBo_CSM.getGiaBieu());
         ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_tienNuoc)).setText("");//TODO tien nuoc
 
-        ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_ghiChu)).setText(danhBo_CSM.getNote());
+        ((TextView) dialogLayout.findViewById(R.id.etxt_layout_edit_ghiChu)).setText(danhBo_CSM.getNote());
 
         builder.setView(dialogLayout)
                 .setPositiveButton("Hủy", new DialogInterface.OnClickListener() {
@@ -280,6 +286,8 @@ public class QuanLyDocSo extends Fragment {
                 //TODO: lưu chỉnh sửa
                 danhBo_CSM.setChiSoMoi(etxtCSM.getText().toString());
                 danhBo_CSM.setCode(spinCode.getSelectedItem().toString());
+                danhBo_CSM.setSdt(etxtSDT.getText().toString());
+                danhBo_CSM.setNote(etxtNote.getText().toString());
 
                 mLocalDatabase.updateDanhBo_CSM(danhBo_CSM);
                 refresh();

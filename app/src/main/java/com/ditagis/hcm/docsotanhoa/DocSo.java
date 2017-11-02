@@ -93,6 +93,10 @@ public class DocSo extends Fragment {
     private Activity mActivity;
     private NetworkStateChangeReceiver mStateChangeReceiver;
 
+    public void setmDot(int mDot) {
+        this.mDot = mDot;
+    }
+
     public DocSo(Activity activity, LayoutInflater inflater, int mKy, int mDot, String mUsername) {
         this.mActivity = activity;
         this.mUsername = mUsername;
@@ -115,7 +119,7 @@ public class DocSo extends Fragment {
 
         ((TextView) mRootView.findViewById(R.id.txt_ds_ky)).setText(this.mKy + "");
 
-        ((TextView) mRootView.findViewById(R.id.txt_ds_dot)).setText(this.mDot + "");
+
         mTxtComplete = (TextView) mRootView.findViewById(R.id.txt_ds_complete);
 
         mLocalDatabase = new LocalDatabase(mRootView.getContext());
@@ -229,8 +233,11 @@ public class DocSo extends Fragment {
     }
 
     public void refresh() {
-
-        for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon(this.mDot + this.mUsername + "%")) {
+        String dotString = mDot + "";
+        if(this.mDot < 10)
+            dotString = "0" + this.mDot;
+        ((TextView) mRootView.findViewById(R.id.txt_ds_dot)).setText(this.mDot + "");
+        for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon(dotString + this.mUsername + "%")) {
             mMLTs.add(hoaDon.getMaLoTrinh());
         }
         mAdapterMLT.notifyDataSetChanged();
@@ -238,8 +245,10 @@ public class DocSo extends Fragment {
     }
 
     private void setTextProgress() {
-
-        this.mSumDanhBo = mLocalDatabase.getAllHoaDon(this.mDot + this.mUsername + "%").size();
+        String dotString = mDot + "";
+        if(this.mDot < 10)
+            dotString = "0" + this.mDot;
+        this.mSumDanhBo = mLocalDatabase.getAllHoaDon(dotString + this.mUsername + "%").size();
         this.mDanhBoHoanThanh = mLocalDatabase.getAllDanhBo_CSM().size();
         this.mSumDanhBo += this.mDanhBoHoanThanh;
         this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);

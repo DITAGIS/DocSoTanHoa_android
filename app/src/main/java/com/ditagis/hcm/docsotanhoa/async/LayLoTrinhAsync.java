@@ -35,6 +35,10 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
         void processFinish(ResultLayLoTrinh output);
     }
 
+    public void setmDot(int mDot) {
+        this.mDot = mDot;
+    }
+
     public AsyncResponse mDelegate = null;
 
     public LayLoTrinhAsync(HoaDonDB hoaDonDB, LocalDatabase localDatabase, String username, int dot, int ky, int nam, Context context, Activity activity, AsyncResponse delegate) {
