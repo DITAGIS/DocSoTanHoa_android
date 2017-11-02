@@ -3,7 +3,6 @@ package com.ditagis.hcm.docsotanhoa;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -21,6 +20,7 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -38,6 +38,7 @@ import com.ditagis.hcm.docsotanhoa.entities.DanhBo_ChiSoMoi;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 import com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver;
+import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 
 import java.io.File;
@@ -125,7 +126,7 @@ public class DocSo extends Fragment {
         mLocalDatabase = new LocalDatabase(mRootView.getContext());
 
         mEditTextCSM = (EditText) mRootView.findViewById(R.id.etxt_ds_CSM);
-        mEditTextCSM.setEnabled(false);
+//        mEditTextCSM.setEnabled(false);
         mImgbtn_Save = (ImageButton) mRootView.findViewById(R.id.imgbtn_ds_Save);
         mTxtCSM = (TextView) mRootView.findViewById(R.id.txt_ds_CSM);
         String[] codes = {"40", "41", "42", "54", "55", "56", "58", "5F", "5K",
@@ -175,10 +176,36 @@ public class DocSo extends Fragment {
                 }
             }
         });
+        mEditTextCSM.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (getImageFileName() == null) {
+                    MySnackBar.make(mEditTextCSM, R.string.alert_captureBefore, true);
+                    HideKeyboard.hide(mActivity);
+                    return true;
+                } else if (!getImageFileName().exists()) {
+                    MySnackBar.make(mEditTextCSM, R.string.alert_captureBefore, true);
+                    HideKeyboard.hide(mActivity);
+                    return true;
+                }
+                return false;
+            }
+        });
+//        mEditTextCSM.setEnabled(false);
+//        mEditTextCSM.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (getImageFileName() == null)
+//                    MySnackBar.make(mEditTextCSM, R.string.alert_captureBefore, true);
+//                else if (!getImageFileName().exists()) {
+//                    MySnackBar.make(mEditTextCSM, R.string.alert_captureBefore, true);
+//
+//                }
+//            }
+//        });
         mEditTextCSM.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -234,7 +261,7 @@ public class DocSo extends Fragment {
 
     public void refresh() {
         String dotString = mDot + "";
-        if(this.mDot < 10)
+        if (this.mDot < 10)
             dotString = "0" + this.mDot;
         ((TextView) mRootView.findViewById(R.id.txt_ds_dot)).setText(this.mDot + "");
         for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon(dotString + this.mUsername + "%")) {
@@ -246,7 +273,7 @@ public class DocSo extends Fragment {
 
     private void setTextProgress() {
         String dotString = mDot + "";
-        if(this.mDot < 10)
+        if (this.mDot < 10)
             dotString = "0" + this.mDot;
         this.mSumDanhBo = mLocalDatabase.getAllHoaDon(dotString + this.mUsername + "%").size();
         this.mDanhBoHoanThanh = mLocalDatabase.getAllDanhBo_CSM().size();
