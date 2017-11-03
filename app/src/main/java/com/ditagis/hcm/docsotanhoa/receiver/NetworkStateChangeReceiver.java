@@ -10,7 +10,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.view.View;
 
-import com.ditagis.hcm.docsotanhoa.MainActivity;
 import com.ditagis.hcm.docsotanhoa.R;
 import com.ditagis.hcm.docsotanhoa.conectDB.ConnectionDB;
 
@@ -35,9 +34,9 @@ public class NetworkStateChangeReceiver extends BroadcastReceiver {
                 dialog.dismiss();
 
         } else {
-            if (context instanceof MainActivity) {
-                mActivity.finish();
-            }
+//            if (context instanceof MainActivity) {
+//                mActivity.finish();
+//            }
             dialog.setMessage(context.getString(R.string.disconnect_message));
             dialog.setTitle(context.getString(R.string.disconnect_title
             ));
