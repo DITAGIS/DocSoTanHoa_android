@@ -31,6 +31,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -185,10 +186,17 @@ public class DocSo extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-
-                for (int i = 0; i < mDBs.size(); i++) {
-                    if (s.toString().equals(mDBs.get(i))) {
-                        mSpinDB.setSelection(i);
+                if (mSearchType.equals(mRootView.getContext().getString(R.string.search_mlt))) {
+                    for (int i = 0; i < mMLTs.size(); i++) {
+                        if (s.toString().equals(mMLTs.get(i))) {
+                            mSpinMLT.setSelection(i);
+                        }
+                    }
+                } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
+                    for (int i = 0; i < mDBs.size(); i++) {
+                        if (s.toString().equals(mDBs.get(i))) {
+                            mSpinDB.setSelection(i);
+                        }
                     }
                 }
             }
@@ -271,8 +279,8 @@ public class DocSo extends Fragment {
     }
 
     private void optionSearch() {
-        String[] searchTypes = {mRootView.getContext().getString(R.string.search_mlt),
-                mRootView.getContext().getString(R.string.search_danhbo)};
+//        String[] searchTypes = {mRootView.getContext().getString(R.string.search_mlt),
+//                mRootView.getContext().getString(R.string.search_danhbo)};
 //                mRootView.getContext().getString(R.string.search_tenKH)};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
@@ -281,15 +289,27 @@ public class DocSo extends Fragment {
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
         View dialogLayout = inflater.inflate(R.layout.layout_dialog_select_search_type, null);
 
-        final Spinner spinSearchType = (Spinner) dialogLayout.findViewById(R.id.spin_select_type_seach);
-        ArrayAdapter<String> adapterSearchType = new ArrayAdapter<String>(mRootView.getContext(), android.R.layout.simple_spinner_dropdown_item, searchTypes);
-        adapterSearchType.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-        spinSearchType.setAdapter(adapterSearchType);
+//        final Spinner spinSearchType = (Spinner) dialogLayout.findViewById(R.id.spin_select_type_seach);
+//        ArrayAdapter<String> adapterSearchType = new ArrayAdapter<String>(mRootView.getContext(), android.R.layout.simple_spinner_dropdown_item, searchTypes);
+//        adapterSearchType.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+//        spinSearchType.setAdapter(adapterSearchType);
+
+        final RadioGroup group = (RadioGroup) dialogLayout.findViewById(R.id.radioGroup_searchtype);
+        group.check(R.id.radio_search_mlt);
 
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mSearchType = spinSearchType.getSelectedItem().toString();
+                int iChecked = group.getCheckedRadioButtonId();
+                switch (iChecked) {
+                    case R.id.radio_search_mlt:
+                        mSearchType = mRootView.getContext().getString(R.string.search_mlt);
+                        break;
+                    case R.id.radio_search_danhbo:
+                        mSearchType = mRootView.getContext().getString(R.string.search_danhbo);
+                        break;
+                }
+//                mSearchType = spinSearchType.getSelectedItem().toString();
                 singleComplete.setHint(mSearchType);
 
                 if (mSearchType.equals(mRootView.getContext().getString(R.string.search_mlt))) {
@@ -327,7 +347,8 @@ public class DocSo extends Fragment {
         if (this.mDot < 10)
             dotString = "0" + this.mDot;
         ((TextView) mRootView.findViewById(R.id.txt_ds_dot)).setText(this.mDot + "");
-        for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon(dotString + this.mUsername + "%")) {
+        //dotString + this.mUsername + "%")
+        for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon()) {
             mMLTs.add(hoaDon.getMaLoTrinh());
         }
         mAdapterMLT.notifyDataSetChanged();
@@ -347,7 +368,7 @@ public class DocSo extends Fragment {
 
     private void saveImage(View v) {
         // kiểm tra hình ảnh
-        if(getImageFileName() == null){
+        if (getImageFileName() == null) {
             MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
             return;
         }
@@ -390,6 +411,8 @@ public class DocSo extends Fragment {
                     mDanhBo = mSpinDB.getSelectedItem().toString();
                     DanhBo_ChiSoMoi danhBo_csm = mLocalDatabase.getDanhBo_CSM(mDanhBo);
                     HoaDon hoaDon = mLocalDatabase.getHoaDon(mDanhBo);
+                    mDot = Integer.parseInt(hoaDon.getDot());
+                    ((TextView) mRootView.findViewById(R.id.txt_ds_dot)).setText(hoaDon.getDot());
                     ((TextView) mRootView.findViewById(R.id.txt_ds_tenKH)).setText(hoaDon.getTenKhachHang());
 //                            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
                     mTxtCSC = (TextView) mRootView.findViewById(R.id.txt_ds_CSC);
@@ -421,8 +444,12 @@ public class DocSo extends Fragment {
     }
 
     private void saveDB_CSM(String image, int csc, int csm) {
+        String dotString = mDot + "";
+        if (mDot < 10)
+            dotString = "0" + mDot;
         DanhBo_ChiSoMoi danhBo_chiSoMoi = new DanhBo_ChiSoMoi(this.mDanhBo,
                 this.mMlt,
+                dotString,
                 ((TextView) mRootView.findViewById(R.id.txt_ds_tenKH)).getText().toString(),
                 ((TextView) mRootView.findViewById(R.id.txt_ds_diachi)).getText().toString(),
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_sdt)).getText().toString(),

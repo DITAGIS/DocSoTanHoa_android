@@ -251,7 +251,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                     phuong = rs1.getString(4) == null ? "" : rs1.getString(4);
 
                 }
-                HoaDon hoaDon = new HoaDon(khu, mDot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky + "", nam + "", code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
+                HoaDon hoaDon = new HoaDon(khu, dotString, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky + "", nam + "", code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
                 hoaDons.add(hoaDon);
 //                    LayLoTrinhActivity.this.mHoaDons.add(hoaDon);
 //                if (mLocalDatabase.addHoaDon(hoaDon)) ;

@@ -7,6 +7,7 @@ package com.ditagis.hcm.docsotanhoa.entities;
 public class DanhBo_ChiSoMoi {
     private String danhBo;
     private String maLoTrinh;
+    private String dot;
     private String tenKH;
     private String diaChi;
     private String sdt;
@@ -18,9 +19,10 @@ public class DanhBo_ChiSoMoi {
     private String image;
     private int hasImage;// 1 là đã lưu, 0 là chưa lưu
 
-    public DanhBo_ChiSoMoi(String danhBo, String maLoTrinh, String tenKH, String diaChi, String sdt, String giaBieu, String code, String chiSoCu, String chiSoMoi, String note, String image, int hasImage) {
+    public DanhBo_ChiSoMoi(String danhBo, String maLoTrinh, String dot, String tenKH, String diaChi, String sdt, String giaBieu, String code, String chiSoCu, String chiSoMoi, String note, String image, int hasImage) {
         this.danhBo = danhBo;
         this.maLoTrinh = maLoTrinh;
+        this.dot = dot;
         this.tenKH = tenKH;
         this.diaChi = diaChi;
         this.sdt = sdt;
@@ -31,6 +33,14 @@ public class DanhBo_ChiSoMoi {
         this.note = note;
         this.image = image;
         this.hasImage = hasImage;
+    }
+
+    public String getDot() {
+        return dot;
+    }
+
+    public void setDot(String dot) {
+        this.dot = dot;
     }
 
     public void setCode(String code) {

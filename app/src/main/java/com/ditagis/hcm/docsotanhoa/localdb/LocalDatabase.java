@@ -35,7 +35,6 @@ public class LocalDatabase extends SQLiteOpenHelper {
     private static final String TABLE_HOADON = "HoaDon";
     private static final String COLUMN_HOADON_DOT = "HoaDon_Dot";
     private static final String COLUMN_HOADON_DANHBO = "HoaDon_DanhBo";
-    private static final String COLUMN_HOADON_CULY = "HoaDon_CuLy";
     private static final String COLUMN_HOADON_KHACHHANG = "HoaDon_TenKhachHang";
     private static final String COLUMN_HOADON_KY = "HoaDon_Ky";
     private static final String COLUMN_HOADON_CODE = "HoaDon_Code";
@@ -59,6 +58,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
 
     private static final String COLUMN_LUUDANHBO_DANHBO = "LuuDanhBo_DanhBo";
     private static final String COLUMN_LUUDANHBO_MALOTRINH = "LuuDanhBo_MaLoTrinh";
+    private static final String COLUMN_LUUDANHBO_DOT = "LuuDanhBo_Dot";
     private static final String COLUMN_LUUDANHBO_TEN_KH = "LuuDanhBo_TenKH";
     private static final String COLUMN_LUUDANHBO_DIA_CHI = "LuuDanhBo_DiaChi";
     private static final String COLUMN_LUUDANHBO_SDT = "LuuDanhBo_SDT";
@@ -108,6 +108,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         String script2 = "CREATE TABLE " + TABLE_LUUDANHBO + "("
                 + COLUMN_LUUDANHBO_DANHBO + " TEXT PRIMARY KEY,"
                 + COLUMN_LUUDANHBO_MALOTRINH + " TEXT,"
+                + COLUMN_LUUDANHBO_DOT + " TEXT,"
                 + COLUMN_LUUDANHBO_TEN_KH + " TEXT,"
                 + COLUMN_LUUDANHBO_DIA_CHI + " TEXT,"
                 + COLUMN_LUUDANHBO_SDT + " TEXT,"
@@ -331,6 +332,20 @@ public class LocalDatabase extends SQLiteOpenHelper {
         }
         return hoaDons;
     }
+    public List<HoaDon> getAllHoaDon() {
+        List<HoaDon> hoaDons = new ArrayList<HoaDon>();
+        Log.i(TAG, "LocalDatabase.getHoaDon ... " + id);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("Select * from " + TABLE_HOADON, null);
+        if (cursor.moveToFirst()) {
+            do {
+                HoaDon hoaDon = new HoaDon(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11));
+                hoaDons.add(hoaDon);
+            } while (cursor.moveToNext());
+        }
+        return hoaDons;
+    }
 
     public void deleteHoaDon(String danhBo) {
         Log.i(TAG, "LocalDatabase.updateHoaDon ... " + danhBo);
@@ -391,7 +406,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                         cursor.getString(8),
                         cursor.getString(9),
                         cursor.getString(10),
-                        cursor.getInt(11));
+                        cursor.getString(11),
+                        cursor.getInt(12));
 
 
                 // Thêm vào danh sách.
@@ -412,6 +428,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
 
         values.put(COLUMN_LUUDANHBO_DANHBO, danhBoChiSoMoi.getDanhBo());
         values.put(COLUMN_LUUDANHBO_MALOTRINH, danhBoChiSoMoi.getMaLoTrinh());
+        values.put(COLUMN_LUUDANHBO_DOT, danhBoChiSoMoi.getDot());
         values.put(COLUMN_LUUDANHBO_TEN_KH, danhBoChiSoMoi.getTenKH());
         values.put(COLUMN_LUUDANHBO_DIA_CHI, danhBoChiSoMoi.getDiaChi());
         values.put(COLUMN_LUUDANHBO_SDT, danhBoChiSoMoi.getSdt());
@@ -438,6 +455,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
 
         values.put(COLUMN_LUUDANHBO_DANHBO, danhBoChiSoMoi.getDanhBo());
         values.put(COLUMN_LUUDANHBO_MALOTRINH, danhBoChiSoMoi.getMaLoTrinh());
+        values.put(COLUMN_LUUDANHBO_DOT, danhBoChiSoMoi.getDot());
         values.put(COLUMN_LUUDANHBO_TEN_KH, danhBoChiSoMoi.getTenKH());
         values.put(COLUMN_LUUDANHBO_DIA_CHI, danhBoChiSoMoi.getDiaChi());
         values.put(COLUMN_LUUDANHBO_SDT, danhBoChiSoMoi.getSdt());
@@ -482,7 +500,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                         cursor.getString(8),
                         cursor.getString(9),
                         cursor.getString(10),
-                        cursor.getInt(11)
+                        cursor.getString(11),
+                        cursor.getInt(12)
                 );
             } while (cursor.moveToNext());
         }

@@ -35,6 +35,7 @@ import java.util.List;
  */
 
 public class LayLoTrinh {
+
     TextView m_txtTongMLT;
     TextView m_txtTongDB;
     EditText mEditTextSearch;

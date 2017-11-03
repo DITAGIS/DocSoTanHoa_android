@@ -71,14 +71,21 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
         ResultLayLoTrinh resultLayLoTrinh = new ResultLayLoTrinh(this.mContext);
 //        if (isOffline) {
         String dotString = mDot + "";
-        if(mDot < 10)
+        if (mDot < 10)
             dotString = "0" + mDot;
-        hoaDons = this.mLocalDatabase.getAllHoaDon(dotString + mUsername + "%");
+        hoaDons = this.mLocalDatabase.getAllHoaDon();//dotString + mUsername + "%");
 //        } else {
         if (_hoadonDB == null)
             _hoadonDB = new HoaDonDB();
-        if (hoaDons.size() == 0)
-            hoaDons = _hoadonDB.getAllByUserName(this.mUsername, this.mDot, this.mNam, this.mKy);
+
+        boolean isFound = false;
+        if (hoaDons.size() > 0)
+            for (HoaDon hoaDon : hoaDons) {
+                if (hoaDon.getDot().equals(dotString))
+                    isFound = true;
+            }
+        if (!isFound)
+            hoaDons.addAll(_hoadonDB.getAllByUserName(this.mUsername, this.mDot, this.mNam, this.mKy));
         if (hoaDons != null)
             resultLayLoTrinh.setDot(_hoadonDB.getmDot());
 

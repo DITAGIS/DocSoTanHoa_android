@@ -138,7 +138,7 @@ public class Uploading implements IDB<DanhBo_ChiSoMoi, Boolean, String> {
             st.setString(2, danhBo_chiSoMoi.getCode());
             st.setString(3, danhBo_chiSoMoi.getNote());
             st.setString(4, danhBo_chiSoMoi.getDanhBo());
-            st.setString(5, this.mDot);
+            st.setString(5, danhBo_chiSoMoi.getDot());
             st.setString(6, this.mKy);
             st.setString(7, this.mNam);
             int result1 = st.executeUpdate();
