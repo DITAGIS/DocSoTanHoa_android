@@ -281,10 +281,10 @@ public class QuanLyDocSo extends Fragment {
         etxtCSM.setText(danhBo_CSM.getChiSoMoi());
 
         final EditText etxtSDT = (EditText) dialogLayout.findViewById(R.id.etxt_layout_edit_SDT);
-        etxtCSM.setText(danhBo_CSM.getSdt());
+        etxtSDT.setText(danhBo_CSM.getSdt());
 
         final EditText etxtNote = (EditText) dialogLayout.findViewById(R.id.etxt_layout_edit_ghiChu);
-        etxtCSM.setText(danhBo_CSM.getNote());
+        etxtNote.setText(danhBo_CSM.getNote());
 
         final Spinner spinCode = (Spinner) dialogLayout.findViewById(R.id.spin_edit_code);
         ArrayAdapter<String> adapterCode = new ArrayAdapter<String>(mRootView.getContext(), android.R.layout.simple_spinner_dropdown_item, codes);
