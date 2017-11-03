@@ -216,7 +216,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                 dotString = "0" + dot;
             else dotString = dot + "";
             String like = dotString + userName + "%";
-            ResultSet rs = statement.executeQuery("SELECT top 3 * FROM DocSo where nam = "
+            ResultSet rs = statement.executeQuery("SELECT * FROM DocSo where nam = "
                     + nam + " and ky = " + ky + " and mlt2 like '" + like + "' and (csmoi is null or csmoi = 0 )");
 //                LayLoTrinhActivity.this.mHoaDons = new ArrayList<HoaDon>();
             while (rs.next()) {

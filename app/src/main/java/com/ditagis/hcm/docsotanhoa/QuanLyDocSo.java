@@ -60,6 +60,14 @@ public class QuanLyDocSo extends Fragment {
         return mUploading;
     }
 
+    public void setmSumDanhBo(int mSumDanhBo) {
+        this.mSumDanhBo = mSumDanhBo;
+    }
+
+    public void setmDanhBoHoanThanh(int mDanhBoHoanThanh) {
+        this.mDanhBoHoanThanh = mDanhBoHoanThanh;
+    }
+
     public QuanLyDocSo(LayoutInflater inflater, int dot, int ky, int nam, String userName) {
         mRootView = inflater.inflate(R.layout.quan_ly_doc_so_fragment, null);
 
@@ -174,9 +182,9 @@ public class QuanLyDocSo extends Fragment {
 
     private void setTextProgress() {
 
-        this.mSumDanhBo = mLocalDatabase.getAllHoaDon(this.mDot + this.mUsername + "%").size();
-        this.mDanhBoHoanThanh = mQuanLyDocSoAdapter.getCount();
-        this.mSumDanhBo += this.mDanhBoHoanThanh;
+//        this.mSumDanhBo = mLocalDatabase.getAllHoaDon(this.mDot + this.mUsername + "%").size();
+//        this.mDanhBoHoanThanh = mQuanLyDocSoAdapter.getCount();
+//        this.mSumDanhBo += this.mDanhBoHoanThanh;
         this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
 
     }

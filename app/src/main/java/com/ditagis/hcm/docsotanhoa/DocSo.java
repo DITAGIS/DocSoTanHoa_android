@@ -94,6 +94,14 @@ public class DocSo extends Fragment {
     private Activity mActivity;
     private NetworkStateChangeReceiver mStateChangeReceiver;
 
+    public int getmSumDanhBo() {
+        return mSumDanhBo;
+    }
+
+    public int getmDanhBoHoanThanh() {
+        return mDanhBoHoanThanh;
+    }
+
     public void setmDot(int mDot) {
         this.mDot = mDot;
     }
