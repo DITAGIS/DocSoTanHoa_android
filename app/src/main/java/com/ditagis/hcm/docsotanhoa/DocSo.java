@@ -27,6 +27,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -93,6 +94,7 @@ public class DocSo extends Fragment {
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     private Activity mActivity;
     private NetworkStateChangeReceiver mStateChangeReceiver;
+    private String mSearchType;
 
     public int getmSumDanhBo() {
         return mSumDanhBo;
@@ -162,6 +164,12 @@ public class DocSo extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+        ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                optionSearch();
             }
         });
         singleComplete.addTextChangedListener(new TextWatcher() {
@@ -259,6 +267,52 @@ public class DocSo extends Fragment {
                 saveImage(v);
             }
         });
+
+    }
+
+    private void optionSearch() {
+        String[] searchTypes = {mRootView.getContext().getString(R.string.search_mlt),
+                mRootView.getContext().getString(R.string.search_danhbo)};
+//                mRootView.getContext().getString(R.string.search_tenKH)};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
+        builder.setTitle("Tùy chọn tìm kiếm");
+        builder.setCancelable(true);
+        LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
+        View dialogLayout = inflater.inflate(R.layout.layout_dialog_select_search_type, null);
+
+        final Spinner spinSearchType = (Spinner) dialogLayout.findViewById(R.id.spin_select_type_seach);
+        ArrayAdapter<String> adapterSearchType = new ArrayAdapter<String>(mRootView.getContext(), android.R.layout.simple_spinner_dropdown_item, searchTypes);
+        adapterSearchType.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        spinSearchType.setAdapter(adapterSearchType);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mSearchType = spinSearchType.getSelectedItem().toString();
+                singleComplete.setHint(mSearchType);
+
+                if (mSearchType.equals(mRootView.getContext().getString(R.string.search_mlt))) {
+                    singleComplete.setAdapter(new ArrayAdapter<String>(
+                            mRootView.getContext(),
+                            android.R.layout.simple_list_item_1,
+                            mMLTs
+                    ));
+
+                } else {
+                    singleComplete.setAdapter(new ArrayAdapter<String>(
+                            mRootView.getContext(),
+                            android.R.layout.simple_list_item_1,
+                            mDBs
+                    ));
+                }
+                dialog.dismiss();
+            }
+        });
+        builder.setView(dialogLayout);
+        final AlertDialog dialog = builder.create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.show();
 
     }
 

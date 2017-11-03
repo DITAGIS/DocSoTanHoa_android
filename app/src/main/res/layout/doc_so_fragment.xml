@@ -119,6 +119,43 @@
                             android:textColor="@android:color/white" />
                     </TableRow>
                     <!--Table row mã lộ trình-->
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_column="0"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:text="Tìm kiếm"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/white" />
+
+                        <AutoCompleteTextView
+                            android:id="@+id/editauto"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:width="0dp"
+                            android:layout_weight="0.8"
+                            android:ems="10"
+                            android:gravity="left"
+                            android:hint="@string/search_danhbo"
+                            android:inputType="number"
+                            android:maxLength="11"
+                            android:textColor="@color/colorWhite"
+                            android:textColorHint="@color/colorWhite" />
+
+                        <Button
+                            android:id="@+id/btn_ds_optionSearch"
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="..." />
+
+                    </TableRow>
+
                     <TableRow android:layout_weight="1">
 
                         <TextView
@@ -139,32 +176,6 @@
                             android:textColor="@android:color/white" />
                     </TableRow>
                     <!--Table row tìm kiếm danh bộ-->
-                    <TableRow android:layout_weight="1">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_column="0"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:text="Tìm kiếm"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@android:color/white" />
-
-                        <AutoCompleteTextView
-                            android:id="@+id/editauto"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:width="0dp"
-                            android:ems="10"
-                            android:gravity="left"
-                            android:hint="Tìm kiếm danh bộ"
-                            android:inputType="number"
-                            android:maxLength="11"
-                            android:textColor="@color/colorWhite"
-                            android:textColorHint="@color/colorWhite" />
-
-                    </TableRow>
 
                     <!--Table row danh bộ-->
                     <TableRow android:layout_weight="1">

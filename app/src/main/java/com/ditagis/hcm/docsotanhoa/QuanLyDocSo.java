@@ -361,7 +361,7 @@ public class QuanLyDocSo extends Fragment {
         private ProgressDialog dialog;
 
         public UploadingAsync() {
-            this.dialog = new ProgressDialog(mRootView.getContext());
+            this.dialog = new ProgressDialog(mRootView.getContext(), android.R.style.Theme_Material_Dialog_Alert);
         }
 
         @Override
@@ -414,6 +414,9 @@ public class QuanLyDocSo extends Fragment {
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
+
+            mSumDanhBo -= mDanhBoHoanThanh;
+            mDanhBoHoanThanh = 0;
             setTextProgress();
         }
     }
