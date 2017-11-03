@@ -347,6 +347,10 @@ public class DocSo extends Fragment {
 
     private void saveImage(View v) {
         // kiểm tra hình ảnh
+        if(getImageFileName() == null){
+            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+            return;
+        }
         if (!getImageFileName().exists()) {
             MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
             return;
