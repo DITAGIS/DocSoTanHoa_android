@@ -145,7 +145,14 @@ public class DocSo extends Fragment {
                 "60", "61", "62", "63", "64", "65", "66", "81", "82",
                 "83", "F1", "F2", "F3", "F4", "M1", "M2", "M3", "N",
                 "RT", "K", "Q"};
+
+
         mMLTs = new ArrayList<String>();
+
+        for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon()) {
+            mMLTs.add(hoaDon.getMaLoTrinh());
+        }
+
         mAdapterMLT = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item, mMLTs);
         mAdapterMLT.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         ArrayAdapter<String> adapterCode = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item, codes);
@@ -173,6 +180,15 @@ public class DocSo extends Fragment {
                 optionSearch();
             }
         });
+
+        mSearchType = mRootView.getContext().getString(R.string.search_mlt);
+        if (mSearchType.equals(mRootView.getContext().getString(R.string.search_mlt)))
+            singleComplete.setAdapter(new ArrayAdapter<String>(
+                    mRootView.getContext(),
+                    android.R.layout.simple_list_item_1,
+                    mMLTs
+            ));
+
         singleComplete.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -181,11 +197,6 @@ public class DocSo extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
                 if (mSearchType.equals(mRootView.getContext().getString(R.string.search_mlt))) {
                     for (int i = 0; i < mMLTs.size(); i++) {
                         if (s.toString().equals(mMLTs.get(i))) {
@@ -199,6 +210,11 @@ public class DocSo extends Fragment {
                         }
                     }
                 }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
         mEditTextCSM.setOnTouchListener(new View.OnTouchListener() {
@@ -275,8 +291,8 @@ public class DocSo extends Fragment {
                 saveImage(v);
             }
         });
-
     }
+
 
     private void optionSearch() {
 //        String[] searchTypes = {mRootView.getContext().getString(R.string.search_mlt),
@@ -348,17 +364,16 @@ public class DocSo extends Fragment {
             dotString = "0" + this.mDot;
         ((TextView) mRootView.findViewById(R.id.txt_ds_dot)).setText(this.mDot + "");
         //dotString + this.mUsername + "%")
-        for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon()) {
-            mMLTs.add(hoaDon.getMaLoTrinh());
-        }
+
         mAdapterMLT.notifyDataSetChanged();
-        setTextProgress();
+        setTextProgress(dotString);
+
     }
 
-    private void setTextProgress() {
-        String dotString = mDot + "";
-        if (this.mDot < 10)
-            dotString = "0" + this.mDot;
+    private void setTextProgress(String dotString) {
+//        String dotString = mDot + "";
+//        if (this.mDot < 10)
+//            dotString = "0" + this.mDot;
         this.mSumDanhBo = mLocalDatabase.getAllHoaDon(dotString + this.mUsername + "%").size();
         this.mDanhBoHoanThanh = mLocalDatabase.getAllDanhBo_CSM().size();
         this.mSumDanhBo += this.mDanhBoHoanThanh;
@@ -419,7 +434,7 @@ public class DocSo extends Fragment {
                     mTxtCSC.setText(hoaDon.getChiSoCu());
                     ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu)).setText(hoaDon.getGiaBieu());
                     ((TextView) mRootView.findViewById(R.id.txt_ds_diachi)).setText(hoaDon.getDiaChi());
-
+                    refresh();
                     if (danhBo_csm != null) {
                         mEditTextCSM.setText(danhBo_csm.getChiSoMoi());
                         mTxtCSM.setText(danhBo_csm.getChiSoMoi());
