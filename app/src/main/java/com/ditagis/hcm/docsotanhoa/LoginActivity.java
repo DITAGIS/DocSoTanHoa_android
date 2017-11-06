@@ -96,15 +96,31 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-//    @Override
-//    protected void onPause() {
-//        LoginActivity.this.unregisterReceiver(mStateChangeReceiver);
-//        super.onPause();
-//    }
+
+    @Override
+    protected void onResumeFragments() {
+        if (mStateChangeReceiver == null) {
+            this.mStateChangeReceiver = new NetworkStateChangeReceiver(btnLogin, LoginActivity.this);
+            this.mIntentFilter = new IntentFilter();
+            this.mIntentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+            this.mIntentFilter.addAction("android.net.conn.WIFI_STATE_CHANGED");
+            registerReceiver(mStateChangeReceiver, this.mIntentFilter);
+        }
+        super.onResumeFragments();
+    }
+
+    @Override
+    protected void onPause() {
+        if (mStateChangeReceiver != null) {
+            LoginActivity.this.unregisterReceiver(mStateChangeReceiver);
+            mStateChangeReceiver = null;
+        }
+        super.onPause();
+    }
 
     @Override
     protected void onDestroy() {
-        LoginActivity.this.unregisterReceiver(mStateChangeReceiver);
+//        LoginActivity.this.unregisterReceiver(mStateChangeReceiver);
         super.onDestroy();
     }
 

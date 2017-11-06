@@ -37,7 +37,12 @@ public class NetworkStateChangeReceiver extends BroadcastReceiver {
 
         timer = new CountDownTimer(120 * 1000, 1000) {
             public void onTick(long millisUntilFinished) {
-                dialog.setMessage(context.getString(R.string.disconnect_message) + "\nCần kết nối lại trong: " + millisUntilFinished / 1000 + " giây");
+                if (mIsRunning)
+                    dialog.setMessage(context.getString(R.string.disconnect_message) + "\nCần kết nối lại trong: " + millisUntilFinished / 1000 + " giây");
+                else {
+                    cancel();
+                    dialog.dismiss();
+                }
             }
 
             public void onFinish() {
@@ -46,18 +51,21 @@ public class NetworkStateChangeReceiver extends BroadcastReceiver {
                 dialog.setMessage(context.getString(R.string.disconnect_message));
                 dialog.setTitle(context.getString(R.string.disconnect_title));
                 dialog.show();
+                mIsRunning = false;
 
             }
+
 
         };
 //        timer.start();
         if (networkInfo != null && networkInfo.isConnected()) {
             if (dialog != null && dialog.isShowing()) {
-                if (mIsRunning) {
-                    timer.cancel();
+                if (context instanceof MainActivity) {
+//                if (mIsRunning) {
+//                    timer.cancel();
                     mIsRunning = false;
-                }
-                dialog.dismiss();
+                } else
+                    dialog.dismiss();
 
             }
 
