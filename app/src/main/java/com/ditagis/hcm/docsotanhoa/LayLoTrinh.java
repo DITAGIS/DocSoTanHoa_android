@@ -121,7 +121,7 @@ public class LayLoTrinh {
                 dots[i - 1] = i + "";
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Chọn đợt đọc chỉ số");
-
+        builder.setCancelable(false);
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
         View dialogLayout = inflater.inflate(R.layout.layout_dialog_select_dot, null);
 

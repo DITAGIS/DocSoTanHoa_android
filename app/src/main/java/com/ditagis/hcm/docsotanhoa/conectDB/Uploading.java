@@ -133,6 +133,8 @@ public class Uploading implements IDB<DanhBo_ChiSoMoi, Boolean, String> {
         //TODO: cập nhật chỉ số cũ = chỉ số mới
         try {
             cnn = ConnectionDB.getInstance().getConnection();
+            if (cnn == null)
+                return false;
             PreparedStatement st = cnn.prepareStatement(sql);
             st.setString(1, danhBo_chiSoMoi.getChiSoMoi());
             st.setString(2, danhBo_chiSoMoi.getCode());

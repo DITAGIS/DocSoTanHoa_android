@@ -181,10 +181,9 @@ public class QuanLyDocSo extends Fragment {
     }
 
     private void setTextProgress() {
-
-//        this.mSumDanhBo = mLocalDatabase.getAllHoaDon(this.mDot + this.mUsername + "%").size();
-//        this.mDanhBoHoanThanh = mQuanLyDocSoAdapter.getCount();
-//        this.mSumDanhBo += this.mDanhBoHoanThanh;
+        this.mSumDanhBo = mLocalDatabase.getAllHoaDon().size();
+        this.mDanhBoHoanThanh = mLocalDatabase.getAllDanhBo_CSM().size();
+        this.mSumDanhBo += this.mDanhBoHoanThanh;
         this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
 
     }
@@ -224,7 +223,7 @@ public class QuanLyDocSo extends Fragment {
 
 
         dialog.setView(dialogLayout);
-
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.show();
 
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -331,7 +330,7 @@ public class QuanLyDocSo extends Fragment {
     }
 
     private void doUpLoad() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Đồng bộ danh bộ?");
         builder.setMessage("Dữ liệu sau khi đồng bộ sẽ không thể chỉnh sửa!")
                 .setCancelable(true)
@@ -347,8 +346,9 @@ public class QuanLyDocSo extends Fragment {
                         dialog.dismiss();
                     }
                 });
-        AlertDialog alert = builder.create();
-        alert.show();
+        AlertDialog dialog = builder.create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.show();
     }
 
     //TODO: progress bar
@@ -367,8 +367,10 @@ public class QuanLyDocSo extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog.setMessage("Đang đồng bộ dữ liệu đọc số...");
+            dialog.setTitle(mRootView.getContext().getString(R.string.upload_danhbo_title));
+            dialog.setMessage(mRootView.getContext().getString(R.string.upload_danhbo_message));
             dialog.setCancelable(false);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.show();
         }
 
@@ -403,9 +405,13 @@ public class QuanLyDocSo extends Fragment {
             if (isValid) {
                 mQuanLyDocSoAdapter.notifyDataSetChanged();
                 Toast.makeText(mRootView.getContext(), "Đồng bộ thành công", Toast.LENGTH_SHORT).show();
+                mSumDanhBo -= mDanhBoHoanThanh;
+                mDanhBoHoanThanh = 0;
+
             } else {
                 Toast.makeText(mRootView.getContext(), "Đồng bộ thất bại", Toast.LENGTH_SHORT).show();
             }
+            refresh();
         }
 
         @Override
@@ -414,10 +420,6 @@ public class QuanLyDocSo extends Fragment {
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
-
-            mSumDanhBo -= mDanhBoHoanThanh;
-            mDanhBoHoanThanh = 0;
-            setTextProgress();
         }
     }
 

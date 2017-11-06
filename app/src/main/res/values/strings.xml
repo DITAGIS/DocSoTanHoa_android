@@ -45,4 +45,7 @@
 
     <string name="alert_captureBefore">Vui lòng chụp hình trước khi nhập chỉ số mới</string>
 
+    <string name="upload_danhbo_title">Đang đồng bộ dữ liệu đọc số...</string>
+    <string name="upload_danhbo_message">Giữ kết nối mạng ổn định trong quá trình tải danh bộ!</string>
+
 </resources>

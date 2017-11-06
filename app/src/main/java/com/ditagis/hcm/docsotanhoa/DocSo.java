@@ -374,7 +374,7 @@ public class DocSo extends Fragment {
 //        String dotString = mDot + "";
 //        if (this.mDot < 10)
 //            dotString = "0" + this.mDot;
-        this.mSumDanhBo = mLocalDatabase.getAllHoaDon(dotString + this.mUsername + "%").size();
+        this.mSumDanhBo = mLocalDatabase.getAllHoaDon(/*dotString + this.mUsername + "%"*/).size();
         this.mDanhBoHoanThanh = mLocalDatabase.getAllDanhBo_CSM().size();
         this.mSumDanhBo += this.mDanhBoHoanThanh;
         this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
@@ -494,7 +494,7 @@ public class DocSo extends Fragment {
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         Bitmap bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(), options);
         //--------------------
-        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -526,7 +526,7 @@ public class DocSo extends Fragment {
     }
 
     private void alertCSM_Null(final int csc, final int csm) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Chưa nhập chỉ số mới");
         builder.setMessage("Kiểm tra code?")
                 .setCancelable(true)
@@ -541,13 +541,14 @@ public class DocSo extends Fragment {
                         dialog.dismiss();
                     }
                 });
-        AlertDialog alert = builder.create();
-        alert.show();
+        AlertDialog dialog = builder.create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.show();
 
     }
 
     private void alertCSM(final int csc, final int csm) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Chỉ số mới nhỏ hơn chỉ số cũ");
         builder.setMessage("Kiểm tra danh bộ hiện tại thuộc diện thay mới đồng hồ?")
                 .setCancelable(true)
@@ -587,7 +588,7 @@ public class DocSo extends Fragment {
         input.setMaxLines(5);
         input.setText(this.mGhiChu);
         input.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Ghi chú");
         builder.setCancelable(false);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -604,6 +605,7 @@ public class DocSo extends Fragment {
         });
         final AlertDialog dialog = builder.create();
         dialog.setView(input);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.show();
     }
 

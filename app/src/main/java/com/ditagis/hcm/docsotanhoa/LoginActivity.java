@@ -18,6 +18,7 @@ import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -154,7 +155,7 @@ public class LoginActivity extends AppCompatActivity {
             MySnackBar.make(btnLogin, R.string.no_connect, true);
             return;
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Đổi mật khẩu");
         builder.setCancelable(false);
         final AlertDialog dialogChangePw = builder.create();
@@ -304,7 +305,7 @@ public class LoginActivity extends AppCompatActivity {
                                 } else if (output.getmStaffName().length() > 0) {
                                     dialogChangePw.dismiss();
 
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
                                     builder.setTitle(LoginActivity.this.getString(R.string.change_password_success));
                                     builder.setMessage(LoginActivity.this.getString(R.string.ques_login_this_account));
                                     builder.setCancelable(false);
@@ -327,6 +328,7 @@ public class LoginActivity extends AppCompatActivity {
                                     });
 
                                     AlertDialog dialog = builder.create();
+                                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                                     dialog.show();
                                 }
                             }
@@ -511,22 +513,24 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        final AlertDialog.Builder builer = new AlertDialog.Builder(LoginActivity.this);
-        builer.setCancelable(true);
-        builer.setTitle(this.getString(R.string.quit));
-        builer.setPositiveButton(this.getString(R.string.ok), new DialogInterface.OnClickListener() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
+        builder.setCancelable(true);
+
+        builder.setTitle(this.getString(R.string.quit));
+        builder.setPositiveButton(this.getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 finish();
             }
         });
-        builer.setNegativeButton(this.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(this.getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
         });
-        AlertDialog dialog = builer.create();
+        AlertDialog dialog = builder.create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.show();
     }
 
