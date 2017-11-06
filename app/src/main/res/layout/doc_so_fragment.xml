@@ -45,7 +45,7 @@
                             android:layout_column="0"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
-                            android:text="Đã hoàn thành:"
+                            android:text="Đã đọc:"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@android:color/white" />
 

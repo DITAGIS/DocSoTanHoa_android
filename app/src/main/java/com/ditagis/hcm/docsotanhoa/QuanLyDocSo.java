@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewQuanLyDocSoAdapter;
+import com.ditagis.hcm.docsotanhoa.conectDB.SumDanhBoDB;
 import com.ditagis.hcm.docsotanhoa.conectDB.Uploading;
 import com.ditagis.hcm.docsotanhoa.entities.DanhBo_ChiSoMoi;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
@@ -55,14 +56,12 @@ public class QuanLyDocSo extends Fragment {
     private String mUsername;
     private Uploading mUploading;
     private View mRootView;
+    private SumDanhBoDB mSumDanhBoDB;
 
     public Uploading getmUploading() {
         return mUploading;
     }
 
-    public void setmSumDanhBo(int mSumDanhBo) {
-        this.mSumDanhBo = mSumDanhBo;
-    }
 
     public void setmDanhBoHoanThanh(int mDanhBoHoanThanh) {
         this.mDanhBoHoanThanh = mDanhBoHoanThanh;
@@ -80,6 +79,11 @@ public class QuanLyDocSo extends Fragment {
         mUploading = new Uploading(mDot, mKy, mNam);
         mEditTextSearch = (EditText) mRootView.findViewById(R.id.etxt_qlds_search);
         mGridView = (GridView) mRootView.findViewById(R.id.grid_qlds_danhSachDocSo);
+        mSumDanhBoDB = new SumDanhBoDB();
+        String kyString = mKy + "";
+        if (mKy < 10)
+            kyString += "0" + mKy;
+        mSumDanhBo = mSumDanhBoDB.getSum(kyString, mNam);
         //Gán DataSource vào ArrayAdapter
         mQuanLyDocSoAdapter = new GridViewQuanLyDocSoAdapter(mRootView.getContext(), new ArrayList<GridViewQuanLyDocSoAdapter.Item>());
 
@@ -181,10 +185,14 @@ public class QuanLyDocSo extends Fragment {
     }
 
     private void setTextProgress() {
-        this.mSumDanhBo = mLocalDatabase.getAllHoaDon().size();
-        this.mDanhBoHoanThanh = mLocalDatabase.getAllDanhBo_CSM().size();
-        this.mSumDanhBo += this.mDanhBoHoanThanh;
-        this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
+        String kyString = mKy + "";
+        if (mKy < 10)
+            kyString += "0" + mKy;
+
+//        this.mSumDanhBo = mLocalDatabase.getAllHoaDon().size();
+//        this.mDanhBoHoanThanh = mLocalDatabase.getAllDanhBo_CSM().size();
+//        this.mSumDanhBo += this.mDanhBoHoanThanh;
+        this.mTxtComplete.setText(this.mSumDanhBoDB.getComplete(kyString, mNam) + "/" + this.mSumDanhBo);
 
     }
 

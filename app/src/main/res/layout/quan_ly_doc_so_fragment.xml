@@ -41,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="left"
-                    android:text="Đã hoàn thành: "
+                    android:text="Đã đồng bộ: "
                     android:textColor="@android:color/white"
                     android:textSize="18dp" />
 

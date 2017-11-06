@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
-    private final String TABLE_NAME = "HOADON";
+    private final String TABLE_NAME = "DocSo";
     private final String SQL_SELECT = "SELECT ID,KHU,DOT,DANHBO,CULY,HOPDONG,TENKH,SONHA,DUONG,GIABIEU,DINHMUC,KY,NAM,CODE,CODEFU,CSCU,CSMOI,QUAN,PHUONG,MLT FROM " + TABLE_NAME;
     private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
     private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + " VALUES(?,?,?,?,?)";
