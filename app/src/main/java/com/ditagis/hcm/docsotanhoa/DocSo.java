@@ -343,6 +343,11 @@ public class DocSo extends Fragment {
                     ));
 
                 } else {
+                    mDBs.clear();
+                    for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon()) {
+                        mDBs.add(hoaDon.getDanhBo());
+                    }
+
                     singleComplete.setAdapter(new ArrayAdapter<String>(
                             mRootView.getContext(),
                             android.R.layout.simple_list_item_1,
