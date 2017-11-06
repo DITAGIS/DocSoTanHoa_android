@@ -130,7 +130,8 @@ public class DocSo extends Fragment {
                                 android.R.layout.simple_list_item_1,
                                 mDBs
                         ));
-
+        singleComplete.setBackgroundResource(R.layout.edit_text_styles);
+        ((EditText) mRootView.findViewById(R.id.etxt_ds_sdt)).setBackgroundResource(R.layout.edit_text_styles);
         ((TextView) mRootView.findViewById(R.id.txt_ds_ky)).setText(this.mKy + "");
         ((TextView) mRootView.findViewById(R.id.txt_ds_staffName)).setText(this.mStaffName);
 
@@ -142,6 +143,7 @@ public class DocSo extends Fragment {
 //        mEditTextCSM.setEnabled(false);
         mImgbtn_Save = (ImageButton) mRootView.findViewById(R.id.imgbtn_ds_Save);
         mTxtCSM = (TextView) mRootView.findViewById(R.id.txt_ds_CSM);
+
         String[] codes = {"40", "41", "42", "54", "55", "56", "58", "5F", "5K",
                 "60", "61", "62", "63", "64", "65", "66", "81", "82",
                 "83", "F1", "F2", "F3", "F4", "M1", "M2", "M3", "N",
@@ -239,6 +241,7 @@ public class DocSo extends Fragment {
                 return false;
             }
         });
+        mEditTextCSM.setBackgroundResource(R.layout.edit_text_styles_csm);
 //        mEditTextCSM.setEnabled(false);
 //        mEditTextCSM.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -318,7 +321,10 @@ public class DocSo extends Fragment {
 //        spinSearchType.setAdapter(adapterSearchType);
 
         final RadioGroup group = (RadioGroup) dialogLayout.findViewById(R.id.radioGroup_searchtype);
-        group.check(R.id.radio_search_mlt);
+        if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_mlt)))
+            group.check(R.id.radio_search_mlt);
+        else
+            group.check(R.id.radio_search_danhbo);
 
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
@@ -687,9 +693,9 @@ public class DocSo extends Fragment {
                             matrix.postRotate(90);
                             Bitmap rotatedBitmap = Bitmap.createBitmap(mBpImage, 0, 0, mBpImage.getWidth(), mBpImage.getHeight(), matrix, true);
                             rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                            if (getImageFileName().length() < MIN_SIZE) {
-                                alertImageLowQuatity();
-                            }
+//                            if (getImageFileName().length() < MIN_SIZE) {
+//                                alertImageLowQuatity();
+//                            }
                             fos.flush();
                             fos.close();
                             Toast.makeText(mRootView.getContext(), "Đã lưu ảnh", Toast.LENGTH_SHORT).show();

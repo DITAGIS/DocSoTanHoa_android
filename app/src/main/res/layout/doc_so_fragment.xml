@@ -144,8 +144,10 @@
                             android:hint="@string/search_mlt"
                             android:inputType="number"
                             android:maxLength="11"
+                            android:paddingLeft="@dimen/activity_horizontal_margin"
                             android:textColor="@color/colorWhite"
-                            android:textColorHint="@color/colorWhite" />
+                            android:textColorHint="@color/colorWhite"
+                            android:textCursorDrawable="@null" />
 
                         <Button
                             android:id="@+id/btn_ds_optionSearch"
@@ -275,7 +277,9 @@
                             android:gravity="left"
                             android:inputType="number"
                             android:maxLength="11"
-                            android:textColor="@color/colorWhite" />
+                            android:paddingLeft="@dimen/activity_horizontal_margin"
+                            android:textColor="@color/colorWhite"
+                            android:textCursorDrawable="@null" />
                     </TableRow>
                     <!--Table row chỉ số cũ-->
                     <TableRow android:layout_weight="1">
@@ -377,7 +381,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#66CDAA"
+                android:background="@color/background_csm"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin">
 
@@ -423,7 +427,10 @@
                         android:ems="10"
                         android:gravity="right"
                         android:inputType="number"
-                        android:maxLength="5" />
+                        android:maxLength="5"
+                        android:textColor="@color/colorWhite"
+                        android:paddingRight="@dimen/activity_horizontal_margin"
+                        android:textCursorDrawable="@null" />
                 </TableRow>
             </TableLayout>
 
