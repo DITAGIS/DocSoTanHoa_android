@@ -162,6 +162,7 @@ public class LoginActivity extends AppCompatActivity {
         LayoutInflater inflater = getLayoutInflater();
         View dialogLayout = inflater.inflate(R.layout.layout_change_password, null);
         dialogChangePw.setView(dialogLayout);
+        dialogChangePw.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialogChangePw.show();
 
 

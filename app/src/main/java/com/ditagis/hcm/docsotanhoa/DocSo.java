@@ -205,10 +205,16 @@ public class DocSo extends Fragment {
                         }
                     }
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
-                    for (int i = 0; i < mDBs.size(); i++) {
-                        if (s.toString().equals(mDBs.get(i))) {
-                            mSpinDB.setSelection(i);
-                        }
+//                    for (int i = 0; i < mDBs.size(); i++) {
+//                        if (s.toString().equals(mDBs.get(i))) {
+//                            mSpinDB.setSelection(i);
+//                        }
+//                    }
+                    for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon()) {
+                        if (s.toString().equals(hoaDon.getDanhBo()))
+                            for (int i = 0; i < mMLTs.size(); i++)
+                                if (hoaDon.getMaLoTrinh().equals(mMLTs.get(i)))
+                                    mSpinMLT.setSelection(i);
                     }
                 }
             }

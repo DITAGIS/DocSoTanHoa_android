@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                     case 1:
 //                        mQuanLyDocSo.setmDot(mLayLoTrinh.getmDot());
 //                        mQuanLyDocSo.getmUploading().setmDot(mLayLoTrinh.getmDot());
+                        mQuanLyDocSo.setmDanhBoHoanThanh(mDocSo.getmSumDanhBo());
                         mQuanLyDocSo.refresh();
                         break;
                 }

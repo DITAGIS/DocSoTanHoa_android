@@ -64,7 +64,7 @@ public class QuanLyDocSo extends Fragment {
 
 
     public void setmDanhBoHoanThanh(int mDanhBoHoanThanh) {
-        this.mDanhBoHoanThanh = mDanhBoHoanThanh;
+        this.mDanhBoHoanThanh = mSumDanhBo - mDanhBoHoanThanh;
     }
 
     public QuanLyDocSo(LayoutInflater inflater, int dot, int ky, int nam, String userName) {
@@ -185,14 +185,11 @@ public class QuanLyDocSo extends Fragment {
     }
 
     private void setTextProgress() {
-        String kyString = mKy + "";
-        if (mKy < 10)
-            kyString += "0" + mKy;
 
 //        this.mSumDanhBo = mLocalDatabase.getAllHoaDon().size();
 //        this.mDanhBoHoanThanh = mLocalDatabase.getAllDanhBo_CSM().size();
 //        this.mSumDanhBo += this.mDanhBoHoanThanh;
-        this.mTxtComplete.setText(this.mSumDanhBoDB.getComplete(kyString, mNam) + "/" + this.mSumDanhBo);
+        this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
 
     }
 
@@ -367,6 +364,7 @@ public class QuanLyDocSo extends Fragment {
 
     class UploadingAsync extends AsyncTask<String, Boolean, Void> {
         private ProgressDialog dialog;
+        private int countUpload = 0;
 
         public UploadingAsync() {
             this.dialog = new ProgressDialog(mRootView.getContext(), android.R.style.Theme_Material_Dialog_Alert);
@@ -380,6 +378,7 @@ public class QuanLyDocSo extends Fragment {
             dialog.setCancelable(false);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.show();
+            countUpload = mLocalDatabase.getAllDanhBo_CSM().size();
         }
 
         @Override
@@ -413,8 +412,8 @@ public class QuanLyDocSo extends Fragment {
             if (isValid) {
                 mQuanLyDocSoAdapter.notifyDataSetChanged();
                 Toast.makeText(mRootView.getContext(), "Đồng bộ thành công", Toast.LENGTH_SHORT).show();
-                mSumDanhBo -= mDanhBoHoanThanh;
-                mDanhBoHoanThanh = 0;
+                mDanhBoHoanThanh += (countUpload - mLocalDatabase.getAllDanhBo_CSM().size());
+                setTextProgress();
 
             } else {
                 Toast.makeText(mRootView.getContext(), "Đồng bộ thất bại", Toast.LENGTH_SHORT).show();
