@@ -43,6 +43,8 @@
     <string name="search_danhbo">theo danh bộ</string>
     <string name="search_tenKH">theo tên khách hàng</string>
 
+    <string name="alert_imgLowQuatity_Title">Ảnh chụp kém chất lượng!</string>
+    <string name="alert_imgLowQuatity_Message">Vui lòng chụp lại hình ảnh khác</string>
     <string name="alert_captureBefore">Vui lòng chụp hình trước khi nhập chỉ số mới</string>
 
     <string name="upload_danhbo_title">Đang đồng bộ dữ liệu đọc số...</string>

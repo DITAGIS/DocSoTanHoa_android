@@ -63,6 +63,7 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class DocSo extends Fragment {
+    private static final int MIN_SIZE = 500000;
     String mMlt;
     String mDanhBo;
     List<String> mDBs = new ArrayList<String>();
@@ -675,6 +676,9 @@ public class DocSo extends Fragment {
                             matrix.postRotate(90);
                             Bitmap rotatedBitmap = Bitmap.createBitmap(mBpImage, 0, 0, mBpImage.getWidth(), mBpImage.getHeight(), matrix, true);
                             rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                            if (getImageFileName().length() < MIN_SIZE) {
+                                alertImageLowQuatity();
+                            }
                             fos.flush();
                             fos.close();
                             Toast.makeText(mRootView.getContext(), "Đã lưu ảnh", Toast.LENGTH_SHORT).show();
@@ -696,6 +700,22 @@ public class DocSo extends Fragment {
         }
     }
 
+    private void alertImageLowQuatity() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Dialog_Alert);
+        builder.setCancelable(false);
+        builder.setTitle(mRootView.getContext().getString(R.string.alert_imgLowQuatity_Title));
+        builder.setMessage(mRootView.getContext().getString(R.string.alert_imgLowQuatity_Message));
+
+        builder.setPositiveButton("CHỤP LẠI", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                capture();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.show();
+    }
 
     @Nullable
     private Bitmap getBitmap(String path) {
