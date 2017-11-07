@@ -14,7 +14,7 @@ android:id="@+id/row_qlds_layout"
         android:layout_height="wrap_content"
         android:textSize="15dp"
         android:gravity="center_horizontal"
-        android:textColor="@color/colorBlueDard"
+        android:textColor="@color/colorToolBar_Row_1"
         android:layout_weight="1" />
 
     <TextView
@@ -24,14 +24,14 @@ android:id="@+id/row_qlds_layout"
         android:layout_weight="1"
         android:textSize="15dp"
         android:gravity="center_horizontal"
-        android:textColor="@color/colorBlueDard" />
+        android:textColor="@color/colorToolBar_Row_1" />
     <TextView
         android:id="@+id/row_qlds_txt_csc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15dp"
         android:gravity="center_horizontal"
-        android:textColor="@color/colorBlueDard"
+        android:textColor="@color/colorToolBar_Row_1"
         android:layout_weight="1" />
 
     <TextView
@@ -41,6 +41,6 @@ android:id="@+id/row_qlds_layout"
         android:layout_weight="1"
         android:textSize="15dp"
         android:gravity="center_horizontal"
-        android:textColor="@color/colorBlueDard" />
+        android:textColor="@color/colorToolBar_Row_1" />
 
 </LinearLayout>

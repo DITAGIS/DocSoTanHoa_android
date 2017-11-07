@@ -44,7 +44,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dip"
-                android:background="@color/color_row_check" />
+                android:background="@color/color_row_check_1" />
             <!--Table row tên khách hàng-->
             <TableRow android:layout_weight="1">
 
@@ -65,7 +65,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dip"
-                android:background="@color/color_row_check" />
+                android:background="@color/color_row_check_1" />
             <!--Table row địa chỉ-->
             <TableRow android:layout_weight="1">
 
@@ -87,7 +87,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dip"
-                android:background="@color/color_row_check" />
+                android:background="@color/color_row_check_1" />
 
             <!--Table row số điện thoại-->
             <TableRow android:layout_weight="1">
@@ -109,7 +109,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dip"
-                android:background="@color/color_row_check" />
+                android:background="@color/color_row_check_1" />
 
             <!--Table row chỉ số cũ-->
             <TableRow android:layout_weight="1">
@@ -131,7 +131,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dip"
-                android:background="@color/color_row_check" />
+                android:background="@color/color_row_check_1" />
 
             <!--Table row chỉ số mới-->
             <TableRow android:layout_weight="1">
@@ -154,7 +154,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dip"
-                android:background="@color/color_row_check" />
+                android:background="@color/color_row_check_1" />
 
             <!--Table row code-->
             <TableRow android:layout_weight="1">
@@ -179,7 +179,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dip"
-                android:background="@color/color_row_check" />
+                android:background="@color/color_row_check_1" />
 
             <!--Table row giá biểu-->
             <TableRow android:layout_weight="1">
@@ -201,7 +201,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dip"
-                android:background="@color/color_row_check" />
+                android:background="@color/color_row_check_1" />
 
             <!--Table row tiền nước-->
             <TableRow android:layout_weight="1">
@@ -223,7 +223,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dip"
-                android:background="@color/color_row_check" />
+                android:background="@color/color_row_check_1" />
 
             <!--Table row ghi chú-->
             <TableRow android:layout_weight="1">

@@ -126,7 +126,7 @@ public class GridViewQuanLyDocSoAdapter extends ArrayAdapter<GridViewQuanLyDocSo
         LinearLayout row_layout = (LinearLayout) convertView.findViewById(R.id.row_qlds_layout);
 
 
-        row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_check));
+        row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_check_1));
 
         return convertView;
     }

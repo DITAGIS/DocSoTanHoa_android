@@ -7,9 +7,9 @@
 
 
     <string name="title_activity_main">Đọc số Tân Hòa</string>
-    <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="save_theme">theme</string>
     <string name="action_log_out">Đăng xuất</string>
+    <string name="action_change_theme">Đổi màu nền</string>
 
     <string name="hint_username">Tên đăng nhập</string>
     <string name="hint_password">Mật khẩu</string>
@@ -42,6 +42,10 @@
     <string name="search_mlt">theo mã lộ trình</string>
     <string name="search_danhbo">theo danh bộ</string>
     <string name="search_tenKH">theo tên khách hàng</string>
+
+    <string name="UI_Theme_1">Sáng</string>
+    <string name="UI_Theme_2">Tối</string>
+    <string name="UI_Theme_3">Xanh</string>
 
     <string name="alert_imgLowQuatity_Title">Ảnh chụp kém chất lượng!</string>
     <string name="alert_imgLowQuatity_Message">Vui lòng chụp lại hình ảnh khác</string>

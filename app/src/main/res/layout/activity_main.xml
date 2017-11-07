@@ -5,7 +5,7 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
+    android:background="@color/colorPrimary_1"
     android:fitsSystemWindows="true"
     tools:context="com.ditagis.hcm.docsotanhoa.MainActivity">
 
@@ -20,10 +20,10 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorWhite"
+            android:background="@color/colorPrimary_1"
 
             app:popupTheme="@style/Theme.AppCompat.Light.NoActionBar"
-            app:titleTextColor="@color/colorBlueDard">
+            app:titleTextColor="@color/colorTextColorTitle_1">
             <!--app:layout_scrollFlags="scroll|enterAlways"-->
         </android.support.v7.widget.Toolbar>
 
@@ -31,9 +31,9 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            app:tabSelectedTextColor="@color/colorAccent"
-            app:tabTextColor="@color/colorBlueDard"
+            android:background="@color/colorPrimary_1"
+            app:tabSelectedTextColor="@color/colorAccent_1"
+            app:tabTextColor="@color/colorTextColorTitle_1"
             />
 
     </android.support.design.widget.AppBarLayout>

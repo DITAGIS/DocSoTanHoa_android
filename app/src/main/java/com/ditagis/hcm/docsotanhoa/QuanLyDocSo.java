@@ -112,10 +112,10 @@ public class QuanLyDocSo extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        v.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.peter_driver_light));
+                        v.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorImgBtnUpload_1));
                         return true;
                     case MotionEvent.ACTION_UP:
-                        v.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.peter_driver));
+                        v.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorPrimary_1));
                         if (mLocalDatabase.getAllDanhBo_CSM().size() == 0) {
                             MySnackBar.make(mGridView, "Chưa có danh bộ!!!", false);
                         } else if (isOnline()) {
