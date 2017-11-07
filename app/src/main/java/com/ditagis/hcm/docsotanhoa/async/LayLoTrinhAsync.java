@@ -90,7 +90,11 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
             List<String> DBs = _hoadonDB.getCountHoaDon(this.mUsername, this.mDot, this.mNam, this.mKy);
             count = DBs.size();
             for (String danhBo : DBs) {
-                hoaDons.addAll(_hoadonDB.getHoaDonByUserName(this.mUsername, danhBo, this.mDot, this.mNam, this.mKy));
+                HoaDon hoaDon = _hoadonDB.getHoaDonByUserName(this.mUsername, danhBo, this.mDot, this.mNam, this.mKy);
+                if (hoaDon == null)
+                    return null;
+
+                hoaDons.add(hoaDon);
 
                 publishProgress(hoaDons);
             }
@@ -114,7 +118,8 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
     @Override
     protected void onProgressUpdate(List<HoaDon>... values) {
         super.onProgressUpdate(values);
-        dialog.setTitle(mContext.getString(R.string.load_danhbo_title) + " " + values[0].size() + "/" + this.count);
+        String title = String.format("%s %d/%d (%d%%)", mContext.getString(R.string.load_danhbo_title), values[0].size(), this.count, Math.round(values[0].size()*100 / this.count));
+        dialog.setTitle(title);
     }
 
     @Override

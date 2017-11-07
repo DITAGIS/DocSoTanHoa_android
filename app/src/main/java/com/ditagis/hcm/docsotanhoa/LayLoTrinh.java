@@ -1,7 +1,6 @@
 package com.ditagis.hcm.docsotanhoa;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,7 +18,6 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewLayLoTrinhAdapter;
 import com.ditagis.hcm.docsotanhoa.async.LayLoTrinhAsync;
@@ -111,62 +109,6 @@ public class LayLoTrinh {
 
     }
 
-    private void loadLoTrinh(boolean isOnline, int dot, HoaDonDB hoaDonDB, LocalDatabase mLocalDatabase, String mUsername, int mDot, int mKy, int mNam, Context context, Activity mActivity) {
-        ProgressDialog dialog = new ProgressDialog(mRootView.getContext(), android.R.style.Theme_Material_Dialog_Alert);
-        dialog.setTitle(mRootView.getContext().getString(R.string.load_danhbo_title));
-        dialog.setMessage(mRootView.getContext().getString(R.string.load_danhbo_message));
-        dialog.setCancelable(false);
-        dialog.show();
-
-        List<HoaDon> hoaDons = new ArrayList<>();
-        ResultLayLoTrinh output = new ResultLayLoTrinh(mRootView.getContext());
-//        if (isOffline) {
-        String dotString = mDot + "";
-        if (mDot < 10)
-            dotString = "0" + mDot;
-        hoaDons = this.mLocalDatabase.getAllHoaDon();//dotString + mUsername + "%");
-//        } else {
-        if (hoaDonDB == null)
-            hoaDonDB = new HoaDonDB();
-
-        boolean isFound = false;
-        if (hoaDons.size() > 0)
-            for (HoaDon hoaDon : hoaDons) {
-                if (hoaDon.getDot().equals(dotString))
-                    isFound = true;
-            }
-        if (!isFound) {
-            List<String> DBs = hoaDonDB.getCountHoaDon(mUsername, mDot, mNam, mKy);
-            int i = 0;
-            for (String danhBo : DBs) {
-                hoaDons.addAll(hoaDonDB.getHoaDonByUserName(mUsername, danhBo, mDot, mNam, mKy));
-                dialog.setTitle(mRootView.getContext().getString(R.string.load_danhbo_title) + ++i + "/" + DBs.size());
-            }
-        }
-        if (hoaDons != null)
-            output.setDot(hoaDonDB.getmDot());
-
-//        }
-        if (hoaDons != null) {
-            output.setCount(hoaDons.size());
-            for (HoaDon hoaDon : hoaDons) {
-                output.addItemToDa(new GridViewLayLoTrinhAdapter.Item(hoaDon.getMaLoTrinh(), hoaDon.getDanhBo()));
-                this.mLocalDatabase.addHoaDon(hoaDon);
-            }
-            output.setDot(this.mDot + "");
-        }
-
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
-        }
-        if (output == null) {
-
-        } else
-            Toast.makeText(mRootView.getContext(), "Đã tải xong mã lộ trình!!!", Toast.LENGTH_LONG).show();
-
-
-        finishLayLoTrinh(output, mRootView);
-    }
 
 
     public int selectDot() {
@@ -196,7 +138,6 @@ public class LayLoTrinh {
                         dot[0] = Integer.parseInt(spinCode.getSelectedItem().toString());
                         mDot = dot[0];
                         dialog.dismiss();
-//                        loadLoTrinh(isOnline(mRootView), mDot, LayLoTrinh.this.hoaDonDB, LayLoTrinh.this.mLocalDatabase, LayLoTrinh.this.mUsername, LayLoTrinh.this.mDot, LayLoTrinh.this.mKy, LayLoTrinh.this.mNam, mRootView.getContext(), mActivity);
                         LayLoTrinh.this.mLayLoTrinhAsync.setmDot(mDot);
                         LayLoTrinh.this.mLayLoTrinhAsync.execute(isOnline(mRootView));
 

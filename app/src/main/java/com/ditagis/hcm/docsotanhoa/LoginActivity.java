@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
+        setTheme(R.style.Theme_AppCompat_DayNight);
         mTxtUsername = (EditText) findViewById(R.id.txtUsername);
         mTxtPassword = (EditText) findViewById(R.id.txtPassword);
         btnChangePassword = (Button) findViewById(R.id.btnChangePassword);
