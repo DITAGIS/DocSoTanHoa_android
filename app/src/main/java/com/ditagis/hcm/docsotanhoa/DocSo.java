@@ -571,6 +571,8 @@ public class DocSo extends Fragment {
                     mTxtCSC.setText(hoaDon.getChiSoCu());
                     ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu)).setText(hoaDon.getGiaBieu());
                     ((TextView) mRootView.findViewById(R.id.txt_ds_diachi)).setText(hoaDon.getDiaChi());
+                    ((EditText) mRootView.findViewById(R.id.etxt_ds_sdt)).setText(hoaDon.getSdt());
+                    ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
 //                    refresh();
                     if (danhBo_csm != null) {
                         mEditTextCSM.setText(danhBo_csm.getChiSoMoi());

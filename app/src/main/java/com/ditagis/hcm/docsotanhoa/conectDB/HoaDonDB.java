@@ -2,7 +2,6 @@ package com.ditagis.hcm.docsotanhoa.conectDB;
 
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,9 +13,10 @@ import java.util.List;
 public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
     private final String TABLE_NAME = "DocSo";
     private final String SQL_SELECT = "SELECT ID,KHU,DOT,DANHBO,CULY,HOPDONG,TENKH,SONHA,DUONG,GIABIEU,DINHMUC,KY,NAM,CODE,CODEFU,CSCU,CSMOI,QUAN,PHUONG,MLT FROM " + TABLE_NAME;
+    private final String SQL_SELECT_GETALL_BY_USERNAME = "SELECT danhba,gb,dm,CSCU, MLT2, codecu FROM " + TABLE_NAME;
     private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
     private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + " VALUES(?,?,?,?,?)";
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET CSC=? WHERE DANHBO=?";
+//    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET CSC=? WHERE DANHBO=?";
     private final String SQL_DELETE = "DELETE FROM " + TABLE_NAME + " WHERE ClassId=?";
 
     private String mDot;
@@ -67,79 +67,62 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
 
     @Override
     public Boolean update(HoaDon e) {
-        Connection cnn = ConnectionDB.getInstance().getConnection();
-        try {
-            CallableStatement cbs = cnn.prepareCall(this.SQL_UPDATE);
-            cbs.setString(1, e.getChiSoCu());
-            cbs.setString(2, e.getChiSoMoi());
-            return cbs.executeUpdate() > 0;
-        } catch (SQLException e1) {
-            e1.printStackTrace();
-        }
-        return false;
+//        Connection cnn = ConnectionDB.getInstance().getConnection();
+//        try {
+//            CallableStatement cbs = cnn.prepareCall(this.SQL_UPDATE);
+//            cbs.setString(1, e.getChiSoCu());
+//            return cbs.executeUpdate() > 0;
+//        } catch (SQLException e1) {
+//            e1.printStackTrace();
+//        }
+//        return false;
+        return null;
     }
 
     @Override
     public HoaDon find(String k) {
-//		Connection cnn = this.condb.getConnect();
-//		HoaDon course = null;
-//		try {
-//			PreparedStatement pst = cnn.prepareStatement(this.SQL_FIND);
-//			pst.setString(1, k);
-//			ResultSet rs = pst.executeQuery();
-//			if (rs.next()) {
-//				String courseName = rs.getString(2);
-//				course = new HoaDon(k, courseName);
-//			}
-//			rs.close();
-//			pst.close();
-//			cnn.close();
-//
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return course;
         return null;
     }
 
     @Override
     public List<HoaDon> getAll() {
-        List<HoaDon> result = new ArrayList<HoaDon>();
-        Connection cnn = ConnectionDB.getInstance().getConnection();
-        try {
-            CallableStatement cal = cnn.prepareCall(this.SQL_SELECT, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ResultSet rs = cal.executeQuery();
-            while (rs.next()) {
-                String khu = rs.getString(2);
-                String dot = rs.getString(3);
-                String danhBo = rs.getString(4);
-                String cuLy = rs.getString(5);
-                String hopDong = rs.getString(6);
-                String tenKhachHang = rs.getString(7);
-                String soNha = rs.getString(8);
-                String duong = rs.getString(9);
-                String giaBieu = rs.getString(10);
-                String dinhMuc = rs.getString(11);
-                String ky = rs.getString(12);
-                String nam = rs.getString(13);
-                String code = rs.getString(14);
-                String codeFU = rs.getString(15);
-                String chiSoCu = rs.getString(16);
-                String chiSoMoi = rs.getString(17);
-                String quan = rs.getString(18);
-                String phuong = rs.getString(19);
-                String maLoTrinh = rs.getString(20);
-                HoaDon course = new HoaDon(khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
-                result.add(course);
-            }
-            rs.close();
-            cal.close();
-            cnn.close();
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-        }
-        return result;
+//        List<HoaDon> result = new ArrayList<HoaDon>();
+//        Connection cnn = ConnectionDB.getInstance().getConnection();
+//        try {
+//            CallableStatement cal = cnn.prepareCall(this.SQL_SELECT, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+//            ResultSet rs = cal.executeQuery();
+//            while (rs.next()) {
+//                String khu = rs.getString(2);
+//                String dot = rs.getString(3);
+//                String danhBo = rs.getString(4);
+//                String cuLy = rs.getString(5);
+//                String hopDong = rs.getString(6);
+//                String tenKhachHang = rs.getString(7);
+//                String soNha = rs.getString(8);
+//                String duong = rs.getString(9);
+//                String giaBieu = rs.getString(10);
+//                String dinhMuc = rs.getString(11);
+//                String ky = rs.getString(12);
+//                String nam = rs.getString(13);
+//                String code = rs.getString(14);
+//                String codeFU = rs.getString(15);
+//                String chiSoCu = rs.getString(16);
+//                String chiSoMoi = rs.getString(17);
+//                String quan = rs.getString(18);
+//                String phuong = rs.getString(19);
+//                String maLoTrinh = rs.getString(20);
+//                HoaDon course = new HoaDon(khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
+//                result.add(course);
+//            }
+//            rs.close();
+//            cal.close();
+//            cnn.close();
+//        } catch (SQLException e) {
+//
+//            e.printStackTrace();
+//        }
+//        return result;
+        return null;
     }
 
     public List<String> getAllMaLoTrinh() throws SQLException {
@@ -163,45 +146,45 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
         return result;
     }
 
-    public List<HoaDon> getByMaLoTrinh(String maLoTrinh) {
-        List<HoaDon> result = new ArrayList<HoaDon>();
-        Connection cnn = ConnectionDB.getInstance().getConnection();
-        try {
-            Statement statement = cnn.createStatement();
-            ResultSet rs = statement.executeQuery(this.SQL_SELECT + " WHERE MLT = '" + maLoTrinh + "'");
-            while (rs.next()) {
-                int id = rs.getInt(1);
-                String khu = rs.getString(2);
-                String dot = rs.getString(3);
-                String danhBo = rs.getString(4);
-                String cuLy = rs.getString(5);
-                String hopDong = rs.getString(6);
-                String tenKhachHang = rs.getString(7);
-                String soNha = rs.getString(8);
-                String duong = rs.getString(9);
-                String giaBieu = rs.getString(10);
-                String dinhMuc = rs.getString(11);
-                String ky = rs.getString(12);
-                String nam = rs.getString(13);
-                String code = rs.getString(14);
-                String codeFU = rs.getString(15);
-                String chiSoCu = rs.getString(16);
-                String chiSoMoi = rs.getString(17);
-                String quan = rs.getString(18);
-                String phuong = rs.getString(19);
-
-                HoaDon course = new HoaDon(khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
-                result.add(course);
-            }
-            rs.close();
-            cnn.close();
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-        }
-
-        return result;
-    }
+//    public List<HoaDon> getByMaLoTrinh(String maLoTrinh) {
+//        List<HoaDon> result = new ArrayList<HoaDon>();
+//        Connection cnn = ConnectionDB.getInstance().getConnection();
+//        try {
+//            Statement statement = cnn.createStatement();
+//            ResultSet rs = statement.executeQuery(this.SQL_SELECT + " WHERE MLT = '" + maLoTrinh + "'");
+//            while (rs.next()) {
+//                int id = rs.getInt(1);
+//                String khu = rs.getString(2);
+//                String dot = rs.getString(3);
+//                String danhBo = rs.getString(4);
+//                String cuLy = rs.getString(5);
+//                String hopDong = rs.getString(6);
+//                String tenKhachHang = rs.getString(7);
+//                String soNha = rs.getString(8);
+//                String duong = rs.getString(9);
+//                String giaBieu = rs.getString(10);
+//                String dinhMuc = rs.getString(11);
+//                String ky = rs.getString(12);
+//                String nam = rs.getString(13);
+//                String code = rs.getString(14);
+//                String codeFU = rs.getString(15);
+//                String chiSoCu = rs.getString(16);
+//                String chiSoMoi = rs.getString(17);
+//                String quan = rs.getString(18);
+//                String phuong = rs.getString(19);
+//
+//                HoaDon course = new HoaDon(khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
+//                result.add(course);
+//            }
+//            rs.close();
+//            cnn.close();
+//        } catch (SQLException e) {
+//
+//            e.printStackTrace();
+//        }
+//
+//        return result;
+//    }
 
     public List<HoaDon> getAllByUserName(String userName, int dot, int nam, int ky) {
         Connection cnn = ConnectionDB.getInstance().getConnection();
@@ -209,62 +192,91 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
         try {
             if (cnn == null)
                 return null;
-            Statement statement = cnn.createStatement(), sttm1;
+            Statement statement = cnn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY), sttm1;
             hoaDons = new ArrayList<HoaDon>();
-            String dotString = "";
+            String dotString = "", kyString = "";
             if (dot < 10)
                 dotString = "0" + dot;
             else dotString = dot + "";
+            if (ky < 10)
+                kyString = "0" + ky;
+            else kyString = ky + "";
             String like = dotString + userName + "%";
-            ResultSet rs = statement.executeQuery("SELECT * FROM DocSo where nam = "
-                    + nam + " and ky = " + ky + " and mlt2 like '" + like + "' and (csmoi is null or csmoi = 0 )");
-//                LayLoTrinhActivity.this.mHoaDons = new ArrayList<HoaDon>();
+            ResultSet rs = statement.executeQuery(SQL_SELECT_GETALL_BY_USERNAME + " where nam = "
+                    + nam + " and ky = " + kyString + " and mlt2 like '" + like + "' and (csmoi is null or csmoi = 0 )");
+//            rs.last();
+//            rs.getRow();
+//            rs.first();
             while (rs.next()) {
-
-
 //                    int id = rs.getInt(1); //TODO xem vụ tạo DocSoID
-                String khu = "";
-                String danhBo = rs.getString(2);
-                String cuLy = "";
-                String hopDong = "";
+                String danhBo = rs.getString(1);
+
+                String giaBieu = rs.getString(2);
+                String dinhMuc = rs.getString(3);
+                String chiSoCu = rs.getInt(4) + "";
+                String maLoTrinh = rs.getString(5);
+                String code = rs.getString(6);
+                String soNha = "";
+                String duong = "";
                 String tenKhachHang = "";
-                String maLoTrinh = rs.getString(4);
-                String soNha = rs.getString(5);
-                String duong = rs.getString(7);
-                String giaBieu = rs.getString(9);
-                String dinhMuc = rs.getString(10);
-                String chiSoCu = rs.getInt(17) + ""; // lấy chỉ số mới của kỳ trước
-                String chiSoMoi = "";
-                String code = "";
-                String codeFU = "";
-
-                String quan = "";
-                String phuong = "";
-
+                String sdt = "";
+                String sanLuong_3 = "";
+                String sanLuong_2 = "";
+                String sanLuong_1 = "";
 
                 sttm1 = cnn.createStatement();
-                ResultSet rs1 = sttm1.executeQuery("SELECT HopDong, tenkh, quan, phuong FROM KhachHang where MLT2 = '" + maLoTrinh + "'");
+                ResultSet rs1 = sttm1.executeQuery("SELECT tenkh,so, duong, sdt FROM KhachHang where MLT2 = '" + maLoTrinh + "'");
                 if (rs1.next()) {
-                    hopDong = rs1.getString(1);
-                    tenKhachHang = rs1.getString(2);
-                    quan = rs1.getString(3) == null ? "" : rs1.getString(3);
-                    phuong = rs1.getString(4) == null ? "" : rs1.getString(4);
+                    tenKhachHang = rs1.getString(1);
+                    soNha = rs1.getString(2) == null ? "" : rs1.getString(2);
+                    duong = rs1.getString(3) == null ? "" : rs1.getString(3);
+                    sdt = rs1.getString(4) == null ? "" : rs1.getString(4);
 
                 }
-                HoaDon hoaDon = new HoaDon(khu, dotString, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky + "", nam + "", code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
-                hoaDons.add(hoaDon);
-//                    LayLoTrinhActivity.this.mHoaDons.add(hoaDon);
-//                if (mLocalDatabase.addHoaDon(hoaDon)) ;
-//                else {
-//                    //TODO
+//                int[] kyNam = get3Ky(ky, nam, 1);
+//                PreparedStatement st = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
+//                st.setString(1, danhBo);
+//                st.setInt(2, kyNam[0]);
+//                st.setInt(3, kyNam[1]);
+//                ResultSet rs2 = st.executeQuery();
+//                if (rs2.next()) {
+//                    sanLuong_1 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
 //                }
+//
+//                int[] kyNam1 = get3Ky(ky, nam, 2);
+//                PreparedStatement st1 = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
+//                st1.setString(1, danhBo);
+//                st1.setInt(2, kyNam1[0]);
+//                st1.setInt(3, kyNam1[1]);
+//                ResultSet rs3 = st1.executeQuery();
+//                if (rs3.next()) {
+//                    sanLuong_2 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
+//                }
+//
+//                int[] kyNam2 = get3Ky(ky, nam, 3);
+//                PreparedStatement st2 = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
+//                st2.setString(1, danhBo);
+//                st2.setInt(2, kyNam[0]);
+//                st2.setInt(3, kyNam[1]);
+//                ResultSet rs4 = st2.executeQuery();
+//                if (rs4.next()) {
+//                    sanLuong_3 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
+//                }
+
+                HoaDon hoaDon = new HoaDon(dotString, danhBo, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky + "", code, chiSoCu, maLoTrinh,
+                        sdt, sanLuong_3, sanLuong_2, sanLuong_1);
+                hoaDons.add(hoaDon);
+
                 sttm1.close();
                 rs1.close();
-//                publishProgress(maLoTrinh, 0, 0);
-//                    mLocalDatabase.addLoTrinh(new LoTrinh(maLoTrinh, LayLoTrinhActivity.this.mHoaDons.size()));
+//                st1.close();
+//                st2.close();
+//                st.close();
+//                rs2.close();
+//                rs3.close();
+//                rs4.close();
             }
-
-
             rs.close();
             statement.close();
 
@@ -278,43 +290,62 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
         return hoaDons;
     }
 
-    public HoaDon getByDanhBo(String danhBo) {
-        HoaDon hoaDon = null;
-        Connection cnn = ConnectionDB.getInstance().getConnection();
-        try {
-            Statement statement = cnn.createStatement();
-            ResultSet rs = statement.executeQuery(this.SQL_SELECT + " WHERE DANHBO = '" + danhBo + "'");
-            if (rs.next()) {
-                int id = rs.getInt(1);
-                String khu = rs.getString(2);
-                String dot = rs.getString(3);
-                String cuLy = rs.getString(5);
-                String hopDong = rs.getString(6);
-                String tenKhachHang = rs.getString(7);
-                String soNha = rs.getString(8);
-                String duong = rs.getString(9);
-                String giaBieu = rs.getString(10);
-                String dinhMuc = rs.getString(11);
-                String ky = rs.getString(12);
-                String nam = rs.getString(13);
-                String code = rs.getString(14);
-                String codeFU = rs.getString(15);
-                String chiSoCu = rs.getString(16);
-                String chiSoMoi = rs.getString(17);
-                String quan = rs.getString(18);
-                String phuong = rs.getString(19);
-                String maLoTrinh = rs.getString(20);
-                hoaDon = new HoaDon(khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
-
-            }
-            rs.close();
-            cnn.close();
-        } catch (SQLException e) {
-
-            e.printStackTrace();
+    private int[] get3Ky(int ky, int nam, int prev) {
+        int[] result = new int[2];
+        int delta = ky - prev;
+        if (delta > 0) {
+            result[0] = ky - prev;
+            result[1] = nam;
+        } else if (delta == 0) {
+            result[0] = 12;
+            result[1] = nam - 1;
+        } else if (delta == -1) {
+            result[0] = 11;
+            result[1] = nam - 1;
+        } else if (delta == -2) {
+            result[0] = 10;
+            result[1] = nam - 1;
         }
-        return hoaDon;
+        return result;
     }
+
+//    public HoaDon getByDanhBo(String danhBo) {
+//        HoaDon hoaDon = null;
+//        Connection cnn = ConnectionDB.getInstance().getConnection();
+//        try {
+//            Statement statement = cnn.createStatement();
+//            ResultSet rs = statement.executeQuery(this.SQL_SELECT + " WHERE DANHBO = '" + danhBo + "'");
+//            if (rs.next()) {
+//                int id = rs.getInt(1);
+//                String khu = rs.getString(2);
+//                String dot = rs.getString(3);
+//                String cuLy = rs.getString(5);
+//                String hopDong = rs.getString(6);
+//                String tenKhachHang = rs.getString(7);
+//                String soNha = rs.getString(8);
+//                String duong = rs.getString(9);
+//                String giaBieu = rs.getString(10);
+//                String dinhMuc = rs.getString(11);
+//                String ky = rs.getString(12);
+//                String nam = rs.getString(13);
+//                String code = rs.getString(14);
+//                String codeFU = rs.getString(15);
+//                String chiSoCu = rs.getString(16);
+//                String chiSoMoi = rs.getString(17);
+//                String quan = rs.getString(18);
+//                String phuong = rs.getString(19);
+//                String maLoTrinh = rs.getString(20);
+//                hoaDon = new HoaDon(khu, dot, danhBo, cuLy, hopDong, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky, nam, code, codeFU, chiSoCu, chiSoMoi, quan, phuong, maLoTrinh);
+//
+//            }
+//            rs.close();
+//            cnn.close();
+//        } catch (SQLException e) {
+//
+//            e.printStackTrace();
+//        }
+//        return hoaDon;
+//    }
 
     public int getNum_DanhBo_ByMLT(String maLoTrinh) {
         int result = 0;

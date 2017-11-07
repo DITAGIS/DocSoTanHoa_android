@@ -127,6 +127,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void login() {
+//        LocalDatabase localDatabase = new LocalDatabase(this);
+//        localDatabase.Upgrade();
         LoginActivity.this.mUsername = mTxtUsername.getText().toString();
         LoginActivity.this.mPassword = mTxtPassword.getText().toString();
         if (LoginActivity.this.mUsername.length() == 0 || LoginActivity.this.mPassword.length() == 0) {
