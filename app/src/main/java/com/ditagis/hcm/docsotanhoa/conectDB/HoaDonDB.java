@@ -1,5 +1,7 @@
 package com.ditagis.hcm.docsotanhoa.conectDB;
 
+import android.os.StrictMode;
+
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 
 import java.sql.Connection;
@@ -16,7 +18,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
     private final String SQL_SELECT_GETALL_BY_USERNAME = "SELECT danhba,gb,dm,CSCU, MLT2, codecu FROM " + TABLE_NAME;
     private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
     private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + " VALUES(?,?,?,?,?)";
-//    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET CSC=? WHERE DANHBO=?";
+    //    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET CSC=? WHERE DANHBO=?";
     private final String SQL_DELETE = "DELETE FROM " + TABLE_NAME + " WHERE ClassId=?";
 
     private String mDot;
@@ -146,7 +148,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
         return result;
     }
 
-//    public List<HoaDon> getByMaLoTrinh(String maLoTrinh) {
+    //    public List<HoaDon> getByMaLoTrinh(String maLoTrinh) {
 //        List<HoaDon> result = new ArrayList<HoaDon>();
 //        Connection cnn = ConnectionDB.getInstance().getConnection();
 //        try {
@@ -185,6 +187,136 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
 //
 //        return result;
 //    }
+    public List<String> getCountHoaDon(String userName, int dot, int nam, int ky) {
+        Connection cnn = ConnectionDB.getInstance().getConnection();
+        List<String> DBs = new ArrayList<>();
+        try {
+            if (cnn == null)
+                return null;
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            Statement statement = cnn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY), sttm1;
+            String dotString = "", kyString = "";
+            if (dot < 10)
+                dotString = "0" + dot;
+            else dotString = dot + "";
+            if (ky < 10)
+                kyString = "0" + ky;
+            else kyString = ky + "";
+            String like = dotString + userName + "%";
+            final ResultSet rs = statement.executeQuery("select danhba from docso where nam = "
+                    + nam + " and ky = " + kyString + " and mlt2 like '" + like + "' and (csmoi is null or csmoi = 0 )");
+
+            while (rs.next()) {
+                DBs.add(rs.getString(1));
+            }
+            rs.close();
+            statement.close();
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+        return DBs;
+    }
+
+    public List<HoaDon> getHoaDonByUserName(String userName, String danhBo, int dot, int nam, int ky) {
+        Connection cnn = ConnectionDB.getInstance().getConnection();
+        List<HoaDon> hoaDons = null;
+        try {
+            if (cnn == null)
+                return null;
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            Statement statement = cnn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY), sttm1;
+            hoaDons = new ArrayList<HoaDon>();
+            String dotString = "", kyString = "";
+            if (dot < 10)
+                dotString = "0" + dot;
+            else dotString = dot + "";
+            if (ky < 10)
+                kyString = "0" + ky;
+            else kyString = ky + "";
+            String like = dotString + userName + "%";
+            final ResultSet rs = statement.executeQuery(SQL_SELECT_GETALL_BY_USERNAME + " where danhba = '" + danhBo + "' and  nam = "
+                    + nam + " and ky = " + kyString + " and mlt2 like '" + like + "' and (csmoi is null or csmoi = 0 )");
+
+            while (rs.next()) {
+                String giaBieu = rs.getString(2);
+                String dinhMuc = rs.getString(3);
+                String chiSoCu = rs.getInt(4) + "";
+                String maLoTrinh = rs.getString(5);
+                String code = rs.getString(6);
+                String soNha = "";
+                String duong = "";
+                String tenKhachHang = "";
+                String sdt = "";
+                String sanLuong_3 = "";
+                String sanLuong_2 = "";
+                String sanLuong_1 = "";
+
+                sttm1 = cnn.createStatement();
+                ResultSet rs1 = sttm1.executeQuery("SELECT tenkh,so, duong, sdt FROM KhachHang where MLT2 = '" + maLoTrinh + "'");
+                if (rs1.next()) {
+                    tenKhachHang = rs1.getString(1);
+                    soNha = rs1.getString(2) == null ? "" : rs1.getString(2);
+                    duong = rs1.getString(3) == null ? "" : rs1.getString(3);
+                    sdt = rs1.getString(4) == null ? "" : rs1.getString(4);
+
+                }
+                int[] kyNam = get3Ky(ky, nam, 1);
+                PreparedStatement st = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
+                st.setString(1, danhBo);
+                st.setInt(2, kyNam[0]);
+                st.setInt(3, kyNam[1]);
+                ResultSet rs2 = st.executeQuery();
+                if (rs2.next()) {
+                    sanLuong_1 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
+                }
+
+                int[] kyNam1 = get3Ky(ky, nam, 2);
+                PreparedStatement st1 = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
+                st1.setString(1, danhBo);
+                st1.setInt(2, kyNam1[0]);
+                st1.setInt(3, kyNam1[1]);
+                ResultSet rs3 = st1.executeQuery();
+                if (rs3.next()) {
+                    sanLuong_2 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
+                }
+
+                int[] kyNam2 = get3Ky(ky, nam, 3);
+                PreparedStatement st2 = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
+                st2.setString(1, danhBo);
+                st2.setInt(2, kyNam[0]);
+                st2.setInt(3, kyNam[1]);
+                ResultSet rs4 = st2.executeQuery();
+                if (rs4.next()) {
+                    sanLuong_3 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
+                }
+
+                HoaDon hoaDon = new HoaDon(dotString, danhBo, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky + "", code, chiSoCu, maLoTrinh,
+                        sdt, sanLuong_3, sanLuong_2, sanLuong_1);
+                hoaDons.add(hoaDon);
+
+                sttm1.close();
+                rs1.close();
+                st1.close();
+                st2.close();
+                st.close();
+                rs2.close();
+                rs3.close();
+                rs4.close();
+            }
+            rs.close();
+            statement.close();
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+        return hoaDons;
+    }
 
     public List<HoaDon> getAllByUserName(String userName, int dot, int nam, int ky) {
         Connection cnn = ConnectionDB.getInstance().getConnection();
@@ -203,12 +335,14 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                 kyString = "0" + ky;
             else kyString = ky + "";
             String like = dotString + userName + "%";
-            ResultSet rs = statement.executeQuery(SQL_SELECT_GETALL_BY_USERNAME + " where nam = "
+            final ResultSet rs = statement.executeQuery(SQL_SELECT_GETALL_BY_USERNAME + " where nam = "
                     + nam + " and ky = " + kyString + " and mlt2 like '" + like + "' and (csmoi is null or csmoi = 0 )");
-//            rs.last();
-//            rs.getRow();
-//            rs.first();
+            rs.last();
+            final int count = rs.getRow();
+            rs.first();
+
             while (rs.next()) {
+
 //                    int id = rs.getInt(1); //TODO xem vụ tạo DocSoID
                 String danhBo = rs.getString(1);
 
@@ -234,35 +368,35 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                     sdt = rs1.getString(4) == null ? "" : rs1.getString(4);
 
                 }
-//                int[] kyNam = get3Ky(ky, nam, 1);
-//                PreparedStatement st = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
-//                st.setString(1, danhBo);
-//                st.setInt(2, kyNam[0]);
-//                st.setInt(3, kyNam[1]);
-//                ResultSet rs2 = st.executeQuery();
-//                if (rs2.next()) {
-//                    sanLuong_1 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
-//                }
-//
-//                int[] kyNam1 = get3Ky(ky, nam, 2);
-//                PreparedStatement st1 = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
-//                st1.setString(1, danhBo);
-//                st1.setInt(2, kyNam1[0]);
-//                st1.setInt(3, kyNam1[1]);
-//                ResultSet rs3 = st1.executeQuery();
-//                if (rs3.next()) {
-//                    sanLuong_2 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
-//                }
-//
-//                int[] kyNam2 = get3Ky(ky, nam, 3);
-//                PreparedStatement st2 = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
-//                st2.setString(1, danhBo);
-//                st2.setInt(2, kyNam[0]);
-//                st2.setInt(3, kyNam[1]);
-//                ResultSet rs4 = st2.executeQuery();
-//                if (rs4.next()) {
-//                    sanLuong_3 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
-//                }
+                int[] kyNam = get3Ky(ky, nam, 1);
+                PreparedStatement st = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
+                st.setString(1, danhBo);
+                st.setInt(2, kyNam[0]);
+                st.setInt(3, kyNam[1]);
+                ResultSet rs2 = st.executeQuery();
+                if (rs2.next()) {
+                    sanLuong_1 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
+                }
+
+                int[] kyNam1 = get3Ky(ky, nam, 2);
+                PreparedStatement st1 = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
+                st1.setString(1, danhBo);
+                st1.setInt(2, kyNam1[0]);
+                st1.setInt(3, kyNam1[1]);
+                ResultSet rs3 = st1.executeQuery();
+                if (rs3.next()) {
+                    sanLuong_2 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
+                }
+
+                int[] kyNam2 = get3Ky(ky, nam, 3);
+                PreparedStatement st2 = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
+                st2.setString(1, danhBo);
+                st2.setInt(2, kyNam[0]);
+                st2.setInt(3, kyNam[1]);
+                ResultSet rs4 = st2.executeQuery();
+                if (rs4.next()) {
+                    sanLuong_3 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
+                }
 
                 HoaDon hoaDon = new HoaDon(dotString, danhBo, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky + "", code, chiSoCu, maLoTrinh,
                         sdt, sanLuong_3, sanLuong_2, sanLuong_1);

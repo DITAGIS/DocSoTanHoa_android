@@ -29,6 +29,7 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
     private int mKy;
     private int mNam;
     private int mDot;
+    private int count;
     private Activity mActivity;
 
     public interface AsyncResponse {
@@ -52,6 +53,7 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
         this.mKy = ky;
         this.mNam = nam;
         this.mDelegate = delegate;
+        this.count = 0;
     }
 
     @Override
@@ -84,8 +86,15 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
                 if (hoaDon.getDot().equals(dotString))
                     isFound = true;
             }
-        if (!isFound)
-            hoaDons.addAll(_hoadonDB.getAllByUserName(this.mUsername, this.mDot, this.mNam, this.mKy));
+        if (!isFound) {
+            List<String> DBs = _hoadonDB.getCountHoaDon(this.mUsername, this.mDot, this.mNam, this.mKy);
+            count = DBs.size();
+            for (String danhBo : DBs) {
+                hoaDons.addAll(_hoadonDB.getHoaDonByUserName(this.mUsername, danhBo, this.mDot, this.mNam, this.mKy));
+
+                publishProgress(hoaDons);
+            }
+        }
         if (hoaDons != null)
             resultLayLoTrinh.setDot(_hoadonDB.getmDot());
 
@@ -100,6 +109,12 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
             return resultLayLoTrinh;
         }
         return null;
+    }
+
+    @Override
+    protected void onProgressUpdate(List<HoaDon>... values) {
+        super.onProgressUpdate(values);
+        dialog.setTitle(mContext.getString(R.string.load_danhbo_title) + " " + values[0].size() + "/" + this.count);
     }
 
     @Override
