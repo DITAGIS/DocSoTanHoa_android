@@ -305,9 +305,9 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
 
                 rs.close();
                 rs1.close();
-//                rs2.close();
-//                rs3.close();
-//                rs4.close();
+                rs2.close();
+                rs3.close();
+                rs4.close();
                 statement.close();
             }
         } catch (SQLException e) {

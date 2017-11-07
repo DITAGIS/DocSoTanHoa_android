@@ -79,7 +79,6 @@ public class DocSo extends Fragment {
     Spinner mSpinMLT;
     Spinner mSpinDB = null;
     Spinner mSpinCode;
-    ImageButton mImgbtn_Save;
     private Bitmap mBpImage;
 
     private LocalDatabase mLocalDatabase;
@@ -153,7 +152,6 @@ public class DocSo extends Fragment {
 
         mEditTextCSM = (EditText) mRootView.findViewById(R.id.etxt_ds_CSM);
 //        mEditTextCSM.setEnabled(false);
-        mImgbtn_Save = (ImageButton) mRootView.findViewById(R.id.imgbtn_ds_Save);
         mTxtCSM = (TextView) mRootView.findViewById(R.id.txt_ds_CSM);
 
         mCodes = new String[]{"40", "41", "42", "54", "55", "56", "58", "5F", "5K",
@@ -279,21 +277,27 @@ public class DocSo extends Fragment {
                 doCamera();
             }
         });
-        mRootView.findViewById(R.id.imgBtn_ds_note).setOnClickListener(new View.OnClickListener() {
+
+
+        mRootView.findViewById(R.id.layout_ds_scan).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doScan();
+            }
+        });
+        mRootView.findViewById(R.id.layout_ds_note).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 doNote();
             }
         });
-        mImgbtn_Save.setOnClickListener(new View.OnClickListener()
-
-        {
+        mRootView.findViewById(R.id.layout_ds_save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveImage(v);
             }
         });
-        setTheme();
+        refresh();
     }
 
     private void setTheme() {
@@ -336,8 +340,6 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                ((ImageButton) mRootView.findViewById(R.id.imgBtn_ds_camera)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
-                ((ImageButton) mRootView.findViewById(R.id.imgBtn_ds_camera)).setBackgroundResource(R.layout.edit_text_styles);
 
 //            ((TableLayout) mRootView.findViewById(R.id.layout_ds_csm)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_csm_1));
                 ((TextView) mRootView.findViewById(R.id.spin_ds_code_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
@@ -386,8 +388,6 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((ImageButton) mRootView.findViewById(R.id.imgBtn_ds_camera)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
-                ((ImageButton) mRootView.findViewById(R.id.imgBtn_ds_camera)).setBackgroundResource(R.layout.edit_text_styles);
 
 //            ((TableLayout) mRootView.findViewById(R.id.layout_ds_csm)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_csm_1));
                 ((TextView) mRootView.findViewById(R.id.spin_ds_code_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
@@ -496,9 +496,7 @@ public class DocSo extends Fragment {
         if (this.mDot < 10)
             dotString = "0" + this.mDot;
         ((TextView) mRootView.findViewById(R.id.txt_ds_dot)).setText(this.mDot + "");
-        //dotString + this.mUsername + "%")
 
-        mAdapterMLT.notifyDataSetChanged();
         setTextProgress(dotString);
 
         setTheme();

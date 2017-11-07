@@ -9,8 +9,8 @@
         android:id="@+id/layout_ds"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:focusableInTouchMode="true"
         android:background="@color/colorBackground_1"
+        android:focusableInTouchMode="true"
         android:gravity="center_horizontal"
         android:orientation="vertical">
         <!--Layout hiển thị thông tin-->
@@ -293,6 +293,13 @@
                             android:paddingLeft="@dimen/activity_horizontal_margin"
                             android:textColor="@color/colorTextColor_1"
                             android:textCursorDrawable="@null" />
+                        <LinearLayout
+                            android:id="@+id/imgBtn_ds_call"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="right|bottom"
+                            android:background="@drawable/call"
+                            android:orientation="vertical"/>
                     </TableRow>
                     <!--Table row chỉ số cũ-->
                     <TableRow android:layout_weight="1">
@@ -378,13 +385,14 @@
                     </TableRow>
                 </TableLayout>
 
-                <ImageButton
+                <LinearLayout
                     android:id="@+id/imgBtn_ds_camera"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_gravity="right|bottom"
                     android:layout_weight="1"
-                    android:src="@drawable/camera" />
+                    android:background="@drawable/camera"
+                    android:orientation="vertical"/>
             </FrameLayout>
         </LinearLayout>
         <!--Layout nhập chỉ số mới, code-->
@@ -465,39 +473,93 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="horizontal"
                 android:background="@color/color_row_check_1"
+                android:orientation="horizontal"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin">
 
-                <ImageButton
-                    android:id="@+id/imgBtn_ds_scan"
+                <LinearLayout
+                    android:id="@+id/layout_ds_scan"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:background="@color/color_row_check_1"
-                    android:src="@drawable/barcode" />
 
-                <ImageButton
-                    android:id="@+id/imgBtn_ds_note"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/barcode"
+
+                        android:orientation="horizontal"></LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:gravity="center_horizontal"
+                        android:text="Quét mã"
+                        android:textColor="@color/colorToolBar_Row_1"
+                        android:textSize="20dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_ds_note"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:background="@color/color_row_check_1"
-                    android:src="@drawable/note" />
+
+                    android:orientation="vertical">
+
+                    <LinearLayout
+
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/note"
+
+                        android:orientation="horizontal"></LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:gravity="center_horizontal"
+                        android:text="Ghi chú"
+                        android:textColor="@color/colorToolBar_Row_1"
+                        android:textSize="20dp" />
+                </LinearLayout>
 
 
-                <ImageButton
-                    android:id="@+id/imgbtn_ds_Save"
+                <LinearLayout
+                    android:id="@+id/layout_ds_save"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:background="@color/color_row_check_1"
-                    android:src="@drawable/checked" />
+
+                    android:orientation="vertical">
+
+                    <LinearLayout
+
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/checked"
+
+                        android:orientation="horizontal"></LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:gravity="center_horizontal"
+                        android:text="Lưu"
+                        android:textColor="@color/colorToolBar_Row_1"
+                        android:textSize="20dp" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 

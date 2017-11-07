@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void optionChangeUITheme() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
-        builder.setTitle("Tùy chọn tìm kiếm");
+        builder.setTitle("Chọn màu nền");
         builder.setCancelable(true);
         LayoutInflater inflater = LayoutInflater.from(this);
         View dialogLayout = inflater.inflate(R.layout.layout_dialog_select_theme, null);
