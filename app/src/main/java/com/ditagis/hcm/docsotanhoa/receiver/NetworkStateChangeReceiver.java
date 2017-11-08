@@ -44,7 +44,6 @@ public class NetworkStateChangeReceiver extends BroadcastReceiver {
                     dialog.dismiss();
                 }
             }
-
             public void onFinish() {
                 dialog.dismiss();
                 mActivity.finish();
@@ -54,15 +53,10 @@ public class NetworkStateChangeReceiver extends BroadcastReceiver {
                 mIsRunning = false;
 
             }
-
-
         };
-//        timer.start();
         if (networkInfo != null && networkInfo.isConnected()) {
             if (dialog != null && dialog.isShowing()) {
                 if (context instanceof MainActivity) {
-//                if (mIsRunning) {
-//                    timer.cancel();
                     mIsRunning = false;
                 } else
                     dialog.dismiss();

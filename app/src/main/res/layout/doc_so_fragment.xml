@@ -296,7 +296,7 @@
                             android:textCursorDrawable="@null" />
 
                         <LinearLayout
-                            android:id="@+id/imgBtn_ds_call"
+                            android:id="@+id/layout_ds_call"
                             android:layout_width="0dp"
                             android:layout_height="45dp"
                             android:layout_gravity="right|center_vertical"

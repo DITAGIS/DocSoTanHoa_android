@@ -104,7 +104,8 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
 
 //        }
         if (hoaDons != null) {
-            resultLayLoTrinh.setCount(hoaDons.size());
+            resultLayLoTrinh.setTotal(count);
+
             for (HoaDon hoaDon : hoaDons) {
                 resultLayLoTrinh.addItemToDa(new GridViewLayLoTrinhAdapter.Item(hoaDon.getMaLoTrinh(), hoaDon.getDanhBo()));
                 this.mLocalDatabase.addHoaDon(hoaDon);
@@ -118,25 +119,22 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
     @Override
     protected void onProgressUpdate(List<HoaDon>... values) {
         super.onProgressUpdate(values);
-        String title = String.format("%s %d/%d (%d%%)", mContext.getString(R.string.load_danhbo_title), values[0].size(), this.count, Math.round(values[0].size()*100 / this.count));
+        String title = String.format("%s %d/%d (%d%%)", mContext.getString(R.string.load_danhbo_title), values[0].size(), this.count, Math.round(values[0].size() * 100 / this.count));
         dialog.setTitle(title);
     }
 
     @Override
     protected void onPostExecute(ResultLayLoTrinh resultLayLoTrinh) {
         mDelegate.processFinish(resultLayLoTrinh);
-
-//        if (LayLoTrinhActivity.this.mSwipeRefreshLayout.isRefreshing())
-//            LayLoTrinhActivity.this.mSwipeRefreshLayout.setRefreshing(false);
-
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
         if (resultLayLoTrinh == null) {
-
+            if (dialog != null && dialog.isShowing()) {
+                dialog.dismiss();
+            }
         } else
-
-            Toast.makeText(this.mContext, "Đã tải xong mã lộ trình!!!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this.mContext, mContext.getString(R.string.load_danhbo_complete), Toast.LENGTH_LONG).show();
     }
 
 }

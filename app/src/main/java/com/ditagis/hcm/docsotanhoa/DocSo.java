@@ -225,6 +225,20 @@ public class DocSo extends Fragment {
 
             }
         });
+        mRootView.findViewById(R.id.layout_ds_call).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String phone = ((EditText) mRootView.findViewById(R.id.etxt_ds_sdt)).getText().toString().trim();
+                if (phone.length() == 0) {
+                    MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.call_error), true);
+                } else {
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse("tel:" + phone));
+                    startActivity(callIntent);
+                }
+            }
+        });
+
         mEditTextCSM.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

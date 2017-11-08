@@ -146,11 +146,6 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, this.getString(R.string.login_with_saved_account), Toast.LENGTH_SHORT).show();
             doLayLoTrinh();
         }
-//        else {
-////            AlertDialogDisConnect.show(btnLogin.getContext(), LoginActivity.this);
-////            MySnackBar.make(btnLogin, R.string.no_connect, true);
-//        }
-
     }
 
 
@@ -450,8 +445,10 @@ public class LoginActivity extends AppCompatActivity {
 
     public boolean requestPermisson() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.CALL_PHONE},
                     REQUEST_ID_IMAGE_CAPTURE);
         }
         if (Build.VERSION.SDK_INT >= 23 &&

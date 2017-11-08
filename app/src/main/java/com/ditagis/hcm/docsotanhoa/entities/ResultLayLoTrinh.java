@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 public class ResultLayLoTrinh {
     private int count;
+    private int total;
     private String dot;
     private String staffName;
     private GridViewLayLoTrinhAdapter da;
@@ -20,13 +21,18 @@ public class ResultLayLoTrinh {
         da = new GridViewLayLoTrinhAdapter(context, new ArrayList<GridViewLayLoTrinhAdapter.Item>());
     }
 
-    public int getCount() {
-        return count;
+    public int getTotal() {
+        return total;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public void setTotal(int total) {
+        this.total = total;
     }
+
+    public int getCount() {
+        return da.getCount();
+    }
+
 
     public String getStaffName() {
         return staffName;
