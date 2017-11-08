@@ -270,44 +270,44 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                     sdt = rs1.getString(4) == null ? "" : rs1.getString(4);
 
                 }
-                int[] kyNam = get3Ky(ky, nam, 1);
-                statement = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
-                statement.setString(1, danhBo);
-                statement.setInt(2, kyNam[0]);
-                statement.setInt(3, kyNam[1]);
-                ResultSet rs2 = statement.executeQuery();
-                if (rs2.next()) {
-                    sanLuong_1 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
-                }
-
-                int[] kyNam1 = get3Ky(ky, nam, 2);
-                statement = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
-                statement.setString(1, danhBo);
-                statement.setInt(2, kyNam1[0]);
-                statement.setInt(3, kyNam1[1]);
-                ResultSet rs3 = statement.executeQuery();
-                if (rs3.next()) {
-                    sanLuong_2 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
-                }
-
-                int[] kyNam2 = get3Ky(ky, nam, 3);
-                statement = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
-                statement.setString(1, danhBo);
-                statement.setInt(2, kyNam2[0]);
-                statement.setInt(3, kyNam2[1]);
-                ResultSet rs4 = statement.executeQuery();
-                if (rs4.next()) {
-                    sanLuong_3 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
-                }
+//                int[] kyNam = get3Ky(ky, nam, 1);
+//                statement = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
+//                statement.setString(1, danhBo);
+//                statement.setInt(2, kyNam[0]);
+//                statement.setInt(3, kyNam[1]);
+//                ResultSet rs2 = statement.executeQuery();
+//                if (rs2.next()) {
+//                    sanLuong_1 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
+//                }
+//
+//                int[] kyNam1 = get3Ky(ky, nam, 2);
+//                statement = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
+//                statement.setString(1, danhBo);
+//                statement.setInt(2, kyNam1[0]);
+//                statement.setInt(3, kyNam1[1]);
+//                ResultSet rs3 = statement.executeQuery();
+//                if (rs3.next()) {
+//                    sanLuong_2 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
+//                }
+//
+//                int[] kyNam2 = get3Ky(ky, nam, 3);
+//                statement = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
+//                statement.setString(1, danhBo);
+//                statement.setInt(2, kyNam2[0]);
+//                statement.setInt(3, kyNam2[1]);
+//                ResultSet rs4 = statement.executeQuery();
+//                if (rs4.next()) {
+//                    sanLuong_3 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
+//                }
 
                 hoaDon = new HoaDon(dotString, danhBo, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky + "", code, chiSoCu, maLoTrinh,
                         sdt, sanLuong_3, sanLuong_2, sanLuong_1);
 
                 rs.close();
                 rs1.close();
-                rs2.close();
-                rs3.close();
-                rs4.close();
+//                rs2.close();
+//                rs3.close();
+//                rs4.close();
                 statement.close();
             }
         } catch (SQLException e) {

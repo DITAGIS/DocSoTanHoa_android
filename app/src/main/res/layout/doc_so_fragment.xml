@@ -50,7 +50,7 @@
                             android:layout_weight="1"
                             android:text="Đã đọc:"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@android:color/white" />
+                            android:textColor="@color/colorTextColor_1" />
 
                         <TextView
                             android:id="@+id/txt_ds_complete"
@@ -72,7 +72,7 @@
                             android:layout_weight="1"
                             android:text="Nhân viên:"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@android:color/white" />
+                            android:textColor="@color/colorTextColor_1" />
 
                         <TextView
                             android:id="@+id/txt_ds_staffName"
@@ -94,7 +94,7 @@
                             android:layout_weight="1"
                             android:text="Kỳ: "
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@android:color/white" />
+                            android:textColor="@color/colorTextColor_1" />
 
                         <TextView
                             android:id="@+id/txt_ds_ky"
@@ -102,7 +102,7 @@
                             android:layout_span="4"
                             android:layout_weight="1"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@android:color/white" />
+                            android:textColor="@color/colorTextColor_1" />
                     </TableRow>
                     <!--Table row đợt-->
                     <TableRow android:layout_weight="1">
@@ -163,6 +163,7 @@
                             android:layout_width="50dp"
                             android:layout_height="match_parent"
                             android:gravity="center"
+                            android:layout_marginRight="@dimen/button_horizontal_margin"
                             android:text="..." />
 
                     </TableRow>
@@ -275,16 +276,16 @@
                             android:layout_width="0dp"
                             android:layout_column="0"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
+                            android:layout_weight="0.7"
                             android:text="SĐT: "
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/colorTextColor_1" />
 
                         <EditText
                             android:id="@+id/etxt_ds_sdt"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="1.7"
                             android:width="0dp"
                             android:ems="10"
                             android:gravity="left"
@@ -293,13 +294,17 @@
                             android:paddingLeft="@dimen/activity_horizontal_margin"
                             android:textColor="@color/colorTextColor_1"
                             android:textCursorDrawable="@null" />
+
                         <LinearLayout
                             android:id="@+id/imgBtn_ds_call"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="right|bottom"
+                            android:layout_width="0dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="right|center_vertical"
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:layout_weight="0.3"
                             android:background="@drawable/call"
-                            android:orientation="vertical"/>
+                            android:layout_marginRight="@dimen/button_horizontal_margin"
+                            android:orientation="vertical" />
                     </TableRow>
                     <!--Table row chỉ số cũ-->
                     <TableRow android:layout_weight="1">
@@ -392,7 +397,7 @@
                     android:layout_gravity="right|bottom"
                     android:layout_weight="1"
                     android:background="@drawable/camera"
-                    android:orientation="vertical"/>
+                    android:orientation="vertical" />
             </FrameLayout>
         </LinearLayout>
         <!--Layout nhập chỉ số mới, code-->
@@ -496,6 +501,7 @@
                         android:background="@drawable/barcode"
 
                         android:orientation="horizontal"></LinearLayout>
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -523,6 +529,7 @@
                         android:background="@drawable/note"
 
                         android:orientation="horizontal"></LinearLayout>
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -551,6 +558,7 @@
                         android:background="@drawable/checked"
 
                         android:orientation="horizontal"></LinearLayout>
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

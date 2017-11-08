@@ -69,7 +69,7 @@ public class DocSo extends Fragment {
     private static final int MIN_SIZE = 500000;
     String mMlt;
     String mDanhBo;
-    List<String> mDBs = new ArrayList<String>();
+    List<String> mDBs = new ArrayList<String>(), mTenKHs = new ArrayList<>(), mDiaChis = new ArrayList<>();
     EditText mEditTextCSM;
     TextView mTxtCSM;
     TextView mTxtCSC;
@@ -197,13 +197,22 @@ public class DocSo extends Fragment {
                         }
                     }
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
-//                    for (int i = 0; i < mDBs.size(); i++) {
-//                        if (s.toString().equals(mDBs.get(i))) {
-//                            mSpinDB.setSelection(i);
-//                        }
-//                    }
                     for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon()) {
                         if (s.toString().equals(hoaDon.getDanhBo()))
+                            for (int i = 0; i < mMLTs.size(); i++)
+                                if (hoaDon.getMaLoTrinh().equals(mMLTs.get(i)))
+                                    mSpinMLT.setSelection(i);
+                    }
+                } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_tenKH))) {
+                    for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon()) {
+                        if (s.toString().equals(hoaDon.getTenKhachHang()))
+                            for (int i = 0; i < mMLTs.size(); i++)
+                                if (hoaDon.getMaLoTrinh().equals(mMLTs.get(i)))
+                                    mSpinMLT.setSelection(i);
+                    }
+                } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_diaChi))) {
+                    for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon()) {
+                        if (s.toString().equals(hoaDon.getDiaChi()))
                             for (int i = 0; i < mMLTs.size(); i++)
                                 if (hoaDon.getMaLoTrinh().equals(mMLTs.get(i)))
                                     mSpinMLT.setSelection(i);
@@ -436,10 +445,15 @@ public class DocSo extends Fragment {
 //        spinSearchType.setAdapter(adapterSearchType);
 
         final RadioGroup group = (RadioGroup) dialogLayout.findViewById(R.id.radioGroup_searchtype);
+
         if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_mlt)))
             group.check(R.id.radio_search_mlt);
-        else
+        else if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_danhbo)))
             group.check(R.id.radio_search_danhbo);
+        else if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_tenKH)))
+            group.check(R.id.radio_search_tenKH);
+        else if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_diaChi)))
+            group.check(R.id.radio_search_diaChi);
 
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
@@ -448,9 +462,23 @@ public class DocSo extends Fragment {
                 switch (iChecked) {
                     case R.id.radio_search_mlt:
                         mSearchType = mRootView.getContext().getString(R.string.search_mlt);
+                        singleComplete.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        singleComplete.setText("");
                         break;
                     case R.id.radio_search_danhbo:
                         mSearchType = mRootView.getContext().getString(R.string.search_danhbo);
+                        singleComplete.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        singleComplete.setText("");
+                        break;
+                    case R.id.radio_search_tenKH:
+                        mSearchType = mRootView.getContext().getString(R.string.search_tenKH);
+                        singleComplete.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
+                        singleComplete.setText("");
+                        break;
+                    case R.id.radio_search_diaChi:
+                        mSearchType = mRootView.getContext().getString(R.string.search_diaChi);
+                        singleComplete.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
+                        singleComplete.setText("");
                         break;
                 }
 //                mSearchType = spinSearchType.getSelectedItem().toString();
@@ -463,7 +491,7 @@ public class DocSo extends Fragment {
                             mMLTs
                     ));
 
-                } else {
+                } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
                     mDBs.clear();
                     for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon()) {
                         mDBs.add(hoaDon.getDanhBo());
@@ -473,6 +501,28 @@ public class DocSo extends Fragment {
                             mRootView.getContext(),
                             android.R.layout.simple_list_item_1,
                             mDBs
+                    ));
+                } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_tenKH))) {
+                    mTenKHs.clear();
+                    for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon()) {
+                        mTenKHs.add(hoaDon.getTenKhachHang());
+                    }
+
+                    singleComplete.setAdapter(new ArrayAdapter<String>(
+                            mRootView.getContext(),
+                            android.R.layout.simple_list_item_1,
+                            mTenKHs
+                    ));
+                } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_diaChi))) {
+                    mDiaChis.clear();
+                    for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon()) {
+                        mDiaChis.add(hoaDon.getDiaChi());
+                    }
+
+                    singleComplete.setAdapter(new ArrayAdapter<String>(
+                            mRootView.getContext(),
+                            android.R.layout.simple_list_item_1,
+                            mDiaChis
                     ));
                 }
                 dialog.dismiss();
