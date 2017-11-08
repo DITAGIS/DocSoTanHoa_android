@@ -38,6 +38,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ditagis.hcm.docsotanhoa.adapter.CustomArrayAdapter;
 import com.ditagis.hcm.docsotanhoa.entities.DanhBo_ChiSoMoi;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
@@ -134,7 +135,7 @@ public class DocSo extends Fragment {
         StrictMode.setVmPolicy(builder.build());
         singleComplete = (AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds);
         singleComplete.setAdapter(
-                new ArrayAdapter<String>
+                new CustomArrayAdapter
                         (
                                 mRootView.getContext(),
                                 android.R.layout.simple_list_item_1,
@@ -175,12 +176,11 @@ public class DocSo extends Fragment {
         });
 
         mSearchType = mRootView.getContext().getString(R.string.search_mlt);
-        if (mSearchType.equals(mRootView.getContext().getString(R.string.search_mlt)))
-            singleComplete.setAdapter(new ArrayAdapter<String>(
-                    mRootView.getContext(),
-                    android.R.layout.simple_list_item_1,
-                    mMLTs
-            ));
+        singleComplete.setAdapter(new CustomArrayAdapter(
+                mRootView.getContext(),
+                android.R.layout.simple_list_item_1,
+                mMLTs
+        ));
 
         singleComplete.addTextChangedListener(new TextWatcher() {
             @Override
@@ -462,22 +462,18 @@ public class DocSo extends Fragment {
                 switch (iChecked) {
                     case R.id.radio_search_mlt:
                         mSearchType = mRootView.getContext().getString(R.string.search_mlt);
-                        singleComplete.setInputType(InputType.TYPE_CLASS_NUMBER);
                         singleComplete.setText("");
                         break;
                     case R.id.radio_search_danhbo:
                         mSearchType = mRootView.getContext().getString(R.string.search_danhbo);
-                        singleComplete.setInputType(InputType.TYPE_CLASS_NUMBER);
                         singleComplete.setText("");
                         break;
                     case R.id.radio_search_tenKH:
                         mSearchType = mRootView.getContext().getString(R.string.search_tenKH);
-                        singleComplete.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
                         singleComplete.setText("");
                         break;
                     case R.id.radio_search_diaChi:
                         mSearchType = mRootView.getContext().getString(R.string.search_diaChi);
-                        singleComplete.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
                         singleComplete.setText("");
                         break;
                 }
@@ -485,7 +481,7 @@ public class DocSo extends Fragment {
                 singleComplete.setHint(mSearchType);
 
                 if (mSearchType.equals(mRootView.getContext().getString(R.string.search_mlt))) {
-                    singleComplete.setAdapter(new ArrayAdapter<String>(
+                    singleComplete.setAdapter(new CustomArrayAdapter(
                             mRootView.getContext(),
                             android.R.layout.simple_list_item_1,
                             mMLTs
@@ -496,8 +492,7 @@ public class DocSo extends Fragment {
                     for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon()) {
                         mDBs.add(hoaDon.getDanhBo());
                     }
-
-                    singleComplete.setAdapter(new ArrayAdapter<String>(
+                    singleComplete.setAdapter(new CustomArrayAdapter(
                             mRootView.getContext(),
                             android.R.layout.simple_list_item_1,
                             mDBs
@@ -508,7 +503,7 @@ public class DocSo extends Fragment {
                         mTenKHs.add(hoaDon.getTenKhachHang());
                     }
 
-                    singleComplete.setAdapter(new ArrayAdapter<String>(
+                    singleComplete.setAdapter(new CustomArrayAdapter(
                             mRootView.getContext(),
                             android.R.layout.simple_list_item_1,
                             mTenKHs
@@ -519,7 +514,7 @@ public class DocSo extends Fragment {
                         mDiaChis.add(hoaDon.getDiaChi());
                     }
 
-                    singleComplete.setAdapter(new ArrayAdapter<String>(
+                    singleComplete.setAdapter(new CustomArrayAdapter(
                             mRootView.getContext(),
                             android.R.layout.simple_list_item_1,
                             mDiaChis
