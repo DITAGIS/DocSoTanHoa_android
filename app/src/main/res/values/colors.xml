@@ -10,10 +10,11 @@
     <color name="colorTextViewChangePassword_1">#27ae60</color>
     <color name="colorToolBar_Row_1">#000066</color>
     <color name="colorTextLogin_1">#000000</color>
-    <color name="colorAlertWrongPassword_1">#e74c3c</color>
+    <color name="colorAlertWrong_1">#e74c3c</color>
     <color name="colorImgBtnUpload_1">#67b2e4</color>
     <color name="colorBorderEditext_1">#004444</color>
     <color name="colorBackground_csm_1">#66CDAA</color>
+    <color name="colorCSC_SL_0_1">#b0e5e5</color>
     <color name="colorCSC_SL_1_1">#e5e5b0</color>
     <color name="colorCSC_SL_2_1">#b0cae5</color>
     <color name="colorCSC_SL_3_1">#e5b1b0</color>
