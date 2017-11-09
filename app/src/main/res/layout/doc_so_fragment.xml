@@ -87,46 +87,65 @@
                     <!--Table row kỳ-->
                     <TableRow android:layout_weight="1">
 
-                        <TextView
-                            android:id="@+id/txt_ds_ky_title"
-                            android:layout_width="@dimen/width_title_item_docso"
-                            android:layout_column="0"
-                            android:layout_gravity="center_vertical"
-                            android:text="Kỳ: "
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/colorTextColor_1" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
 
-                        <TextView
-                            android:id="@+id/txt_ds_ky"
-                            android:layout_gravity="center_vertical"
-                            android:layout_span="4"
-                            android:layout_weight="1"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/colorTextColor_1" />
+                            <TextView
+                                android:id="@+id/txt_ds_ky_title"
+                                android:layout_width="@dimen/width_title_item_docso"
+                                android:layout_height="wrap_content"
+                                android:layout_column="0"
+                                android:layout_gravity="center_vertical"
+                                android:text="Kỳ: "
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="@color/colorTextColor_1" />
+
+                            <TextView
+                                android:id="@+id/txt_ds_ky"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_span="4"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:text="11"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="@color/colorTextColor_1" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/txt_ds_dot_title"
+                                android:layout_width="@dimen/width_title_item_docso"
+                                android:layout_height="wrap_content"
+                                android:layout_column="0"
+                                android:layout_gravity="center_vertical"
+                                android:text="Đợt: "
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="@color/colorTextColor_1" />
+
+                            <TextView
+                                android:id="@+id/txt_ds_dot"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_span="4"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:text="10"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="@color/colorTextColor_1" />
+                        </LinearLayout>
+
                     </TableRow>
-                    <!--Table row đợt-->
-                    <TableRow android:layout_weight="1">
 
-                        <TextView
-                            android:id="@+id/txt_ds_dot_title"
-                            android:layout_width="@dimen/width_title_item_docso"
-                            android:layout_column="0"
-                            android:layout_gravity="center_vertical"
-                            android:text="Đợt: "
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/colorTextColor_1" />
-
-                        <TextView
-                            android:id="@+id/txt_ds_dot"
-                            android:layout_width="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_span="4"
-                            android:layout_weight="1"
-                            android:text="10"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/colorTextColor_1" />
-                    </TableRow>
-                    <!--Table row mã lộ trình-->
+                    <!--Table row tim kiem-->
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -168,7 +187,7 @@
                             android:text="..." />
 
                     </TableRow>
-
+                    <!--Table row ma lo trinh-->
                     <TableRow android:layout_weight="1">
 
                         <TextView
@@ -183,15 +202,14 @@
 
                         <Spinner
                             android:id="@+id/spin_ds_mlt"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_span="4"
-                            android:layout_weight="1"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/colorTextColor_1" />
                     </TableRow>
-                    <!--Table row tìm kiếm danh bộ-->
+
 
                     <!--Table row danh bộ-->
                     <TableRow android:layout_weight="1">
@@ -384,11 +402,24 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/txt_ds_code_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_column="0"
+                                android:layout_gravity="center_vertical"
+                                android:width="@dimen/width_title_item_docso"
+                                android:text="Code: "
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="@color/colorTextColor_1" />
+
+                            <TextView
                                 android:id="@+id/txt_ds_CSC_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_column="0"
                                 android:layout_gravity="center_vertical"
+                                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                                android:layout_marginTop="@dimen/activity_vertical_margin"
                                 android:width="@dimen/width_title_item_docso"
                                 android:text="CS cũ: "
                                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -417,93 +448,166 @@
 
 
                         <LinearLayout
+
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:background="@color/colorCSC_SL_1_1"
                             android:orientation="horizontal">
 
                             <LinearLayout
+                                android:id="@+id/layout_ds_CSC_SL1"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/txt_ds_code"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_span="1"
+                                    android:layout_weight="1"
+                                    android:gravity="center_horizontal|center_vertical"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:textColor="@color/colorTextColor_1" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/colorBackground_1" />
 
                                 <TextView
                                     android:id="@+id/txt_ds_CSC"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_span="1"
                                     android:layout_weight="1"
-                                    android:text="14"
+                                    android:gravity="center_horizontal|center_vertical"
                                     android:textAppearance="?android:attr/textAppearanceMedium"
                                     android:textColor="@color/colorTextColor_1" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/colorBackground_1" />
 
                                 <TextView
                                     android:id="@+id/txt_ds_sanLuong1"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_span="1"
                                     android:layout_weight="1"
+                                    android:gravity="center_horizontal|center_vertical"
                                     android:text="14"
                                     android:textAppearance="?android:attr/textAppearanceMedium"
                                     android:textColor="@color/colorTextColor_1" />
                             </LinearLayout>
 
                             <LinearLayout
+                                android:id="@+id/layout_ds_CSC_SL2"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
+                                android:background="@color/colorCSC_SL_2_1"
                                 android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/txt_ds_code2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_span="1"
+                                    android:layout_weight="1"
+                                    android:gravity="center_horizontal|center_vertical"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:textColor="@color/colorTextColor_1" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/colorBackground_1" />
 
                                 <TextView
                                     android:id="@+id/txt_ds_CSC2"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_span="1"
                                     android:layout_weight="1"
-                                    android:text="14"
+                                    android:gravity="center_horizontal|center_vertical"
                                     android:textAppearance="?android:attr/textAppearanceMedium"
                                     android:textColor="@color/colorTextColor_1" />
 
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/colorBackground_1" />
+
                                 <TextView
                                     android:id="@+id/txt_ds_sanLuong2"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_span="1"
                                     android:layout_weight="1"
+                                    android:gravity="center_horizontal|center_vertical"
                                     android:text="14"
                                     android:textAppearance="?android:attr/textAppearanceMedium"
                                     android:textColor="@color/colorTextColor_1" />
                             </LinearLayout>
 
                             <LinearLayout
+                                android:id="@+id/layout_ds_CSC_SL3"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
+                                android:background="@color/colorCSC_SL_3_1"
                                 android:orientation="vertical">
 
                                 <TextView
-                                    android:id="@+id/txt_ds_CSC3"
-                                    android:layout_width="wrap_content"
+                                    android:id="@+id/txt_ds_code3"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_span="1"
                                     android:layout_weight="1"
-                                    android:text="14"
+                                    android:gravity="center_horizontal|center_vertical"
                                     android:textAppearance="?android:attr/textAppearanceMedium"
                                     android:textColor="@color/colorTextColor_1" />
 
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/colorBackground_1" />
+
                                 <TextView
-                                    android:id="@+id/txt_ds_sanLuong3"
-                                    android:layout_width="wrap_content"
+                                    android:id="@+id/txt_ds_CSC3"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_span="1"
                                     android:layout_weight="1"
+                                    android:gravity="center_horizontal|center_vertical"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:textColor="@color/colorTextColor_1" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/colorBackground_1" />
+
+                                <TextView
+                                    android:id="@+id/txt_ds_sanLuong3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_span="1"
+                                    android:layout_weight="1"
+                                    android:gravity="center_horizontal|center_vertical"
                                     android:text="14"
                                     android:textAppearance="?android:attr/textAppearanceMedium"
                                     android:textColor="@color/colorTextColor_1" />
@@ -538,14 +642,7 @@
                     <!--Table row tiền nước-->
                 </TableLayout>
 
-                <LinearLayout
-                    android:id="@+id/imgBtn_ds_camera"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="end|bottom"
-                    android:layout_weight="1"
-                    android:background="@drawable/camera"
-                    android:orientation="vertical" />
+
             </FrameLayout>
         </LinearLayout>
         <!--Layout nhập chỉ số mới, code-->
@@ -574,21 +671,27 @@
 
                     <TextView
                         android:id="@+id/spin_ds_code_title"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/width_title_item_docso"
                         android:layout_column="0"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
                         android:text="Code"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/colorTextColor_1" />
 
                     <Spinner
                         android:id="@+id/spin_ds_code"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <LinearLayout
+                        android:id="@+id/imgBtn_ds_camera"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/camera"
+                        android:orientation="vertical" />
                 </TableRow>
                 <!--Table row nhập chỉ số mới-->
                 <TableRow android:layout_weight="1">

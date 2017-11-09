@@ -114,31 +114,43 @@ public class LayLoTrinh {
     public int selectDot() {
         final int[] dot = {mDot};
         String[] dots = new String[mDot];
-
+        String[] kys = new String[mKy];
         for (int i = 1; i <= mDot; i++)
             if (i < 10)
                 dots[i - 1] = "0" + i;
             else
                 dots[i - 1] = i + "";
+        for (int i = 1; i <= mKy; i++) {
+            if (i < 10)
+                kys[i - 1] = "0" + i;
+            else
+                kys[i - 1] = i + "";
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Chọn đợt đọc chỉ số");
         builder.setCancelable(false);
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
         View dialogLayout = inflater.inflate(R.layout.layout_dialog_select_dot, null);
 
-        final Spinner spinCode = (Spinner) dialogLayout.findViewById(R.id.spin_select_dot);
-        ArrayAdapter<String> adapterCode = new ArrayAdapter<String>(mRootView.getContext(), android.R.layout.simple_spinner_dropdown_item, dots);
-        adapterCode.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-        spinCode.setAdapter(adapterCode);
-        spinCode.setSelection(mDot - 1);
+        final Spinner spinDot = (Spinner) dialogLayout.findViewById(R.id.spin_select_dot);
+        final Spinner spinKy = (Spinner) dialogLayout.findViewById(R.id.spin_select_ky);
+        ArrayAdapter<String> adapterDot = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_right, dots);
+        adapterDot.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        ArrayAdapter<String> adapterKy = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_right, kys);
+        adapterKy.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        spinKy.setAdapter(adapterKy);
+        spinKy.setSelection(mKy - 1);
+        spinDot.setAdapter(adapterDot);
+        spinDot.setSelection(mDot - 1);
         builder.setView(dialogLayout)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dot[0] = Integer.parseInt(spinCode.getSelectedItem().toString());
-                        mDot = dot[0];
+                        mDot = Integer.parseInt(spinDot.getSelectedItem().toString());
+                        mKy = Integer.parseInt(spinKy.getSelectedItem().toString());
                         dialog.dismiss();
                         LayLoTrinh.this.mLayLoTrinhAsync.setmDot(mDot);
+                        LayLoTrinh.this.mLayLoTrinhAsync.setmKy(mKy);
                         LayLoTrinh.this.mLayLoTrinhAsync.execute(isOnline(mRootView));
 
                     }

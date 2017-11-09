@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.ditagis.hcm.docsotanhoa.entities.Code_CSC_SanLuong;
 import com.ditagis.hcm.docsotanhoa.entities.DanhBo_ChiSoMoi;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.entities.LoTrinh;
@@ -37,7 +38,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
     private static final String COLUMN_HOADON_DANHBO = "HoaDon_DanhBo";
     private static final String COLUMN_HOADON_KHACHHANG = "HoaDon_TenKhachHang";
     private static final String COLUMN_HOADON_KY = "HoaDon_Ky";
-    private static final String COLUMN_HOADON_CODE = "HoaDon_Code";
+
     private static final String COLUMN_HOADON_CHISOCU = "HoaDon_ChiSoCu";
     private static final String COLUMN_HOADON_MALOTRINH = "HoaDon_MaLoTrinh";
     private static final String COLUMN_HOADON_SONHA = "HoaDon_SoNha";
@@ -45,6 +46,12 @@ public class LocalDatabase extends SQLiteOpenHelper {
     private static final String COLUMN_HOADON_GIABIEU = "HoaDon_GiaBieu";
     private static final String COLUMN_HOADON_DINHMUC = "HoaDon_DinhMuc";
     private static final String COLUMN_HOADON_SDT = "HoaDon_Sdt";
+    private static final String COLUMN_HOADON_CODE1 = "HoaDon_Code1";
+    private static final String COLUMN_HOADON_CODE2 = "HoaDon_Code2";
+    private static final String COLUMN_HOADON_CODE3 = "HoaDon_Code3";
+    private static final String COLUMN_HOADON_CSC1 = "HoaDon_CSC1";
+    private static final String COLUMN_HOADON_CSC2 = "HoaDon_CSC2";
+    private static final String COLUMN_HOADON_CSC3 = "HoaDon_CSC3";
     private static final String COLUMN_HOADON_SANLUONG1 = "HoaDon_SanLuong1";
     private static final String COLUMN_HOADON_SANLUONG2 = "HoaDon_SanLuong2";
     private static final String COLUMN_HOADON_SANLUONG3 = "HoaDon_SanLuong3";
@@ -99,10 +106,15 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 + COLUMN_HOADON_GIABIEU + " TEXT,"
                 + COLUMN_HOADON_DINHMUC + " TEXT,"
                 + COLUMN_HOADON_KY + " TEXT,"
-                + COLUMN_HOADON_CODE + " TEXT,"
                 + COLUMN_HOADON_CHISOCU + " TEXT,"
                 + COLUMN_HOADON_MALOTRINH + " TEXT,"
                 + COLUMN_HOADON_SDT + " TEXT,"
+                + COLUMN_HOADON_CODE1 + " TEXT,"
+                + COLUMN_HOADON_CODE2 + " TEXT,"
+                + COLUMN_HOADON_CODE3 + " TEXT,"
+                + COLUMN_HOADON_CSC1 + " TEXT,"
+                + COLUMN_HOADON_CSC2 + " TEXT,"
+                + COLUMN_HOADON_CSC3 + " TEXT,"
                 + COLUMN_HOADON_SANLUONG1 + " TEXT,"
                 + COLUMN_HOADON_SANLUONG2 + " TEXT,"
                 + COLUMN_HOADON_SANLUONG3 + " TEXT" + ")";
@@ -194,13 +206,18 @@ public class LocalDatabase extends SQLiteOpenHelper {
         values.put(COLUMN_HOADON_GIABIEU, hoaDon.getGiaBieu());
         values.put(COLUMN_HOADON_DINHMUC, hoaDon.getDinhMuc());
         values.put(COLUMN_HOADON_KY, hoaDon.getKy());
-        values.put(COLUMN_HOADON_CODE, hoaDon.getCode());
         values.put(COLUMN_HOADON_CHISOCU, hoaDon.getChiSoCu());
         values.put(COLUMN_HOADON_MALOTRINH, hoaDon.getMaLoTrinh());
         values.put(COLUMN_HOADON_SDT, hoaDon.getSdt());
-        values.put(COLUMN_HOADON_SANLUONG1, hoaDon.getSanLuong_1());
-        values.put(COLUMN_HOADON_SANLUONG2, hoaDon.getSanLuong_2());
-        values.put(COLUMN_HOADON_SANLUONG3, hoaDon.getSanLuong_3());
+        values.put(COLUMN_HOADON_CODE1, hoaDon.getCode_CSC_SanLuong().getCode1());
+        values.put(COLUMN_HOADON_CODE2, hoaDon.getCode_CSC_SanLuong().getCode2());
+        values.put(COLUMN_HOADON_CODE3, hoaDon.getCode_CSC_SanLuong().getCode3());
+        values.put(COLUMN_HOADON_CSC1, hoaDon.getCode_CSC_SanLuong().getCSC1());
+        values.put(COLUMN_HOADON_CSC2, hoaDon.getCode_CSC_SanLuong().getCSC2());
+        values.put(COLUMN_HOADON_CSC3, hoaDon.getCode_CSC_SanLuong().getCSC3());
+        values.put(COLUMN_HOADON_SANLUONG1, hoaDon.getCode_CSC_SanLuong().getSanLuong1());
+        values.put(COLUMN_HOADON_SANLUONG2, hoaDon.getCode_CSC_SanLuong().getSanLuong2());
+        values.put(COLUMN_HOADON_SANLUONG3, hoaDon.getCode_CSC_SanLuong().getSanLuong3());
         // Trèn một dòng dữ liệu vào bảng.
         long result = db.insert(TABLE_HOADON, null, values);
 
@@ -224,10 +241,15 @@ public class LocalDatabase extends SQLiteOpenHelper {
                         COLUMN_HOADON_GIABIEU,
                         COLUMN_HOADON_DINHMUC,
                         COLUMN_HOADON_KY,
-                        COLUMN_HOADON_CODE,
                         COLUMN_HOADON_CHISOCU,
                         COLUMN_HOADON_MALOTRINH,
                         COLUMN_HOADON_SDT,
+                        COLUMN_HOADON_CODE1,
+                        COLUMN_HOADON_CODE2,
+                        COLUMN_HOADON_CODE3,
+                        COLUMN_HOADON_CSC1,
+                        COLUMN_HOADON_CSC2,
+                        COLUMN_HOADON_CSC3,
                         COLUMN_HOADON_SANLUONG1,
                         COLUMN_HOADON_SANLUONG2,
                         COLUMN_HOADON_SANLUONG3
@@ -236,8 +258,12 @@ public class LocalDatabase extends SQLiteOpenHelper {
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
 
-            hoaDon = new HoaDon(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11),
-                    cursor.getString(12), cursor.getString(13), cursor.getString(14));
+            hoaDon = new HoaDon(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6),
+                    cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10));
+            Code_CSC_SanLuong code_csc_sanLuong = new Code_CSC_SanLuong(cursor.getString(11), cursor.getString(12), cursor.getString(13),
+                    cursor.getString(14), cursor.getString(15), cursor.getString(16),
+                    cursor.getString(17), cursor.getString(18), cursor.getString(19));
+            hoaDon.setCode_CSC_SanLuong(code_csc_sanLuong);
         }
         return hoaDon;
     }
@@ -295,7 +321,6 @@ public class LocalDatabase extends SQLiteOpenHelper {
                         COLUMN_HOADON_DANHBO,
                         COLUMN_HOADON_KHACHHANG,
                         COLUMN_HOADON_KY,
-                        COLUMN_HOADON_CODE,
                         COLUMN_HOADON_CHISOCU,
                         COLUMN_HOADON_MALOTRINH,
                         COLUMN_HOADON_SONHA,
@@ -303,6 +328,12 @@ public class LocalDatabase extends SQLiteOpenHelper {
                         COLUMN_HOADON_GIABIEU,
                         COLUMN_HOADON_DINHMUC,
                         COLUMN_HOADON_SDT,
+                        COLUMN_HOADON_CODE1,
+                        COLUMN_HOADON_CODE2,
+                        COLUMN_HOADON_CODE3,
+                        COLUMN_HOADON_CSC1,
+                        COLUMN_HOADON_CSC2,
+                        COLUMN_HOADON_CSC3,
                         COLUMN_HOADON_SANLUONG1,
                         COLUMN_HOADON_SANLUONG2,
                         COLUMN_HOADON_SANLUONG3
@@ -310,8 +341,12 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 new String[]{String.valueOf(mlt)}, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
-                HoaDon hoaDon = new HoaDon(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11),
-                        cursor.getString(12), cursor.getString(13), cursor.getString(14));
+                HoaDon hoaDon = new HoaDon(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6),
+                        cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10));
+                Code_CSC_SanLuong code_csc_sanLuong = new Code_CSC_SanLuong(cursor.getString(11), cursor.getString(12), cursor.getString(13),
+                        cursor.getString(14), cursor.getString(15), cursor.getString(16),
+                        cursor.getString(17), cursor.getString(18), cursor.getString(19));
+                hoaDon.setCode_CSC_SanLuong(code_csc_sanLuong);
                 hoaDons.add(hoaDon);
             } while (cursor.moveToNext());
         }
@@ -329,7 +364,6 @@ public class LocalDatabase extends SQLiteOpenHelper {
                         COLUMN_HOADON_DANHBO,
                         COLUMN_HOADON_KHACHHANG,
                         COLUMN_HOADON_KY,
-                        COLUMN_HOADON_CODE,
                         COLUMN_HOADON_CHISOCU,
                         COLUMN_HOADON_MALOTRINH,
                         COLUMN_HOADON_SONHA,
@@ -337,6 +371,12 @@ public class LocalDatabase extends SQLiteOpenHelper {
                         COLUMN_HOADON_GIABIEU,
                         COLUMN_HOADON_DINHMUC,
                         COLUMN_HOADON_SDT,
+                        COLUMN_HOADON_CODE1,
+                        COLUMN_HOADON_CODE2,
+                        COLUMN_HOADON_CODE3,
+                        COLUMN_HOADON_CSC1,
+                        COLUMN_HOADON_CSC2,
+                        COLUMN_HOADON_CSC3,
                         COLUMN_HOADON_SANLUONG1,
                         COLUMN_HOADON_SANLUONG2,
                         COLUMN_HOADON_SANLUONG3
@@ -344,8 +384,12 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 new String[]{String.valueOf(like)}, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
-                HoaDon hoaDon = new HoaDon(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11),
-                        cursor.getString(12), cursor.getString(13), cursor.getString(14));
+                HoaDon hoaDon = new HoaDon(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6),
+                        cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10));
+                Code_CSC_SanLuong code_csc_sanLuong = new Code_CSC_SanLuong(cursor.getString(11), cursor.getString(12), cursor.getString(13),
+                        cursor.getString(14), cursor.getString(15), cursor.getString(16),
+                        cursor.getString(17), cursor.getString(18), cursor.getString(19));
+                hoaDon.setCode_CSC_SanLuong(code_csc_sanLuong);
                 hoaDons.add(hoaDon);
             } while (cursor.moveToNext());
         }
@@ -360,9 +404,12 @@ public class LocalDatabase extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("Select * from " + TABLE_HOADON, null);
         if (cursor.moveToFirst()) {
             do {
-                HoaDon hoaDon = new HoaDon(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7),
-                        cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13),
-                        cursor.getString(14));
+                HoaDon hoaDon = new HoaDon(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6),
+                        cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10));
+                Code_CSC_SanLuong code_csc_sanLuong = new Code_CSC_SanLuong(cursor.getString(11), cursor.getString(12), cursor.getString(13),
+                        cursor.getString(14), cursor.getString(15), cursor.getString(16),
+                        cursor.getString(17), cursor.getString(18), cursor.getString(19));
+                hoaDon.setCode_CSC_SanLuong(code_csc_sanLuong);
                 hoaDons.add(hoaDon);
             } while (cursor.moveToNext());
         }

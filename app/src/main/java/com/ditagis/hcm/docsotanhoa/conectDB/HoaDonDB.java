@@ -2,6 +2,7 @@ package com.ditagis.hcm.docsotanhoa.conectDB;
 
 import android.os.StrictMode;
 
+import com.ditagis.hcm.docsotanhoa.entities.Code_CSC_SanLuong;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 
 import java.sql.Connection;
@@ -15,7 +16,7 @@ import java.util.List;
 public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
     private final String TABLE_NAME = "DocSo";
     private final String SQL_SELECT = "SELECT ID,KHU,DOT,DANHBO,CULY,HOPDONG,TENKH,SONHA,DUONG,GIABIEU,DINHMUC,KY,NAM,CODE,CODEFU,CSCU,CSMOI,QUAN,PHUONG,MLT FROM " + TABLE_NAME;
-    private final String SQL_SELECT_GETALL_BY_USERNAME = "SELECT danhba,gb,dm,CSCU, MLT2, codecu FROM " + TABLE_NAME;
+    private final String SQL_SELECT_GETALL_BY_USERNAME = "SELECT danhba,gb,dm,CSCU, MLT2 FROM " + TABLE_NAME;
     private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
     private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + " VALUES(?,?,?,?,?)";
     //    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET CSC=? WHERE DANHBO=?";
@@ -23,6 +24,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
 
     private String mDot;
     private String mStaffname;
+    PreparedStatement mStatement;
 
     public String getmDot() {
         return mDot;
@@ -152,8 +154,8 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
 //        List<HoaDon> result = new ArrayList<HoaDon>();
 //        Connection cnn = ConnectionDB.getInstance().getConnection();
 //        try {
-//            Statement statement = cnn.createStatement();
-//            ResultSet rs = statement.executeQuery(this.SQL_SELECT + " WHERE MLT = '" + maLoTrinh + "'");
+//            Statement mStatement = cnn.createStatement();
+//            ResultSet rs = mStatement.executeQuery(this.SQL_SELECT + " WHERE MLT = '" + maLoTrinh + "'");
 //            while (rs.next()) {
 //                int id = rs.getInt(1);
 //                String khu = rs.getString(2);
@@ -224,6 +226,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
     public HoaDon getHoaDonByUserName(String userName, String danhBo, int dot, int nam, int ky) {
         Connection cnn = ConnectionDB.getInstance().getConnection();
         HoaDon hoaDon = null;
+        String sqlCode_CSC_SanLuong = "SELECT cscu, csmoi, codemoi, tieuthumoi  FROM Docso where danhba = ? and ky = ? and nam =?";
         try {
             if (cnn == null)
                 return null;
@@ -237,32 +240,37 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                 kyString = "0" + ky;
             else kyString = ky + "";
             String like = dotString + userName + "%";
-            PreparedStatement statement = cnn.prepareStatement(SQL_SELECT_GETALL_BY_USERNAME + " where danhba = ? and  nam = ?" +
+            mStatement = cnn.prepareStatement(SQL_SELECT_GETALL_BY_USERNAME + " where danhba = ? and  nam = ?" +
                             " and ky = ? and mlt2 like ? and (csmoi is null or csmoi = 0 )", ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
-            statement.setString(1, danhBo);
-            statement.setInt(2, nam);
-            statement.setString(3, kyString);
-            statement.setString(4, like);
-            ResultSet rs = statement.executeQuery();
+            mStatement.setString(1, danhBo);
+            mStatement.setInt(2, nam);
+            mStatement.setString(3, kyString);
+            mStatement.setString(4, like);
+            ResultSet rs = mStatement.executeQuery();
 
             while (rs.next()) {
                 String giaBieu = rs.getString(2);
                 String dinhMuc = rs.getString(3);
                 String chiSoCu = rs.getInt(4) + "";
                 String maLoTrinh = rs.getString(5);
-                String code = rs.getString(6);
                 String soNha = "";
                 String duong = "";
                 String tenKhachHang = "";
                 String sdt = "";
+                String CSC1 = "";
+                String CSC2 = "";
+                String CSC3 = "";
+                String code1 = "";
+                String code2 = "";
+                String code3 = "";
                 String sanLuong_3 = "";
                 String sanLuong_2 = "";
                 String sanLuong_1 = "";
 
-                statement = cnn.prepareStatement("SELECT tenkh,so, duong, sdt FROM KhachHang where MLT2 = ?");
-                statement.setString(1, maLoTrinh);
-                ResultSet rs1 = statement.executeQuery();
+                mStatement = cnn.prepareStatement("SELECT tenkh,so, duong, sdt FROM KhachHang where MLT2 = ?");
+                mStatement.setString(1, maLoTrinh);
+                ResultSet rs1 = mStatement.executeQuery();
                 if (rs1.next()) {
                     tenKhachHang = rs1.getString(1);
                     soNha = rs1.getString(2) == null ? "" : rs1.getString(2);
@@ -270,51 +278,69 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                     sdt = rs1.getString(4) == null ? "" : rs1.getString(4);
 
                 }
-//                int[] kyNam = get3Ky(ky, nam, 1);
-//                statement = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
-//                statement.setString(1, danhBo);
-//                statement.setInt(2, kyNam[0]);
-//                statement.setInt(3, kyNam[1]);
-//                ResultSet rs2 = statement.executeQuery();
-//                if (rs2.next()) {
-//                    sanLuong_1 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
-//                }
-//
-//                int[] kyNam1 = get3Ky(ky, nam, 2);
-//                statement = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
-//                statement.setString(1, danhBo);
-//                statement.setInt(2, kyNam1[0]);
-//                statement.setInt(3, kyNam1[1]);
-//                ResultSet rs3 = statement.executeQuery();
-//                if (rs3.next()) {
-//                    sanLuong_2 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
-//                }
-//
-//                int[] kyNam2 = get3Ky(ky, nam, 3);
-//                statement = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
-//                statement.setString(1, danhBo);
-//                statement.setInt(2, kyNam2[0]);
-//                statement.setInt(3, kyNam2[1]);
-//                ResultSet rs4 = statement.executeQuery();
-//                if (rs4.next()) {
-//                    sanLuong_3 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
-//                }
+                int[] kyNam = get3Ky(ky, nam, 1);
+                mStatement = cnn.prepareStatement(sqlCode_CSC_SanLuong);
+                mStatement.setString(1, danhBo);
+                mStatement.setInt(2, kyNam[0]);
+                mStatement.setInt(3, kyNam[1]);
+                ResultSet rs2 = mStatement.executeQuery();
+                if (rs2.next()) {
+                    CSC1 = rs2.getString(1);
+                    code1 = rs2.getString(3);
+                    sanLuong_1 = rs2.getString(4);
+                }
 
-                hoaDon = new HoaDon(dotString, danhBo, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky + "", code, chiSoCu, maLoTrinh,
-                        sdt, sanLuong_3, sanLuong_2, sanLuong_1);
+                int[] kyNam1 = get3Ky(ky, nam, 2);
+                mStatement = cnn.prepareStatement(sqlCode_CSC_SanLuong);
+                mStatement.setString(1, danhBo);
+                mStatement.setInt(2, kyNam1[0]);
+                mStatement.setInt(3, kyNam1[1]);
+                ResultSet rs3 = mStatement.executeQuery();
+                if (rs3.next()) {
+                    CSC2 = rs3.getString(1);
+                    code2 = rs3.getString(3);
+                    sanLuong_2 = rs3.getString(4);
+                }
 
+                int[] kyNam2 = get3Ky(ky, nam, 3);
+                mStatement = cnn.prepareStatement(sqlCode_CSC_SanLuong);
+                mStatement.setString(1, danhBo);
+                mStatement.setInt(2, kyNam2[0]);
+                mStatement.setInt(3, kyNam2[1]);
+                ResultSet rs4 = mStatement.executeQuery();
+                if (rs4.next()) {
+                    CSC3 = rs4.getString(1);
+                    code3 = rs4.getString(3);
+                    sanLuong_3 = rs4.getString(4);
+                }
+
+                hoaDon = new HoaDon(dotString, danhBo, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky + "", chiSoCu, maLoTrinh,
+                        sdt);
+                Code_CSC_SanLuong code_csu_sanLuong = new Code_CSC_SanLuong(code1, code2, code3,
+                        CSC1, CSC2, CSC3,
+                        sanLuong_1, sanLuong_2, sanLuong_3);
+                hoaDon.setCode_CSC_SanLuong(code_csu_sanLuong);
                 rs.close();
                 rs1.close();
-//                rs2.close();
-//                rs3.close();
-//                rs4.close();
-                statement.close();
+                rs2.close();
+                rs3.close();
+                rs4.close();
+
             }
         } catch (SQLException e) {
 
             e.printStackTrace();
         }
         return hoaDon;
+    }
+
+    public void closeStatement() {
+        if (mStatement != null)
+            try {
+                mStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
     }
 
     public List<HoaDon> getAllByUserName(String userName, int dot, int nam, int ky) {
@@ -397,8 +423,12 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                     sanLuong_3 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
                 }
 
-                HoaDon hoaDon = new HoaDon(dotString, danhBo, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky + "", code, chiSoCu, maLoTrinh,
-                        sdt, sanLuong_3, sanLuong_2, sanLuong_1);
+                HoaDon hoaDon = new HoaDon(dotString, danhBo, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky + "", chiSoCu, maLoTrinh,
+                        sdt);
+                Code_CSC_SanLuong code_csu_sanLuong = new Code_CSC_SanLuong("code1", "code2", "code3",
+                        "csc1", "csc2", "csc3",
+                        "", "", "");
+                hoaDon.setCode_CSC_SanLuong(code_csu_sanLuong);
                 hoaDons.add(hoaDon);
 
                 sttm1.close();
@@ -446,8 +476,8 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
 //        HoaDon hoaDon = null;
 //        Connection cnn = ConnectionDB.getInstance().getConnection();
 //        try {
-//            Statement statement = cnn.createStatement();
-//            ResultSet rs = statement.executeQuery(this.SQL_SELECT + " WHERE DANHBO = '" + danhBo + "'");
+//            Statement mStatement = cnn.createStatement();
+//            ResultSet rs = mStatement.executeQuery(this.SQL_SELECT + " WHERE DANHBO = '" + danhBo + "'");
 //            if (rs.next()) {
 //                int id = rs.getInt(1);
 //                String khu = rs.getString(2);

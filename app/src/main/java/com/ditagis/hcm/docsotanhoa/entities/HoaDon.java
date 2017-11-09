@@ -18,9 +18,7 @@ public class HoaDon {
     private String chiSoCu;
     private String maLoTrinh;
     private String sdt;
-    private String sanLuong_3;
-    private String sanLuong_2;
-    private String sanLuong_1;
+    private Code_CSC_SanLuong code_CSC_SanLuong;
 
     public HoaDon() {
         super();
@@ -31,20 +29,9 @@ public class HoaDon {
         return sdt;
     }
 
-    public String getSanLuong_3() {
-        return sanLuong_3;
-    }
-
-    public String getSanLuong_2() {
-        return sanLuong_2;
-    }
-
-    public String getSanLuong_1() {
-        return sanLuong_1;
-    }
 
 
-    public HoaDon(String dot, String danhBo, String tenKhachHang, String soNha, String duong, String giaBieu, String dinhMuc, String ky, String code, String chiSoCu, String maLoTrinh, String sdt, String sanLuong_3, String sanLuong_2, String sanLuong_1) {
+    public HoaDon(String dot, String danhBo, String tenKhachHang, String soNha, String duong, String giaBieu, String dinhMuc, String ky, String chiSoCu, String maLoTrinh, String sdt) {
         this.dot = dot;
         this.danhBo = danhBo;
         this.tenKhachHang = tenKhachHang;
@@ -53,15 +40,19 @@ public class HoaDon {
         this.giaBieu = giaBieu;
         this.dinhMuc = dinhMuc;
         this.ky = ky;
-        this.code = code;
         this.chiSoCu = chiSoCu;
         this.maLoTrinh = maLoTrinh;
         this.sdt = sdt;
-        this.sanLuong_3 = sanLuong_3;
-        this.sanLuong_2 = sanLuong_2;
-        this.sanLuong_1 = sanLuong_1;
+
     }
 
+    public Code_CSC_SanLuong getCode_CSC_SanLuong() {
+        return code_CSC_SanLuong;
+    }
+
+    public void setCode_CSC_SanLuong(Code_CSC_SanLuong code_CSC_SanLuong) {
+        this.code_CSC_SanLuong = code_CSC_SanLuong;
+    }
 
     public String getDot() {
         return dot;

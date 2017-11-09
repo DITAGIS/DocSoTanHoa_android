@@ -32,6 +32,10 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
     private int count;
     private Activity mActivity;
 
+    public void setmKy(int ky) {
+        this.mKy = ky;
+    }
+
     public interface AsyncResponse {
         void processFinish(ResultLayLoTrinh output);
     }
@@ -91,13 +95,16 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
             count = DBs.size();
             for (String danhBo : DBs) {
                 HoaDon hoaDon = _hoadonDB.getHoaDonByUserName(this.mUsername, danhBo, this.mDot, this.mNam, this.mKy);
-                if (hoaDon == null)
+                if (hoaDon == null) {
+                    _hoadonDB.closeStatement();
                     return null;
+                }
 
                 hoaDons.add(hoaDon);
 
                 publishProgress(hoaDons);
             }
+            _hoadonDB.closeStatement();
         }
         if (hoaDons != null)
             resultLayLoTrinh.setDot(_hoadonDB.getmDot());
