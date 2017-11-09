@@ -330,7 +330,7 @@ public class DocSo extends Fragment {
         mRootView.findViewById(R.id.layout_ds_save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveImage(v);
+                save(v);
             }
         });
 
@@ -338,10 +338,10 @@ public class DocSo extends Fragment {
     }
 
     private boolean checkCSMFluctuation() {
-        int tieuThu = 0, sum = 0, avergare = 0;
+        int tieuThu = 0, sum = 0, avergare = 0, min = 0, max = 0;
         List<Integer> tieuThuList = new ArrayList<>();
         if (mTxtTT.getText().length() > 0) {
-             tieuThu = Integer.parseInt(mTxtTT.getText().toString());
+            tieuThu = Integer.parseInt(mTxtTT.getText().toString());
             if (mTxtTT1.getText().length() > 0)
                 tieuThuList.add(Integer.parseInt(mTxtTT1.getText().toString()));
             if (mTxtTT2.getText().length() > 0)
@@ -351,7 +351,12 @@ public class DocSo extends Fragment {
             for (Integer item : tieuThuList)
                 sum += item;
             avergare = sum / tieuThuList.size();
-            if (avergare / 2 <= tieuThu && tieuThu <= 1.5 * avergare)
+            min = avergare / 2;
+            max = 3 * avergare / 2;
+            for (Integer item : tieuThuList)
+                if (max < item)
+                    max = item;
+            if (min <= tieuThu && tieuThu <= max)
                 return false;
             else
                 return true;
@@ -618,7 +623,7 @@ public class DocSo extends Fragment {
 
     }
 
-    private void saveImage(View v) {
+    private void save(View v) {
         // kiểm tra hình ảnh
         if (getImageFileName() == null) {
             MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
@@ -635,9 +640,10 @@ public class DocSo extends Fragment {
             alertCSM_Null(csc, csm);
         } else {
             csm = Integer.parseInt(mTxtCSM.getText().toString());
-
-            if (csm < csc) {
-                alertCSM(csc, csm);
+            if (checkCSMFluctuation()) {
+                alertCSMFluctuation(csc, csm);
+            } else if (csm < csc) {
+                alertCSM_lt_CSC(csc, csm);
             } else {
                 saveDB_CSM(getImageFileName().getAbsolutePath(), csc, csm);
             }
@@ -731,7 +737,7 @@ public class DocSo extends Fragment {
                 1);
         this.mLocalDatabase.saveDanhBo_CSM(danhBo_chiSoMoi);
         this.mLocalDatabase.deleteHoaDon(danhBo_chiSoMoi.getDanhBo());
-
+        mTxtTT.setText("");
         int i = mSpinMLT.getSelectedItemPosition();
         this.mAdapterMLT.remove(danhBo_chiSoMoi.getMaLoTrinh());
         this.mMLTs.remove(danhBo_chiSoMoi.getMaLoTrinh());
@@ -801,10 +807,10 @@ public class DocSo extends Fragment {
 
     }
 
-    private void alertCSM(final int csc, final int csm) {
+    private void alertCSMFluctuation(final int csc, final int csm) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
-        builder.setTitle("Chỉ số mới nhỏ hơn chỉ số cũ");
-        builder.setMessage("Kiểm tra danh bộ hiện tại thuộc diện thay mới đồng hồ?")
+        builder.setTitle(mRootView.getContext().getString(R.string.alert_csm_fluctuation_title));
+        builder.setMessage(mRootView.getContext().getString(R.string.alert_csm_fluctuation_message))
                 .setCancelable(true)
                 .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -817,8 +823,31 @@ public class DocSo extends Fragment {
                         dialog.dismiss();
                     }
                 });
-        AlertDialog alert = builder.create();
-        alert.show();
+        AlertDialog dialog = builder.create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.show();
+
+    }
+
+    private void alertCSM_lt_CSC(final int csc, final int csm) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
+        builder.setTitle(mRootView.getContext().getString(R.string.alert_csm_lt_csc_title));
+        builder.setMessage(mRootView.getContext().getString(R.string.alert_csm_lt_csc_message))
+                .setCancelable(true)
+                .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        saveDB_CSM(getImageFileName().getAbsolutePath(), csc, csm);
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("Kiểm tra lại", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.show();
 
     }
 
