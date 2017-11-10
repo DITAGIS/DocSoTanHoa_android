@@ -102,7 +102,7 @@ public class DocSo extends Fragment {
     private Activity mActivity;
     private NetworkStateChangeReceiver mStateChangeReceiver;
     private String mSearchType;
-
+    private boolean isAllowChangeSdt = false;
     private int mSelected_theme;
 
     public void setmSelected_theme(int mSelected_theme) {
@@ -333,7 +333,38 @@ public class DocSo extends Fragment {
                 save(v);
             }
         });
+        ((EditText) mRootView.findViewById(R.id.etxt_ds_sdt)).setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                if (((EditText) v).getText().toString().length() > 0)
+                    if (!isAllowChangeSdt) {
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
+                        builder.setTitle(mRootView.getContext().getString(R.string.alert_sdt_title));
+                        builder.setCancelable(false);
+                        builder.setMessage(mRootView.getContext().getString(R.string.alert_sdt_message));
+                        builder.setPositiveButton(mRootView.getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                isAllowChangeSdt = true;
+                                dialog.dismiss();
+                            }
+                        }).setNegativeButton(mRootView.getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        AlertDialog dialog = builder.create();
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.show();
+
+                    }
+            }
+
+        });
         refresh();
     }
 
@@ -668,7 +699,8 @@ public class DocSo extends Fragment {
             mSpinDB.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                    mRootView.requestFocus();
+                    HideKeyboard.hide(mActivity);
                     mDanhBo = mSpinDB.getSelectedItem().toString();
                     DanhBo_ChiSoMoi danhBo_csm = mLocalDatabase.getDanhBo_CSM(mDanhBo);
                     HoaDon hoaDon = mLocalDatabase.getHoaDon(mDanhBo);
@@ -788,8 +820,9 @@ public class DocSo extends Fragment {
     private void alertCSM_Null(final int csc, final int csm) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Chưa nhập chỉ số mới");
+        builder.setCancelable(false);
         builder.setMessage("Kiểm tra code?")
-                .setCancelable(true)
+
                 .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         saveDB_CSM(getImageFileName().getAbsolutePath(), csc, csm);
@@ -810,8 +843,9 @@ public class DocSo extends Fragment {
     private void alertCSMFluctuation(final int csc, final int csm) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle(mRootView.getContext().getString(R.string.alert_csm_fluctuation_title));
+        builder.setCancelable(false);
         builder.setMessage(mRootView.getContext().getString(R.string.alert_csm_fluctuation_message))
-                .setCancelable(true)
+
                 .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         saveDB_CSM(getImageFileName().getAbsolutePath(), csc, csm);
@@ -833,7 +867,7 @@ public class DocSo extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle(mRootView.getContext().getString(R.string.alert_csm_lt_csc_title));
         builder.setMessage(mRootView.getContext().getString(R.string.alert_csm_lt_csc_message))
-                .setCancelable(true)
+                .setCancelable(false)
                 .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         saveDB_CSM(getImageFileName().getAbsolutePath(), csc, csm);

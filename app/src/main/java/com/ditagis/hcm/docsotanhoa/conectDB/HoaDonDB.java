@@ -227,6 +227,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
         Connection cnn = ConnectionDB.getInstance().getConnection();
         HoaDon hoaDon = null;
         String sqlCode_CSC_SanLuong = "SELECT cscu, csmoi, codemoi, tieuthumoi  FROM Docso where danhba = ? and ky = ? and nam =?";
+        String sqlCode_CSC_SanLuong3Ky = "SELECT cscu, csmoi, codemoi, tieuthumoi  FROM Docso where danhba = ? and (ky = ? or ky =? or ky = ?) and nam =? order by ky desc";
         try {
             if (cnn == null)
                 return null;
@@ -267,7 +268,6 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                 String sanLuong_3 = "";
                 String sanLuong_2 = "";
                 String sanLuong_1 = "";
-
                 mStatement = cnn.prepareStatement("SELECT tenkh,so, duong, sdt FROM KhachHang where MLT2 = ?");
                 mStatement.setString(1, maLoTrinh);
                 ResultSet rs1 = mStatement.executeQuery();
@@ -278,42 +278,70 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                     sdt = rs1.getString(4) == null ? "" : rs1.getString(4);
 
                 }
-                int[] kyNam = get3Ky(ky, nam, 1);
-                mStatement = cnn.prepareStatement(sqlCode_CSC_SanLuong);
-                mStatement.setString(1, danhBo);
-                mStatement.setInt(2, kyNam[0]);
-                mStatement.setInt(3, kyNam[1]);
-                ResultSet rs2 = mStatement.executeQuery();
-                if (rs2.next()) {
-                    CSC1 = rs2.getString(1);
-                    code1 = rs2.getString(3);
-                    sanLuong_1 = rs2.getString(4);
-                }
+                List<Integer> kyNamList = get3Ky(ky, nam);
+                //neu cung nam
+                if (kyNamList.get(1) == kyNamList.get(3) && kyNamList.get(3) == kyNamList.get(5)) {
+                    mStatement = cnn.prepareStatement(sqlCode_CSC_SanLuong3Ky);
+                    mStatement.setString(1, danhBo);
+                    mStatement.setInt(2, kyNamList.get(0));
+                    mStatement.setInt(2, kyNamList.get(2));
+                    mStatement.setInt(2, kyNamList.get(4));
+                    mStatement.setInt(3, kyNamList.get(1));
+                    ResultSet rs2 = mStatement.executeQuery();
+                    if (rs2.next()) {
+                        CSC1 = rs2.getString(1);
+                        code1 = rs2.getString(3);
+                        sanLuong_1 = rs2.getString(4);
+                    }
+                    if (rs2.next()) {
+                        CSC2 = rs2.getString(1);
+                        code2 = rs2.getString(3);
+                        sanLuong_2 = rs2.getString(4);
+                    }
+                    if (rs2.next()) {
+                        CSC3 = rs2.getString(1);
+                        code3 = rs2.getString(3);
+                        sanLuong_3 = rs2.getString(4);
+                    }
+                } else {
 
-                int[] kyNam1 = get3Ky(ky, nam, 2);
-                mStatement = cnn.prepareStatement(sqlCode_CSC_SanLuong);
-                mStatement.setString(1, danhBo);
-                mStatement.setInt(2, kyNam1[0]);
-                mStatement.setInt(3, kyNam1[1]);
-                ResultSet rs3 = mStatement.executeQuery();
-                if (rs3.next()) {
-                    CSC2 = rs3.getString(1);
-                    code2 = rs3.getString(3);
-                    sanLuong_2 = rs3.getString(4);
-                }
+                    mStatement = cnn.prepareStatement(sqlCode_CSC_SanLuong);
+                    mStatement.setString(1, danhBo);
+                    mStatement.setInt(2, kyNamList.get(0));
+                    mStatement.setInt(3, kyNamList.get(1));
+                    ResultSet rs2 = mStatement.executeQuery();
+                    if (rs2.next()) {
+                        CSC1 = rs2.getString(1);
+                        code1 = rs2.getString(3);
+                        sanLuong_1 = rs2.getString(4);
+                    }
 
-                int[] kyNam2 = get3Ky(ky, nam, 3);
-                mStatement = cnn.prepareStatement(sqlCode_CSC_SanLuong);
-                mStatement.setString(1, danhBo);
-                mStatement.setInt(2, kyNam2[0]);
-                mStatement.setInt(3, kyNam2[1]);
-                ResultSet rs4 = mStatement.executeQuery();
-                if (rs4.next()) {
-                    CSC3 = rs4.getString(1);
-                    code3 = rs4.getString(3);
-                    sanLuong_3 = rs4.getString(4);
-                }
+//                mStatement = cnn.prepareStatement(sqlCode_CSC_SanLuong);
+//                mStatement.setString(1, danhBo);
+                    mStatement.setInt(2, kyNamList.get(2));
+                    mStatement.setInt(3, kyNamList.get(3));
+                    ResultSet rs3 = mStatement.executeQuery();
+                    if (rs3.next()) {
+                        CSC2 = rs3.getString(1);
+                        code2 = rs3.getString(3);
+                        sanLuong_2 = rs3.getString(4);
+                    }
 
+//                mStatement = cnn.prepareStatement(sqlCode_CSC_SanLuong);
+//                mStatement.setString(1, danhBo);
+                    mStatement.setInt(2, kyNamList.get(4));
+                    mStatement.setInt(3, kyNamList.get(5));
+                    ResultSet rs4 = mStatement.executeQuery();
+                    if (rs4.next()) {
+                        CSC3 = rs4.getString(1);
+                        code3 = rs4.getString(3);
+                        sanLuong_3 = rs4.getString(4);
+                    }
+                    rs1.close();
+                    rs2.close();
+                    rs3.close();
+                    rs4.close();
+                }
                 hoaDon = new HoaDon(dotString, danhBo, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky + "", chiSoCu, maLoTrinh,
                         sdt);
                 Code_CSC_SanLuong code_csu_sanLuong = new Code_CSC_SanLuong(code1, code2, code3,
@@ -321,10 +349,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                         sanLuong_1, sanLuong_2, sanLuong_3);
                 hoaDon.setCode_CSC_SanLuong(code_csu_sanLuong);
                 rs.close();
-                rs1.close();
-                rs2.close();
-                rs3.close();
-                rs4.close();
+
 
             }
         } catch (SQLException e) {
@@ -343,117 +368,133 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
             }
     }
 
-    public List<HoaDon> getAllByUserName(String userName, int dot, int nam, int ky) {
-        Connection cnn = ConnectionDB.getInstance().getConnection();
-        List<HoaDon> hoaDons = null;
-        try {
-            if (cnn == null)
-                return null;
-            Statement statement = cnn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY), sttm1;
-            hoaDons = new ArrayList<HoaDon>();
-            String dotString = "", kyString = "";
-            if (dot < 10)
-                dotString = "0" + dot;
-            else dotString = dot + "";
-            if (ky < 10)
-                kyString = "0" + ky;
-            else kyString = ky + "";
-            String like = dotString + userName + "%";
-            final ResultSet rs = statement.executeQuery(SQL_SELECT_GETALL_BY_USERNAME + " where nam = "
-                    + nam + " and ky = " + kyString + " and mlt2 like '" + like + "' and (csmoi is null or csmoi = 0 )");
-            rs.last();
-            final int count = rs.getRow();
-            rs.first();
+//    public List<HoaDon> getAllByUserName(String userName, int dot, int nam, int ky) {
+//        Connection cnn = ConnectionDB.getInstance().getConnection();
+//        List<HoaDon> hoaDons = null;
+//        try {
+//            if (cnn == null)
+//                return null;
+//            Statement statement = cnn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+//                    ResultSet.CONCUR_READ_ONLY), sttm1;
+//            hoaDons = new ArrayList<HoaDon>();
+//            String dotString = "", kyString = "";
+//            if (dot < 10)
+//                dotString = "0" + dot;
+//            else dotString = dot + "";
+//            if (ky < 10)
+//                kyString = "0" + ky;
+//            else kyString = ky + "";
+//            String like = dotString + userName + "%";
+//            final ResultSet rs = statement.executeQuery(SQL_SELECT_GETALL_BY_USERNAME + " where nam = "
+//                    + nam + " and ky = " + kyString + " and mlt2 like '" + like + "' and (csmoi is null or csmoi = 0 )");
+//            rs.last();
+//            final int count = rs.getRow();
+//            rs.first();
+//
+//            while (rs.next()) {
+//
+////                    int id = rs.getInt(1); //TODO xem vụ tạo DocSoID
+//                String danhBo = rs.getString(1);
+//
+//                String giaBieu = rs.getString(2);
+//                String dinhMuc = rs.getString(3);
+//                String chiSoCu = rs.getInt(4) + "";
+//                String maLoTrinh = rs.getString(5);
+//                String code = rs.getString(6);
+//                String soNha = "";
+//                String duong = "";
+//                String tenKhachHang = "";
+//                String sdt = "";
+//                String sanLuong_3 = "";
+//                String sanLuong_2 = "";
+//                String sanLuong_1 = "";
+//
+//                sttm1 = cnn.createStatement();
+//                ResultSet rs1 = sttm1.executeQuery("SELECT tenkh,so, duong, sdt FROM KhachHang where MLT2 = '" + maLoTrinh + "'");
+//                if (rs1.next()) {
+//                    tenKhachHang = rs1.getString(1);
+//                    soNha = rs1.getString(2) == null ? "" : rs1.getString(2);
+//                    duong = rs1.getString(3) == null ? "" : rs1.getString(3);
+//                    sdt = rs1.getString(4) == null ? "" : rs1.getString(4);
+//
+//                }
+//                List<Integer> kyNamList = get3Ky(ky, nam);
+//                //nếu cùng năm
+//                if (kyNamList.get(1) == kyNamList.get(3) && kyNamList.get(3) == kyNamList.get(5))
+//                    ;
+//                else {
+//
+//                    PreparedStatement st = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
+//                    st.setString(1, danhBo);
+//                    st.setInt(2, kyNamList.get(0));
+//                    st.setInt(3, kyNamList.get(1));
+//                    ResultSet rs2 = st.executeQuery();
+//                    if (rs2.next()) {
+//                        sanLuong_1 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
+//                    }
+//
+//                    int[] kyNam1 = getKyNam(ky, nam, 2);
+//                    PreparedStatement st1 = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
+//                    st1.setString(1, danhBo);
+//                    st1.setInt(2, kyNamList.get(2));
+//                    st1.setInt(3, kyNam1[1]);
+//                    ResultSet rs3 = st1.executeQuery();
+//                    if (rs3.next()) {
+//                        sanLuong_2 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
+//                    }
+//
+//                    int[] kyNam2 = getKyNam(ky, nam, 3);
+//                    PreparedStatement st2 = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
+//                    st2.setString(1, danhBo);
+//                    st2.setInt(2, kyNam[0]);
+//                    st2.setInt(3, kyNam[1]);
+//                    ResultSet rs4 = st2.executeQuery();
+//                    if (rs4.next()) {
+//                        sanLuong_3 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
+//                    }
+//                }
+//                HoaDon hoaDon = new HoaDon(dotString, danhBo, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky + "", chiSoCu, maLoTrinh,
+//                        sdt);
+//                Code_CSC_SanLuong code_csu_sanLuong = new Code_CSC_SanLuong("code1", "code2", "code3",
+//                        "csc1", "csc2", "csc3",
+//                        "", "", "");
+//                hoaDon.setCode_CSC_SanLuong(code_csu_sanLuong);
+//                hoaDons.add(hoaDon);
+//
+//                sttm1.close();
+//                rs1.close();
+////                st1.close();
+////                st2.close();
+////                st.close();
+////                rs2.close();
+////                rs3.close();
+////                rs4.close();
+//            }
+//            rs.close();
+//            statement.close();
+//
+//
+////                cnn.close();
+//
+//        } catch (SQLException e) {
+//
+//            e.printStackTrace();
+//        }
+//        return hoaDons;
+//    }
 
-            while (rs.next()) {
-
-//                    int id = rs.getInt(1); //TODO xem vụ tạo DocSoID
-                String danhBo = rs.getString(1);
-
-                String giaBieu = rs.getString(2);
-                String dinhMuc = rs.getString(3);
-                String chiSoCu = rs.getInt(4) + "";
-                String maLoTrinh = rs.getString(5);
-                String code = rs.getString(6);
-                String soNha = "";
-                String duong = "";
-                String tenKhachHang = "";
-                String sdt = "";
-                String sanLuong_3 = "";
-                String sanLuong_2 = "";
-                String sanLuong_1 = "";
-
-                sttm1 = cnn.createStatement();
-                ResultSet rs1 = sttm1.executeQuery("SELECT tenkh,so, duong, sdt FROM KhachHang where MLT2 = '" + maLoTrinh + "'");
-                if (rs1.next()) {
-                    tenKhachHang = rs1.getString(1);
-                    soNha = rs1.getString(2) == null ? "" : rs1.getString(2);
-                    duong = rs1.getString(3) == null ? "" : rs1.getString(3);
-                    sdt = rs1.getString(4) == null ? "" : rs1.getString(4);
-
-                }
-                int[] kyNam = get3Ky(ky, nam, 1);
-                PreparedStatement st = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
-                st.setString(1, danhBo);
-                st.setInt(2, kyNam[0]);
-                st.setInt(3, kyNam[1]);
-                ResultSet rs2 = st.executeQuery();
-                if (rs2.next()) {
-                    sanLuong_1 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
-                }
-
-                int[] kyNam1 = get3Ky(ky, nam, 2);
-                PreparedStatement st1 = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
-                st1.setString(1, danhBo);
-                st1.setInt(2, kyNam1[0]);
-                st1.setInt(3, kyNam1[1]);
-                ResultSet rs3 = st1.executeQuery();
-                if (rs3.next()) {
-                    sanLuong_2 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
-                }
-
-                int[] kyNam2 = get3Ky(ky, nam, 3);
-                PreparedStatement st2 = cnn.prepareStatement("SELECT cscu, csmoi FROM Docso where danhba = ? and ky = ? and nam =?");
-                st2.setString(1, danhBo);
-                st2.setInt(2, kyNam[0]);
-                st2.setInt(3, kyNam[1]);
-                ResultSet rs4 = st2.executeQuery();
-                if (rs4.next()) {
-                    sanLuong_3 = (Integer.parseInt(rs2.getString(2)) - Integer.parseInt(rs2.getString(1))) + "";
-                }
-
-                HoaDon hoaDon = new HoaDon(dotString, danhBo, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky + "", chiSoCu, maLoTrinh,
-                        sdt);
-                Code_CSC_SanLuong code_csu_sanLuong = new Code_CSC_SanLuong("code1", "code2", "code3",
-                        "csc1", "csc2", "csc3",
-                        "", "", "");
-                hoaDon.setCode_CSC_SanLuong(code_csu_sanLuong);
-                hoaDons.add(hoaDon);
-
-                sttm1.close();
-                rs1.close();
-//                st1.close();
-//                st2.close();
-//                st.close();
-//                rs2.close();
-//                rs3.close();
-//                rs4.close();
-            }
-            rs.close();
-            statement.close();
-
-
-//                cnn.close();
-
-        } catch (SQLException e) {
-
-            e.printStackTrace();
+    private List<Integer> get3Ky(int ky, int nam) {
+        List<Integer> result = new ArrayList<>();
+        int[] kyNam = new int[2];
+        for (int i = 1; i <= 3; i++) {
+            kyNam = getKyNam(ky, nam, i);
+            result.add(kyNam[0]);
+            result.add(kyNam[1]);
         }
-        return hoaDons;
+        return result;
     }
 
-    private int[] get3Ky(int ky, int nam, int prev) {
+    private int[] getKyNam(int ky, int nam, int prev) {
         int[] result = new int[2];
         int delta = ky - prev;
         if (delta > 0) {

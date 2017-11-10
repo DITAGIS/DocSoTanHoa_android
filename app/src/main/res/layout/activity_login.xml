@@ -37,6 +37,7 @@
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
+
                     android:src="@drawable/tanhoa_icon" />
             </LinearLayout>
             <!--Layout bottom-->
@@ -111,6 +112,7 @@
                             android:nextFocusDown="@+id/btnLogin"
                             android:textColor="@color/colorTextLogin_1"
                             android:textCursorDrawable="@null" />
+                        <?xml version="1.0" encoding="utf-8"?>
 
                         <ImageButton
                             android:id="@+id/imgBtn_login_viewPassword"
