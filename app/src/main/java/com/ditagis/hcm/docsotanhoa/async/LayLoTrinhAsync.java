@@ -79,18 +79,21 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
         String dotString = mDot + "";
         if (mDot < 10)
             dotString = "0" + mDot;
-        hoaDons = this.mLocalDatabase.getAllHoaDon();//dotString + mUsername + "%");
+        hoaDons = this.mLocalDatabase.getAllHoaDon(dotString + mUsername + "%");
 //        } else {
-        if (_hoadonDB == null)
-            _hoadonDB = new HoaDonDB();
+
 
         boolean isFound = false;
-        if (hoaDons.size() > 0)
-            for (HoaDon hoaDon : hoaDons) {
-                if (hoaDon.getDot().equals(dotString))
-                    isFound = true;
-            }
+        if (hoaDons.size() > 0) {
+//            for (HoaDon hoaDon : hoaDons) {
+//                if (hoaDon.getDot().equals(dotString))
+            isFound = true;
+
+//            }
+        }
         if (!isFound) {
+            if (_hoadonDB == null)
+                _hoadonDB = new HoaDonDB();
             List<String> DBs = _hoadonDB.getCountHoaDon(this.mUsername, this.mDot, this.mNam, this.mKy);
             count = DBs.size();
             for (String danhBo : DBs) {
@@ -106,11 +109,9 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
             }
             _hoadonDB.closeStatement();
         }
-        if (hoaDons != null)
-            resultLayLoTrinh.setDot(_hoadonDB.getmDot());
-
 //        }
         if (hoaDons != null) {
+            resultLayLoTrinh.setDot(dotString);
             resultLayLoTrinh.setTotal(count);
 
             for (HoaDon hoaDon : hoaDons) {

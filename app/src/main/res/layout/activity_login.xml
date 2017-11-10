@@ -112,7 +112,7 @@
                             android:nextFocusDown="@+id/btnLogin"
                             android:textColor="@color/colorTextLogin_1"
                             android:textCursorDrawable="@null" />
-                        <?xml version="1.0" encoding="utf-8"?>
+
 
                         <ImageButton
                             android:id="@+id/imgBtn_login_viewPassword"

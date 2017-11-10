@@ -86,7 +86,7 @@ public class QuanLyDocSo extends Fragment {
         String dotString = mDot + "";
         if (mDot < 10)
             dotString = "0" + mDot;
-        mSumDanhBo = mSumDanhBoDB.getSum(kyString, mNam, dotString);
+        mSumDanhBo = mSumDanhBoDB.getSum(kyString, mNam, dotString+mUsername + "%");
         //Gán DataSource vào ArrayAdapter
         mQuanLyDocSoAdapter = new GridViewQuanLyDocSoAdapter(mRootView.getContext(), new ArrayList<GridViewQuanLyDocSoAdapter.Item>());
 
