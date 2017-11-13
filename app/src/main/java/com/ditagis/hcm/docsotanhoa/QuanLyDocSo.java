@@ -86,7 +86,7 @@ public class QuanLyDocSo extends Fragment {
         String dotString = mDot + "";
         if (mDot < 10)
             dotString = "0" + mDot;
-        mSumDanhBo = mSumDanhBoDB.getSum(kyString, mNam, dotString+mUsername + "%");
+        mSumDanhBo = mSumDanhBoDB.getSum(kyString, mNam, dotString + mUsername + "%");
         //Gán DataSource vào ArrayAdapter
         mQuanLyDocSoAdapter = new GridViewQuanLyDocSoAdapter(mRootView.getContext(), new ArrayList<GridViewQuanLyDocSoAdapter.Item>());
 
@@ -392,8 +392,10 @@ public class QuanLyDocSo extends Fragment {
             for (int i = 0; i < mLocalDatabase.getAllDanhBo_CSM().size(); i++) {
                 DanhBo_ChiSoMoi danhBo_chiSoMoi = mDanhBo_chiSoMois.get(i);
 //                mUploading.update(danhBo_chiSoMoi);
-                boolean success = mUploading.update(danhBo_chiSoMoi);
-                if (success) {
+
+//                boolean success = mUploading.update(danhBo_chiSoMoi);
+                boolean success1 = mUploading.add(danhBo_chiSoMoi);
+                if (success1) {
                     mDanhBo_chiSoMois.remove(danhBo_chiSoMoi);
                     mQuanLyDocSoAdapter.removeItem(danhBo_chiSoMoi.getMaLoTrinh());
                     i--;
