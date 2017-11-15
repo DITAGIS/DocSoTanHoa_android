@@ -1,7 +1,6 @@
 package com.ditagis.hcm.docsotanhoa;
 
 import android.content.DialogInterface;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -126,13 +125,13 @@ public class MainActivity extends AppCompatActivity {
 //                        .setAction("Action", null).show();
 //            }
 //        });
-
-
-        mStateChangeReceiver = new NetworkStateChangeReceiver(tabLayout, MainActivity.this);
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-        intentFilter.addAction("android.net.conn.WIFI_STATE_CHANGED");
-        registerReceiver(mStateChangeReceiver, intentFilter);
+//
+//
+//        mStateChangeReceiver = new NetworkStateChangeReceiver(tabLayout, MainActivity.this);
+//        IntentFilter intentFilter = new IntentFilter();
+//        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+//        intentFilter.addAction("android.net.conn.WIFI_STATE_CHANGED");
+//        registerReceiver(mStateChangeReceiver, intentFilter);
     }
 
     @Override
