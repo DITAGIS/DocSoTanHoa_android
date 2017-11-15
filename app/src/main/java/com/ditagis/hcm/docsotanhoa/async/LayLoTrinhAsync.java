@@ -3,6 +3,7 @@ package com.ditagis.hcm.docsotanhoa.async;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -31,6 +32,15 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
     private int mDot;
     private int count;
     private Activity mActivity;
+    private boolean mIsLoading;
+
+    public boolean ismIsLoading() {
+        return mIsLoading;
+    }
+
+    public void setmIsLoading(boolean mIsLoading) {
+        this.mIsLoading = mIsLoading;
+    }
 
     public void setmKy(int ky) {
         this.mKy = ky;
@@ -58,6 +68,7 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
         this.mNam = nam;
         this.mDelegate = delegate;
         this.count = 0;
+        this.mIsLoading = true;
     }
 
     @Override
@@ -65,6 +76,12 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
         super.onPreExecute();
         this.dialog.setTitle(mContext.getString(R.string.load_danhbo_title));
         this.dialog.setMessage(mContext.getString(R.string.load_danhbo_message));
+        this.dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                setmIsLoading(false);
+            }
+        });
         this.dialog.setCancelable(false);
         this.dialog.show();
     }
@@ -84,28 +101,27 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
 
 
         boolean isFound = false;
-        if (hoaDons.size() > 0) {
-//            for (HoaDon hoaDon : hoaDons) {
-//                if (hoaDon.getDot().equals(dotString))
+        if (_hoadonDB == null)
+            _hoadonDB = new HoaDonDB();
+        List<String> DBs = _hoadonDB.getCountHoaDon(this.mUsername, this.mDot, this.mNam, this.mKy);
+        count = DBs.size();
+        if (hoaDons.size() == count) {
             isFound = true;
-
-//            }
         }
         if (!isFound) {
-            if (_hoadonDB == null)
-                _hoadonDB = new HoaDonDB();
-            List<String> DBs = _hoadonDB.getCountHoaDon(this.mUsername, this.mDot, this.mNam, this.mKy);
-            count = DBs.size();
             for (String danhBo : DBs) {
-                HoaDon hoaDon = _hoadonDB.getHoaDonByUserName(this.mUsername, danhBo, this.mDot, this.mNam, this.mKy);
-                if (hoaDon == null) {
-                    _hoadonDB.closeStatement();
-                    return null;
-                }
+                if (mIsLoading) {
+                    HoaDon hoaDon = _hoadonDB.getHoaDonByUserName(this.mUsername, danhBo, this.mDot, this.mNam, this.mKy);
+                    if (hoaDon == null) {
+                        _hoadonDB.closeStatement();
+                        return null;
+                    }
 
-                hoaDons.add(hoaDon);
+                    hoaDons.add(hoaDon);
 
-                publishProgress(hoaDons);
+                    publishProgress(hoaDons);
+                } else
+                    break;
             }
             _hoadonDB.closeStatement();
         }
