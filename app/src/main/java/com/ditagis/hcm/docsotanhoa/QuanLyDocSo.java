@@ -421,7 +421,7 @@ public class QuanLyDocSo extends Fragment {
                 setTextProgress();
 
             } else {
-                Toast.makeText(mRootView.getContext(), "Đồng bộ thất bại", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mRootView.getContext(), "Đồng bộ thất bại. Kiểm tra lại kết nối internet", Toast.LENGTH_SHORT).show();
             }
             refresh();
         }

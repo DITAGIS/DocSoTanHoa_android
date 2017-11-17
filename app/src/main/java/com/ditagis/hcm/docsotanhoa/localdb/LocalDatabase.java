@@ -386,6 +386,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
             do {
                 HoaDon hoaDon = new HoaDon(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6),
                         cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10));
+                hoaDon.setMaLoTrinh(cursor.getString(5));
                 Code_CSC_SanLuong code_csc_sanLuong = new Code_CSC_SanLuong(cursor.getString(11), cursor.getString(12), cursor.getString(13),
                         cursor.getString(14), cursor.getString(15), cursor.getString(16),
                         cursor.getString(17), cursor.getString(18), cursor.getString(19));

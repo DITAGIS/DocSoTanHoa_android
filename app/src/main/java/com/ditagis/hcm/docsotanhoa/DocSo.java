@@ -104,6 +104,7 @@ public class DocSo extends Fragment {
     private String mSearchType;
     private boolean isAllowChangeSdt = false;
     private int mSelected_theme;
+    private String mLike;
 
     public void setmSelected_theme(int mSelected_theme) {
         this.mSelected_theme = mSelected_theme;
@@ -128,6 +129,7 @@ public class DocSo extends Fragment {
         this.mDot = mDot;
         this.mKy = mKy;
         this.mSelected_theme = theme;
+        this.mLike = "__" + mUsername + "%";
         mRootView = inflater.inflate(R.layout.doc_so_fragment, null);
         mTxtTT = (TextView) mRootView.findViewById(R.id.txt_ds_tieuThu);
         mTxtTT1 = (TextView) mRootView.findViewById(R.id.txt_ds_tieuThu1);
@@ -166,7 +168,7 @@ public class DocSo extends Fragment {
 
         mMLTs = new ArrayList<String>();
 
-        for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon()) {
+        for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon(mLike)) {
             mMLTs.add(hoaDon.getMaLoTrinh());
         }
         mSpinMLT = (Spinner) mRootView.findViewById(R.id.spin_ds_mlt);
@@ -200,21 +202,21 @@ public class DocSo extends Fragment {
                         }
                     }
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
-                    for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon()) {
+                    for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon(mLike)) {
                         if (s.toString().equals(hoaDon.getDanhBo()))
                             for (int i = 0; i < mMLTs.size(); i++)
                                 if (hoaDon.getMaLoTrinh().equals(mMLTs.get(i)))
                                     mSpinMLT.setSelection(i);
                     }
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_tenKH))) {
-                    for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon()) {
+                    for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon(mLike)) {
                         if (s.toString().equals(hoaDon.getTenKhachHang()))
                             for (int i = 0; i < mMLTs.size(); i++)
                                 if (hoaDon.getMaLoTrinh().equals(mMLTs.get(i)))
                                     mSpinMLT.setSelection(i);
                     }
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_diaChi))) {
-                    for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon()) {
+                    for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon(mLike)) {
                         if (s.toString().equals(hoaDon.getDiaChi()))
                             for (int i = 0; i < mMLTs.size(); i++)
                                 if (hoaDon.getMaLoTrinh().equals(mMLTs.get(i)))
@@ -585,7 +587,7 @@ public class DocSo extends Fragment {
 
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
                     mDBs.clear();
-                    for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon()) {
+                    for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon(mLike)) {
                         mDBs.add(hoaDon.getDanhBo());
                     }
                     singleComplete.setAdapter(new CustomArrayAdapter(
@@ -595,7 +597,7 @@ public class DocSo extends Fragment {
                     ));
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_tenKH))) {
                     mTenKHs.clear();
-                    for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon()) {
+                    for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon(mLike)) {
                         mTenKHs.add(hoaDon.getTenKhachHang());
                     }
 
@@ -606,7 +608,7 @@ public class DocSo extends Fragment {
                     ));
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_diaChi))) {
                     mDiaChis.clear();
-                    for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon()) {
+                    for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon(mLike)) {
                         mDiaChis.add(hoaDon.getDiaChi());
                     }
 
@@ -647,7 +649,7 @@ public class DocSo extends Fragment {
 //        String dotString = mDot + "";
 //        if (this.mDot < 10)
 //            dotString = "0" + this.mDot;
-        this.mSumDanhBo = mLocalDatabase.getAllHoaDon(/*dotString + this.mUsername + "%"*/).size();
+        this.mSumDanhBo = mLocalDatabase.getAllHoaDon(mLike).size();
         this.mDanhBoHoanThanh = mLocalDatabase.getAllDanhBo_CSM().size();
         this.mSumDanhBo += this.mDanhBoHoanThanh;
         this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);

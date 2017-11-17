@@ -15,7 +15,7 @@ public class ConnectionDB {
     private static final int PORT = 1433;
     private static final String DB = "DocSoTH";
     private static final String USER = "docsotanhoa";
-    private static final String PASSWORD = "Docso123";
+    private static final String PASSWORD = "Docso111";//Docso111
     private Connection connection;
     private static final ConnectionDB _instance = new ConnectionDB();
 
