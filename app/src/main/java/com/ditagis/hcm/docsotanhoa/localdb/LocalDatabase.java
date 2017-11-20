@@ -75,6 +75,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
     private static final String COLUMN_LUUDANHBO_CODE = "LuuDanhBo_Code";
     private static final String COLUMN_LUUDANHBO_CSC = "LuuDanhBo_ChiSoCu";
     private static final String COLUMN_LUUDANHBO_CSM = "LuuDanhBo_ChiSoMoi";
+    private static final String COLUMN_LUUDANHBO_TIEU_THU = "LuuDanhBo_TieuThu";
     private static final String COLUMN_LUUDANHBO_GHI_CHU = "LuuDanhBo_GhiChu";
     private static final String COLUMN_LUUDANHBO_HINHANH = "LuuDanhBo_HinhAnh";
     private static final String COLUMN_LUUDANHBO_LUU = "LuuDanhBo_Luu"; // lwu khi có hinh ảnh
@@ -91,9 +92,9 @@ public class LocalDatabase extends SQLiteOpenHelper {
     // Tạo các bảng.
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_HOADON);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MALOTRINH);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LUUDANHBO);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_HOADON);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MALOTRINH);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LUUDANHBO);
         Log.i(TAG, "LocalDatabase.onCreate ... ");
         // Script tạo bảng.
         String script = "CREATE TABLE " + TABLE_HOADON + "("
@@ -133,6 +134,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 + COLUMN_LUUDANHBO_CODE + " TEXT,"
                 + COLUMN_LUUDANHBO_CSC + " TEXT,"
                 + COLUMN_LUUDANHBO_CSM + " TEXT,"
+                + COLUMN_LUUDANHBO_TIEU_THU + " TEXT,"
                 + COLUMN_LUUDANHBO_GHI_CHU + " TEXT,"
                 + COLUMN_LUUDANHBO_HINHANH + " TEXT,"
                 + COLUMN_LUUDANHBO_LUU + " TEXT )";
@@ -154,6 +156,12 @@ public class LocalDatabase extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MALOTRINH);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LUUDANHBO);
         // Và tạo lại.
+        onCreate(db);
+    }
+
+    public void create() {
+        SQLiteDatabase db = this.getWritableDatabase();
+
         onCreate(db);
     }
 
@@ -305,6 +313,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         }
         return hoaDon;
     }
+
     public List<HoaDon> getAllHoaDon(String like) {
         List<HoaDon> hoaDons = new ArrayList<HoaDon>();
         Log.i(TAG, "LocalDatabase.getHoaDon ... " + id);
@@ -349,6 +358,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         }
         return hoaDons;
     }
+
     public HashMap<String, Integer> getAllMLT() {
         Log.i(TAG, "LocalDatabase.getAllHoaDons ... ");
         HashMap<String, Integer> result = new HashMap<String, Integer>();
@@ -435,7 +445,6 @@ public class LocalDatabase extends SQLiteOpenHelper {
     }
 
 
-
     public List<HoaDon> getAllHoaDon() {
         List<HoaDon> hoaDons = new ArrayList<HoaDon>();
         Log.i(TAG, "LocalDatabase.getHoaDon ... " + id);
@@ -516,7 +525,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                         cursor.getString(9),
                         cursor.getString(10),
                         cursor.getString(11),
-                        cursor.getInt(12));
+                        cursor.getString(12),
+                        cursor.getInt(13));
 
 
                 // Thêm vào danh sách.
@@ -545,6 +555,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         values.put(COLUMN_LUUDANHBO_CODE, danhBoChiSoMoi.getCode());
         values.put(COLUMN_LUUDANHBO_CSC, danhBoChiSoMoi.getChiSoCu());
         values.put(COLUMN_LUUDANHBO_CSM, danhBoChiSoMoi.getChiSoMoi());
+        values.put(COLUMN_LUUDANHBO_TIEU_THU, danhBoChiSoMoi.getTieuThu());
         values.put(COLUMN_LUUDANHBO_GHI_CHU, danhBoChiSoMoi.getNote());
         values.put(COLUMN_LUUDANHBO_HINHANH, danhBoChiSoMoi.getImage());
         values.put(COLUMN_LUUDANHBO_LUU, danhBoChiSoMoi.getHasImage());
@@ -572,6 +583,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         values.put(COLUMN_LUUDANHBO_CODE, danhBoChiSoMoi.getCode());
         values.put(COLUMN_LUUDANHBO_CSC, danhBoChiSoMoi.getChiSoCu());
         values.put(COLUMN_LUUDANHBO_CSM, danhBoChiSoMoi.getChiSoMoi());
+        values.put(COLUMN_LUUDANHBO_TIEU_THU, danhBoChiSoMoi.getTieuThu());
         values.put(COLUMN_LUUDANHBO_GHI_CHU, danhBoChiSoMoi.getNote());
         values.put(COLUMN_LUUDANHBO_HINHANH, danhBoChiSoMoi.getImage());
         values.put(COLUMN_LUUDANHBO_LUU, danhBoChiSoMoi.getHasImage());
@@ -610,7 +622,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                         cursor.getString(9),
                         cursor.getString(10),
                         cursor.getString(11),
-                        cursor.getInt(12)
+                        cursor.getString(12),
+                        cursor.getInt(13)
                 );
             } while (cursor.moveToNext());
         }

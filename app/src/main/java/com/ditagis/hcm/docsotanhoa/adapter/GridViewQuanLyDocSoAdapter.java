@@ -19,23 +19,23 @@ import java.util.List;
 
 public class GridViewQuanLyDocSoAdapter extends ArrayAdapter<GridViewQuanLyDocSoAdapter.Item> {
     public static class Item {
-        String mtl;
+        String tieuThu;
         String danhbo;
         String csc, csm;
 
         public Item(String mtl, String danhbo, String csc, String csm) {
-            this.mtl = mtl;
+            this.tieuThu = mtl;
             this.danhbo = danhbo;
             this.csc = csc;
             this.csm = csm;
         }
 
-        public String getMtl() {
-            return mtl;
+        public String getTieuThu() {
+            return tieuThu;
         }
 
-        public void setMtl(String mtl) {
-            this.mtl = mtl;
+        public void setTieuThu(String tieuThu) {
+            this.tieuThu = tieuThu;
         }
 
         public String getDanhbo() {
@@ -84,14 +84,14 @@ public class GridViewQuanLyDocSoAdapter extends ArrayAdapter<GridViewQuanLyDocSo
 
     public Item getItem(String mlt) {
         for (Item item : this.items)
-            if (item.getMtl().equals(mlt))
+            if (item.getTieuThu().equals(mlt))
                 return item;
         return null;
     }
 
     public boolean removeItem(String mlt) {
         for (Item item : this.items)
-            if (item.getMtl().equals(mlt)) {
+            if (item.getTieuThu().equals(mlt)) {
                 this.items.remove(item);
                 return true;
             }
@@ -110,8 +110,7 @@ public class GridViewQuanLyDocSoAdapter extends ArrayAdapter<GridViewQuanLyDocSo
             convertView = inflater.inflate(R.layout.row_quan_ly_doc_so, null);
         }
         Item item = items.get(position);
-        TextView txtMaLoTrinh = (TextView) convertView.findViewById(R.id.row_qlds_txt_malotrinh);
-        txtMaLoTrinh.setText(item.getMtl());
+
 
         TextView txtDanhBo = (TextView) convertView.findViewById(R.id.row_qlds_txt_danhBo);
         txtDanhBo.setText(item.getDanhbo());
@@ -122,6 +121,8 @@ public class GridViewQuanLyDocSoAdapter extends ArrayAdapter<GridViewQuanLyDocSo
         TextView txtCSM = (TextView) convertView.findViewById(R.id.row_qlds_txt_csm);
         txtCSM.setText(item.getCsm());
 
+        TextView txtSanLuong = (TextView) convertView.findViewById(R.id.row_qlds_txt_sanLuong);
+        txtSanLuong.setText(item.getTieuThu());
 
         LinearLayout row_layout = (LinearLayout) convertView.findViewById(R.id.row_qlds_layout);
 

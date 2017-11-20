@@ -179,7 +179,7 @@ public class QuanLyDocSo extends Fragment {
         mQuanLyDocSoAdapter.clear();
         for (DanhBo_ChiSoMoi danhBo_chiSoMoi : this.mDanhBo_chiSoMois) {
             mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
-                    danhBo_chiSoMoi.getMaLoTrinh(),
+                    danhBo_chiSoMoi.getTieuThu(),
                     danhBo_chiSoMoi.getDanhBo(),
                     danhBo_chiSoMoi.getChiSoCu(),
                     danhBo_chiSoMoi.getChiSoMoi()));

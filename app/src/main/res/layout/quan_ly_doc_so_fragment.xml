@@ -130,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
-                    android:text="MLT"
+                    android:text="DANH BỘ"
                     android:textColor="@color/colorTextColor_1"
 
                     android:textSize="18dp" />
@@ -138,15 +138,6 @@
                 <!--android:layout_width="2dip"-->
                 <!--android:layout_height="match_parent"-->
                 android:background="@color/colorWhite" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:text="DANH BỘ"
-                    android:textColor="@color/colorTextColor_1"
-                    android:textSize="18dp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -163,6 +154,15 @@
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:text="CSM"
+                    android:textColor="@color/colorTextColor_1"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:text="TIÊU THỤ"
                     android:textColor="@color/colorTextColor_1"
                     android:textSize="18dp" />
             </LinearLayout>

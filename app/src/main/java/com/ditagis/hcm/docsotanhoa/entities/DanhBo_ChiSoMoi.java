@@ -15,11 +15,12 @@ public class DanhBo_ChiSoMoi {
     private String code;
     private String chiSoCu;
     private String chiSoMoi;
+    private String tieuThu;
     private String note;
     private String image;
     private int hasImage;// 1 là đã lưu, 0 là chưa lưu
 
-    public DanhBo_ChiSoMoi(String danhBo, String maLoTrinh, String dot, String tenKH, String diaChi, String sdt, String giaBieu, String code, String chiSoCu, String chiSoMoi, String note, String image, int hasImage) {
+    public DanhBo_ChiSoMoi(String danhBo, String maLoTrinh, String dot, String tenKH, String diaChi, String sdt, String giaBieu, String code, String chiSoCu, String chiSoMoi,String tieuThu, String note, String image, int hasImage) {
         this.danhBo = danhBo;
         this.maLoTrinh = maLoTrinh;
         this.dot = dot;
@@ -30,9 +31,18 @@ public class DanhBo_ChiSoMoi {
         this.code = code;
         this.chiSoCu = chiSoCu;
         this.chiSoMoi = chiSoMoi;
+        this.tieuThu = tieuThu;
         this.note = note;
         this.image = image;
         this.hasImage = hasImage;
+    }
+
+    public String getTieuThu() {
+        return tieuThu;
+    }
+
+    public void setTieuThu(String tieuThu) {
+        this.tieuThu = tieuThu;
     }
 
     public String getDot() {
