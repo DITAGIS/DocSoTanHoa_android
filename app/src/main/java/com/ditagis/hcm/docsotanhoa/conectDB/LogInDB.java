@@ -34,9 +34,10 @@ public class LogInDB implements IDB<User, Boolean, String> {
         private String username;
         private String password;
 
-        public Result(String mDot, String mStaffName) {
+        public Result(String mDot, String mStaffName, String userName) {
             this.mDot = mDot;
             this.mStaffName = mStaffName;
+            this.username = userName;
         }
 
         public String getmDot() {
@@ -139,7 +140,7 @@ public class LogInDB implements IDB<User, Boolean, String> {
         String sql = this.SQL_SELECT;
 
         try {
-            if(cnn == null)
+            if (cnn == null)
                 return null;
             PreparedStatement st = cnn.prepareStatement(sql);
             st.setString(1, user.getUserName());
@@ -162,11 +163,10 @@ public class LogInDB implements IDB<User, Boolean, String> {
             mDot = dot + "";
             statement.close();
             rsDot.close();
-            Result result = new Result(mDot, staffName);
+            Result result = new Result(mDot, staffName,user.getUserName());
             return result;
 
-        }
-        catch (SQLException e1) {
+        } catch (SQLException e1) {
             e1.printStackTrace();
         }
         return null;

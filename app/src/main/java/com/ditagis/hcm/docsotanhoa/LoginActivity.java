@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.ditagis.hcm.docsotanhoa.async.ChangePassswordAsync;
 import com.ditagis.hcm.docsotanhoa.conectDB.LogInDB;
 import com.ditagis.hcm.docsotanhoa.entities.User;
+import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 import com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver;
 import com.ditagis.hcm.docsotanhoa.utities.CheckConnect;
 import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
@@ -127,8 +128,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void login() {
-//        LocalDatabase localDatabase = new LocalDatabase(this);
-//        localDatabase.Upgrade();
+        LocalDatabase localDatabase = new LocalDatabase(this);
+        localDatabase.Upgrade();
         LoginActivity.this.mUsername = mTxtUsername.getText().toString();
         LoginActivity.this.mPassword = mTxtPassword.getText().toString();
         if (LoginActivity.this.mUsername.length() == 0 || LoginActivity.this.mPassword.length() == 0) {
@@ -412,7 +413,9 @@ public class LoginActivity extends AppCompatActivity {
             LogInDB.Result result = values[0];
             if (result == null) {
 //                AlertDialogDisConnect.show(btnLogin.getContext(), LoginActivity.this);
-            } else if (result.getmStaffName().length() > 0) {
+            } else if (result.getmStaffName() == null)
+                MySnackBar.make(btnLogin, "Chưa khởi tạo máy " + result.getUsername(), true);
+            else if (result.getmStaffName().length() > 0) {
 
                 mTxtPassword.setText("");
                 mTxtUsername.setText("");

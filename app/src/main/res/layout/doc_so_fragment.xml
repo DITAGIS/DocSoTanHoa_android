@@ -707,7 +707,7 @@
 
                     <Spinner
                         android:id="@+id/spin_ds_code"
-                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/height_spinner_code"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:gravity="right"
@@ -725,7 +725,7 @@
 
                     <TextView
                         android:id="@+id/etxt_ds_CSM_title"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/width_title_item_docso"
                         android:layout_column="0"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
@@ -736,10 +736,8 @@
                     <EditText
 
                         android:id="@+id/etxt_ds_CSM"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:width="0dp"
+
                         android:ems="10"
                         android:gravity="right"
                         android:hint="Nhập chỉ số mới"
