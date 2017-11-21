@@ -796,7 +796,6 @@ public class DocSo extends Fragment {
     }
 
     private void selectDanhBo(int position) {
-//        mSpinMLT.setSelection(position);
         mSpinCode.setSelection(0);
 
         HideKeyboard.hide(mActivity);
