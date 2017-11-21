@@ -767,7 +767,7 @@ public class DocSo extends Fragment {
     }
 
     public void selectMLT(int position) {
-//        mMlt = mlt;
+        mMlt = mMLTs.get(position);
         try {
 //            List<HoaDon> hoaDonList = mLocalDatabase.getAllHoaDon(mMlt);
 //
@@ -865,9 +865,15 @@ public class DocSo extends Fragment {
         this.mLocalDatabase.saveDanhBo_CSM(danhBo_chiSoMoi);
         this.mLocalDatabase.deleteHoaDon(danhBo_chiSoMoi.getDanhBo());
         mTxtTT.setText("");
-        int i = mSpinMLT.getSelectedItemPosition();
-        this.mAdapterMLT.remove(danhBo_chiSoMoi.getMaLoTrinh());
+
+//        this.mAdapterMLT.remove(danhBo_chiSoMoi.getMaLoTrinh());
         this.mMLTs.remove(danhBo_chiSoMoi.getMaLoTrinh());
+        this.mAdapterMLT.notifyDataSetChanged();
+//        this.mAdapterDB.remove(danhBo_chiSoMoi.getDanhBo());
+        this.mDBs.remove(danhBo_chiSoMoi.getDanhBo());
+        this.mAdapterDB.notifyDataSetChanged();
+
+        int i = mSpinMLT.getSelectedItemPosition();
         selectMLT(i == mMLTs.size() ? i - 1 : i);
         this.mDanhBoHoanThanh++;
         this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
