@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -23,7 +22,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ditagis.hcm.docsotanhoa.async.ChangePassswordAsync;
 import com.ditagis.hcm.docsotanhoa.conectDB.LogInDB;
@@ -43,7 +41,8 @@ public class LoginActivity extends AppCompatActivity {
     private ImageButton mImgBtnViewPassword;
 
     private LoginAsync mLoginAsync;
-    private String mUsername, mPassword;
+    private String mUsername, mPassword, mStaffName;
+    private String mDot;
     private NetworkStateChangeReceiver mStateChangeReceiver;
     private IntentFilter mIntentFilter;
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
@@ -137,14 +136,14 @@ public class LoginActivity extends AppCompatActivity {
         } else if (CheckConnect.isOnline(LoginActivity.this)) {
             mLoginAsync = new LoginAsync();
             mLoginAsync.execute(LoginActivity.this.mUsername, LoginActivity.this.mPassword);
-
-        } else if (mTxtPassword.getText().toString().equals(loadPreferences(mTxtUsername.getText().toString()))) {
-
-            mTxtPassword.setText("");
-            mTxtUsername.setText("");
-            Toast.makeText(LoginActivity.this, this.getString(R.string.login_with_saved_account), Toast.LENGTH_SHORT).show();
-            doLayLoTrinh();
         }
+//        } else if (mTxtPassword.getText().toString().equals(loadPreferences(mTxtUsername.getText().toString()))) {
+//
+//            mTxtPassword.setText("");
+//            mTxtUsername.setText("");
+//            Toast.makeText(LoginActivity.this, this.getString(R.string.login_with_saved_account), Toast.LENGTH_SHORT).show();
+//            doLayLoTrinh();
+//        }
     }
 
 
@@ -311,12 +310,11 @@ public class LoginActivity extends AppCompatActivity {
                                     builder.setPositiveButton(LoginActivity.this.getString(R.string.ok), new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            deletePreferences();
-                                            mUsername = output.getUsername();
-                                            mPassword = output.getPassword();
-                                            savePreferences(output.getUsername(), output.getPassword());
-                                            savePreferences(output.getPassword(), output.getmStaffName());
-                                            savePreferences(output.getmStaffName(), output.getmDot());
+                                            LoginActivity.this.mUsername = output.getUsername();
+                                            LoginActivity.this.mPassword = output.getPassword();
+
+                                            LoginActivity.this.mStaffName = output.getmStaffName();
+                                            LoginActivity.this.mDot = output.getmDot();
                                             doLayLoTrinh();
                                         }
                                     }).setNegativeButton(LoginActivity.this.getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -397,10 +395,9 @@ public class LoginActivity extends AppCompatActivity {
             if (result == null)
                 ;
             else if (result.getmStaffName() == null || result.getmStaffName().length() > 0) {
-                deletePreferences();
-                savePreferences(username, password);
-                savePreferences(password, result.getmStaffName());
-                savePreferences(result.getmStaffName(), result.getmDot());
+                LoginActivity.this.mPassword = result.getPassword();
+                LoginActivity.this.mStaffName = result.getmStaffName();
+                LoginActivity.this.mDot = result.getmDot();
             }
             publishProgress(result);
             return result;
@@ -441,7 +438,8 @@ public class LoginActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         int ky = calendar.get(Calendar.MONTH) + 1;
         int nam = calendar.get(Calendar.YEAR);
-        new LayLoTrinh(LoginActivity.this, getLayoutInflater(), ky, nam, Integer.parseInt(loadPreferences(loadPreferences(LoginActivity.this.mPassword))), mUsername, loadPreferences(LoginActivity.this.mPassword));
+        int dot = Integer.parseInt(mDot);
+        new LayLoTrinh(LoginActivity.this, getLayoutInflater(), ky, nam, dot, mUsername, mStaffName);
     }
 
     public boolean requestPermisson() {
@@ -471,48 +469,37 @@ public class LoginActivity extends AppCompatActivity {
         } else
             return true;
     }
-
-    public SharedPreferences getPreferences() {
-        return getSharedPreferences("LOGGED_IN", MODE_PRIVATE);
-    }
-
-    /**
-     * Method used to save Preferences
-     */
-    public void savePreferences(String key, String value) {
-        SharedPreferences sharedPreferences = getPreferences();
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(key, value);
-        editor.commit();
-    }
+//
+//    public SharedPreferences getPreferences() {
+//        return getSharedPreferences("LOGGED_IN", MODE_PRIVATE);
+//    }
+//
+//    /**
+//     * Method used to save Preferences
+//     */
+//    public void savePreferences(String key, String value) {
+//        SharedPreferences sharedPreferences = getPreferences();
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putString(key, value);
+//        editor.commit();
+//    }
 
     /**
      * Method used to load Preferences
      */
-    public String loadPreferences(String key) {
-        try {
-            SharedPreferences sharedPreferences = getPreferences();
-            String strSavedMemo = sharedPreferences.getString(key, "");
-            return strSavedMemo;
-        } catch (NullPointerException nullPointerException) {
-            return null;
-        }
-    }
+//    public String loadPreferences(String key) {
+//        try {
+//            SharedPreferences sharedPreferences = getPreferences();
+//            String strSavedMemo = sharedPreferences.getString(key, "");
+//            return strSavedMemo;
+//        } catch (NullPointerException nullPointerException) {
+//            return null;
+//        }
+//    }
 
     /**
      * Method used to delete Preferences
      */
-    public boolean deletePreferences(String key) {
-        SharedPreferences.Editor editor = getPreferences().edit();
-        editor.remove(key).commit();
-        return false;
-    }
-
-    public boolean deletePreferences() {
-        SharedPreferences.Editor editor = getPreferences().edit();
-        editor.clear().commit();
-        return false;
-    }
 
     @Override
     public void onBackPressed() {

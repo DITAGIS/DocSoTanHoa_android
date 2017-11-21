@@ -160,7 +160,7 @@ public class LogInDB implements IDB<User, Boolean, String> {
             if (rsDot.next()) {
                 mDot = rsDot.getString(1);
             }
-            mDot = dot + "";
+//            mDot = dot + "";
             statement.close();
             rsDot.close();
             Result result = new Result(mDot, staffName,user.getUserName());
