@@ -26,651 +26,652 @@
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
-                <TableLayout
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="5"
+                android:minHeight="25px"
+                android:minWidth="25px">
+                <!--Table row hiển thị số danh bộ đã đọc-->
+                <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="5"
-                    android:minHeight="25px"
-                    android:minWidth="25px">
-                    <!--Table row hiển thị số danh bộ đã đọc-->
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/txt_ds_complete_title"
+                        android:layout_width="@dimen/width_title_item_docso"
+                        android:layout_column="0"
+                        android:layout_gravity="center_vertical"
+                        android:text="Đã đọc:"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorTextColor_1" />
+
+                    <TextView
+                        android:id="@+id/txt_ds_complete"
+                        android:layout_width="0dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="aaa"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorTextColor_1" />
+                </TableRow>
+
+                <TableRow android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/txt_ds_staffName_title"
+                        android:layout_width="@dimen/width_title_item_docso"
+                        android:layout_column="0"
+                        android:layout_gravity="center_vertical"
+                        android:text="Nhân viên:"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorTextColor_1" />
+
+                    <TextView
+                        android:id="@+id/txt_ds_staffName"
+                        android:layout_width="0dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="aaa"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorTextColor_1" />
+                </TableRow>
+
+                <!--Table row kỳ-->
+                <TableRow android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1">
 
                         <TextView
-                            android:id="@+id/txt_ds_complete_title"
+                            android:id="@+id/txt_ds_ky_title"
                             android:layout_width="@dimen/width_title_item_docso"
+                            android:layout_height="wrap_content"
                             android:layout_column="0"
                             android:layout_gravity="center_vertical"
-                            android:text="Đã đọc:"
+                            android:text="Kỳ: "
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/colorTextColor_1" />
 
                         <TextView
-                            android:id="@+id/txt_ds_complete"
-                            android:layout_width="0dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:gravity="right"
-                            android:text="aaa"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/colorTextColor_1" />
-                    </TableRow>
-
-                    <TableRow android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/txt_ds_staffName_title"
-                            android:layout_width="@dimen/width_title_item_docso"
-                            android:layout_column="0"
-                            android:layout_gravity="center_vertical"
-                            android:text="Nhân viên:"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/colorTextColor_1" />
-
-                        <TextView
-                            android:id="@+id/txt_ds_staffName"
-                            android:layout_width="0dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:gravity="right"
-                            android:text="aaa"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/colorTextColor_1" />
-                    </TableRow>
-
-                    <!--Table row kỳ-->
-                    <TableRow android:layout_weight="1">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
+                            android:id="@+id/txt_ds_ky"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1">
+                            android:layout_gravity="center_vertical"
+                            android:layout_span="4"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:text="11"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/colorTextColor_1" />
+                    </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/txt_ds_ky_title"
-                                android:layout_width="@dimen/width_title_item_docso"
-                                android:layout_height="wrap_content"
-                                android:layout_column="0"
-                                android:layout_gravity="center_vertical"
-                                android:text="Kỳ: "
-                                android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textColor="@color/colorTextColor_1" />
-
-                            <TextView
-                                android:id="@+id/txt_ds_ky"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_span="4"
-                                android:layout_weight="1"
-                                android:gravity="center_horizontal"
-                                android:text="11"
-                                android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textColor="@color/colorTextColor_1" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1">
-
-                            <TextView
-                                android:id="@+id/txt_ds_dot_title"
-                                android:layout_width="@dimen/width_title_item_docso"
-                                android:layout_height="wrap_content"
-                                android:layout_column="0"
-                                android:layout_gravity="center_vertical"
-                                android:text="Đợt: "
-                                android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textColor="@color/colorTextColor_1" />
-
-                            <TextView
-                                android:id="@+id/txt_ds_dot"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_span="4"
-                                android:layout_weight="1"
-                                android:gravity="center_horizontal"
-                                android:text="10"
-                                android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textColor="@color/colorTextColor_1" />
-                        </LinearLayout>
-
-                    </TableRow>
-
-                    <!--Table row tim kiem-->
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1">
 
                         <TextView
-                            android:id="@+id/editauto_ds_title"
+                            android:id="@+id/txt_ds_dot_title"
                             android:layout_width="@dimen/width_title_item_docso"
+                            android:layout_height="wrap_content"
                             android:layout_column="0"
                             android:layout_gravity="center_vertical"
-                            android:text="Tìm kiếm"
+                            android:text="Đợt: "
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/colorTextColor_1" />
-
-                        <AutoCompleteTextView
-                            android:id="@+id/editauto_ds"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="@dimen/activity_horizontal_margin"
-                            android:layout_weight="1.7"
-                            android:width="0dp"
-                            android:ems="10"
-                            android:gravity="left"
-                            android:hint="@string/search_mlt"
-                            android:inputType="textAutoComplete|textAutoCorrect"
-                            android:maxLength="11"
-                            android:paddingLeft="@dimen/activity_horizontal_margin"
-                            android:textColor="@color/colorTextColor_1"
-                            android:textColorHint="@color/colorTextColor_1"
-                            android:textCursorDrawable="@null" />
-
-
-                        <Button
-                            android:id="@+id/btn_ds_optionSearch"
-                            android:layout_width="50dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="@dimen/button_horizontal_margin"
-                            android:gravity="center"
-                            android:text="..." />
-
-                    </TableRow>
-                    <!--Table row ma lo trinh-->
-                    <TableRow android:layout_weight="1">
 
                         <TextView
-                            android:id="@+id/spin_ds_mlt_title"
+                            android:id="@+id/txt_ds_dot"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_span="4"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:text="10"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/colorTextColor_1" />
+                    </LinearLayout>
+
+                </TableRow>
+
+                <!--Table row tim kiem-->
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/editauto_ds_title"
+                        android:layout_width="@dimen/width_title_item_docso"
+                        android:layout_column="0"
+                        android:layout_gravity="center_vertical"
+                        android:text="Tìm kiếm"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorTextColor_1" />
+
+                    <AutoCompleteTextView
+                        android:id="@+id/editauto_ds"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_weight="1.7"
+                        android:width="0dp"
+                        android:ems="10"
+                        android:gravity="left"
+                        android:hint="@string/search_mlt"
+                        android:inputType="textAutoComplete|textAutoCorrect"
+                        android:maxLength="11"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:textColor="@color/colorTextColor_1"
+                        android:textColorHint="@color/colorTextColor_1"
+                        android:textCursorDrawable="@null" />
+
+
+                    <Button
+                        android:id="@+id/btn_ds_optionSearch"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/button_horizontal_margin"
+                        android:gravity="center"
+                        android:text="..." />
+
+                </TableRow>
+                <!--Table row ma lo trinh-->
+                <TableRow android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/spin_ds_mlt_title"
+                        android:layout_width="@dimen/width_title_item_docso"
+                        android:layout_height="wrap_content"
+                        android:layout_column="0"
+                        android:layout_gravity="center_vertical"
+                        android:text="Mã LT: "
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorTextColor_1" />
+
+                    <Spinner
+                        android:id="@+id/spin_ds_mlt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_span="4"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorTextColor_1" />
+                </TableRow>
+
+
+                <!--Table row danh bộ-->
+                <TableRow android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/spin_ds_db_title"
+                        android:layout_width="@dimen/width_title_item_docso"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Danh bộ: "
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorTextColor_1" />
+
+                    <Spinner
+                        android:id="@+id/spin_ds_db"
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.5"
+                        android:inputType="number"
+                        android:maxLength="11"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorTextColor_1" />
+
+                    <ImageButton
+                        android:id="@+id/btn_ds_prev"
+                        android:layout_width="0dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.3"
+                        android:background="@color/colorBackground_1"
+                        android:src="@drawable/prev" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_weight="0.1" />
+
+                    <ImageButton
+                        android:id="@+id/btn_ds_next"
+                        android:layout_width="0dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.3"
+                        android:background="@color/colorBackground_1"
+                        android:src="@drawable/next" />
+                </TableRow>
+                <!--Table row tên khách hàng-->
+                <TableRow android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/txt_ds_tenKH_title"
+                        android:layout_width="@dimen/width_title_item_docso"
+                        android:layout_height="wrap_content"
+                        android:layout_column="0"
+                        android:layout_gravity="center_vertical"
+                        android:text="Tên KH: "
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorTextColor_1" />
+
+                    <TextView
+                        android:id="@+id/txt_ds_tenKH"
+                        android:layout_gravity="center_vertical"
+                        android:layout_span="4"
+                        android:layout_weight="1"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorTextColor_1" />
+                </TableRow>
+
+                <!--Table row địa chỉ-->
+                <TableRow android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/txt_ds_diachi_title"
+                        android:layout_width="@dimen/width_title_item_docso"
+                        android:layout_height="wrap_content"
+                        android:layout_column="0"
+                        android:layout_gravity="center_vertical"
+                        android:text="Địa chỉ: "
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorTextColor_1" />
+
+                    <TextView
+                        android:id="@+id/txt_ds_diachi"
+                        android:layout_gravity="center_vertical"
+                        android:layout_span="4"
+                        android:layout_weight="1"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorTextColor_1" />
+                </TableRow>
+                <!--Table row nhập sđt-->
+                <TableRow android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/etxt_ds_sdt_title"
+                        android:layout_width="@dimen/width_title_item_docso"
+                        android:layout_column="0"
+                        android:layout_gravity="center_vertical"
+                        android:text="SĐT: "
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorTextColor_1" />
+
+                    <EditText
+                        android:id="@+id/etxt_ds_sdt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.7"
+                        android:width="0dp"
+                        android:ems="10"
+                        android:gravity="left"
+                        android:inputType="number"
+                        android:maxLength="11"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:textColor="@color/colorTextColor_1"
+                        android:textCursorDrawable="@null" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_ds_call"
+                        android:layout_width="0dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/button_horizontal_margin"
+                        android:layout_weight="0.3"
+                        android:background="@drawable/call"
+                        android:orientation="vertical" />
+                </TableRow>
+                <!--Table row chỉ số cũ-->
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/txt_ds_giabieu_title"
                             android:layout_width="@dimen/width_title_item_docso"
                             android:layout_height="wrap_content"
                             android:layout_column="0"
                             android:layout_gravity="center_vertical"
-                            android:text="Mã LT: "
+                            android:text="Giá biểu"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/colorTextColor_1" />
 
-                        <Spinner
-                            android:id="@+id/spin_ds_mlt"
+                        <TextView
+                            android:id="@+id/txt_ds_giabieu"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_span="4"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/colorTextColor_1" />
-                    </TableRow>
-
-
-                    <!--Table row danh bộ-->
-                    <TableRow android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/spin_ds_db_title"
-                            android:layout_width="@dimen/width_title_item_docso"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="Danh bộ: "
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/colorTextColor_1" />
-
-                        <Spinner
-                            android:id="@+id/spin_ds_db"
-                            android:layout_width="match_parent"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="0.5"
-                            android:inputType="number"
-                            android:maxLength="11"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/colorTextColor_1" />
-
-                        <ImageButton
-                            android:id="@+id/btn_ds_prev"
-                            android:layout_width="0dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="0.3"
-                            android:background="@color/colorBackground_1"
-                            android:src="@drawable/prev" />
-
-                        <Space
-                            android:layout_width="0dp"
-                            android:layout_weight="0.1" />
-
-                        <ImageButton
-                            android:id="@+id/btn_ds_next"
-                            android:layout_width="0dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="0.3"
-                            android:background="@color/colorBackground_1"
-                            android:src="@drawable/next" />
-                    </TableRow>
-                    <!--Table row tên khách hàng-->
-                    <TableRow android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/txt_ds_tenKH_title"
-                            android:layout_width="@dimen/width_title_item_docso"
-                            android:layout_height="wrap_content"
-                            android:layout_column="0"
-                            android:layout_gravity="center_vertical"
-                            android:text="Tên KH: "
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/colorTextColor_1" />
-
-                        <TextView
-                            android:id="@+id/txt_ds_tenKH"
-                            android:layout_gravity="center_vertical"
-                            android:layout_span="4"
                             android:layout_weight="1"
+                            android:gravity="center_horizontal"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/colorTextColor_1" />
-                    </TableRow>
+                    </LinearLayout>
 
-                    <!--Table row địa chỉ-->
-                    <TableRow android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/txt_ds_diachi_title"
-                            android:layout_width="@dimen/width_title_item_docso"
-                            android:layout_height="wrap_content"
-                            android:layout_column="0"
-                            android:layout_gravity="center_vertical"
-                            android:text="Địa chỉ: "
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/colorTextColor_1" />
-
-                        <TextView
-                            android:id="@+id/txt_ds_diachi"
-                            android:layout_gravity="center_vertical"
-                            android:layout_span="4"
-                            android:layout_weight="1"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/colorTextColor_1" />
-                    </TableRow>
-                    <!--Table row nhập sđt-->
-                    <TableRow android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/etxt_ds_sdt_title"
-                            android:layout_width="@dimen/width_title_item_docso"
-                            android:layout_column="0"
-                            android:layout_gravity="center_vertical"
-                            android:text="SĐT: "
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/colorTextColor_1" />
-
-                        <EditText
-                            android:id="@+id/etxt_ds_sdt"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1.7"
-                            android:width="0dp"
-                            android:ems="10"
-                            android:gravity="left"
-                            android:inputType="number"
-                            android:maxLength="11"
-                            android:paddingLeft="@dimen/activity_horizontal_margin"
-                            android:textColor="@color/colorTextColor_1"
-                            android:textCursorDrawable="@null" />
-
-                        <LinearLayout
-                            android:id="@+id/layout_ds_call"
-                            android:layout_width="0dp"
-                            android:layout_height="45dp"
-                            android:layout_gravity="right|center_vertical"
-                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                            android:layout_marginRight="@dimen/button_horizontal_margin"
-                            android:layout_weight="0.3"
-                            android:background="@drawable/call"
-                            android:orientation="vertical" />
-                    </TableRow>
-                    <!--Table row chỉ số cũ-->
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1">
 
-                        <LinearLayout
-                            android:layout_width="0dp"
+                        <TextView
+                            android:id="@+id/txt_ds_dinhmuc_title"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1">
+                            android:layout_column="0"
+                            android:layout_gravity="center_vertical"
+                            android:text="Định mức:"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/colorTextColor_1" />
 
-                            <TextView
-                                android:id="@+id/txt_ds_giabieu_title"
-                                android:layout_width="@dimen/width_title_item_docso"
-                                android:layout_height="wrap_content"
-                                android:layout_column="0"
-                                android:layout_gravity="center_vertical"
-                                android:text="Giá biểu"
-                                android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textColor="@color/colorTextColor_1" />
-
-                            <TextView
-                                android:id="@+id/txt_ds_giabieu"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_weight="1"
-                                android:gravity="center_horizontal"
-                                android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textColor="@color/colorTextColor_1" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
+                        <TextView
+                            android:id="@+id/txt_ds_dinhmuc"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1">
-
-                            <TextView
-                                android:id="@+id/txt_ds_dinhmuc_title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_column="0"
-                                android:layout_gravity="center_vertical"
-                                android:text="Định mức:"
-                                android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textColor="@color/colorTextColor_1" />
-
-                            <TextView
-                                android:id="@+id/txt_ds_dinhmuc"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_weight="1"
-                                android:gravity="center_horizontal"
-                                android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textColor="@color/colorTextColor_1" />
-                        </LinearLayout>
-                    </TableRow>
-
-
-                    <TableRow android:layout_weight="1">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1"
-                            android:orientation="vertical">
+                            android:gravity="center_horizontal"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/colorTextColor_1" />
+                    </LinearLayout>
+                </TableRow>
+            </TableLayout>
 
-                            <TextView
-                                android:id="@+id/txt_ds_code_title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_column="0"
-                                android:layout_gravity="center_vertical"
-                                android:width="@dimen/width_title_item_docso"
-                                android:text="Code: "
-                                android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textColor="@color/colorTextColor_1" />
+            <LinearLayout
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.5"
+                android:orientation="horizontal">
 
-                            <TextView
-                                android:id="@+id/txt_ds_CSC_title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_column="0"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                                android:layout_marginTop="@dimen/activity_vertical_margin"
-                                android:width="@dimen/width_title_item_docso"
-                                android:text="Chỉ số: "
-                                android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textColor="@color/colorTextColor_1" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/txt_ds_sanLuong_title"
-                                android:layout_width="@dimen/width_title_item_docso"
-                                android:layout_height="wrap_content"
-                                android:layout_column="0"
-                                android:layout_gravity="center_vertical"
-                                android:text="Tiêu thụ: "
-                                android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textColor="@color/colorTextColor_1" />
+                    <TextView
+                        android:id="@+id/txt_ds_code_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="0"
+                        android:layout_gravity="center_vertical"
+                        android:width="@dimen/width_title_item_docso"
+                        android:text="Code: "
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorTextColor_1" />
 
-                            <!--&lt;!&ndash;<TextView&ndash;&gt;-->
-                            <!--&lt;!&ndash;android:id="@+id/txt_ds_CSC"&ndash;&gt;-->
-                            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-                            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-                            <!--&lt;!&ndash;android:layout_gravity="center_vertical"&ndash;&gt;-->
-                            <!--&lt;!&ndash;android:layout_span="1"&ndash;&gt;-->
-                            <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
-                            <!--&lt;!&ndash;android:textAppearance="?android:attr/textAppearanceMedium"&ndash;&gt;-->
-                            <!--android:textColor="@color/colorTextColor_1" />-->
-                        </LinearLayout>
+                    <TextView
+                        android:id="@+id/txt_ds_CSC_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="0"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:width="@dimen/width_title_item_docso"
+                        android:text="Chỉ số: "
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorTextColor_1" />
 
+                    <TextView
+                        android:id="@+id/txt_ds_sanLuong_title"
+                        android:layout_width="@dimen/width_title_item_docso"
+                        android:layout_height="wrap_content"
+                        android:layout_column="0"
+                        android:layout_gravity="center_vertical"
+                        android:text="Tiêu thụ: "
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorTextColor_1" />
 
-                        <LinearLayout
-
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="2"
-                            android:orientation="horizontal">
-                            <LinearLayout
-                                android:id="@+id/layout_ds_CSC_SL0"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:background="@color/colorCSC_SL_0_1"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/txt_ds_code"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_span="1"
-                                    android:layout_weight="1"
-                                    android:gravity="center_horizontal|center_vertical"
-                                    android:textAppearance="?android:attr/textAppearanceMedium"
-                                    android:textColor="@color/colorTextColor_1" />
-
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="@color/colorBackground_1" />
-
-                                <TextView
-                                    android:id="@+id/txt_ds_CSM"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_span="1"
-                                    android:layout_weight="1"
-                                    android:gravity="center_horizontal|center_vertical"
-                                    android:textAppearance="?android:attr/textAppearanceMedium"
-                                    android:textColor="@color/colorTextColor_1" />
-
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="@color/colorBackground_1" />
-
-                                <TextView
-                                    android:id="@+id/txt_ds_tieuThu"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_span="1"
-                                    android:layout_weight="1"
-                                    android:gravity="center_horizontal|center_vertical"
-                                    android:textAppearance="?android:attr/textAppearanceMedium"
-                                    android:textColor="@color/colorTextColor_1" />
-                            </LinearLayout>
-                            <LinearLayout
-                                android:id="@+id/layout_ds_CSC_SL1"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:background="@color/colorCSC_SL_1_1"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/txt_ds_code1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_span="1"
-                                    android:layout_weight="1"
-                                    android:gravity="center_horizontal|center_vertical"
-                                    android:textAppearance="?android:attr/textAppearanceMedium"
-                                    android:textColor="@color/colorTextColor_1" />
-
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="@color/colorBackground_1" />
-
-                                <TextView
-                                    android:id="@+id/txt_ds_CSC"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_span="1"
-                                    android:layout_weight="1"
-                                    android:gravity="center_horizontal|center_vertical"
-                                    android:textAppearance="?android:attr/textAppearanceMedium"
-                                    android:textColor="@color/colorTextColor_1" />
-
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="@color/colorBackground_1" />
-
-                                <TextView
-                                    android:id="@+id/txt_ds_tieuThu1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_span="1"
-                                    android:layout_weight="1"
-                                    android:gravity="center_horizontal|center_vertical"
-                                    android:textAppearance="?android:attr/textAppearanceMedium"
-                                    android:textColor="@color/colorTextColor_1" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/layout_ds_CSC_SL2"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:background="@color/colorCSC_SL_2_1"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/txt_ds_code2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_span="1"
-                                    android:layout_weight="1"
-                                    android:gravity="center_horizontal|center_vertical"
-                                    android:textAppearance="?android:attr/textAppearanceMedium"
-                                    android:textColor="@color/colorTextColor_1" />
-
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="@color/colorBackground_1" />
-
-                                <TextView
-                                    android:id="@+id/txt_ds_CSC2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_span="1"
-                                    android:layout_weight="1"
-                                    android:gravity="center_horizontal|center_vertical"
-                                    android:textAppearance="?android:attr/textAppearanceMedium"
-                                    android:textColor="@color/colorTextColor_1" />
-
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="@color/colorBackground_1" />
-
-                                <TextView
-                                    android:id="@+id/txt_ds_tieuThu2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_span="1"
-                                    android:layout_weight="1"
-                                    android:gravity="center_horizontal|center_vertical"
-                                    android:textAppearance="?android:attr/textAppearanceMedium"
-                                    android:textColor="@color/colorTextColor_1" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/layout_ds_CSC_SL3"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:background="@color/colorCSC_SL_3_1"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/txt_ds_code3"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_span="1"
-                                    android:layout_weight="1"
-                                    android:gravity="center_horizontal|center_vertical"
-                                    android:textAppearance="?android:attr/textAppearanceMedium"
-                                    android:textColor="@color/colorTextColor_1" />
-
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="@color/colorBackground_1" />
-
-                                <TextView
-                                    android:id="@+id/txt_ds_CSC3"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_span="1"
-                                    android:layout_weight="1"
-                                    android:gravity="center_horizontal|center_vertical"
-                                    android:textAppearance="?android:attr/textAppearanceMedium"
-                                    android:textColor="@color/colorTextColor_1" />
-
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="@color/colorBackground_1" />
-
-                                <TextView
-                                    android:id="@+id/txt_ds_tieuThu3"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_span="1"
-                                    android:layout_weight="1"
-                                    android:gravity="center_horizontal|center_vertical"
-                                    android:textAppearance="?android:attr/textAppearanceMedium"
-                                    android:textColor="@color/colorTextColor_1" />
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                    </TableRow>
-
-                    <!--Table row giá biểu-->
-
-                    <!--Table row tiền nước-->
-                </TableLayout>
+                    <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/txt_ds_CSC"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_gravity="center_vertical"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_span="1"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textAppearance="?android:attr/textAppearanceMedium"&ndash;&gt;-->
+                    <!--android:textColor="@color/colorTextColor_1" />-->
+                </LinearLayout>
 
 
-            </FrameLayout>
+                <LinearLayout
+
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:orientation="horizontal">
+                    <!--ky hien tai - 3-->
+                    <LinearLayout
+                        android:id="@+id/layout_ds_CSC_SL3"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/colorCSC_SL_3_1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txt_ds_code3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_span="1"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/colorTextColor_1" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/colorBackground_1" />
+
+                        <TextView
+                            android:id="@+id/txt_ds_CSC3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_span="1"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/colorTextColor_1" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/colorBackground_1" />
+
+                        <TextView
+                            android:id="@+id/txt_ds_tieuThu3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_span="1"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/colorTextColor_1" />
+                    </LinearLayout>
+                    <!--ky hien tai - 2-->
+                    <LinearLayout
+                        android:id="@+id/layout_ds_CSC_SL2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/colorCSC_SL_2_1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txt_ds_code2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_span="1"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/colorTextColor_1" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/colorBackground_1" />
+
+                        <TextView
+                            android:id="@+id/txt_ds_CSC2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_span="1"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/colorTextColor_1" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/colorBackground_1" />
+
+                        <TextView
+                            android:id="@+id/txt_ds_tieuThu2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_span="1"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/colorTextColor_1" />
+                    </LinearLayout>
+                    <!--ky hien tai - 1-->
+                    <LinearLayout
+                        android:id="@+id/layout_ds_CSC_SL1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/colorCSC_SL_1_1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txt_ds_code1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_span="1"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/colorTextColor_1" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/colorBackground_1" />
+
+                        <TextView
+                            android:id="@+id/txt_ds_CSC"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_span="1"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/colorTextColor_1" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/colorBackground_1" />
+
+                        <TextView
+                            android:id="@+id/txt_ds_tieuThu1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_span="1"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/colorTextColor_1" />
+                    </LinearLayout>
+
+                    <!--ky hien tai-->
+                    <LinearLayout
+                        android:id="@+id/layout_ds_CSC_SL0"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/colorCSC_SL_0_1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txt_ds_code"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_span="1"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/colorTextColor_1" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/colorBackground_1" />
+
+                        <TextView
+                            android:id="@+id/txt_ds_CSM"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_span="1"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/colorTextColor_1" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/colorBackground_1" />
+
+                        <TextView
+                            android:id="@+id/txt_ds_tieuThu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_span="1"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/colorTextColor_1" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--Table row giá biểu-->
+
+            <!--Table row tiền nước-->
+
         </LinearLayout>
         <!--Layout nhập chỉ số mới, code-->
         <View
