@@ -381,6 +381,10 @@ public class DocSo extends Fragment {
             }
 
         });
+        mDBs.clear();
+        for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon(mLike)) {
+            mDBs.add(hoaDon.getDanhBo());
+        }
         refresh();
     }
 
@@ -433,6 +437,7 @@ public class DocSo extends Fragment {
                 mAdapterMLT = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mMLTs);
 
                 ((TextView) mRootView.findViewById(R.id.spin_ds_db_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                mAdapterDB = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mDBs);
 
                 ((ImageButton) mRootView.findViewById(R.id.btn_ds_prev)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
                 ((ImageButton) mRootView.findViewById(R.id.btn_ds_prev)).setImageResource(R.drawable.prev);
@@ -480,6 +485,7 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.spin_ds_mlt_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 mAdapterMLT = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mMLTs);
                 ((TextView) mRootView.findViewById(R.id.spin_ds_db_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                mAdapterDB = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mDBs);
 
                 ((ImageButton) mRootView.findViewById(R.id.btn_ds_prev)).setImageResource(R.drawable.prev_light);
                 ((ImageButton) mRootView.findViewById(R.id.btn_ds_next)).setImageResource(R.drawable.next_light);
@@ -513,7 +519,7 @@ public class DocSo extends Fragment {
         mSpinMLT.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectMLT(mMLTs.get(position));
+                selectMLT(position);
             }
 
             @Override
@@ -522,6 +528,19 @@ public class DocSo extends Fragment {
             }
         });
 
+        mAdapterDB.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        mSpinDB.setAdapter(mAdapterDB);
+        mSpinDB.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectDanhBo(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                mSpinMLT.setSelection(0);
+            }
+        });
         mAdapterCode.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         mSpinCode = (Spinner) mRootView.findViewById(R.id.spin_ds_code);
         mSpinCode.setAdapter(mAdapterCode);
@@ -542,7 +561,7 @@ public class DocSo extends Fragment {
                     tieuThu2 = Integer.parseInt(tt2);
                 if (tt3.length() > 0)
                     tieuThu3 = Integer.parseInt(tt3);
-                if(code.startsWith("K")|| code.startsWith("N")||code.startsWith("68")||code.startsWith("Q")){
+                if (code.startsWith("K") || code.startsWith("N") || code.startsWith("68") || code.startsWith("Q")) {
                     csm = (Integer.parseInt(mTxtCSC.getText().toString()));
                     mEditTextCSM.setText(csm + "");
                     mTxtCSM.setText(csm + "");
@@ -556,8 +575,7 @@ public class DocSo extends Fragment {
                             ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
                         }
                     }
-                }
-                else if (code.startsWith("6") || code.startsWith("80") || code.startsWith("F")) {
+                } else if (code.startsWith("6") || code.startsWith("80") || code.startsWith("F")) {
                     csm = (tieuThu1 + tieuThu2 + tieuThu3) / 3 + Integer.parseInt(mTxtCSC.getText().toString());
                     mEditTextCSM.setText(csm + "");
                     mTxtCSM.setText(csm + "");
@@ -744,73 +762,82 @@ public class DocSo extends Fragment {
         }
     }
 
-    public void selectMLT(String mlt) {
-        mMlt = mlt;
+    public void selectMLT(int position) {
+//        mMlt = mlt;
         try {
-            List<HoaDon> hoaDonList = mLocalDatabase.getAllHoaDon(mMlt);
-
-            mDBs.clear();
-            for (HoaDon hoaDon : hoaDonList) {
-                mDBs.add(hoaDon.getDanhBo());
-            }
-            if (mSelected_theme == ThemeUtils.THEME_DEFAULT)
-                this.mAdapterDB = new ArrayAdapter<String>(this.mRootView.getContext(), R.layout.spinner_item_left1, mDBs);
-            else if (mSelected_theme == ThemeUtils.THEME_DARK)
-                this.mAdapterDB = new ArrayAdapter<String>(this.mRootView.getContext(), R.layout.spinner_item_left2, mDBs);
-            mSpinCode.setSelection(0);
-            mAdapterDB.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-            mSpinDB.setAdapter(mAdapterDB);
-            mSpinDB.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    mRootView.requestFocus();
-                    HideKeyboard.hide(mActivity);
-                    mDanhBo = mSpinDB.getSelectedItem().toString();
-                    DanhBo_ChiSoMoi danhBo_csm = mLocalDatabase.getDanhBo_CSM(mDanhBo);
-                    HoaDon hoaDon = mLocalDatabase.getHoaDon(mDanhBo);
-                    mDot = Integer.parseInt(hoaDon.getDot());
-                    ((TextView) mRootView.findViewById(R.id.txt_ds_dot)).setText(hoaDon.getDot());
-                    ((TextView) mRootView.findViewById(R.id.txt_ds_tenKH)).setText(hoaDon.getTenKhachHang());
-//                            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
-                    mTxtCSC = (TextView) mRootView.findViewById(R.id.txt_ds_CSC);
-                    mTxtCSC.setText(hoaDon.getChiSoCu());
-
-                    ((TextView) mRootView.findViewById(R.id.txt_ds_code1)).setText(hoaDon.getCode_CSC_SanLuong().getCode1());
-                    ((TextView) mRootView.findViewById(R.id.txt_ds_code2)).setText(hoaDon.getCode_CSC_SanLuong().getCode2());
-                    ((TextView) mRootView.findViewById(R.id.txt_ds_code3)).setText(hoaDon.getCode_CSC_SanLuong().getCode3());
-
-                    ((TextView) mRootView.findViewById(R.id.txt_ds_CSC2)).setText(hoaDon.getCode_CSC_SanLuong().getCSC1());
-                    ((TextView) mRootView.findViewById(R.id.txt_ds_CSC3)).setText(hoaDon.getCode_CSC_SanLuong().getCSC2());
-
-                    ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu1)).setText(hoaDon.getCode_CSC_SanLuong().getSanLuong1());
-                    ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu2)).setText(hoaDon.getCode_CSC_SanLuong().getSanLuong2());
-                    ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu3)).setText(hoaDon.getCode_CSC_SanLuong().getSanLuong3());
-
-                    ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu)).setText(hoaDon.getGiaBieu());
-                    ((TextView) mRootView.findViewById(R.id.txt_ds_diachi)).setText(hoaDon.getDiaChi());
-                    ((EditText) mRootView.findViewById(R.id.etxt_ds_sdt)).setText(hoaDon.getSdt());
-                    ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
-//                    refresh();
-                    if (danhBo_csm != null) {
-                        mEditTextCSM.setText(danhBo_csm.getChiSoMoi());
-                        mTxtCSM.setText(danhBo_csm.getChiSoMoi());
-                        mGhiChu = danhBo_csm.getNote();
-
-                    } else {
-                        mGhiChu = "";
-                        mEditTextCSM.setText("");
-                        mTxtCSM.setText("");
-
-                    }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
+//            List<HoaDon> hoaDonList = mLocalDatabase.getAllHoaDon(mMlt);
+//
+////            mDBs.clear();
+////            for (HoaDon hoaDon : hoaDonList) {
+////                mDBs.add(hoaDon.getDanhBo());
+////            }
+//            if (mSelected_theme == ThemeUtils.THEME_DEFAULT)
+//                this.mAdapterDB = new ArrayAdapter<String>(this.mRootView.getContext(), R.layout.spinner_item_left1, mDBs);
+//            else if (mSelected_theme == ThemeUtils.THEME_DARK)
+//                this.mAdapterDB = new ArrayAdapter<String>(this.mRootView.getContext(), R.layout.spinner_item_left2, mDBs);
+//
+//            mAdapterDB.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+//            mSpinDB.setAdapter(mAdapterDB);
+//            mSpinDB.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                @Override
+//                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                    mRootView.requestFocus();
+                    selectDanhBo(position);
+//                }
+//
+//                @Override
+//                public void onNothingSelected(AdapterView<?> parent) {
+//
+//                }
+//            });
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void selectDanhBo(int position) {
+//        mSpinMLT.setSelection(position);
+        mSpinCode.setSelection(0);
+
+        HideKeyboard.hide(mActivity);
+        mDanhBo = mDBs.get(position);
+        mSpinMLT.setSelection(position);
+        mSpinDB.setSelection(position);
+        DanhBo_ChiSoMoi danhBo_csm = mLocalDatabase.getDanhBo_CSM(mDanhBo);
+        HoaDon hoaDon = mLocalDatabase.getHoaDon(mDanhBo);
+        mDot = Integer.parseInt(hoaDon.getDot());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_dot)).setText(hoaDon.getDot());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_tenKH)).setText(hoaDon.getTenKhachHang());
+//                            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
+        mTxtCSC = (TextView) mRootView.findViewById(R.id.txt_ds_CSC);
+        mTxtCSC.setText(hoaDon.getChiSoCu());
+
+        ((TextView) mRootView.findViewById(R.id.txt_ds_code1)).setText(hoaDon.getCode_CSC_SanLuong().getCode1());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_code2)).setText(hoaDon.getCode_CSC_SanLuong().getCode2());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_code3)).setText(hoaDon.getCode_CSC_SanLuong().getCode3());
+
+        ((TextView) mRootView.findViewById(R.id.txt_ds_CSC2)).setText(hoaDon.getCode_CSC_SanLuong().getCSC1());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_CSC3)).setText(hoaDon.getCode_CSC_SanLuong().getCSC2());
+
+        ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu1)).setText(hoaDon.getCode_CSC_SanLuong().getSanLuong1());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu2)).setText(hoaDon.getCode_CSC_SanLuong().getSanLuong2());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu3)).setText(hoaDon.getCode_CSC_SanLuong().getSanLuong3());
+
+        ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu)).setText(hoaDon.getGiaBieu());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_diachi)).setText(hoaDon.getDiaChi());
+        ((EditText) mRootView.findViewById(R.id.etxt_ds_sdt)).setText(hoaDon.getSdt());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
+//                    refresh();
+        if (danhBo_csm != null) {
+            mEditTextCSM.setText(danhBo_csm.getChiSoMoi());
+            mTxtCSM.setText(danhBo_csm.getChiSoMoi());
+            mGhiChu = danhBo_csm.getNote();
+
+        } else {
+            mGhiChu = "";
+            mEditTextCSM.setText("");
+            mTxtCSM.setText("");
+
         }
     }
 
@@ -838,7 +865,7 @@ public class DocSo extends Fragment {
         int i = mSpinMLT.getSelectedItemPosition();
         this.mAdapterMLT.remove(danhBo_chiSoMoi.getMaLoTrinh());
         this.mMLTs.remove(danhBo_chiSoMoi.getMaLoTrinh());
-        selectMLT(mMLTs.get(i == mMLTs.size() ? i - 1 : i));
+        selectMLT(i == mMLTs.size() ? i - 1 : i);
         this.mDanhBoHoanThanh++;
         this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
 
