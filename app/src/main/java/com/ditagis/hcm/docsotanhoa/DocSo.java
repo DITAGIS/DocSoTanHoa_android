@@ -129,7 +129,11 @@ public class DocSo extends Fragment {
         this.mDot = mDot;
         this.mKy = mKy;
         this.mSelected_theme = theme;
-        this.mLike = "__" + mUsername + "%";
+//        this.mLike = "__" + mUsername + "%";
+        String dotString = mDot + "";
+        if (mDot < 10)
+            dotString = "0" + mDot;
+        this.mLike = dotString + mUsername + "%";
         mRootView = inflater.inflate(R.layout.doc_so_fragment, null);
         mTxtTT = (TextView) mRootView.findViewById(R.id.txt_ds_tieuThu);
         mTxtTT1 = (TextView) mRootView.findViewById(R.id.txt_ds_tieuThu1);
@@ -782,7 +786,7 @@ public class DocSo extends Fragment {
 //                @Override
 //                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //                    mRootView.requestFocus();
-                    selectDanhBo(position);
+            selectDanhBo(position);
 //                }
 //
 //                @Override

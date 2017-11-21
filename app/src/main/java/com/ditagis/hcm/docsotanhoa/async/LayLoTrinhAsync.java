@@ -109,6 +109,9 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
             isFound = true;
         }
         if (!isFound) {
+            for (HoaDon hoaDon : hoaDons)
+                if (DBs.contains(hoaDon.getDanhBo()))
+                    DBs.remove(hoaDon.getDanhBo());
             for (String danhBo : DBs) {
                 if (mIsLoading) {
                     HoaDon hoaDon = _hoadonDB.getHoaDonByUserName(this.mUsername, danhBo, this.mDot, this.mNam, this.mKy);
