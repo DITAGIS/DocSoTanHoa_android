@@ -10,6 +10,7 @@
     <string name="save_theme">theme</string>
     <string name="action_log_out">Đăng xuất</string>
     <string name="action_change_theme">Đổi màu nền</string>
+    <string name="action_change_password">Đổi mật khẩu</string>
 
     <string name="hint_username">Tên đăng nhập</string>
     <string name="hint_password">Mật khẩu</string>

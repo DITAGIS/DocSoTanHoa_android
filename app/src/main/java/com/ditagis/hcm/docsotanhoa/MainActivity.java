@@ -169,8 +169,11 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.action_change_theme) {
             optionChangeUITheme();
             return true;
-        }
 
+    } else if (id == R.id.action_change_password) {
+        optionChangeUITheme();
+        return true;
+    }
         return super.onOptionsItemSelected(item);
     }
 

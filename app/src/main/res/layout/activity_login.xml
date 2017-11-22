@@ -40,6 +40,10 @@
 
                     android:src="@drawable/tanhoa_icon" />
             </LinearLayout>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
             <!--Layout bottom-->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -54,12 +58,12 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:minHeight="25px"
                     android:minWidth="25px"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:background="@drawable/layout_border">
 
                     <ImageView
                         android:layout_width="50dp"
@@ -71,24 +75,30 @@
                     <EditText
                         android:id="@+id/txtUsername"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:hint="Tên đăng nhập"
+                        android:layout_gravity="center_vertical"
                         android:inputType="number"
                         android:nextFocusDown="@+id/txtPassword"
                         android:textColor="@color/colorTextLogin_1"
                         android:textCursorDrawable="@null" />
                 </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.2" />
                 <!--Layout hiển thị icon password và password-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:minHeight="25px"
                     android:minWidth="25px"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:background="@drawable/layout_border">
 
                     <ImageView
                         android:layout_width="42dp"
@@ -105,9 +115,10 @@
                         <EditText
                             android:id="@+id/txtPassword"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_weight="2"
                             android:hint="Mật khẩu"
+                            android:layout_gravity="center_vertical"
                             android:inputType="textPassword"
                             android:nextFocusDown="@+id/btnLogin"
                             android:textColor="@color/colorTextLogin_1"
@@ -140,13 +151,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <!--Button đăng nhập-->
-                    <Button
-                        android:id="@+id/btnChangePassword"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.2"
-                        android:text="Đổi mật khẩu" />
+
                     <!--Button đăng nhập-->
                     <Button
                         android:id="@+id/btnLogin"
