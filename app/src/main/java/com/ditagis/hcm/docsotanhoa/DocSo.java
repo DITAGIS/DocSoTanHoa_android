@@ -82,12 +82,13 @@ public class DocSo extends Fragment {
     Spinner mSpinDB = null;
     Spinner mSpinCode;
     private Bitmap mBpImage;
+    private HoaDon mHoaDon;
 
     private LocalDatabase mLocalDatabase;
     private static final int REQUEST_ID_READ_WRITE_PERMISSION = 99;
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
     private int mSumDanhBo, mDanhBoHoanThanh;
-    private String mUsername, mStaffName;
+    private String  mStaffName;
     private int mDot, mKy;
     private String mGhiChu;
     private Date currentTime;
@@ -101,7 +102,6 @@ public class DocSo extends Fragment {
     private View mRootView;
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     private Activity mActivity;
-    private NetworkStateChangeReceiver mStateChangeReceiver;
     private String mSearchType;
     private boolean isAllowChangeSdt = false;
     private int mSelected_theme;
@@ -115,17 +115,9 @@ public class DocSo extends Fragment {
         return mSumDanhBo;
     }
 
-    public int getmDanhBoHoanThanh() {
-        return mDanhBoHoanThanh;
-    }
-
-    public void setmDot(int mDot) {
-        this.mDot = mDot;
-    }
 
     public DocSo(Activity activity, LayoutInflater inflater, int mKy, int mDot, String mUsername, String staffName, int theme) {
         this.mActivity = activity;
-        this.mUsername = mUsername;
         this.mStaffName = staffName;
         this.mDot = mDot;
         this.mKy = mKy;
@@ -298,22 +290,35 @@ public class DocSo extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                mTxtCSM.setText(s.toString());
+//
+//                if (mTxtCSM.getText().toString().length() > 0) {
+//                    int sanLuong = Integer.parseInt(mTxtCSM.getText().toString()) - Integer.parseInt(mTxtCSC.getText().toString());
+//                    mTxtTT.setText(sanLuong + "");
+//                    if (checkCSMFluctuation()) {
+//                        ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
+//                    } else {
+//                        ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
+//                    }
+//                }
+                String code = mSpinCode.getSelectedItem().toString().substring(0, 2);
+                ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(code);
+                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(code, mHoaDon.getCode_CSC_SanLuong(),Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString());
 
+                mTxtCSM.setText(csm_tieuThu.getCSM());
+//                mEditTextCSM.setText(csm_tieuThu.getCSM());
+                mTxtTT.setText(csm_tieuThu.getTieuThu());
+
+                if (checkCSMFluctuation()) {
+                    ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
+                } else {
+                    ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
+                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                mTxtCSM.setText(s.toString());
 
-                if (mTxtCSM.getText().toString().length() > 0) {
-                    int sanLuong = Integer.parseInt(mTxtCSM.getText().toString()) - Integer.parseInt(mTxtCSC.getText().toString());
-                    mTxtTT.setText(sanLuong + "");
-                    if (checkCSMFluctuation()) {
-                        ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
-                    } else {
-                        ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
-                    }
-                }
             }
         });
         mRootView.findViewById(R.id.btn_ds_prev).setOnClickListener(new View.OnClickListener() {
@@ -510,7 +515,6 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
 
-//            ((TableLayout) mRootView.findViewById(R.id.layout_ds_csm)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_csm_1));
                 ((TextView) mRootView.findViewById(R.id.spin_ds_code_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 mAdapterCode = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mCodes);
                 ((TextView) mRootView.findViewById(R.id.etxt_ds_CSM_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
@@ -556,7 +560,7 @@ public class DocSo extends Fragment {
                 String code = mSpinCode.getItemAtPosition(position).toString().substring(0, 2);
                 ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(code);
                 HoaDon hoaDon = mLocalDatabase.getHoaDon(mDanhBo);
-                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(code, hoaDon.getCode_CSC_SanLuong(), mEditTextCSM.getText().toString());
+                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(code,hoaDon.getCode_CSC_SanLuong(),Integer.parseInt(mTxtCSC.getText().toString()),  mEditTextCSM.getText().toString());
 
                 mTxtCSM.setText(csm_tieuThu.getCSM());
                 mEditTextCSM.setText(csm_tieuThu.getCSM());
@@ -747,29 +751,29 @@ public class DocSo extends Fragment {
         mDanhBo = mDBs.get(position);
 
         DanhBo_ChiSoMoi danhBo_csm = mLocalDatabase.getDanhBo_CSM(mDanhBo);
-        HoaDon hoaDon = mLocalDatabase.getHoaDon(mDanhBo);
-        mDot = Integer.parseInt(hoaDon.getDot());
-        ((TextView) mRootView.findViewById(R.id.txt_ds_dot)).setText(hoaDon.getDot());
-        ((TextView) mRootView.findViewById(R.id.txt_ds_tenKH)).setText(hoaDon.getTenKhachHang());
+        mHoaDon = mLocalDatabase.getHoaDon(mDanhBo);
+        mDot = Integer.parseInt(mHoaDon.getDot());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_dot)).setText(mHoaDon.getDot());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_tenKH)).setText(mHoaDon.getTenKhachHang());
 //                            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
         mTxtCSC = (TextView) mRootView.findViewById(R.id.txt_ds_CSC);
-        mTxtCSC.setText(hoaDon.getChiSoCu());
+        mTxtCSC.setText(mHoaDon.getChiSoCu());
 
-        ((TextView) mRootView.findViewById(R.id.txt_ds_code1)).setText(hoaDon.getCode_CSC_SanLuong().getCode1());
-        ((TextView) mRootView.findViewById(R.id.txt_ds_code2)).setText(hoaDon.getCode_CSC_SanLuong().getCode2());
-        ((TextView) mRootView.findViewById(R.id.txt_ds_code3)).setText(hoaDon.getCode_CSC_SanLuong().getCode3());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_code1)).setText(mHoaDon.getCode_CSC_SanLuong().getCode1());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_code2)).setText(mHoaDon.getCode_CSC_SanLuong().getCode2());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_code3)).setText(mHoaDon.getCode_CSC_SanLuong().getCode3());
 
-        ((TextView) mRootView.findViewById(R.id.txt_ds_CSC2)).setText(hoaDon.getCode_CSC_SanLuong().getCSC1());
-        ((TextView) mRootView.findViewById(R.id.txt_ds_CSC3)).setText(hoaDon.getCode_CSC_SanLuong().getCSC2());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_CSC2)).setText(mHoaDon.getCode_CSC_SanLuong().getCSC1());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_CSC3)).setText(mHoaDon.getCode_CSC_SanLuong().getCSC2());
 
-        ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu1)).setText(hoaDon.getCode_CSC_SanLuong().getSanLuong1());
-        ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu2)).setText(hoaDon.getCode_CSC_SanLuong().getSanLuong2());
-        ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu3)).setText(hoaDon.getCode_CSC_SanLuong().getSanLuong3());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu1)).setText(mHoaDon.getCode_CSC_SanLuong().getSanLuong1());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu2)).setText(mHoaDon.getCode_CSC_SanLuong().getSanLuong2());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu3)).setText(mHoaDon.getCode_CSC_SanLuong().getSanLuong3());
 
-        ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu)).setText(hoaDon.getGiaBieu());
-        ((TextView) mRootView.findViewById(R.id.txt_ds_diachi)).setText(hoaDon.getDiaChi());
-        ((EditText) mRootView.findViewById(R.id.etxt_ds_sdt)).setText(hoaDon.getSdt());
-        ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu)).setText(mHoaDon.getGiaBieu());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_diachi)).setText(mHoaDon.getDiaChi());
+        ((EditText) mRootView.findViewById(R.id.etxt_ds_sdt)).setText(mHoaDon.getSdt());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc)).setText(mHoaDon.getDinhMuc());
 //                    refresh();
         if (danhBo_csm != null) {
             mEditTextCSM.setText(danhBo_csm.getChiSoMoi());

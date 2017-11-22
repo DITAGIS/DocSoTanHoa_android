@@ -9,13 +9,14 @@ import com.ditagis.hcm.docsotanhoa.entities.Code_CSC_SanLuong;
 public class CalculateCSM_TieuThu {
     private String mCode;
     private Code_CSC_SanLuong mCodeCSCSanLuong;
-    private int mCSM, mTieuThu;
+    private int mCSC, mCSM, mTieuThu;
     private String mCSMString;
 
-    public CalculateCSM_TieuThu(String code, Code_CSC_SanLuong mCodeCSCSanLuong, String csm) {
+    public CalculateCSM_TieuThu(String code, Code_CSC_SanLuong mCodeCSCSanLuong,int csc, String csm) {
         this.mCode = code;
         this.mCodeCSCSanLuong = mCodeCSCSanLuong;
         this.mCSMString = csm;
+        this.mCSC = csc;
         this.mCSM = -1;
         this.mTieuThu = -1;
         calculate();
@@ -47,14 +48,13 @@ public class CalculateCSM_TieuThu {
     }
 
     public void calculate() {
-        int csc = Integer.parseInt(mCodeCSCSanLuong.getCSC1());
         switch (mCode) {
             case "40":
             case "41":
             case "42":
                 if (mCSMString.length() > 0) {
                     mCSM = Integer.parseInt(mCSMString);
-                    mTieuThu = mCSM - csc;
+                    mTieuThu = mCSM - mCSC;
                 }
 
                 break;
@@ -70,8 +70,10 @@ public class CalculateCSM_TieuThu {
                 mTieuThu = 0;
                 break;
             case "5F":
-                if (mCSMString.length() > 0)
+                if (mCSMString.length() > 0) {
                     mCSM = Integer.parseInt(mCSMString);
+                    mTieuThu = mCSM - Integer.parseInt(mCodeCSCSanLuong.getSanLuong1()) - Integer.parseInt(mCodeCSCSanLuong.getCSC1());
+                }
                 //todo code 5F
                 break;
             case "5K":
