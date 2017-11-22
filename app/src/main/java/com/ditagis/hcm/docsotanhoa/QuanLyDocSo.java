@@ -54,7 +54,6 @@ public class QuanLyDocSo extends Fragment {
     TextView mTxtComplete;
     private ArrayList<DanhBo_ChiSoMoi> mDanhBo_chiSoMois;
     private GridViewQuanLyDocSoAdapter mQuanLyDocSoAdapter;
-    LocalDatabase mLocalDatabase;
     private int mSumDanhBo = 0, mDanhBoHoanThanh;
     private int mDot, mKy, mNam;
     private String mUsername;
@@ -114,7 +113,6 @@ public class QuanLyDocSo extends Fragment {
         mSpinCode.setAdapter(mAdapterCode);
 
         mTxtComplete = (TextView) mRootView.findViewById(R.id.txt_qlds_tienTrinh);
-        mLocalDatabase = new LocalDatabase(mRootView.getContext());
         mUploading = new Uploading(mDot, mKy, mNam);
         mGridView = (GridView) mRootView.findViewById(R.id.grid_qlds_danhSachDocSo);
         mSumDanhBoDB = new SumDanhBoDB();
@@ -155,7 +153,7 @@ public class QuanLyDocSo extends Fragment {
                         return true;
                     case MotionEvent.ACTION_UP:
                         v.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorPrimary_1));
-                        if (mLocalDatabase.getAllDanhBo_CSM().size() == 0) {
+                        if (LocalDatabase.getInstance(mRootView.getContext()).getAllDanhBo_CSM().size() == 0) {
                             MySnackBar.make(mGridView, "Chưa có danh bộ!!!", false);
                         } else if (isOnline()) {
                             doUpLoad();
@@ -167,7 +165,7 @@ public class QuanLyDocSo extends Fragment {
                 return false;
             }
         });
-        mDanhBo_chiSoMois = mLocalDatabase.getAllDanhBo_CSM();
+        mDanhBo_chiSoMois = LocalDatabase.getInstance(mRootView.getContext()).getAllDanhBo_CSM();
         for (DanhBo_ChiSoMoi danhBo_chiSoMoi : this.mDanhBo_chiSoMois) {
             mDBs.add(danhBo_chiSoMoi.getDanhBo());
         }
@@ -289,7 +287,7 @@ public class QuanLyDocSo extends Fragment {
     }
 
     public void refresh() {
-        mDanhBo_chiSoMois = mLocalDatabase.getAllDanhBo_CSM();
+        mDanhBo_chiSoMois = LocalDatabase.getInstance(mRootView.getContext()).getAllDanhBo_CSM();
         setTextProgress();
 
 
@@ -403,7 +401,7 @@ public class QuanLyDocSo extends Fragment {
 
     private void showMoreInfro(final View view) {
         String danhBo = ((TextView) view.findViewById(R.id.row_qlds_txt_danhBo)).getText().toString();
-        DanhBo_ChiSoMoi danhBo_CSM = mLocalDatabase.getDanhBo_CSM(danhBo);
+        DanhBo_ChiSoMoi danhBo_CSM = LocalDatabase.getInstance(mRootView.getContext()).getDanhBo_CSM(danhBo);
 
         //--------------------
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
@@ -461,7 +459,7 @@ public class QuanLyDocSo extends Fragment {
                 "83", "F1", "F2", "F3", "F4", "M1", "M2", "M3", "N",
                 "RT", "K", "Q"};
         final String danhBo = ((TextView) view.findViewById(R.id.row_qlds_txt_danhBo)).getText().toString();
-        final DanhBo_ChiSoMoi danhBo_CSM = mLocalDatabase.getDanhBo_CSM(danhBo);
+        final DanhBo_ChiSoMoi danhBo_CSM = LocalDatabase.getInstance(mRootView.getContext()).getDanhBo_CSM(danhBo);
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Cập nhật thông tin chỉ số");
 
@@ -520,7 +518,7 @@ public class QuanLyDocSo extends Fragment {
                 danhBo_CSM.setSdt(etxtSDT.getText().toString());
                 danhBo_CSM.setNote(etxtNote.getText().toString());
 
-                mLocalDatabase.updateDanhBo_CSM(danhBo_CSM);
+                LocalDatabase.getInstance(mRootView.getContext()).updateDanhBo_CSM(danhBo_CSM);
                 refresh();
                 dialog.dismiss();
 
@@ -579,7 +577,7 @@ public class QuanLyDocSo extends Fragment {
             dialog.setCancelable(false);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.show();
-            countUpload = mLocalDatabase.getAllDanhBo_CSM().size();
+            countUpload = LocalDatabase.getInstance(mRootView.getContext()).getAllDanhBo_CSM().size();
         }
 
         @Override
@@ -587,7 +585,7 @@ public class QuanLyDocSo extends Fragment {
 
             Boolean isValid = false;
 
-            for (int i = 0; i < mLocalDatabase.getAllDanhBo_CSM().size(); i++) {
+            for (int i = 0; i < LocalDatabase.getInstance(mRootView.getContext()).getAllDanhBo_CSM().size(); i++) {
                 DanhBo_ChiSoMoi danhBo_chiSoMoi = mDanhBo_chiSoMois.get(i);
 //                mUploading.update(danhBo_chiSoMoi);
 
@@ -597,10 +595,10 @@ public class QuanLyDocSo extends Fragment {
                     mDanhBo_chiSoMois.remove(danhBo_chiSoMoi);
                     mQuanLyDocSoAdapter.removeItem(danhBo_chiSoMoi.getMaLoTrinh());
                     i--;
-                    mLocalDatabase.deleteDanhBo_CSM(danhBo_chiSoMoi);
+                    LocalDatabase.getInstance(mRootView.getContext()).deleteDanhBo_CSM(danhBo_chiSoMoi);
                 }
             }
-            if (mLocalDatabase.getAllDanhBo_CSM().size() == 0)
+            if (LocalDatabase.getInstance(mRootView.getContext()).getAllDanhBo_CSM().size() == 0)
                 isValid = true;
 
             publishProgress(isValid);
@@ -615,7 +613,7 @@ public class QuanLyDocSo extends Fragment {
             if (isValid) {
                 mQuanLyDocSoAdapter.notifyDataSetChanged();
                 Toast.makeText(mRootView.getContext(), "Đồng bộ thành công", Toast.LENGTH_SHORT).show();
-                mDanhBoHoanThanh += (countUpload - mLocalDatabase.getAllDanhBo_CSM().size());
+                mDanhBoHoanThanh += (countUpload - LocalDatabase.getInstance(mRootView.getContext()).getAllDanhBo_CSM().size());
                 setTextProgress();
 
             } else {

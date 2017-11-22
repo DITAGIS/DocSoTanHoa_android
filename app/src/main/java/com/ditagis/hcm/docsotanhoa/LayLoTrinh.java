@@ -41,7 +41,6 @@ public class LayLoTrinh {
     EditText mEditTextSearch;
     GridView mGridView;
     private GridViewLayLoTrinhAdapter mLayLoTrinhAdapter;
-    private LocalDatabase mLocalDatabase;
     private int mSumDanhBo;
     private int mSumMLT;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -75,13 +74,12 @@ public class LayLoTrinh {
         this.m_txtTongDB = (TextView) mRootView.findViewById(R.id.txt_llt_db);
         this.mEditTextSearch = (EditText) mRootView.findViewById(R.id.etxt_llt_search);
         this.mGridView = (GridView) mRootView.findViewById(R.id.grid_llt_danhSachLoTrinh);
-        this.mLocalDatabase = new LocalDatabase(mRootView.getContext());
         this.mEditTextSearch.addTextChangedListener(new TextWatcher() {
             List<String> mlts = new ArrayList<String>();
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon(LayLoTrinh.this.mDot + LayLoTrinh.this.mUsername + "%")) {
+                for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(LayLoTrinh.this.mDot + LayLoTrinh.this.mUsername + "%")) {
                     mlts.add((hoaDon.getMaLoTrinh()));
                 }
             }
@@ -96,7 +94,7 @@ public class LayLoTrinh {
 
             }
         });
-        this.mLayLoTrinhAsync = new LayLoTrinhAsync(LayLoTrinh.this.hoaDonDB, LayLoTrinh.this.mLocalDatabase, LayLoTrinh.this.mUsername, LayLoTrinh.this.mDot, LayLoTrinh.this.mKy, LayLoTrinh.this.mNam, mRootView.getContext(), this.mActivity
+        this.mLayLoTrinhAsync = new LayLoTrinhAsync(LayLoTrinh.this.hoaDonDB, LocalDatabase.getInstance(mRootView.getContext()), LayLoTrinh.this.mUsername, LayLoTrinh.this.mDot, LayLoTrinh.this.mKy, LayLoTrinh.this.mNam, mRootView.getContext(), this.mActivity
                 , new LayLoTrinhAsync.AsyncResponse() {
             @Override
             public void processFinish(ResultLayLoTrinh output) {
@@ -166,7 +164,7 @@ public class LayLoTrinh {
         String dotString = mDot + "";
         if (this.mDot < 10)
             dotString = "0" + this.mDot;
-        List<HoaDon> hoaDons = mLocalDatabase.getAllHoaDon(dotString + this.mUsername + "%");
+        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(dotString + this.mUsername + "%");
         LayLoTrinh.this.mSumMLT = hoaDons.size();
         LayLoTrinh.this.m_txtTongMLT.setText("Tổng mã lộ trình: " + mSumMLT);
         LayLoTrinh.this.mSumDanhBo = mSumMLT;
@@ -198,7 +196,7 @@ public class LayLoTrinh {
             if (LayLoTrinh.this.mLayLoTrinhAdapter != null && result.size() > 0) {
                 LayLoTrinh.this.mLayLoTrinhAdapter.clear();
                 for (String mlt : result) {
-                    List<HoaDon> hoaDons = LayLoTrinh.this.mLocalDatabase.getAllHoaDonByMaLoTrinh(mlt);
+                    List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonByMaLoTrinh(mlt);
                     for (HoaDon hoaDon : hoaDons)
                         LayLoTrinh.this.mLayLoTrinhAdapter.add(new GridViewLayLoTrinhAdapter.Item(mlt, hoaDon.getDanhBo()));
                 }

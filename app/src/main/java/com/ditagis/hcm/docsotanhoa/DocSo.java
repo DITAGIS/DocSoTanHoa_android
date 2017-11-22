@@ -76,14 +76,12 @@ public class DocSo extends Fragment {
     TextView mTxtCSC;
     TextView mTxtComplete;
     TextView mTxtTT, mTxtTT1, mTxtTT2, mTxtTT3;
-    //    final HoaDonDB hoaDonDB = new HoaDonDB();
     Spinner mSpinMLT;
     Spinner mSpinDB = null;
     Spinner mSpinCode;
     private Bitmap mBpImage;
     private HoaDon mHoaDon;
 
-    private LocalDatabase mLocalDatabase;
     private static final int REQUEST_ID_READ_WRITE_PERMISSION = 99;
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
     private int mSumDanhBo, mDanhBoHoanThanh;
@@ -150,7 +148,6 @@ public class DocSo extends Fragment {
 
         mTxtComplete = (TextView) mRootView.findViewById(R.id.txt_ds_complete);
 
-        mLocalDatabase = new LocalDatabase(mRootView.getContext());
 
         mEditTextCSM = (EditText) mRootView.findViewById(R.id.etxt_ds_CSM);
 //        mEditTextCSM.setEnabled(false);
@@ -178,7 +175,7 @@ public class DocSo extends Fragment {
 
         mMLTs = new ArrayList<String>();
 
-        for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon(mLike)) {
+        for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mLike)) {
             mMLTs.add(hoaDon.getMaLoTrinh());
         }
         mSpinMLT = (Spinner) mRootView.findViewById(R.id.spin_ds_mlt);
@@ -212,21 +209,21 @@ public class DocSo extends Fragment {
                         }
                     }
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
-                    for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon(mLike)) {
+                    for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mLike)) {
                         if (s.toString().equals(hoaDon.getDanhBo()))
                             for (int i = 0; i < mMLTs.size(); i++)
                                 if (hoaDon.getMaLoTrinh().equals(mMLTs.get(i)))
                                     mSpinMLT.setSelection(i);
                     }
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_tenKH))) {
-                    for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon(mLike)) {
+                    for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mLike)) {
                         if (s.toString().equals(hoaDon.getTenKhachHang()))
                             for (int i = 0; i < mMLTs.size(); i++)
                                 if (hoaDon.getMaLoTrinh().equals(mMLTs.get(i)))
                                     mSpinMLT.setSelection(i);
                     }
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_diaChi))) {
-                    for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon(mLike)) {
+                    for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mLike)) {
                         if (s.toString().equals(hoaDon.getDiaChi()))
                             for (int i = 0; i < mMLTs.size(); i++)
                                 if (hoaDon.getMaLoTrinh().equals(mMLTs.get(i)))
@@ -391,7 +388,7 @@ public class DocSo extends Fragment {
 
         });
         mDBs.clear();
-        for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon(mLike)) {
+        for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mLike)) {
             mDBs.add(hoaDon.getDanhBo());
         }
         refresh();
@@ -560,7 +557,7 @@ public class DocSo extends Fragment {
                     return;
                 String code = mSpinCode.getItemAtPosition(position).toString().substring(0, 2);
                 ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(code);
-                HoaDon hoaDon = mLocalDatabase.getHoaDon(mDanhBo);
+                HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon(mDanhBo);
                 CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(code, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString());
 
                 mTxtCSM.setText(csm_tieuThu.getCSM());
@@ -643,7 +640,7 @@ public class DocSo extends Fragment {
 
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
                     mDBs.clear();
-                    for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon(mLike)) {
+                    for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mLike)) {
                         mDBs.add(hoaDon.getDanhBo());
                     }
                     singleComplete.setAdapter(new CustomArrayAdapter(
@@ -653,7 +650,7 @@ public class DocSo extends Fragment {
                     ));
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_tenKH))) {
                     mTenKHs.clear();
-                    for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon(mLike)) {
+                    for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mLike)) {
                         mTenKHs.add(hoaDon.getTenKhachHang());
                     }
 
@@ -664,7 +661,7 @@ public class DocSo extends Fragment {
                     ));
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_diaChi))) {
                     mDiaChis.clear();
-                    for (HoaDon hoaDon : mLocalDatabase.getAllHoaDon(mLike)) {
+                    for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mLike)) {
                         mDiaChis.add(hoaDon.getDiaChi());
                     }
 
@@ -705,8 +702,8 @@ public class DocSo extends Fragment {
 //        String dotString = mDot + "";
 //        if (this.mDot < 10)
 //            dotString = "0" + this.mDot;
-        this.mSumDanhBo = mLocalDatabase.getAllHoaDon(mLike).size();
-        this.mDanhBoHoanThanh = mLocalDatabase.getAllDanhBo_CSM().size();
+        this.mSumDanhBo = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mLike).size();
+        this.mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllDanhBo_CSM().size();
         this.mSumDanhBo += this.mDanhBoHoanThanh;
         this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
 
@@ -753,8 +750,8 @@ public class DocSo extends Fragment {
         HideKeyboard.hide(mActivity);
         mDanhBo = mDBs.get(position);
 
-        DanhBo_ChiSoMoi danhBo_csm = mLocalDatabase.getDanhBo_CSM(mDanhBo);
-        mHoaDon = mLocalDatabase.getHoaDon(mDanhBo);
+        DanhBo_ChiSoMoi danhBo_csm = LocalDatabase.getInstance(mRootView.getContext()).getDanhBo_CSM(mDanhBo);
+        mHoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon(mDanhBo);
         mDot = Integer.parseInt(mHoaDon.getDot());
         ((TextView) mRootView.findViewById(R.id.txt_ds_dot)).setText(mHoaDon.getDot());
         ((TextView) mRootView.findViewById(R.id.txt_ds_tenKH)).setText(mHoaDon.getTenKhachHang());
@@ -829,8 +826,8 @@ public class DocSo extends Fragment {
                 this.mGhiChu,
                 image,
                 1);
-        this.mLocalDatabase.saveDanhBo_CSM(danhBo_chiSoMoi);
-        this.mLocalDatabase.deleteHoaDon(danhBo_chiSoMoi.getDanhBo());
+        LocalDatabase.getInstance(mRootView.getContext()).saveDanhBo_CSM(danhBo_chiSoMoi);
+        LocalDatabase.getInstance(mRootView.getContext()).deleteHoaDon(danhBo_chiSoMoi.getDanhBo());
         mTxtTT.setText("");
 
 //        this.mAdapterMLT.remove(danhBo_chiSoMoi.getMaLoTrinh());

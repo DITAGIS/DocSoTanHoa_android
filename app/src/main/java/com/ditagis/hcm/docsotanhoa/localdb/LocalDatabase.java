@@ -85,7 +85,15 @@ public class LocalDatabase extends SQLiteOpenHelper {
     private static final String COLUMN_USERNAME = "Username";
     private static final String COLUMN_PASSWORD = "Password";
 
-    public LocalDatabase(Context context) {
+    private static LocalDatabase instance;
+
+    public static LocalDatabase getInstance(Context context) {
+        if (instance == null)
+            instance = new LocalDatabase(context.getApplicationContext());
+        return instance;
+    }
+
+    private LocalDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
