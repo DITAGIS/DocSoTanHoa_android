@@ -44,6 +44,7 @@ import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 import com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver;
 import com.ditagis.hcm.docsotanhoa.theme.ThemeUtils;
+import com.ditagis.hcm.docsotanhoa.utities.CalculateCSM_TieuThu;
 import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 
@@ -554,50 +555,17 @@ public class DocSo extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String code = mSpinCode.getItemAtPosition(position).toString().substring(0, 2);
                 ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(code);
-                int csm = 0;
-                String tt1 = ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu1)).getText().toString();
-                String tt2 = ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu2)).getText().toString();
-                String tt3 = ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu3)).getText().toString();
-                int tieuThu1 = 0, tieuThu2 = 0, tieuThu3 = 0;
-                if (tt1.length() > 0)
-                    tieuThu1 = Integer.parseInt(tt1);
-                if (tt2.length() > 0)
-                    tieuThu2 = Integer.parseInt(tt2);
-                if (tt3.length() > 0)
-                    tieuThu3 = Integer.parseInt(tt3);
-                if (code.startsWith("K") || code.startsWith("N") || code.startsWith("68") || code.startsWith("Q")) {
-                    csm = (Integer.parseInt(mTxtCSC.getText().toString()));
-                    mEditTextCSM.setText(csm + "");
-                    mTxtCSM.setText(csm + "");
+                HoaDon hoaDon = mLocalDatabase.getHoaDon(mDanhBo);
+                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(code, hoaDon.getCode_CSC_SanLuong(), mEditTextCSM.getText().toString());
 
-                    if (mTxtCSM.getText().toString().length() > 0) {
-                        int sanLuong = Integer.parseInt(mTxtCSM.getText().toString()) - Integer.parseInt(mTxtCSC.getText().toString());
-                        mTxtTT.setText(sanLuong + "");
-                        if (checkCSMFluctuation()) {
-                            ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
-                        } else {
-                            ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
-                        }
-                    }
-                } else if (code.startsWith("6") || code.startsWith("80") || code.startsWith("F")) {
-                    csm = (tieuThu1 + tieuThu2 + tieuThu3) / 3 + Integer.parseInt(mTxtCSC.getText().toString());
-                    mEditTextCSM.setText(csm + "");
-                    mTxtCSM.setText(csm + "");
+                mTxtCSM.setText(csm_tieuThu.getCSM());
+                mEditTextCSM.setText(csm_tieuThu.getCSM());
+                mTxtTT.setText(csm_tieuThu.getTieuThu());
 
-                    if (mTxtCSM.getText().toString().length() > 0) {
-                        int sanLuong = Integer.parseInt(mTxtCSM.getText().toString()) - Integer.parseInt(mTxtCSC.getText().toString());
-                        mTxtTT.setText(sanLuong + "");
-                        if (checkCSMFluctuation()) {
-                            ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
-                        } else {
-                            ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
-                        }
-                    }
-
+                if (checkCSMFluctuation()) {
+                    ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
                 } else {
-                    mEditTextCSM.setText("");
-                    mTxtCSM.setText("");
-                    mTxtTT.setText("");
+                    ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
                 }
             }
 
@@ -827,7 +795,7 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.txt_ds_diachi)).getText().toString(),
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_sdt)).getText().toString(),
                 ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu)).getText().toString(),
-                this.mSpinCode.getSelectedItem().toString().substring(0,2),
+                this.mSpinCode.getSelectedItem().toString().substring(0, 2),
                 csc + "",
                 csm + "",
                 ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).getText().toString(),
