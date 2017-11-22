@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
             this.mDot = getIntent().getExtras().getInt(this.getString(R.string.extra_dot));
 
 //        mLayLoTrinh = new LayLoTrinh(MainActivity.this, getLayoutInflater(), mKy, mNam, mDot, mUsername, mStaffName);
+
         mDocSo = new DocSo(MainActivity.this, getLayoutInflater(), mKy, mDot, mUsername, mStaffName, loadPreferences(getString(R.string.save_theme)));
         mQuanLyDocSo = new QuanLyDocSo(getLayoutInflater(), mDot, mKy, mNam, mUsername);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

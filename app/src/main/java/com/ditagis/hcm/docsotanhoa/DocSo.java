@@ -42,7 +42,6 @@ import com.ditagis.hcm.docsotanhoa.adapter.CustomArrayAdapter;
 import com.ditagis.hcm.docsotanhoa.entities.DanhBo_ChiSoMoi;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
-import com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver;
 import com.ditagis.hcm.docsotanhoa.theme.ThemeUtils;
 import com.ditagis.hcm.docsotanhoa.utities.CalculateCSM_TieuThu;
 import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
@@ -88,7 +87,7 @@ public class DocSo extends Fragment {
     private static final int REQUEST_ID_READ_WRITE_PERMISSION = 99;
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
     private int mSumDanhBo, mDanhBoHoanThanh;
-    private String  mStaffName;
+    private String mStaffName;
     private int mDot, mKy;
     private String mGhiChu;
     private Date currentTime;
@@ -303,7 +302,7 @@ public class DocSo extends Fragment {
 //                }
                 String code = mSpinCode.getSelectedItem().toString().substring(0, 2);
                 ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(code);
-                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(code, mHoaDon.getCode_CSC_SanLuong(),Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString());
+                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(code, mHoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString());
 
                 mTxtCSM.setText(csm_tieuThu.getCSM());
 //                mEditTextCSM.setText(csm_tieuThu.getCSM());
@@ -557,10 +556,12 @@ public class DocSo extends Fragment {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (checkNull())
+                    return;
                 String code = mSpinCode.getItemAtPosition(position).toString().substring(0, 2);
                 ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(code);
                 HoaDon hoaDon = mLocalDatabase.getHoaDon(mDanhBo);
-                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(code,hoaDon.getCode_CSC_SanLuong(),Integer.parseInt(mTxtCSC.getText().toString()),  mEditTextCSM.getText().toString());
+                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(code, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString());
 
                 mTxtCSM.setText(csm_tieuThu.getCSM());
                 mEditTextCSM.setText(csm_tieuThu.getCSM());
@@ -744,6 +745,8 @@ public class DocSo extends Fragment {
     }
 
     private void selectDanhBo(int position) {
+        if (checkNull())
+            return;
         mSpinCode.setSelection(0);
         mSpinMLT.setSelection(position);
         mSpinDB.setSelection(position);
@@ -786,6 +789,26 @@ public class DocSo extends Fragment {
             mTxtCSM.setText("");
 
         }
+    }
+
+    private boolean checkNull() {
+        if (mMLTs.size() == 0) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
+            builder.setTitle("Không có lộ trình").setMessage("Có thể đợt hiện tại đã đọc xong, hoặc chưa có dữ liệu. Vui lòng kiểm tra lại!!!");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    getActivity().finish();
+                }
+            }).setCancelable(false);
+            AlertDialog dialog = builder.create();
+
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.show();
+            return true;
+        }
+        return false;
     }
 
     private void saveDB_CSM(String image, int csc, int csm) {
