@@ -47,7 +47,7 @@ public class LayLoTrinh {
     private int mKy;
     private int mNam;
     private int mDot;
-    private String mUsername, mStaffName;
+    private String mUsername, mStaffName, mPassWord;
     private HoaDonDB hoaDonDB;
     private LayLoTrinhAsync mLayLoTrinhAsync;
     private View mRootView;
@@ -58,14 +58,14 @@ public class LayLoTrinh {
         return mDot;
     }
 
-    public LayLoTrinh(Activity activity, LayoutInflater inflater, int mKy, int mNam, int mDot, String mUsername, String mStaffName) {
+    public LayLoTrinh(Activity activity, LayoutInflater inflater, int mKy, int mNam, int mDot, String mUsername, String mStaffName, String mPassWord) {
         this.mActivity = activity;
         this.mKy = mKy;
         this.mNam = mNam;
         this.mDot = mDot;
         this.mUsername = mUsername;
         this.mStaffName = mStaffName;
-
+        this.mPassWord = mPassWord;
         mRootView = inflater.inflate(R.layout.lay_lo_trinh_fragment, null);
 
         ((TextView) mRootView.findViewById(R.id.txt_llt_may)).setText("Máy: " + this.mUsername);
@@ -213,7 +213,9 @@ public class LayLoTrinh {
 //            MySnackBar.make(rootView, rootView.getContext().getString(R.string.load_danhbo_error), true);
 //        } else {
         Intent intent = new Intent(mActivity, MainActivity.class);
+
         intent.putExtra(mActivity.getString(R.string.extra_username), mUsername);
+        intent.putExtra(mActivity.getString(R.string.extra_password), mPassWord);
         intent.putExtra(mActivity.getString(R.string.extra_staffname), mStaffName);
         intent.putExtra(mActivity.getString(R.string.extra_dot), mDot);
 

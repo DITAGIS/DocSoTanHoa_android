@@ -22,6 +22,7 @@ import android.widget.RadioGroup;
 
 import com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver;
 import com.ditagis.hcm.docsotanhoa.theme.ThemeUtils;
+import com.ditagis.hcm.docsotanhoa.utities.ChangePassword;
 
 import java.util.Calendar;
 
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private int mKy;
     private int mNam;
     private int mDot;
-    private String mUsername, mStaffName;
+    private String mUsername, mPassword, mStaffName;
 
     private LayLoTrinh mLayLoTrinh;
     private DocSo mDocSo;
@@ -67,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
         this.mNam = calendar.get(Calendar.YEAR);
         if (getIntent().getExtras().getString(this.getString(R.string.extra_username)) != null)
             this.mUsername = getIntent().getExtras().getString(this.getString(R.string.extra_username));
+        if (getIntent().getExtras().getString(this.getString(R.string.extra_password)) != null)
+            this.mPassword = getIntent().getExtras().getString(this.getString(R.string.extra_password));
         if (getIntent().getExtras().getString(this.getString(R.string.extra_staffname)) != null)
             this.mStaffName = getIntent().getExtras().getString(this.getString(R.string.extra_staffname));
         if (getIntent().getExtras().getInt(this.getString(R.string.extra_dot)) > 0)
@@ -170,10 +173,11 @@ public class MainActivity extends AppCompatActivity {
             optionChangeUITheme();
             return true;
 
-    } else if (id == R.id.action_change_password) {
-        optionChangeUITheme();
-        return true;
-    }
+        } else if (id == R.id.action_change_password) {
+
+            new ChangePassword(mUsername, mPassword, MainActivity.this.getApplicationContext(), MainActivity.this );
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 

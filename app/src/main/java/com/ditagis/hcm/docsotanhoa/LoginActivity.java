@@ -213,7 +213,7 @@ public class LoginActivity extends AppCompatActivity {
         int ky = calendar.get(Calendar.MONTH) + 1;
         int nam = calendar.get(Calendar.YEAR);
         int dot = Integer.parseInt(mDot);
-        new LayLoTrinh(LoginActivity.this, getLayoutInflater(), ky, nam, dot, mUsername, mStaffName);
+        new LayLoTrinh(LoginActivity.this, getLayoutInflater(), ky, nam, dot, mUsername, mStaffName, mPassword);
     }
 
     public boolean requestPermisson() {

@@ -34,6 +34,7 @@
     <string name="login_with_saved_account">Đang đăng nhập với tài khoản trước...</string>
 
     <string name="extra_username">username</string>
+    <string name="extra_password">password</string>
     <string name="extra_staffname">staffname</string>
     <string name="extra_dot">dot</string>
 
