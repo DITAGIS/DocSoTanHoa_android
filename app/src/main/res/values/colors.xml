@@ -33,7 +33,7 @@
     <color name="colorTextLogin_2">#000000</color>
     <color name="colorAlertWrongPassword_2">#e74c3c</color>
     <color name="colorImgBtnUpload_2">#67b2e4</color>
-    <color name="colorBorderEditext_2">#004444</color>
+    <color name="colorBorderEditext_2">#ffffff</color>
     <color name="colorBackground_csm_2">#66CDAA</color>
 
 </resources>

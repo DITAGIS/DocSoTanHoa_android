@@ -768,44 +768,16 @@ public class DocSo extends Fragment {
 
     public void selectMLT(int position) {
         mMlt = mMLTs.get(position);
-        try {
-//            List<HoaDon> hoaDonList = mLocalDatabase.getAllHoaDon(mMlt);
-//
-////            mDBs.clear();
-////            for (HoaDon hoaDon : hoaDonList) {
-////                mDBs.add(hoaDon.getDanhBo());
-////            }
-//            if (mSelected_theme == ThemeUtils.THEME_DEFAULT)
-//                this.mAdapterDB = new ArrayAdapter<String>(this.mRootView.getContext(), R.layout.spinner_item_left1, mDBs);
-//            else if (mSelected_theme == ThemeUtils.THEME_DARK)
-//                this.mAdapterDB = new ArrayAdapter<String>(this.mRootView.getContext(), R.layout.spinner_item_left2, mDBs);
-//
-//            mAdapterDB.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-//            mSpinDB.setAdapter(mAdapterDB);
-//            mSpinDB.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//                @Override
-//                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                    mRootView.requestFocus();
-            selectDanhBo(position);
-//                }
-//
-//                @Override
-//                public void onNothingSelected(AdapterView<?> parent) {
-//
-//                }
-//            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        selectDanhBo(position);
     }
 
     private void selectDanhBo(int position) {
         mSpinCode.setSelection(0);
-
-        HideKeyboard.hide(mActivity);
-        mDanhBo = mDBs.get(position);
         mSpinMLT.setSelection(position);
         mSpinDB.setSelection(position);
+        HideKeyboard.hide(mActivity);
+        mDanhBo = mDBs.get(position);
+
         DanhBo_ChiSoMoi danhBo_csm = mLocalDatabase.getDanhBo_CSM(mDanhBo);
         HoaDon hoaDon = mLocalDatabase.getHoaDon(mDanhBo);
         mDot = Integer.parseInt(hoaDon.getDot());

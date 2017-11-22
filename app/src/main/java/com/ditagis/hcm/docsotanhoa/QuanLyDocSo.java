@@ -23,14 +23,18 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ditagis.hcm.docsotanhoa.adapter.CustomArrayAdapter;
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewQuanLyDocSoAdapter;
 import com.ditagis.hcm.docsotanhoa.conectDB.SumDanhBoDB;
 import com.ditagis.hcm.docsotanhoa.conectDB.Uploading;
@@ -39,13 +43,13 @@ import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ThanLe on 25/10/2017.
  */
 
 public class QuanLyDocSo extends Fragment {
-    EditText mEditTextSearch;
     GridView mGridView;
     TextView mTxtComplete;
     private ArrayList<DanhBo_ChiSoMoi> mDanhBo_chiSoMois;
@@ -57,6 +61,10 @@ public class QuanLyDocSo extends Fragment {
     private Uploading mUploading;
     private View mRootView;
     private SumDanhBoDB mSumDanhBoDB;
+    AutoCompleteTextView singleComplete;
+    List<String> mDBs = new ArrayList<String>(), mTenKHs = new ArrayList<>(), mDiaChis = new ArrayList<>(), mMLTs = new ArrayList<>();
+    private String mLike;
+    private String mSearchType;
 
     public Uploading getmUploading() {
         return mUploading;
@@ -74,18 +82,19 @@ public class QuanLyDocSo extends Fragment {
         mKy = ky;
         mNam = nam;
         mUsername = userName;
+        String dotString = mDot + "";
+        if (mDot < 10)
+            dotString = "0" + mDot;
+        this.mLike = dotString + mUsername + "%";
         mTxtComplete = (TextView) mRootView.findViewById(R.id.txt_qlds_tienTrinh);
         mLocalDatabase = new LocalDatabase(mRootView.getContext());
         mUploading = new Uploading(mDot, mKy, mNam);
-        mEditTextSearch = (EditText) mRootView.findViewById(R.id.etxt_qlds_search);
         mGridView = (GridView) mRootView.findViewById(R.id.grid_qlds_danhSachDocSo);
         mSumDanhBoDB = new SumDanhBoDB();
         String kyString = mKy + "";
         if (mKy < 10)
             kyString += "0" + mKy;
-        String dotString = mDot + "";
-        if (mDot < 10)
-            dotString = "0" + mDot;
+
         mSumDanhBo = mSumDanhBoDB.getSum(kyString, mNam, dotString + mUsername + "%");
         //Gán DataSource vào ArrayAdapter
         mQuanLyDocSoAdapter = new GridViewQuanLyDocSoAdapter(mRootView.getContext(), new ArrayList<GridViewQuanLyDocSoAdapter.Item>());
@@ -131,6 +140,80 @@ public class QuanLyDocSo extends Fragment {
                 return false;
             }
         });
+        mDanhBo_chiSoMois = mLocalDatabase.getAllDanhBo_CSM();
+        for (DanhBo_ChiSoMoi danhBo_chiSoMoi : this.mDanhBo_chiSoMois) {
+            mDBs.add(danhBo_chiSoMoi.getDanhBo());
+        }
+        mSearchType = mRootView.getContext().getString(R.string.search_danhbo);
+        singleComplete = (AutoCompleteTextView) mRootView.findViewById(R.id.editauto_qlds);
+        singleComplete.setAdapter(
+                new CustomArrayAdapter
+                        (
+                                mRootView.getContext(),
+                                android.R.layout.simple_list_item_1,
+                                mDBs
+                        ));
+        singleComplete.setBackgroundResource(R.layout.edit_text_styles2);
+        singleComplete.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
+                    mQuanLyDocSoAdapter.clear();
+                    for (DanhBo_ChiSoMoi danhBo_chiSoMoi : mDanhBo_chiSoMois) {
+                        if (danhBo_chiSoMoi.getDanhBo().contains(s.toString()))
+                            mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
+                                    danhBo_chiSoMoi.getTieuThu(),
+                                    danhBo_chiSoMoi.getDanhBo(),
+                                    danhBo_chiSoMoi.getChiSoCu(),
+                                    danhBo_chiSoMoi.getChiSoMoi()));
+                    }
+                    mQuanLyDocSoAdapter.notifyDataSetChanged();
+
+                } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_tenKH))) {
+                    mQuanLyDocSoAdapter.clear();
+                    for (DanhBo_ChiSoMoi danhBo_chiSoMoi : mDanhBo_chiSoMois) {
+                        if (danhBo_chiSoMoi.getTenKH().toLowerCase().contains(s.toString().toLowerCase()))
+                            mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
+                                    danhBo_chiSoMoi.getTieuThu(),
+                                    danhBo_chiSoMoi.getDanhBo(),
+                                    danhBo_chiSoMoi.getChiSoCu(),
+                                    danhBo_chiSoMoi.getChiSoMoi()));
+                    }
+                    mQuanLyDocSoAdapter.notifyDataSetChanged();
+                } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_diaChi))) {
+                    mQuanLyDocSoAdapter.clear();
+                    for (DanhBo_ChiSoMoi danhBo_chiSoMoi : mDanhBo_chiSoMois) {
+                        if (danhBo_chiSoMoi.getDiaChi().toLowerCase().contains(s.toString().toLowerCase()))
+                            mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
+                                    danhBo_chiSoMoi.getTieuThu(),
+                                    danhBo_chiSoMoi.getDanhBo(),
+                                    danhBo_chiSoMoi.getChiSoCu(),
+                                    danhBo_chiSoMoi.getChiSoMoi()));
+                    }
+                    mQuanLyDocSoAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+        ((Button) mRootView.findViewById(R.id.btn_qlds_optionSearch)).
+
+                setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        optionSearch();
+                    }
+                });
+
     }
 
     public void setmDot(int mDot) {
@@ -157,25 +240,6 @@ public class QuanLyDocSo extends Fragment {
         setTextProgress();
 
 
-        mEditTextSearch.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                //TODO search danh bộ
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
         mQuanLyDocSoAdapter.clear();
         for (DanhBo_ChiSoMoi danhBo_chiSoMoi : this.mDanhBo_chiSoMois) {
             mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
@@ -188,10 +252,6 @@ public class QuanLyDocSo extends Fragment {
     }
 
     private void setTextProgress() {
-
-//        this.mSumDanhBo = mLocalDatabase.getAllHoaDon().size();
-//        this.mDanhBoHoanThanh = mLocalDatabase.getAllDanhBo_CSM().size();
-//        this.mSumDanhBo += this.mDanhBoHoanThanh;
         this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
 
     }
@@ -200,6 +260,89 @@ public class QuanLyDocSo extends Fragment {
         ConnectivityManager cm = (ConnectivityManager) mRootView.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnected();
+    }
+
+    private void optionSearch() {
+//        String[] searchTypes = {mRootView.getContext().getString(R.string.search_mlt),
+//                mRootView.getContext().getString(R.string.search_danhbo)};
+//                mRootView.getContext().getString(R.string.search_tenKH)};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
+        builder.setTitle("Tùy chọn tìm kiếm");
+        builder.setCancelable(true);
+        LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
+        View dialogLayout = inflater.inflate(R.layout.layout_dialog_select_search_type_qlds, null);
+
+        final RadioGroup group = (RadioGroup) dialogLayout.findViewById(R.id.radioGroup_searchtype);
+        if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_danhbo)))
+            group.check(R.id.radio_search_danhbo);
+        else if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_tenKH)))
+            group.check(R.id.radio_search_tenKH);
+        else if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_diaChi)))
+            group.check(R.id.radio_search_diaChi);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                int iChecked = group.getCheckedRadioButtonId();
+                switch (iChecked) {
+                    case R.id.radio_search_danhbo:
+                        mSearchType = mRootView.getContext().getString(R.string.search_danhbo);
+                        singleComplete.setText("");
+                        break;
+                    case R.id.radio_search_tenKH:
+                        mSearchType = mRootView.getContext().getString(R.string.search_tenKH);
+                        singleComplete.setText("");
+                        break;
+                    case R.id.radio_search_diaChi:
+                        mSearchType = mRootView.getContext().getString(R.string.search_diaChi);
+                        singleComplete.setText("");
+                        break;
+                }
+//                mSearchType = spinSearchType.getSelectedItem().toString();
+                singleComplete.setHint(mSearchType);
+
+                if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
+                    mDBs.clear();
+                    for (DanhBo_ChiSoMoi danhBo_chiSoMoi : mDanhBo_chiSoMois) {
+                        mDBs.add(danhBo_chiSoMoi.getDanhBo());
+                    }
+                    singleComplete.setAdapter(new CustomArrayAdapter(
+                            mRootView.getContext(),
+                            android.R.layout.simple_list_item_1,
+                            mDBs
+                    ));
+                } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_tenKH))) {
+                    mTenKHs.clear();
+                    for (DanhBo_ChiSoMoi danhBo_chiSoMoi : mDanhBo_chiSoMois) {
+                        mTenKHs.add(danhBo_chiSoMoi.getTenKH());
+                    }
+
+                    singleComplete.setAdapter(new CustomArrayAdapter(
+                            mRootView.getContext(),
+                            android.R.layout.simple_list_item_1,
+                            mTenKHs
+                    ));
+                } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_diaChi))) {
+                    mDiaChis.clear();
+                    for (DanhBo_ChiSoMoi danhBo_chiSoMoi : mDanhBo_chiSoMois) {
+                        mDiaChis.add(danhBo_chiSoMoi.getDiaChi());
+                    }
+
+                    singleComplete.setAdapter(new CustomArrayAdapter(
+                            mRootView.getContext(),
+                            android.R.layout.simple_list_item_1,
+                            mDiaChis
+                    ));
+                }
+                dialog.dismiss();
+            }
+        });
+        builder.setView(dialogLayout);
+        final AlertDialog dialog = builder.create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.show();
+
     }
 
 

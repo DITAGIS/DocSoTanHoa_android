@@ -92,29 +92,32 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="right"
                 android:background="@color/colorBackground_1"
+                android:gravity="right"
                 android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/etxt_qlds_search"
-                    android:layout_width="wrap_content"
+                <AutoCompleteTextView
+                    android:id="@+id/editauto_qlds"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@android:color/transparent"
-                    android:gravity="left"
-                    android:hint="Tìm kiếm danh bộ"
-                    android:inputType="number"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:width="0dp"
+                    android:ems="10"
+                    android:gravity="right"
+                    android:hint="@string/search_danhbo"
+                    android:inputType="textAutoComplete|textAutoCorrect"
                     android:maxLength="11"
-                    android:paddingRight="@dimen/activity_horizontal_margin" />
-
-                <ImageButton
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:adjustViewBounds="true"
-                    android:background="@android:color/transparent"
-                    android:scaleType="fitCenter"
-                    android:src="@android:drawable/ic_search_category_default" />
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:textColor="@color/colorTextColor_1"
+                    android:textColorHint="@color/colorTextColor_1"
+                    android:textCursorDrawable="@null" />
+                <Button
+                    android:id="@+id/btn_qlds_optionSearch"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/button_horizontal_margin"
+                    android:gravity="center"
+                    android:text="..." />
             </LinearLayout>
 
             <LinearLayout

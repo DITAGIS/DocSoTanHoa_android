@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/login_activity_horizontal_margin"
+    android:paddingRight="@dimen/login_activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_padding">
+
+    <RadioGroup
+        android:id="@+id/radioGroup_searchtype"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+
+        <RadioButton
+            android:textSize="18dp"
+            android:id="@+id/radio_search_danhbo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_danhbo" />
+        <RadioButton
+            android:textSize="18dp"
+            android:id="@+id/radio_search_tenKH"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_tenKH" />
+        <RadioButton
+            android:textSize="18dp"
+            android:id="@+id/radio_search_diaChi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_diaChi" />
+    </RadioGroup>
+    <!--<Spinner-->
+    <!--android:id="@+id/spin_select_type_seach"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:gravity="right">-->
+
+    <!--</Spinner>-->
+</LinearLayout>
