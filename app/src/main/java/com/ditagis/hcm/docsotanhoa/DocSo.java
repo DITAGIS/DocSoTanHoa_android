@@ -827,7 +827,7 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.txt_ds_diachi)).getText().toString(),
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_sdt)).getText().toString(),
                 ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu)).getText().toString(),
-                this.mSpinCode.getSelectedItem().toString(),
+                this.mSpinCode.getSelectedItem().toString().substring(0,2),
                 csc + "",
                 csm + "",
                 ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).getText().toString(),
