@@ -162,11 +162,6 @@ public class QuanLyDocSo extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
                 if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
                     mQuanLyDocSoAdapter.clear();
                     for (DanhBo_ChiSoMoi danhBo_chiSoMoi : mDanhBo_chiSoMois) {
@@ -202,6 +197,11 @@ public class QuanLyDocSo extends Fragment {
                     }
                     mQuanLyDocSoAdapter.notifyDataSetChanged();
                 }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
@@ -274,13 +274,15 @@ public class QuanLyDocSo extends Fragment {
         View dialogLayout = inflater.inflate(R.layout.layout_dialog_select_search_type_qlds, null);
 
         final RadioGroup group = (RadioGroup) dialogLayout.findViewById(R.id.radioGroup_searchtype);
-        if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_danhbo)))
+
+        if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_danhbo))) {
             group.check(R.id.radio_search_danhbo);
-        else if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_tenKH)))
+        } else if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_tenKH))) {
             group.check(R.id.radio_search_tenKH);
-        else if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_diaChi)))
+        } else if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_diaChi))) {
             group.check(R.id.radio_search_diaChi);
 
+        }
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

@@ -41,6 +41,7 @@
     <string name="load_danhbo_error">Tải danh bộ thất bại!</string>
     <string name="load_danhbo_complete">Đã tải xong danh bộ!</string>
 
+    <string name="search_title">Tìm kiếm</string>
     <string name="search_mlt">theo mã lộ trình</string>
     <string name="search_danhbo">theo danh bộ</string>
     <string name="search_tenKH">theo tên khách hàng</string>
