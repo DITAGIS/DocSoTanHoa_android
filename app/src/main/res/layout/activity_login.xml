@@ -18,7 +18,7 @@
             android:paddingBottom="@dimen/login_activity_vertical_margin"
             android:paddingLeft="@dimen/login_activity_horizontal_margin"
             android:paddingRight="@dimen/login_activity_horizontal_margin"
-            android:paddingTop="@dimen/login_activity_vertical_margin"
+
             tools:context="com.ditagis.hcm.docsotanhoa.LoginActivity">
 
 
@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="0.5"
+                android:layout_weight="2"
                 android:minHeight="25px"
                 android:minWidth="25px"
                 android:orientation="horizontal">
@@ -37,13 +37,11 @@
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
 
                     android:src="@drawable/tanhoa_icon" />
             </LinearLayout>
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+
             <!--Layout bottom-->
             <LinearLayout
                 android:layout_width="match_parent"

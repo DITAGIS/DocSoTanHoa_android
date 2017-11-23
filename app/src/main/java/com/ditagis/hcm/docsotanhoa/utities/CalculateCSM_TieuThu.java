@@ -12,7 +12,7 @@ public class CalculateCSM_TieuThu {
     private int mCSC, mCSM, mTieuThu;
     private String mCSMString;
 
-    public CalculateCSM_TieuThu(String code, Code_CSC_SanLuong mCodeCSCSanLuong,int csc, String csm) {
+    public CalculateCSM_TieuThu(String code, Code_CSC_SanLuong mCodeCSCSanLuong, int csc, String csm) {
         this.mCode = code;
         this.mCodeCSCSanLuong = mCodeCSCSanLuong;
         this.mCSMString = csm;
@@ -90,6 +90,12 @@ public class CalculateCSM_TieuThu {
             case "63":
             case "66":
                 //todo không ghi chỉ số
+                mCSM = -1;
+                mTieuThu = calTieuThuTB();
+                break;
+            case "64":
+                //todo để trống
+                mCSM = -1;
                 mTieuThu = calTieuThuTB();
                 break;
             case "62":
@@ -100,12 +106,17 @@ public class CalculateCSM_TieuThu {
                 break;
             case "81":
                 //todo để trống
+                mCSM = -1;
+                mTieuThu = -1;
                 break;
             case "82":
             case "83":
                 //todo để trống
+                mCSM = -1;
+                mTieuThu = -1;
                 break;
             case "F1":
+                mCSM = -1;
                 //todo không ghi chỉ số
                 mTieuThu = calTieuThuTB();
                 break;
@@ -113,18 +124,22 @@ public class CalculateCSM_TieuThu {
             case "F3":
             case "F4":
                 //todo để trống
+                mCSM = -1;
                 mTieuThu = calTieuThuTB();
                 break;
             case "K":
                 //todo để trống
+                mCSM = -1;
                 mTieuThu = 0;
                 break;
             case "M0":
             case "M1":
             case "M2":
             case "M3":
-                if (mCSMString.length() > 0)
+                if (mCSMString.length() > 0) {
                     mCSM = Integer.parseInt(mCSMString);
+                    mTieuThu = mCSM - mCSC;
+                }
                 //todo gắn mới
                 break;
             case "N1":
@@ -137,10 +152,13 @@ public class CalculateCSM_TieuThu {
             case "X":
                 if (mCSMString.length() > 0)
                     mCSM = Integer.parseInt(mCSMString);
+                mTieuThu = retour();
                 //todo retour
                 break;
             case "68":
                 //todo
+                if (mCSMString.length() > 0)
+                    mCSM = Integer.parseInt(mCSMString);
                 mTieuThu = 0;
                 break;
             case "Q":
@@ -153,6 +171,21 @@ public class CalculateCSM_TieuThu {
 
         }
 
+    }
+
+    private int retour() {
+        int tieuThu;
+        String csmString = "1";
+
+        int lenghtCSC = (mCSC + "").length();
+        int lenghtCSM = (mCSM + "").length();
+        int needAdd = lenghtCSC - lenghtCSM;
+        for (int i = 0; i < needAdd; i++) {
+            csmString += "0";
+        }
+        csmString += (mCSM + "");
+        tieuThu = Integer.parseInt(csmString) - mCSC;
+        return tieuThu;
     }
 
     private int calTieuThuTB() {
