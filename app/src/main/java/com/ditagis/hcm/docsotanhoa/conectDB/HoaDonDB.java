@@ -4,6 +4,7 @@ import android.os.StrictMode;
 
 import com.ditagis.hcm.docsotanhoa.entities.Code_CSC_SanLuong;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
+import com.ditagis.hcm.docsotanhoa.utities.Flag;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -343,7 +344,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                     rs4.close();
                 }
                 hoaDon = new HoaDon(dotString, danhBo, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky + "", chiSoCu, maLoTrinh,
-                        sdt);
+                        sdt, Flag.UNREAD);
                 Code_CSC_SanLuong code_csu_sanLuong = new Code_CSC_SanLuong(code1, code2, code3,
                         CSC1, CSC2, CSC3,
                         sanLuong_1, sanLuong_2, sanLuong_3);

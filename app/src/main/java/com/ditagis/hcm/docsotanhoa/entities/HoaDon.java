@@ -19,6 +19,7 @@ public class HoaDon {
     private String maLoTrinh;
     private String sdt;
     private Code_CSC_SanLuong code_CSC_SanLuong;
+    private int flag;
 
     public HoaDon() {
         super();
@@ -30,8 +31,7 @@ public class HoaDon {
     }
 
 
-
-    public HoaDon(String dot, String danhBo, String tenKhachHang, String soNha, String duong, String giaBieu, String dinhMuc, String ky, String chiSoCu, String maLoTrinh, String sdt) {
+    public HoaDon(String dot, String danhBo, String tenKhachHang, String soNha, String duong, String giaBieu, String dinhMuc, String ky, String chiSoCu, String maLoTrinh, String sdt, int flag) {
         this.dot = dot;
         this.danhBo = danhBo;
         this.tenKhachHang = tenKhachHang;
@@ -43,7 +43,15 @@ public class HoaDon {
         this.chiSoCu = chiSoCu;
         this.maLoTrinh = maLoTrinh;
         this.sdt = sdt;
+        this.flag = flag;
+    }
 
+    public int getFlag() {
+        return flag;
+    }
+
+    public void setFlag(int flag) {
+        this.flag = flag;
     }
 
     public Code_CSC_SanLuong getCode_CSC_SanLuong() {

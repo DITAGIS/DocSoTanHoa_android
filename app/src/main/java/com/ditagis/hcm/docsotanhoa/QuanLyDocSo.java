@@ -132,7 +132,7 @@ public class QuanLyDocSo extends Fragment {
         mGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                showMoreInfro(view);
+                showMoreInfo(view);
                 return false;
             }
         });
@@ -399,7 +399,7 @@ public class QuanLyDocSo extends Fragment {
     }
 
 
-    private void showMoreInfro(final View view) {
+    private void showMoreInfo(final View view) {
         String danhBo = ((TextView) view.findViewById(R.id.row_qlds_txt_danhBo)).getText().toString();
         DanhBo_ChiSoMoi danhBo_CSM = LocalDatabase.getInstance(mRootView.getContext()).getDanhBo_CSM(danhBo);
 
@@ -444,9 +444,10 @@ public class QuanLyDocSo extends Fragment {
         ((TextView) dialog.findViewById(R.id.txt_layout_qlds_tenKH)).setText(danhBo_CSM.getTenKH());
         ((TextView) dialog.findViewById(R.id.txt_layout_qlds_diaChi)).setText(danhBo_CSM.getDiaChi());
         ((TextView) dialog.findViewById(R.id.txt_layout_qlds_SDT)).setText(danhBo_CSM.getSdt());
+        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_code)).setText(danhBo_CSM.getCode());
         ((TextView) dialog.findViewById(R.id.txt_layout_qlds_CSC)).setText(danhBo_CSM.getChiSoCu());
         ((TextView) dialog.findViewById(R.id.txt_layout_qlds_CSM)).setText(danhBo_CSM.getChiSoMoi());
-        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_code)).setText(danhBo_CSM.getCode());
+        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_tieuThu)).setText(danhBo_CSM.getTieuThu());
         ((TextView) dialog.findViewById(R.id.txt_layout_qlds_giaBieu)).setText(danhBo_CSM.getGiaBieu());
         ((TextView) dialog.findViewById(R.id.txt_layout_qlds_tienNuoc)).setText("");//TODO tien nuoc
 
