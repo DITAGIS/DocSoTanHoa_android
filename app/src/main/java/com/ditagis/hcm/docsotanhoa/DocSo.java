@@ -39,11 +39,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ditagis.hcm.docsotanhoa.adapter.CustomArrayAdapter;
-import com.ditagis.hcm.docsotanhoa.entities.DanhBo_ChiSoMoi;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 import com.ditagis.hcm.docsotanhoa.theme.ThemeUtils;
 import com.ditagis.hcm.docsotanhoa.utities.CalculateCSM_TieuThu;
+import com.ditagis.hcm.docsotanhoa.utities.Code;
 import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 
@@ -93,7 +93,6 @@ public class DocSo extends Fragment {
     private ArrayAdapter<String> mAdapterCode;
     AutoCompleteTextView singleComplete;
     List<String> mMLTs;
-    private String[] mCodes;
     Uri mUri;
     private ArrayAdapter<String> mAdapterMLT;
     private View mRootView;
@@ -152,25 +151,6 @@ public class DocSo extends Fragment {
         mEditTextCSM = (EditText) mRootView.findViewById(R.id.etxt_ds_CSM);
 //        mEditTextCSM.setEnabled(false);
         mTxtCSM = (TextView) mRootView.findViewById(R.id.txt_ds_CSM);
-
-        mCodes = new String[]{"40 Bình thường", "41 Ghi chỉ số ra ngoài", "42 Báo chỉ số qua điện thoại",
-                "54 Ghi sai, ghi lố, nhập liệu sai", "55 Giải trình code 5 kỳ trước",
-                "56 Giải trình code 6 kỳ trước\nKỳ này đọc được", "58 Giải trình code 8 kỳ trước",
-                "5F Giải trình code F kỳ trước", "5M Giải trình code M kỳ trước",
-                "5Q Giải trình code Q kỳ trước", "5K Giải trình code K kỳ trước",
-                "5N Giải trình code N kỳ trước",
-                "60 Ngưng có nước, nước yếu", "61 Kiếng mờ, dơ, nứt", "62 Kẹt số, lệch số, tuôn số\nquay ngược, gắn ngược",
-                "63 Bể kiếng, mất mặt số", "64 Chủ gỡ, ống ngang\nnâng, hạ, hầm sâu", "66 Lấp mất, không tìm thấy",
-                "80 ĐHN đã thay nhỏ hơn 7 ngày", "81 Kỳ trước ĐHN ngưng\nKỳ này thay mới",
-                "82 Thay thử, thay định kỳ", "83 Thay đổi cỡ",
-                "F1 Nhà đóng cửa", "F2 Hộp bảo vệ ĐHN bị kẹt khóa", "F3 Chất đồ không dọn được", "F4 Đám tang (tiệc), ngập nước\nKhách hàng không cho đọc số",
-                "K  Nhà đóng cửa không ở",
-                "M0 Đọc số đúng tháng", "M1 Đọc số sau 1 tháng", "M2 Đọc số sau 2 tháng", "M3 Đọc số sau 3 tháng",
-                "N1 Giữ chỉ số do kỳ trước tạm tính lố\nnhà ĐCƠ, CĐ, KK", "N2 Giữ chỉ số do khách hàng ghi lố", "N3 Giữ chỉ số do nhân viên ghi lố",
-                "X  ĐHN 4 số retour một lần",
-                "68 Bị khóa nước niêm phong\nbị cắt ống bên ngoài",
-                "Q  Không có nước hoàn toàn"
-        };
 
 
         mMLTs = new ArrayList<String>();
@@ -465,7 +445,7 @@ public class DocSo extends Fragment {
 
 //            ((TableLayout) mRootView.findViewById(R.id.layout_ds_csm)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_csm_1));
                 ((TextView) mRootView.findViewById(R.id.spin_ds_code_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                mAdapterCode = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mCodes);
+                mAdapterCode = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, Code.getInstance().getCodes());
 
                 ((TextView) mRootView.findViewById(R.id.etxt_ds_CSM_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
@@ -512,7 +492,7 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
 
                 ((TextView) mRootView.findViewById(R.id.spin_ds_code_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                mAdapterCode = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mCodes);
+                mAdapterCode = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, Code.getInstance().getCodes());
                 ((TextView) mRootView.findViewById(R.id.etxt_ds_CSM_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
@@ -781,9 +761,9 @@ public class DocSo extends Fragment {
 //            mGhiChu = hoaDon.getGhiChu();
 //
 //        } else {
-            mGhiChu = "";
-            mEditTextCSM.setText("");
-            mTxtCSM.setText("");
+        mGhiChu = "";
+        mEditTextCSM.setText("");
+        mTxtCSM.setText("");
 
 //        }
     }
@@ -813,7 +793,7 @@ public class DocSo extends Fragment {
         if (mDot < 10)
             dotString = "0" + mDot;
         HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
-        hoaDon.setCodeMoi(  this.mSpinCode.getSelectedItem().toString().substring(0, 2));
+        hoaDon.setCodeMoi(this.mSpinCode.getSelectedItem().toString().substring(0, 2));
         hoaDon.setChiSoMoi(csm + "");
         hoaDon.setTieuThuMoi(((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).getText().toString());
         hoaDon.setGhiChu(mGhiChu);
@@ -832,7 +812,7 @@ public class DocSo extends Fragment {
 //                this.mGhiChu,
 //                image,
 //                1);
-        LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonRead(hoaDon);
+        LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonUnRead(hoaDon);
 //        LocalDatabase.getInstance(mRootView.getContext()).deleteHoaDon(danhBo_chiSoMoi.getDanhBo());
         mTxtTT.setText("");
 

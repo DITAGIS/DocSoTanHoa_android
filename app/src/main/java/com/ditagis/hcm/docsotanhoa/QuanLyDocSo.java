@@ -40,6 +40,8 @@ import com.ditagis.hcm.docsotanhoa.conectDB.SumDanhBoDB;
 import com.ditagis.hcm.docsotanhoa.conectDB.Uploading;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
+import com.ditagis.hcm.docsotanhoa.utities.CalculateCSM_TieuThu;
+import com.ditagis.hcm.docsotanhoa.utities.Code;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 
 import java.util.ArrayList;
@@ -457,10 +459,7 @@ public class QuanLyDocSo extends Fragment {
     }
 
     private void edit_info(View view) {
-        String[] codes = {"40", "41", "42", "54", "55", "56", "58", "5F", "5K",
-                "60", "61", "62", "63", "64", "65", "66", "81", "82",
-                "83", "F1", "F2", "F3", "F4", "M1", "M2", "M3", "N",
-                "RT", "K", "Q"};
+
         final String danhBo = ((TextView) view.findViewById(R.id.row_qlds_txt_danhBo)).getText().toString();
         final HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_Read(danhBo);
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
@@ -483,7 +482,10 @@ public class QuanLyDocSo extends Fragment {
         ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_diaChi)).setText(hoaDon.getDiaChi());
         ((TextView) dialogLayout.findViewById(R.id.etxt_layout_edit_SDT)).setText(hoaDon.getSdt());
         ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_CSC)).setText(hoaDon.getChiSoCu());
+        final TextView txtTT = (TextView) dialogLayout.findViewById(R.id.txt_layout_edit_tieuThu);
+        txtTT.setText(hoaDon.getTieuThuMoi());
         final EditText etxtCSM = (EditText) dialogLayout.findViewById(R.id.etxt_layout_edit_CSM);
+
         etxtCSM.setText(hoaDon.getChiSoMoi());
 
         final EditText etxtSDT = (EditText) dialogLayout.findViewById(R.id.etxt_layout_edit_SDT);
@@ -493,14 +495,68 @@ public class QuanLyDocSo extends Fragment {
         etxtNote.setText(hoaDon.getGhiChu());
 
         final Spinner spinCode = (Spinner) dialogLayout.findViewById(R.id.spin_edit_code);
-        ArrayAdapter<String> adapterCode = new ArrayAdapter<String>(mRootView.getContext(), android.R.layout.simple_spinner_dropdown_item, codes);
+        ArrayAdapter<String> adapterCode = new ArrayAdapter<String>(mRootView.getContext(), android.R.layout.simple_spinner_dropdown_item, Code.getInstance().getCodes());
         adapterCode.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spinCode.setAdapter(adapterCode);
-        for (int i = 0; i < codes.length; i++)
-            if (codes[i].equals(hoaDon.getCodeMoi())) {
+        for (int i = 0; i < Code.getInstance().getCodes().length; i++)
+            if (Code.getInstance().getCodes()[i].equals(hoaDon.getCodeMoi())) {
                 spinCode.setSelection(i);
                 break;
             }
+        spinCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                String code = spinCode.getItemAtPosition(position).toString().substring(0, 2);
+
+                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(code, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(hoaDon.getChiSoCu()), hoaDon.getChiSoMoi());
+
+                etxtCSM.setText(csm_tieuThu.getCSM());
+                txtTT.setText(csm_tieuThu.getTieuThu());
+
+                hoaDon.setChiSoMoi(csm_tieuThu.getCSM());
+                hoaDon.setTieuThuMoi(csm_tieuThu.getTieuThu());
+                if (CalculateCSM_TieuThu.checkCSMFluctuation(hoaDon.getTieuThuMoi(), hoaDon.getCode_CSC_SanLuong().getSanLuong1(),
+                        hoaDon.getCode_CSC_SanLuong().getSanLuong2(), hoaDon.getCode_CSC_SanLuong().getSanLuong3())) {
+                    etxtCSM.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
+                } else {
+                    etxtCSM.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        etxtCSM.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String code = spinCode.getSelectedItem().toString().substring(0, 2);
+                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(code, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(hoaDon.getChiSoCu()), s.toString());
+
+                txtTT.setText(csm_tieuThu.getTieuThu());
+                hoaDon.setChiSoMoi(s.toString());
+                hoaDon.setTieuThuMoi(csm_tieuThu.getTieuThu());
+                if (CalculateCSM_TieuThu.checkCSMFluctuation(csm_tieuThu.getTieuThu(), hoaDon.getCode_CSC_SanLuong().getSanLuong1(),
+                        hoaDon.getCode_CSC_SanLuong().getSanLuong2(), hoaDon.getCode_CSC_SanLuong().getSanLuong3())) {
+                    etxtCSM.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
+                } else {
+                    etxtCSM.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_giaBieu)).setText(hoaDon.getGiaBieu());
         ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_tienNuoc)).setText("");//TODO tien nuoc
 

@@ -2,6 +2,9 @@ package com.ditagis.hcm.docsotanhoa.utities;
 
 import com.ditagis.hcm.docsotanhoa.entities.Code_CSC_SanLuong;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by ThanLe on 11/22/2017.
  */
@@ -205,4 +208,34 @@ public class CalculateCSM_TieuThu {
 
         return tieuThu;
     }
+
+    public static boolean checkCSMFluctuation(String tt, String tt1, String tt2, String tt3){
+        int tieuThu = 0, sum = 0, avergare = 0, min = 0, max = 0;
+        List<Integer> tieuThuList = new ArrayList<>();
+        if (tt.length() > 0) {
+            tieuThu = Integer.parseInt(tt);
+            if (tt1.length() > 0)
+                tieuThuList.add(Integer.parseInt(tt1));
+            if (tt2.length() > 0)
+                tieuThuList.add(Integer.parseInt(tt2));
+            if (tt3.length() > 0)
+                tieuThuList.add(Integer.parseInt(tt3));
+            for (Integer item : tieuThuList)
+                sum += item;
+            avergare = sum / tieuThuList.size();
+            min = avergare / 2;
+            max = 3 * avergare / 2;
+            for (Integer item : tieuThuList)
+                if (max < item)
+                    max = item;
+            if (min <= tieuThu && tieuThu <= max)
+                return false;
+            else
+                return true;
+
+        } else
+            return false;
+    }
+
+
 }

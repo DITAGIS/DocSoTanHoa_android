@@ -5,7 +5,7 @@
     android:fillViewport="true">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -110,7 +110,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dip"
                 android:background="@color/color_row_check_1" />
+            <!--Table codeCucode-->
+            <TableRow android:layout_weight="1">
 
+                <TextView
+                    android:layout_column="0"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="Code: "
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <Spinner
+                    android:id="@+id/spin_edit_code"
+                    android:layout_gravity="center_vertical"
+                    android:layout_span="4"
+                    android:layout_weight="1"
+                    android:text="1029385"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/white" />
+            </TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dip"
+                android:background="@color/color_row_check_1" />
             <!--Table row chỉ số cũ-->
             <TableRow android:layout_weight="1">
 
@@ -148,6 +171,7 @@
                     android:layout_width="wrap_content"
                     android:layout_weight="3"
                     android:gravity="left"
+                    android:inputType="number"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </TableRow>
 
@@ -155,7 +179,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dip"
                 android:background="@color/color_row_check_1" />
-
             <!--Table codeCucode-->
             <TableRow android:layout_weight="1">
 
@@ -163,11 +186,11 @@
                     android:layout_column="0"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="Code: "
+                    android:text="Tiêu thụ: "
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                <Spinner
-                    android:id="@+id/spin_edit_code"
+                <TextView
+                    android:id="@+id/txt_layout_edit_tieuThu"
                     android:layout_gravity="center_vertical"
                     android:layout_span="4"
                     android:layout_weight="1"
@@ -180,6 +203,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dip"
                 android:background="@color/color_row_check_1" />
+
 
             <!--Table row giá biểu-->
             <TableRow android:layout_weight="1">

@@ -387,10 +387,12 @@ public class LocalDatabase extends SQLiteOpenHelper {
         return hoaDons;
     }
 
-    public boolean updateHoaDonRead(HoaDon hoadon) {
+    public boolean updateHoaDonUnRead(HoaDon hoadon) {
         return updateHoaDon(hoadon, Flag.READ, Flag.UNREAD);
     }
-
+    public boolean updateHoaDonRead(HoaDon hoadon) {
+        return updateHoaDon(hoadon, Flag.READ, Flag.READ);
+    }
     public boolean updateHoaDonSynchronized(HoaDon hoaDon) {
         return updateHoaDon(hoaDon, Flag.SYNCHRONIZED, Flag.READ);
     }
