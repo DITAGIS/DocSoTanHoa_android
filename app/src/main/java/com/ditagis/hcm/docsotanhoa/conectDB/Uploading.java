@@ -5,7 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 
-import com.ditagis.hcm.docsotanhoa.entities.DanhBo_ChiSoMoi;
+import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -23,7 +23,7 @@ import java.util.List;
  * Created by ThanLe on 15/10/2017.
  */
 
-public class Uploading implements IDB<DanhBo_ChiSoMoi, Boolean, String> {
+public class Uploading implements IDB<HoaDon, Boolean, String> {
     private final String TABLE_NAME = "HOADON";
     private final String NEW_TABLE_NAME = "HoaDonMoi";
     private final String TABLE_NAME_DOCSO = "DocSo";
@@ -90,7 +90,7 @@ public class Uploading implements IDB<DanhBo_ChiSoMoi, Boolean, String> {
     }
 
     @Override
-    public Boolean add(DanhBo_ChiSoMoi danhBo_chiSoMoi) {
+    public Boolean add(HoaDon hoaDon) {
         String sql = this.SQL_INSERT_LUUTRU;
 
         try {
@@ -98,39 +98,39 @@ public class Uploading implements IDB<DanhBo_ChiSoMoi, Boolean, String> {
             if (cnn == null)
                 return false;
             PreparedStatement st = cnn.prepareStatement(sql);
-            st.setString(1, this.mNam + this.mKy + danhBo_chiSoMoi.getDanhBo());
-            st.setString(2, danhBo_chiSoMoi.getDanhBo());
-            st.setString(3, danhBo_chiSoMoi.getMaLoTrinh());
-            st.setString(4, danhBo_chiSoMoi.getMaLoTrinh());
-            st.setString(5, "");
+            st.setString(1, this.mNam + this.mKy + hoaDon.getDanhBo());
+            st.setString(2, hoaDon.getDanhBo());
+            st.setString(3, hoaDon.getMaLoTrinh());
+            st.setString(4, hoaDon.getMaLoTrinh());
+            st.setString(5, hoaDon.getSoNha());
             st.setString(6, "");
-            st.setString(7, "");
-            st.setString(8, danhBo_chiSoMoi.getSdt());
-            st.setString(9, danhBo_chiSoMoi.getGiaBieu());
-            st.setString(10, "");
+            st.setString(7, hoaDon.getDuong());
+            st.setString(8, hoaDon.getSdt());
+            st.setString(9, hoaDon.getGiaBieu());
+            st.setString(10, hoaDon.getDinhMuc());
             st.setString(11, this.mNam);
             st.setString(12, this.mKy);
             st.setString(13, this.mDot);
-            st.setString(14, danhBo_chiSoMoi.getMaLoTrinh().substring(2, 4));
+            st.setString(14, hoaDon.getMaLoTrinh().substring(2, 4));
             st.setString(15, "");
             st.setString(16, "");
-            st.setString(17, danhBo_chiSoMoi.getChiSoCu());
-            st.setString(18, danhBo_chiSoMoi.getChiSoMoi());
-            st.setString(19, "");
-            st.setString(20, danhBo_chiSoMoi.getCode());
+            st.setString(17, hoaDon.getChiSoCu());
+            st.setString(18, hoaDon.getChiSoMoi());
+            st.setString(19, hoaDon.getCode_CSC_SanLuong().getCode1());
+            st.setString(20, hoaDon.getCodeMoi());
             st.setString(21, "");
             st.setString(22, "");
-            st.setString(23, "");
-            int tieuThuMoi = Integer.parseInt(danhBo_chiSoMoi.getChiSoMoi()) - Integer.parseInt(danhBo_chiSoMoi.getChiSoCu());
+            st.setString(23, hoaDon.getCode_CSC_SanLuong().getSanLuong1());
+            int tieuThuMoi = Integer.parseInt(hoaDon.getChiSoMoi()) - Integer.parseInt(hoaDon.getChiSoCu());
             st.setString(24, tieuThuMoi + "");
             for (int i = 25; i <= 55; i++)
                 st.setString(i, "");
-            st.setString(56, danhBo_chiSoMoi.getNote());
+            st.setString(56, hoaDon.getGhiChu());
             for (int i = 57; i <= 62; i++)
                 st.setString(i, "");
 
             int result = st.executeUpdate();
-            int result1 = addHinhDHN(danhBo_chiSoMoi);
+            int result1 = addHinhDHN(hoaDon);
 
             st.close();
             return result > 0 && result1>0;
@@ -147,7 +147,7 @@ public class Uploading implements IDB<DanhBo_ChiSoMoi, Boolean, String> {
     }
 
     @Override
-    public Boolean update(DanhBo_ChiSoMoi danhBo_chiSoMoi) {
+    public Boolean update(HoaDon hoaDon) {
         String sql = this.SQL_UPDATE;
 
         //TODO: cập nhật chỉ số cũ = chỉ số mới
@@ -156,17 +156,17 @@ public class Uploading implements IDB<DanhBo_ChiSoMoi, Boolean, String> {
             if (cnn == null)
                 return false;
             PreparedStatement st = cnn.prepareStatement(sql);
-            st.setString(1, danhBo_chiSoMoi.getChiSoMoi());
-            st.setString(2, danhBo_chiSoMoi.getCode());
-            st.setString(3, danhBo_chiSoMoi.getNote());
-            st.setString(4, danhBo_chiSoMoi.getDanhBo());
-            st.setString(5, danhBo_chiSoMoi.getDot());
+            st.setString(1, hoaDon.getChiSoMoi());
+            st.setString(2, hoaDon.getCodeMoi());
+            st.setString(3, hoaDon.getGhiChu());
+            st.setString(4, hoaDon.getDanhBo());
+            st.setString(5, hoaDon.getDot());
             st.setString(6, this.mKy);
             st.setString(7, this.mNam);
             int result1 = st.executeUpdate();
             st.close();
 
-            int result2 = addHinhDHN(danhBo_chiSoMoi);
+            int result2 = addHinhDHN(hoaDon);
 
             return result1 > 0 && result2 > 0;
 
@@ -176,7 +176,7 @@ public class Uploading implements IDB<DanhBo_ChiSoMoi, Boolean, String> {
         return false;
     }
 
-    private int addHinhDHN(DanhBo_ChiSoMoi danhBo_chiSoMoi) {
+    private int addHinhDHN(HoaDon hoaDon) {
         String sqlInsert_HinhDHN = this.SQL_INSERT_HINHDHN;
         try {
             cnn = ConnectionDB.getInstance().getConnection();
@@ -184,11 +184,11 @@ public class Uploading implements IDB<DanhBo_ChiSoMoi, Boolean, String> {
                 return 0;
             PreparedStatement st1 = cnn.prepareStatement(sqlInsert_HinhDHN, Statement.RETURN_GENERATED_KEYS);
 
-            st1.setString(1, danhBo_chiSoMoi.getDanhBo());
+            st1.setString(1, hoaDon.getDanhBo());
 
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-            Bitmap bit = BitmapFactory.decodeFile(danhBo_chiSoMoi.getImage());
+            Bitmap bit = BitmapFactory.decodeFile(hoaDon.getImage());
             bit.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
 
             st1.setBytes(2, outputStream.toByteArray());
@@ -199,7 +199,7 @@ public class Uploading implements IDB<DanhBo_ChiSoMoi, Boolean, String> {
             String path = Environment.getExternalStorageDirectory().getPath();
 //                path = path.substring(0, path.length() - 1).concat("1");
             File outFile = new File(path, "DocSoTanHoa");
-            String fileName = danhBo_chiSoMoi.getImage().substring(outFile.getAbsolutePath().length() + 1).split("\\.")[0];
+            String fileName = hoaDon.getImage().substring(outFile.getAbsolutePath().length() + 1).split("\\.")[0];
             String stringDate = fileName.substring(0, 19);
             Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
             st1.setTimestamp(6, new java.sql.Timestamp(date.getTime()));
@@ -215,12 +215,12 @@ public class Uploading implements IDB<DanhBo_ChiSoMoi, Boolean, String> {
     }
 
     @Override
-    public DanhBo_ChiSoMoi find(String s) {
+    public HoaDon find(String s) {
         return null;
     }
 
     @Override
-    public List<DanhBo_ChiSoMoi> getAll() {
+    public List<HoaDon> getAll() {
         return null;
     }
 

@@ -673,7 +673,7 @@
             <!--Table row tiền nước-->
 
         </LinearLayout>
-        <!--Layout nhập chỉ số mới, code-->
+        <!--Layout nhập chỉ số mcodeCucode-->
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -694,7 +694,7 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin">
 
-                <!--Table row nhập code-->
+                <!--Table row ncodeCucode-->
                 <TableRow android:layout_weight="1">
 
                     <TextView

@@ -96,7 +96,7 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
         String dotString = mDot + "";
         if (mDot < 10)
             dotString = "0" + mDot;
-        hoaDons = this.mLocalDatabase.getAllHoaDon(dotString + mUsername + "%");
+        hoaDons = this.mLocalDatabase.getAllHoaDon_UnRead(dotString + mUsername + "%");
 //        } else {
 
 
@@ -112,6 +112,7 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
             for (HoaDon hoaDon : hoaDons)
                 if (DBs.contains(hoaDon.getDanhBo()))
                     DBs.remove(hoaDon.getDanhBo());
+
             for (String danhBo : DBs) {
                 if (mIsLoading) {
                     HoaDon hoaDon = _hoadonDB.getHoaDonByUserName(this.mUsername, danhBo, this.mDot, this.mNam, this.mKy);
