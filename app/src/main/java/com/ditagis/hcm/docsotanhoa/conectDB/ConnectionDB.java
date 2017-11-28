@@ -23,6 +23,7 @@ public class ConnectionDB {
         return _instance;
     }
 
+
     public Connection getConnection() {
         if (connection == null)
             connection = getConnect();

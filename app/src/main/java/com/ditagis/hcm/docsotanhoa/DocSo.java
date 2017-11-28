@@ -45,6 +45,7 @@ import com.ditagis.hcm.docsotanhoa.theme.ThemeUtils;
 import com.ditagis.hcm.docsotanhoa.utities.CalculateCSM_TieuThu;
 import com.ditagis.hcm.docsotanhoa.utities.Code;
 import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
+import com.ditagis.hcm.docsotanhoa.utities.MyAlertByHardware;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 
 import java.io.File;
@@ -286,6 +287,7 @@ public class DocSo extends Fragment {
                 mTxtTT.setText(csm_tieuThu.getTieuThu());
 
                 if (checkCSMFluctuation()) {
+                    MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(false);
                     ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
                 } else {
                     ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
@@ -545,6 +547,7 @@ public class DocSo extends Fragment {
                 mTxtTT.setText(csm_tieuThu.getTieuThu());
 
                 if (checkCSMFluctuation()) {
+                    MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(false);
                     ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
                 } else {
                     ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
@@ -707,6 +710,8 @@ public class DocSo extends Fragment {
         } else {
             csm = Integer.parseInt(mTxtCSM.getText().toString());
             if (checkCSMFluctuation()) {
+                MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(true);
+//                MyAlertByHardware.getInstance(mRootView.getContext()).playSound();
                 alertCSMFluctuation(csc, csm);
             } else if (csm < csc) {
                 alertCSM_lt_CSC(csc, csm);
@@ -882,6 +887,7 @@ public class DocSo extends Fragment {
                 })
                 .setNegativeButton("Kiểm tra lại", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+//                        MyAlertByHardware.getInstance(mRootView.getContext()).stopSound();
                         dialog.dismiss();
                     }
                 });

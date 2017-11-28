@@ -131,11 +131,17 @@ public class QuanLyDocSo extends Fragment {
         mGridView.setAdapter(mQuanLyDocSoAdapter);
         registerForContextMenu(mGridView);
 
-        mGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//        mGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//                showMoreInfo(view);
+//                return false;
+//            }
+//        });
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 showMoreInfo(view);
-                return false;
             }
         });
         final ImageButton imgBtnUpload = (ImageButton) mRootView.findViewById(R.id.imgBtn_qlds_upload);
@@ -439,7 +445,7 @@ public class QuanLyDocSo extends Fragment {
         Bitmap bitmap = BitmapFactory.decodeFile(hoaDon.getImage(), options);
 
         ImageView image = (ImageView) dialog.findViewById(R.id.imgView_qlds);
-        BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), false));
+        BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.7), (int)(bitmap.getHeight()*0.7), false));
 
         image.setBackground(resizedDialogImage);
 
@@ -472,7 +478,7 @@ public class QuanLyDocSo extends Fragment {
         Bitmap bitmap = BitmapFactory.decodeFile(hoaDon.getImage(), options);
 
         ImageView image = (ImageView) dialogLayout.findViewById(R.id.imgView_edit);
-        BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), false));
+        BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int)(bitmap.getWidth()*0.7),(int)( bitmap.getHeight()*0.7), false));
 
         image.setBackground(resizedDialogImage);
 

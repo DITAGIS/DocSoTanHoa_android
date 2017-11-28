@@ -108,16 +108,15 @@ public class LayLoTrinh {
     }
 
 
-    public int selectDot() {
-        final int[] dot = {mDot};
-        String[] dots = new String[mDot];
-        String[] kys = new String[mKy];
+    public void selectDot() {
+        String[] dots = new String[20];
+        String[] kys = new String[12];
         for (int i = 1; i <= mDot; i++)
             if (i < 10)
                 dots[i - 1] = "0" + i;
             else
                 dots[i - 1] = i + "";
-        for (int i = 1; i <= mKy; i++) {
+        for (int i = 1; i <= 12; i++) {
             if (i < 10)
                 kys[i - 1] = "0" + i;
             else
@@ -156,7 +155,6 @@ public class LayLoTrinh {
         AlertDialog dialog = builder.create();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.show();
-        return dot[0];
     }
 
     public void setTextProgress() {

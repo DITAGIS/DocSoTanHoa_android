@@ -163,7 +163,7 @@ public class LogInDB implements IDB<User, Boolean, String> {
 //            mDot = dot + "";
             statement.close();
             rsDot.close();
-            Result result = new Result(mDot, staffName,user.getUserName());
+            Result result = new Result(mDot, staffName, user.getUserName());
             return result;
 
         } catch (SQLException e1) {
@@ -173,13 +173,15 @@ public class LogInDB implements IDB<User, Boolean, String> {
     }
 
 
-    public boolean setPassword(Connection cnn, String password) {
+    public boolean setPassword(int i, String password) {
 
 
         String sql = this.SQL_UPDATE_ALL;
-
         try {
-            PreparedStatement st = cnn.prepareStatement(sql);
+            String username = i + "";
+            if (i < 10)
+                username = "0" + i;
+            PreparedStatement st = ConnectionDB.getInstance().getConnection().prepareStatement(sql);
             st.setString(1, (new EncodeMD5()).encode(password));
             int result = st.executeUpdate();
             if (result > 0) {
@@ -221,10 +223,11 @@ public class LogInDB implements IDB<User, Boolean, String> {
 
 
     public static void main(String[] args) {
-        LogInDB logInDB = new LogInDB();
-        Connection cnn = ConnectionDB.getInstance().getConnection();
-        for (int i = 1; i <= 70; i++)
-            logInDB.setPassword(cnn, "54321");
+//        LogInDB logInDB = new LogInDB();
+//
+//        for (int i = 1; i <= 70; i++)
+//            logInDB.setPassword(i, "54321");
 
+        System.out.print(new EncodeMD5().encode("54321"));
     }
 }

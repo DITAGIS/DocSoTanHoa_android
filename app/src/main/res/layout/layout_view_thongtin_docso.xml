@@ -16,6 +16,7 @@
             android:id="@+id/imgView_qlds"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true" />
         <!--Thông tin danh bộ đã đọc-->
         <TableLayout
