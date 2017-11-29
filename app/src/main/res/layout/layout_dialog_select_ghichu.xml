@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/login_activity_horizontal_margin"
+    android:paddingRight="@dimen/login_activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="Ghi chú: "
+            android:textSize="15dp" />
+
+        <Spinner
+            android:id="@+id/spin_select_ghichu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_select_ghichu_sub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="Cụ thể: "
+            android:textSize="15dp" />
+
+        <Spinner
+            android:id="@+id/spin_select_ghichu_sub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/etxt_select_ghichu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="5"
+        android:paddingLeft="@dimen/activity_horizontal_margin" />
+
+</LinearLayout>

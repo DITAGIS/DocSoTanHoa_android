@@ -17,7 +17,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,6 +46,7 @@ import com.ditagis.hcm.docsotanhoa.utities.Code;
 import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
 import com.ditagis.hcm.docsotanhoa.utities.MyAlertByHardware;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
+import com.ditagis.hcm.docsotanhoa.utities.Note;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -898,6 +898,20 @@ public class DocSo extends Fragment {
     }
 
     private void alertCSMFluctuation(final int csc, final int csm) {
+//        LinearLayout layout = (LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0);
+//        for (int i = 1; i <= 3; i++) {
+//            try {
+//                layout.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
+//                Thread.sleep(100);
+//                layout.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
+//                Thread.sleep(100);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//
+//
+//        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle(mRootView.getContext().getString(R.string.alert_csm_fluctuation_title));
         builder.setCancelable(false);
@@ -958,17 +972,80 @@ public class DocSo extends Fragment {
 
     private void doNote() {
         //--------------------
-        final EditText input = new EditText(mRootView.getContext());
-        input.setMaxLines(5);
-        input.setText(this.mGhiChu);
-        input.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
+//        final EditText input = new EditText(mRootView.getContext());
+//        input.setMaxLines(5);
+//        input.setText(this.mGhiChu);
+//        input.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Ghi chú");
+        LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
+        View dialogLayout = inflater.inflate(R.layout.layout_dialog_select_ghichu, null);
+        final Spinner spin_ghichu = (Spinner) dialogLayout.findViewById(R.id.spin_select_ghichu);
+        final Spinner spin_ghichu_sub = (Spinner) dialogLayout.findViewById(R.id.spin_select_ghichu_sub);
+        final EditText etxtghichu = (EditText) dialogLayout.findViewById(R.id.etxt_select_ghichu);
+        etxtghichu.setBackgroundResource(R.layout.edit_text_styles);
+        etxtghichu.setEnabled(false);
+        LinearLayout layout_ghichu_sub = (LinearLayout) dialogLayout.findViewById(R.id.layout_select_ghichu_sub);
+
+        ArrayAdapter<String> adapterNotes = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_note_left, Note.getInstance().getNotes());
+        final ArrayAdapter<String> adapterNotes_sub_dutchi = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_note_left, Note.getInstance().getNotes_sub_dutchi());
+        final ArrayAdapter<String> adapterNotes_sub_kinhdoanh = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_note_left, Note.getInstance().getNotes_sub_kinhdoanh());
+
+        spin_ghichu.setAdapter(adapterNotes);
+        spin_ghichu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        etxtghichu.setEnabled(true);
+                        spin_ghichu_sub.setEnabled(false);
+                        spin_ghichu_sub.setVisibility(View.INVISIBLE);
+                        break;
+                    case 1:
+                        etxtghichu.setEnabled(false);
+                        etxtghichu.setText("");
+                        spin_ghichu_sub.setAdapter(adapterNotes_sub_dutchi);
+                        spin_ghichu_sub.setEnabled(true);
+                        spin_ghichu_sub.setVisibility(View.VISIBLE);
+                        break;
+                    case 2:
+                        etxtghichu.setEnabled(false);
+                        etxtghichu.setText("");
+                        spin_ghichu_sub.setAdapter(adapterNotes_sub_kinhdoanh);
+                        spin_ghichu_sub.setEnabled(true);
+                        spin_ghichu_sub.setVisibility(View.VISIBLE);
+                        break;
+                    default:
+                        spin_ghichu_sub.setEnabled(false);
+                        etxtghichu.setText("");
+                        etxtghichu.setEnabled(false);
+                        spin_ghichu_sub.setVisibility(View.INVISIBLE);
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         builder.setCancelable(false);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mGhiChu = input.getText().toString();
+//                mGhiChu = input.getText().toString();
+                switch (spin_ghichu.getSelectedItemPosition()) {
+                    case 0:
+                        mGhiChu = etxtghichu.getText().toString();
+                        break;
+                    case 1:case 2:
+                        mGhiChu = spin_ghichu.getSelectedItem().toString() + ": " + spin_ghichu_sub.getSelectedItem().toString();
+                        break;
+                    default:
+                        mGhiChu = spin_ghichu.getSelectedItem().toString();
+                        break;
+                }
                 dialog.dismiss();
             }
         }).setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
@@ -977,8 +1054,9 @@ public class DocSo extends Fragment {
                 dialog.dismiss();
             }
         });
+        builder.setView(dialogLayout);
         final AlertDialog dialog = builder.create();
-        dialog.setView(input);
+//        dialog.setView(input);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.show();
     }
