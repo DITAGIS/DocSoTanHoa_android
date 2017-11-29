@@ -829,7 +829,8 @@ public class DocSo extends Fragment {
         this.mAdapterDB.notifyDataSetChanged();
 
         int i = mSpinMLT.getSelectedItemPosition();
-        selectMLT(i == mMLTs.size() ? i - 1 : i);
+        if (mMLTs.size() != 0)
+            selectMLT(i == mMLTs.size() ? i - 1 : i);
         this.mDanhBoHoanThanh++;
         this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
 
@@ -1039,7 +1040,8 @@ public class DocSo extends Fragment {
                     case 0:
                         mGhiChu = etxtghichu.getText().toString();
                         break;
-                    case 1:case 2:
+                    case 1:
+                    case 2:
                         mGhiChu = spin_ghichu.getSelectedItem().toString() + ": " + spin_ghichu_sub.getSelectedItem().toString();
                         break;
                     default:

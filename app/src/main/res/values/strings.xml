@@ -37,6 +37,7 @@
     <string name="extra_password">password</string>
     <string name="extra_staffname">staffname</string>
     <string name="extra_dot">dot</string>
+    <string name="extra_ky">ky</string>
 
     <string name="load_danhbo_title">Đang tải danh bộ: </string>
     <string name="load_danhbo_message">Giữ kết nối mạng ổn định trong quá trình tải danh bộ!</string>

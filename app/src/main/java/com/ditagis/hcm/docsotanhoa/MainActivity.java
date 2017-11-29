@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setTheme(R.style.Theme_AppCompat_DayNight);
         Calendar calendar = Calendar.getInstance();
-        this.mKy = calendar.get(Calendar.MONTH) + 1;
         this.mNam = calendar.get(Calendar.YEAR);
         if (getIntent().getExtras().getString(this.getString(R.string.extra_username)) != null)
             this.mUsername = getIntent().getExtras().getString(this.getString(R.string.extra_username));
@@ -74,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
             this.mStaffName = getIntent().getExtras().getString(this.getString(R.string.extra_staffname));
         if (getIntent().getExtras().getInt(this.getString(R.string.extra_dot)) > 0)
             this.mDot = getIntent().getExtras().getInt(this.getString(R.string.extra_dot));
+        if (getIntent().getExtras().getInt(this.getString(R.string.extra_ky)) >0)
+            this.mKy = getIntent().getExtras().getInt(this.getString(R.string.extra_ky));
 
 //        mLayLoTrinh = new LayLoTrinh(MainActivity.this, getLayoutInflater(), mKy, mNam, mDot, mUsername, mStaffName);
 

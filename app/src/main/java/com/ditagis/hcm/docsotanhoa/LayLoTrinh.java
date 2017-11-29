@@ -216,6 +216,7 @@ public class LayLoTrinh {
         intent.putExtra(mActivity.getString(R.string.extra_password), mPassWord);
         intent.putExtra(mActivity.getString(R.string.extra_staffname), mStaffName);
         intent.putExtra(mActivity.getString(R.string.extra_dot), mDot);
+        intent.putExtra(mActivity.getString(R.string.extra_ky), mKy);
 
         mActivity.startActivity(intent);
 //        }

@@ -29,7 +29,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
     private final String TABLE_NAME_DOCSO = "DocSo";
     private final String TABLE_NAME_DOCSO_LUUTRU = "DocSoLuuTru";
     private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME_DOCSO + " SET CSMOI=?, CODEMoi=?, GhiChuDS=? WHERE DANHBa=? and dot = ? and ky = ? and nam = ?";
+    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME_DOCSO + " SET CSMOI=?, CODEMoi=?, GhiChuDS=?, tieuthumoi =? WHERE DANHBa=? and dot = ? and ky = ? and nam = ?";
     private final String SQL_INSERT_LUUTRU = "INSERT INTO " + TABLE_NAME_DOCSO_LUUTRU + " VALUES (?,?,?,?,?,?,?,?,?,?," +
             "?,?,?,?,?,?,?,?,?,?," +
             "?,?,?,?,?,?,?,?,?,?," +
@@ -37,7 +37,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             "?,?,?,?,?,?,?,?,?,?," +
             "?,?,?,?,?,?,?,?,?,?," +
             "?,?)";
-    private final String TABLE_NAME_HINHDHN = "HinhDHN";
+    private final String TABLE_NAME_HINHDHN = "HinhDHN_DocSo";
     private final String SQL_INSERT_HINHDHN = "INSERT INTO " + TABLE_NAME_HINHDHN + " VALUES(?,?,?,?,?,?)";
     private final String SQL_DELETE = "DELETE FROM " + TABLE_NAME + " WHERE ClassId=?";
     private final String SQL_INSERT = "INSERT INTO " + NEW_TABLE_NAME + " VALUES(?,?,?,?,?,?,?,?,?,?)";
@@ -91,12 +91,61 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
 
     @Override
     public Boolean add(HoaDon hoaDon) {
+
+
+//            int result = addDocSoLuuTru(hoaDon);
+
+        boolean result = update(hoaDon);
+        int result1 = addHinhDHN(hoaDon);
+
+        return result && result1 > 0;
+//return result > 0;
+
+
+    }
+
+    @Override
+    public Boolean delete(String s) {
+        return null;
+    }
+
+    @Override
+    public Boolean update(HoaDon hoaDon) {
+        String sql = this.SQL_UPDATE;
+
+        //TODO: cập nhật chỉ số cũ = chỉ số mới
+        try {
+            cnn = ConnectionDB.getInstance().getConnection();
+            if (cnn == null)
+                return false;
+            PreparedStatement st = cnn.prepareStatement(sql);
+            st.setString(1, hoaDon.getChiSoMoi());
+            st.setString(2, hoaDon.getCodeMoi());
+            st.setString(3, hoaDon.getGhiChu());
+            st.setString(4, hoaDon.getTieuThuMoi());
+            st.setString(5, hoaDon.getDanhBo());
+            st.setString(6, hoaDon.getDot());
+            st.setString(7, this.mKy);
+            st.setString(8, this.mNam);
+            int result1 = st.executeUpdate();
+            st.close();
+
+
+            return result1 > 0;
+
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+        return false;
+    }
+
+    private int addDocSoLuuTru(HoaDon hoaDon) {
         String sql = this.SQL_INSERT_LUUTRU;
 
         try {
             cnn = ConnectionDB.getInstance().getConnection();
             if (cnn == null)
-                return false;
+                return 0;
             PreparedStatement st = cnn.prepareStatement(sql);
             st.setString(1, this.mNam + this.mKy + hoaDon.getDanhBo());
             st.setString(2, hoaDon.getDanhBo());
@@ -128,52 +177,13 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             st.setString(56, hoaDon.getGhiChu());
             for (int i = 57; i <= 62; i++)
                 st.setString(i, "");
-
             int result = st.executeUpdate();
-            int result1 = addHinhDHN(hoaDon);
-
             st.close();
-            return result > 0 && result1>0;
-
+            return result;
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
-        return false;
-    }
-
-    @Override
-    public Boolean delete(String s) {
-        return null;
-    }
-
-    @Override
-    public Boolean update(HoaDon hoaDon) {
-        String sql = this.SQL_UPDATE;
-
-        //TODO: cập nhật chỉ số cũ = chỉ số mới
-        try {
-            cnn = ConnectionDB.getInstance().getConnection();
-            if (cnn == null)
-                return false;
-            PreparedStatement st = cnn.prepareStatement(sql);
-            st.setString(1, hoaDon.getChiSoMoi());
-            st.setString(2, hoaDon.getCodeMoi());
-            st.setString(3, hoaDon.getGhiChu());
-            st.setString(4, hoaDon.getDanhBo());
-            st.setString(5, hoaDon.getDot());
-            st.setString(6, this.mKy);
-            st.setString(7, this.mNam);
-            int result1 = st.executeUpdate();
-            st.close();
-
-            int result2 = addHinhDHN(hoaDon);
-
-            return result1 > 0 && result2 > 0;
-
-        } catch (SQLException e1) {
-            e1.printStackTrace();
-        }
-        return false;
+        return 0;
     }
 
     private int addHinhDHN(HoaDon hoaDon) {
@@ -207,7 +217,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
 
             return result;
         } catch (SQLException e) {
-
+            e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
         }
