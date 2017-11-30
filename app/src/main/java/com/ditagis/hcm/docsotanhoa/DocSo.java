@@ -17,6 +17,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -183,13 +184,20 @@ public class DocSo extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
                 if (mSearchType.equals(mRootView.getContext().getString(R.string.search_mlt))) {
+                    setMaxLenghtAutoCompleteTextView(9);
                     for (int i = 0; i < mMLTs.size(); i++) {
                         if (s.toString().equals(mMLTs.get(i))) {
                             mSpinMLT.setSelection(i);
                         }
                     }
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
+                    setMaxLenghtAutoCompleteTextView(11);
                     for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike)) {
                         if (s.toString().equals(hoaDon.getDanhBo()))
                             for (int i = 0; i < mMLTs.size(); i++)
@@ -197,6 +205,7 @@ public class DocSo extends Fragment {
                                     mSpinMLT.setSelection(i);
                     }
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_tenKH))) {
+                    setMaxLenghtAutoCompleteTextView(30);
                     for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike)) {
                         if (s.toString().equals(hoaDon.getTenKhachHang()))
                             for (int i = 0; i < mMLTs.size(); i++)
@@ -204,6 +213,7 @@ public class DocSo extends Fragment {
                                     mSpinMLT.setSelection(i);
                     }
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_diaChi))) {
+                    setMaxLenghtAutoCompleteTextView(50);
                     for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike)) {
                         if (s.toString().equals(hoaDon.getDiaChi()))
                             for (int i = 0; i < mMLTs.size(); i++)
@@ -211,11 +221,6 @@ public class DocSo extends Fragment {
                                     mSpinMLT.setSelection(i);
                     }
                 }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
         mRootView.findViewById(R.id.layout_ds_call).setOnClickListener(new View.OnClickListener() {
@@ -287,7 +292,7 @@ public class DocSo extends Fragment {
                 mTxtTT.setText(csm_tieuThu.getTieuThu());
 
                 if (checkCSMFluctuation()) {
-                    MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(false);
+//                    MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(false);
                     ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
                 } else {
                     ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
@@ -374,6 +379,12 @@ public class DocSo extends Fragment {
             mDBs.add(hoaDon.getDanhBo());
         }
         refresh();
+    }
+
+    private void setMaxLenghtAutoCompleteTextView(int maxLenght) {
+        InputFilter[] FilterArray = new InputFilter[1];
+        FilterArray[0] = new InputFilter.LengthFilter(maxLenght);
+        singleComplete.setFilters(FilterArray);
     }
 
     private boolean checkCSMFluctuation() {
@@ -547,7 +558,7 @@ public class DocSo extends Fragment {
                 mTxtTT.setText(csm_tieuThu.getTieuThu());
 
                 if (checkCSMFluctuation()) {
-                    MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(false);
+//                    MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(false);
                     ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
                 } else {
                     ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
@@ -1095,7 +1106,7 @@ public class DocSo extends Fragment {
             return null;
         String path = Environment.getExternalStorageDirectory().getPath();
 //                path = path.substring(0, path.length() - 1).concat("1");
-        File outFile = new File(path, "DocSoTanHoa");
+        File outFile = new File(path, mRootView.getContext().getString(R.string.path_saveImage));
 
         if (!outFile.exists())
             outFile.mkdir();

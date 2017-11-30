@@ -39,6 +39,8 @@
     <string name="extra_dot">dot</string>
     <string name="extra_ky">ky</string>
 
+    <string name="path_saveImage">.docsotanhoa</string>
+
     <string name="load_danhbo_title">Đang tải danh bộ: </string>
     <string name="load_danhbo_message">Giữ kết nối mạng ổn định trong quá trình tải danh bộ!</string>
     <string name="load_danhbo_error">Tải danh bộ thất bại!</string>
