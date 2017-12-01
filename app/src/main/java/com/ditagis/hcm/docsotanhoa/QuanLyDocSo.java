@@ -117,7 +117,7 @@ public class QuanLyDocSo extends Fragment {
         mSpinCode.setAdapter(mAdapterCode);
 
         mTxtComplete = (TextView) mRootView.findViewById(R.id.txt_qlds_tienTrinh);
-        mUploading = new Uploading(mDot, mKy, mNam);
+        mUploading = new Uploading(mDot, mKy, mNam, mRootView.getContext());
         mGridView = (GridView) mRootView.findViewById(R.id.grid_qlds_danhSachDocSo);
         mSumDanhBoDB = new SumDanhBoDB();
         String kyString = mKy + "";

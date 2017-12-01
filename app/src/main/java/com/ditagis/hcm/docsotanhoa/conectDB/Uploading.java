@@ -1,10 +1,12 @@
 package com.ditagis.hcm.docsotanhoa.conectDB;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 
+import com.ditagis.hcm.docsotanhoa.R;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 
 import java.io.ByteArrayOutputStream;
@@ -44,8 +46,9 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
     private Connection cnn = ConnectionDB.getInstance().getConnection();
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     private String mDot, mKy, mNam;
+    private Context mContext;
 
-    public Uploading(int dot, int ky, int nam) {
+    public Uploading(int dot, int ky, int nam, Context context) {
         this.mDot = dot + "";
         if (dot < 10)
             this.mDot = "0" + dot;
@@ -53,6 +56,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
         if (ky < 10)
             this.mKy = "0" + ky;
         this.mNam = nam + "";
+        mContext = context;
     }
 
     public void setmDot(int dot) {
@@ -208,7 +212,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             st1.setString(5, "0");
             String path = Environment.getExternalStorageDirectory().getPath();
 //                path = path.substring(0, path.length() - 1).concat("1");
-            File outFile = new File(path, "DocSoTanHoa");
+            File outFile = new File(path, mContext.getString(R.string.path_saveImage));
             String fileName = hoaDon.getImage().substring(outFile.getAbsolutePath().length() + 1).split("\\.")[0];
             String stringDate = fileName.substring(0, 19);
             Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
