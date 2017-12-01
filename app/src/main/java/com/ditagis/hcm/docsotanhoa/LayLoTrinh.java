@@ -111,7 +111,7 @@ public class LayLoTrinh {
     public void selectDot() {
         String[] dots = new String[20];
         String[] kys = new String[12];
-        for (int i = 1; i <= mDot; i++)
+        for (int i = 1; i <= 20; i++)
             if (i < 10)
                 dots[i - 1] = "0" + i;
             else

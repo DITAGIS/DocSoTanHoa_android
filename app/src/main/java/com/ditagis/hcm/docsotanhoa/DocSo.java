@@ -382,9 +382,11 @@ public class DocSo extends Fragment {
     }
 
     private void setMaxLenghtAutoCompleteTextView(int maxLenght) {
-        InputFilter[] FilterArray = new InputFilter[1];
-        FilterArray[0] = new InputFilter.LengthFilter(maxLenght);
-        singleComplete.setFilters(FilterArray);
+        if (singleComplete != null) {
+            InputFilter[] FilterArray = new InputFilter[1];
+            FilterArray[0] = new InputFilter.LengthFilter(maxLenght);
+            singleComplete.setFilters(FilterArray);
+        }
     }
 
     private boolean checkCSMFluctuation() {
