@@ -80,7 +80,7 @@ public class DocSo extends Fragment {
     TextView mTxtTT, mTxtTT1, mTxtTT2, mTxtTT3;
     Spinner mSpinMLT;
     Spinner mSpinDB = null;
-    Spinner mSpinCode;
+    Spinner mSpinCode, mSpinDot;
     private Bitmap mBpImage;
     private HoaDon mHoaDon;
 
@@ -104,6 +104,8 @@ public class DocSo extends Fragment {
     private boolean isAllowChangeSdt = false;
     private int mSelected_theme;
     private String mLike;
+    private ArrayAdapter<String> mAdapterDot;
+    private List<String> mDots = new ArrayList<>();
 
     public void setmSelected_theme(int mSelected_theme) {
         this.mSelected_theme = mSelected_theme;
@@ -130,6 +132,12 @@ public class DocSo extends Fragment {
         mTxtTT1 = (TextView) mRootView.findViewById(R.id.txt_ds_tieuThu1);
         mTxtTT2 = (TextView) mRootView.findViewById(R.id.txt_ds_tieuThu2);
         mTxtTT3 = (TextView) mRootView.findViewById(R.id.txt_ds_tieuThu3);
+        mSpinDot = (Spinner) mRootView.findViewById(R.id.spin_ds_dot);
+
+        mDots.add(dotString);
+
+        mAdapterDot = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mDots);
+        mSpinDot.setAdapter(mAdapterDot);
         //for camera
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
@@ -428,7 +436,8 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.txt_ds_ky_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_ky)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_dot_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                ((TextView) mRootView.findViewById(R.id.txt_ds_dot)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+
+                mAdapterDot = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mDots);
                 ((TextView) mRootView.findViewById(R.id.editauto_ds_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
@@ -477,7 +486,8 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.txt_ds_ky_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_ky)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_dot_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((TextView) mRootView.findViewById(R.id.txt_ds_dot)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+
+                mAdapterDot = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mDots);
                 ((TextView) mRootView.findViewById(R.id.editauto_ds_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
@@ -513,6 +523,8 @@ public class DocSo extends Fragment {
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 break;
         }
+        mAdapterDot.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        mSpinDot.setAdapter(mAdapterDot);
 
         mAdapterMLT.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         mSpinMLT.setAdapter(mAdapterMLT);
@@ -687,7 +699,7 @@ public class DocSo extends Fragment {
         String dotString = mDot + "";
         if (this.mDot < 10)
             dotString = "0" + this.mDot;
-        ((TextView) mRootView.findViewById(R.id.txt_ds_dot)).setText(this.mDot + "");
+//        ((TextView) mRootView.findViewById(R.id.spin_ds_dot)).setText(this.mDot + "");
 
         setTextProgress(dotString);
 
@@ -734,7 +746,11 @@ public class DocSo extends Fragment {
         }
     }
 
-    public void selectMLT(int position) {
+    private void selectDot(int position) {
+
+    }
+
+    private void selectMLT(int position) {
         mMlt = mMLTs.get(position);
         selectDanhBo(position);
     }
@@ -751,7 +767,10 @@ public class DocSo extends Fragment {
         HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
         mHoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
         mDot = Integer.parseInt(mHoaDon.getDot());
-        ((TextView) mRootView.findViewById(R.id.txt_ds_dot)).setText(mHoaDon.getDot());
+        for (int i = 0; i < mDots.size(); i++) {
+            if (mDots.get(i).equals(mHoaDon.getDot()))
+                mSpinDot.setSelection(i);
+        }
         ((TextView) mRootView.findViewById(R.id.txt_ds_tenKH)).setText(mHoaDon.getTenKhachHang());
 //                            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
         mTxtCSC = (TextView) mRootView.findViewById(R.id.txt_ds_CSC);
