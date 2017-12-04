@@ -68,7 +68,6 @@ public class QuanLyDocSo extends Fragment {
     List<String> mDBs = new ArrayList<String>(), mTenKHs = new ArrayList<>(), mDiaChis = new ArrayList<>(), mMLTs = new ArrayList<>();
     private String mLike;
     private String mSearchType;
-    private String[] mCodes;
     private ArrayAdapter<String> mAdapterCode;
     Spinner mSpinCode;
 
@@ -93,25 +92,8 @@ public class QuanLyDocSo extends Fragment {
             dotString = "0" + mDot;
         this.mLike = dotString + mUsername + "%";
 
-        mCodes = new String[]{"Tất cả", "40 Chỉ số bình thường", "41 Ghi chỉ số ra ngoài", "42 Báo chỉ số qua điện thoại",
-                "54 Ghi sai, ghi lố, nhập liệu sai", "55 Giải trình code 5 kỳ trước",
-                "56 Giải trình code 6 kỳ trước\nKỳ này đọc được", "58 Giải trình code 8 kỳ trước",
-                "5F Giải trình code F kỳ trước", "5M Giải trình code M kỳ trước",
-                "5Q Giải trình code Q kỳ trước", "5K Giải trình code K kỳ trước",
-                "5N Giải trình code N kỳ trước",
-                "60 Ngưng có nước, nước yếu", "61 Kiếng mờ, dơ, nứt", "62 Kẹt số, lệch số, tuôn số\nquay ngược, gắn ngược",
-                "63 Bể kiếng, mất mặt số", "64 Chủ gỡ, ống ngang\nnâng, hạ, hầm sâu", "66 Lấp mất, không tìm thấy",
-                "80 ĐHN đã thay nhỏ hơn 7 ngày", "81 Kỳ trước ĐHN ngưng\nKỳ này thay mới",
-                "82 Thay thử, thay định kỳ", "83 Thay đổi cỡ",
-                "F1 Nhà đóng cửa", "F2 Hộp bảo vệ ĐHN bị kẹt khóa", "F3 Chất đồ không dọn được", "F4 Đám tang (tiệc), ngập nước\nKhách hàng không cho đọc số",
-                "K  Nhà đóng cửa không ở",
-                "M0 Đọc số đúng tháng", "M1 Đọc số sau 1 tháng", "M2 Đọc số sau 2 tháng", "M3 Đọc số sau 3 tháng",
-                "N1 Giữ chỉ số do kỳ trước tạm tính lố\nnhà ĐCƠ, CĐ, KK", "N2 Giữ chỉ số do khách hàng ghi lố", "N3 Giữ chỉ số do nhân viên ghi lố",
-                "X  ĐHN 4 số retour một lần",
-                "68 Bị khóa nước niêm phong\nbị cắt ống bên ngoài",
-                "Q  Không có nước hoàn toàn"
-        };
-        mAdapterCode = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mCodes);
+
+        mAdapterCode = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, Code.getInstance().getCodes());
         mAdapterCode.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         mSpinCode = (Spinner) mRootView.findViewById(R.id.spin_qlds_filter);
         mSpinCode.setAdapter(mAdapterCode);
@@ -255,7 +237,7 @@ public class QuanLyDocSo extends Fragment {
                 mQuanLyDocSoAdapter.clear();
                 String code = parent.getSelectedItem().toString().substring(0, 2);
                 //xử lý trường hợp lọc tất cả
-                if (code.equals(mCodes[0].substring(0, 2)))
+                if (code.equals(Code.getInstance().getCodes()[0].substring(0, 2)))
                     code = "";
                 for (HoaDon hoaDon : hoaDons) {
                     if (hoaDon.getCodeMoi() == null)
@@ -442,15 +424,16 @@ public class QuanLyDocSo extends Fragment {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.show();
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        Bitmap bitmap = BitmapFactory.decodeFile(hoaDon.getImage(), options);
+        if (!hoaDon.getImage().equals("null")) {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            Bitmap bitmap = BitmapFactory.decodeFile(hoaDon.getImage(), options);
 
-        ImageView image = (ImageView) dialog.findViewById(R.id.imgView_qlds);
-        BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.7), (int)(bitmap.getHeight()*0.7), false));
 
-        image.setBackground(resizedDialogImage);
-
+            BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.7), (int) (bitmap.getHeight() * 0.7), false));
+            ImageView image = (ImageView) dialog.findViewById(R.id.imgView_qlds);
+            image.setBackground(resizedDialogImage);
+        }
         ((TextView) dialog.findViewById(R.id.txt_layout_qlds_MLT)).setText(hoaDon.getMaLoTrinh());
 //                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_DanhBo)).setText(danhBo_CSM.getDanhBo());
         ((TextView) dialog.findViewById(R.id.txt_layout_qlds_tenKH)).setText(hoaDon.getTenKhachHang());
@@ -475,15 +458,16 @@ public class QuanLyDocSo extends Fragment {
 
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
         View dialogLayout = inflater.inflate(R.layout.layout_edit_thongtin_docso, null);
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        Bitmap bitmap = BitmapFactory.decodeFile(hoaDon.getImage(), options);
+        if (!hoaDon.getImage().equals("null")) {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            Bitmap bitmap = BitmapFactory.decodeFile(hoaDon.getImage(), options);
 
-        ImageView image = (ImageView) dialogLayout.findViewById(R.id.imgView_edit);
-        BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int)(bitmap.getWidth()*0.7),(int)( bitmap.getHeight()*0.7), false));
+            ImageView image = (ImageView) dialogLayout.findViewById(R.id.imgView_edit);
+            BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.7), (int) (bitmap.getHeight() * 0.7), false));
 
-        image.setBackground(resizedDialogImage);
-
+            image.setBackground(resizedDialogImage);
+        }
         ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_MLT)).setText(hoaDon.getMaLoTrinh());
 //                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_DanhBo)).setText(danhBo_CSM.getDanhBo());
         ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_tenKH)).setText(hoaDon.getTenKhachHang());
@@ -501,7 +485,7 @@ public class QuanLyDocSo extends Fragment {
 
         final TextView txtNote = (TextView) dialogLayout.findViewById(R.id.txt_layout_edit_ghiChu);
         txtNote.setText(hoaDon.getGhiChu());
-        ((Button)dialogLayout.findViewById(R.id.btn_layout_edit_ghiChu)).setOnClickListener(new View.OnClickListener() {
+        ((Button) dialogLayout.findViewById(R.id.btn_layout_edit_ghiChu)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -568,7 +552,8 @@ public class QuanLyDocSo extends Fragment {
                             case 0:
                                 txtNote.setText(etxtghichu.getText().toString());
                                 break;
-                            case 1:case 2:
+                            case 1:
+                            case 2:
                                 txtNote.setText(spin_ghichu.getSelectedItem().toString() + ": " + spin_ghichu_sub.getSelectedItem().toString());
                                 break;
                             default:

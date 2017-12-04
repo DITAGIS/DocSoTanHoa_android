@@ -1,5 +1,6 @@
 package com.ditagis.hcm.docsotanhoa;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -119,6 +120,7 @@ public class DocSo extends Fragment {
 
     private ViewPager mViewPager;
 
+    @SuppressLint("ClickableViewAccessibility")
     public DocSo(Activity activity, LayoutInflater inflater, int mKy, int mDot, String mUsername, String staffName, int theme, ViewPager viewPager) {
         this.mActivity = activity;
         this.mStaffName = staffName;
@@ -252,15 +254,15 @@ public class DocSo extends Fragment {
         mEditTextCSM.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (getImageFileName() == null) {
-                    MySnackBar.make(mEditTextCSM, R.string.alert_captureBefore, true);
-                    HideKeyboard.hide(mActivity);
-                    return true;
-                } else if (!getImageFileName().exists()) {
-                    MySnackBar.make(mEditTextCSM, R.string.alert_captureBefore, true);
-                    HideKeyboard.hide(mActivity);
-                    return true;
-                }
+//                if (getImageFileName() == null) {
+//                    MySnackBar.make(mEditTextCSM, R.string.alert_captureBefore, true);
+//                    HideKeyboard.hide(mActivity);
+//                    return true;
+//                } else if (!getImageFileName().exists()) {
+//                    MySnackBar.make(mEditTextCSM, R.string.alert_captureBefore, true);
+//                    HideKeyboard.hide(mActivity);
+//                    return true;
+//                }
                 return false;
             }
         });
@@ -737,14 +739,14 @@ public class DocSo extends Fragment {
 
     private void checkSave(View v) {
         // kiểm tra hình ảnh
-        if (getImageFileName() == null) {
-            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
-            return;
-        }
-        if (!getImageFileName().exists()) {
-            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
-            return;
-        }
+//        if (getImageFileName() == null) {
+//            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+//            return;
+//        }
+//        if (!getImageFileName().exists()) {
+//            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+//            return;
+//        }
         // kiểm tra chỉ số mới
         int csc = Integer.parseInt(mTxtCSC.getText().toString());
         int csm = 0;
@@ -758,8 +760,19 @@ public class DocSo extends Fragment {
                 alertCSMFluctuation(csc, csm);
             } else if (csm < csc) {
                 alertCSM_lt_CSC(csc, csm);
+
             } else {
-                save(getImageFileName().getAbsolutePath(), csc, csm);
+                if (getImageFileName() == null) {
+                    MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+                    save(csc, csm);
+                } else if (!getImageFileName().exists()) {
+                    MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+                    save(csc, csm);
+                } else {
+                    save(getImageFileName().getAbsolutePath(), csc, csm);
+                }
+
+
             }
         }
     }
@@ -868,6 +881,7 @@ public class DocSo extends Fragment {
     }
 
     private boolean checkNull() {
+
         if (mMLTs.size() == 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
             builder.setTitle("Không có lộ trình").setMessage("Có thể đợt hiện tại đã đọc xong, hoặc chưa có dữ liệu. Vui lòng kiểm tra lại!!!");
@@ -891,6 +905,53 @@ public class DocSo extends Fragment {
             return true;
         }
         return false;
+    }
+
+    private void save(int csc, int csm) {
+        String dotString = mDot + "";
+        if (mDot < 10)
+            dotString = "0" + mDot;
+        HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
+        hoaDon.setCodeMoi(this.mSpinCode.getSelectedItem().toString().substring(0, 2));
+        hoaDon.setChiSoMoi(csm + "");
+        hoaDon.setTieuThuMoi(((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).getText().toString());
+        hoaDon.setGhiChu(mGhiChu);
+
+//        DanhBo_ChiSoMoi danhBo_chiSoMoi = new DanhBo_ChiSoMoi(this.mDanhBo,
+//                this.mMlt,
+//                dotString,
+//                ((TextView) mRootView.findViewById(R.id.txt_ds_tenKH)).getText().toString(),
+//                ((TextView) mRootView.findViewById(R.id.txt_ds_diachi)).getText().toString(),
+//                ((EditText) mRootView.findViewById(R.id.etxt_ds_sdt)).getText().toString(),
+//                ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu)).getText().toString(),
+//                this.mSpinCode.getSelectedItem().toString().substring(0, 2),
+//                csc + "",
+//                csm + "",
+//                ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).getText().toString(),
+//                this.mGhiChu,
+//                image,
+//                1);
+        LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonUnRead(hoaDon);
+//        LocalDatabase.getInstance(mRootView.getContext()).deleteHoaDon(danhBo_chiSoMoi.getDanhBo());
+        mTxtTT.setText("");
+
+//        this.mAdapterMLT.remove(danhBo_chiSoMoi.getMaLoTrinh());
+        this.mMLTs.remove(hoaDon.getMaLoTrinh());
+        this.mAdapterMLT.notifyDataSetChanged();
+//        this.mAdapterDB.remove(danhBo_chiSoMoi.getDanhBo());
+        this.mDBs.remove(hoaDon.getDanhBo());
+        this.mAdapterDB.notifyDataSetChanged();
+
+        int i = mSpinMLT.getSelectedItemPosition();
+        if (mMLTs.size() != 0)
+            selectMLT(i == mMLTs.size() ? i - 1 : i);
+        this.mDanhBoHoanThanh++;
+        this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
+
+        Toast.makeText(mRootView.getContext(), "Đã lưu chỉ số mới", Toast.LENGTH_SHORT).show();
+
+        handleFinishADot();
+
     }
 
     private void save(String image, int csc, int csm) {
@@ -1023,7 +1084,15 @@ public class DocSo extends Fragment {
 
                 .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        save(getImageFileName().getAbsolutePath(), csc, csm);
+                        if (getImageFileName() == null) {
+                            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+                            save(csc, csm);
+                        } else if (!getImageFileName().exists()) {
+                            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+                            save(csc, csm);
+                        } else {
+                            save(getImageFileName().getAbsolutePath(), csc, csm);
+                        }
                         dialog.dismiss();
                     }
                 })
@@ -1061,7 +1130,15 @@ public class DocSo extends Fragment {
 
                 .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        save(getImageFileName().getAbsolutePath(), csc, csm);
+                        if (getImageFileName() == null) {
+                            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+                            save(csc, csm);
+                        } else if (!getImageFileName().exists()) {
+                            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+                            save(csc, csm);
+                        } else {
+                            save(getImageFileName().getAbsolutePath(), csc, csm);
+                        }
                         dialog.dismiss();
                     }
                 })
@@ -1083,7 +1160,16 @@ public class DocSo extends Fragment {
                 .setCancelable(false)
                 .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        save(getImageFileName().getAbsolutePath(), csc, csm);
+                        if (getImageFileName() == null) {
+                            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+                            save(csc, csm);
+                        }
+                        if (!getImageFileName().exists()) {
+                            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+                            save(csc, csm);
+                        } else {
+                            save(getImageFileName().getAbsolutePath(), csc, csm);
+                        }
                         dialog.dismiss();
                     }
                 })

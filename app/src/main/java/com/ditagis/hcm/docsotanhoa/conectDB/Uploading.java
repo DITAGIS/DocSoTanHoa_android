@@ -100,8 +100,9 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
 //            int result = addDocSoLuuTru(hoaDon);
 
         boolean result = update(hoaDon);
-        int result1 = addHinhDHN(hoaDon);
-
+        int result1 = 1;
+        if (!hoaDon.getImage().equals("null"))
+            result1 = addHinhDHN(hoaDon);
         return result && result1 > 0;
 //return result > 0;
 
