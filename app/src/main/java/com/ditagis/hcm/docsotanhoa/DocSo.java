@@ -731,7 +731,7 @@ public class DocSo extends Fragment {
 //        if (this.mDot < 10)
 //            dotString = "0" + this.mDot;
         this.mSumDanhBo = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike).size();
-        this.mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read().size();
+        this.mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike).size();
         this.mSumDanhBo += this.mDanhBoHoanThanh;
         this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
 

@@ -315,20 +315,22 @@ public class LocalDatabase extends SQLiteOpenHelper {
         return hoaDons;
     }
 
-    public List<HoaDon> getAllHoaDon_Read() {
-        return getAllHoaDon(Flag.READ);
+    public List<HoaDon> getAllHoaDon_Read(String like) {
+        return getAllHoaDon(like, Flag.READ);
     }
-
+    public List<HoaDon> getAllHoaDon_UnRead(String like) {
+        return getAllHoaDon(like, Flag.UNREAD);
+    }
     public List<HoaDon> getAllHoaDon_Synchronized() {
         return getAllHoaDon(Flag.SYNCHRONIZED);
     }
 
-    public List<HoaDon> getAllHoaDon_UnRead(String like) {
+    public List<HoaDon> getAllHoaDon(String like, int flag) {
         List<HoaDon> hoaDons = new ArrayList<HoaDon>();
         Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + like + "' and " + COLUMN_HOADON_FLAG + " = " + Flag.UNREAD, null);
+        Cursor cursor = db.rawQuery("select * from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + like + "' and " + COLUMN_HOADON_FLAG + " = " + flag, null);
         if (cursor.moveToFirst()) {
             do {
                 HoaDon hoaDon = new HoaDon(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6),

@@ -76,10 +76,6 @@ public class QuanLyDocSo extends Fragment {
     }
 
 
-    public void setmDanhBoHoanThanh(int mDanhBoHoanThanh) {
-        this.mDanhBoHoanThanh = mSumDanhBo - mDanhBoHoanThanh;
-    }
-
     public QuanLyDocSo(LayoutInflater inflater, int dot, int ky, int nam, String userName) {
         mRootView = inflater.inflate(R.layout.quan_ly_doc_so_fragment, null);
 
@@ -145,7 +141,7 @@ public class QuanLyDocSo extends Fragment {
                         return true;
                     case MotionEvent.ACTION_UP:
                         v.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorPrimary_1));
-                        if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read().size() == 0) {
+                        if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike).size() == 0) {
                             MySnackBar.make(mGridView, "Chưa có danh bộ!!!", false);
                         } else if (isOnline()) {
                             doUpLoad();
@@ -157,7 +153,7 @@ public class QuanLyDocSo extends Fragment {
                 return false;
             }
         });
-        hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read();
+        hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
         for (HoaDon hoaDon : this.hoaDons) {
             mDBs.add(hoaDon.getDanhBo());
         }
@@ -281,7 +277,8 @@ public class QuanLyDocSo extends Fragment {
     }
 
     public void refresh() {
-        hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read();
+        mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike).size();
+        hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
         setTextProgress();
 
 
@@ -718,14 +715,14 @@ public class QuanLyDocSo extends Fragment {
             dialog.setCancelable(false);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.show();
-            countUpload = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read().size();
+            countUpload = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike).size();
         }
 
         @Override
         protected Void doInBackground(String... params) {
 
             Boolean isValid = false;
-            hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read();
+            hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
             for (int i = 0; i < hoaDons.size(); i++) {
                 HoaDon hoaDon = hoaDons.get(i);
 //                mUploading.update(danhBo_chiSoMoi);
@@ -739,7 +736,7 @@ public class QuanLyDocSo extends Fragment {
                     LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonSynchronized(hoaDon);
                 }
             }
-            if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read().size() == 0)
+            if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike).size() == 0)
                 isValid = true;
 
             publishProgress(isValid);
