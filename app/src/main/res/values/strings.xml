@@ -22,6 +22,9 @@
     <string name="ok">Đồng ý</string>
     <string name="cancel">Hủy</string>
 
+    <string name="dotExist_title">Đọc vét</string>
+    <string name="dotExist_message">Hiện tại còn những đợt trước chưa đọc xong. Người dùng có thể chọn đợt để đọc vét.</string>
+
     <string name="disconnect_title">Không có kết nối internet!</string>
     <string name="disconnect_message">Kiểm tra kết nối internet và thử lại!</string>
     <string name="no_connect">Kiểm tra kết nối internet và thử lại!</string>

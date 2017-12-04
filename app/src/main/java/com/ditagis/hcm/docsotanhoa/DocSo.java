@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -46,6 +47,7 @@ import com.ditagis.hcm.docsotanhoa.utities.CalculateCSM_TieuThu;
 import com.ditagis.hcm.docsotanhoa.utities.Code;
 import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
 import com.ditagis.hcm.docsotanhoa.utities.MyAlertByHardware;
+import com.ditagis.hcm.docsotanhoa.utities.MyAlertDialog;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.Note;
 
@@ -115,14 +117,17 @@ public class DocSo extends Fragment {
         return mSumDanhBo;
     }
 
+    private ViewPager mViewPager;
 
-    public DocSo(Activity activity, LayoutInflater inflater, int mKy, int mDot, String mUsername, String staffName, int theme) {
+    public DocSo(Activity activity, LayoutInflater inflater, int mKy, int mDot, String mUsername, String staffName, int theme, ViewPager viewPager) {
         this.mActivity = activity;
         this.mStaffName = staffName;
         this.mDot = mDot;
         this.mKy = mKy;
+
         this.mSelected_theme = theme;
 //        this.mLike = "__" + mUsername + "%";
+        mViewPager = viewPager;
         String dotString = mDot + "";
         if (mDot < 10)
             dotString = "0" + mDot;
@@ -135,7 +140,6 @@ public class DocSo extends Fragment {
         mSpinDot = (Spinner) mRootView.findViewById(R.id.spin_ds_dot);
 
         mDots.add(dotString);
-
 
 
         //for camera
@@ -577,7 +581,7 @@ public class DocSo extends Fragment {
                 String code = mSpinCode.getItemAtPosition(position).toString().substring(0, 2);
                 ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(code);
                 HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
-                if(hoaDon == null ||hoaDon.getCode_CSC_SanLuong() == null)
+                if (hoaDon == null || hoaDon.getCode_CSC_SanLuong() == null)
                     return;
                 CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(code, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString());
 
@@ -761,7 +765,7 @@ public class DocSo extends Fragment {
     }
 
     private void createDot() {
-        checkDotExist();
+        getDotExist();
 
 //        mAdapterDot = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mDots);
 //        mSpinDot.setAdapter(mAdapterDot);
@@ -769,13 +773,14 @@ public class DocSo extends Fragment {
         mSpinDot.setSelection(position);
     }
 
-    private void checkDotExist() {
+    private void getDotExist() {
         String like = "", dotString = "";
         if (mDot < 10)
             dotString = "0" + mDot;
         else dotString = mDot + "";
 
-        for (int i = mDot - 1; i >= mDot - 3; i--) {  String dotExist = "";
+        for (int i = mDot - 1; i >= mDot - 3; i--) {
+            String dotExist = "";
             if (i < 10)
                 dotExist = "0" + i;
             else dotExist = i + "";
@@ -784,6 +789,9 @@ public class DocSo extends Fragment {
 
                 mDots.add(0, dotExist);
             }
+        }
+        if (mDots.size() > 1) {
+            MyAlertDialog.show(mRootView.getContext(), false, mRootView.getContext().getString(R.string.dotExist_title), mRootView.getContext().getString(R.string.dotExist_message));
         }
     }
 
@@ -869,6 +877,12 @@ public class DocSo extends Fragment {
                     dialog.dismiss();
                     getActivity().finish();
                 }
+            }).setNegativeButton("Quản lý đọc số", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    callQuanLyDocSoFragment();
+                }
             }).setCancelable(false);
             AlertDialog dialog = builder.create();
 
@@ -921,6 +935,47 @@ public class DocSo extends Fragment {
         this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
 
         Toast.makeText(mRootView.getContext(), "Đã lưu chỉ số mới", Toast.LENGTH_SHORT).show();
+
+        handleFinishADot();
+
+    }
+
+    public boolean checkDotExist() {
+        String dotString = mDot + "";
+        if (mDot < 10)
+            dotString = "0" + mDot;
+        String like = dotString.concat(mLike.substring(2, 4)).concat("%");
+
+        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(like);
+        if (hoaDons.size() > 0)
+            return true;
+        return false;
+    }
+
+    private void handleFinishADot() {
+        String dotString = mDot + "";
+        if (mDot < 10)
+            dotString = "0" + mDot;
+        String like = dotString.concat(mLike.substring(2, 4)).concat("%");
+
+        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(like);
+        if (hoaDons.size() > 0)
+            return;
+        else {
+            //bỏ đợt hiện tại khỏi spinner
+            mDots.remove(dotString);
+            mAdapterDot.notifyDataSetChanged();
+
+            if (mDots.size() > 0)
+                mSpinDot.setSelection(0);
+            else {
+                callQuanLyDocSoFragment();
+            }
+        }
+    }
+
+    private void callQuanLyDocSoFragment() {
+        mViewPager.setCurrentItem(1, true);
     }
 
     private void showImage(File f) {

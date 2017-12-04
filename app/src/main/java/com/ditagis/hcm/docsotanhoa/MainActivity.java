@@ -73,13 +73,11 @@ public class MainActivity extends AppCompatActivity {
             this.mStaffName = getIntent().getExtras().getString(this.getString(R.string.extra_staffname));
         if (getIntent().getExtras().getInt(this.getString(R.string.extra_dot)) > 0)
             this.mDot = getIntent().getExtras().getInt(this.getString(R.string.extra_dot));
-        if (getIntent().getExtras().getInt(this.getString(R.string.extra_ky)) >0)
+        if (getIntent().getExtras().getInt(this.getString(R.string.extra_ky)) > 0)
             this.mKy = getIntent().getExtras().getInt(this.getString(R.string.extra_ky));
 
 //        mLayLoTrinh = new LayLoTrinh(MainActivity.this, getLayoutInflater(), mKy, mNam, mDot, mUsername, mStaffName);
 
-        mDocSo = new DocSo(MainActivity.this, getLayoutInflater(), mKy, mDot, mUsername, mStaffName, loadPreferences(getString(R.string.save_theme)));
-        mQuanLyDocSo = new QuanLyDocSo(getLayoutInflater(), mDot, mKy, mNam, mUsername);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -102,8 +100,9 @@ public class MainActivity extends AppCompatActivity {
 //                        mLayLoTrinh.setTextProgress();
 //                        break;
                     case 0:
-//                        mDocSo.setmDot(mLayLoTrinh.getmDot());
-                        mDocSo.refresh();
+//                        mDocSo.setmDot(mLayLoTrinh.getmDo  if (mDocSo.checkDotExist())
+                            mDocSo.refresh();
+
                         break;
                     case 1:
 //                        mQuanLyDocSo.setmDot(mLayLoTrinh.getmDot());
@@ -119,8 +118,11 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+        mDocSo = new DocSo(MainActivity.this, getLayoutInflater(), mKy, mDot, mUsername, mStaffName, loadPreferences(getString(R.string.save_theme)), mViewPager);
+        mQuanLyDocSo = new QuanLyDocSo(getLayoutInflater(), mDot, mKy, mNam, mUsername);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -176,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
         } else if (id == R.id.action_change_password) {
 
-            new ChangePassword(mUsername, mPassword, MainActivity.this.getApplicationContext(), MainActivity.this );
+            new ChangePassword(mUsername, mPassword, MainActivity.this.getApplicationContext(), MainActivity.this);
             return true;
         }
         return super.onOptionsItemSelected(item);

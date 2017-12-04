@@ -122,7 +122,8 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
                     }
 
                     hoaDons.add(hoaDon);
-
+                    resultLayLoTrinh.addItemToDa(new GridViewLayLoTrinhAdapter.Item(hoaDon.getMaLoTrinh(), hoaDon.getDanhBo()));
+                    this.mLocalDatabase.addHoaDon(hoaDon);
                     publishProgress(hoaDons);
                 } else
                     break;
@@ -134,10 +135,6 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
             resultLayLoTrinh.setDot(dotString);
             resultLayLoTrinh.setTotal(count);
 
-            for (HoaDon hoaDon : hoaDons) {
-                resultLayLoTrinh.addItemToDa(new GridViewLayLoTrinhAdapter.Item(hoaDon.getMaLoTrinh(), hoaDon.getDanhBo()));
-                this.mLocalDatabase.addHoaDon(hoaDon);
-            }
             resultLayLoTrinh.setDot(this.mDot + "");
             return resultLayLoTrinh;
         }
