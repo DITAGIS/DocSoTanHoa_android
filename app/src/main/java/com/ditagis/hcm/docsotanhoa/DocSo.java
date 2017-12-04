@@ -136,8 +136,8 @@ public class DocSo extends Fragment {
 
         mDots.add(dotString);
 
-        mAdapterDot = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mDots);
-        mSpinDot.setAdapter(mAdapterDot);
+
+
         //for camera
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
@@ -525,6 +525,18 @@ public class DocSo extends Fragment {
         }
         mAdapterDot.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         mSpinDot.setAdapter(mAdapterDot);
+        createDot();
+        mSpinDot.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectDot(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         mAdapterMLT.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         mSpinMLT.setAdapter(mAdapterMLT);
@@ -565,6 +577,8 @@ public class DocSo extends Fragment {
                 String code = mSpinCode.getItemAtPosition(position).toString().substring(0, 2);
                 ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(code);
                 HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
+                if(hoaDon == null ||hoaDon.getCode_CSC_SanLuong() == null)
+                    return;
                 CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(code, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString());
 
                 mTxtCSM.setText(csm_tieuThu.getCSM());
@@ -746,8 +760,48 @@ public class DocSo extends Fragment {
         }
     }
 
-    private void selectDot(int position) {
+    private void createDot() {
+        checkDotExist();
 
+//        mAdapterDot = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mDots);
+//        mSpinDot.setAdapter(mAdapterDot);
+        int position = mDots.size() - 1;
+        mSpinDot.setSelection(position);
+    }
+
+    private void checkDotExist() {
+        String like = "", dotString = "";
+        if (mDot < 10)
+            dotString = "0" + mDot;
+        else dotString = mDot + "";
+
+        for (int i = mDot - 1; i >= mDot - 3; i--) {  String dotExist = "";
+            if (i < 10)
+                dotExist = "0" + i;
+            else dotExist = i + "";
+            like = dotExist.concat(mLike.substring(2, 4)).concat("%");
+            if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(like).size() > 0) {
+
+                mDots.add(0, dotExist);
+            }
+        }
+    }
+
+    private void selectDot(int position) {
+        String dotString = mDots.get(position);
+        mDot = Integer.parseInt(dotString);
+        String like = dotString.concat(mLike.substring(2, 4)).concat("%");
+
+        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(like);
+        mMLTs.clear();
+        mDBs.clear();
+
+        for (HoaDon hoaDon : hoaDons) {
+            mMLTs.add(hoaDon.getMaLoTrinh());
+            mDBs.add(hoaDon.getDanhBo());
+        }
+        mAdapterMLT.notifyDataSetChanged();
+        mAdapterDB.notifyDataSetChanged();
     }
 
     private void selectMLT(int position) {
@@ -767,10 +821,10 @@ public class DocSo extends Fragment {
         HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
         mHoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
         mDot = Integer.parseInt(mHoaDon.getDot());
-        for (int i = 0; i < mDots.size(); i++) {
-            if (mDots.get(i).equals(mHoaDon.getDot()))
-                mSpinDot.setSelection(i);
-        }
+//        for (int i = 0; i < mDots.size(); i++) {
+//            if (mDots.get(i).equals(mHoaDon.getDot()))
+//                mSpinDot.setSelection(i);
+//        }
         ((TextView) mRootView.findViewById(R.id.txt_ds_tenKH)).setText(mHoaDon.getTenKhachHang());
 //                            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
         mTxtCSC = (TextView) mRootView.findViewById(R.id.txt_ds_CSC);

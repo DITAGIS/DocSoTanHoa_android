@@ -87,6 +87,7 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="1">
 
                         <TextView
@@ -115,6 +116,7 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="1">
 
                         <TextView
@@ -123,6 +125,7 @@
                             android:layout_height="wrap_content"
                             android:layout_column="0"
                             android:layout_gravity="center_vertical"
+
                             android:text="Đợt: "
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/colorTextColor_1" />
