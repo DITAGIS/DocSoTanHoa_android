@@ -63,6 +63,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -241,12 +243,19 @@ public class DocSo extends Fragment {
             @Override
             public void onClick(View v) {
                 String phone = ((EditText) mRootView.findViewById(R.id.etxt_ds_sdt)).getText().toString().trim();
-                if (phone.length() == 0) {
-                    MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.call_error), true);
-                } else {
-                    Intent callIntent = new Intent(Intent.ACTION_CALL);
-                    callIntent.setData(Uri.parse("tel:" + phone));
-                    startActivity(callIntent);
+                String regex = "^[0-9]+$";
+                Matcher matcher = Pattern.compile(regex).matcher(phone);
+                if (matcher.find()) {
+                    if (phone.length() == 0) {
+                        MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.call_errorNotFind), true);
+                    } else {
+                        Intent callIntent = new Intent(Intent.ACTION_CALL);
+                        callIntent.setData(Uri.parse("tel:" + phone));
+                        startActivity(callIntent);
+                    }
+                }
+                else{
+                    MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.call_errorNotMatch), true);
                 }
             }
         });
@@ -778,8 +787,7 @@ public class DocSo extends Fragment {
     }
 
     private void createDot() {
-        getDotExist();
-
+//        getDotExist();
 //        mAdapterDot = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mDots);
 //        mSpinDot.setAdapter(mAdapterDot);
         int position = mDots.size() - 1;
