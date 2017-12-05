@@ -180,15 +180,38 @@
 
                     <Button
                         android:id="@+id/btn_ds_optionSearch"
-                        android:layout_width="50dp"
+                        android:layout_width="55dp"
                         android:layout_height="match_parent"
                         android:layout_marginRight="@dimen/button_horizontal_margin"
                         android:gravity="center"
                         android:text="..." />
 
                 </TableRow>
+                <!--<TableRow android:layout_weight="1">-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/txt_ds_soThan_title"-->
+                <!--android:layout_width="@dimen/width_title_item_docso"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_column="0"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:text="Số thân: "-->
+                <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+                <!--android:textColor="@color/colorTextColor_1" />-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/txt_ds_soThan"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_span="4"-->
+                <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+                <!--android:textColor="@color/colorTextColor_1" />-->
+                <!--</TableRow>-->
                 <!--Table row ma lo trinh-->
-                <TableRow android:layout_weight="1">
+                <TableRow
+                    android:layout_weight="1"
+                    android:paddingTop="@dimen/activity_vertical_margin">
 
                     <TextView
                         android:id="@+id/spin_ds_mlt_title"
@@ -202,17 +225,31 @@
 
                     <Spinner
                         android:id="@+id/spin_ds_mlt"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_span="4"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_weight="1.7"
+                        android:width="0dp"
+
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/colorTextColor_1" />
+
+                    <Button
+                        android:id="@+id/btn_ds_sort"
+                        android:layout_width="55dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/button_horizontal_margin"
+                        android:gravity="center"
+                        android:text="Sắp xếp" />
                 </TableRow>
 
 
                 <!--Table row danh bộ-->
-                <TableRow android:layout_weight="1">
+                <TableRow
+                    android:layout_weight="1"
+                    android:paddingBottom="@dimen/activity_vertical_margin"
+                    android:paddingTop="@dimen/activity_vertical_margin">
 
                     <TextView
                         android:id="@+id/spin_ds_db_title"
@@ -235,7 +272,7 @@
 
                     <ImageButton
                         android:id="@+id/btn_ds_prev"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="0.3"
                         android:background="@color/colorBackground_1"
@@ -247,7 +284,7 @@
 
                     <ImageButton
                         android:id="@+id/btn_ds_next"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="0.3"
                         android:background="@color/colorBackground_1"
@@ -268,8 +305,10 @@
 
                     <Spinner
                         android:id="@+id/spin_ds_tenKH"
+                        android:layout_width="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_span="4"
+
                         android:layout_weight="1"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/colorTextColor_1" />
@@ -290,6 +329,7 @@
 
                     <Spinner
                         android:id="@+id/spin_ds_diachi"
+                        android:layout_width="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_span="4"
                         android:layout_weight="1"
