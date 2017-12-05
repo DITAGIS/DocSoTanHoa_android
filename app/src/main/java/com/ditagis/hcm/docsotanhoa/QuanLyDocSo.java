@@ -70,7 +70,7 @@ public class QuanLyDocSo extends Fragment {
     private String mSearchType;
     private ArrayAdapter<String> mAdapterCode;
     Spinner mSpinCode;
-
+private String mKyString;
     public Uploading getmUploading() {
         return mUploading;
     }
@@ -98,11 +98,12 @@ public class QuanLyDocSo extends Fragment {
         mUploading = new Uploading(mDot, mKy, mNam, mRootView.getContext());
         mGridView = (GridView) mRootView.findViewById(R.id.grid_qlds_danhSachDocSo);
         mSumDanhBoDB = new SumDanhBoDB();
-        String kyString = mKy + "";
+       mKyString  = mKy + "";
         if (mKy < 10)
-            kyString += "0" + mKy;
+            mKyString += "0" + mKy;
 
-        mSumDanhBo = mSumDanhBoDB.getSum(kyString, mNam, dotString + mUsername + "%");
+        mSumDanhBo = mSumDanhBoDB.getSum(mKyString, mNam, mLike);
+        this.mDanhBoHoanThanh = mSumDanhBoDB.getSumSynchronized(mKyString, mNam, mLike);
         //Gán DataSource vào ArrayAdapter
         mQuanLyDocSoAdapter = new GridViewQuanLyDocSoAdapter(mRootView.getContext(), new ArrayList<GridViewQuanLyDocSoAdapter.Item>());
 
@@ -277,7 +278,7 @@ public class QuanLyDocSo extends Fragment {
     }
 
     public void refresh() {
-        mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike).size();
+
         hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
         setTextProgress();
 
@@ -294,6 +295,8 @@ public class QuanLyDocSo extends Fragment {
     }
 
     private void setTextProgress() {
+//        this.mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike).size();
+        this.mDanhBoHoanThanh = mSumDanhBoDB.getSumSynchronized(mKyString, mNam, mLike);
         this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
 
     }
@@ -751,7 +754,7 @@ public class QuanLyDocSo extends Fragment {
             if (isValid) {
                 mQuanLyDocSoAdapter.notifyDataSetChanged();
                 Toast.makeText(mRootView.getContext(), "Đồng bộ thành công", Toast.LENGTH_SHORT).show();
-                mDanhBoHoanThanh += LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized().size();
+                mDanhBoHoanThanh += LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike).size();
                 setTextProgress();
 
             } else {

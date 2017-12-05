@@ -235,7 +235,7 @@
 
                     <ImageButton
                         android:id="@+id/btn_ds_prev"
-                        android:layout_width="0dp"
+                        android:layout_width="50dp"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="0.3"
                         android:background="@color/colorBackground_1"
@@ -247,7 +247,7 @@
 
                     <ImageButton
                         android:id="@+id/btn_ds_next"
-                        android:layout_width="0dp"
+                        android:layout_width="50dp"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="0.3"
                         android:background="@color/colorBackground_1"

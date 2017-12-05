@@ -321,8 +321,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
     public List<HoaDon> getAllHoaDon_UnRead(String like) {
         return getAllHoaDon(like, Flag.UNREAD);
     }
-    public List<HoaDon> getAllHoaDon_Synchronized() {
-        return getAllHoaDon(Flag.SYNCHRONIZED);
+    public List<HoaDon> getAllHoaDon_Synchronized(String like) {
+        return getAllHoaDon(like, Flag.SYNCHRONIZED);
     }
 
     public List<HoaDon> getAllHoaDon(String like, int flag) {
@@ -340,6 +340,11 @@ public class LocalDatabase extends SQLiteOpenHelper {
                         cursor.getString(14), cursor.getString(15), cursor.getString(16),
                         cursor.getString(17), cursor.getString(18), cursor.getString(19));
                 hoaDon.setCode_CSC_SanLuong(code_csc_sanLuong);
+                hoaDon.setCodeMoi(cursor.getString(21));
+                hoaDon.setChiSoMoi(cursor.getString(22));
+                hoaDon.setTieuThuMoi(cursor.getString(23));
+                hoaDon.setGhiChu(cursor.getString(24));
+                hoaDon.setImage(cursor.getString(25));
                 hoaDons.add(hoaDon);
             } while (cursor.moveToNext());
         }
