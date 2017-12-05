@@ -25,6 +25,15 @@ public class HoaDon {
     private String image;
     private Code_CSC_SanLuong code_CSC_SanLuong;
     private int flag;
+    private String soThan;
+
+    public String getSoThan() {
+        return soThan;
+    }
+
+    public void setSoThan(String soThan) {
+        this.soThan = soThan;
+    }
 
     public HoaDon() {
         super();

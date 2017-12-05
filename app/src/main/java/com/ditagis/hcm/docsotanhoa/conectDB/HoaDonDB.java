@@ -17,7 +17,7 @@ import java.util.List;
 public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
     private final String TABLE_NAME = "DocSo";
     private final String SQL_SELECT = "SELECT ID,KHU,DOT,DANHBO,CULY,HOPDONG,TENKH,SONHA,DUONG,GIABIEU,DINHMUC,KY,NAM,CODE,CODEFU,CSCU,CSMOI,QUAN,PHUONG,MLT FROM " + TABLE_NAME;
-    private final String SQL_SELECT_GETALL_BY_USERNAME = "SELECT danhba,gb,dm,CSCU, MLT2 FROM " + TABLE_NAME;
+    private final String SQL_SELECT_GETALL_BY_USERNAME = "SELECT gb,dm,CSCU, MLT2, soThanCu FROM " + TABLE_NAME;
     private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
     private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + " VALUES(?,?,?,?,?)";
     //    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET CSC=? WHERE DANHBO=?";
@@ -252,10 +252,11 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
             ResultSet rs = mStatement.executeQuery();
 
             while (rs.next()) {
-                String giaBieu = rs.getString(2);
-                String dinhMuc = rs.getString(3);
-                String chiSoCu = rs.getInt(4) + "";
-                String maLoTrinh = rs.getString(5);
+                String giaBieu = rs.getString(1);
+                String dinhMuc = rs.getString(2);
+                String chiSoCu = rs.getInt(3) + "";
+                String maLoTrinh = rs.getString(4);
+                String soThan = rs.getString(5);
                 String soNha = "";
                 String duong = "";
                 String tenKhachHang = "";
@@ -349,6 +350,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                         CSC1, CSC2, CSC3,
                         sanLuong_1, sanLuong_2, sanLuong_3);
                 hoaDon.setCode_CSC_SanLuong(code_csu_sanLuong);
+                hoaDon.setSoThan(soThan);
                 rs.close();
 
 

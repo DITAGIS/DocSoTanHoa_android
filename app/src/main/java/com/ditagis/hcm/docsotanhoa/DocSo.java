@@ -887,7 +887,6 @@ public class DocSo extends Fragment {
         HideKeyboard.hide(mActivity);
         mDanhBo = mDBs.get(position);
 
-        HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
         mHoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
         mDot = Integer.parseInt(mHoaDon.getDot());
 //        for (int i = 0; i < mDots.size(); i++) {
