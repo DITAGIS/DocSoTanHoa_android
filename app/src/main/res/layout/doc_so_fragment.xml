@@ -266,8 +266,8 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/colorTextColor_1" />
 
-                    <TextView
-                        android:id="@+id/txt_ds_tenKH"
+                    <Spinner
+                        android:id="@+id/spin_ds_tenKH"
                         android:layout_gravity="center_vertical"
                         android:layout_span="4"
                         android:layout_weight="1"
@@ -288,8 +288,8 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/colorTextColor_1" />
 
-                    <TextView
-                        android:id="@+id/txt_ds_diachi"
+                    <Spinner
+                        android:id="@+id/spin_ds_diachi"
                         android:layout_gravity="center_vertical"
                         android:layout_span="4"
                         android:layout_weight="1"
