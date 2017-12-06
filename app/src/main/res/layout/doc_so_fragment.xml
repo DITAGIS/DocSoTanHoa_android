@@ -19,8 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="5"
-            android:minHeight="25px"
-            android:minWidth="25px"
+            android:minHeight="25dp"
+            android:minWidth="25dp"
             android:orientation="vertical"
             android:paddingBottom="@dimen/activity_vertical_margin"
             android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -29,10 +29,10 @@
 
             <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="5"
-                android:minHeight="25px"
-                android:minWidth="25px">
+                android:layout_height="wrap_content"
+
+                android:minHeight="25dp"
+                android:minWidth="25dp">
                 <!--Table row hiển thị số danh bộ đã đọc-->
                 <TableRow
                     android:layout_width="match_parent"
@@ -53,8 +53,8 @@
                         android:layout_width="0dp"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="aaa"
+                        android:gravity="end"
+
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/colorTextColor_1" />
                 </TableRow>
@@ -75,8 +75,8 @@
                         android:layout_width="0dp"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="aaa"
+                        android:gravity="end"
+
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/colorTextColor_1" />
                 </TableRow>
@@ -94,7 +94,7 @@
                             android:id="@+id/txt_ds_ky_title"
                             android:layout_width="@dimen/width_title_item_docso"
                             android:layout_height="wrap_content"
-                            android:layout_column="0"
+
                             android:layout_gravity="center_vertical"
                             android:text="Kỳ: "
                             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -102,13 +102,11 @@
 
                         <TextView
                             android:id="@+id/txt_ds_ky"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_span="4"
                             android:layout_weight="1"
                             android:gravity="center_horizontal"
-                            android:text="11"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/colorTextColor_1" />
                     </LinearLayout>
@@ -123,7 +121,6 @@
                             android:id="@+id/txt_ds_dot_title"
                             android:layout_width="@dimen/width_title_item_docso"
                             android:layout_height="wrap_content"
-                            android:layout_column="0"
                             android:layout_gravity="center_vertical"
 
                             android:text="Đợt: "
@@ -132,13 +129,13 @@
 
                         <Spinner
                             android:id="@+id/spin_ds_dot"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_span="4"
+
                             android:layout_weight="1"
                             android:gravity="center_horizontal"
-                            android:text="10"
+
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/colorTextColor_1" />
                     </LinearLayout>
@@ -164,25 +161,31 @@
                         android:id="@+id/editauto_ds"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin"
                         android:layout_weight="1.7"
                         android:width="0dp"
                         android:ems="10"
-                        android:gravity="left"
+                        android:gravity="start"
                         android:hint="@string/search_mlt"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
                         android:inputType="textAutoComplete|textAutoCorrect"
                         android:maxLength="11"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"
+
                         android:textColor="@color/colorTextColor_1"
                         android:textColorHint="@color/colorTextColor_1"
                         android:textCursorDrawable="@null" />
 
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.1">
+
+                    </View>
 
                     <Button
                         android:id="@+id/btn_ds_optionSearch"
                         android:layout_width="55dp"
                         android:layout_height="match_parent"
-                        android:layout_marginRight="@dimen/button_horizontal_margin"
+
                         android:gravity="center"
                         android:text="..." />
 
@@ -228,7 +231,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+
                         android:layout_weight="1.7"
                         android:width="0dp"
 
@@ -239,7 +242,6 @@
                         android:id="@+id/btn_ds_sort"
                         android:layout_width="55dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/button_horizontal_margin"
                         android:gravity="center"
                         android:text="Sắp xếp" />
                 </TableRow>
@@ -276,6 +278,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="0.3"
                         android:background="@color/colorBackground_1"
+                        android:contentDescription="Prev"
                         android:src="@drawable/prev" />
 
                     <Space
@@ -288,6 +291,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="0.3"
                         android:background="@color/colorBackground_1"
+                        android:contentDescription="Next"
                         android:src="@drawable/next" />
                 </TableRow>
                 <!--Table row tên khách hàng-->
@@ -355,23 +359,22 @@
                         android:layout_weight="1.7"
                         android:width="0dp"
                         android:ems="10"
-                        android:gravity="left"
+                        android:gravity="start"
                         android:inputType="number"
 
                         android:paddingLeft="@dimen/activity_horizontal_margin"
                         android:textColor="@color/colorTextColor_1"
                         android:textCursorDrawable="@null" />
 
-                    <LinearLayout
-                        android:id="@+id/layout_ds_call"
-                        android:layout_width="0dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="right|center_vertical"
-                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                        android:layout_marginRight="@dimen/button_horizontal_margin"
+
+                    <ImageButton
+                        android:id="@+id/imgBtn_ds_call"
+                        android:layout_width="45dp"
+                        android:layout_gravity="end|center_vertical"
                         android:layout_weight="0.3"
-                        android:background="@drawable/call"
-                        android:orientation="vertical" />
+                        android:background="@color/colorBackground_1"
+                        android:contentDescription="Call"
+                        android:src="@drawable/call" />
                 </TableRow>
                 <!--Table row chỉ số cũ-->
                 <TableRow
@@ -388,7 +391,6 @@
                             android:id="@+id/txt_ds_giabieu_title"
                             android:layout_width="@dimen/width_title_item_docso"
                             android:layout_height="wrap_content"
-                            android:layout_column="0"
                             android:layout_gravity="center_vertical"
                             android:text="Giá biểu"
                             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -396,7 +398,7 @@
 
                         <TextView
                             android:id="@+id/txt_ds_giabieu"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
@@ -414,7 +416,6 @@
                             android:id="@+id/txt_ds_dinhmuc_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_column="0"
                             android:layout_gravity="center_vertical"
                             android:text="Định mức:"
                             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -422,7 +423,7 @@
 
                         <TextView
                             android:id="@+id/txt_ds_dinhmuc"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
@@ -437,6 +438,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1.5"
+                android:baselineAligned="false"
                 android:orientation="horizontal"
                 android:paddingTop="@dimen/activity_vertical_margin">
 
@@ -755,7 +757,7 @@
                         android:layout_height="@dimen/height_spinner_code"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:gravity="right"
+                        android:gravity="end"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
 
                     <LinearLayout
@@ -785,11 +787,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1.5"
                         android:ems="10"
-                        android:gravity="right"
+                        android:gravity="end"
                         android:hint="Nhập chỉ số mới"
+                        android:paddingRight="@dimen/activity_horizontal_margin"
                         android:inputType="number"
                         android:maxLength="5"
-                        android:paddingRight="@dimen/activity_horizontal_margin"
                         android:textColor="@color/colorTextColor_1"
                         android:textColorHint="@color/colorTextColor_1"
                         android:textCursorDrawable="@null" />
@@ -801,6 +803,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/color_row_check_1"
+                android:baselineAligned="false"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
@@ -822,7 +825,9 @@
                         android:layout_gravity="center"
                         android:background="@drawable/barcode"
 
-                        android:orientation="horizontal"></LinearLayout>
+                        android:orientation="horizontal">
+
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -831,7 +836,7 @@
                         android:gravity="center_horizontal"
                         android:text="Quét mã"
                         android:textColor="@color/colorToolBar_Row_1"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -850,7 +855,9 @@
                         android:layout_gravity="center"
                         android:background="@drawable/note"
 
-                        android:orientation="horizontal"></LinearLayout>
+                        android:orientation="horizontal">
+
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -859,7 +866,7 @@
                         android:gravity="center_horizontal"
                         android:text="Ghi chú"
                         android:textColor="@color/colorToolBar_Row_1"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -878,7 +885,9 @@
                         android:layout_gravity="center"
                         android:background="@drawable/save_except_csm"
 
-                        android:orientation="horizontal"></LinearLayout>
+                        android:orientation="horizontal">
+
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -887,8 +896,9 @@
                         android:gravity="center_horizontal"
                         android:text="Lưu"
                         android:textColor="@color/colorToolBar_Row_1"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/layout_ds_saveAll"
                     android:layout_width="match_parent"
@@ -905,7 +915,9 @@
                         android:layout_gravity="center"
                         android:background="@drawable/save_all"
 
-                        android:orientation="horizontal"></LinearLayout>
+                        android:orientation="horizontal">
+
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -914,7 +926,7 @@
                         android:gravity="center_horizontal"
                         android:text="Lưu tất cả"
                         android:textColor="@color/colorToolBar_Row_1"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

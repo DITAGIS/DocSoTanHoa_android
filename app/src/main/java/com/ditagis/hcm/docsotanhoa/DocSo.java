@@ -242,7 +242,7 @@ public class DocSo extends Fragment {
                 }
             }
         });
-        mRootView.findViewById(R.id.layout_ds_call).setOnClickListener(new View.OnClickListener() {
+        mRootView.findViewById(R.id.imgBtn_ds_call).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String phone = ((EditText) mRootView.findViewById(R.id.etxt_ds_sdt)).getText().toString().trim();
