@@ -9,5 +9,5 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
     <dimen name="width_title_item_docso">100dp</dimen>
-    <dimen name="height_spinner_code">35dp</dimen>
+    <dimen name="height_spinner_code">70dp</dimen>
 </resources>
