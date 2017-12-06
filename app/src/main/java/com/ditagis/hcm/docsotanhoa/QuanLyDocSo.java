@@ -35,10 +35,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ditagis.hcm.docsotanhoa.adapter.CodeSpinnerAdapter;
 import com.ditagis.hcm.docsotanhoa.adapter.CustomArrayAdapter;
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewQuanLyDocSoAdapter;
 import com.ditagis.hcm.docsotanhoa.conectDB.SumDanhBoDB;
 import com.ditagis.hcm.docsotanhoa.conectDB.Uploading;
+import com.ditagis.hcm.docsotanhoa.entities.Code_Describle;
+import com.ditagis.hcm.docsotanhoa.entities.Codes;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 import com.ditagis.hcm.docsotanhoa.utities.CalculateCSM_TieuThu;
@@ -70,6 +73,7 @@ public class QuanLyDocSo extends Fragment {
     private String mSearchType;
     private ArrayAdapter<String> mAdapterCode;
     Spinner mSpinCode;
+    private String mCode;
 private String mKyString;
     public Uploading getmUploading() {
         return mUploading;
@@ -577,7 +581,7 @@ private String mKyString;
         });
 
         final Spinner spinCode = (Spinner) dialogLayout.findViewById(R.id.spin_edit_code);
-        ArrayAdapter<String> adapterCode = new ArrayAdapter<String>(mRootView.getContext(), android.R.layout.simple_spinner_dropdown_item, Code.getInstance().getCodes());
+        CodeSpinnerAdapter adapterCode = new CodeSpinnerAdapter(mRootView.getContext(), android.R.layout.simple_spinner_dropdown_item, Codes.getInstance().getCodeDescribles());
         adapterCode.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spinCode.setAdapter(adapterCode);
         for (int i = 0; i < Code.getInstance().getCodes().length; i++)
@@ -588,10 +592,10 @@ private String mKyString;
         spinCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Code_Describle code_describle= (Code_Describle) spinCode.getItemAtPosition(position);
+                mCode = code_describle.getCode();
 
-                String code = spinCode.getItemAtPosition(position).toString().substring(0, 2);
-
-                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(code, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(hoaDon.getChiSoCu()), hoaDon.getChiSoMoi());
+                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(hoaDon.getChiSoCu()), hoaDon.getChiSoMoi());
 
                 etxtCSM.setText(csm_tieuThu.getCSM());
                 txtTT.setText(csm_tieuThu.getTieuThu());
@@ -620,8 +624,8 @@ private String mKyString;
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String code = spinCode.getSelectedItem().toString().substring(0, 2);
-                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(code, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(hoaDon.getChiSoCu()), s.toString());
+
+                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(hoaDon.getChiSoCu()), s.toString());
 
                 txtTT.setText(csm_tieuThu.getTieuThu());
                 hoaDon.setChiSoMoi(s.toString());
@@ -655,7 +659,7 @@ private String mKyString;
             public void onClick(DialogInterface dialog, int which) {
                 //TODO: lưu chỉnh sửa
                 hoaDon.setChiSoMoi(etxtCSM.getText().toString());
-                hoaDon.setCodeMoi(spinCode.getSelectedItem().toString());
+                hoaDon.setCodeMoi(mCode);
                 hoaDon.setSdt(etxtSDT.getText().toString());
                 hoaDon.setGhiChu(txtNote.getText().toString());
 
