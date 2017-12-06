@@ -862,9 +862,8 @@
                         android:textSize="20dp" />
                 </LinearLayout>
 
-
                 <LinearLayout
-                    android:id="@+id/layout_ds_save"
+                    android:id="@+id/layout_ds_save_except_csm"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
@@ -877,7 +876,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/checked"
+                        android:background="@drawable/save_except_csm"
 
                         android:orientation="horizontal"></LinearLayout>
 
@@ -887,6 +886,33 @@
                         android:layout_gravity="bottom"
                         android:gravity="center_horizontal"
                         android:text="Lưu"
+                        android:textColor="@color/colorToolBar_Row_1"
+                        android:textSize="20dp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/layout_ds_saveAll"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+
+                    android:orientation="vertical">
+
+                    <LinearLayout
+
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/save_all"
+
+                        android:orientation="horizontal"></LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:gravity="center_horizontal"
+                        android:text="Lưu tất cả"
                         android:textColor="@color/colorToolBar_Row_1"
                         android:textSize="20dp" />
                 </LinearLayout>

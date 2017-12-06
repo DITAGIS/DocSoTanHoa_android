@@ -361,7 +361,7 @@ public class DocSo extends Fragment {
                 doNote();
             }
         });
-        mRootView.findViewById(R.id.layout_ds_save).setOnClickListener(new View.OnClickListener() {
+        mRootView.findViewById(R.id.layout_ds_saveAll).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkSave(v);
