@@ -1,245 +1,235 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-
-    >
-
+    android:orientation="vertical">
+    <!--Layout hiển thị thông tin-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <!--Layout hiển thị thông tin-->
+        android:layout_height="0dp"
+        android:layout_weight="0.7"
+        android:background="@color/color_row_check_1"
+        android:gravity="center_vertical"
+        android:minHeight="25dp"
+        android:minWidth="25dp"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
+
+        <requestFocus />
+
+
         <LinearLayout
+
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.7"
-            android:background="@color/color_row_check_1"
+            android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:minHeight="25px"
-            android:minWidth="25px"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin">
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:paddingTop="5dp">
 
-            <requestFocus />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="Đã đồng bộ: "
+                android:textColor="@color/colorTextColor_1"
+                android:textSize="18sp" />
 
+            <TextView
+                android:id="@+id/txt_qlds_tienTrinh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="0/1"
+                android:textColor="@color/colorTextColor_1"
+                android:textSize="18sp" />
 
             <LinearLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/activity_vertical_margin"
-                android:paddingTop="5dp">
+                android:gravity="end|center_vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:text="Đã đồng bộ: "
-                    android:textColor="@color/colorTextColor_1"
-                    android:textSize="18dp" />
-
-                <TextView
-                    android:id="@+id/txt_qlds_tienTrinh"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:text="0/1"
-                    android:textColor="@color/colorTextColor_1"
-                    android:textSize="18dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="right|center_vertical">
-
-                    <ImageButton
-                        android:id="@+id/imgBtn_qlds_upload"
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-
-                        android:background="@color/colorImgBtnUpload_1"
-                        android:src="@drawable/sync"
-                        android:textColor="@color/colorTextColor_1" />
-                </LinearLayout>
-
+                <ImageButton
+                    android:id="@+id/imgBtn_qlds_upload"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:background="@color/colorImgBtnUpload_1"
+                    android:contentDescription="Đồng bộ"
+                    android:src="@drawable/sync"
+                    android:textColor="@color/colorTextColor_1" />
             </LinearLayout>
 
-            <!--<ImageButton-->
-            <!--android:id="@+id/imgbtn_llt_check"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="right"-->
-            <!--android:onClick="doCheck"-->
-            <!--android:src="@drawable/checked" />-->
         </LinearLayout>
-        <!--Layout xem danh sách lộ trình-->
-        <!--height = 0 dp thì android sẽ lấy theo weight-->
-        <FrameLayout
-            android:id="@+id/layout_qlds_containsGridView"
+
+        <!--<ImageButton-->
+        <!--android:id="@+id/imgbtn_llt_check"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="right"-->
+        <!--android:onClick="doCheck"-->
+        <!--android:src="@drawable/checked" />-->
+    </LinearLayout>
+    <!--Layout xem danh sách lộ trình-->
+    <!--height = 0 dp thì android sẽ lấy theo weight-->
+    <FrameLayout
+        android:id="@+id/layout_qlds_containsGridView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6.3"
+        android:background="@color/colorBackground_1">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="6.3"
-            android:background="@color/colorBackground_1">
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:orientation="vertical">
+                android:background="@color/colorBackground_1"
+                android:gravity="left"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+
+                <AutoCompleteTextView
+                    android:id="@+id/editauto_qlds"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorBackground_1"
-                    android:gravity="left"
-                    android:orientation="horizontal"
-                    android:paddingLeft="@dimen/activity_horizontal_margin">
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:gravity="right"
+                    android:hint="@string/search_danhbo"
+                    android:inputType="textAutoComplete|textAutoCorrect"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:textColor="@color/colorTextColor_1"
+                    android:textColorHint="@color/colorTextColor_1"
+                    android:textCursorDrawable="@null" />
 
-
-                    <AutoCompleteTextView
-                        android:id="@+id/editauto_qlds"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:gravity="right"
-                        android:hint="@string/search_danhbo"
-                        android:inputType="textAutoComplete|textAutoCorrect"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"
-                        android:textColor="@color/colorTextColor_1"
-                        android:textColorHint="@color/colorTextColor_1"
-                        android:textCursorDrawable="@null" />
-
-                    <Button
-                        android:id="@+id/btn_qlds_optionSearch"
-                        android:layout_width="50dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="@dimen/button_horizontal_margin"
-                        android:gravity="center"
-                        android:text="..." />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorBackground_1"
-                    android:gravity="left"
-                    android:orientation="horizontal"
-                    android:paddingLeft="@dimen/activity_horizontal_margin">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:text="Lọc theo: "
-                        android:textColor="@color/colorTextColor_1"
-                        android:textSize="18dp" />
-
-                    <Spinner
-                        android:id="@+id/spin_qlds_filter"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_marginRight="@dimen/button_horizontal_margin"
-                        android:layout_weight="1"
-                        android:gravity="right"
-
-                        android:text="..." />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/darker_gray"
-                    android:orientation="horizontal"
-                    android:paddingBottom="@dimen/activity_vertical_margin"
-                    android:paddingTop="@dimen/activity_vertical_margin">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:text="DANH BỘ"
-                        android:textColor="@color/colorTextColor_1"
-
-                        android:textSize="18dp" />
-                    <!--<View-->
-                    <!--android:layout_width="2dip"-->
-                    <!--android:layout_height="match_parent"-->
-                    android:background="@color/colorWhite" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:text="CSC"
-                        android:textColor="@color/colorTextColor_1"
-                        android:textSize="18dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:text="CSM"
-                        android:textColor="@color/colorTextColor_1"
-                        android:textSize="18dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:text="TIÊU THỤ"
-                        android:textColor="@color/colorTextColor_1"
-                        android:textSize="18dp" />
-                </LinearLayout>
-
-
-                <GridView
-                    android:id="@+id/grid_qlds_danhSachDocSo"
-                    android:layout_width="match_parent"
-                    android:layout_height="442dp"
-                    android:background="@android:color/white"
+                <Button
+                    android:id="@+id/btn_qlds_optionSearch"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/button_horizontal_margin"
                     android:gravity="center"
-                    android:numColumns="1" />
+                    android:text="..." />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_weight="1"
-                android:background="@color/color_row_check_1"
+                android:background="@color/colorBackground_1"
+                android:gravity="start"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="Lọc theo: "
+                    android:textColor="@color/colorTextColor_1"
+                    android:textSize="18sp" />
+
+                <Spinner
+                    android:id="@+id/spin_qlds_filter"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="@dimen/button_horizontal_margin"
+                    android:layout_weight="1"
+                    android:gravity="end"
+
+                    android:text="..." />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/darker_gray"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/activity_vertical_margin"
                 android:paddingTop="@dimen/activity_vertical_margin">
 
-
                 <TextView
-                    android:id="@+id/txt_qlds_soLuong"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="left|center_vertical"
-                    android:text="Số lượng"
-                    android:textColor="@color/colorToolBar_Row_1"
-                    android:textSize="20dp" />
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:text="DANH BỘ"
+                    android:textColor="@color/colorTextColor_1"
 
+                    android:textSize="18sp" />
+                <!--<View-->
+                <!--android:layout_width="2dip"-->
+                <!--android:layout_height="match_parent"-->
+                android:background="@color/colorWhite" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:text="CSC"
+                    android:textColor="@color/colorTextColor_1"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:text="CSM"
+                    android:textColor="@color/colorTextColor_1"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:text="TT"
+                    android:textColor="@color/colorTextColor_1"
+                    android:textSize="18sp" />
             </LinearLayout>
-            <!--</ScrollView>-->
-        </FrameLayout>
-
-    </LinearLayout>
 
 
-</FrameLayout>
+            <GridView
+                android:id="@+id/grid_qlds_danhSachDocSo"
+                android:layout_width="match_parent"
+                android:layout_height="442dp"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:numColumns="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:background="@color/color_row_check_1"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin">
+
+
+            <TextView
+                android:id="@+id/txt_qlds_soLuong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start|center_vertical"
+                android:text="Số lượng"
+                android:textColor="@color/colorToolBar_Row_1"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+        <!--</ScrollView>-->
+    </FrameLayout>
+
+</LinearLayout>
+
+

@@ -177,7 +177,7 @@ public class DocSo extends Fragment {
         mMLTs = new ArrayList<String>();
 
         for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike)) {
-            mMLTs.add(hoaDon.getMaLoTrinh());
+            mMLTs.add(spaceMLT(hoaDon.getMaLoTrinh()));
         }
         mSpinMLT = (Spinner) mRootView.findViewById(R.id.spin_ds_mlt);
         mSpinDB = (Spinner) mRootView.findViewById(R.id.spin_ds_db);
@@ -211,7 +211,7 @@ public class DocSo extends Fragment {
                 if (mSearchType.equals(mRootView.getContext().getString(R.string.search_mlt))) {
                     setMaxLenghtAutoCompleteTextView(9);
                     for (int i = 0; i < mMLTs.size(); i++) {
-                        if (s.toString().equals(mMLTs.get(i))) {
+                        if (s.toString().equals(mMLTs.get(i).replace(" ",""))) {
                             mSpinMLT.setSelection(i);
                         }
                     }
@@ -220,7 +220,7 @@ public class DocSo extends Fragment {
                     for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike)) {
                         if (s.toString().equals(hoaDon.getDanhBo()))
                             for (int i = 0; i < mMLTs.size(); i++)
-                                if (hoaDon.getMaLoTrinh().equals(mMLTs.get(i)))
+                                if (hoaDon.getMaLoTrinh().equals(mMLTs.get(i).replace(" ", "")))
                                     mSpinMLT.setSelection(i);
                     }
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_tenKH))) {
@@ -228,7 +228,7 @@ public class DocSo extends Fragment {
                     for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike)) {
                         if (s.toString().equals(hoaDon.getTenKhachHang()))
                             for (int i = 0; i < mMLTs.size(); i++)
-                                if (hoaDon.getMaLoTrinh().equals(mMLTs.get(i)))
+                                if (hoaDon.getMaLoTrinh().equals(mMLTs.get(i).replace(" ","")))
                                     mSpinMLT.setSelection(i);
                     }
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_diaChi))) {
@@ -236,7 +236,7 @@ public class DocSo extends Fragment {
                     for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike)) {
                         if (s.toString().equals(hoaDon.getDiaChi()))
                             for (int i = 0; i < mMLTs.size(); i++)
-                                if (hoaDon.getMaLoTrinh().equals(mMLTs.get(i)))
+                                if (hoaDon.getMaLoTrinh().equals(mMLTs.get(i).replace(" ","")))
                                     mSpinMLT.setSelection(i);
                     }
                 }
@@ -401,7 +401,7 @@ public class DocSo extends Fragment {
         });
         mDBs.clear();
         for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike)) {
-            mDBs.add(hoaDon.getDanhBo());
+            mDBs.add(spaceDB(hoaDon.getDanhBo()));
             mTenKHs.add(hoaDon.getTenKhachHang());
             mDiaChis.add(hoaDon.getDiaChi());
         }
@@ -411,7 +411,20 @@ public class DocSo extends Fragment {
                 sort();
             }
         });
+
         refresh();
+    }
+
+    private String spaceMLT(String mlt) {
+        String output = "";
+        output= (mlt.substring(0, 4)).concat("  ").concat(mlt.substring(4));
+        return output;
+    }
+
+    private String spaceDB(String danhBo) {
+        String output = "";
+        output= (danhBo.substring(0, 4)).concat("  ").concat(danhBo.substring(4,7)).concat("  ").concat(danhBo.substring(7));
+        return output;
     }
 
     private void setMaxLenghtAutoCompleteTextView(int maxLenght) {
@@ -687,7 +700,7 @@ public class DocSo extends Fragment {
             for (String mlt : mMLTs) {
                 for (HoaDon hoaDon : hoaDons) {
                     if (mlt.equals(hoaDon.getMaLoTrinh())) {
-                        mDBs.add(hoaDon.getDanhBo());
+                        mDBs.add(spaceDB(hoaDon.getDanhBo()));
                         mTenKHs.add(hoaDon.getTenKhachHang());
                         mDiaChis.add(hoaDon.getDiaChi());
                     }
@@ -785,7 +798,7 @@ public class DocSo extends Fragment {
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
                     mDBs.clear();
                     for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike)) {
-                        mDBs.add(hoaDon.getDanhBo());
+                        mDBs.add(spaceDB(hoaDon.getDanhBo()));
                     }
                     singleComplete.setAdapter(new CustomArrayAdapter(
                             mRootView.getContext(),
@@ -933,15 +946,15 @@ public class DocSo extends Fragment {
         mDBs.clear();
 
         for (HoaDon hoaDon : hoaDons) {
-            mMLTs.add(hoaDon.getMaLoTrinh());
-            mDBs.add(hoaDon.getDanhBo());
+            mMLTs.add(spaceMLT(hoaDon.getMaLoTrinh()));
+            mDBs.add(spaceDB(hoaDon.getDanhBo()));
         }
         mAdapterMLT.notifyDataSetChanged();
         mAdapterDB.notifyDataSetChanged();
     }
 
     private void selectMLT(int position) {
-        mMlt = mMLTs.get(position);
+        mMlt = mMLTs.get(position).replace(" ","");
         mSpinTenKH.setSelection(position);
         mSpinDiaChi.setSelection(position);
         selectDanhBo(position);
@@ -954,7 +967,7 @@ public class DocSo extends Fragment {
         mSpinMLT.setSelection(position);
         mSpinDB.setSelection(position);
         HideKeyboard.hide(mActivity);
-        mDanhBo = mDBs.get(position);
+        mDanhBo = mDBs.get(position).replace(" ","");
 
         mHoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
         mDot = Integer.parseInt(mHoaDon.getDot());
