@@ -86,20 +86,21 @@ public class CalculateCSM_TieuThu {
                 break;
             case "60":
                 //todo ghi chỉ số ngưng
-                mCSM = -1;
+
                 mTieuThu = calTieuThuTB();
+                mCSM = mTieuThu + mCSC;
                 break;
             case "61":
             case "63":
             case "66":
                 //todo không ghi chỉ số
-                mCSM = -1;
                 mTieuThu = calTieuThuTB();
+                mCSM = mTieuThu + mCSC;
                 break;
             case "64":
                 //todo để trống
-                mCSM = -1;
                 mTieuThu = calTieuThuTB();
+                mCSM = mTieuThu + mCSC;
                 break;
             case "62":
             case "80":
@@ -119,16 +120,14 @@ public class CalculateCSM_TieuThu {
                 mTieuThu = -1;
                 break;
             case "F1":
-                mCSM = -1;
-                //todo không ghi chỉ số
                 mTieuThu = calTieuThuTB();
+                mCSM = mTieuThu + mCSC;
                 break;
             case "F2":
             case "F3":
             case "F4":
-                //todo để trống
-                mCSM = -1;
                 mTieuThu = calTieuThuTB();
+                mCSM = mTieuThu + mCSC;
                 break;
             case "K":
                 //todo để trống
@@ -203,13 +202,17 @@ public class CalculateCSM_TieuThu {
             tieuThu2 = Integer.parseInt(tt2);
         if (tt3.length() > 0)
             tieuThu3 = Integer.parseInt(tt3);
-        int tieuThu = (tieuThu1 + tieuThu2 + tieuThu3) / 3;
-
-
-        return tieuThu;
+        double tempDouble = ((double) (tieuThu1 + tieuThu2 + tieuThu3)) / 3;
+        //lấy 1 chữ số sau dấu thập phân
+        int tempInt = (int) (tempDouble * 10);
+        String s = tempInt + "";
+        int lastNumber = Integer.parseInt(s.substring(s.length() - 1));
+        if (lastNumber <= 5)
+            return tempInt / 10;
+        else return tempInt / 10 + 1;
     }
 
-    public static boolean checkCSMFluctuation(String tt, String tt1, String tt2, String tt3){
+    public static boolean checkCSMFluctuation(String tt, String tt1, String tt2, String tt3) {
         int tieuThu = 0, sum = 0, avergare = 0, min = 0, max = 0;
         List<Integer> tieuThuList = new ArrayList<>();
         if (tt.length() > 0) {
