@@ -40,12 +40,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ditagis.hcm.docsotanhoa.adapter.CodeSpinnerAdapter;
 import com.ditagis.hcm.docsotanhoa.adapter.CustomArrayAdapter;
+import com.ditagis.hcm.docsotanhoa.entities.Code_Describle;
+import com.ditagis.hcm.docsotanhoa.entities.Codes;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 import com.ditagis.hcm.docsotanhoa.theme.ThemeUtils;
 import com.ditagis.hcm.docsotanhoa.utities.CalculateCSM_TieuThu;
-import com.ditagis.hcm.docsotanhoa.utities.Code;
 import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
 import com.ditagis.hcm.docsotanhoa.utities.MyAlertByHardware;
 import com.ditagis.hcm.docsotanhoa.utities.MyAlertDialog;
@@ -90,7 +92,7 @@ public class DocSo extends Fragment {
     Spinner mSpinCode, mSpinDot;
     private Bitmap mBpImage;
     private HoaDon mHoaDon;
-
+private String mCode;
     private static final int REQUEST_ID_READ_WRITE_PERMISSION = 99;
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
     private int mSumDanhBo, mDanhBoHoanThanh;
@@ -99,7 +101,7 @@ public class DocSo extends Fragment {
     private String mGhiChu;
     private Date currentTime;
     private ArrayAdapter<String> mAdapterDB, mAdapterTenKH, mAdapterDiaChi;
-    private ArrayAdapter<String> mAdapterCode;
+    private CodeSpinnerAdapter mAdapterCode;
     AutoCompleteTextView singleComplete;
 
     Uri mUri;
@@ -211,7 +213,7 @@ public class DocSo extends Fragment {
                 if (mSearchType.equals(mRootView.getContext().getString(R.string.search_mlt))) {
                     setMaxLenghtAutoCompleteTextView(9);
                     for (int i = 0; i < mMLTs.size(); i++) {
-                        if (s.toString().equals(mMLTs.get(i).replace(" ",""))) {
+                        if (s.toString().equals(mMLTs.get(i).replace(" ", ""))) {
                             mSpinMLT.setSelection(i);
                         }
                     }
@@ -228,7 +230,7 @@ public class DocSo extends Fragment {
                     for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike)) {
                         if (s.toString().equals(hoaDon.getTenKhachHang()))
                             for (int i = 0; i < mMLTs.size(); i++)
-                                if (hoaDon.getMaLoTrinh().equals(mMLTs.get(i).replace(" ","")))
+                                if (hoaDon.getMaLoTrinh().equals(mMLTs.get(i).replace(" ", "")))
                                     mSpinMLT.setSelection(i);
                     }
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_diaChi))) {
@@ -236,7 +238,7 @@ public class DocSo extends Fragment {
                     for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike)) {
                         if (s.toString().equals(hoaDon.getDiaChi()))
                             for (int i = 0; i < mMLTs.size(); i++)
-                                if (hoaDon.getMaLoTrinh().equals(mMLTs.get(i).replace(" ","")))
+                                if (hoaDon.getMaLoTrinh().equals(mMLTs.get(i).replace(" ", "")))
                                     mSpinMLT.setSelection(i);
                     }
                 }
@@ -308,9 +310,10 @@ public class DocSo extends Fragment {
 //                        ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
 //                    }
 //                }
-                String code = mSpinCode.getSelectedItem().toString().substring(0, 2);
-                ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(code);
-                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(code, mHoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString());
+                Code_Describle code_describle = (Code_Describle) mSpinCode.getItemAtPosition(0);
+                mCode =code_describle.getCode();
+                ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(mCode);
+                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, mHoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString());
 
                 mTxtCSM.setText(csm_tieuThu.getCSM());
 //                mEditTextCSM.setText(csm_tieuThu.getCSM());
@@ -417,13 +420,13 @@ public class DocSo extends Fragment {
 
     private String spaceMLT(String mlt) {
         String output = "";
-        output= (mlt.substring(0, 4)).concat("  ").concat(mlt.substring(4));
+        output = (mlt.substring(0, 4)).concat("  ").concat(mlt.substring(4));
         return output;
     }
 
     private String spaceDB(String danhBo) {
         String output = "";
-        output= (danhBo.substring(0, 4)).concat("  ").concat(danhBo.substring(4,7)).concat("  ").concat(danhBo.substring(7));
+        output = (danhBo.substring(0, 4)).concat("  ").concat(danhBo.substring(4, 7)).concat("  ").concat(danhBo.substring(7));
         return output;
     }
 
@@ -514,7 +517,7 @@ public class DocSo extends Fragment {
 
 //            ((TableLayout) mRootView.findViewById(R.id.layout_ds_csm)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_csm_1));
                 ((TextView) mRootView.findViewById(R.id.spin_ds_code_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                mAdapterCode = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, Code.getInstance().getCodes());
+                mAdapterCode = new CodeSpinnerAdapter(mRootView.getContext(), R.layout.spinner_item_left1, Codes.getInstance().getCodeDescribles());
 
                 ((TextView) mRootView.findViewById(R.id.etxt_ds_CSM_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
@@ -570,7 +573,7 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
 
                 ((TextView) mRootView.findViewById(R.id.spin_ds_code_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                mAdapterCode = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, Code.getInstance().getCodes());
+                mAdapterCode = new CodeSpinnerAdapter(mRootView.getContext(), R.layout.spinner_item_left2, Codes.getInstance().getCodeDescribles());
                 ((TextView) mRootView.findViewById(R.id.etxt_ds_CSM_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
@@ -657,12 +660,13 @@ public class DocSo extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (checkNull())
                     return;
-                String code = mSpinCode.getItemAtPosition(position).toString().substring(0, 2);
-                ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(code);
+                Code_Describle code_describle = (Code_Describle) mSpinCode.getItemAtPosition(position);
+                mCode =code_describle.getCode();
+                ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(mCode);
                 HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
                 if (hoaDon == null || hoaDon.getCode_CSC_SanLuong() == null)
                     return;
-                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(code, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString());
+                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString());
 
                 mTxtCSM.setText(csm_tieuThu.getCSM());
                 mEditTextCSM.setText(csm_tieuThu.getCSM());
@@ -954,7 +958,7 @@ public class DocSo extends Fragment {
     }
 
     private void selectMLT(int position) {
-        mMlt = mMLTs.get(position).replace(" ","");
+        mMlt = mMLTs.get(position).replace(" ", "");
         mSpinTenKH.setSelection(position);
         mSpinDiaChi.setSelection(position);
         selectDanhBo(position);
@@ -967,7 +971,7 @@ public class DocSo extends Fragment {
         mSpinMLT.setSelection(position);
         mSpinDB.setSelection(position);
         HideKeyboard.hide(mActivity);
-        mDanhBo = mDBs.get(position).replace(" ","");
+        mDanhBo = mDBs.get(position).replace(" ", "");
 
         mHoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
         mDot = Integer.parseInt(mHoaDon.getDot());
@@ -1041,7 +1045,7 @@ public class DocSo extends Fragment {
         if (mDot < 10)
             dotString = "0" + mDot;
         HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
-        hoaDon.setCodeMoi(this.mSpinCode.getSelectedItem().toString().substring(0, 2));
+        hoaDon.setCodeMoi(mCode);
         hoaDon.setChiSoMoi(csm + "");
         hoaDon.setTieuThuMoi(((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).getText().toString());
         hoaDon.setGhiChu(mGhiChu);
@@ -1083,7 +1087,7 @@ public class DocSo extends Fragment {
         if (mDot < 10)
             dotString = "0" + mDot;
         HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
-        hoaDon.setCodeMoi(this.mSpinCode.getSelectedItem().toString().substring(0, 2));
+        hoaDon.setCodeMoi(mCode);
         hoaDon.setChiSoMoi(csm + "");
         hoaDon.setTieuThuMoi(((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).getText().toString());
         hoaDon.setGhiChu(mGhiChu);
