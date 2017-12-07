@@ -81,7 +81,7 @@ public class DocSo extends Fragment {
     private static final int MIN_SIZE = 500000;
     String mMlt;
     String mDanhBo;
-    List<String> mMLTs, mDBs = new ArrayList<>(), mTenKHs = new ArrayList<>(), mDiaChis = new ArrayList<>();
+    List<String> mMLTs, mDBs = new ArrayList<>(), mTenKHs = new ArrayList<>(), mDiaChis = new ArrayList<>(), mSdts = new ArrayList<>();
     List<String> mMLTs_old = new ArrayList<>(), mDBs_old = new ArrayList<>(), mTenKHs_old = new ArrayList<>(), mDiaChis_old = new ArrayList<>();
     EditText mEditTextCSM;
     TextView mTxtCSM;
@@ -90,7 +90,7 @@ public class DocSo extends Fragment {
     TextView mTxtTT, mTxtTT1, mTxtTT2, mTxtTT3;
     Spinner mSpinMLT;
     Spinner mSpinDB = null, mSpinTenKH, mSpinDiaChi;
-    Spinner mSpinCode, mSpinDot;
+    Spinner mSpinCode, mSpinDot, mSpinSdt;
     private Bitmap mBpImage;
     private HoaDon mHoaDon;
     private String mCode;
@@ -101,17 +101,16 @@ public class DocSo extends Fragment {
     private int mDot, mKy;
     private String mGhiChu;
     private Date currentTime;
-    private ArrayAdapter<String> mAdapterDB, mAdapterTenKH, mAdapterDiaChi;
+    private ArrayAdapter<String> mAdapterDB, mAdapterTenKH, mAdapterDiaChi, mAdapterSdt;
     private CodeSpinnerAdapter mAdapterCode;
     AutoCompleteTextView singleComplete;
-
+    private String mSdt;
     Uri mUri;
     private ArrayAdapter<String> mAdapterMLT;
     private View mRootView;
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     private Activity mActivity;
     private String mSearchType;
-    private boolean isAllowChangeSdt = false;
     private int mSelected_theme;
     private String mLike;
     private ArrayAdapter<String> mAdapterDot;
@@ -165,7 +164,6 @@ public class DocSo extends Fragment {
                         ));
         singleComplete.setBackgroundResource(R.layout.edit_text_styles);
 
-        ((EditText) mRootView.findViewById(R.id.etxt_ds_sdt)).setBackgroundResource(R.layout.edit_text_styles);
         ((TextView) mRootView.findViewById(R.id.txt_ds_ky)).setText(this.mKy + "");
         ((TextView) mRootView.findViewById(R.id.txt_ds_staffName)).setText(this.mStaffName);
 
@@ -214,7 +212,7 @@ public class DocSo extends Fragment {
                 if (mSearchType.equals(mRootView.getContext().getString(R.string.search_mlt))) {
                     setMaxLenghtAutoCompleteTextView(9);
                     for (int i = 0; i < mMLTs.size(); i++) {
-                        if (s.toString().equals(mMLTs.get(i).replace(" ", ""))) {
+                        if (s.toString().equals(mMLTs.get(i))) {
                             mSpinMLT.setSelection(i);
                         }
                     }
@@ -248,15 +246,14 @@ public class DocSo extends Fragment {
         mRootView.findViewById(R.id.imgBtn_ds_call).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String phone = ((EditText) mRootView.findViewById(R.id.etxt_ds_sdt)).getText().toString().trim();
                 String regex = "^[0-9]+$";
-                Matcher matcher = Pattern.compile(regex).matcher(phone);
+                Matcher matcher = Pattern.compile(regex).matcher(mSdt);
                 if (matcher.find()) {
-                    if (phone.length() == 0) {
+                    if (mSdt.length() == 0) {
                         MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.call_errorNotFind), true);
                     } else {
                         Intent callIntent = new Intent(Intent.ACTION_CALL);
-                        callIntent.setData(Uri.parse("tel:" + phone));
+                        callIntent.setData(Uri.parse("tel:" + mSdt));
                         startActivity(callIntent);
                     }
                 } else {
@@ -371,38 +368,7 @@ public class DocSo extends Fragment {
                 checkSave(v);
             }
         });
-        ((EditText) mRootView.findViewById(R.id.etxt_ds_sdt)).setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                if (((EditText) v).getText().toString().length() > 0)
-                    if (!isAllowChangeSdt) {
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
-                        builder.setTitle(mRootView.getContext().getString(R.string.alert_sdt_title));
-                        builder.setCancelable(false);
-                        builder.setMessage(mRootView.getContext().getString(R.string.alert_sdt_message));
-                        builder.setPositiveButton(mRootView.getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                isAllowChangeSdt = true;
-                                dialog.dismiss();
-                            }
-                        }).setNegativeButton(mRootView.getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-
-                        AlertDialog dialog = builder.create();
-                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        dialog.show();
-
-                    }
-            }
-
-        });
         mDBs.clear();
         for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike)) {
             mDBs.add(spaceDB(hoaDon.getDanhBo()));
@@ -421,6 +387,9 @@ public class DocSo extends Fragment {
                 save_without_csm();
             }
         });
+
+        mSdts.add(" ");
+        mSpinSdt = (Spinner) mRootView.findViewById(R.id.spin_ds_sdt);
         refresh();
     }
 
@@ -526,7 +495,8 @@ public class DocSo extends Fragment {
 
                 mAdapterDiaChi = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_bold_left1, mDiaChis);
                 ((TextView) mRootView.findViewById(R.id.etxt_ds_sdt_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                ((EditText) mRootView.findViewById(R.id.etxt_ds_sdt)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                mAdapterSdt = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mSdts);
+
                 ((TextView) mRootView.findViewById(R.id.txt_ds_CSC_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_CSC)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_CSM)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
@@ -583,7 +553,7 @@ public class DocSo extends Fragment {
 
                 mAdapterDiaChi = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_bold_left2, mDiaChis);
                 ((TextView) mRootView.findViewById(R.id.etxt_ds_sdt_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((EditText) mRootView.findViewById(R.id.etxt_ds_sdt)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                mAdapterSdt = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mSdts);
                 ((TextView) mRootView.findViewById(R.id.txt_ds_CSC_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
 //                ((TextView) mRootView.findViewById(R.id.txt_ds_CSC)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
 //                ((TextView) mRootView.findViewById(R.id.txt_ds_CSM)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
@@ -599,6 +569,21 @@ public class DocSo extends Fragment {
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 break;
         }
+        mAdapterSdt.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        mSpinSdt.setAdapter(mAdapterSdt);
+
+        mSpinSdt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mSdt = mSpinSdt.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                mSpinMLT.setSelection(0);
+            }
+        });
+
         mAdapterDot.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         mSpinDot.setAdapter(mAdapterDot);
         createDot();
@@ -670,6 +655,7 @@ public class DocSo extends Fragment {
                 mSpinMLT.setSelection(0);
             }
         });
+
 
         mAdapterCode.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         mSpinCode = (Spinner) mRootView.findViewById(R.id.spin_ds_code);
@@ -994,6 +980,21 @@ public class DocSo extends Fragment {
         mDanhBo = mDBs.get(position).replace(" ", "");
 
         mHoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
+        //xử lý sđt
+        mSdts.clear();
+        mSdts.add(" ");
+        mAdapterSdt.notifyDataSetChanged();
+        if (mHoaDon.getSdt().length() > 0) {
+            mSdts.clear();
+            String[] sdts = mHoaDon.getSdt().split("-");
+            for (String sdt : sdts) {
+                mSdts.add(sdt.trim());
+            }
+
+            mAdapterSdt.notifyDataSetChanged();
+        }
+        mSdt = mSdts.get(0);
+        mSpinSdt.setSelection(0);
         mDot = Integer.parseInt(mHoaDon.getDot());
 //        for (int i = 0; i < mDots.size(); i++) {
 //            if (mDots.get(i).equals(mHoaDon.getDot()))
@@ -1025,7 +1026,7 @@ public class DocSo extends Fragment {
 
         ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu)).setText(mHoaDon.getGiaBieu());
         ;
-        ((EditText) mRootView.findViewById(R.id.etxt_ds_sdt)).setText(mHoaDon.getSdt());
+
         ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc)).setText(mHoaDon.getDinhMuc());
 //                    refresh();
 //        if (hoaDon != null) {

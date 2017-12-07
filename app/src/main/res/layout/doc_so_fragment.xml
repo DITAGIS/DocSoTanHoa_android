@@ -352,11 +352,10 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/colorTextColor_1" />
 
-                    <EditText
-                        android:id="@+id/etxt_ds_sdt"
-                        android:layout_width="0dp"
+                    <Spinner
+                        android:id="@+id/spin_ds_sdt"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1.7"
                         android:width="0dp"
                         android:ems="10"
                         android:gravity="start"
