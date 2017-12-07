@@ -374,6 +374,7 @@
                         android:background="@color/colorBackground_1"
                         android:contentDescription="Thêm số điện thoại"
                         android:src="@drawable/add" />
+
                     <ImageButton
                         android:id="@+id/imgBtn_ds_call"
                         android:layout_width="45dp"
@@ -411,7 +412,8 @@
                             android:layout_weight="1"
                             android:gravity="center_horizontal"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/colorTextColor_1" />
+                            android:textColor="@color/colorTextColor_1"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -747,9 +749,7 @@
                 android:paddingRight="@dimen/activity_horizontal_margin">
 
                 <!--Table row ncodeCucode-->
-                <TableRow
-                    android:layout_height="wrap_content"
-                    >
+                <TableRow android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/spin_ds_code_title"
@@ -764,9 +764,9 @@
                     <Spinner
                         android:id="@+id/spin_ds_code"
                         android:layout_width="0dp"
-                        android:layout_weight="1.7"
                         android:layout_height="@dimen/height_spinner_code"
                         android:layout_gravity="center_vertical"
+                        android:layout_weight="1.7"
 
                         android:gravity="end"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -785,8 +785,8 @@
                     <TextView
                         android:id="@+id/etxt_ds_CSM_title"
                         android:layout_width="@dimen/width_title_item_docso"
-                        android:layout_gravity="center_vertical"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:text="Chỉ số mới"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/colorTextColor_1" />
@@ -912,10 +912,10 @@
 
                 <LinearLayout
                     android:id="@+id/layout_ds_saveAll"
-                    android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
 
 
                     android:orientation="vertical">
