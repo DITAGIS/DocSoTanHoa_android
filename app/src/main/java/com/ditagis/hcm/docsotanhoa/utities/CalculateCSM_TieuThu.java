@@ -51,6 +51,8 @@ public class CalculateCSM_TieuThu {
     }
 
     public void calculate() {
+        if(mCode == null)
+            mCode = "40";
         switch (mCode) {
             case "40":
             case "41":

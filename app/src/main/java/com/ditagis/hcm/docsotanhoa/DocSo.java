@@ -48,6 +48,7 @@ import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 import com.ditagis.hcm.docsotanhoa.theme.ThemeUtils;
 import com.ditagis.hcm.docsotanhoa.utities.CalculateCSM_TieuThu;
+import com.ditagis.hcm.docsotanhoa.utities.Flag;
 import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
 import com.ditagis.hcm.docsotanhoa.utities.MyAlertByHardware;
 import com.ditagis.hcm.docsotanhoa.utities.MyAlertDialog;
@@ -92,7 +93,7 @@ public class DocSo extends Fragment {
     Spinner mSpinCode, mSpinDot;
     private Bitmap mBpImage;
     private HoaDon mHoaDon;
-private String mCode;
+    private String mCode;
     private static final int REQUEST_ID_READ_WRITE_PERMISSION = 99;
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
     private int mSumDanhBo, mDanhBoHoanThanh;
@@ -310,8 +311,8 @@ private String mCode;
 //                        ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
 //                    }
 //                }
-                Code_Describle code_describle = (Code_Describle) mSpinCode.getItemAtPosition(0);
-                mCode =code_describle.getCode();
+//                Code_Describle code_describle = (Code_Describle) mSpinCode.getItemAtPosition(0);
+//                mCode = code_describle.getCode();
                 ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(mCode);
                 CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, mHoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString());
 
@@ -414,8 +415,27 @@ private String mCode;
                 sort();
             }
         });
-
+        ((LinearLayout) mRootView.findViewById(R.id.layout_ds_save_without_csm)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                save_without_csm();
+            }
+        });
         refresh();
+    }
+
+    private void save_without_csm() {
+        HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
+        hoaDon.setCodeMoi(mCode);
+        hoaDon.setGhiChu(mGhiChu);
+        if (getImageFileName() == null) {
+        } else if (!getImageFileName().exists()) {
+        } else {
+            hoaDon.setImage(getImageFileName().getAbsolutePath());
+        }
+        mHoaDon = hoaDon;
+        LocalDatabase.getInstance(mRootView.getContext()).updateHoaDon_without_csm(hoaDon, Flag.UNREAD);
+        Toast.makeText(mRootView.getContext(), "Đã lưu", Toast.LENGTH_LONG).show();
     }
 
     private String spaceMLT(String mlt) {
@@ -661,7 +681,7 @@ private String mCode;
                 if (checkNull())
                     return;
                 Code_Describle code_describle = (Code_Describle) mSpinCode.getItemAtPosition(position);
-                mCode =code_describle.getCode();
+                mCode = code_describle.getCode();
                 ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(mCode);
                 HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
                 if (hoaDon == null || hoaDon.getCode_CSC_SanLuong() == null)
@@ -983,7 +1003,15 @@ private String mCode;
 //                            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
         mTxtCSC = (TextView) mRootView.findViewById(R.id.txt_ds_CSC);
         mTxtCSC.setText(mHoaDon.getChiSoCu());
-//        ((TextView) mRootView.findViewById(R.id.txt_ds_soThan)).setText(mHoaDon.getSoThan());
+        int positionCode = 0;
+        for (Code_Describle code_describle : Codes.getInstance().getCodeDescribles()) {
+            if (code_describle.getCode().equals(mHoaDon.getCodeMoi())) {
+                mSpinCode.setSelection(positionCode);
+                break;
+            }
+            positionCode++;
+        }
+
         ((TextView) mRootView.findViewById(R.id.txt_ds_code1)).setText(mHoaDon.getCode_CSC_SanLuong().getCode1());
         ((TextView) mRootView.findViewById(R.id.txt_ds_code2)).setText(mHoaDon.getCode_CSC_SanLuong().getCode2());
         ((TextView) mRootView.findViewById(R.id.txt_ds_code3)).setText(mHoaDon.getCode_CSC_SanLuong().getCode3());
@@ -1365,6 +1393,43 @@ private String mCode;
         final ArrayAdapter<String> adapterNotes_sub_kinhdoanh = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_note_left, Note.getInstance().getNotes_sub_kinhdoanh());
 
         spin_ghichu.setAdapter(adapterNotes);
+        int positionNote = 0, positionNoteSub = 0;
+        for (String note : Note.getInstance().getNotes()) {
+            if (positionNote == Note.getInstance().getNotes().length - 1) {
+                if (!mHoaDon.getGhiChu().equals("null"))
+                    etxtghichu.setText(mHoaDon.getGhiChu());
+            } else if (mHoaDon.getGhiChu().contains(note)) {
+                spin_ghichu.setSelection(positionNote);
+                switch (positionNote) {
+                    case 1:
+                        spin_ghichu.setSelection(1);
+                        for (String noteSub : Note.getInstance().getNotes_sub_dutchi()) {
+                            if (mHoaDon.getGhiChu().contains(noteSub)) {
+                                spin_ghichu_sub.setSelection(positionNoteSub);
+                                break;
+                            }
+                            positionNoteSub++;
+                        }
+                        break;
+                    case 2:
+                        spin_ghichu.setSelection(2);
+                        for (String noteSub : Note.getInstance().getNotes_sub_kinhdoanh()) {
+                            if (mHoaDon.getGhiChu().contains(noteSub)) {
+                                spin_ghichu_sub.setSelection(positionNoteSub);
+                                break;
+                            }
+                            positionNoteSub++;
+                        }
+                        break;
+                    default:
+                        spin_ghichu.setSelection(positionNote);
+                        break;
+                }
+                break;
+            }
+            positionNote++;
+        }
+
         spin_ghichu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
