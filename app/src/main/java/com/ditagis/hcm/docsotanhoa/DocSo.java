@@ -210,14 +210,14 @@ public class DocSo extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (mSearchType.equals(mRootView.getContext().getString(R.string.search_mlt))) {
-                    setMaxLenghtAutoCompleteTextView(9);
+                    setMaxLenghtAutoCompleteTextView(11);
                     for (int i = 0; i < mMLTs.size(); i++) {
                         if (s.toString().equals(mMLTs.get(i))) {
                             mSpinMLT.setSelection(i);
                         }
                     }
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
-                    setMaxLenghtAutoCompleteTextView(11);
+                    setMaxLenghtAutoCompleteTextView(15);
                     for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike)) {
                         if (s.toString().equals(hoaDon.getDanhBo()))
                             for (int i = 0; i < mMLTs.size(); i++)
@@ -225,7 +225,7 @@ public class DocSo extends Fragment {
                                     mSpinMLT.setSelection(i);
                     }
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_tenKH))) {
-                    setMaxLenghtAutoCompleteTextView(30);
+                    setMaxLenghtAutoCompleteTextView(50);
                     for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike)) {
                         if (s.toString().equals(hoaDon.getTenKhachHang()))
                             for (int i = 0; i < mMLTs.size(); i++)
@@ -390,7 +390,52 @@ public class DocSo extends Fragment {
 
         mSdts.add(" ");
         mSpinSdt = (Spinner) mRootView.findViewById(R.id.spin_ds_sdt);
+        ((ImageButton) mRootView.findViewById(R.id.imgBtn_ds_add_sdt)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                add_sdt();
+            }
+        });
         refresh();
+    }
+
+    private void add_sdt() {
+        LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());//getLayoutInflater();
+        View dialogLayout = inflater.inflate(R.layout.layout_add_sdt, null);
+        final EditText etxtSdt = (EditText) dialogLayout.findViewById(R.id.etxt_add_sdt);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
+        builder.setTitle("Thêm số điện thoại");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+
+                if (etxtSdt.getText().toString().length() > 0)
+                {
+                    if(mSdts.contains(" "))
+                        mSdts.clear();
+                    mSdts.add(etxtSdt.getText().toString());
+                    mAdapterSdt.notifyDataSetChanged();
+                    mSdt = mSdts.get(0);
+                    mSpinSdt.setSelection(0);
+                }
+                dialog.dismiss();
+
+            }
+        }).setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).setCancelable(false);
+        AlertDialog dialog = builder.create();
+
+        dialog.setView(dialogLayout);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.show();
+
     }
 
     private void save_without_csm() {
@@ -402,7 +447,18 @@ public class DocSo extends Fragment {
         } else {
             hoaDon.setImage(getImageFileName().getAbsolutePath());
         }
+        String sdt = "";
+        if (mSdt.trim().length() > 0) {
+            for (int i = 0; i <= mSdts.size() - 1; i++) {
+                if (i == mSdts.size() - 1)
+                    sdt = sdt.concat(mSdts.get(i));
+                else
+                    sdt = sdt.concat(mSdts.get(i)).concat("-");
+            }
+        }
+        hoaDon.setSdt(sdt);
         mHoaDon = hoaDon;
+
         LocalDatabase.getInstance(mRootView.getContext()).updateHoaDon_without_csm(hoaDon, Flag.UNREAD);
         Toast.makeText(mRootView.getContext(), "Đã lưu", Toast.LENGTH_LONG).show();
     }

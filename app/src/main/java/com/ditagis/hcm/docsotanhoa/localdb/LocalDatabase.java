@@ -463,7 +463,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
 
         String sql = "update " + TABLE_HOADON + " set " +
                 COLUMN_HOADON_CODE_MOI + " = '" + hoaDon.getCodeMoi() + "'," +
-//                COLUMN_HOADON_SDT + " = '" + hoaDon.getSdt() + "'," +
+                COLUMN_HOADON_SDT + " = '" + hoaDon.getSdt() + "'," +
                 COLUMN_HOADON_GHI_CHU + " = '" + hoaDon.getGhiChu() + "'," +
                 COLUMN_HOADON_HINH + " = '" + hoaDon.getImage() + "'" +
                 " where " +
