@@ -366,12 +366,19 @@
                         android:textColor="@color/colorTextColor_1"
                         android:textCursorDrawable="@null" />
 
-
+                    <ImageButton
+                        android:id="@+id/imgBtn_ds_add_sdt"
+                        android:layout_width="45dp"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_weight="0.1"
+                        android:background="@color/colorBackground_1"
+                        android:contentDescription="Thêm số điện thoại"
+                        android:src="@drawable/add" />
                     <ImageButton
                         android:id="@+id/imgBtn_ds_call"
                         android:layout_width="45dp"
                         android:layout_gravity="end|center_vertical"
-                        android:layout_weight="0.3"
+                        android:layout_weight="0.1"
                         android:background="@color/colorBackground_1"
                         android:contentDescription="Call"
                         android:src="@drawable/call" />

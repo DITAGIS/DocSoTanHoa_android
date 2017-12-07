@@ -723,7 +723,7 @@ public class DocSo extends Fragment {
             List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike);
             for (String mlt : mMLTs) {
                 for (HoaDon hoaDon : hoaDons) {
-                    if (mlt.equals(hoaDon.getMaLoTrinh())) {
+                    if (mlt.equals(spaceMLT(hoaDon.getMaLoTrinh()))) {
                         mDBs.add(spaceDB(hoaDon.getDanhBo()));
                         mTenKHs.add(hoaDon.getTenKhachHang());
                         mDiaChis.add(hoaDon.getDiaChi());
@@ -1154,10 +1154,10 @@ public class DocSo extends Fragment {
     }
 
     private void notifyDataSetChange(HoaDon hoaDon) {
-        this.mMLTs.remove(hoaDon.getMaLoTrinh());
+        this.mMLTs.remove(spaceMLT(hoaDon.getMaLoTrinh()));
         this.mAdapterMLT.notifyDataSetChanged();
 //        this.mAdapterDB.remove(danhBo_chiSoMoi.getDanhBo());
-        this.mDBs.remove(hoaDon.getDanhBo());
+        this.mDBs.remove(spaceDB(hoaDon.getDanhBo()));
         this.mAdapterDB.notifyDataSetChanged();
         this.mTenKHs.remove(hoaDon.getTenKhachHang());
         this.mAdapterTenKH.notifyDataSetChanged();
@@ -1165,9 +1165,9 @@ public class DocSo extends Fragment {
         this.mDiaChis.remove(hoaDon.getDiaChi());
         this.mAdapterDiaChi.notifyDataSetChanged();
 
-        this.mMLTs_old.remove(hoaDon.getMaLoTrinh());
+        this.mMLTs_old.remove(spaceMLT(hoaDon.getMaLoTrinh()));
 //        this.mAdapterDB.remove(danhBo_chiSoMoi.getDanhBo());
-        this.mDBs_old.remove(hoaDon.getDanhBo());
+        this.mDBs_old.remove(spaceDB(hoaDon.getDanhBo()));
         this.mTenKHs_old.remove(hoaDon.getTenKhachHang());
 
         this.mDiaChis_old.remove(hoaDon.getDiaChi());
