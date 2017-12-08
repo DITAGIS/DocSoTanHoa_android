@@ -643,7 +643,6 @@ public class DocSo extends Fragment {
                 mSpinMLT.setSelection(0);
             }
         });
-
         mAdapterDot.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         mSpinDot.setAdapter(mAdapterDot);
         createDot();
@@ -998,28 +997,25 @@ public class DocSo extends Fragment {
     }
 
     private void createDot() {
-//        getDotExist();
-//        mAdapterDot = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mDots);
-//        mSpinDot.setAdapter(mAdapterDot);
+        getDotExist();
+        mAdapterDot = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mDots);
+        mSpinDot.setAdapter(mAdapterDot);
         int position = mDots.size() - 1;
         mSpinDot.setSelection(position);
     }
 
     private void getDotExist() {
-        String like = "", dotString = "";
-        if (mDot < 10)
-            dotString = "0" + mDot;
-        else dotString = mDot + "";
-
+        String like;
         for (int i = mDot - 1; i >= mDot - 3; i--) {
             String dotExist = "";
             if (i < 10)
                 dotExist = "0" + i;
             else dotExist = i + "";
-            like = dotExist.concat(mLike.substring(2, 4)).concat("%");
-            if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(like).size() > 0) {
-
-                mDots.add(0, dotExist);
+            if (!mDots.contains(dotExist)) {
+                like = dotExist.concat(mLike.substring(2, 4)).concat("%");
+                if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(like).size() > 0) {
+                    mDots.add(0, dotExist);
+                }
             }
         }
         if (mDots.size() > 1) {

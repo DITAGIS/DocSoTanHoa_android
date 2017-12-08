@@ -290,6 +290,7 @@ public class QuanLyDocSo extends Fragment {
     public void refresh() {
 
         hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
+
         setTextProgress();
 
 
@@ -302,6 +303,7 @@ public class QuanLyDocSo extends Fragment {
                     hoaDon.getChiSoMoi(),
                     hoaDon.getCodeMoi()));
         }
+        mSpinCode.setSelection(0);
         mQuanLyDocSoAdapter.notifyDataSetChanged();
     }
 
@@ -751,7 +753,7 @@ public class QuanLyDocSo extends Fragment {
                     }
                 }
             }
-            mSpinCode.setSelection(0);
+
             if (countUpload == 0)
                 isValid = true;
 
