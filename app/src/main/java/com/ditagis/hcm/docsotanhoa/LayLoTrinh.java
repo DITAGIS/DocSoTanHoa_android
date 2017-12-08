@@ -86,7 +86,7 @@ public class LayLoTrinh {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                search(s, mlts);
+//                search(s, mlts);
             }
 
             @Override
@@ -181,30 +181,30 @@ public class LayLoTrinh {
         return netInfo != null && netInfo.isConnected();
     }
 
-    private void search(CharSequence s, List<String> mlts) {
-        if (s.length() != 0) {
-//                    System.out.println(mGridView.getAdapter().getItem(0).toString());
-            List<String> result = new ArrayList<String>();
-            //Lấy dữ liệu bắt đầu với text search
-            for (String mlt : mlts) {
-                if (mlt.contains(s.toString()))
-                    result.add(mlt);
-            }
-            //Gán dữ liệu vào data source
-            if (LayLoTrinh.this.mLayLoTrinhAdapter != null && result.size() > 0) {
-                LayLoTrinh.this.mLayLoTrinhAdapter.clear();
-                for (String mlt : result) {
-                    List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonByMaLoTrinh(mlt);
-                    for (HoaDon hoaDon : hoaDons)
-                        LayLoTrinh.this.mLayLoTrinhAdapter.add(new GridViewLayLoTrinhAdapter.Item(mlt, hoaDon.getDanhBo()));
-                }
-
-            }
-
-        } else {
-            //TODO
-        }
-    }
+//    private void search(CharSequence s, List<String> mlts) {
+//        if (s.length() != 0) {
+////                    System.out.println(mGridView.getAdapter().getItem(0).toString());
+//            List<String> result = new ArrayList<String>();
+//            //Lấy dữ liệu bắt đầu với text search
+//            for (String mlt : mlts) {
+//                if (mlt.contains(s.toString()))
+//                    result.add(mlt);
+//            }
+//            //Gán dữ liệu vào data source
+//            if (LayLoTrinh.this.mLayLoTrinhAdapter != null && result.size() > 0) {
+//                LayLoTrinh.this.mLayLoTrinhAdapter.clear();
+//                for (String mlt : result) {
+//                    List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonByMaLoTrinh(mlt);
+//                    for (HoaDon hoaDon : hoaDons)
+//                        LayLoTrinh.this.mLayLoTrinhAdapter.add(new GridViewLayLoTrinhAdapter.Item(mlt, hoaDon.getDanhBo()));
+//                }
+//
+//            }
+//
+//        } else {
+//            //TODO
+//        }
+//    }
 
     private void finishLayLoTrinh(ResultLayLoTrinh output, View rootView) {
 //        if (output.getCount() < output.getTotal()) {

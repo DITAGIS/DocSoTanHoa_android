@@ -17,7 +17,7 @@ import java.util.List;
 public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
     private final String TABLE_NAME = "DocSo";
     private final String SQL_SELECT = "SELECT ID,KHU,DOT,DANHBO,CULY,HOPDONG,TENKH,SONHA,DUONG,GIABIEU,DINHMUC,KY,NAM,CODE,CODEFU,CSCU,CSMOI,QUAN,PHUONG,MLT FROM " + TABLE_NAME;
-    private final String SQL_SELECT_GETALL_BY_USERNAME = "SELECT gb,dm,CSCU, MLT2, soThanCu FROM " + TABLE_NAME;
+    private final String SQL_SELECT_GETALL_BY_USERNAME = "SELECT gb,dm,CSCU, MLT2, soThanCu, hieucu, cocu, vitricu FROM " + TABLE_NAME;
     private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
     private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + " VALUES(?,?,?,?,?)";
     //    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET CSC=? WHERE DANHBO=?";
@@ -257,6 +257,9 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                 String chiSoCu = rs.getInt(3) + "";
                 String maLoTrinh = rs.getString(4);
                 String soThan = rs.getString(5);
+                String hieu = rs.getString(6);
+                String co = rs.getString(7);
+                String viTri = rs.getString(8);
                 String soNha = "";
                 String duong = "";
                 String tenKhachHang = "";
@@ -351,6 +354,9 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                         sanLuong_1, sanLuong_2, sanLuong_3);
                 hoaDon.setCode_CSC_SanLuong(code_csu_sanLuong);
                 hoaDon.setSoThan(soThan);
+                hoaDon.setHieu(hieu);
+                hoaDon.setCo(co);
+                hoaDon.setViTri(viTri);
                 rs.close();
 
 

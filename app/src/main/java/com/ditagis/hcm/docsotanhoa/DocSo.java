@@ -1068,7 +1068,10 @@ public class DocSo extends Fragment {
             }
             positionCode++;
         }
-
+        ((TextView) mRootView.findViewById(R.id.txt_ds_so_than)).setText(mHoaDon.getSoThan());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_hieu)).setText(mHoaDon.getHieu());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_co)).setText(mHoaDon.getCo());
+        ((TextView) mRootView.findViewById(R.id.txt_ds_vi_tri)).setText(mHoaDon.getViTri());
         ((TextView) mRootView.findViewById(R.id.txt_ds_code1)).setText(mHoaDon.getCode_CSC_SanLuong().getCode1());
         ((TextView) mRootView.findViewById(R.id.txt_ds_code2)).setText(mHoaDon.getCode_CSC_SanLuong().getCode2());
         ((TextView) mRootView.findViewById(R.id.txt_ds_code3)).setText(mHoaDon.getCode_CSC_SanLuong().getCode3());

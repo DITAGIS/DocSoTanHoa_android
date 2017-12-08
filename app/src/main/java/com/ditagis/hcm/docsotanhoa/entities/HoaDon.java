@@ -26,10 +26,38 @@ public class HoaDon {
     private Code_CSC_SanLuong code_CSC_SanLuong;
     private int flag;
     private String soThan;
+    private String viTri;
+    private String hieu;
+    private String co;
+
+    public String getHieu() {
+        return hieu;
+    }
+
+    public void setHieu(String hieu) {
+        this.hieu = hieu;
+    }
+
+    public String getCo() {
+        return co;
+    }
+
+    public void setCo(String co) {
+        this.co = co;
+    }
 
     public String getSoThan() {
         return soThan;
     }
+
+    public String getViTri() {
+        return viTri;
+    }
+
+    public void setViTri(String viTri) {
+        this.viTri = viTri;
+    }
+
 
     public void setSoThan(String soThan) {
         this.soThan = soThan;
