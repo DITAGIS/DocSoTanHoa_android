@@ -3,14 +3,11 @@ package com.ditagis.hcm.docsotanhoa.conectDB;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 
-import com.ditagis.hcm.docsotanhoa.R;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -31,7 +28,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
     private final String TABLE_NAME_DOCSO = "DocSo";
     private final String TABLE_NAME_DOCSO_LUUTRU = "DocSoLuuTru";
     private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME_DOCSO + " SET CSMOI=?, CODEMoi=?, GhiChuDS=?, tieuthumoi =? WHERE DANHBa=? and dot = ? and ky = ? and nam = ?";
+    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME_DOCSO + " SET CSMOI=?, CODEMoi=?, GhiChuDS=?, tieuthumoi =?, gioghi = ?, sdt = ? WHERE DANHBa=? and dot = ? and ky = ? and nam = ?";
     private final String SQL_INSERT_LUUTRU = "INSERT INTO " + TABLE_NAME_DOCSO_LUUTRU + " VALUES (?,?,?,?,?,?,?,?,?,?," +
             "?,?,?,?,?,?,?,?,?,?," +
             "?,?,?,?,?,?,?,?,?,?," +
@@ -128,10 +125,14 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             st.setString(2, hoaDon.getCodeMoi());
             st.setString(3, hoaDon.getGhiChu());
             st.setString(4, hoaDon.getTieuThuMoi());
-            st.setString(5, hoaDon.getDanhBo());
-            st.setString(6, hoaDon.getDot());
-            st.setString(7, this.mKy);
-            st.setString(8, this.mNam);
+            String stringDate = hoaDon.getThoiGian();
+            Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
+            st.setTimestamp(5, new java.sql.Timestamp(date.getTime()));
+            st.setString(6, hoaDon.getSdt());
+            st.setString(7, hoaDon.getDanhBo());
+            st.setString(8, hoaDon.getDot());
+            st.setString(9, this.mKy);
+            st.setString(10, this.mNam);
             int result1 = st.executeUpdate();
             st.close();
 
@@ -140,6 +141,8 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
 
         } catch (SQLException e1) {
             e1.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -211,11 +214,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             st1.setString(3, "0.0");
             st1.setString(4, "0.0");
             st1.setString(5, "0");
-            String path = Environment.getExternalStorageDirectory().getPath();
-//                path = path.substring(0, path.length() - 1).concat("1");
-            File outFile = new File(path, mContext.getString(R.string.path_saveImage));
-            String fileName = hoaDon.getImage().substring(outFile.getAbsolutePath().length() + 1).split("\\.")[0];
-            String stringDate = fileName.substring(0, 19);
+            String stringDate =hoaDon.getThoiGian();
             Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
             st1.setTimestamp(6, new java.sql.Timestamp(date.getTime()));
             int result = st1.executeUpdate();

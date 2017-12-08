@@ -57,6 +57,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
     private static final String COLUMN_HOADON_TTMOI = "HoaDon_TTMoi";
     private static final String COLUMN_HOADON_GHI_CHU = "HoaDon_GhiChu";
     private static final String COLUMN_HOADON_HINH = "HoaDon_Hinh";
+    private static final String COLUMN_HOADON_THOI_GIAN = "HoaDon_ThoiGian";
     private static final String COLUMN_HOADON_SO_THAN = "HoaDon_SoThan";
     private static final String COLUMN_HOADON_HIEU = "HoaDon_Hieu";
     private static final String COLUMN_HOADON_CO = "HoaDon_Co";
@@ -132,6 +133,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 + COLUMN_HOADON_TTMOI + " TEXT,"
                 + COLUMN_HOADON_GHI_CHU + " TEXT,"
                 + COLUMN_HOADON_HINH + " TEXT,"
+                + COLUMN_HOADON_THOI_GIAN + " TEXT,"
                 + COLUMN_HOADON_SO_THAN + " TEXT,"
                 + COLUMN_HOADON_HIEU + " TEXT,"
                 + COLUMN_HOADON_CO + " TEXT,"
@@ -228,6 +230,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 + COLUMN_HOADON_TTMOI + ", "
                 + COLUMN_HOADON_GHI_CHU + ", "
                 + COLUMN_HOADON_HINH + ", "
+                + COLUMN_HOADON_THOI_GIAN + ", "
                 + COLUMN_HOADON_SO_THAN + ", "
                 + COLUMN_HOADON_HIEU + ", "
                 + COLUMN_HOADON_CO + ", "
@@ -258,6 +261,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.getTieuThuMoi() + "','" +
                 hoaDon.getGhiChu() + "','" +
                 hoaDon.getImage() + "','" +
+                hoaDon.getThoiGian() + "','" +
                 hoaDon.getSoThan() + "','" +
                 hoaDon.getHieu() + "','" +
                 hoaDon.getCo() + "','" +
@@ -289,10 +293,11 @@ public class LocalDatabase extends SQLiteOpenHelper {
             hoaDon.setTieuThuMoi(cursor.getString(23));
             hoaDon.setGhiChu(cursor.getString(24));
             hoaDon.setImage(cursor.getString(25));
-            hoaDon.setSoThan(cursor.getString(26));
-            hoaDon.setHieu(cursor.getString(27));
-            hoaDon.setCo(cursor.getString(28));
-            hoaDon.setViTri(cursor.getString(29));
+            hoaDon.setThoiGian(cursor.getString(26));
+            hoaDon.setSoThan(cursor.getString(27));
+            hoaDon.setHieu(cursor.getString(28));
+            hoaDon.setCo(cursor.getString(29));
+            hoaDon.setViTri(cursor.getString(30));
         }
         return hoaDon;
     }
@@ -329,10 +334,11 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setTieuThuMoi(cursor.getString(23));
                 hoaDon.setGhiChu(cursor.getString(24));
                 hoaDon.setImage(cursor.getString(25));
-                hoaDon.setSoThan(cursor.getString(26));
-                hoaDon.setHieu(cursor.getString(27));
-                hoaDon.setCo(cursor.getString(28));
-                hoaDon.setViTri(cursor.getString(29));
+                hoaDon.setThoiGian(cursor.getString(26));
+                hoaDon.setSoThan(cursor.getString(27));
+                hoaDon.setHieu(cursor.getString(28));
+                hoaDon.setCo(cursor.getString(29));
+                hoaDon.setViTri(cursor.getString(30));
                 hoaDons.add(hoaDon);
             } while (cursor.moveToNext());
         }
@@ -371,10 +377,11 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setTieuThuMoi(cursor.getString(23));
                 hoaDon.setGhiChu(cursor.getString(24));
                 hoaDon.setImage(cursor.getString(25));
-                hoaDon.setSoThan(cursor.getString(26));
-                hoaDon.setHieu(cursor.getString(27));
-                hoaDon.setCo(cursor.getString(28));
-                hoaDon.setViTri(cursor.getString(29));
+                hoaDon.setThoiGian(cursor.getString(26));
+                hoaDon.setSoThan(cursor.getString(27));
+                hoaDon.setHieu(cursor.getString(28));
+                hoaDon.setCo(cursor.getString(29));
+                hoaDon.setViTri(cursor.getString(30));
                 hoaDons.add(hoaDon);
             } while (cursor.moveToNext());
         }
@@ -479,7 +486,9 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 COLUMN_HOADON_TTMOI + " = '" + hoaDon.getTieuThuMoi() + "'," +
                 COLUMN_HOADON_GHI_CHU + " = '" + hoaDon.getGhiChu() + "'," +
                 COLUMN_HOADON_SDT + " = '" + hoaDon.getSdt() + "'," +
-                COLUMN_HOADON_HINH + " = '" + hoaDon.getImage() + "'" +
+                COLUMN_HOADON_HINH + " = '" + hoaDon.getImage() + "'," +
+                COLUMN_HOADON_THOI_GIAN + " = '" + hoaDon.getThoiGian() + "'" +
+
 
                 " where " +
                 COLUMN_HOADON_DANHBO + " ='" + hoaDon.getDanhBo() + "' and " +

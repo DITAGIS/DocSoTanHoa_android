@@ -23,12 +23,21 @@ public class HoaDon {
     private String sdt;
     private String ghiChu;
     private String image;
+    private String thoiGian;
     private Code_CSC_SanLuong code_CSC_SanLuong;
     private int flag;
     private String soThan;
     private String viTri;
     private String hieu;
     private String co;
+
+    public String getThoiGian() {
+        return thoiGian;
+    }
+
+    public void setThoiGian(String thoiGian) {
+        this.thoiGian = thoiGian;
+    }
 
     public String getHieu() {
         return hieu;

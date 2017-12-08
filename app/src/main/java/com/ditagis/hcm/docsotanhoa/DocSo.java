@@ -1163,6 +1163,10 @@ public class DocSo extends Fragment {
         hoaDon.setTieuThuMoi(((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).getText().toString());
         hoaDon.setGhiChu(mGhiChu);
         hoaDon.setSdt(getSdtString());
+
+        this.currentTime = Calendar.getInstance().getTime();
+        String datetime = this.formatter.format(this.currentTime);
+        hoaDon.setThoiGian(datetime);
 //        DanhBo_ChiSoMoi danhBo_chiSoMoi = new DanhBo_ChiSoMoi(this.mDanhBo,
 //                this.mMlt,
 //                dotString,
