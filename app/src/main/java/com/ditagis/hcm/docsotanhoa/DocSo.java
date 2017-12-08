@@ -411,9 +411,8 @@ public class DocSo extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
 
 
-                if (etxtSdt.getText().toString().length() > 0)
-                {
-                    if(mSdts.contains(" "))
+                if (etxtSdt.getText().toString().length() > 0) {
+                    if (mSdts.contains(" "))
                         mSdts.clear();
                     mSdts.add(etxtSdt.getText().toString());
                     mAdapterSdt.notifyDataSetChanged();
@@ -438,15 +437,7 @@ public class DocSo extends Fragment {
 
     }
 
-    private void save_without_csm() {
-        HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
-        hoaDon.setCodeMoi(mCode);
-        hoaDon.setGhiChu(mGhiChu);
-        if (getImageFileName() == null) {
-        } else if (!getImageFileName().exists()) {
-        } else {
-            hoaDon.setImage(getImageFileName().getAbsolutePath());
-        }
+    private String getSdtString() {
         String sdt = "";
         if (mSdt.trim().length() > 0) {
             for (int i = 0; i <= mSdts.size() - 1; i++) {
@@ -456,7 +447,20 @@ public class DocSo extends Fragment {
                     sdt = sdt.concat(mSdts.get(i)).concat("-");
             }
         }
-        hoaDon.setSdt(sdt);
+        return sdt;
+    }
+
+    private void save_without_csm() {
+        HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
+        hoaDon.setCodeMoi(mCode);
+        hoaDon.setGhiChu(mGhiChu);
+        if (getImageFileName() == null) {
+        } else if (!getImageFileName().exists()) {
+        } else {
+            hoaDon.setImage(getImageFileName().getAbsolutePath());
+        }
+
+        hoaDon.setSdt(getSdtString());
         mHoaDon = hoaDon;
 
         LocalDatabase.getInstance(mRootView.getContext()).updateHoaDon_without_csm(hoaDon, Flag.UNREAD);
@@ -1137,7 +1141,7 @@ public class DocSo extends Fragment {
         hoaDon.setChiSoMoi(csm + "");
         hoaDon.setTieuThuMoi(((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).getText().toString());
         hoaDon.setGhiChu(mGhiChu);
-
+        hoaDon.setSdt(getSdtString());
 //        DanhBo_ChiSoMoi danhBo_chiSoMoi = new DanhBo_ChiSoMoi(this.mDanhBo,
 //                this.mMlt,
 //                dotString,
@@ -1180,6 +1184,7 @@ public class DocSo extends Fragment {
         hoaDon.setTieuThuMoi(((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).getText().toString());
         hoaDon.setGhiChu(mGhiChu);
         hoaDon.setImage(image);
+        hoaDon.setSdt(getSdtString());
 //        DanhBo_ChiSoMoi danhBo_chiSoMoi = new DanhBo_ChiSoMoi(this.mDanhBo,
 //                this.mMlt,
 //                dotString,
@@ -1432,11 +1437,6 @@ public class DocSo extends Fragment {
     }
 
     private void doNote() {
-        //--------------------
-//        final EditText input = new EditText(mRootView.getContext());
-//        input.setMaxLines(5);
-//        input.setText(this.mGhiChu);
-//        input.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         final AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Ghi chú");
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());

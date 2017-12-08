@@ -319,11 +319,11 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:textStyle="bold"
                             android:layout_weight="1"
                             android:gravity="center_horizontal"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/colorTextColor_1" />
+                            android:textColor="@color/colorTextColor_1"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
 
@@ -348,12 +348,12 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-android:textStyle="bold"
                             android:layout_weight="1"
                             android:gravity="center_horizontal"
-
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/colorTextColor_1" />
+
+                            android:textColor="@color/colorTextColor_1"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                 </TableRow>
@@ -388,6 +388,7 @@ android:textStyle="bold"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/colorTextColor_1" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
