@@ -6,8 +6,10 @@ import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
+import com.ditagis.hcm.docsotanhoa.utities.ImageFile;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -205,7 +207,6 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             st1.setString(1, hoaDon.getDanhBo());
 
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
             Bitmap bit = BitmapFactory.decodeFile(hoaDon.getImage());
             bit.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
 
@@ -214,11 +215,14 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             st1.setString(3, "0.0");
             st1.setString(4, "0.0");
             st1.setString(5, "0");
-            String stringDate =hoaDon.getThoiGian();
+            String stringDate = hoaDon.getThoiGian();
             Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
             st1.setTimestamp(6, new java.sql.Timestamp(date.getTime()));
             int result = st1.executeUpdate();
-
+            if (result > 0) {
+                File f = ImageFile.getFile(hoaDon.getThoiGian(), mContext, hoaDon.getDanhBo());
+                f.delete();
+            }
             return result;
         } catch (SQLException e) {
             e.printStackTrace();

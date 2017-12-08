@@ -50,6 +50,7 @@ import com.ditagis.hcm.docsotanhoa.theme.ThemeUtils;
 import com.ditagis.hcm.docsotanhoa.utities.CalculateCSM_TieuThu;
 import com.ditagis.hcm.docsotanhoa.utities.Flag;
 import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
+import com.ditagis.hcm.docsotanhoa.utities.ImageFile;
 import com.ditagis.hcm.docsotanhoa.utities.MyAlertByHardware;
 import com.ditagis.hcm.docsotanhoa.utities.MyAlertDialog;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
@@ -454,10 +455,10 @@ public class DocSo extends Fragment {
         HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
         hoaDon.setCodeMoi(mCode);
         hoaDon.setGhiChu(mGhiChu);
-        if (getImageFileName() == null) {
-        } else if (!getImageFileName().exists()) {
+        if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
+        } else if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
         } else {
-            hoaDon.setImage(getImageFileName().getAbsolutePath());
+            hoaDon.setImage(ImageFile.getFile(currentTime, mRootView, mDanhBo).getAbsolutePath());
         }
 
         hoaDon.setSdt(getSdtString());
@@ -963,14 +964,14 @@ public class DocSo extends Fragment {
                 alertCSM_lt_CSC(csc, csm);
 
             } else {
-                if (getImageFileName() == null) {
+                if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
                     MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
                     save(csc, csm);
-                } else if (!getImageFileName().exists()) {
+                } else if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
                     MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
                     save(csc, csm);
                 } else {
-                    save(getImageFileName().getAbsolutePath(), csc, csm);
+                    save(ImageFile.getFile(currentTime, mRootView, mDanhBo).getAbsolutePath(), csc, csm);
                 }
 
 
@@ -1206,6 +1207,9 @@ public class DocSo extends Fragment {
         hoaDon.setGhiChu(mGhiChu);
         hoaDon.setImage(image);
         hoaDon.setSdt(getSdtString());
+
+        String datetime = this.formatter.format(this.currentTime);
+        hoaDon.setThoiGian(datetime);
 //        DanhBo_ChiSoMoi danhBo_chiSoMoi = new DanhBo_ChiSoMoi(this.mDanhBo,
 //                this.mMlt,
 //                dotString,
@@ -1343,14 +1347,14 @@ public class DocSo extends Fragment {
 
                 .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        if (getImageFileName() == null) {
+                        if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
                             MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
                             save(csc, csm);
-                        } else if (!getImageFileName().exists()) {
+                        } else if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
                             MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
                             save(csc, csm);
                         } else {
-                            save(getImageFileName().getAbsolutePath(), csc, csm);
+                            save(ImageFile.getFile(currentTime, mRootView, mDanhBo).getAbsolutePath(), csc, csm);
                         }
                         dialog.dismiss();
                     }
@@ -1389,14 +1393,14 @@ public class DocSo extends Fragment {
 
                 .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        if (getImageFileName() == null) {
+                        if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
                             MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
                             save(csc, csm);
-                        } else if (!getImageFileName().exists()) {
+                        } else if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
                             MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
                             save(csc, csm);
                         } else {
-                            save(getImageFileName().getAbsolutePath(), csc, csm);
+                            save(ImageFile.getFile(currentTime, mRootView, mDanhBo).getAbsolutePath(), csc, csm);
                         }
                         dialog.dismiss();
                     }
@@ -1419,15 +1423,15 @@ public class DocSo extends Fragment {
                 .setCancelable(false)
                 .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        if (getImageFileName() == null) {
+                        if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
                             MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
                             save(csc, csm);
                         }
-                        if (!getImageFileName().exists()) {
+                        if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
                             MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
                             save(csc, csm);
                         } else {
-                            save(getImageFileName().getAbsolutePath(), csc, csm);
+                            save(ImageFile.getFile(currentTime, mRootView, mDanhBo).getAbsolutePath(), csc, csm);
                         }
                         dialog.dismiss();
                     }
@@ -1582,9 +1586,9 @@ public class DocSo extends Fragment {
     }
 
     private void doCamera() {
-        File f = getImageFileName();
+        File f = ImageFile.getFile(currentTime, mRootView, mDanhBo);
         if (f != null && f.exists()) {
-            showImage(getImageFileName());
+            showImage(ImageFile.getFile(currentTime, mRootView, mDanhBo));
 
 
         } else {
@@ -1599,7 +1603,7 @@ public class DocSo extends Fragment {
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI.getPath());
 
         this.currentTime = Calendar.getInstance().getTime();
-        File photo = getImageFileName();
+        File photo = ImageFile.getFile(currentTime, mRootView, mDanhBo);
 //        this.mUri= FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName() + ".my.package.name.provider", photo);
         this.mUri = Uri.fromFile(photo);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, this.mUri);
@@ -1608,19 +1612,19 @@ public class DocSo extends Fragment {
     }
 
 
-    public File getImageFileName() {
-        if (this.currentTime == null)
-            return null;
-        String path = Environment.getExternalStorageDirectory().getPath();
-//                path = path.substring(0, path.length() - 1).concat("1");
-        File outFile = new File(path, mRootView.getContext().getString(R.string.path_saveImage));
-
-        if (!outFile.exists())
-            outFile.mkdir();
-        String datetime = this.formatter.format(this.currentTime);
-        File f = new File(outFile, datetime + "_" + this.mDanhBo + ".jpeg");
-        return f;
-    }
+//    public File getImageFileName() {
+//        if (this.currentTime == null)
+//            return null;
+//        String path = Environment.getExternalStorageDirectory().getPath();
+////                path = path.substring(0, path.length() - 1).concat("1");
+//        File outFile = new File(path, mRootView.getContext().getString(R.string.path_saveImage));
+//
+//        if (!outFile.exists())
+//            outFile.mkdir();
+//        String datetime = this.formatter.format(this.currentTime);
+//        File f = new File(outFile, datetime + "_" + this.mDanhBo + ".jpeg");
+//        return f;
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -1640,7 +1644,7 @@ public class DocSo extends Fragment {
                     FileOutputStream fos = null;
                     try {
                         if (mBpImage != null) {
-                            fos = new FileOutputStream(getImageFileName());
+                            fos = new FileOutputStream(ImageFile.getFile(currentTime, mRootView, mDanhBo));
 
                             Matrix matrix = new Matrix();
 
