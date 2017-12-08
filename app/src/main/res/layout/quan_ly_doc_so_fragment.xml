@@ -193,16 +193,27 @@
                     android:text="TT"
                     android:textColor="@color/colorTextColor_1"
                     android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:text="Code"
+                    android:textColor="@color/colorTextColor_1"
+                    android:textSize="18sp" />
             </LinearLayout>
 
 
-            <GridView
-                android:id="@+id/grid_qlds_danhSachDocSo"
-                android:layout_width="match_parent"
-                android:layout_height="442dp"
-                android:background="@android:color/white"
-                android:gravity="center"
-                android:numColumns="1" />
+
+                <GridView
+                    android:id="@+id/grid_qlds_danhSachDocSo"
+                    android:layout_width="match_parent"
+                    android:layout_height="442dp"
+                    android:background="@android:color/white"
+                    android:gravity="center"
+                    android:numColumns="1" />
+
         </LinearLayout>
 
         <LinearLayout

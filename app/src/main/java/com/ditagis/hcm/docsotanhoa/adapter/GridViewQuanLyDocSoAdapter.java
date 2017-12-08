@@ -21,12 +21,22 @@ public class GridViewQuanLyDocSoAdapter extends ArrayAdapter<GridViewQuanLyDocSo
         String tieuThu;
         String danhbo;
         String csc, csm;
+        String code;
 
-        public Item(String mtl, String danhbo, String csc, String csm) {
-            this.tieuThu = mtl;
+        public Item(String tieuThu, String danhbo, String csc, String csm, String code) {
+            this.tieuThu = tieuThu;
             this.danhbo = danhbo;
             this.csc = csc;
             this.csm = csm;
+            this.code = code;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
         }
 
         public String getTieuThu() {
@@ -122,6 +132,8 @@ public class GridViewQuanLyDocSoAdapter extends ArrayAdapter<GridViewQuanLyDocSo
 
         TextView txtSanLuong = (TextView) convertView.findViewById(R.id.row_qlds_txt_sanLuong);
         txtSanLuong.setText(item.getTieuThu());
+        TextView txtCode = (TextView) convertView.findViewById(R.id.row_qlds_txt_code);
+        txtCode.setText(item.getCode());
 
         LinearLayout row_layout = (LinearLayout) convertView.findViewById(R.id.row_qlds_layout);
 

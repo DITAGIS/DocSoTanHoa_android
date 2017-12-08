@@ -188,7 +188,8 @@ private String mKyString;
                                     hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
                                     hoaDon.getDanhBo(),
                                     hoaDon.getChiSoCu(),
-                                    hoaDon.getChiSoMoi()));
+                                    hoaDon.getChiSoMoi(),
+                                    hoaDon.getCodeMoi()));
                     }
                     mQuanLyDocSoAdapter.notifyDataSetChanged();
 
@@ -200,7 +201,8 @@ private String mKyString;
                                     hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
                                     hoaDon.getDanhBo(),
                                     hoaDon.getChiSoCu(),
-                                    hoaDon.getChiSoMoi()));
+                                    hoaDon.getChiSoMoi(),
+                                    hoaDon.getCodeMoi()));
                     }
                     mQuanLyDocSoAdapter.notifyDataSetChanged();
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_diaChi))) {
@@ -211,7 +213,8 @@ private String mKyString;
                                     hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
                                     hoaDon.getDanhBo(),
                                     hoaDon.getChiSoCu(),
-                                    hoaDon.getChiSoMoi()));
+                                    hoaDon.getChiSoMoi(),
+                                    hoaDon.getCodeMoi()));
                     }
                     mQuanLyDocSoAdapter.notifyDataSetChanged();
                 }
@@ -248,7 +251,8 @@ private String mKyString;
                                 hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
                                 hoaDon.getDanhBo(),
                                 hoaDon.getChiSoCu(),
-                                hoaDon.getChiSoMoi()));
+                                hoaDon.getChiSoMoi(),
+                                hoaDon.getCodeMoi()));
                 }
                 mQuanLyDocSoAdapter.notifyDataSetChanged();
                 ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + hoaDons.size());
@@ -293,7 +297,8 @@ private String mKyString;
                     hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
                     hoaDon.getDanhBo(),
                     hoaDon.getChiSoCu(),
-                    hoaDon.getChiSoMoi()));
+                    hoaDon.getChiSoMoi(),
+                    hoaDon.getCodeMoi()));
         }
         mQuanLyDocSoAdapter.notifyDataSetChanged();
     }
