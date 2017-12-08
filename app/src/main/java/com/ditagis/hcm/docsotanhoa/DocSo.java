@@ -567,7 +567,7 @@ public class DocSo extends Fragment {
 
 //            ((TableLayout) mRootView.findViewById(R.id.layout_ds_csm)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_csm_1));
                 ((TextView) mRootView.findViewById(R.id.spin_ds_code_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                mAdapterCode = new CodeSpinnerAdapter(mRootView.getContext(), R.layout.spinner_item_left1, Codes.getInstance().getCodeDescribles());
+                mAdapterCode = new CodeSpinnerAdapter(mRootView.getContext(), R.layout.spinner_item_left1, Codes.getInstance().getCodeDescribles_ds());
 
                 ((TextView) mRootView.findViewById(R.id.etxt_ds_CSM_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
@@ -623,7 +623,7 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
 
                 ((TextView) mRootView.findViewById(R.id.spin_ds_code_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                mAdapterCode = new CodeSpinnerAdapter(mRootView.getContext(), R.layout.spinner_item_left2, Codes.getInstance().getCodeDescribles());
+                mAdapterCode = new CodeSpinnerAdapter(mRootView.getContext(), R.layout.spinner_item_left2, Codes.getInstance().getCodeDescribles_ds());
                 ((TextView) mRootView.findViewById(R.id.etxt_ds_CSM_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
@@ -1086,7 +1086,7 @@ public class DocSo extends Fragment {
         mTxtCSC = (TextView) mRootView.findViewById(R.id.txt_ds_CSC);
         mTxtCSC.setText(mHoaDon.getChiSoCu());
         int positionCode = 0;
-        for (Code_Describle code_describle : Codes.getInstance().getCodeDescribles()) {
+        for (Code_Describle code_describle : Codes.getInstance().getCodeDescribles_ds()) {
             if (code_describle.getCode().equals(mHoaDon.getCodeMoi())) {
                 mSpinCode.setSelection(positionCode);
                 break;

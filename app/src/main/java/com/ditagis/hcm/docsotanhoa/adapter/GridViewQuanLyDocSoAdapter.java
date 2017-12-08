@@ -75,6 +75,10 @@ public class GridViewQuanLyDocSoAdapter extends ArrayAdapter<GridViewQuanLyDocSo
     private Context context;
     private List<Item> items;
 
+    public List<Item> getItems() {
+        return items;
+    }
+
     public GridViewQuanLyDocSoAdapter(Context context, List<Item> items) {
         super(context, 0, items);
         this.context = context;

@@ -71,10 +71,11 @@ public class QuanLyDocSo extends Fragment {
     List<String> mDBs = new ArrayList<String>(), mTenKHs = new ArrayList<>(), mDiaChis = new ArrayList<>(), mMLTs = new ArrayList<>();
     private String mLike;
     private String mSearchType;
-    private ArrayAdapter<String> mAdapterCode;
+    private CodeSpinnerAdapter mAdapterCode;
     Spinner mSpinCode;
     private String mCode;
-private String mKyString;
+    private String mKyString;
+
     public Uploading getmUploading() {
         return mUploading;
     }
@@ -93,7 +94,7 @@ private String mKyString;
         this.mLike = dotString + mUsername + "%";
 
 
-        mAdapterCode = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, Code.getInstance().getCodes());
+        mAdapterCode = new CodeSpinnerAdapter(mRootView.getContext(), R.layout.spinner_item_left1, Codes.getInstance().getCodeDescribles_qlds());
         mAdapterCode.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         mSpinCode = (Spinner) mRootView.findViewById(R.id.spin_qlds_filter);
         mSpinCode.setAdapter(mAdapterCode);
@@ -102,7 +103,7 @@ private String mKyString;
         mUploading = new Uploading(mDot, mKy, mNam, mRootView.getContext());
         mGridView = (GridView) mRootView.findViewById(R.id.grid_qlds_danhSachDocSo);
         mSumDanhBoDB = new SumDanhBoDB();
-       mKyString  = mKy + "";
+        mKyString = mKy + "";
         if (mKy < 10)
             mKyString += "0" + mKy;
 
@@ -239,9 +240,10 @@ private String mKyString;
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mQuanLyDocSoAdapter.clear();
-                String code = parent.getSelectedItem().toString().substring(0, 2);
+                Code_Describle code_describle = (Code_Describle) mSpinCode.getItemAtPosition(position);
+                String code = code_describle.getCode();
                 //xử lý trường hợp lọc tất cả
-                if (code.equals(Code.getInstance().getCodes()[0].substring(0, 2)))
+                if (code.equals(Codes.getInstance().getCodeDescribles_qlds()[0].getCode()))
                     code = "";
                 for (HoaDon hoaDon : hoaDons) {
                     if (hoaDon.getCodeMoi() == null)
@@ -586,7 +588,7 @@ private String mKyString;
         });
 
         final Spinner spinCode = (Spinner) dialogLayout.findViewById(R.id.spin_edit_code);
-        CodeSpinnerAdapter adapterCode = new CodeSpinnerAdapter(mRootView.getContext(), android.R.layout.simple_spinner_dropdown_item, Codes.getInstance().getCodeDescribles());
+        CodeSpinnerAdapter adapterCode = new CodeSpinnerAdapter(mRootView.getContext(), android.R.layout.simple_spinner_dropdown_item, Codes.getInstance().getCodeDescribles_ds());
         adapterCode.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spinCode.setAdapter(adapterCode);
         for (int i = 0; i < Code.getInstance().getCodes().length; i++)
@@ -597,7 +599,7 @@ private String mKyString;
         spinCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Code_Describle code_describle= (Code_Describle) spinCode.getItemAtPosition(position);
+                Code_Describle code_describle = (Code_Describle) spinCode.getItemAtPosition(position);
                 mCode = code_describle.getCode();
 
                 CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(hoaDon.getChiSoCu()), hoaDon.getChiSoMoi());
@@ -727,7 +729,7 @@ private String mKyString;
             dialog.setCancelable(false);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.show();
-            countUpload = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike).size();
+            countUpload = mQuanLyDocSoAdapter.getCount();
         }
 
         @Override
@@ -735,20 +737,22 @@ private String mKyString;
 
             Boolean isValid = false;
             hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
-            for (int i = 0; i < hoaDons.size(); i++) {
-                HoaDon hoaDon = hoaDons.get(i);
-//                mUploading.update(danhBo_chiSoMoi);
-
-//                boolean success = mUploading.update(danhBo_chiSoMoi);
-                boolean success1 = mUploading.add(hoaDon);
-                if (success1) {
-                    hoaDons.remove(hoaDon);
-                    mQuanLyDocSoAdapter.removeItem(hoaDon.getMaLoTrinh());
-                    i--;
-                    LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonSynchronized(hoaDon);
+            for (GridViewQuanLyDocSoAdapter.Item item : mQuanLyDocSoAdapter.getItems()) {
+                for (HoaDon hoaDon : hoaDons) {
+                    if (item.getDanhbo().equals(hoaDon.getDanhBo())) {
+                        boolean success1 = mUploading.add(hoaDon);
+                        if (success1) {
+                            hoaDons.remove(hoaDon);
+                            mQuanLyDocSoAdapter.removeItem(hoaDon.getMaLoTrinh());
+                            countUpload--;
+                            LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonSynchronized(hoaDon);
+                        }
+                        break;
+                    }
                 }
             }
-            if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike).size() == 0)
+            mSpinCode.setSelection(0);
+            if (countUpload == 0)
                 isValid = true;
 
             publishProgress(isValid);
