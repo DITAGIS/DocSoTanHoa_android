@@ -7,13 +7,15 @@
 
     <TextView
         android:id="@+id/row_code"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:gravity="end"/>
     <TextView
         android:id="@+id/row_describle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        android:gravity="end"/>
 </LinearLayout>

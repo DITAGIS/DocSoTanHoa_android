@@ -122,15 +122,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorBackground_1"
-                android:gravity="start"
+
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/activity_horizontal_margin">
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                >
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:text="Lọc theo: "
+                    android:text="Lọc theo code: "
                     android:textColor="@color/colorTextColor_1"
                     android:layout_gravity="center_vertical"
                     android:textSize="18sp" />
@@ -144,8 +145,38 @@
                     android:gravity="end"
 
                     android:text="..." />
+
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBackground_1"
+                android:gravity="start"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="Lọc theo đợt: "
+                    android:textColor="@color/colorTextColor_1"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="18sp" />
+
+                <Spinner
+                    android:id="@+id/spin_qlds_dot"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="@dimen/button_horizontal_margin"
+                    android:layout_weight="0.5"
+                    android:gravity="end|center_horizontal"
+
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/colorTextColor_1" />
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

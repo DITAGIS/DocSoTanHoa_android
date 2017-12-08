@@ -68,13 +68,15 @@ public class QuanLyDocSo extends Fragment {
     private View mRootView;
     private SumDanhBoDB mSumDanhBoDB;
     AutoCompleteTextView singleComplete;
-    List<String> mDBs = new ArrayList<String>(), mTenKHs = new ArrayList<>(), mDiaChis = new ArrayList<>(), mMLTs = new ArrayList<>();
+    List<String> mDBs = new ArrayList<String>(), mTenKHs = new ArrayList<>(), mDiaChis = new ArrayList<>(), mDots = new ArrayList<>();
     private String mLike;
     private String mSearchType;
     private CodeSpinnerAdapter mAdapterCode;
     Spinner mSpinCode;
     private String mCode;
     private String mKyString;
+    private ArrayAdapter<String> mAdapterDot;
+    private Spinner mSpinDot;
 
     public Uploading getmUploading() {
         return mUploading;
@@ -265,7 +267,20 @@ public class QuanLyDocSo extends Fragment {
 
             }
         });
+        mSpinDot = (Spinner) mRootView.findViewById(R.id.spin_qlds_dot);
+        mSpinDot.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectDot(position);
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        mDots.add(dotString);
+        createDot();
     }
 
     public void setmDot(int mDot) {
@@ -318,6 +333,53 @@ public class QuanLyDocSo extends Fragment {
         ConnectivityManager cm = (ConnectivityManager) mRootView.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnected();
+    }
+
+    private void selectDot(int position) {
+        String dotString = mDots.get(position);
+        mDot = Integer.parseInt(dotString);
+
+        mLike = dotString.concat(mLike.substring(2, 4)).concat("%");
+
+        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
+        mQuanLyDocSoAdapter.clear();
+        for (HoaDon hoaDon : hoaDons) {
+            mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
+                    hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
+                    hoaDon.getDanhBo(),
+                    hoaDon.getChiSoCu(),
+                    hoaDon.getChiSoMoi(),
+                    hoaDon.getCodeMoi()));
+        }
+        mSpinCode.setSelection(0);
+        mQuanLyDocSoAdapter.notifyDataSetChanged();
+        setTextProgress();
+    }
+
+    private void createDot() {
+        getDotExist();
+        mAdapterDot = new ArrayAdapter<>(mRootView.getContext(), R.layout.spinner_item_left1, mDots);
+        mAdapterDot.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        mSpinDot.setAdapter(mAdapterDot);
+        int position = mDots.size() - 1;
+        mSpinDot.setSelection(position);
+    }
+
+    private void getDotExist() {
+        String like;
+        for (int i = mDot - 1; i >= mDot - 3; i--) {
+            String dotExist = "";
+            if (i < 10)
+                dotExist = "0" + i;
+            else dotExist = i + "";
+            if (!mDots.contains(dotExist)) {
+                like = dotExist.concat(mLike.substring(2, 4)).concat("%");
+                if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(like).size() > 0) {
+                    mDots.add(0, dotExist);
+                }
+            }
+        }
+
     }
 
     private void optionSearch() {
