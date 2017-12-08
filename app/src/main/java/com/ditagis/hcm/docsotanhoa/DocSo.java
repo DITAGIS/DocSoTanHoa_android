@@ -950,7 +950,10 @@ public class DocSo extends Fragment {
         int csc = Integer.parseInt(mTxtCSC.getText().toString());
         int csm = 0;
         if (mTxtCSM.getText().toString().length() == 0) {
-            alertCSM_Null(csc, csm);
+            if (!checkCode())
+//                alertCSM_Null(csc, csm);
+                MySnackBar.make(mRootView.getRootView(), "Chưa nhập chỉ số mới", true);
+
         } else {
             csm = Integer.parseInt(mTxtCSM.getText().toString());
             if (checkCSMFluctuation()) {
@@ -973,6 +976,24 @@ public class DocSo extends Fragment {
 
 
             }
+        }
+    }
+
+    private boolean checkCode() {
+        switch (mCode) {
+            case "54":
+            case "55":
+            case "56":
+            case "58":
+            case "5M":
+            case "5Q":
+            case "5N":
+            case "81":
+            case "82":
+            case "83":
+                return true;
+            default:
+                return false;
         }
     }
 
