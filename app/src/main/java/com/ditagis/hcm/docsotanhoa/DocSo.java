@@ -10,7 +10,6 @@ import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -920,15 +919,13 @@ public class DocSo extends Fragment {
             dotString = "0" + this.mDot;
 //        ((TextView) mRootView.findViewById(R.id.spin_ds_dot)).setText(this.mDot + "");
 
-        setTextProgress(dotString);
+        setTextProgress();
 
         setTheme();
     }
 
-    private void setTextProgress(String dotString) {
-//        String dotString = mDot + "";
-//        if (this.mDot < 10)
-//            dotString = "0" + this.mDot;
+    private void setTextProgress() {
+
         this.mSumDanhBo = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike).size();
         this.mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike).size();
         this.mSumDanhBo += this.mDanhBoHoanThanh;
@@ -1000,6 +997,7 @@ public class DocSo extends Fragment {
     private void createDot() {
         getDotExist();
         mAdapterDot = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mDots);
+        mAdapterDot.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         mSpinDot.setAdapter(mAdapterDot);
         int position = mDots.size() - 1;
         mSpinDot.setSelection(position);
@@ -1027,9 +1025,10 @@ public class DocSo extends Fragment {
     private void selectDot(int position) {
         String dotString = mDots.get(position);
         mDot = Integer.parseInt(dotString);
-        String like = dotString.concat(mLike.substring(2, 4)).concat("%");
 
-        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(like);
+        mLike = dotString.concat(mLike.substring(2, 4)).concat("%");
+
+        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike);
         mMLTs.clear();
         mDBs.clear();
 
@@ -1037,8 +1036,10 @@ public class DocSo extends Fragment {
             mMLTs.add(spaceMLT(hoaDon.getMaLoTrinh()));
             mDBs.add(spaceDB(hoaDon.getDanhBo()));
         }
+        selectMLT(0);
         mAdapterMLT.notifyDataSetChanged();
         mAdapterDB.notifyDataSetChanged();
+        setTextProgress();
     }
 
     private void selectMLT(int position) {
