@@ -3,13 +3,11 @@ package com.ditagis.hcm.docsotanhoa;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -53,8 +51,6 @@ import com.ditagis.hcm.docsotanhoa.utities.Note;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by ThanLe on 25/10/2017.
@@ -547,14 +543,19 @@ public class QuanLyDocSo extends Fragment {
         dialog.show();
 
         if (!hoaDon.getImage().equals("null")) {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-            Bitmap bitmap = BitmapFactory.decodeFile(hoaDon.getImage(), options);
-
-
-            BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.7), (int) (bitmap.getHeight() * 0.7), false));
             ImageView image = (ImageView) dialog.findViewById(R.id.imgView_qlds);
-            image.setBackground(resizedDialogImage);
+            try {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                Bitmap bitmap = BitmapFactory.decodeFile(hoaDon.getImage(), options);
+
+
+                BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.7), (int) (bitmap.getHeight() * 0.7), false));
+
+                image.setBackground(resizedDialogImage);
+            } catch (Exception e) {
+                MySnackBar.make(image.getRootView(), "Không tìm thấy hình ảnh", false);
+            }
         }
         ((TextView) dialog.findViewById(R.id.txt_layout_qlds_MLT)).setText(hoaDon.getMaLoTrinh());
 //                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_DanhBo)).setText(danhBo_CSM.getDanhBo());
@@ -577,7 +578,7 @@ public class QuanLyDocSo extends Fragment {
         final HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_Read(danhBo);
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Cập nhật thông tin chỉ số");
-
+        builder.setCancelable(false);
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
         View dialogLayout = inflater.inflate(R.layout.layout_edit_thongtin_docso, null);
 
@@ -612,33 +613,20 @@ public class QuanLyDocSo extends Fragment {
                 add_sdt();
             }
         });
-//        dialogLayout.findViewById(R.id.imgBtn_qlds_call).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String regex = "^[0-9]+$";
-//                Matcher matcher = Pattern.compile(regex).matcher(mSdt);
-//                if (matcher.find()) {
-//                    if (mSdt.length() == 0) {
-//                        MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.call_errorNotFind), true);
-//                    } else {
-//                        Intent callIntent = new Intent(Intent.ACTION_CALL);
-//                        callIntent.setData(Uri.parse("tel:" + mSdt));
-//                        startActivity(callIntent);
-//                    }
-//                } else {
-//                    MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.call_errorNotMatch), true);
-//                }
-//            }
-//        });
+
         if (!hoaDon.getImage().equals("null")) {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-            Bitmap bitmap = BitmapFactory.decodeFile(hoaDon.getImage(), options);
-
             ImageView image = (ImageView) dialogLayout.findViewById(R.id.imgView_edit);
-            BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.7), (int) (bitmap.getHeight() * 0.7), false));
+            try {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                Bitmap bitmap = BitmapFactory.decodeFile(hoaDon.getImage(), options);
 
-            image.setBackground(resizedDialogImage);
+                BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.7), (int) (bitmap.getHeight() * 0.7), false));
+
+                image.setBackground(resizedDialogImage);
+            }catch (Exception e){
+
+            }
         }
         ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_MLT)).setText(hoaDon.getMaLoTrinh());
 //                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_DanhBo)).setText(danhBo_CSM.getDanhBo());

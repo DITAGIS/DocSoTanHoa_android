@@ -248,7 +248,7 @@
                     android:layout_weight="1"
                     android:text="1029385"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@color/colorTextColor_1" />
             </TableRow>
 
             <View
