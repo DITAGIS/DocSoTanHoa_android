@@ -487,6 +487,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 COLUMN_HOADON_GHI_CHU + " = '" + hoaDon.getGhiChu() + "'," +
                 COLUMN_HOADON_SDT + " = '" + hoaDon.getSdt() + "'," +
                 COLUMN_HOADON_HINH + " = '" + hoaDon.getImage() + "'," +
+                COLUMN_HOADON_VI_TRI + " = '" + hoaDon.getViTri() + "'," +
                 COLUMN_HOADON_THOI_GIAN + " = '" + hoaDon.getThoiGian() + "'" +
 
 
@@ -509,7 +510,9 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 COLUMN_HOADON_CODE_MOI + " = '" + hoaDon.getCodeMoi() + "'," +
                 COLUMN_HOADON_SDT + " = '" + hoaDon.getSdt() + "'," +
                 COLUMN_HOADON_GHI_CHU + " = '" + hoaDon.getGhiChu() + "'," +
+                COLUMN_HOADON_VI_TRI + " = '" + hoaDon.getViTri() + "'," +
                 COLUMN_HOADON_HINH + " = '" + hoaDon.getImage() + "'" +
+
                 " where " +
                 COLUMN_HOADON_DANHBO + " ='" + hoaDon.getDanhBo() + "' and " +
                 COLUMN_HOADON_FLAG + " = " + flag_old;

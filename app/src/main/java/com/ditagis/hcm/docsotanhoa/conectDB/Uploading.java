@@ -30,7 +30,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
     private final String TABLE_NAME_DOCSO = "DocSo";
     private final String TABLE_NAME_DOCSO_LUUTRU = "DocSoLuuTru";
     private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME_DOCSO + " SET CSMOI=?, CODEMoi=?, GhiChuDS=?, tieuthumoi =?, gioghi = ?, sdt = ? WHERE DANHBa=? and dot = ? and ky = ? and nam = ?";
+    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME_DOCSO + " SET CSMOI=?, CODEMoi=?, GhiChuDS=?, tieuthumoi =?, gioghi = ?, sdt = ?, vitrimoi = ? WHERE DANHBa=? and dot = ? and ky = ? and nam = ?";
     private final String SQL_INSERT_LUUTRU = "INSERT INTO " + TABLE_NAME_DOCSO_LUUTRU + " VALUES (?,?,?,?,?,?,?,?,?,?," +
             "?,?,?,?,?,?,?,?,?,?," +
             "?,?,?,?,?,?,?,?,?,?," +
@@ -131,10 +131,11 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
             st.setTimestamp(5, new java.sql.Timestamp(date.getTime()));
             st.setString(6, hoaDon.getSdt());
-            st.setString(7, hoaDon.getDanhBo());
-            st.setString(8, hoaDon.getDot());
-            st.setString(9, this.mKy);
-            st.setString(10, this.mNam);
+            st.setString(7, hoaDon.getViTri());
+            st.setString(8, hoaDon.getDanhBo());
+            st.setString(9, hoaDon.getDot());
+            st.setString(10, this.mKy);
+            st.setString(11, this.mNam);
             int result1 = st.executeUpdate();
             st.close();
 

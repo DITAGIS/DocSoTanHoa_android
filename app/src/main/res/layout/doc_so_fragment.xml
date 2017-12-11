@@ -331,7 +331,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="0.7">
+                        android:layout_weight="0.8">
 
                         <TextView
                             android:id="@+id/txt_ds_vi_tri_title"
@@ -343,8 +343,8 @@
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/colorTextColor_1" />
 
-                        <TextView
-                            android:id="@+id/txt_ds_vi_tri"
+                        <EditText
+                            android:id="@+id/etxt_ds_vi_tri"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -393,7 +393,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="0.7">
+                        android:layout_weight="0.8">
 
                         <TextView
                             android:id="@+id/txt_ds_co_title"

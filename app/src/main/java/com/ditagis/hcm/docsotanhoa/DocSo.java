@@ -79,11 +79,13 @@ import static android.app.Activity.RESULT_OK;
 
 public class DocSo extends Fragment {
     private static final int MIN_SIZE = 500000;
+    private static final int REQUEST_ID_READ_WRITE_PERMISSION = 99;
+    private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
     String mMlt;
     String mDanhBo;
     List<String> mMLTs, mDBs = new ArrayList<>(), mTenKHs = new ArrayList<>(), mDiaChis = new ArrayList<>(), mSdts = new ArrayList<>();
     List<String> mMLTs_old = new ArrayList<>(), mDBs_old = new ArrayList<>(), mTenKHs_old = new ArrayList<>(), mDiaChis_old = new ArrayList<>();
-    EditText mEditTextCSM;
+    EditText mEditTextCSM, mEditTextViTri;
     TextView mTxtCSM;
     TextView mTxtCSC;
     TextView mTxtComplete;
@@ -91,11 +93,12 @@ public class DocSo extends Fragment {
     Spinner mSpinMLT;
     Spinner mSpinDB = null, mSpinTenKH, mSpinDiaChi;
     Spinner mSpinCode, mSpinDot, mSpinSdt;
+    AutoCompleteTextView singleComplete;
+    Uri mUri;
+    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     private Bitmap mBpImage;
     private HoaDon mHoaDon;
     private String mCode;
-    private static final int REQUEST_ID_READ_WRITE_PERMISSION = 99;
-    private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
     private int mSumDanhBo, mDanhBoHoanThanh;
     private String mStaffName;
     private int mDot, mKy;
@@ -103,27 +106,15 @@ public class DocSo extends Fragment {
     private Date currentTime;
     private ArrayAdapter<String> mAdapterDB, mAdapterTenKH, mAdapterDiaChi, mAdapterSdt;
     private CodeSpinnerAdapter mAdapterCode;
-    AutoCompleteTextView singleComplete;
     private String mSdt;
-    Uri mUri;
     private ArrayAdapter<String> mAdapterMLT;
     private View mRootView;
-    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     private Activity mActivity;
     private String mSearchType;
     private int mSelected_theme;
     private String mLike;
     private ArrayAdapter<String> mAdapterDot;
     private List<String> mDots = new ArrayList<>();
-
-    public void setmSelected_theme(int mSelected_theme) {
-        this.mSelected_theme = mSelected_theme;
-    }
-
-    public int getmSumDanhBo() {
-        return mSumDanhBo;
-    }
-
     private ViewPager mViewPager;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -342,6 +333,8 @@ public class DocSo extends Fragment {
                 doNext();
             }
         }));
+        mEditTextViTri = (EditText) mRootView.findViewById(R.id.etxt_ds_vi_tri);
+        mEditTextViTri.setBackgroundResource(R.layout.edit_text_styles);
         mRootView.findViewById(R.id.imgBtn_ds_camera).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -399,6 +392,14 @@ public class DocSo extends Fragment {
         refresh();
     }
 
+    public void setmSelected_theme(int mSelected_theme) {
+        this.mSelected_theme = mSelected_theme;
+    }
+
+    public int getmSumDanhBo() {
+        return mSumDanhBo;
+    }
+
     private void add_sdt() {
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());//getLayoutInflater();
         View dialogLayout = inflater.inflate(R.layout.layout_add_sdt, null);
@@ -454,6 +455,8 @@ public class DocSo extends Fragment {
         HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
         hoaDon.setCodeMoi(mCode);
         hoaDon.setGhiChu(mGhiChu);
+        if (mEditTextViTri.getText().toString().length() > 0)
+            hoaDon.setViTri(mEditTextViTri.getText().toString());
         if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
         } else if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
         } else {
@@ -518,6 +521,7 @@ public class DocSo extends Fragment {
     private void setTheme() {
         switch (mSelected_theme) {
             case ThemeUtils.THEME_DEFAULT:
+            case ThemeUtils.THEME_DARK:
                 ((LinearLayout) mRootView.findViewById(R.id.layout_ds)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_complete_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_complete)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
@@ -547,6 +551,10 @@ public class DocSo extends Fragment {
                 ((ImageButton) mRootView.findViewById(R.id.btn_ds_prev)).setImageResource(R.drawable.prev);
                 ((ImageButton) mRootView.findViewById(R.id.btn_ds_next)).setImageResource(R.drawable.next);
                 ((ImageButton) mRootView.findViewById(R.id.btn_ds_next)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
+
+                mEditTextViTri.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                mEditTextViTri.setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+
                 ((TextView) mRootView.findViewById(R.id.txt_ds_tenKH_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
 
                 mAdapterTenKH = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mTenKHs);
@@ -575,59 +583,6 @@ public class DocSo extends Fragment {
 
                 break;
 
-            case ThemeUtils.THEME_DARK:
-                ((LinearLayout) mRootView.findViewById(R.id.layout_ds)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
-                ((TextView) mRootView.findViewById(R.id.txt_ds_complete_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((TextView) mRootView.findViewById(R.id.txt_ds_complete)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((TextView) mRootView.findViewById(R.id.txt_ds_staffName_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((TextView) mRootView.findViewById(R.id.txt_ds_staffName)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((TextView) mRootView.findViewById(R.id.txt_ds_ky_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((TextView) mRootView.findViewById(R.id.txt_ds_ky)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((TextView) mRootView.findViewById(R.id.txt_ds_dot_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-
-                mAdapterDot = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mDots);
-                ((TextView) mRootView.findViewById(R.id.editauto_ds_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
-                ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setBackgroundResource(R.layout.edit_text_styles);
-                ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-
-                ((TextView) mRootView.findViewById(R.id.spin_ds_mlt_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                mAdapterMLT = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mMLTs);
-                ((Button) mRootView.findViewById(R.id.btn_ds_sort)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
-                ((Button) mRootView.findViewById(R.id.btn_ds_sort)).setBackgroundResource(R.layout.edit_text_styles);
-                ((Button) mRootView.findViewById(R.id.btn_ds_sort)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((TextView) mRootView.findViewById(R.id.spin_ds_db_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                mAdapterDB = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mDBs);
-
-                ((ImageButton) mRootView.findViewById(R.id.btn_ds_prev)).setImageResource(R.drawable.prev_light);
-                ((ImageButton) mRootView.findViewById(R.id.btn_ds_next)).setImageResource(R.drawable.next_light);
-                ((ImageButton) mRootView.findViewById(R.id.btn_ds_prev)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
-                ((ImageButton) mRootView.findViewById(R.id.btn_ds_next)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
-                ((TextView) mRootView.findViewById(R.id.txt_ds_tenKH_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-
-
-                mAdapterTenKH = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mTenKHs);
-                ((TextView) mRootView.findViewById(R.id.txt_ds_diachi_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-
-                mAdapterDiaChi = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_bold_left2, mDiaChis);
-                ((TextView) mRootView.findViewById(R.id.etxt_ds_sdt_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                mAdapterSdt = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mSdts);
-                ((TextView) mRootView.findViewById(R.id.txt_ds_CSC_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-//                ((TextView) mRootView.findViewById(R.id.txt_ds_CSC)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-//                ((TextView) mRootView.findViewById(R.id.txt_ds_CSM)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-
-                ((TextView) mRootView.findViewById(R.id.spin_ds_code_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                mAdapterCode = new CodeSpinnerAdapter(mRootView.getContext(), R.layout.spinner_item_left2, Codes.getInstance().getCodeDescribles_ds());
-                ((TextView) mRootView.findViewById(R.id.etxt_ds_CSM_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                break;
         }
         mAdapterSdt.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         mSpinSdt.setAdapter(mAdapterSdt);
@@ -640,7 +595,7 @@ public class DocSo extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                mSpinMLT.setSelection(0);
+
             }
         });
         mAdapterDot.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
@@ -1094,7 +1049,7 @@ public class DocSo extends Fragment {
         ((TextView) mRootView.findViewById(R.id.txt_ds_so_than)).setText(mHoaDon.getSoThan());
         ((TextView) mRootView.findViewById(R.id.txt_ds_hieu)).setText(mHoaDon.getHieu());
         ((TextView) mRootView.findViewById(R.id.txt_ds_co)).setText(mHoaDon.getCo());
-        ((TextView) mRootView.findViewById(R.id.txt_ds_vi_tri)).setText(mHoaDon.getViTri());
+        ((TextView) mRootView.findViewById(R.id.etxt_ds_vi_tri)).setText(mHoaDon.getViTri());
         ((TextView) mRootView.findViewById(R.id.txt_ds_code1)).setText(mHoaDon.getCode_CSC_SanLuong().getCode1());
         ((TextView) mRootView.findViewById(R.id.txt_ds_code2)).setText(mHoaDon.getCode_CSC_SanLuong().getCode2());
         ((TextView) mRootView.findViewById(R.id.txt_ds_code3)).setText(mHoaDon.getCode_CSC_SanLuong().getCode3());
@@ -1161,7 +1116,8 @@ public class DocSo extends Fragment {
         hoaDon.setTieuThuMoi(((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).getText().toString());
         hoaDon.setGhiChu(mGhiChu);
         hoaDon.setSdt(getSdtString());
-
+        if (mEditTextViTri.getText().toString().length() > 0)
+            hoaDon.setViTri(mEditTextViTri.getText().toString());
         this.currentTime = Calendar.getInstance().getTime();
         String datetime = this.formatter.format(this.currentTime);
         hoaDon.setThoiGian(datetime);
@@ -1208,7 +1164,8 @@ public class DocSo extends Fragment {
         hoaDon.setGhiChu(mGhiChu);
         hoaDon.setImage(image);
         hoaDon.setSdt(getSdtString());
-
+        if (mEditTextViTri.getText().toString().length() > 0)
+            hoaDon.setViTri(mEditTextViTri.getText().toString());
         String datetime = this.formatter.format(this.currentTime);
         hoaDon.setThoiGian(datetime);
 //        DanhBo_ChiSoMoi danhBo_chiSoMoi = new DanhBo_ChiSoMoi(this.mDanhBo,

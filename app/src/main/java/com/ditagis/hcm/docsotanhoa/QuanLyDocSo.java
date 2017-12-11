@@ -3,11 +3,13 @@ package com.ditagis.hcm.docsotanhoa;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -51,6 +53,8 @@ import com.ditagis.hcm.docsotanhoa.utities.Note;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by ThanLe on 25/10/2017.
@@ -68,14 +72,17 @@ public class QuanLyDocSo extends Fragment {
     private View mRootView;
     private SumDanhBoDB mSumDanhBoDB;
     AutoCompleteTextView singleComplete;
-    List<String> mDBs = new ArrayList<String>(), mTenKHs = new ArrayList<>(), mDiaChis = new ArrayList<>(), mDots = new ArrayList<>();
+    List<String> mDBs = new ArrayList<String>(), mTenKHs = new ArrayList<>(), mDiaChis = new ArrayList<>(), mDots = new ArrayList<>(), mSdts = new ArrayList<>();
+    ;
+    private String mSdt;
+    private Spinner mSpinSdt;
     private String mLike;
     private String mSearchType;
     private CodeSpinnerAdapter mAdapterCode;
     Spinner mSpinCode;
     private String mCode;
     private String mKyString;
-    private ArrayAdapter<String> mAdapterDot;
+    private ArrayAdapter<String> mAdapterDot, mAdapterSdt;
     private Spinner mSpinDot;
 
     public Uploading getmUploading() {
@@ -280,7 +287,42 @@ public class QuanLyDocSo extends Fragment {
             }
         });
         mDots.add(dotString);
+
+
         createDot();
+    }
+
+    private void add_sdt() {
+        LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());//getLayoutInflater();
+        View dialogLayout = inflater.inflate(R.layout.layout_add_sdt, null);
+        final EditText etxtSdt = (EditText) dialogLayout.findViewById(R.id.etxt_add_sdt);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
+        builder.setTitle("Thêm số điện thoại");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (etxtSdt.getText().toString().length() > 0) {
+                    if (mSdts.contains(" "))
+                        mSdts.clear();
+                    mSdts.add(etxtSdt.getText().toString());
+                    mAdapterSdt.notifyDataSetChanged();
+                    mSdt = mSdts.get(0);
+                    mSpinSdt.setSelection(0);
+                }
+                dialog.dismiss();
+            }
+        }).setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).setCancelable(false);
+        AlertDialog dialog = builder.create();
+        dialog.setView(dialogLayout);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.show();
     }
 
     public void setmDot(int mDot) {
@@ -533,6 +575,56 @@ public class QuanLyDocSo extends Fragment {
 
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
         View dialogLayout = inflater.inflate(R.layout.layout_edit_thongtin_docso, null);
+
+        mSdts.add(" ");
+        if (hoaDon.getSdt().length() > 0) {
+            mSdts.clear();
+            String[] sdts = hoaDon.getSdt().split("-");
+            for (String sdt : sdts) {
+                mSdts.add(sdt.trim());
+            }
+        }
+        mAdapterSdt = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mSdts);
+        mAdapterSdt.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        mSpinSdt = (Spinner) dialogLayout.findViewById(R.id.spin_qlds_sdt);
+        mSpinSdt.setAdapter(mAdapterSdt);
+        mSpinSdt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mSdt = mSpinSdt.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+//        mSdt = mSdts.get(0);
+        mSpinSdt.setSelection(0);
+        ((ImageButton) dialogLayout.findViewById(R.id.imgBtn_qlds_add_sdt)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                add_sdt();
+            }
+        });
+//        dialogLayout.findViewById(R.id.imgBtn_qlds_call).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String regex = "^[0-9]+$";
+//                Matcher matcher = Pattern.compile(regex).matcher(mSdt);
+//                if (matcher.find()) {
+//                    if (mSdt.length() == 0) {
+//                        MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.call_errorNotFind), true);
+//                    } else {
+//                        Intent callIntent = new Intent(Intent.ACTION_CALL);
+//                        callIntent.setData(Uri.parse("tel:" + mSdt));
+//                        startActivity(callIntent);
+//                    }
+//                } else {
+//                    MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.call_errorNotMatch), true);
+//                }
+//            }
+//        });
         if (!hoaDon.getImage().equals("null")) {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
@@ -547,7 +639,6 @@ public class QuanLyDocSo extends Fragment {
 //                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_DanhBo)).setText(danhBo_CSM.getDanhBo());
         ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_tenKH)).setText(hoaDon.getTenKhachHang());
         ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_diaChi)).setText(hoaDon.getDiaChi());
-        ((TextView) dialogLayout.findViewById(R.id.etxt_layout_edit_SDT)).setText(hoaDon.getSdt());
         ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_CSC)).setText(hoaDon.getChiSoCu());
         final TextView txtTT = (TextView) dialogLayout.findViewById(R.id.txt_layout_edit_tieuThu);
         txtTT.setText(hoaDon.getTieuThuMoi());
@@ -555,8 +646,8 @@ public class QuanLyDocSo extends Fragment {
 
         etxtCSM.setText(hoaDon.getChiSoMoi());
 
-        final EditText etxtSDT = (EditText) dialogLayout.findViewById(R.id.etxt_layout_edit_SDT);
-        etxtSDT.setText(hoaDon.getSdt());
+//        final EditText etxtSDT = (EditText) dialogLayout.findViewById(R.id.etxt_layout_edit_SDT);
+//        etxtSDT.setText(hoaDon.getSdt());
 
         final TextView txtNote = (TextView) dialogLayout.findViewById(R.id.txt_layout_edit_ghiChu);
         txtNote.setText(hoaDon.getGhiChu());
@@ -731,9 +822,9 @@ public class QuanLyDocSo extends Fragment {
                 //TODO: lưu chỉnh sửa
                 hoaDon.setChiSoMoi(etxtCSM.getText().toString());
                 hoaDon.setCodeMoi(mCode);
-                hoaDon.setSdt(etxtSDT.getText().toString());
+//                hoaDon.setSdt(etxtSDT.getText().toString());
                 hoaDon.setGhiChu(txtNote.getText().toString());
-
+                hoaDon.setSdt(getSdtString());
                 LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonRead(hoaDon);
                 refresh();
                 dialog.dismiss();
@@ -747,6 +838,19 @@ public class QuanLyDocSo extends Fragment {
         dialog.show();
 
 
+    }
+
+    private String getSdtString() {
+        String sdt = "";
+        if (mSdt.trim().length() > 0) {
+            for (int i = 0; i <= mSdts.size() - 1; i++) {
+                if (i == mSdts.size() - 1)
+                    sdt = sdt.concat(mSdts.get(i));
+                else
+                    sdt = sdt.concat(mSdts.get(i)).concat("-");
+            }
+        }
+        return sdt;
     }
 
     private void doUpLoad() {

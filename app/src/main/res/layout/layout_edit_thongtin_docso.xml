@@ -14,9 +14,9 @@
 
         <ImageView
             android:id="@+id/imgView_edit"
-            android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true" />
         <!--Thông tin danh bộ đã đọc-->
         <TableLayout
@@ -27,12 +27,13 @@
             android:paddingTop="@dimen/activity_vertical_padding">
 
             <!--Table row mã lộ trình-->
-            <TableRow   android:layout_width="match_parent"
+            <TableRow
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_column="0"
                     android:layout_width="@dimen/width_title_item_docso"
+                    android:layout_column="0"
                     android:text="Mã LT: "
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -48,12 +49,13 @@
                 android:layout_height="2dip"
                 android:background="@color/color_row_check_1" />
             <!--Table row tên khách hàng-->
-            <TableRow   android:layout_width="match_parent"
+            <TableRow
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_column="0"
                     android:layout_width="@dimen/width_title_item_docso"
+                    android:layout_column="0"
                     android:text="Tên KH: "
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -70,12 +72,13 @@
                 android:layout_height="2dip"
                 android:background="@color/color_row_check_1" />
             <!--Table row địa chỉ-->
-            <TableRow   android:layout_width="match_parent"
+            <TableRow
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_column="0"
                     android:layout_width="@dimen/width_title_item_docso"
+                    android:layout_column="0"
                     android:text="Địa chỉ: "
 
                     android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -94,21 +97,55 @@
                 android:background="@color/color_row_check_1" />
 
             <!--Table row số điện thoại-->
-            <TableRow   android:layout_width="match_parent"
+            <TableRow
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_column="0"
                     android:layout_width="@dimen/width_title_item_docso"
+                    android:layout_gravity="center_vertical"
                     android:text="SĐT: "
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                <EditText
-                    android:id="@+id/etxt_layout_edit_SDT"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="3"
-                    android:gravity="left"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        android:id="@+id/spin_qlds_sdt"
+                        android:layout_width="190dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:inputType="number"
+                        android:textColor="@color/colorTextColor_1"
+                        android:textCursorDrawable="@null" />
+
+                    <ImageButton
+                        android:id="@+id/imgBtn_qlds_add_sdt"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_weight="0.4"
+                        android:background="@color/colorBackground_1"
+                        android:contentDescription="Thêm số điện thoại"
+                        android:src="@drawable/add" />
+
+                    <!--<Space-->
+                        <!--android:layout_width="12dp"-->
+                        <!--android:layout_height="wrap_content" />-->
+
+                    <!--<ImageButton-->
+                        <!--android:id="@+id/imgBtn_qlds_call"-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_gravity="end|center_vertical"-->
+                        <!--android:layout_weight="0.3"-->
+                        <!--android:background="@color/colorBackground_1"-->
+                        <!--android:contentDescription="Call"-->
+                        <!--android:src="@drawable/call" />-->
+                </LinearLayout>
+
             </TableRow>
 
             <View
@@ -116,23 +153,24 @@
                 android:layout_height="2dip"
                 android:background="@color/color_row_check_1" />
             <!--Table codeCucode-->
-            <TableRow   android:layout_width="match_parent"
+            <TableRow
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_column="0"
                     android:layout_width="@dimen/width_title_item_docso"
-                    android:gravity="center_vertical"
+                    android:layout_column="0"
                     android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
                     android:text="Code: "
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <Spinner
                     android:id="@+id/spin_edit_code"
+                    android:layout_height="@dimen/height_spinner_code"
                     android:layout_gravity="center_vertical"
                     android:layout_span="4"
                     android:layout_weight="1"
-                    android:layout_height="@dimen/height_spinner_code"
                     android:text="1029385"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/white" />
@@ -143,12 +181,13 @@
                 android:layout_height="2dip"
                 android:background="@color/color_row_check_1" />
             <!--Table row chỉ số cũ-->
-            <TableRow   android:layout_width="match_parent"
+            <TableRow
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_column="0"
                     android:layout_width="@dimen/width_title_item_docso"
+                    android:layout_column="0"
                     android:text="CS cũ: "
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -166,12 +205,13 @@
                 android:background="@color/color_row_check_1" />
 
             <!--Table row chỉ số mới-->
-            <TableRow   android:layout_width="match_parent"
+            <TableRow
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_column="0"
                     android:layout_width="@dimen/width_title_item_docso"
+                    android:layout_column="0"
                     android:gravity="center_vertical"
                     android:text="CS mới: "
                     android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -190,12 +230,13 @@
                 android:layout_height="2dip"
                 android:background="@color/color_row_check_1" />
             <!--Table codeCucode-->
-            <TableRow   android:layout_width="match_parent"
+            <TableRow
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_column="0"
                     android:layout_width="@dimen/width_title_item_docso"
+                    android:layout_column="0"
                     android:gravity="center_vertical"
                     android:text="Tiêu thụ: "
                     android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -217,12 +258,13 @@
 
 
             <!--Table row giá biểu-->
-            <TableRow   android:layout_width="match_parent"
+            <TableRow
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_column="0"
                     android:layout_width="@dimen/width_title_item_docso"
+                    android:layout_column="0"
                     android:text="Giá biểu: "
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -240,12 +282,13 @@
                 android:background="@color/color_row_check_1" />
 
             <!--Table row tiền nước-->
-            <TableRow   android:layout_width="match_parent"
+            <TableRow
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_column="0"
                     android:layout_width="@dimen/width_title_item_docso"
+                    android:layout_column="0"
                     android:text="Tiền nước: "
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -263,12 +306,13 @@
                 android:background="@color/color_row_check_1" />
 
             <!--Table row ghi chú-->
-            <TableRow android:layout_height="wrap_content"
-                android:layout_width="match_parent">
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_column="0"
                     android:layout_width="@dimen/width_title_item_docso"
+                    android:layout_column="0"
                     android:text="Ghi chú:"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -281,11 +325,12 @@
                     android:inputType="textMultiLine"
                     android:maxLines="5"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
+
                 <Button
                     android:id="@+id/btn_layout_edit_ghiChu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Thay đổi"/>
+                    android:text="Thay đổi" />
             </TableRow>
         </TableLayout>
     </LinearLayout>
