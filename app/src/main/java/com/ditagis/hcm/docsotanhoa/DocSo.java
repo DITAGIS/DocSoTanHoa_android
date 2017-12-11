@@ -261,14 +261,16 @@ public class DocSo extends Fragment {
                 if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
                     MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
                     ), false);
-                  mEditTextCSM.setFocusable(false);
+                    mEditTextCSM.setFocusable(false);
                     HideKeyboard.hide(mActivity);
 
                 } else if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
                     MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
                     ), false);
-                   mEditTextCSM.setFocusable(false);
+                    mEditTextCSM.setFocusable(false);
                     HideKeyboard.hide(mActivity);
+                } else {
+                    mEditTextCSM.setFocusableInTouchMode(true);
                 }
                 return false;
             }
@@ -563,8 +565,8 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.txt_ds_CSC)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_CSM)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorPrimary_1));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorPrimary_1));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
 
 //            ((TableLayout) mRootView.findViewById(R.id.layout_ds_csm)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_csm_1));
@@ -995,7 +997,6 @@ public class DocSo extends Fragment {
         mSpinDB.setSelection(position);
         HideKeyboard.hide(mActivity);
         mDanhBo = mDBs.get(position).replace(" ", "");
-
         mHoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
         //xử lý sđt
         mSdts.clear();
@@ -1598,7 +1599,7 @@ public class DocSo extends Fragment {
                             fos.flush();
                             fos.close();
                             Toast.makeText(mRootView.getContext(), "Đã lưu ảnh", Toast.LENGTH_SHORT).show();
-                            this.mEditTextCSM.setFocusable(true);
+                            mEditTextCSM.setFocusableInTouchMode(true);
                         }
                     } catch (FileNotFoundException e) {
                         MySnackBar.make(mRootView, "Lỗi khi lưu ảnh", false);
