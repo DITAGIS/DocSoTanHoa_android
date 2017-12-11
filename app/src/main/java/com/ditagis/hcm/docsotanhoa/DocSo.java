@@ -253,37 +253,31 @@ public class DocSo extends Fragment {
             }
         });
 
+        mEditTextCSM.setBackgroundResource(R.layout.edit_text_styles);
+
         mEditTextCSM.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-//                if (getImageFileName() == null) {
-//                    MySnackBar.make(mEditTextCSM, R.string.alert_captureBefore, true);
-//                    HideKeyboard.hide(mActivity);
-//                    return true;
-//                } else if (!getImageFileName().exists()) {
-//                    MySnackBar.make(mEditTextCSM, R.string.alert_captureBefore, true);
-//                    HideKeyboard.hide(mActivity);
-//                    return true;
-//                }
+                if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
+                    MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
+                    ), false);
+                  mEditTextCSM.setFocusable(false);
+                    HideKeyboard.hide(mActivity);
+
+                } else if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
+                    MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
+                    ), false);
+                   mEditTextCSM.setFocusable(false);
+                    HideKeyboard.hide(mActivity);
+                }
                 return false;
             }
         });
-        mEditTextCSM.setBackgroundResource(R.layout.edit_text_styles);
-//        mEditTextCSM.setEnabled(false);
-//        mEditTextCSM.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (getImageFileName() == null)
-//                    MySnackBar.make(mEditTextCSM, R.string.alert_captureBefore, true);
-//                else if (!getImageFileName().exists()) {
-//                    MySnackBar.make(mEditTextCSM, R.string.alert_captureBefore, true);
-//
-//                }
-//            }
-//        });
+
         mEditTextCSM.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             @Override
@@ -301,6 +295,7 @@ public class DocSo extends Fragment {
 //                }
 //                Code_Describle code_describle = (Code_Describle) mSpinCode.getItemAtPosition(0);
 //                mCode = code_describle.getCode();
+
                 ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(mCode);
                 CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, mHoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString());
 
@@ -551,10 +546,10 @@ public class DocSo extends Fragment {
                 ((ImageButton) mRootView.findViewById(R.id.btn_ds_prev)).setImageResource(R.drawable.prev);
                 ((ImageButton) mRootView.findViewById(R.id.btn_ds_next)).setImageResource(R.drawable.next);
                 ((ImageButton) mRootView.findViewById(R.id.btn_ds_next)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
-                ((TextView)mRootView.findViewById(R.id.txt_ds_so_than)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorPrimary_1));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_so_than)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorPrimary_1));
                 mEditTextViTri.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 mEditTextViTri.setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-             mEditTextViTri.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorPrimary_1));
+                mEditTextViTri.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorPrimary_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_tenKH_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
 
                 mAdapterTenKH = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mTenKHs);
@@ -888,16 +883,15 @@ public class DocSo extends Fragment {
     }
 
     private void checkSave(View v) {
-        // kiểm tra hình ảnh
-//        if (getImageFileName() == null) {
-//            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
-//            return;
-//        }
-//        if (!getImageFileName().exists()) {
-//            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
-//            return;
-//        }
-        // kiểm tra chỉ số mới
+        if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
+            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+            return;
+//                    save(csc, csm);
+        } else if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
+            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+            return;
+//                    save(csc, csm);
+        }
         int csc = Integer.parseInt(mTxtCSC.getText().toString());
         int csm = 0;
         if (mTxtCSM.getText().toString().length() == 0) {
@@ -915,17 +909,7 @@ public class DocSo extends Fragment {
                 alertCSM_lt_CSC(csc, csm);
 
             } else {
-                if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
-                    MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
-                    save(csc, csm);
-                } else if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
-                    MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
-                    save(csc, csm);
-                } else {
-                    save(ImageFile.getFile(currentTime, mRootView, mDanhBo).getAbsolutePath(), csc, csm);
-                }
-
-
+                save(ImageFile.getFile(currentTime, mRootView, mDanhBo).getAbsolutePath(), csc, csm);
             }
         }
     }
@@ -1105,52 +1089,52 @@ public class DocSo extends Fragment {
         return false;
     }
 
-    private void save(int csc, int csm) {
-        String dotString = mDot + "";
-        if (mDot < 10)
-            dotString = "0" + mDot;
-        HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
-        hoaDon.setCodeMoi(mCode);
-        hoaDon.setChiSoMoi(csm + "");
-        hoaDon.setTieuThuMoi(((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).getText().toString());
-        hoaDon.setGhiChu(mGhiChu);
-        hoaDon.setSdt(getSdtString());
-        if (mEditTextViTri.getText().toString().length() > 0)
-            hoaDon.setViTri(mEditTextViTri.getText().toString());
-        this.currentTime = Calendar.getInstance().getTime();
-        String datetime = this.formatter.format(this.currentTime);
-        hoaDon.setThoiGian(datetime);
-//        DanhBo_ChiSoMoi danhBo_chiSoMoi = new DanhBo_ChiSoMoi(this.mDanhBo,
-//                this.mMlt,
-//                dotString,
-//                ((TextView) mRootView.findViewById(R.id.txt_ds_tenKH)).getText().toString(),
-//                ((TextView) mRootView.findViewById(R.id.txt_ds_diachi)).getText().toString(),
-//                ((EditText) mRootView.findViewById(R.id.etxt_ds_sdt)).getText().toString(),
-//                ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu)).getText().toString(),
-//                this.mSpinCode.getSelectedItem().toString().substring(0, 2),
-//                csc + "",
-//                csm + "",
-//                ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).getText().toString(),
-//                this.mGhiChu,
-//                image,
-//                1);
-        LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonUnRead(hoaDon);
-//        LocalDatabase.getInstance(mRootView.getContext()).deleteHoaDon(danhBo_chiSoMoi.getDanhBo());
-        mTxtTT.setText("");
-
-//        this.mAdapterMLT.remove(danhBo_chiSoMoi.getMaLoTrinh());
-        notifyDataSetChange(hoaDon);
-        int i = mSpinMLT.getSelectedItemPosition();
-        if (mMLTs.size() != 0)
-            selectMLT(i == mMLTs.size() ? i - 1 : i);
-        this.mDanhBoHoanThanh++;
-        this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
-
-        Toast.makeText(mRootView.getContext(), "Đã lưu chỉ số mới", Toast.LENGTH_SHORT).show();
-
-        handleFinishADot();
-
-    }
+//    private void save(int csc, int csm) {
+//        String dotString = mDot + "";
+//        if (mDot < 10)
+//            dotString = "0" + mDot;
+//        HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
+//        hoaDon.setCodeMoi(mCode);
+//        hoaDon.setChiSoMoi(csm + "");
+//        hoaDon.setTieuThuMoi(((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).getText().toString());
+//        hoaDon.setGhiChu(mGhiChu);
+//        hoaDon.setSdt(getSdtString());
+//        if (mEditTextViTri.getText().toString().length() > 0)
+//            hoaDon.setViTri(mEditTextViTri.getText().toString());
+//        this.currentTime = Calendar.getInstance().getTime();
+//        String datetime = this.formatter.format(this.currentTime);
+//        hoaDon.setThoiGian(datetime);
+////        DanhBo_ChiSoMoi danhBo_chiSoMoi = new DanhBo_ChiSoMoi(this.mDanhBo,
+////                this.mMlt,
+////                dotString,
+////                ((TextView) mRootView.findViewById(R.id.txt_ds_tenKH)).getText().toString(),
+////                ((TextView) mRootView.findViewById(R.id.txt_ds_diachi)).getText().toString(),
+////                ((EditText) mRootView.findViewById(R.id.etxt_ds_sdt)).getText().toString(),
+////                ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu)).getText().toString(),
+////                this.mSpinCode.getSelectedItem().toString().substring(0, 2),
+////                csc + "",
+////                csm + "",
+////                ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).getText().toString(),
+////                this.mGhiChu,
+////                image,
+////                1);
+//        LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonUnRead(hoaDon);
+////        LocalDatabase.getInstance(mRootView.getContext()).deleteHoaDon(danhBo_chiSoMoi.getDanhBo());
+//        mTxtTT.setText("");
+//
+////        this.mAdapterMLT.remove(danhBo_chiSoMoi.getMaLoTrinh());
+//        notifyDataSetChange(hoaDon);
+//        int i = mSpinMLT.getSelectedItemPosition();
+//        if (mMLTs.size() != 0)
+//            selectMLT(i == mMLTs.size() ? i - 1 : i);
+//        this.mDanhBoHoanThanh++;
+//        this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
+//
+//        Toast.makeText(mRootView.getContext(), "Đã lưu chỉ số mới", Toast.LENGTH_SHORT).show();
+//
+//        handleFinishADot();
+//
+//    }
 
     private void save(String image, int csc, int csm) {
         String dotString = mDot + "";
@@ -1306,10 +1290,10 @@ public class DocSo extends Fragment {
                     public void onClick(DialogInterface dialog, int id) {
                         if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
                             MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
-                            save(csc, csm);
+//                            save(csc, csm);
                         } else if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
                             MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
-                            save(csc, csm);
+//                            save(csc, csm);
                         } else {
                             save(ImageFile.getFile(currentTime, mRootView, mDanhBo).getAbsolutePath(), csc, csm);
                         }
@@ -1352,10 +1336,10 @@ public class DocSo extends Fragment {
                     public void onClick(DialogInterface dialog, int id) {
                         if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
                             MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
-                            save(csc, csm);
+//                            save(csc, csm);
                         } else if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
                             MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
-                            save(csc, csm);
+//                            save(csc, csm);
                         } else {
                             save(ImageFile.getFile(currentTime, mRootView, mDanhBo).getAbsolutePath(), csc, csm);
                         }
@@ -1382,11 +1366,11 @@ public class DocSo extends Fragment {
                     public void onClick(DialogInterface dialog, int id) {
                         if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
                             MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
-                            save(csc, csm);
+//                            save(csc, csm);
                         }
                         if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
                             MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
-                            save(csc, csm);
+//                            save(csc, csm);
                         } else {
                             save(ImageFile.getFile(currentTime, mRootView, mDanhBo).getAbsolutePath(), csc, csm);
                         }
@@ -1614,7 +1598,7 @@ public class DocSo extends Fragment {
                             fos.flush();
                             fos.close();
                             Toast.makeText(mRootView.getContext(), "Đã lưu ảnh", Toast.LENGTH_SHORT).show();
-                            this.mEditTextCSM.setEnabled(true);
+                            this.mEditTextCSM.setFocusable(true);
                         }
                     } catch (FileNotFoundException e) {
                         MySnackBar.make(mRootView, "Lỗi khi lưu ảnh", false);
