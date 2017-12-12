@@ -201,7 +201,7 @@ public class DocSo extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (mSearchType.equals(mRootView.getContext().getString(R.string.search_mlt))) {
-                    setMaxLenghtAutoCompleteTextView(11);
+                    setMaxLenghtAutoCompleteTextView(13);
                     for (int i = 0; i < mMLTs.size(); i++) {
                         if (s.toString().equals(mMLTs.get(i))) {
                             mSpinMLT.setSelection(i);
@@ -269,14 +269,37 @@ public class DocSo extends Fragment {
 //                    ), false);
 //                    mEditTextCSM.setFocusable(false);
 //                    HideKeyboard.hide(mActivity);
-                if (mHoaDon.getImage().equals("null")) {
-                    MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
-                    ), false);
-                    mEditTextCSM.setFocusable(false);
-                    HideKeyboard.hide(mActivity);
+                if (!mHoaDon.getImage().equals("null")) {
+                    try {
+                        mEditTextCSM.setFocusableInTouchMode(true);
+                    } catch (Exception e) {
+                        MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
+                        ), false);
+                        mEditTextCSM.setFocusable(false);
+                        HideKeyboard.hide(mActivity);
+                    }
                 } else {
-                    mEditTextCSM.setFocusableInTouchMode(true);
+                    File f = ImageFile.getFile(currentTime, mRootView, mDanhBo);
+                    if (f != null && f.exists()) {
+                        mEditTextCSM.setFocusableInTouchMode(true);
+                    } else {
+                        MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
+                        ), false);
+                        mEditTextCSM.setFocusable(false);
+                        HideKeyboard.hide(mActivity);
+                    }
+
                 }
+//                if (mHoaDon.getImage().equals("null")) {
+//                    MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
+//                    ), false);
+//                    mEditTextCSM.setFocusable(false);
+//                    HideKeyboard.hide(mActivity);
+//                } else {
+//                    mEditTextCSM.setFocusableInTouchMode(true);
+//                }
+//                return false;
+//            }
                 return false;
             }
         });
@@ -302,19 +325,24 @@ public class DocSo extends Fragment {
 //                }
 //                Code_Describle code_describle = (Code_Describle) mSpinCode.getItemAtPosition(0);
 //                mCode = code_describle.getCode();
+                if (!mCode.equals("60") && !mCode.equals("62")) {
 
-                ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(mCode);
-                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, mHoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString());
 
-                mTxtCSM.setText(csm_tieuThu.getCSM());
+                    ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(mCode);
+                    CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, mHoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString());
+
+                    mTxtCSM.setText(csm_tieuThu.getCSM());
 //                mEditTextCSM.setText(csm_tieuThu.getCSM());
-                mTxtTT.setText(csm_tieuThu.getTieuThu());
+                    mTxtTT.setText(csm_tieuThu.getTieuThu());
 
-                if (checkCSMFluctuation()) {
+                    if (checkCSMFluctuation()) {
 //                    MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(false);
-                    ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
+                        ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
+                    } else {
+                        ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
+                    }
                 } else {
-                    ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
+                    mTxtCSM.setText(s);
                 }
             }
 
@@ -474,7 +502,7 @@ public class DocSo extends Fragment {
 
     private String spaceMLT(String mlt) {
         String output = "";
-        output = (mlt.substring(0, 4)).concat("  ").concat(mlt.substring(4));
+        output = (mlt.substring(0, 2)).concat("  ").concat(mlt.substring(2, 4)).concat("  ").concat(mlt.substring(4));
         return output;
     }
 
@@ -890,35 +918,71 @@ public class DocSo extends Fragment {
     }
 
     private void checkSave(View v) {
-        if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
-            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
-            return;
-//                    save(csc, csm);
-        } else if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
-            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
-            return;
-//                    save(csc, csm);
-        }
-        int csc = Integer.parseInt(mTxtCSC.getText().toString());
-        int csm = 0;
-        if (mTxtCSM.getText().toString().length() == 0) {
-            if (!checkCode())
+        if (!mHoaDon.getImage().equals("null")) {
+            try {
+                int csc = Integer.parseInt(mTxtCSC.getText().toString());
+                int csm = 0;
+                if (mTxtCSM.getText().toString().length() == 0) {
+                    if (!checkCode())
 //                alertCSM_Null(csc, csm);
-                MySnackBar.make(mRootView.getRootView(), "Chưa nhập chỉ số mới", true);
+                        MySnackBar.make(mRootView.getRootView(), "Chưa nhập chỉ số mới", true);
 
-        } else {
-            csm = Integer.parseInt(mTxtCSM.getText().toString());
-            if (checkCSMFluctuation()) {
-                MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(true);
+                } else {
+                    csm = Integer.parseInt(mTxtCSM.getText().toString());
+                    if (checkCSMFluctuation()) {
+                        MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(true);
 //                MyAlertByHardware.getInstance(mRootView.getContext()).playSound();
-                alertCSMFluctuation(csc, csm);
-            } else if (csm < csc) {
-                alertCSM_lt_CSC(csc, csm);
+                        alertCSMFluctuation(csc, csm);
+                    } else if (csm < csc) {
+                        alertCSM_lt_CSC(csc, csm);
 
-            } else {
-                save(ImageFile.getFile(currentTime, mRootView, mDanhBo).getAbsolutePath(), csc, csm);
+                    } else {
+                        save(csc, csm);
+                    }
+                }
+            } catch (Exception e) {
+                MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+                return;
             }
+        } else {
+            File f = ImageFile.getFile(currentTime, mRootView, mDanhBo);
+            if (f != null && f.exists()) {
+                int csc = Integer.parseInt(mTxtCSC.getText().toString());
+                int csm = 0;
+                if (mTxtCSM.getText().toString().length() == 0) {
+                    if (!checkCode())
+//                alertCSM_Null(csc, csm);
+                        MySnackBar.make(mRootView.getRootView(), "Chưa nhập chỉ số mới", true);
+
+                } else {
+                    csm = Integer.parseInt(mTxtCSM.getText().toString());
+                    if (checkCSMFluctuation()) {
+                        MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(true);
+//                MyAlertByHardware.getInstance(mRootView.getContext()).playSound();
+                        alertCSMFluctuation(csc, csm);
+                    } else if (csm < csc) {
+                        alertCSM_lt_CSC(csc, csm);
+
+                    } else {
+                        save(csc, csm);
+                    }
+                }
+            } else {
+                MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+                return;
+            }
+
         }
+//        if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
+//            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+//            return;
+////                    save(csc, csm);
+//        } else if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
+//            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+//            return;
+////                    save(csc, csm);
+//        }
+
     }
 
     private boolean checkCode() {
@@ -927,6 +991,8 @@ public class DocSo extends Fragment {
             case "55":
             case "56":
             case "58":
+            case "60":
+            case "62":
             case "5M":
             case "5Q":
             case "5N":
@@ -1064,7 +1130,7 @@ public class DocSo extends Fragment {
 //
 //        } else {
         mGhiChu = "";
-        mEditTextCSM.setText("");
+//        mEditTextCSM.setText("");
         mTxtCSM.setText("");
 
 //        }
@@ -1144,21 +1210,34 @@ public class DocSo extends Fragment {
 //
 //    }
 
-    private void save(String image, int csc, int csm) {
-        String dotString = mDot + "";
-        if (mDot < 10)
-            dotString = "0" + mDot;
-        HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
-        hoaDon.setCodeMoi(mCode);
-        hoaDon.setChiSoMoi(csm + "");
-        hoaDon.setTieuThuMoi(((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).getText().toString());
-        hoaDon.setGhiChu(mGhiChu);
-        hoaDon.setImage(image);
-        hoaDon.setSdt(getSdtString());
-        if (mEditTextViTri.getText().toString().length() > 0)
-            hoaDon.setViTri(mEditTextViTri.getText().toString());
-        String datetime = this.formatter.format(this.currentTime);
-        hoaDon.setThoiGian(datetime);
+    private void save(int csc, int csm) {
+        try {
+            String dotString = mDot + "";
+            if (mDot < 10)
+                dotString = "0" + mDot;
+//        HoaDon mHoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
+            mHoaDon.setCodeMoi(mCode);
+            mHoaDon.setChiSoMoi(csm + "");
+            mHoaDon.setTieuThuMoi(((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).getText().toString());
+            mHoaDon.setGhiChu(mGhiChu);
+            if (!mHoaDon.getImage().equals("null")) {
+                // do nothing
+                this.currentTime = Calendar.getInstance().getTime();
+            } else {
+
+                File f = ImageFile.getFile(currentTime, mRootView, mDanhBo);
+                if (f != null && f.exists()) {
+                    mHoaDon.setImage(f.getAbsolutePath());
+                }
+
+            }
+
+            mHoaDon.setSdt(getSdtString());
+            if (mEditTextViTri.getText().toString().length() > 0)
+                mHoaDon.setViTri(mEditTextViTri.getText().toString());
+
+            String datetime = this.formatter.format(this.currentTime);
+            mHoaDon.setThoiGian(datetime);
 //        DanhBo_ChiSoMoi danhBo_chiSoMoi = new DanhBo_ChiSoMoi(this.mDanhBo,
 //                this.mMlt,
 //                dotString,
@@ -1173,23 +1252,25 @@ public class DocSo extends Fragment {
 //                this.mGhiChu,
 //                image,
 //                1);
-        LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonUnRead(hoaDon);
+            LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonUnRead(mHoaDon);
 //        LocalDatabase.getInstance(mRootView.getContext()).deleteHoaDon(danhBo_chiSoMoi.getDanhBo());
-        mTxtTT.setText("");
+            mTxtTT.setText("");
 
 //        this.mAdapterMLT.remove(danhBo_chiSoMoi.getMaLoTrinh());
-        notifyDataSetChange(hoaDon);
+            notifyDataSetChange(mHoaDon);
 
-        int i = mSpinMLT.getSelectedItemPosition();
-        if (mMLTs.size() != 0)
-            selectMLT(i == mMLTs.size() ? i - 1 : i);
-        this.mDanhBoHoanThanh++;
-        this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
+            int i = mSpinMLT.getSelectedItemPosition();
+            if (mMLTs.size() != 0)
+                selectMLT(i == mMLTs.size() ? i - 1 : i);
+            this.mDanhBoHoanThanh++;
+            this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
 
-        Toast.makeText(mRootView.getContext(), "Đã lưu chỉ số mới", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mRootView.getContext(), "Đã lưu chỉ số mới", Toast.LENGTH_SHORT).show();
 
-        handleFinishADot();
-
+            handleFinishADot();
+        } catch (Exception e) {
+            MySnackBar.make(mRootView.getRootView(), "Lỗi khi lưu", false);
+        }
     }
 
     private void notifyDataSetChange(HoaDon hoaDon) {
@@ -1340,7 +1421,7 @@ public class DocSo extends Fragment {
                             MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
 //                            save(csc, csm);
                         } else {
-                            save(ImageFile.getFile(currentTime, mRootView, mDanhBo).getAbsolutePath(), csc, csm);
+                            save(csc, csm);
                         }
                         dialog.dismiss();
                     }
@@ -1386,7 +1467,7 @@ public class DocSo extends Fragment {
                             MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
 //                            save(csc, csm);
                         } else {
-                            save(ImageFile.getFile(currentTime, mRootView, mDanhBo).getAbsolutePath(), csc, csm);
+                            save(csc, csm);
                         }
                         dialog.dismiss();
                     }
@@ -1417,7 +1498,7 @@ public class DocSo extends Fragment {
                             MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
 //                            save(csc, csm);
                         } else {
-                            save(ImageFile.getFile(currentTime, mRootView, mDanhBo).getAbsolutePath(), csc, csm);
+                            save(csc, csm);
                         }
                         dialog.dismiss();
                     }
@@ -1573,7 +1654,6 @@ public class DocSo extends Fragment {
 
     private void doCamera() {
         if (!mHoaDon.getImage().equals("null")) {
-
             try {
                 showImage(mHoaDon.getImage());
             } catch (Exception e) {
@@ -1650,6 +1730,7 @@ public class DocSo extends Fragment {
                             fos.flush();
                             fos.close();
                             Toast.makeText(mRootView.getContext(), "Đã lưu ảnh", Toast.LENGTH_SHORT).show();
+                            setNextFocusEdittextCSM();
                             mEditTextCSM.setFocusableInTouchMode(true);
                         }
                     } catch (FileNotFoundException e) {
@@ -1747,4 +1828,8 @@ public class DocSo extends Fragment {
         }
     }
 
+    private void setNextFocusEdittextCSM() {
+//        mEditTextCSM.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        mEditTextCSM.requestFocus();
+    }
 }

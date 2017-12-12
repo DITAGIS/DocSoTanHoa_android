@@ -94,7 +94,7 @@ public class CalculateCSM_TieuThu {
                 //todo ghi chỉ số ngưng
 
                 mTieuThu = calTieuThuTB();
-                mCSM = mTieuThu + mCSC;
+                mCSM = -1;
                 break;
             case "61":
             case "63":
@@ -109,6 +109,9 @@ public class CalculateCSM_TieuThu {
                 mCSM = mTieuThu + mCSC;
                 break;
             case "62":
+                mTieuThu = calTieuThuTB();
+                mCSM = -1;
+                break;
             case "80":
 //                if (!mCSMString.equals("null") && mCSMString.length() > 0)
 //                    mCSM = Integer.parseInt(mCSMString);
