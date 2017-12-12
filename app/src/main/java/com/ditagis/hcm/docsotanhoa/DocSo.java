@@ -434,8 +434,8 @@ public class DocSo extends Fragment {
         View dialogLayout = inflater.inflate(R.layout.layout_change_address, null);
         final EditText etxtAddr_num = (EditText) dialogLayout.findViewById(R.id.etxt_address_num);
         etxtAddr_num.setText(mHoaDon.getSoNha());
-        final TextView txtAddr_street = (TextView) dialogLayout.findViewById(R.id.txt_address_street);
-        txtAddr_street.setText(mHoaDon.getDuong());
+        final EditText etxtAddr_street = (EditText) dialogLayout.findViewById(R.id.etxt_address_street);
+        etxtAddr_street.setText(mHoaDon.getDuong());
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Thêm số điện thoại");
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -443,8 +443,8 @@ public class DocSo extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 if (etxtAddr_num.getText().toString().trim().length() > 0)
                     mSoNha = etxtAddr_num.getText().toString();
-                if (txtAddr_street.getText().toString().trim().length() > 0)
-                    mDuong = txtAddr_street.getText().toString();
+                if (etxtAddr_street.getText().toString().trim().length() > 0)
+                    mDuong = etxtAddr_street.getText().toString();
                 mDiaChis.remove(mSpinDiaChi.getSelectedItemPosition());
                 mDiaChis.add(mSpinDiaChi.getSelectedItemPosition(), mSoNha + " " + mDuong);
                 mAdapterDiaChi.notifyDataSetChanged();
@@ -1188,7 +1188,8 @@ public class DocSo extends Fragment {
 //
 //        } else {
         mGhiChu = "";
-//        mEditTextCSM.setText("");
+        mCode = "40";
+        mEditTextCSM.setText("");
         mTxtCSM.setText("");
 
 //        }

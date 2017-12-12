@@ -23,7 +23,6 @@
             android:id="@+id/etxt_address_num"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
             android:maxLength="50"
             android:maxLines="1"
             android:paddingLeft="@dimen/activity_horizontal_margin" />
@@ -40,11 +39,10 @@
             android:text="Đường:"
             android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/txt_address_street"
+        <EditText
+            android:id="@+id/etxt_address_street"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
             android:maxLength="50"
             android:maxLines="1"
             android:paddingLeft="@dimen/activity_horizontal_margin" />
