@@ -243,7 +243,8 @@
                         android:layout_width="55dp"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Sắp xếp" />
+                        android:text="Sắp xếp"
+                        android:visibility="invisible" />
                 </TableRow>
 
 
@@ -438,6 +439,7 @@
                         android:layout_weight="1"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/colorTextColor_1" />
+
                     <Button
                         android:id="@+id/btn_ds_changeDiaChi"
                         android:layout_width="65dp"

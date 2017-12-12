@@ -426,6 +426,7 @@ public class DocSo extends Fragment {
             }
         });
         refresh();
+//        sort();
     }
 
     private void change_address() {
@@ -786,11 +787,11 @@ public class DocSo extends Fragment {
     }
 
     private void sort() {
-        if (mMLTs_old.size() == 0) {
-            mMLTs_old.addAll(mMLTs);
-            mDBs_old.addAll(mDBs);
-            mTenKHs_old.addAll(mTenKHs);
-            mDiaChis_old.addAll(mDiaChis);
+//        if (mMLTs_old.size() == 0) {
+//            mMLTs_old.addAll(mMLTs);
+//            mDBs_old.addAll(mDBs);
+//            mTenKHs_old.addAll(mTenKHs);
+//            mDiaChis_old.addAll(mDiaChis);
 
             Collections.sort(mMLTs);
             mDBs.clear();
@@ -813,28 +814,28 @@ public class DocSo extends Fragment {
             mAdapterDiaChi.notifyDataSetChanged();
 
             selectMLT(0);
-        } else {
-            mMLTs.clear();
-            mDBs.clear();
-            mTenKHs.clear();
-            mDiaChis.clear();
-            mMLTs.addAll(mMLTs_old);
-            mAdapterMLT.notifyDataSetChanged();
-
-            mDBs.addAll(mDBs_old);
-            mAdapterDB.notifyDataSetChanged();
-
-            mTenKHs.addAll(mTenKHs_old);
-            mAdapterTenKH.notifyDataSetChanged();
-
-            mDiaChis.addAll(mDiaChis_old);
-            mAdapterDiaChi.notifyDataSetChanged();
-
-            mMLTs_old.clear();
-            mDBs_old.clear();
-            mTenKHs_old.clear();
-            mDiaChis_old.clear();
-        }
+//        } else {
+//            mMLTs.clear();
+//            mDBs.clear();
+//            mTenKHs.clear();
+//            mDiaChis.clear();
+//            mMLTs.addAll(mMLTs_old);
+//            mAdapterMLT.notifyDataSetChanged();
+//
+//            mDBs.addAll(mDBs_old);
+//            mAdapterDB.notifyDataSetChanged();
+//
+//            mTenKHs.addAll(mTenKHs_old);
+//            mAdapterTenKH.notifyDataSetChanged();
+//
+//            mDiaChis.addAll(mDiaChis_old);
+//            mAdapterDiaChi.notifyDataSetChanged();
+//
+//            mMLTs_old.clear();
+//            mDBs_old.clear();
+//            mTenKHs_old.clear();
+//            mDiaChis_old.clear();
+//        }
     }
 
     private void optionSearch() {
@@ -1105,6 +1106,7 @@ public class DocSo extends Fragment {
         mAdapterDB.notifyDataSetChanged();
         mAdapterDiaChi.notifyDataSetChanged();
         mAdapterTenKH.notifyDataSetChanged();
+        sort();
         setTextProgress();
     }
 
