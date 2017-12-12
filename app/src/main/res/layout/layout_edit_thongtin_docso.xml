@@ -83,6 +83,12 @@
 
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
+                <EditText
+                    android:id="@+id/etxt_layout_edit_address"
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
+                    android:layout_height="wrap_content"></EditText>
+
                 <TextView
                     android:id="@+id/txt_layout_edit_diaChi"
                     android:layout_width="wrap_content"
@@ -132,18 +138,18 @@
                         android:src="@drawable/add" />
 
                     <!--<Space-->
-                        <!--android:layout_width="12dp"-->
-                        <!--android:layout_height="wrap_content" />-->
+                    <!--android:layout_width="12dp"-->
+                    <!--android:layout_height="wrap_content" />-->
 
                     <!--<ImageButton-->
-                        <!--android:id="@+id/imgBtn_qlds_call"-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="50dp"-->
-                        <!--android:layout_gravity="end|center_vertical"-->
-                        <!--android:layout_weight="0.3"-->
-                        <!--android:background="@color/colorBackground_1"-->
-                        <!--android:contentDescription="Call"-->
-                        <!--android:src="@drawable/call" />-->
+                    <!--android:id="@+id/imgBtn_qlds_call"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:layout_gravity="end|center_vertical"-->
+                    <!--android:layout_weight="0.3"-->
+                    <!--android:background="@color/colorBackground_1"-->
+                    <!--android:contentDescription="Call"-->
+                    <!--android:src="@drawable/call" />-->
                 </LinearLayout>
 
             </TableRow>
@@ -312,8 +318,8 @@
 
                 <TextView
                     android:layout_width="@dimen/width_title_item_docso"
-                    android:layout_gravity="center_vertical"
                     android:layout_column="0"
+                    android:layout_gravity="center_vertical"
                     android:text="Ghi chú:"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 

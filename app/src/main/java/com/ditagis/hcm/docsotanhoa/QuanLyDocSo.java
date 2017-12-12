@@ -581,7 +581,8 @@ public class QuanLyDocSo extends Fragment {
         builder.setCancelable(false);
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
         View dialogLayout = inflater.inflate(R.layout.layout_edit_thongtin_docso, null);
-
+        final EditText etxtAddress = (EditText) dialogLayout.findViewById(R.id.etxt_layout_edit_address);
+        etxtAddress.setText(hoaDon.getSoNha());
         mSdts.add(" ");
         if (hoaDon.getSdt().length() > 0) {
             mSdts.clear();
@@ -631,7 +632,7 @@ public class QuanLyDocSo extends Fragment {
         ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_MLT)).setText(hoaDon.getMaLoTrinh());
 //                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_DanhBo)).setText(danhBo_CSM.getDanhBo());
         ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_tenKH)).setText(hoaDon.getTenKhachHang());
-        ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_diaChi)).setText(hoaDon.getDiaChi());
+        ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_diaChi)).setText(hoaDon.getDuong());
         ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_CSC)).setText(hoaDon.getChiSoCu());
         final TextView txtTT = (TextView) dialogLayout.findViewById(R.id.txt_layout_edit_tieuThu);
         txtTT.setText(hoaDon.getTieuThuMoi());
@@ -871,6 +872,8 @@ public class QuanLyDocSo extends Fragment {
                 //TODO: lưu chỉnh sửa
                 hoaDon.setChiSoMoi(etxtCSM.getText().toString());
                 hoaDon.setCodeMoi(mCode);
+                if (etxtAddress.getText().toString().trim().length() > 0)
+                    hoaDon.setSoNha(etxtAddress.getText().toString());
 //                hoaDon.setSdt(etxtSDT.getText().toString());
                 hoaDon.setGhiChu(txtNote.getText().toString());
                 hoaDon.setSdt(getSdtString());
