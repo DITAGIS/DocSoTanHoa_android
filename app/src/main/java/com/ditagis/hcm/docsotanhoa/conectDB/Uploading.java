@@ -12,6 +12,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
@@ -28,9 +29,12 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
     private final String TABLE_NAME = "HOADON";
     private final String NEW_TABLE_NAME = "HoaDonMoi";
     private final String TABLE_NAME_DOCSO = "DocSo";
+    private final String TABLE_NAME_KH = "KhachHang";
     private final String TABLE_NAME_DOCSO_LUUTRU = "DocSoLuuTru";
     private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
     private final String SQL_UPDATE = "UPDATE " + TABLE_NAME_DOCSO + " SET CSMOI=?, CODEMoi=?, GhiChuDS=?, tieuthumoi =?, gioghi = ?, sdt = ?, vitrimoi = ? WHERE DANHBa=? and dot = ? and ky = ? and nam = ?";
+    private final String SQL_UPDATE_KH = "UPDATE " + TABLE_NAME_KH + " SET somoi =? WHERE DANHBa=? ";
+    private final String SQL_SELECT_KH = "SELECT so from " + TABLE_NAME_KH + " WHERE DANHBa=? ";
     private final String SQL_INSERT_LUUTRU = "INSERT INTO " + TABLE_NAME_DOCSO_LUUTRU + " VALUES (?,?,?,?,?,?,?,?,?,?," +
             "?,?,?,?,?,?,?,?,?,?," +
             "?,?,?,?,?,?,?,?,?,?," +
@@ -136,7 +140,25 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             st.setString(9, hoaDon.getDot());
             st.setString(10, this.mKy);
             st.setString(11, this.mNam);
+
             int result1 = st.executeUpdate();
+            String sqlKH = this.SQL_SELECT_KH;
+            PreparedStatement stselectKH = cnn.prepareStatement(sqlKH);
+            stselectKH.setString(1, hoaDon.getDanhBo());
+            ResultSet rs = stselectKH.executeQuery();
+
+            while (rs.next()) {
+                if (!rs.getString(1).equals(hoaDon.getSoNha())) {
+                    sqlKH = this.SQL_UPDATE_KH;
+                    PreparedStatement stUpdateKH = cnn.prepareStatement(sqlKH);
+                    stUpdateKH.setString(1, hoaDon.getSoNha());
+                    stUpdateKH.setString(2, hoaDon.getDanhBo());
+                    stUpdateKH.executeUpdate();
+                    stUpdateKH.close();
+                }
+            }
+            stselectKH.close();
+
             st.close();
 
 

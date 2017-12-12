@@ -344,7 +344,7 @@ public class QuanLyDocSo extends Fragment {
     }
 
     public void refresh() {
-
+        createDot();
         hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
 
         setTextProgress();
@@ -624,7 +624,7 @@ public class QuanLyDocSo extends Fragment {
                 BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.7), (int) (bitmap.getHeight() * 0.7), false));
 
                 image.setBackground(resizedDialogImage);
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
         }
@@ -664,6 +664,54 @@ public class QuanLyDocSo extends Fragment {
                 final ArrayAdapter<String> adapterNotes_sub_kinhdoanh = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_note_left, Note.getInstance().getNotes_sub_kinhdoanh());
 
                 spin_ghichu.setAdapter(adapterNotes);
+                int positionNote = 0, positionNoteSub = 0;
+                for (String note : Note.getInstance().getNotes()) {
+                    if (positionNote == Note.getInstance().getNotes().length - 1) {
+                        if (!hoaDon.getGhiChu().equals("null"))
+                            etxtghichu.setText(hoaDon.getGhiChu());
+                    } else if (hoaDon.getGhiChu().contains(note)) {
+                        spin_ghichu.setSelection(positionNote);
+                        switch (positionNote) {
+                            case 1:
+                                spin_ghichu.setSelection(1);
+                                for (String noteSub : Note.getInstance().getNotes_sub_dutchi()) {
+                                    if (hoaDon.getGhiChu().contains(noteSub)) {
+                                        spin_ghichu_sub.setSelection(positionNoteSub);
+                                        if (hoaDon.getGhiChu().contains("_")) {
+                                            String[] ghiChus = hoaDon.getGhiChu().split("_");
+                                            etxtghichu.setText(ghiChus[1]);
+                                        }
+                                        break;
+                                    }
+                                    positionNoteSub++;
+                                }
+                                break;
+                            case 2:
+                                spin_ghichu.setSelection(2);
+                                for (String noteSub : Note.getInstance().getNotes_sub_kinhdoanh()) {
+                                    if (hoaDon.getGhiChu().contains(noteSub)) {
+                                        spin_ghichu_sub.setSelection(positionNoteSub);
+                                        if (hoaDon.getGhiChu().contains("_")) {
+                                            String[] ghiChus = hoaDon.getGhiChu().split("_");
+                                            etxtghichu.setText(ghiChus[1]);
+                                        }
+                                        break;
+                                    }
+                                    positionNoteSub++;
+                                }
+                                break;
+                            default:
+                                if (hoaDon.getGhiChu().contains("_")) {
+                                    String[] ghiChus = hoaDon.getGhiChu().split("_");
+                                    etxtghichu.setText(ghiChus[1]);
+                                }
+                                spin_ghichu.setSelection(positionNote);
+                                break;
+                        }
+                        break;
+                    }
+                    positionNote++;
+                }
                 spin_ghichu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -674,24 +722,24 @@ public class QuanLyDocSo extends Fragment {
                                 spin_ghichu_sub.setVisibility(View.INVISIBLE);
                                 break;
                             case 1:
-                                etxtghichu.setEnabled(false);
-                                etxtghichu.setText("");
+                                etxtghichu.setEnabled(true);
+//                                etxtghichu.setText("");
                                 spin_ghichu_sub.setAdapter(adapterNotes_sub_dutchi);
                                 spin_ghichu_sub.setEnabled(true);
                                 spin_ghichu_sub.setVisibility(View.VISIBLE);
                                 break;
                             case 2:
-                                etxtghichu.setEnabled(false);
-                                etxtghichu.setText("");
+                                etxtghichu.setEnabled(true);
+//                                etxtghichu.setText("");
                                 spin_ghichu_sub.setAdapter(adapterNotes_sub_kinhdoanh);
                                 spin_ghichu_sub.setEnabled(true);
                                 spin_ghichu_sub.setVisibility(View.VISIBLE);
                                 break;
                             default:
                                 spin_ghichu_sub.setEnabled(false);
-                                etxtghichu.setText("");
-                                etxtghichu.setEnabled(false);
-                                spin_ghichu_sub.setVisibility(View.INVISIBLE);
+//                                etxtghichu.setText("");
+                                etxtghichu.setEnabled(true);
+                                spin_ghichu_sub.setVisibility(View.VISIBLE);
                                 break;
                         }
                     }
@@ -706,6 +754,7 @@ public class QuanLyDocSo extends Fragment {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        String ghiChu = "";
 //                mGhiChu = input.getText().toString();
                         switch (spin_ghichu.getSelectedItemPosition()) {
                             case 0:
@@ -713,10 +762,17 @@ public class QuanLyDocSo extends Fragment {
                                 break;
                             case 1:
                             case 2:
-                                txtNote.setText(spin_ghichu.getSelectedItem().toString() + ": " + spin_ghichu_sub.getSelectedItem().toString());
+                                ghiChu = spin_ghichu.getSelectedItem().toString() + ": " + spin_ghichu_sub.getSelectedItem().toString();
+
+                                if (etxtghichu.getText().toString().trim().length() > 0)
+                                    ghiChu = ghiChu.concat("_").concat(etxtghichu.getText().toString());
+                                txtNote.setText(ghiChu);
                                 break;
                             default:
-                                txtNote.setText(spin_ghichu.getSelectedItem().toString());
+                                ghiChu = spin_ghichu.getSelectedItem().toString();
+                                if (etxtghichu.getText().toString().trim().length() > 0)
+                                    ghiChu = ghiChu.concat("_").concat(etxtghichu.getText().toString());
+                                txtNote.setText(ghiChu);
                                 break;
                         }
                         dialog.dismiss();

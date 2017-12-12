@@ -98,7 +98,7 @@ public class DocSo extends Fragment {
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     private Bitmap mBpImage;
     private HoaDon mHoaDon;
-    private String mCode;
+    private String mCode, mSoNha, mDuong;
     private int mSumDanhBo, mDanhBoHoanThanh;
     private String mStaffName;
     private int mDot, mKy;
@@ -419,7 +419,50 @@ public class DocSo extends Fragment {
                 add_sdt();
             }
         });
+        ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                change_address();
+            }
+        });
         refresh();
+    }
+
+    private void change_address() {
+        LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());//getLayoutInflater();
+        View dialogLayout = inflater.inflate(R.layout.layout_change_address, null);
+        final EditText etxtAddr_num = (EditText) dialogLayout.findViewById(R.id.etxt_address_num);
+        etxtAddr_num.setText(mHoaDon.getSoNha());
+        final TextView txtAddr_street = (TextView) dialogLayout.findViewById(R.id.txt_address_street);
+        txtAddr_street.setText(mHoaDon.getDuong());
+        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
+        builder.setTitle("Thêm số điện thoại");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (etxtAddr_num.getText().toString().trim().length() > 0)
+                    mSoNha = etxtAddr_num.getText().toString();
+                if (txtAddr_street.getText().toString().trim().length() > 0)
+                    mDuong = txtAddr_street.getText().toString();
+                mDiaChis.remove(mSpinDiaChi.getSelectedItemPosition());
+                mDiaChis.add(mSpinDiaChi.getSelectedItemPosition(), mSoNha + " " + mDuong);
+                mAdapterDiaChi.notifyDataSetChanged();
+
+                dialog.dismiss();
+
+            }
+        }).setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).setCancelable(false);
+        AlertDialog dialog = builder.create();
+
+        dialog.setView(dialogLayout);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.show();
     }
 
     public void setmSelected_theme(int mSelected_theme) {
@@ -485,6 +528,8 @@ public class DocSo extends Fragment {
         HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
         hoaDon.setCodeMoi(mCode);
         hoaDon.setGhiChu(mGhiChu);
+        hoaDon.setSoNha(mSoNha);
+        hoaDon.setDuong(mDuong);
         if (mEditTextViTri.getText().toString().length() > 0)
             hoaDon.setViTri(mEditTextViTri.getText().toString());
         if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
@@ -581,15 +626,18 @@ public class DocSo extends Fragment {
                 ((ImageButton) mRootView.findViewById(R.id.btn_ds_prev)).setImageResource(R.drawable.prev);
                 ((ImageButton) mRootView.findViewById(R.id.btn_ds_next)).setImageResource(R.drawable.next);
                 ((ImageButton) mRootView.findViewById(R.id.btn_ds_next)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
-                ((TextView) mRootView.findViewById(R.id.txt_ds_so_than)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorPrimary_1));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_so_than)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorToolBar_Row_1));
                 mEditTextViTri.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 mEditTextViTri.setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                mEditTextViTri.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorPrimary_1));
+                mEditTextViTri.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorToolBar_Row_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_tenKH_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
 
                 mAdapterTenKH = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mTenKHs);
 
                 ((TextView) mRootView.findViewById(R.id.txt_ds_diachi_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
+                ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).setBackgroundResource(R.layout.edit_text_styles);
+                ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
 
                 mAdapterDiaChi = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_bold_left1, mDiaChis);
                 ((TextView) mRootView.findViewById(R.id.etxt_ds_sdt_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
@@ -598,7 +646,7 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.txt_ds_CSC)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_CSM)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorPrimary_1));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorToolBar_Row_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
 
@@ -921,14 +969,15 @@ public class DocSo extends Fragment {
         if (!mHoaDon.getImage().equals("null")) {
             try {
                 int csc = Integer.parseInt(mTxtCSC.getText().toString());
-                int csm = 0;
-                if (mTxtCSM.getText().toString().length() == 0) {
-                    if (!checkCode())
+                int csm = -1;
+                if (mTxtCSM.getText().toString().trim().length() == 0 && !checkCode()) {
+
 //                alertCSM_Null(csc, csm);
-                        MySnackBar.make(mRootView.getRootView(), "Chưa nhập chỉ số mới", true);
+                    MySnackBar.make(mRootView.getRootView(), "Chưa nhập chỉ số mới", true);
 
                 } else {
-                    csm = Integer.parseInt(mTxtCSM.getText().toString());
+                    if (mTxtCSM.getText().toString().length() > 0)
+                        csm = Integer.parseInt(mTxtCSM.getText().toString());
                     if (checkCSMFluctuation()) {
                         MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(true);
 //                MyAlertByHardware.getInstance(mRootView.getContext()).playSound();
@@ -948,14 +997,15 @@ public class DocSo extends Fragment {
             File f = ImageFile.getFile(currentTime, mRootView, mDanhBo);
             if (f != null && f.exists()) {
                 int csc = Integer.parseInt(mTxtCSC.getText().toString());
-                int csm = 0;
-                if (mTxtCSM.getText().toString().length() == 0) {
-                    if (!checkCode())
+                int csm = -1;
+                if (mTxtCSM.getText().toString().length() == 0 && !checkCode()) {
+
 //                alertCSM_Null(csc, csm);
-                        MySnackBar.make(mRootView.getRootView(), "Chưa nhập chỉ số mới", true);
+                    MySnackBar.make(mRootView.getRootView(), "Chưa nhập chỉ số mới", true);
 
                 } else {
-                    csm = Integer.parseInt(mTxtCSM.getText().toString());
+                    if (mTxtCSM.getText().toString().length() > 0)
+                        csm = Integer.parseInt(mTxtCSM.getText().toString());
                     if (checkCSMFluctuation()) {
                         MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(true);
 //                MyAlertByHardware.getInstance(mRootView.getContext()).playSound();
@@ -1042,14 +1092,19 @@ public class DocSo extends Fragment {
         List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike);
         mMLTs.clear();
         mDBs.clear();
-
+        mDiaChis.clear();
+        mTenKHs.clear();
         for (HoaDon hoaDon : hoaDons) {
             mMLTs.add(spaceMLT(hoaDon.getMaLoTrinh()));
             mDBs.add(spaceDB(hoaDon.getDanhBo()));
+            mDiaChis.add(hoaDon.getDiaChi());
+            mTenKHs.add(hoaDon.getTenKhachHang());
         }
         selectMLT(0);
         mAdapterMLT.notifyDataSetChanged();
         mAdapterDB.notifyDataSetChanged();
+        mAdapterDiaChi.notifyDataSetChanged();
+        mAdapterTenKH.notifyDataSetChanged();
         setTextProgress();
     }
 
@@ -1070,7 +1125,8 @@ public class DocSo extends Fragment {
         mDanhBo = mDBs.get(position).replace(" ", "");
         mHoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
 
-
+        mSoNha = mHoaDon.getSoNha();
+        mDuong = mHoaDon.getDuong();
         //xử lý sđt
         mSdts.clear();
         mSdts.add(" ");
@@ -1217,7 +1273,9 @@ public class DocSo extends Fragment {
                 dotString = "0" + mDot;
 //        HoaDon mHoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
             mHoaDon.setCodeMoi(mCode);
-            mHoaDon.setChiSoMoi(csm + "");
+            if (csm >= 0)
+                mHoaDon.setChiSoMoi(csm + "");
+            else mHoaDon.setChiSoMoi("");
             mHoaDon.setTieuThuMoi(((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).getText().toString());
             mHoaDon.setGhiChu(mGhiChu);
             if (!mHoaDon.getImage().equals("null")) {
@@ -1233,6 +1291,8 @@ public class DocSo extends Fragment {
             }
 
             mHoaDon.setSdt(getSdtString());
+            mHoaDon.setSoNha(mSoNha);
+            mHoaDon.setDuong(mDuong);
             if (mEditTextViTri.getText().toString().length() > 0)
                 mHoaDon.setViTri(mEditTextViTri.getText().toString());
 
@@ -1558,6 +1618,10 @@ public class DocSo extends Fragment {
                         for (String noteSub : Note.getInstance().getNotes_sub_dutchi()) {
                             if (mHoaDon.getGhiChu().contains(noteSub)) {
                                 spin_ghichu_sub.setSelection(positionNoteSub);
+                                if (mHoaDon.getGhiChu().contains("_")) {
+                                    String[] ghiChus = mHoaDon.getGhiChu().split("_");
+                                    etxtghichu.setText(ghiChus[1]);
+                                }
                                 break;
                             }
                             positionNoteSub++;
@@ -1568,12 +1632,20 @@ public class DocSo extends Fragment {
                         for (String noteSub : Note.getInstance().getNotes_sub_kinhdoanh()) {
                             if (mHoaDon.getGhiChu().contains(noteSub)) {
                                 spin_ghichu_sub.setSelection(positionNoteSub);
+                                if (mHoaDon.getGhiChu().contains("_")) {
+                                    String[] ghiChus = mHoaDon.getGhiChu().split("_");
+                                    etxtghichu.setText(ghiChus[1]);
+                                }
                                 break;
                             }
                             positionNoteSub++;
                         }
                         break;
                     default:
+                        if (mHoaDon.getGhiChu().contains("_")) {
+                            String[] ghiChus = mHoaDon.getGhiChu().split("_");
+                            etxtghichu.setText(ghiChus[1]);
+                        }
                         spin_ghichu.setSelection(positionNote);
                         break;
                 }
@@ -1592,24 +1664,24 @@ public class DocSo extends Fragment {
                         spin_ghichu_sub.setVisibility(View.INVISIBLE);
                         break;
                     case 1:
-                        etxtghichu.setEnabled(false);
-                        etxtghichu.setText("");
+                        etxtghichu.setEnabled(true);
+//                        etxtghichu.setText("");
                         spin_ghichu_sub.setAdapter(adapterNotes_sub_dutchi);
                         spin_ghichu_sub.setEnabled(true);
                         spin_ghichu_sub.setVisibility(View.VISIBLE);
                         break;
                     case 2:
-                        etxtghichu.setEnabled(false);
-                        etxtghichu.setText("");
+                        etxtghichu.setEnabled(true);
+//                        etxtghichu.setText("");
                         spin_ghichu_sub.setAdapter(adapterNotes_sub_kinhdoanh);
                         spin_ghichu_sub.setEnabled(true);
                         spin_ghichu_sub.setVisibility(View.VISIBLE);
                         break;
                     default:
                         spin_ghichu_sub.setEnabled(false);
-                        etxtghichu.setText("");
-                        etxtghichu.setEnabled(false);
-                        spin_ghichu_sub.setVisibility(View.INVISIBLE);
+//                        etxtghichu.setText("");
+                        etxtghichu.setEnabled(true);
+                        spin_ghichu_sub.setVisibility(View.VISIBLE);
                         break;
                 }
             }
@@ -1632,9 +1704,14 @@ public class DocSo extends Fragment {
                     case 1:
                     case 2:
                         mGhiChu = spin_ghichu.getSelectedItem().toString() + ": " + spin_ghichu_sub.getSelectedItem().toString();
+                        if (etxtghichu.getText().toString().trim().length() > 0)
+                            mGhiChu = mGhiChu.concat("_").concat(etxtghichu.getText().toString());
                         break;
                     default:
+
                         mGhiChu = spin_ghichu.getSelectedItem().toString();
+                        if (etxtghichu.getText().toString().trim().length() > 0)
+                            mGhiChu = mGhiChu.concat("_").concat(etxtghichu.getText().toString());
                         break;
                 }
                 dialog.dismiss();

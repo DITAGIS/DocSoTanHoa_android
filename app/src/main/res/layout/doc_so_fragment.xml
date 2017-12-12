@@ -438,6 +438,12 @@
                         android:layout_weight="1"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/colorTextColor_1" />
+                    <Button
+                        android:id="@+id/btn_ds_changeDiaChi"
+                        android:layout_width="65dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Thay đổi" />
                 </TableRow>
                 <!--Table row tên khách hàng-->
                 <TableRow android:layout_weight="1">

@@ -484,6 +484,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 COLUMN_HOADON_CODE_MOI + " = '" + hoaDon.getCodeMoi() + "'," +
                 COLUMN_HOADON_CSM + " = '" + hoaDon.getChiSoMoi() + "'," +
                 COLUMN_HOADON_TTMOI + " = '" + hoaDon.getTieuThuMoi() + "'," +
+                COLUMN_HOADON_SONHA + " = '" + hoaDon.getSoNha() + "'," +
+                COLUMN_HOADON_DUONG + " = '" + hoaDon.getDuong() + "'," +
                 COLUMN_HOADON_GHI_CHU + " = '" + hoaDon.getGhiChu() + "'," +
                 COLUMN_HOADON_SDT + " = '" + hoaDon.getSdt() + "'," +
                 COLUMN_HOADON_HINH + " = '" + hoaDon.getImage() + "'," +
@@ -509,6 +511,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
         String sql = "update " + TABLE_HOADON + " set " +
                 COLUMN_HOADON_CODE_MOI + " = '" + hoaDon.getCodeMoi() + "'," +
                 COLUMN_HOADON_SDT + " = '" + hoaDon.getSdt() + "'," +
+                COLUMN_HOADON_SONHA + " = '" + hoaDon.getSoNha() + "'," +
+                COLUMN_HOADON_DUONG + " = '" + hoaDon.getDuong() + "'," +
                 COLUMN_HOADON_GHI_CHU + " = '" + hoaDon.getGhiChu() + "'," +
                 COLUMN_HOADON_VI_TRI + " = '" + hoaDon.getViTri() + "'," +
                 COLUMN_HOADON_HINH + " = '" + hoaDon.getImage() + "'" +
