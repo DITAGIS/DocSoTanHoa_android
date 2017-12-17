@@ -793,26 +793,26 @@ public class DocSo extends Fragment {
 //            mTenKHs_old.addAll(mTenKHs);
 //            mDiaChis_old.addAll(mDiaChis);
 
-            Collections.sort(mMLTs);
-            mDBs.clear();
-            mTenKHs.clear();
-            mDiaChis.clear();
+        Collections.sort(mMLTs);
+        mDBs.clear();
+        mTenKHs.clear();
+        mDiaChis.clear();
 
-            List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike);
-            for (String mlt : mMLTs) {
-                for (HoaDon hoaDon : hoaDons) {
-                    if (mlt.equals(spaceMLT(hoaDon.getMaLoTrinh()))) {
-                        mDBs.add(spaceDB(hoaDon.getDanhBo()));
-                        mTenKHs.add(hoaDon.getTenKhachHang());
-                        mDiaChis.add(hoaDon.getDiaChi());
-                    }
+        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike);
+        for (String mlt : mMLTs) {
+            for (HoaDon hoaDon : hoaDons) {
+                if (mlt.equals(spaceMLT(hoaDon.getMaLoTrinh()))) {
+                    mDBs.add(spaceDB(hoaDon.getDanhBo()));
+                    mTenKHs.add(hoaDon.getTenKhachHang());
+                    mDiaChis.add(hoaDon.getDiaChi());
                 }
             }
-            mAdapterMLT.notifyDataSetChanged();
-            mAdapterDB.notifyDataSetChanged();
-            mAdapterTenKH.notifyDataSetChanged();
-            mAdapterDiaChi.notifyDataSetChanged();
-
+        }
+        mAdapterMLT.notifyDataSetChanged();
+        mAdapterDB.notifyDataSetChanged();
+        mAdapterTenKH.notifyDataSetChanged();
+        mAdapterDiaChi.notifyDataSetChanged();
+        if (mMLTs.size() > 0)
             selectMLT(0);
 //        } else {
 //            mMLTs.clear();
@@ -1101,7 +1101,8 @@ public class DocSo extends Fragment {
             mDiaChis.add(hoaDon.getDiaChi());
             mTenKHs.add(hoaDon.getTenKhachHang());
         }
-        selectMLT(0);
+        if (mMLTs.size() > 0)
+            selectMLT(0);
         mAdapterMLT.notifyDataSetChanged();
         mAdapterDB.notifyDataSetChanged();
         mAdapterDiaChi.notifyDataSetChanged();

@@ -30,6 +30,15 @@ public class HoaDon {
     private String viTri;
     private String hieu;
     private String co;
+    private String tieuThuTBMoi;
+
+    public String getTieuThuTBMoi() {
+        return tieuThuTBMoi;
+    }
+
+    public void setTieuThuTBMoi(String tieuThuTBMoi) {
+        this.tieuThuTBMoi = tieuThuTBMoi;
+    }
 
     public String getThoiGian() {
         return thoiGian;

@@ -42,7 +42,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             "?,?,?,?,?,?,?,?,?,?," +
             "?,?,?,?,?,?,?,?,?,?," +
             "?,?)";
-    private final String TABLE_NAME_HINHDHN = "HinhDHN_DocSo";
+    private final String TABLE_NAME_HINHDHN = "HinhDHN";//(Danhbo, Image, Latitude, Longitude, CreateBy, CreateDate)
     private final String SQL_INSERT_HINHDHN = "INSERT INTO " + TABLE_NAME_HINHDHN + " VALUES(?,?,?,?,?,?)";
     private final String SQL_DELETE = "DELETE FROM " + TABLE_NAME + " WHERE ClassId=?";
     private final String SQL_INSERT = "INSERT INTO " + NEW_TABLE_NAME + " VALUES(?,?,?,?,?,?,?,?,?,?)";

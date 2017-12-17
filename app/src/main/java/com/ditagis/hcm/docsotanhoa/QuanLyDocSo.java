@@ -987,13 +987,12 @@ public class QuanLyDocSo extends Fragment {
         protected void onProgressUpdate(Boolean... values) {
             super.onProgressUpdate(values);
             boolean isValid = values[0];
+            mQuanLyDocSoAdapter.notifyDataSetChanged();
+            ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + hoaDons.size());
+            mDanhBoHoanThanh += LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike).size();
+            setTextProgress();
             if (isValid) {
-                mQuanLyDocSoAdapter.notifyDataSetChanged();
-                ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + hoaDons.size());
                 Toast.makeText(mRootView.getContext(), "Đồng bộ thành công", Toast.LENGTH_SHORT).show();
-                mDanhBoHoanThanh += LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike).size();
-                setTextProgress();
-
             } else {
                 Toast.makeText(mRootView.getContext(), "Đồng bộ thất bại. Kiểm tra lại kết nối internet", Toast.LENGTH_SHORT).show();
             }
