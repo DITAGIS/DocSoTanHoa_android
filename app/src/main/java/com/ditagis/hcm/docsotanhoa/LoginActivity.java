@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private LoginAsync mLoginAsync;
     private String mUsername, mPassword, mStaffName;
-    private String mDot;
+    private String mDot, mKy, mNam;
     private NetworkStateChangeReceiver mStateChangeReceiver;
     private IntentFilter mIntentFilter;
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
@@ -186,7 +186,9 @@ public class LoginActivity extends AppCompatActivity {
             else if (result.getmStaffName() == null || result.getmStaffName().length() > 0) {
                 LoginActivity.this.mPassword = result.getPassword();
                 LoginActivity.this.mStaffName = result.getmStaffName();
+                LoginActivity.this.mKy = result.getmKy();
                 LoginActivity.this.mDot = result.getmDot();
+                LoginActivity.this.mNam = result.getmNam();
             }
             publishProgress(result);
             return result;
@@ -225,8 +227,8 @@ public class LoginActivity extends AppCompatActivity {
 //        CheckConnectRealTime.asyncTask.cancel(true);
 
         Calendar calendar = Calendar.getInstance();
-        int ky = calendar.get(Calendar.MONTH) + 1;
-        int nam = calendar.get(Calendar.YEAR);
+        int ky = Integer.parseInt(mKy);
+       int nam = Integer.parseInt(mNam);
         int dot = Integer.parseInt(mDot);
         new LayLoTrinh(LoginActivity.this, getLayoutInflater(), ky, nam, dot, mUsername, mStaffName, mPassword);
     }

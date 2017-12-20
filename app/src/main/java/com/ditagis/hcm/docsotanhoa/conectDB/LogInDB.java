@@ -29,16 +29,35 @@ public class LogInDB implements IDB<User, Boolean, String> {
 
 
     public class Result {
+        private String mNam;
+        private String mKy;
         private String mDot;
         private String mStaffName;
         private String username;
         private String password;
 
 
+
         public Result(String mDot, String mStaffName, String userName) {
             this.mDot = mDot;
             this.mStaffName = mStaffName;
             this.username = userName;
+        }
+
+        public String getmKy() {
+            return mKy;
+        }
+
+        public void setmKy(String mKy) {
+            this.mKy = mKy;
+        }
+
+        public String getmNam() {
+            return mNam;
+        }
+
+        public void setmNam(String mNam) {
+            this.mNam = mNam;
         }
 
         public String getmDot() {
@@ -133,30 +152,44 @@ public class LogInDB implements IDB<User, Boolean, String> {
     public Result logIn(User user) {
 
         Calendar calendar = Calendar.getInstance();
-        int ky = calendar.get(Calendar.MONTH) + 1;
+        String ky ="";
 //        int ky  = 10; // lay ky 10
 //        int dot = calendar.get(Calendar.DAY_OF_MONTH);
-        int nam = calendar.get(Calendar.YEAR);
+       String nam = "";
         Connection cnn = ConnectionDB.getInstance().getConnection();
         String sql = this.SQL_SELECT;
 
         try {
             if (cnn == null)
                 return null;
-            PreparedStatement st = cnn.prepareStatement(sql);
-            st.setString(1, user.getUserName());
-            st.setString(2, (new EncodeMD5()).encode(user.getPassWord()));
-            ResultSet resultSet = st.executeQuery();
+            PreparedStatement statement = cnn.prepareStatement(sql);
+            statement.setString(1, user.getUserName());
+            statement.setString(2, (new EncodeMD5()).encode(user.getPassWord()));
+            ResultSet resultSet = statement.executeQuery();
             String staffName = "";
             if (resultSet.next()) {
                 staffName = resultSet.getString(1);
 
             }
             resultSet.close();
-            st.close();
-            Statement statement = cnn.createStatement();
-            ResultSet rsDot = statement.executeQuery("SELECT TOP 1 dot from DocSo where nam = "
+            statement = cnn.prepareStatement("select distinct top 1 nam from docso order by nam desc");
+            ResultSet rsNam = statement.executeQuery();
+            while (rsNam.next()){
+                nam = rsNam.getString(1);
+                break;
+            }
+            rsNam.close();
+            statement = cnn.prepareStatement("select distinct top 1 ky from docso where nam = " + nam + " order by ky desc");
+            ResultSet rsKy = statement.executeQuery();
+            while (rsKy.next()){
+                ky = rsKy.getString(1);
+                break;
+            }
+
+            rsKy.close();
+            statement = cnn.prepareStatement("SELECT TOP 1 dot from DocSo where nam = "
                     + nam + " and ky = " + ky + " order by dot desc");
+            ResultSet rsDot = statement.executeQuery();
             String mDot = null;
             if (rsDot.next()) {
                 mDot = rsDot.getString(1);
@@ -165,6 +198,8 @@ public class LogInDB implements IDB<User, Boolean, String> {
             statement.close();
             rsDot.close();
             Result result = new Result(mDot, staffName, user.getUserName());
+            result.setmNam(nam);
+            result.setmKy(ky);
             return result;
 
         } catch (SQLException e1) {
