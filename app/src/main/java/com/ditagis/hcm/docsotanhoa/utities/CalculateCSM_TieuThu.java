@@ -120,14 +120,18 @@ public class CalculateCSM_TieuThu {
                 break;
             case "81":
                 //todo để trống
-                mCSM = 0;
-                mTieuThu = 0;
+//                mCSM = 0;
+//                mTieuThu = 0;
+                mTieuThu = calTieuThuTB();
+                mCSM = mCSC + mTieuThu;
                 break;
             case "82":
             case "83":
                 //todo để trống
-                mCSM = 0;
-                mTieuThu = 0;
+//                mCSM = 0;
+//                mTieuThu = 0;
+                mTieuThu = calTieuThuTB();
+                mCSM = mCSC + mTieuThu;
                 break;
             case "F1":
                 mTieuThu = calTieuThuTB();
