@@ -41,6 +41,7 @@
     <string name="extra_staffname">staffname</string>
     <string name="extra_dot">dot</string>
     <string name="extra_ky">ky</string>
+    <string name="extra_nam">nam</string>
 
     <string name="path_saveImage">.docsotanhoa</string>
 

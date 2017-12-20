@@ -64,13 +64,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setTheme(R.style.Theme_AppCompat_DayNight);
         Calendar calendar = Calendar.getInstance();
-        this.mNam = calendar.get(Calendar.YEAR);
+
         if (getIntent().getExtras().getString(this.getString(R.string.extra_username)) != null)
             this.mUsername = getIntent().getExtras().getString(this.getString(R.string.extra_username));
         if (getIntent().getExtras().getString(this.getString(R.string.extra_password)) != null)
             this.mPassword = getIntent().getExtras().getString(this.getString(R.string.extra_password));
         if (getIntent().getExtras().getString(this.getString(R.string.extra_staffname)) != null)
             this.mStaffName = getIntent().getExtras().getString(this.getString(R.string.extra_staffname));
+        if (getIntent().getExtras().getInt(this.getString(R.string.extra_nam)) > 0)
+            this.mNam = getIntent().getExtras().getInt(this.getString(R.string.extra_nam));
         if (getIntent().getExtras().getInt(this.getString(R.string.extra_dot)) > 0)
             this.mDot = getIntent().getExtras().getInt(this.getString(R.string.extra_dot));
         if (getIntent().getExtras().getInt(this.getString(R.string.extra_ky)) > 0)

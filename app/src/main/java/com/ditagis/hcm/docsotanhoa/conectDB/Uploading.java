@@ -249,9 +249,12 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             }
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
+
         } catch (ParseException e) {
-            e.printStackTrace();
+
+        }
+        catch (Exception e){
+
         }
         return 0;
     }
