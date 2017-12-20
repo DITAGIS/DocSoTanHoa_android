@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.ditagis.hcm.docsotanhoa.R;
 import com.ditagis.hcm.docsotanhoa.async.ChangePassswordAsync;
+import com.ditagis.hcm.docsotanhoa.conectDB.ChangePasswordDB;
 import com.ditagis.hcm.docsotanhoa.conectDB.LogInDB;
 
 /**
@@ -148,13 +149,14 @@ public class ChangePassword {
                         oldPassword,
                         etxtChangePwNewPw.getText().toString(),
                         etxtChangePwConfirmPw.getText().toString(),
+
                         new ChangePassswordAsync.AsyncResponse() {
                             @Override
-                            public void processFinish(final LogInDB.Result output) {
+                            public void processFinish(final ChangePasswordDB.Result output) {
 
                                 if (output == null) {
                                     ;
-                                } else if (output.getmStaffName().length() > 0) {
+                                } else  {
                                     dialogChangePw.dismiss();
                                     Toast.makeText(mContext, mActivity.getString(R.string.change_password_success), Toast.LENGTH_LONG).show();
                                 }

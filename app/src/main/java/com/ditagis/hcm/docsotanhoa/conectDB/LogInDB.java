@@ -20,7 +20,7 @@ import java.util.List;
 
 public class LogInDB implements IDB<User, Boolean, String> {
 
-    private final String TABLE_NAME = "MayDS";
+    private final String TABLE_NAME = "MayDS1";
     private final String SQL_SELECT = "select NhanVienID from " + TABLE_NAME + " where may = ? and password = ?";
     private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + " VALUES(?,?)";
     private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET password=? WHERE username=?";
@@ -33,6 +33,7 @@ public class LogInDB implements IDB<User, Boolean, String> {
         private String mStaffName;
         private String username;
         private String password;
+
 
         public Result(String mDot, String mStaffName, String userName) {
             this.mDot = mDot;

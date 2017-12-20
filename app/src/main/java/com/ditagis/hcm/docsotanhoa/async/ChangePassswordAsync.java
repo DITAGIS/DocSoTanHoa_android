@@ -8,14 +8,13 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.ditagis.hcm.docsotanhoa.conectDB.ChangePasswordDB;
-import com.ditagis.hcm.docsotanhoa.conectDB.LogInDB;
 import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
 
 /**
  * Created by ThanLe on 27/10/2017.
  */
 
-public class ChangePassswordAsync extends AsyncTask<String, LogInDB.Result, LogInDB.Result> {
+public class ChangePassswordAsync extends AsyncTask<String, ChangePasswordDB.Result, ChangePasswordDB.Result> {
     private String userName;
     private String oldPassword;
     private String newPassword;
@@ -27,7 +26,7 @@ public class ChangePassswordAsync extends AsyncTask<String, LogInDB.Result, LogI
     public AsyncResponse delegate = null;
 
     public interface AsyncResponse {
-        void processFinish(LogInDB.Result output);
+        void processFinish(ChangePasswordDB.Result output);
     }
 
     public ChangePassswordAsync(View view, Activity activity, Context context, String userName, String oldPassword, String newPassword, String confirmPassword, AsyncResponse delegate) {
@@ -46,22 +45,22 @@ public class ChangePassswordAsync extends AsyncTask<String, LogInDB.Result, LogI
     protected void onPreExecute() {
         super.onPreExecute();
         HideKeyboard.hide(this.mActivity);
-        dialog.setMessage("Đang đổi mật khẩu...");
-        dialog.setCancelable(false);
-        dialog.show();
+//        dialog.setMessage("Đang đổi mật khẩu...");
+//        dialog.setCancelable(false);
+//        dialog.show();
     }
 
     @Override
-    protected LogInDB.Result doInBackground(String... params) {
-        LogInDB.Result result = new ChangePasswordDB().changePassword(userName, oldPassword, newPassword);
+    protected ChangePasswordDB.Result doInBackground(String... params) {
+        ChangePasswordDB.Result result = new ChangePasswordDB().changePassword(userName, oldPassword, newPassword);
         publishProgress(result);
         return result;
     }
 
     @Override
-    protected void onProgressUpdate(LogInDB.Result... values) {
+    protected void onProgressUpdate(ChangePasswordDB.Result... values) {
         super.onProgressUpdate(values);
-        LogInDB.Result result = values[0];
+        ChangePasswordDB.Result result = values[0];
         if (result == null) {
 //            AlertDialogDisConnect.show(mContext, mActivity);
         } else if (result.getPassword().length() > 0) {
@@ -72,7 +71,7 @@ public class ChangePassswordAsync extends AsyncTask<String, LogInDB.Result, LogI
     }
 
     @Override
-    protected void onPostExecute(LogInDB.Result result) {
+    protected void onPostExecute(ChangePasswordDB.Result result) {
         delegate.processFinish(result);
 //        super.onPostExecute(aBoolean);
         if (dialog.isShowing()) {
