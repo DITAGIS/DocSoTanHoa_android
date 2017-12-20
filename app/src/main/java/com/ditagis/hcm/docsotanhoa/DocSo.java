@@ -55,6 +55,8 @@ import com.ditagis.hcm.docsotanhoa.utities.MyAlertDialog;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.Note;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -81,6 +83,7 @@ public class DocSo extends Fragment {
     private static final int MIN_SIZE = 500000;
     private static final int REQUEST_ID_READ_WRITE_PERMISSION = 99;
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_ID_SCAN = 2;
     String mMlt;
     String mDanhBo;
     List<String> mMLTs, mDBs = new ArrayList<>(), mTenKHs = new ArrayList<>(), mDiaChis = new ArrayList<>(), mSdts = new ArrayList<>();
@@ -1589,7 +1592,10 @@ public class DocSo extends Fragment {
     }
 
     private void doScan() {
+//        Barcode.getInstance(mActivity, mRootView).scanCode();
 
+        Intent scannerIntent = new Intent(mActivity, ScannerActivity.class);
+        startActivityForResult(scannerIntent, REQUEST_ID_SCAN);
     }
 
     private void doNote() {
@@ -1766,7 +1772,7 @@ public class DocSo extends Fragment {
     }
 
 
-//    public File getImageFileName() {
+    //    public File getImageFileName() {
 //        if (this.currentTime == null)
 //            return null;
 //        String path = Environment.getExternalStorageDirectory().getPath();
@@ -1780,11 +1786,19 @@ public class DocSo extends Fragment {
 //        return f;
 //    }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_ID_SCAN) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                ScannerActivity upc = new ScannerActivity();
+                Toast.makeText(mActivity, ScannerActivity.upcCodeValue, Toast.LENGTH_LONG).show();
+//                overOnSubmit(upc.upcCodeValue);
 
-        if (requestCode == REQUEST_ID_IMAGE_CAPTURE) {
+            }
+        } else if (requestCode == REQUEST_ID_IMAGE_CAPTURE) {
             if (resultCode == RESULT_OK) {
 //                BitmapFactory.Options options = new BitmapFactory.Options();
 //                options.inPreferredConfig = Bitmap.Config.ARGB_8888;

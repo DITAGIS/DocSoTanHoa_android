@@ -3,22 +3,21 @@
     package="com.ditagis.hcm.docsotanhoa">
 
 
-
     <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera2" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
 
 
     <application
@@ -45,12 +44,18 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"></activity>
 
+        <activity
+            android:name=".ScannerActivity"
+            android:label="@string/title_activity_scan"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"></activity>
+
         <!--<receiver-->
-            <!--android:name="com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver"-->
-            <!--android:exported="false">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
-            <!--</intent-filter>-->
+        <!--android:name="com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver"-->
+        <!--android:exported="false">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+        <!--</intent-filter>-->
         <!--</receiver>-->
     </application>
 
