@@ -124,16 +124,15 @@
                 android:background="@color/colorBackground_1"
 
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                >
+                android:paddingLeft="@dimen/activity_horizontal_margin">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_weight="0.5"
                     android:text="Lọc theo code: "
                     android:textColor="@color/colorTextColor_1"
-                    android:layout_gravity="center_vertical"
                     android:textSize="18sp" />
 
                 <Spinner
@@ -159,10 +158,10 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_weight="0.5"
                     android:text="Lọc theo đợt: "
                     android:textColor="@color/colorTextColor_1"
-                    android:layout_gravity="center_vertical"
                     android:textSize="18sp" />
 
                 <Spinner
@@ -177,72 +176,99 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/colorTextColor_1" />
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
+
+
+            <HorizontalScrollView
+                android:id="@+id/hscroll_qlds"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@android:color/darker_gray"
-                android:orientation="horizontal"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingTop="@dimen/activity_vertical_margin">
+                android:fillViewport="true">
 
-                <TextView
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:text="DANH BỘ"
-                    android:textColor="@color/colorTextColor_1"
+                    android:orientation="vertical">
 
-                    android:textSize="18sp" />
-                <!--<View-->
-                <!--android:layout_width="2dip"-->
-                <!--android:layout_height="match_parent"-->
-                android:background="@color/colorWhite" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/darker_gray"
+                        android:orientation="horizontal"
+                        android:paddingBottom="@dimen/activity_vertical_margin"
+                        android:paddingTop="@dimen/activity_vertical_margin">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:text="CSC"
-                    android:textColor="@color/colorTextColor_1"
-                    android:textSize="18sp" />
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="DANH BỘ"
+                            android:textColor="@color/colorTextColor_1"
+                            android:textSize="18sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:text="CSM"
-                    android:textColor="@color/colorTextColor_1"
-                    android:textSize="18sp" />
+                        <TextView
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="ĐỊA CHỈ"
+                            android:textColor="@color/colorTextColor_1"
+                            android:textSize="18sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:text="TT"
-                    android:textColor="@color/colorTextColor_1"
-                    android:textSize="18sp" />
+                        <TextView
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="CSC"
+                            android:textColor="@color/colorTextColor_1"
+                            android:textSize="18sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:text="Code"
-                    android:textColor="@color/colorTextColor_1"
-                    android:textSize="18sp" />
-            </LinearLayout>
-                <GridView
-                    android:id="@+id/grid_qlds_danhSachDocSo"
-                    android:layout_width="match_parent"
-                    android:layout_height="385dp"
-                    android:background="@android:color/white"
-                    android:gravity="center"
-                    android:numColumns="1" />
+                        <TextView
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="CSM"
+                            android:textColor="@color/colorTextColor_1"
+                            android:textSize="18sp" />
 
+                        <TextView
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="TT"
+                            android:textColor="@color/colorTextColor_1"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="Code"
+                            android:textColor="@color/colorTextColor_1"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="THỜI GIAN"
+                            android:textColor="@color/colorTextColor_1"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="385dp"
+                        android:orientation="horizontal">
+
+                        <GridView
+                            android:id="@+id/grid_qlds_danhSachDocSo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+
+                            android:gravity="center"
+                            android:numColumns="1" />
+                    </LinearLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
         </LinearLayout>
 
         <LinearLayout

@@ -22,13 +22,33 @@ public class GridViewQuanLyDocSoAdapter extends ArrayAdapter<GridViewQuanLyDocSo
         String danhbo;
         String csc, csm;
         String code;
+        String diaChi;
+        String thoiGian;
 
-        public Item(String tieuThu, String danhbo, String csc, String csm, String code) {
+        public Item(String tieuThu, String danhbo, String csc, String csm, String code, String diaChi, String thoiGian) {
             this.tieuThu = tieuThu;
             this.danhbo = danhbo;
             this.csc = csc;
             this.csm = csm;
             this.code = code;
+            this.diaChi = diaChi;
+            this.thoiGian = thoiGian;
+        }
+
+        public String getDiaChi() {
+            return diaChi;
+        }
+
+        public void setDiaChi(String diaChi) {
+            this.diaChi = diaChi;
+        }
+
+        public String getThoiGian() {
+            return thoiGian;
+        }
+
+        public void setThoiGian(String thoiGian) {
+            this.thoiGian = thoiGian;
         }
 
         public String getCode() {
@@ -138,6 +158,12 @@ public class GridViewQuanLyDocSoAdapter extends ArrayAdapter<GridViewQuanLyDocSo
         txtSanLuong.setText(item.getTieuThu());
         TextView txtCode = (TextView) convertView.findViewById(R.id.row_qlds_txt_code);
         txtCode.setText(item.getCode());
+
+        TextView txtDiaChi = (TextView) convertView.findViewById(R.id.row_qlds_txt_diaChi);
+        txtDiaChi.setText(item.getDiaChi());
+
+        TextView txtThoiGian = (TextView) convertView.findViewById(R.id.row_qlds_txt_thoiGian);
+        txtThoiGian.setText(item.getThoiGian());
 
         LinearLayout row_layout = (LinearLayout) convertView.findViewById(R.id.row_qlds_layout);
 

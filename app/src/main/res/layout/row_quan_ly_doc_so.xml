@@ -1,55 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/row_qlds_layout"
-    android:layout_width="match_parent"
+    android:id="@+id/row_qlds_layout"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:gravity="center_vertical"
     android:minHeight="?android:attr/listPreferredItemHeightSmall"
     android:orientation="horizontal"
-    android:gravity="center_vertical"
     android:textAppearance="?android:attr/textAppearanceListItemSmall">
 
 
     <TextView
         android:id="@+id/row_qlds_txt_danhBo"
-        android:layout_width="match_parent"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textSize="13dp"
-        android:gravity="center_horizontal"
-        android:textColor="@color/colorToolBar_Row_1" />
-    <TextView
-        android:id="@+id/row_qlds_txt_csc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="13dp"
+
         android:gravity="center_horizontal"
         android:textColor="@color/colorToolBar_Row_1"
-        android:layout_weight="1" />
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/row_qlds_txt_diaChi"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+
+        android:gravity="center_horizontal"
+        android:textColor="@color/colorToolBar_Row_1"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/row_qlds_txt_csc"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textColor="@color/colorToolBar_Row_1"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/row_qlds_txt_csm"
-        android:layout_width="match_parent"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textSize="13dp"
+
         android:gravity="center_horizontal"
-        android:textColor="@color/colorToolBar_Row_1" />
+        android:textColor="@color/colorToolBar_Row_1"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/row_qlds_txt_sanLuong"
-        android:layout_width="match_parent"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:textSize="13dp"
+
         android:gravity="center_horizontal"
         android:textColor="@color/colorToolBar_Row_1"
-        android:layout_weight="1" />
+        android:textSize="15sp" />
+
     <TextView
         android:id="@+id/row_qlds_txt_code"
-        android:layout_width="match_parent"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:textSize="13dp"
+
         android:gravity="center_horizontal"
         android:textColor="@color/colorToolBar_Row_1"
-        android:layout_weight="1" />
+        android:textSize="15sp" />
+
+
+    <TextView
+        android:id="@+id/row_qlds_txt_thoiGian"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+
+        android:gravity="center_horizontal"
+        android:textColor="@color/colorToolBar_Row_1"
+        android:textSize="15sp" />
 
 </LinearLayout>

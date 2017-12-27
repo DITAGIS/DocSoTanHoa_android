@@ -27,9 +27,11 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -136,6 +138,8 @@ public class QuanLyDocSo extends Fragment {
                 showMoreInfo(view);
             }
         });
+        setDynamicWidth(mGridView);
+
         final ImageButton imgBtnUpload = (ImageButton) mRootView.findViewById(R.id.imgBtn_qlds_upload);
         imgBtnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,7 +200,7 @@ public class QuanLyDocSo extends Fragment {
                                     hoaDon.getDanhBo(),
                                     hoaDon.getChiSoCu(),
                                     hoaDon.getChiSoMoi(),
-                                    hoaDon.getCodeMoi()));
+                                    hoaDon.getCodeMoi(), hoaDon.getDiaChi(), hoaDon.getThoiGian()));
                     }
                     mQuanLyDocSoAdapter.notifyDataSetChanged();
                     ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + hoaDons.size());
@@ -210,7 +214,7 @@ public class QuanLyDocSo extends Fragment {
                                     hoaDon.getDanhBo(),
                                     hoaDon.getChiSoCu(),
                                     hoaDon.getChiSoMoi(),
-                                    hoaDon.getCodeMoi()));
+                                    hoaDon.getCodeMoi(), hoaDon.getDiaChi(), hoaDon.getThoiGian()));
                     }
                     mQuanLyDocSoAdapter.notifyDataSetChanged();
                     ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + hoaDons.size());
@@ -223,7 +227,7 @@ public class QuanLyDocSo extends Fragment {
                                     hoaDon.getDanhBo(),
                                     hoaDon.getChiSoCu(),
                                     hoaDon.getChiSoMoi(),
-                                    hoaDon.getCodeMoi()));
+                                    hoaDon.getCodeMoi(), hoaDon.getDiaChi(), hoaDon.getThoiGian()));
                     }
                     mQuanLyDocSoAdapter.notifyDataSetChanged();
                     ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + hoaDons.size());
@@ -263,7 +267,7 @@ public class QuanLyDocSo extends Fragment {
                                 hoaDon.getDanhBo(),
                                 hoaDon.getChiSoCu(),
                                 hoaDon.getChiSoMoi(),
-                                hoaDon.getCodeMoi()));
+                                hoaDon.getCodeMoi(), hoaDon.getDiaChi(), hoaDon.getThoiGian()));
                 }
                 mQuanLyDocSoAdapter.notifyDataSetChanged();
                 ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + hoaDons.size());
@@ -344,6 +348,30 @@ public class QuanLyDocSo extends Fragment {
         return mRootView;
     }
 
+    private void setDynamicWidth(GridView gridView) {
+        HorizontalScrollView hScrollView = (HorizontalScrollView) mRootView.findViewById(R.id.hscroll_qlds);
+        ViewGroup.LayoutParams paramsHScrollView = hScrollView.getLayoutParams();
+
+        ListAdapter gridViewAdapter = gridView.getAdapter();
+        if (gridViewAdapter == null) {
+            return;
+        }
+        if(gridViewAdapter.getCount() == 0)
+            return;
+        int totalWidth;
+        int items = gridViewAdapter.getCount();
+        View listItem = gridViewAdapter.getView(0, null, gridView);
+        listItem.measure(0, 0);
+        totalWidth = listItem.getMeasuredWidth();
+        totalWidth = totalWidth * items;
+        ViewGroup.LayoutParams params = gridView.getLayoutParams();
+        params.width = totalWidth;
+        gridView.setLayoutParams(params);
+
+//        paramsHScrollView.width =  totalWidth;
+//        hScrollView.setLayoutParams(paramsHScrollView);
+    }
+
     public void refresh() {
         createDot();
         hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
@@ -362,10 +390,13 @@ public class QuanLyDocSo extends Fragment {
                     hoaDon.getDanhBo(),
                     hoaDon.getChiSoCu(),
                     hoaDon.getChiSoMoi(),
-                    hoaDon.getCodeMoi()));
+                    hoaDon.getCodeMoi(),
+                    hoaDon.getDiaChi(),
+                    hoaDon.getThoiGian()));
         }
         mSpinCode.setSelection(0);
         mQuanLyDocSoAdapter.notifyDataSetChanged();
+        setDynamicWidth(mGridView);
         ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + hoaDons.size());
     }
 
@@ -396,7 +427,7 @@ public class QuanLyDocSo extends Fragment {
                     hoaDon.getDanhBo(),
                     hoaDon.getChiSoCu(),
                     hoaDon.getChiSoMoi(),
-                    hoaDon.getCodeMoi()));
+                    hoaDon.getCodeMoi(), hoaDon.getDiaChi(), hoaDon.getThoiGian()));
         }
         mSpinCode.setSelection(0);
         mQuanLyDocSoAdapter.notifyDataSetChanged();
