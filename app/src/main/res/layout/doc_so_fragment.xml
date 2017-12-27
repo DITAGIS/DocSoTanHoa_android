@@ -511,7 +511,7 @@
                         android:gravity="start"
                         android:inputType="number"
 
-                        android:paddingLeft="@dimen/activity_horizontal_margin"
+
                         android:textColor="@color/colorTextColor_1"
                         android:textCursorDrawable="@null" />
 
