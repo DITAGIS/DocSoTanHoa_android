@@ -252,6 +252,13 @@
                             android:text="THỜI GIAN"
                             android:textColor="@color/colorTextColor_1"
                             android:textSize="18sp" />
+                        <TextView
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="TRẠNG THÁI"
+                            android:textColor="@color/colorTextColor_1"
+                            android:textSize="18sp" />
                     </LinearLayout>
 
                     <LinearLayout

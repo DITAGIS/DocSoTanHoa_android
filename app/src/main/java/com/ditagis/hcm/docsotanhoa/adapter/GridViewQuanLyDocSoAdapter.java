@@ -1,6 +1,7 @@
 package com.ditagis.hcm.docsotanhoa.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ditagis.hcm.docsotanhoa.R;
+import com.ditagis.hcm.docsotanhoa.utities.Flag;
 
 import java.util.List;
 
@@ -24,8 +26,9 @@ public class GridViewQuanLyDocSoAdapter extends ArrayAdapter<GridViewQuanLyDocSo
         String code;
         String diaChi;
         String thoiGian;
+        int flag;
 
-        public Item(String tieuThu, String danhbo, String csc, String csm, String code, String diaChi, String thoiGian) {
+        public Item(String tieuThu, String danhbo, String csc, String csm, String code, String diaChi, String thoiGian, int flag) {
             this.tieuThu = tieuThu;
             this.danhbo = danhbo;
             this.csc = csc;
@@ -33,6 +36,15 @@ public class GridViewQuanLyDocSoAdapter extends ArrayAdapter<GridViewQuanLyDocSo
             this.code = code;
             this.diaChi = diaChi;
             this.thoiGian = thoiGian;
+            this.flag = flag;
+        }
+
+        public int getFlag() {
+            return flag;
+        }
+
+        public void setFlag(int flag) {
+            this.flag = flag;
         }
 
         public String getDiaChi() {
@@ -165,7 +177,23 @@ public class GridViewQuanLyDocSoAdapter extends ArrayAdapter<GridViewQuanLyDocSo
         TextView txtThoiGian = (TextView) convertView.findViewById(R.id.row_qlds_txt_thoiGian);
         txtThoiGian.setText(item.getThoiGian());
 
+        TextView txtTrangThai = (TextView) convertView.findViewById(R.id.row_qlds_txt_trangThai);
+
         LinearLayout row_layout = (LinearLayout) convertView.findViewById(R.id.row_qlds_layout);
+
+        switch (item.getFlag()) {
+            case Flag.UNREAD:
+                txtTrangThai.setText(parent.getContext().getApplicationContext().getString(R.string.flag_unread));
+                break;
+            case Flag.READ:
+                txtTrangThai.setText(parent.getContext().getApplicationContext().getString(R.string.flag_read));
+                row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.colorBackground_1));
+                break;
+            case Flag.SYNCHRONIZED:
+                txtTrangThai.setText(parent.getContext().getApplicationContext().getString(R.string.flag_sych));
+                row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_check_1));
+                break;
+        }
 
 
 //        row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_check_1));

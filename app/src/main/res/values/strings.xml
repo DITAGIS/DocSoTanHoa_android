@@ -78,4 +78,8 @@
     <string name="upload_danhbo_title">Đang đồng bộ dữ liệu đọc số...</string>
     <string name="upload_danhbo_message">Giữ kết nối mạng ổn định trong quá trình tải danh bộ!</string>
 
+    <string name="flag_unread">Chưa đọc</string>
+    <string name="flag_read">Đã đọc</string>
+    <string name="flag_sych">Đã đồng bộ</string>
+
 </resources>
