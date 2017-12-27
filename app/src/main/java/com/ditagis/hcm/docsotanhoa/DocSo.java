@@ -438,8 +438,8 @@ public class DocSo extends Fragment {
         final EditText etxtAddr_street = (EditText) dialogLayout.findViewById(R.id.etxt_address_street);
         etxtAddr_street.setText(mHoaDon.getDuong());
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
-        builder.setTitle("Thêm số điện thoại");
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setTitle("Thay đổi địa chỉ");
+        builder.setPositiveButton(mRootView.getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (etxtAddr_num.getText().toString().trim().length() > 0)
@@ -453,7 +453,7 @@ public class DocSo extends Fragment {
                 dialog.dismiss();
 
             }
-        }).setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+        }).setNegativeButton(mRootView.getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -482,7 +482,7 @@ public class DocSo extends Fragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Thêm số điện thoại");
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(mRootView.getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -498,7 +498,7 @@ public class DocSo extends Fragment {
                 dialog.dismiss();
 
             }
-        }).setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+        }).setNegativeButton(mRootView.getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
