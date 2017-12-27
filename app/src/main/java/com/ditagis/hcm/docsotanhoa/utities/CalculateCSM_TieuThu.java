@@ -86,7 +86,7 @@ public class CalculateCSM_TieuThu {
             case "5K":
                 if (!mCSMString.equals("null") && mCSMString.length() > 0) {
                     mCSM = Integer.parseInt(mCSMString);
-                    mTieuThu = mCSM;
+                    mTieuThu = mCSM - mCSC;
                 }
                 //todo code 5K
                 break;
@@ -123,6 +123,8 @@ public class CalculateCSM_TieuThu {
 //                mCSM = 0;
 //                mTieuThu = 0;
                 mTieuThu = calTieuThuTB();
+                mCSM = mTieuThu + mCSC;
+                mTieuThu = calTieuThuTB();
                 mCSM = mCSC + mTieuThu;
                 break;
             case "82":
@@ -134,8 +136,6 @@ public class CalculateCSM_TieuThu {
                 mCSM = mCSC + mTieuThu;
                 break;
             case "F1":
-                mTieuThu = calTieuThuTB();
-                mCSM = mTieuThu + mCSC;
                 break;
             case "F2":
             case "F3":

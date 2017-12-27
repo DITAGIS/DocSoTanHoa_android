@@ -47,6 +47,7 @@ import com.ditagis.hcm.docsotanhoa.entities.Codes;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 import com.ditagis.hcm.docsotanhoa.utities.CalculateCSM_TieuThu;
+import com.ditagis.hcm.docsotanhoa.utities.Flag;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.Note;
 
@@ -169,6 +170,7 @@ public class QuanLyDocSo extends Fragment {
             }
         });
         hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
+        hoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike));
         for (HoaDon hoaDon : this.hoaDons) {
             mDBs.add(hoaDon.getDanhBo());
         }
@@ -383,6 +385,7 @@ public class QuanLyDocSo extends Fragment {
     public void refresh() {
         createDot();
         hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
+        hoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike));
         setTextProgress();
         mQuanLyDocSoAdapter.clear();
         for (HoaDon hoaDon : this.hoaDons) {
@@ -422,6 +425,7 @@ public class QuanLyDocSo extends Fragment {
         mLike = dotString.concat(mLike.substring(2, 4)).concat("%");
 
         List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
+        hoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike));
         mQuanLyDocSoAdapter.clear();
         for (HoaDon hoaDon : hoaDons) {
             mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
@@ -455,12 +459,23 @@ public class QuanLyDocSo extends Fragment {
             else dotExist = i + "";
             if (!mDots.contains(dotExist)) {
                 like = dotExist.concat(mLike.substring(2, 4)).concat("%");
-                if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(like).size() > 0) {
+                if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(like).size() > 0 ||
+                        LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(like).size() > 0) {
                     mDots.add(0, dotExist);
                 }
             }
         }
+        deleteHoaDon();
+    }
 
+    private void deleteHoaDon() {
+        List<HoaDon> hoaDonLst = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon();
+        for (HoaDon hoaDon : hoaDonLst) {
+            if (Integer.parseInt(hoaDon.getDot()) < mDot - 3 || true
+                    ) {
+                LocalDatabase.getInstance(mRootView.getContext()).deleteHoaDon(hoaDon.getDanhBo());
+            }
+        }
     }
 
     private void optionSearch() {
@@ -552,7 +567,11 @@ public class QuanLyDocSo extends Fragment {
     private void showMoreInfo(final View view) {
         String danhBo = ((TextView) view.findViewById(R.id.row_qlds_txt_danhBo)).getText().toString();
         HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_Read(danhBo);
-
+        if (hoaDon == null) {
+            hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_Synchronized(danhBo);
+            if (hoaDon == null)
+                return;
+        }
         //--------------------
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Danh bộ: " + danhBo);
@@ -561,15 +580,16 @@ public class QuanLyDocSo extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
-        })
+        });
+        if (hoaDon.getFlag() == Flag.READ)
 //        TODO chỉnh sửa khách hàng
-                .setNegativeButton("Chỉnh sửa", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        edit_info(view);
-                    }
-                });
+            builder.setNegativeButton("Chỉnh sửa", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    edit_info(view);
+                }
+            });
         AlertDialog dialog = builder.create();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
@@ -614,6 +634,7 @@ public class QuanLyDocSo extends Fragment {
 
         final String danhBo = ((TextView) view.findViewById(R.id.row_qlds_txt_danhBo)).getText().toString();
         final HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_Read(danhBo);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Cập nhật thông tin chỉ số");
         builder.setCancelable(false);
@@ -684,6 +705,7 @@ public class QuanLyDocSo extends Fragment {
 
         final TextView txtNote = (TextView) dialogLayout.findViewById(R.id.txt_layout_edit_ghiChu);
         txtNote.setText(hoaDon.getGhiChu());
+        final HoaDon finalHoaDon = hoaDon;
         ((Button) dialogLayout.findViewById(R.id.btn_layout_edit_ghiChu)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -707,18 +729,18 @@ public class QuanLyDocSo extends Fragment {
                 int positionNote = 0, positionNoteSub = 0;
                 for (String note : Note.getInstance().getNotes()) {
                     if (positionNote == Note.getInstance().getNotes().length - 1) {
-                        if (!hoaDon.getGhiChu().equals("null"))
-                            etxtghichu.setText(hoaDon.getGhiChu());
-                    } else if (hoaDon.getGhiChu().contains(note)) {
+                        if (!finalHoaDon.getGhiChu().equals("null"))
+                            etxtghichu.setText(finalHoaDon.getGhiChu());
+                    } else if (finalHoaDon.getGhiChu().contains(note)) {
                         spin_ghichu.setSelection(positionNote);
                         switch (positionNote) {
                             case 1:
                                 spin_ghichu.setSelection(1);
                                 for (String noteSub : Note.getInstance().getNotes_sub_dutchi()) {
-                                    if (hoaDon.getGhiChu().contains(noteSub)) {
+                                    if (finalHoaDon.getGhiChu().contains(noteSub)) {
                                         spin_ghichu_sub.setSelection(positionNoteSub);
-                                        if (hoaDon.getGhiChu().contains("_")) {
-                                            String[] ghiChus = hoaDon.getGhiChu().split("_");
+                                        if (finalHoaDon.getGhiChu().contains("_")) {
+                                            String[] ghiChus = finalHoaDon.getGhiChu().split("_");
                                             etxtghichu.setText(ghiChus[1]);
                                         }
                                         break;
@@ -729,10 +751,10 @@ public class QuanLyDocSo extends Fragment {
                             case 2:
                                 spin_ghichu.setSelection(2);
                                 for (String noteSub : Note.getInstance().getNotes_sub_kinhdoanh()) {
-                                    if (hoaDon.getGhiChu().contains(noteSub)) {
+                                    if (finalHoaDon.getGhiChu().contains(noteSub)) {
                                         spin_ghichu_sub.setSelection(positionNoteSub);
-                                        if (hoaDon.getGhiChu().contains("_")) {
-                                            String[] ghiChus = hoaDon.getGhiChu().split("_");
+                                        if (finalHoaDon.getGhiChu().contains("_")) {
+                                            String[] ghiChus = finalHoaDon.getGhiChu().split("_");
                                             etxtghichu.setText(ghiChus[1]);
                                         }
                                         break;
@@ -741,8 +763,8 @@ public class QuanLyDocSo extends Fragment {
                                 }
                                 break;
                             default:
-                                if (hoaDon.getGhiChu().contains("_")) {
-                                    String[] ghiChus = hoaDon.getGhiChu().split("_");
+                                if (finalHoaDon.getGhiChu().contains("_")) {
+                                    String[] ghiChus = finalHoaDon.getGhiChu().split("_");
                                     etxtghichu.setText(ghiChus[1]);
                                 }
                                 spin_ghichu.setSelection(positionNote);
@@ -1000,7 +1022,8 @@ public class QuanLyDocSo extends Fragment {
             hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
             for (GridViewQuanLyDocSoAdapter.Item item : mQuanLyDocSoAdapter.getItems()) {
                 for (HoaDon hoaDon : hoaDons) {
-                    if (item.getDanhbo().equals(hoaDon.getDanhBo())) {
+                    if (item.getDanhbo().equals(hoaDon.getDanhBo()) &&
+                            hoaDon.getFlag() == Flag.READ) {
                         boolean success1 = mUploading.add(hoaDon);
                         if (success1) {
                             hoaDons.remove(hoaDon);
