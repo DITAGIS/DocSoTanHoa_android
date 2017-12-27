@@ -45,11 +45,12 @@ import com.ditagis.hcm.docsotanhoa.entities.Codes;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 import com.ditagis.hcm.docsotanhoa.utities.CalculateCSM_TieuThu;
-import com.ditagis.hcm.docsotanhoa.utities.Code;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.Note;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -68,7 +69,7 @@ public class QuanLyDocSo extends Fragment {
     private View mRootView;
     private SumDanhBoDB mSumDanhBoDB;
     AutoCompleteTextView singleComplete;
-    List<String> mDBs = new ArrayList<String>(), mTenKHs = new ArrayList<>(), mDiaChis = new ArrayList<>(), mDots = new ArrayList<>(), mSdts = new ArrayList<>();
+    List<String> mDBs = new ArrayList<String>(), mMlts = new ArrayList<>(), mTenKHs = new ArrayList<>(), mDiaChis = new ArrayList<>(), mDots = new ArrayList<>(), mSdts = new ArrayList<>();
     ;
     private String mSdt;
     private Spinner mSpinSdt;
@@ -346,10 +347,14 @@ public class QuanLyDocSo extends Fragment {
     public void refresh() {
         createDot();
         hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
-
+        Collections.sort(hoaDons, new Comparator<HoaDon>() {
+            public int compare(HoaDon s1, HoaDon s2) {
+//                if (s1.getMaLoTrinh() != null && s2.getMaLoTrinh() != null && s1.getMaLoTrinh().compareTo(s1.getMaLoTrinh()) != 0) {
+                return s2.getThoiGian().compareTo(s1.getThoiGian());
+//                }
+            }
+        });
         setTextProgress();
-
-
         mQuanLyDocSoAdapter.clear();
         for (HoaDon hoaDon : this.hoaDons) {
             mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
@@ -797,8 +802,8 @@ public class QuanLyDocSo extends Fragment {
         CodeSpinnerAdapter adapterCode = new CodeSpinnerAdapter(mRootView.getContext(), android.R.layout.simple_spinner_dropdown_item, Codes.getInstance().getCodeDescribles_ds());
         adapterCode.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spinCode.setAdapter(adapterCode);
-        for (int i = 0; i < Code.getInstance().getCodes().length; i++)
-            if (Code.getInstance().getCodes()[i].equals(hoaDon.getCodeMoi())) {
+        for (int i = 0; i < Codes.getInstance().getCodeDescribles_qlds().length; i++)
+            if (Codes.getInstance().getCodeDescribles_qlds()[i].getCode().equals(hoaDon.getCodeMoi())) {
                 spinCode.setSelection(i);
                 break;
             }

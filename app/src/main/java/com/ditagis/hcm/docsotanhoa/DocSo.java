@@ -55,8 +55,6 @@ import com.ditagis.hcm.docsotanhoa.utities.MyAlertDialog;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.Note;
 
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -628,8 +626,10 @@ public class DocSo extends Fragment {
 
                 ((ImageButton) mRootView.findViewById(R.id.btn_ds_prev)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
                 ((ImageButton) mRootView.findViewById(R.id.btn_ds_prev)).setImageResource(R.drawable.prev);
+                ((ImageButton) mRootView.findViewById(R.id.btn_ds_prev)).setBackgroundResource(R.layout.edit_text_styles);
                 ((ImageButton) mRootView.findViewById(R.id.btn_ds_next)).setImageResource(R.drawable.next);
                 ((ImageButton) mRootView.findViewById(R.id.btn_ds_next)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
+                ((ImageButton) mRootView.findViewById(R.id.btn_ds_next)).setBackgroundResource(R.layout.edit_text_styles);
                 ((TextView) mRootView.findViewById(R.id.txt_ds_so_than)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorToolBar_Row_1));
                 mEditTextViTri.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 mEditTextViTri.setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));

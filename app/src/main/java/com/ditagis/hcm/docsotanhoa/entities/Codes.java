@@ -9,9 +9,19 @@ public class Codes {
     private static Code_Describle[] codeDescribles_qlds;
 
     private Codes() {
-        codeDescribles_ds = new Code_Describle[]{new Code_Describle("40", " Bình thường"),
+        codeDescribles_ds = new Code_Describle[]{
+                new Code_Describle("40", " Bình thường"),
                 new Code_Describle("41", " Ghi chỉ số ra ngoài"),
                 new Code_Describle("42", " Báo chỉ số qua điện thoại"),
+                new Code_Describle("F1", " Nhà đóng cửa"),
+                new Code_Describle("F2", " Hộp bảo vệ ĐHN bị kẹt khóa"),
+                new Code_Describle("F3", " Chất đồ không dọn được"),
+                new Code_Describle("F4", " Đám tang (tiệc), ngập nước\nKhách hàng không cho đọc số"),
+                new Code_Describle("80", " ĐHN đã thay nhỏ hơn 7 ngày"),
+                new Code_Describle("81", " Kỳ trước ĐHN ngưng\nKỳ này thay mới"),
+                new Code_Describle("82", " Thay thử, thay định kỳ"),
+                new Code_Describle("83", " Thay đổi cỡ"),
+                new Code_Describle("K", "  Nhà đóng cửa không ở"),
                 new Code_Describle("54", " Ghi sai, ghi lố, nhập liệu sai"),
                 new Code_Describle("55", " Giải trình code 5 kỳ trước"),
                 new Code_Describle("56", " Giải trình code 6 kỳ trước\nKỳ này đọc được"),
@@ -27,15 +37,7 @@ public class Codes {
                 new Code_Describle("63", " Bể kiếng, mất mặt số"),
                 new Code_Describle("64", " Chủ gỡ, ống ngang\nnâng, hạ, hầm sâu"),
                 new Code_Describle("66", " Lấp mất, không tìm thấy"),
-                new Code_Describle("80", " ĐHN đã thay nhỏ hơn 7 ngày"),
-                new Code_Describle("81", " Kỳ trước ĐHN ngưng\nKỳ này thay mới"),
-                new Code_Describle("82", " Thay thử, thay định kỳ"),
-                new Code_Describle("83", " Thay đổi cỡ"),
-                new Code_Describle("F1", " Nhà đóng cửa"),
-                new Code_Describle("F2", " Hộp bảo vệ ĐHN bị kẹt khóa"),
-                new Code_Describle("F3", " Chất đồ không dọn được"),
-                new Code_Describle("F4", " Đám tang (tiệc), ngập nước\nKhách hàng không cho đọc số"),
-                new Code_Describle("K", "  Nhà đóng cửa không ở"),
+                new Code_Describle("68", " Bị khóa nước niêm phong\nbị cắt ống bên ngoài"),
                 new Code_Describle("M0", " Đọc số đúng tháng"),
                 new Code_Describle("M1", " Đọc số sau 1 tháng"),
                 new Code_Describle("M2", " Đọc số sau 2 tháng"),
@@ -44,13 +46,21 @@ public class Codes {
                 new Code_Describle("N2", " Giữ chỉ số do khách hàng ghi lố"),
                 new Code_Describle("N3", " Giữ chỉ số do nhân viên ghi lố"),
                 new Code_Describle("X ", " ĐHN 4 số retour một lần"),
-                new Code_Describle("68", " Bị khóa nước niêm phong\nbị cắt ống bên ngoài"),
                 new Code_Describle("Q ", " Không có nước hoàn toàn")
         };
         codeDescribles_qlds = new Code_Describle[]{new Code_Describle("Tất cả", ""),
                 new Code_Describle("40", " Bình thường"),
                 new Code_Describle("41", " Ghi chỉ số ra ngoài"),
                 new Code_Describle("42", " Báo chỉ số qua điện thoại"),
+                new Code_Describle("F1", " Nhà đóng cửa"),
+                new Code_Describle("F2", " Hộp bảo vệ ĐHN bị kẹt khóa"),
+                new Code_Describle("F3", " Chất đồ không dọn được"),
+                new Code_Describle("F4", " Đám tang (tiệc), ngập nước\nKhách hàng không cho đọc số"),
+                new Code_Describle("80", " ĐHN đã thay nhỏ hơn 7 ngày"),
+                new Code_Describle("81", " Kỳ trước ĐHN ngưng\nKỳ này thay mới"),
+                new Code_Describle("82", " Thay thử, thay định kỳ"),
+                new Code_Describle("83", " Thay đổi cỡ"),
+                new Code_Describle("K", "  Nhà đóng cửa không ở"),
                 new Code_Describle("54", " Ghi sai, ghi lố, nhập liệu sai"),
                 new Code_Describle("55", " Giải trình code 5 kỳ trước"),
                 new Code_Describle("56", " Giải trình code 6 kỳ trước\nKỳ này đọc được"),
@@ -66,15 +76,7 @@ public class Codes {
                 new Code_Describle("63", " Bể kiếng, mất mặt số"),
                 new Code_Describle("64", " Chủ gỡ, ống ngang\nnâng, hạ, hầm sâu"),
                 new Code_Describle("66", " Lấp mất, không tìm thấy"),
-                new Code_Describle("80", " ĐHN đã thay nhỏ hơn 7 ngày"),
-                new Code_Describle("81", " Kỳ trước ĐHN ngưng\nKỳ này thay mới"),
-                new Code_Describle("82", " Thay thử, thay định kỳ"),
-                new Code_Describle("83", " Thay đổi cỡ"),
-                new Code_Describle("F1", " Nhà đóng cửa"),
-                new Code_Describle("F2", " Hộp bảo vệ ĐHN bị kẹt khóa"),
-                new Code_Describle("F3", " Chất đồ không dọn được"),
-                new Code_Describle("F4", " Đám tang (tiệc), ngập nước\nKhách hàng không cho đọc số"),
-                new Code_Describle("K", "  Nhà đóng cửa không ở"),
+                new Code_Describle("68", " Bị khóa nước niêm phong\nbị cắt ống bên ngoài"),
                 new Code_Describle("M0", " Đọc số đúng tháng"),
                 new Code_Describle("M1", " Đọc số sau 1 tháng"),
                 new Code_Describle("M2", " Đọc số sau 2 tháng"),
@@ -83,7 +85,6 @@ public class Codes {
                 new Code_Describle("N2", " Giữ chỉ số do khách hàng ghi lố"),
                 new Code_Describle("N3", " Giữ chỉ số do nhân viên ghi lố"),
                 new Code_Describle("X ", " ĐHN 4 số retour một lần"),
-                new Code_Describle("68", " Bị khóa nước niêm phong\nbị cắt ống bên ngoài"),
                 new Code_Describle("Q ", " Không có nước hoàn toàn")
         };
     }
@@ -98,6 +99,7 @@ public class Codes {
         return codeDescribles_ds;
 
     }
+
     public Code_Describle[] getCodeDescribles_qlds() {
         return codeDescribles_qlds;
 
