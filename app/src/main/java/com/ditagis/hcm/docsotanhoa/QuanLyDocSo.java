@@ -1028,7 +1028,6 @@ public class QuanLyDocSo extends Fragment {
 
         @Override
         protected Void doInBackground(String... params) {
-
             Boolean isValid = false;
             hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
             for (GridViewQuanLyDocSoAdapter.Item item : mQuanLyDocSoAdapter.getItems()) {
@@ -1046,10 +1045,8 @@ public class QuanLyDocSo extends Fragment {
                     }
                 }
             }
-
             if (countUpload == 0)
                 isValid = true;
-
             publishProgress(isValid);
             return null;
 
