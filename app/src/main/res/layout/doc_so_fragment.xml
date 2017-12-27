@@ -273,27 +273,47 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/colorTextColor_1" />
 
-                    <ImageButton
+                    <FrameLayout
+                        android:layout_marginRight="@dimen/activity_horizontal_margin_btn"
                         android:id="@+id/btn_ds_prev"
-                        android:layout_width="45dp"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="0.3"
-                        android:background="@color/colorBackground_1"
+                        android:background="@color/colorCSC_SL_0_1"
                         android:contentDescription="Prev"
-                        android:src="@drawable/prev" />
+                        android:orientation="vertical">
 
-                    <Space
-                        android:layout_width="0dp"
-                        android:layout_weight="0.1" />
+                        <LinearLayout
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/prev"
+                            android:orientation="vertical"></LinearLayout>
+                    </FrameLayout>
 
-                    <ImageButton
+
+
+                    <FrameLayout
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin_btn"
                         android:id="@+id/btn_ds_next"
-                        android:layout_width="45dp"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="0.3"
-                        android:background="@color/colorBackground_1"
-                        android:contentDescription="Next"
-                        android:src="@drawable/next" />
+                        android:background="@color/colorCSC_SL_0_1"
+                        android:contentDescription="Prev"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/next"
+                            android:orientation="vertical"></LinearLayout>
+                    </FrameLayout>
+
+
                 </TableRow>
 
                 <!--Table row so than, hieu-->
