@@ -113,7 +113,7 @@ public class QuanLyDocSo extends Fragment {
         mSumDanhBoDB = new SumDanhBoDB();
         mKyString = mKy + "";
         if (mKy < 10)
-            mKyString += "0" + mKy;
+            mKyString = "0" + mKy;
 
         mSumDanhBo = mSumDanhBoDB.getSum(mKyString, mNam, mLike);
         this.mDanhBoHoanThanh = mSumDanhBoDB.getSumSynchronized(mKyString, mNam, mLike);
