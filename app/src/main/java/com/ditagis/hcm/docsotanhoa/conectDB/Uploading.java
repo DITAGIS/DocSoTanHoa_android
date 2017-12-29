@@ -105,16 +105,17 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
 
 
 //            int result = addDocSoLuuTru(hoaDon);
-
-        boolean result = update(hoaDon);
-        int result1 = 1;
+        boolean resultUpdateHoaDon = false;
+        int resultAddImage = 1;
         if (!hoaDon.getImage().equals("null"))
-            result1 = addHinhDHN(hoaDon);
-        if (result1 <= 0) {
+            resultAddImage = addHinhDHN(hoaDon);
+        if (resultAddImage <= 0) {
             updateHinhDHN(hoaDon);
-            result1 = 1;
+            resultAddImage = 1;
         }
-        return result && result1 > 0;
+        if (resultAddImage > 0)
+            resultUpdateHoaDon = update(hoaDon);
+        return resultUpdateHoaDon ;
 //return result > 0;
 
 
@@ -277,11 +278,11 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
 
             st1.setString(1, hoaDon.getDanhBo());
 
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            Bitmap bit = BitmapFactory.decodeFile(hoaDon.getImage());
-            bit.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+//            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//            Bitmap bit = BitmapFactory.decodeFile(hoaDon.getImage());
+//            bit.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
 
-            st1.setBytes(2, outputStream.toByteArray());
+            st1.setBytes(2, hoaDon.getImage_byteArray());
 
             st1.setString(3, "0.0");
             st1.setString(4, "0.0");

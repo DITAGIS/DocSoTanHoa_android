@@ -55,6 +55,7 @@ import com.ditagis.hcm.docsotanhoa.utities.MyAlertDialog;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.Note;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -535,9 +536,17 @@ public class DocSo extends Fragment {
         if (mEditTextViTri.getText().toString().length() > 0)
             hoaDon.setViTri(mEditTextViTri.getText().toString());
         if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
+
         } else if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
+
         } else {
             hoaDon.setImage(ImageFile.getFile(currentTime, mRootView, mDanhBo).getAbsolutePath());
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            Bitmap bit = BitmapFactory.decodeFile(hoaDon.getImage());
+            bit.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+
+
+            hoaDon.setImage_byteArray(outputStream.toByteArray());
         }
 
         hoaDon.setSdt(getSdtString());
@@ -1290,10 +1299,12 @@ public class DocSo extends Fragment {
                 File f = ImageFile.getFile(currentTime, mRootView, mDanhBo);
                 if (f != null && f.exists()) {
                     mHoaDon.setImage(f.getAbsolutePath());
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    Bitmap bit = BitmapFactory.decodeFile(mHoaDon.getImage());
+                    bit.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                    mHoaDon.setImage_byteArray(outputStream.toByteArray());
                 }
-
             }
-
             mHoaDon.setSdt(getSdtString());
             mHoaDon.setSoNha(mSoNha);
             mHoaDon.setDuong(mDuong);
@@ -1302,25 +1313,9 @@ public class DocSo extends Fragment {
 
             String datetime = this.formatter.format(this.currentTime);
             mHoaDon.setThoiGian(datetime);
-//        DanhBo_ChiSoMoi danhBo_chiSoMoi = new DanhBo_ChiSoMoi(this.mDanhBo,
-//                this.mMlt,
-//                dotString,
-//                ((TextView) mRootView.findViewById(R.id.txt_ds_tenKH)).getText().toString(),
-//                ((TextView) mRootView.findViewById(R.id.txt_ds_diachi)).getText().toString(),
-//                ((EditText) mRootView.findViewById(R.id.etxt_ds_sdt)).getText().toString(),
-//                ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu)).getText().toString(),
-//                this.mSpinCode.getSelectedItem().toString().substring(0, 2),
-//                csc + "",
-//                csm + "",
-//                ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).getText().toString(),
-//                this.mGhiChu,
-//                image,
-//                1);
-            LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonUnRead(mHoaDon);
-//        LocalDatabase.getInstance(mRootView.getContext()).deleteHoaDon(danhBo_chiSoMoi.getDanhBo());
-            mTxtTT.setText("");
 
-//        this.mAdapterMLT.remove(danhBo_chiSoMoi.getMaLoTrinh());
+            LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonUnRead(mHoaDon);
+            mTxtTT.setText("");
             notifyDataSetChange(mHoaDon);
 
             int i = mSpinMLT.getSelectedItemPosition();

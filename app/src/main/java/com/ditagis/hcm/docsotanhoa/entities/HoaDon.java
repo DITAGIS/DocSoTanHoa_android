@@ -23,6 +23,7 @@ public class HoaDon {
     private String sdt;
     private String ghiChu;
     private String image;
+    private byte[] image_byteArray;
     private String thoiGian;
     private Code_CSC_SanLuong code_CSC_SanLuong;
     private int flag;
@@ -31,6 +32,14 @@ public class HoaDon {
     private String hieu;
     private String co;
     private String tieuThuTBMoi;
+
+    public byte[] getImage_byteArray() {
+        return image_byteArray;
+    }
+
+    public void setImage_byteArray(byte[] image_byteArray) {
+        this.image_byteArray = image_byteArray;
+    }
 
     public String getTieuThuTBMoi() {
         return tieuThuTBMoi;

@@ -1,5 +1,6 @@
 package com.ditagis.hcm.docsotanhoa.localdb;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -57,6 +58,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
     private static final String COLUMN_HOADON_TTMOI = "HoaDon_TTMoi";
     private static final String COLUMN_HOADON_GHI_CHU = "HoaDon_GhiChu";
     private static final String COLUMN_HOADON_HINH = "HoaDon_Hinh";
+    private static final String COLUMN_HOADON_HINH_BYTE_ARRAY = "HoaDon_Hinh_Byte_Array";
     private static final String COLUMN_HOADON_THOI_GIAN = "HoaDon_ThoiGian";
     private static final String COLUMN_HOADON_SO_THAN = "HoaDon_SoThan";
     private static final String COLUMN_HOADON_HIEU = "HoaDon_Hieu";
@@ -133,6 +135,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 + COLUMN_HOADON_TTMOI + " TEXT,"
                 + COLUMN_HOADON_GHI_CHU + " TEXT,"
                 + COLUMN_HOADON_HINH + " TEXT,"
+                + COLUMN_HOADON_HINH_BYTE_ARRAY + " blob,"
                 + COLUMN_HOADON_THOI_GIAN + " TEXT,"
                 + COLUMN_HOADON_SO_THAN + " TEXT,"
                 + COLUMN_HOADON_HIEU + " TEXT,"
@@ -230,6 +233,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 + COLUMN_HOADON_TTMOI + ", "
                 + COLUMN_HOADON_GHI_CHU + ", "
                 + COLUMN_HOADON_HINH + ", "
+                + COLUMN_HOADON_HINH_BYTE_ARRAY + ", "
                 + COLUMN_HOADON_THOI_GIAN + ", "
                 + COLUMN_HOADON_SO_THAN + ", "
                 + COLUMN_HOADON_HIEU + ", "
@@ -261,6 +265,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.getTieuThuMoi() + "','" +
                 hoaDon.getGhiChu() + "','" +
                 hoaDon.getImage() + "','" +
+                hoaDon.getImage_byteArray() + "','" +
                 hoaDon.getThoiGian() + "','" +
                 hoaDon.getSoThan() + "','" +
                 hoaDon.getHieu() + "','" +
@@ -293,11 +298,12 @@ public class LocalDatabase extends SQLiteOpenHelper {
             hoaDon.setTieuThuMoi(cursor.getString(23));
             hoaDon.setGhiChu(cursor.getString(24));
             hoaDon.setImage(cursor.getString(25));
-            hoaDon.setThoiGian(cursor.getString(26));
-            hoaDon.setSoThan(cursor.getString(27));
-            hoaDon.setHieu(cursor.getString(28));
-            hoaDon.setCo(cursor.getString(29));
-            hoaDon.setViTri(cursor.getString(30));
+            hoaDon.setImage_byteArray(cursor.getBlob(26));
+            hoaDon.setThoiGian(cursor.getString(27));
+            hoaDon.setSoThan(cursor.getString(28));
+            hoaDon.setHieu(cursor.getString(29));
+            hoaDon.setCo(cursor.getString(30));
+            hoaDon.setViTri(cursor.getString(31));
         }
         return hoaDon;
     }
@@ -334,11 +340,12 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setTieuThuMoi(cursor.getString(23));
                 hoaDon.setGhiChu(cursor.getString(24));
                 hoaDon.setImage(cursor.getString(25));
-                hoaDon.setThoiGian(cursor.getString(26));
-                hoaDon.setSoThan(cursor.getString(27));
-                hoaDon.setHieu(cursor.getString(28));
-                hoaDon.setCo(cursor.getString(29));
-                hoaDon.setViTri(cursor.getString(30));
+                hoaDon.setImage_byteArray(cursor.getBlob(26));
+                hoaDon.setThoiGian(cursor.getString(27));
+                hoaDon.setSoThan(cursor.getString(28));
+                hoaDon.setHieu(cursor.getString(29));
+                hoaDon.setCo(cursor.getString(30));
+                hoaDon.setViTri(cursor.getString(31));
                 hoaDons.add(hoaDon);
             } while (cursor.moveToNext());
         }
@@ -356,6 +363,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
     public List<HoaDon> getAllHoaDon_Synchronized(String like) {
         return getAllHoaDon(like, Flag.SYNCHRONIZED);
     }
+
     public List<HoaDon> getAllHoaDon(String like, int flag) {
         List<HoaDon> hoaDons = new ArrayList<HoaDon>();
         Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
@@ -376,11 +384,12 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setTieuThuMoi(cursor.getString(23));
                 hoaDon.setGhiChu(cursor.getString(24));
                 hoaDon.setImage(cursor.getString(25));
-                hoaDon.setThoiGian(cursor.getString(26));
-                hoaDon.setSoThan(cursor.getString(27));
-                hoaDon.setHieu(cursor.getString(28));
-                hoaDon.setCo(cursor.getString(29));
-                hoaDon.setViTri(cursor.getString(30));
+                hoaDon.setImage_byteArray(cursor.getBlob(26));
+                hoaDon.setThoiGian(cursor.getString(27));
+                hoaDon.setSoThan(cursor.getString(28));
+                hoaDon.setHieu(cursor.getString(29));
+                hoaDon.setCo(cursor.getString(30));
+                hoaDon.setViTri(cursor.getString(31));
                 hoaDons.add(hoaDon);
             } while (cursor.moveToNext());
         }
@@ -392,7 +401,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from " + TABLE_HOADON , null);
+        Cursor cursor = db.rawQuery("select * from " + TABLE_HOADON, null);
         if (cursor.moveToFirst()) {
             do {
                 HoaDon hoaDon = new HoaDon(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6),
@@ -407,11 +416,12 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setTieuThuMoi(cursor.getString(23));
                 hoaDon.setGhiChu(cursor.getString(24));
                 hoaDon.setImage(cursor.getString(25));
-                hoaDon.setThoiGian(cursor.getString(26));
-                hoaDon.setSoThan(cursor.getString(27));
-                hoaDon.setHieu(cursor.getString(28));
-                hoaDon.setCo(cursor.getString(29));
-                hoaDon.setViTri(cursor.getString(30));
+                hoaDon.setImage_byteArray(cursor.getBlob(26));
+                hoaDon.setThoiGian(cursor.getString(27));
+                hoaDon.setSoThan(cursor.getString(28));
+                hoaDon.setHieu(cursor.getString(29));
+                hoaDon.setCo(cursor.getString(30));
+                hoaDon.setViTri(cursor.getString(31));
                 hoaDons.add(hoaDon);
             } while (cursor.moveToNext());
         }
@@ -478,56 +488,44 @@ public class LocalDatabase extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
 //
-//        ContentValues values = new ContentValues();
-//        values.put(COLUMN_HOADON_DOT, hoaDon.getDot());
-//        values.put(COLUMN_HOADON_DANHBO, hoaDon.getDanhBo());
-//        values.put(COLUMN_HOADON_KHACHHANG, hoaDon.getTenKhachHang());
-//        values.put(COLUMN_HOADON_SONHA, hoaDon.getSoNha());
-//        values.put(COLUMN_HOADON_DUONG, hoaDon.getDuong());
-//        values.put(COLUMN_HOADON_GIABIEU, hoaDon.getGiaBieu());
-//        values.put(COLUMN_HOADON_DINHMUC, hoaDon.getCodeMoi());
-//        values.put(COLUMN_HOADON_KY, hoaDon.getKy());
-//        values.put(COLUMN_HOADON_CHISOCU, hoaDon.getChiSoCu());
-//        values.put(COLUMN_HOADON_MALOTRINH, hoaDon.getMaLoTrinh());
-//        values.put(COLUMN_HOADON_SDT, hoaDon.getSdt());
-//        values.put(COLUMN_HOADON_CODE1, hoaDon.getCode_CSC_SanLuong().getCode1());
-//        values.put(COLUMN_HOADON_CODE2, hoaDon.getCode_CSC_SanLuong().getCode2());
-//        values.put(COLUMN_HOADON_CODE3, hoaDon.getCode_CSC_SanLuong().getCode3());
-//        values.put(COLUMN_HOADON_CSC1,hoaDon.getCode_CSC_SanLuong().getCSC1());
-//        values.put(COLUMN_HOADON_CSC2,hoaDon.getCode_CSC_SanLuong().getCSC2());
-//        values.put(COLUMN_HOADON_CSC3,hoaDon.getCode_CSC_SanLuong().getCSC3());
-//        values.put(COLUMN_HOADON_SANLUONG1,hoaDon.getCode_CSC_SanLuong().getSanLuong1());
-//        values.put(COLUMN_HOADON_SANLUONG2,hoaDon.getCode_CSC_SanLuong().getSanLuong2());
-//        values.put(COLUMN_HOADON_SANLUONG3,hoaDon.getCode_CSC_SanLuong().getSanLuong3());
-//        values.put(COLUMN_HOADON_FLAG, flag);
-//        values.put(COLUMN_HOADON_CODE_MOI, hoaDon.getCodeMoi());
-//        values.put(COLUMN_HOADON_CSM, hoaDon.getChiSoMoi());
-//        values.put(COLUMN_HOADON_TTMOI, hoaDon.getTieuThuMoi());
-//        values.put(COLUMN_HOADON_GHI_CHU, hoaDon.getGhiChu());
-//        values.put(COLUMN_HOADON_HINH, hoaDon.getImage());
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_HOADON_FLAG, flag);
+        values.put(COLUMN_HOADON_CODE_MOI, hoaDon.getCodeMoi());
+        values.put(COLUMN_HOADON_CSM, hoaDon.getChiSoMoi());
+        values.put(COLUMN_HOADON_TTMOI, hoaDon.getTieuThuMoi());
+        values.put(COLUMN_HOADON_SONHA, hoaDon.getSoNha());
+        values.put(COLUMN_HOADON_DUONG, hoaDon.getDuong());
+        values.put(COLUMN_HOADON_GHI_CHU, hoaDon.getGhiChu());
+        values.put(COLUMN_HOADON_SDT, hoaDon.getSdt());
+        values.put(COLUMN_HOADON_HINH, hoaDon.getImage());
+        values.put(COLUMN_HOADON_HINH_BYTE_ARRAY, hoaDon.getImage_byteArray());
+        values.put(COLUMN_HOADON_VI_TRI, hoaDon.getViTri());
+        values.put(COLUMN_HOADON_THOI_GIAN, hoaDon.getThoiGian());
+//
 //        // Trèn một dòng dữ liệu vào bảng.
-//        long result = db.update(TABLE_HOADON, values, COLUMN_HOADON_DANHBO + " = ? and "
-//                + COLUMN_HOADON_FLAG + " = ?" , new String[]{hoaDon.getDanhBo(), Flag.UNREAD + ""});
+        long result = db.update(TABLE_HOADON, values, COLUMN_HOADON_DANHBO + " = ? and "
+                + COLUMN_HOADON_FLAG + " = ?" , new String[]{hoaDon.getDanhBo(), flag_old + ""});
 
-        String sql = "update " + TABLE_HOADON + " set " +
-                COLUMN_HOADON_FLAG + " = " + flag + "," +
-                COLUMN_HOADON_CODE_MOI + " = '" + hoaDon.getCodeMoi() + "'," +
-                COLUMN_HOADON_CSM + " = '" + hoaDon.getChiSoMoi() + "'," +
-                COLUMN_HOADON_TTMOI + " = '" + hoaDon.getTieuThuMoi() + "'," +
-                COLUMN_HOADON_SONHA + " = '" + hoaDon.getSoNha() + "'," +
-                COLUMN_HOADON_DUONG + " = '" + hoaDon.getDuong() + "'," +
-                COLUMN_HOADON_GHI_CHU + " = '" + hoaDon.getGhiChu() + "'," +
-                COLUMN_HOADON_SDT + " = '" + hoaDon.getSdt() + "'," +
-                COLUMN_HOADON_HINH + " = '" + hoaDon.getImage() + "'," +
-                COLUMN_HOADON_VI_TRI + " = '" + hoaDon.getViTri() + "'," +
-                COLUMN_HOADON_THOI_GIAN + " = '" + hoaDon.getThoiGian() + "'" +
-
-
-                " where " +
-                COLUMN_HOADON_DANHBO + " ='" + hoaDon.getDanhBo() + "' and " +
-                COLUMN_HOADON_FLAG + " = " + flag_old;
-
-        db.execSQL(sql);
+//        String sql = "update " + TABLE_HOADON + " set " +
+//                COLUMN_HOADON_FLAG + " = " + flag + "," +
+//                COLUMN_HOADON_CODE_MOI + " = '" + hoaDon.getCodeMoi() + "'," +
+//                COLUMN_HOADON_CSM + " = '" + hoaDon.getChiSoMoi() + "'," +
+//                COLUMN_HOADON_TTMOI + " = '" + hoaDon.getTieuThuMoi() + "'," +
+//                COLUMN_HOADON_SONHA + " = '" + hoaDon.getSoNha() + "'," +
+//                COLUMN_HOADON_DUONG + " = '" + hoaDon.getDuong() + "'," +
+//                COLUMN_HOADON_GHI_CHU + " = '" + hoaDon.getGhiChu() + "'," +
+//                COLUMN_HOADON_SDT + " = '" + hoaDon.getSdt() + "'," +
+//                COLUMN_HOADON_HINH + " = '" + hoaDon.getImage() + "'," +
+//                COLUMN_HOADON_HINH_BYTE_ARRAY + " = '" + hoaDon.getImage_byteArray() + "'," +
+//                COLUMN_HOADON_VI_TRI + " = '" + hoaDon.getViTri() + "'," +
+//                COLUMN_HOADON_THOI_GIAN + " = '" + hoaDon.getThoiGian() + "'" +
+//
+//
+//                " where " +
+//                COLUMN_HOADON_DANHBO + " ='" + hoaDon.getDanhBo() + "' and " +
+//                COLUMN_HOADON_FLAG + " = " + flag_old;
+//
+//        db.execSQL(sql);
         // Đóng kết nối database.
         db.close();
         return true;
@@ -545,7 +543,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 COLUMN_HOADON_DUONG + " = '" + hoaDon.getDuong() + "'," +
                 COLUMN_HOADON_GHI_CHU + " = '" + hoaDon.getGhiChu() + "'," +
                 COLUMN_HOADON_VI_TRI + " = '" + hoaDon.getViTri() + "'," +
-                COLUMN_HOADON_HINH + " = '" + hoaDon.getImage() + "'" +
+                COLUMN_HOADON_HINH + " = '" + hoaDon.getImage() + "'," +
+                COLUMN_HOADON_HINH_BYTE_ARRAY + " = '" + hoaDon.getImage_byteArray() + "'" +
 
                 " where " +
                 COLUMN_HOADON_DANHBO + " ='" + hoaDon.getDanhBo() + "' and " +
@@ -561,168 +560,9 @@ public class LocalDatabase extends SQLiteOpenHelper {
         Log.i(TAG, "LocalDatabase.updateHoaDon ... " + danhBo);
 
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_HOADON, COLUMN_HOADON_DANHBO + " = ? and " + COLUMN_HOADON_FLAG + " =?" ,
+        db.delete(TABLE_HOADON, COLUMN_HOADON_DANHBO + " = ? and " + COLUMN_HOADON_FLAG + " =?",
                 new String[]{danhBo, flag + ""});
         db.close();
     }
 
-//    public void deleteDanhBo_CSM(DanhBo_ChiSoMoi danhBo_chiSoMoi) {
-//        Log.i(TAG, "LocalDatabase.updateDanhBoChiSoMoi ... " + danhBo_chiSoMoi.getDanhBo());
-//
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        db.delete(TABLE_LUUDANHBO, COLUMN_LUUDANHBO_DANHBO + " = ?",
-//                new String[]{danhBo_chiSoMoi.getDanhBo()});
-//        db.close();
-//    }
-
-//    public ArrayList<DanhBo_ChiSoMoi> getAllDanhBo_CSM() {
-//        Log.i(TAG, "LocalDatabase.getAllDanhbo_ChiSoMoi ... ");
-//
-//        ArrayList<DanhBo_ChiSoMoi> danhBoChiSoMois = new ArrayList<DanhBo_ChiSoMoi>();
-//        // Select All Query
-//        String selectQuery = "SELECT  * FROM " + TABLE_LUUDANHBO;
-//
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        Cursor cursor = db.rawQuery(selectQuery, null);
-//
-//
-//        // Duyệt trên con trỏ, và thêm vào danh sách.
-//        if (cursor.moveToFirst()) {
-//            do {
-//                DanhBo_ChiSoMoi danhBo_chiSoMoi = new DanhBo_ChiSoMoi(cursor.getString(0),
-//                        cursor.getString(1),
-//                        cursor.getString(2),
-//                        cursor.getString(3),
-//                        cursor.getString(4),
-//                        cursor.getString(5),
-//                        cursor.getString(6),
-//                        cursor.getString(7),
-//                        cursor.getString(8),
-//                        cursor.getString(9),
-//                        cursor.getString(10),
-//                        cursor.getString(11),
-//                        cursor.getString(12),
-//                        cursor.getInt(13));
-//
-//
-//                // Thêm vào danh sách.
-//                danhBoChiSoMois.add(danhBo_chiSoMoi);
-//            } while (cursor.moveToNext());
-//        }
-//
-//        // return hoaDon list
-//        return danhBoChiSoMois;
-//    }
-
-//    public boolean updateDanhBo_CSM(DanhBo_ChiSoMoi danhBoChiSoMoi) {
-////        Log.i(TAG, "LocalDatabase.addHoaDon ... " + danhBoChiSoMoi.getDanhBo());
-////
-////        SQLiteDatabase db = this.getWritableDatabase();
-////
-////        ContentValues values = new ContentValues();
-////
-////        values.put(COLUMN_LUUDANHBO_DANHBO, danhBoChiSoMoi.getDanhBo());
-////        values.put(COLUMN_LUUDANHBO_MALOTRINH, danhBoChiSoMoi.getMaLoTrinh());
-////        values.put(COLUMN_LUUDANHBO_DOT, danhBoChiSoMoi.getDot());
-////        values.put(COLUMN_LUUDANHBO_TEN_KH, danhBoChiSoMoi.getTenKH());
-////        values.put(COLUMN_LUUDANHBO_DIA_CHI, danhBoChiSoMoi.getDiaChi());
-////        values.put(COLUMN_LUUDANHBO_SDT, danhBoChiSoMoi.getSdt());
-////        values.put(COLUMN_LUUDANHBO_GIA_BIEU, danhBoChiSoMoi.getGiaBieu());
-////        values.put(COLUMN_LUUDANHBO_CODE, danhBoChiSoMoi.getCode());
-////        values.put(COLUMN_LUUDANHBO_CSC, danhBoChiSoMoi.getChiSoCu());
-////        values.put(COLUMN_LUUDANHBO_CSM, danhBoChiSoMoi.getChiSoMoi());
-////        values.put(COLUMN_LUUDANHBO_TIEU_THU, danhBoChiSoMoi.getTieuThu());
-////        values.put(COLUMN_LUUDANHBO_GHI_CHU, danhBoChiSoMoi.getNote());
-////        values.put(COLUMN_LUUDANHBO_HINHANH, danhBoChiSoMoi.getImage());
-////        values.put(COLUMN_LUUDANHBO_LUU, danhBoChiSoMoi.getHasImage());
-////        // Trèn một dòng dữ liệu vào bảng.
-////        long result = db.update(TABLE_LUUDANHBO, values, COLUMN_LUUDANHBO_DANHBO + " = " + danhBoChiSoMoi.getDanhBo(), null);
-////        // Đóng kết nối database.
-////        db.close();
-////        return result > 0;
-////    }
-//
-////    public boolean saveDanhBo_CSM(DanhBo_ChiSoMoi danhBoChiSoMoi) {
-////        Log.i(TAG, "LocalDatabase.addHoaDon ... " + danhBoChiSoMoi.getDanhBo());
-////
-////        SQLiteDatabase db = this.getWritableDatabase();
-////
-////        ContentValues values = new ContentValues();
-////
-////        values.put(COLUMN_LUUDANHBO_DANHBO, danhBoChiSoMoi.getDanhBo());
-////        values.put(COLUMN_LUUDANHBO_MALOTRINH, danhBoChiSoMoi.getMaLoTrinh());
-////        values.put(COLUMN_LUUDANHBO_DOT, danhBoChiSoMoi.getDot());
-////        values.put(COLUMN_LUUDANHBO_TEN_KH, danhBoChiSoMoi.getTenKH());
-////        values.put(COLUMN_LUUDANHBO_DIA_CHI, danhBoChiSoMoi.getDiaChi());
-////        values.put(COLUMN_LUUDANHBO_SDT, danhBoChiSoMoi.getSdt());
-////        values.put(COLUMN_LUUDANHBO_GIA_BIEU, danhBoChiSoMoi.getGiaBieu());
-////        values.put(COLUMN_LUUDANHBO_CODE, danhBoChiSoMoi.getCode());
-////        values.put(COLUMN_LUUDANHBO_CSC, danhBoChiSoMoi.getChiSoCu());
-////        values.put(COLUMN_LUUDANHBO_CSM, danhBoChiSoMoi.getChiSoMoi());
-////        values.put(COLUMN_LUUDANHBO_TIEU_THU, danhBoChiSoMoi.getTieuThu());
-////        values.put(COLUMN_LUUDANHBO_GHI_CHU, danhBoChiSoMoi.getNote());
-////        values.put(COLUMN_LUUDANHBO_HINHANH, danhBoChiSoMoi.getImage());
-////        values.put(COLUMN_LUUDANHBO_LUU, danhBoChiSoMoi.getHasImage());
-////        // Trèn một dòng dữ liệu vào bảng.
-////        long result = db.insert(TABLE_LUUDANHBO, null, values);
-////
-////
-////        // Đóng kết nối database.
-////        db.close();
-////        return result > 0;
-////    }
-//
-////    public DanhBo_ChiSoMoi getDanhBo_CSM(String danhBo) {
-////        ArrayList<HoaDon> hoaDonList = new ArrayList<HoaDon>();
-////        // Select All Query
-////        String selectQuery = "SELECT *" +
-////                " FROM " + TABLE_LUUDANHBO +
-////                " where " + this.COLUMN_LUUDANHBO_DANHBO + "='" + danhBo + "'";
-////
-////        SQLiteDatabase db = this.getWritableDatabase();
-////        Cursor cursor = db.rawQuery(selectQuery, null);
-////
-////
-////        // Duyệt trên con trỏ, và thêm vào danh sách.
-////        if (cursor.moveToFirst()) {
-////            do {
-////                return new DanhBo_ChiSoMoi(cursor.getString(0),
-////                        cursor.getString(1),
-////                        cursor.getString(2),
-////                        cursor.getString(3),
-////                        cursor.getString(4),
-////                        cursor.getString(5),
-////                        cursor.getString(6),
-////                        cursor.getString(7),
-////                        cursor.getString(8),
-////                        cursor.getString(9),
-////                        cursor.getString(10),
-////                        cursor.getString(11),
-////                        cursor.getString(12),
-////                        cursor.getInt(13)
-////                );
-////            } while (cursor.moveToNext());
-////        }
-////        return null;
-////    }
-//
-////    public boolean getStateDanhBo_CSM(String danhBo) {
-////        ArrayList<HoaDon> hoaDonList = new ArrayList<HoaDon>();
-////        // Select All Query
-////        String selectQuery = "SELECT " + this.COLUMN_LUUDANHBO_LUU +
-////                " FROM " + TABLE_LUUDANHBO +
-////                " where " + this.COLUMN_LUUDANHBO_DANHBO + "='" + danhBo + "'";
-////
-////        SQLiteDatabase db = this.getWritableDatabase();
-////        Cursor cursor = db.rawQuery(selectQuery, null);
-////
-////
-////        // Duyệt trên con trỏ, và thêm vào danh sách.
-////        if (cursor.moveToFirst()) {
-////            do {
-////                return cursor.getInt(0) > 0;
-////            } while (cursor.moveToNext());
-////        }
-////        return false;
-////    }
 }
