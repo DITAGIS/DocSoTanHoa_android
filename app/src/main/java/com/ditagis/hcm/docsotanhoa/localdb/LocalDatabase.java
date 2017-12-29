@@ -557,12 +557,12 @@ public class LocalDatabase extends SQLiteOpenHelper {
         return true;
     }
 
-    public void deleteHoaDon(String danhBo) {
+    public void deleteHoaDon(String danhBo, int flag) {
         Log.i(TAG, "LocalDatabase.updateHoaDon ... " + danhBo);
 
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_HOADON, COLUMN_HOADON_DANHBO + " = ?",
-                new String[]{danhBo});
+        db.delete(TABLE_HOADON, COLUMN_HOADON_DANHBO + " = ? and " + COLUMN_HOADON_FLAG + " =?" ,
+                new String[]{danhBo, flag + ""});
         db.close();
     }
 

@@ -17,7 +17,7 @@ import java.util.List;
 public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
     private final String TABLE_NAME = "DocSo";
     private final String SQL_SELECT = "SELECT ID,KHU,DOT,DANHBO,CULY,HOPDONG,TENKH,SONHA,DUONG,GIABIEU,DINHMUC,KY,NAM,CODE,CODEFU,CSCU,CSMOI,QUAN,PHUONG,MLT FROM " + TABLE_NAME;
-    private final String SQL_SELECT_GETALL_BY_USERNAME = "SELECT gb,dm,CSCU, MLT2, soThanCu, hieucu, cocu, vitricu FROM " + TABLE_NAME;
+    private final String SQL_SELECT_GETALL_BY_USERNAME = "SELECT gb,dm,CSCU, MLT2, soThanCu, hieucu, cocu, vitricu, codemoi FROM " + TABLE_NAME;
     private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
     private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + " VALUES(?,?,?,?,?)";
     //    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET CSC=? WHERE DANHBO=?";
@@ -209,7 +209,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
             else kyString = ky + "";
             String like = dotString + userName + "%";
             final ResultSet rs = statement.executeQuery("select danhba from docso where nam = "
-                    + nam + " and ky = " + kyString + " and mlt2 like '" + like + "' and (csmoi is null or csmoi = 0 )");
+                    + nam + " and ky = " + kyString + " and mlt2 like '" + like + "' and (gioghi is null or (gioghi is not null and (CodeMoi like 'F%' )))");
 
             while (rs.next()) {
                 DBs.add(rs.getString(1));
@@ -243,7 +243,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
             else kyString = ky + "";
             String like = dotString + userName + "%";
             mStatement = cnn.prepareStatement(SQL_SELECT_GETALL_BY_USERNAME + " where danhba = ? and  nam = ?" +
-                            " and ky = ? and mlt2 like ? and (csmoi is null or csmoi = 0 )", ResultSet.TYPE_SCROLL_INSENSITIVE,
+                            " and ky = ? and mlt2 like ? and (gioghi is null or (gioghi is not null and (CodeMoi like 'F%' )))", ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
             mStatement.setString(1, danhBo);
             mStatement.setInt(2, nam);
@@ -260,6 +260,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                 String hieu = rs.getString(6);
                 String co = rs.getString(7);
                 String viTri = rs.getString(8);
+                String codeMoi = rs.getString(9);
                 String soNha = "";
                 String duong = "";
                 String tenKhachHang = "";
@@ -357,6 +358,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                 hoaDon.setHieu(hieu);
                 hoaDon.setCo(co);
                 hoaDon.setViTri(viTri);
+                hoaDon.setCodeMoi(codeMoi);
                 rs.close();
 
 

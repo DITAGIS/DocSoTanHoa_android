@@ -13,6 +13,7 @@ import com.ditagis.hcm.docsotanhoa.conectDB.HoaDonDB;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.entities.ResultLayLoTrinh;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
+import com.ditagis.hcm.docsotanhoa.utities.Flag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,6 +119,10 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
             for (String danhBo : DBs) {
                 if (mIsLoading) {
                     HoaDon hoaDon = _hoadonDB.getHoaDonByUserName(this.mUsername, danhBo, this.mDot, this.mNam, this.mKy);
+                    if (hoaDon.getCodeMoi() != null)
+                        if (hoaDon.getCodeMoi().contains("F")) {
+                            LocalDatabase.getInstance(mContext).deleteHoaDon(hoaDon.getDanhBo(), Flag.SYNCHRONIZED);
+                        }
                     if (hoaDon == null) {
                         _hoadonDB.closeStatement();
                         return null;

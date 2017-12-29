@@ -482,7 +482,7 @@ public class QuanLyDocSo extends Fragment {
         for (HoaDon hoaDon : hoaDonLst) {
             if (Integer.parseInt(hoaDon.getDot()) < mDot - 3 && hoaDon.getFlag() == Flag.SYNCHRONIZED
                     ) {
-                LocalDatabase.getInstance(mRootView.getContext()).deleteHoaDon(hoaDon.getDanhBo());
+                LocalDatabase.getInstance(mRootView.getContext()).deleteHoaDon(hoaDon.getDanhBo(), Flag.SYNCHRONIZED);
             }
         }
     }

@@ -136,6 +136,8 @@ public class CalculateCSM_TieuThu {
                 mCSM = mCSC + mTieuThu;
                 break;
             case "F1":
+                mCSM = mCSC;
+                mTieuThu = calTieuThuTB();
                 break;
             case "F2":
             case "F3":
@@ -145,7 +147,7 @@ public class CalculateCSM_TieuThu {
                 break;
             case "K":
                 //todo để trống
-                mCSM = 0;
+                mCSM = mCSC;
                 mTieuThu = 0;
                 break;
             case "M0":
