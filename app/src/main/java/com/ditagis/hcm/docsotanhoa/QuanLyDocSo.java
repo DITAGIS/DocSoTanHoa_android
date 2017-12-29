@@ -609,12 +609,12 @@ public class QuanLyDocSo extends Fragment {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.show();
 
-        if (!hoaDon.getImage().equals("null")) {
+        if (hoaDon.getImage_byteArray().length > 1000) {
             ImageView image = (ImageView) dialog.findViewById(R.id.imgView_qlds);
             try {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-                Bitmap bitmap = BitmapFactory.decodeFile(hoaDon.getImage(), options);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(hoaDon.getImage_byteArray(), 0, hoaDon.getImage_byteArray().length, options);
 
 
                 BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.7), (int) (bitmap.getHeight() * 0.7), false));
@@ -683,12 +683,12 @@ public class QuanLyDocSo extends Fragment {
             }
         });
 
-        if (!hoaDon.getImage().equals("null")) {
+        if (hoaDon.getImage_byteArray().length > 1000) {
             ImageView image = (ImageView) dialogLayout.findViewById(R.id.imgView_edit);
             try {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-                Bitmap bitmap = BitmapFactory.decodeFile(hoaDon.getImage(), options);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(hoaDon.getImage_byteArray(), 0, hoaDon.getImage_byteArray().length, options);
 
                 BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.7), (int) (bitmap.getHeight() * 0.7), false));
 

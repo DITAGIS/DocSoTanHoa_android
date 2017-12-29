@@ -120,7 +120,7 @@ public class DocSo extends Fragment {
     private ViewPager mViewPager;
 
     @SuppressLint("ClickableViewAccessibility")
-    public DocSo(Activity activity, LayoutInflater inflater, int mKy, int mDot, String mUsername, String staffName, int theme, ViewPager viewPager) {
+    public DocSo(Activity activity, LayoutInflater inflater, int mKy, final int mDot, String mUsername, String staffName, int theme, ViewPager viewPager) {
         this.mActivity = activity;
         this.mStaffName = staffName;
         this.mDot = mDot;
@@ -271,7 +271,7 @@ public class DocSo extends Fragment {
 //                    ), false);
 //                    mEditTextCSM.setFocusable(false);
 //                    HideKeyboard.hide(mActivity);
-                if (!mHoaDon.getImage().equals("null")) {
+                if (mHoaDon.getImage_byteArray().length <100) {
                     try {
                         mEditTextCSM.setFocusableInTouchMode(true);
                     } catch (Exception e) {
@@ -281,15 +281,15 @@ public class DocSo extends Fragment {
                         HideKeyboard.hide(mActivity);
                     }
                 } else {
-                    File f = ImageFile.getFile(currentTime, mRootView, mDanhBo);
-                    if (f != null && f.exists()) {
+//                    File f = ImageFile.getFile(currentTime, mRootView, mDanhBo);
+//                    if (f != null && f.exists()) {
                         mEditTextCSM.setFocusableInTouchMode(true);
-                    } else {
-                        MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
-                        ), false);
-                        mEditTextCSM.setFocusable(false);
-                        HideKeyboard.hide(mActivity);
-                    }
+//                    } else {
+//                        MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
+//                        ), false);
+//                        mEditTextCSM.setFocusable(false);
+//                        HideKeyboard.hide(mActivity);
+//                    }
 
                 }
 //                if (mHoaDon.getImage().equals("null")) {
@@ -535,19 +535,19 @@ public class DocSo extends Fragment {
         hoaDon.setDuong(mDuong);
         if (mEditTextViTri.getText().toString().length() > 0)
             hoaDon.setViTri(mEditTextViTri.getText().toString());
-        if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
-
-        } else if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
-
-        } else {
-            hoaDon.setImage(ImageFile.getFile(currentTime, mRootView, mDanhBo).getAbsolutePath());
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            Bitmap bit = BitmapFactory.decodeFile(hoaDon.getImage());
-            bit.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-
-
-            hoaDon.setImage_byteArray(outputStream.toByteArray());
-        }
+//        if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
+//
+//        } else if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
+//
+//        } else {
+//            hoaDon.setImage(ImageFile.getFile(currentTime, mRootView, mDanhBo).getAbsolutePath());
+//            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//            Bitmap bit = BitmapFactory.decodeFile(hoaDon.getImage());
+//            bit.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+//
+//
+//            hoaDon.setImage_byteArray(outputStream.toByteArray());
+//        }
 
         hoaDon.setSdt(getSdtString());
         mHoaDon = hoaDon;
@@ -976,7 +976,7 @@ public class DocSo extends Fragment {
     }
 
     private void checkSave(View v) {
-        if (!mHoaDon.getImage().equals("null")) {
+        if (mHoaDon.getImage_byteArray().length > 1000) {
             try {
                 int csc = Integer.parseInt(mTxtCSC.getText().toString());
                 int csm = -1;
@@ -1291,20 +1291,20 @@ public class DocSo extends Fragment {
             else mHoaDon.setChiSoMoi("");
             mHoaDon.setTieuThuMoi(((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).getText().toString());
             mHoaDon.setGhiChu(mGhiChu);
-            if (!mHoaDon.getImage().equals("null")) {
-                // do nothing
-                this.currentTime = Calendar.getInstance().getTime();
-            } else {
-
-                File f = ImageFile.getFile(currentTime, mRootView, mDanhBo);
-                if (f != null && f.exists()) {
-                    mHoaDon.setImage(f.getAbsolutePath());
-                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                    Bitmap bit = BitmapFactory.decodeFile(mHoaDon.getImage());
-                    bit.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-                    mHoaDon.setImage_byteArray(outputStream.toByteArray());
-                }
-            }
+//            if (!mHoaDon.getImage().equals("null")) {
+//                // do nothing
+//                this.currentTime = Calendar.getInstance().getTime();
+//            } else {
+//
+//                File f = ImageFile.getFile(currentTime, mRootView, mDanhBo);
+//                if (f != null && f.exists()) {
+//                    mHoaDon.setImage(f.getAbsolutePath());
+//                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//                    Bitmap bit = BitmapFactory.decodeFile(mHoaDon.getImage());
+//                    bit.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+//                    mHoaDon.setImage_byteArray(outputStream.toByteArray());
+//                }
+//            }
             mHoaDon.setSdt(getSdtString());
             mHoaDon.setSoNha(mSoNha);
             mHoaDon.setDuong(mDuong);
@@ -1395,7 +1395,8 @@ public class DocSo extends Fragment {
         //get bitmap from file
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        Bitmap bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(), options);
+//        Bitmap bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(), options);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(mHoaDon.getImage_byteArray(), 0, mHoaDon.getImage_byteArray().length, options);
         //--------------------
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -1739,8 +1740,9 @@ public class DocSo extends Fragment {
                 capture();
             }
         } else {
-            File f = ImageFile.getFile(currentTime, mRootView, mDanhBo);
-            if (f != null && f.exists()) {
+//            File f = ImageFile.getFile(currentTime, mRootView, mDanhBo);
+//            if (f != null && f.exists()) {
+            if (mHoaDon.getImage_byteArray().length > 100) {
                 showImage(ImageFile.getFile(currentTime, mRootView, mDanhBo));
             } else
                 capture();
@@ -1811,6 +1813,14 @@ public class DocSo extends Fragment {
                             matrix.postRotate(90);
                             Bitmap rotatedBitmap = Bitmap.createBitmap(mBpImage, 0, 0, mBpImage.getWidth(), mBpImage.getHeight(), matrix, true);
                             rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+
+                            //
+                            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+                            rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                            mHoaDon.setImage_byteArray(outputStream.toByteArray());
+                            LocalDatabase.getInstance(mRootView.getContext()).updateHoaDon_Image(mHoaDon, Flag.UNREAD);
+
 //                            if (getImageFileName().length() < MIN_SIZE) {
 //                                alertImageLowQuatity();
 //                            }

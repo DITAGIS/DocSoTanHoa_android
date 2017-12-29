@@ -530,7 +530,23 @@ public class LocalDatabase extends SQLiteOpenHelper {
         db.close();
         return true;
     }
+    public boolean updateHoaDon_Image(HoaDon hoaDon, int flag_old) {
+        Log.i(TAG, "LocalDatabase.updateHoaDon ... " + hoaDon.getDanhBo());
 
+        SQLiteDatabase db = this.getWritableDatabase();
+//
+        ContentValues values = new ContentValues();
+
+        values.put(COLUMN_HOADON_HINH_BYTE_ARRAY, hoaDon.getImage_byteArray());
+
+//        // Trèn một dòng dữ liệu vào bảng.
+        long result = db.update(TABLE_HOADON, values, COLUMN_HOADON_DANHBO + " = ? and "
+                + COLUMN_HOADON_FLAG + " = ?" , new String[]{hoaDon.getDanhBo(), flag_old + ""});
+
+
+        db.close();
+        return true;
+    }
     public boolean updateHoaDon_without_csm(HoaDon hoaDon, int flag_old) {
         Log.i(TAG, "LocalDatabase.updateHoaDon ... " + hoaDon.getDanhBo());
 
