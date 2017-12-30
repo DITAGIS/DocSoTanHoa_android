@@ -120,20 +120,24 @@ public class CalculateCSM_TieuThu {
                 break;
             case "81":
                 //todo để trống
-//                mCSM = 0;
-//                mTieuThu = 0;
-                mTieuThu = calTieuThuTB();
-                mCSM = mTieuThu + mCSC;
-                mTieuThu = calTieuThuTB();
-                mCSM = mCSC + mTieuThu;
+                if (!mCSMString.equals("null") && mCSMString.length() > 0) {
+                    mCSM = Integer.parseInt(mCSMString);
+                    mTieuThu = mCSM - mCSC;
+                }
+//                mTieuThu = calTieuThuTB();
+//                mCSM = mTieuThu + mCSC;
+//                mTieuThu = calTieuThuTB();
+//                mCSM = mCSC + mTieuThu;
                 break;
             case "82":
             case "83":
                 //todo để trống
-//                mCSM = 0;
-//                mTieuThu = 0;
-                mTieuThu = calTieuThuTB();
-                mCSM = mCSC + mTieuThu;
+                if (!mCSMString.equals("null") && mCSMString.length() > 0) {
+                    mCSM = Integer.parseInt(mCSMString);
+                    mTieuThu = mCSM - mCSC;
+                }
+//                mTieuThu = calTieuThuTB();
+//                mCSM = mCSC + mTieuThu;
                 break;
             case "F1":
                 mCSM = mCSC;

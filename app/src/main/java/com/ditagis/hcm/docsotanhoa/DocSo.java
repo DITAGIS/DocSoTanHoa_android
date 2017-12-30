@@ -57,8 +57,6 @@ import com.ditagis.hcm.docsotanhoa.utities.Note;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
@@ -97,7 +95,7 @@ public class DocSo extends Fragment {
     Spinner mSpinCode, mSpinDot, mSpinSdt;
     AutoCompleteTextView singleComplete;
     Uri mUri;
-    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private Bitmap mBpImage;
     private HoaDon mHoaDon;
     private String mCode, mSoNha, mDuong;
@@ -271,7 +269,7 @@ public class DocSo extends Fragment {
 //                    ), false);
 //                    mEditTextCSM.setFocusable(false);
 //                    HideKeyboard.hide(mActivity);
-                if (mHoaDon.getImage_byteArray().length <100) {
+                if (mHoaDon.getImage_byteArray().length < 100) {
                     try {
                         mEditTextCSM.setFocusableInTouchMode(true);
                     } catch (Exception e) {
@@ -283,7 +281,7 @@ public class DocSo extends Fragment {
                 } else {
 //                    File f = ImageFile.getFile(currentTime, mRootView, mDanhBo);
 //                    if (f != null && f.exists()) {
-                        mEditTextCSM.setFocusableInTouchMode(true);
+                    mEditTextCSM.setFocusableInTouchMode(true);
 //                    } else {
 //                        MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
 //                        ), false);
@@ -1310,7 +1308,8 @@ public class DocSo extends Fragment {
             mHoaDon.setDuong(mDuong);
             if (mEditTextViTri.getText().toString().length() > 0)
                 mHoaDon.setViTri(mEditTextViTri.getText().toString());
-
+            if (this.currentTime == null)
+                this.currentTime = Calendar.getInstance().getTime();
             String datetime = this.formatter.format(this.currentTime);
             mHoaDon.setThoiGian(datetime);
 
@@ -1742,11 +1741,11 @@ public class DocSo extends Fragment {
 //        } else {
 ////            File f = ImageFile.getFile(currentTime, mRootView, mDanhBo);
 ////            if (f != null && f.exists()) {
-            if (mHoaDon.getImage_byteArray().length > 100) {
+        if (mHoaDon.getImage_byteArray().length > 100) {
 
-                showImage(ImageFile.getFile(currentTime, mRootView, mDanhBo));
-            } else
-                capture();
+            showImage(ImageFile.getFile(currentTime, mRootView, mDanhBo));
+        } else
+            capture();
 //        }
 
     }
@@ -1804,16 +1803,16 @@ public class DocSo extends Fragment {
                     mBpImage = getBitmap(mUri.getPath());
 //                    mBpImage = (Bitmap) data.getExtras().get("data");
 //                    this.currentTime = Calendar.getInstance().getTime();
-                    FileOutputStream fos = null;
+//                    FileOutputStream fos = null;
                     try {
                         if (mBpImage != null) {
-                            fos = new FileOutputStream(ImageFile.getFile(currentTime, mRootView, mDanhBo));
+//                            fos = new FileOutputStream(ImageFile.getFile(currentTime, mRootView, mDanhBo));
 
                             Matrix matrix = new Matrix();
 
                             matrix.postRotate(90);
                             Bitmap rotatedBitmap = Bitmap.createBitmap(mBpImage, 0, 0, mBpImage.getWidth(), mBpImage.getHeight(), matrix, true);
-                            rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+//                            rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
 
                             //
                             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -1825,18 +1824,21 @@ public class DocSo extends Fragment {
 //                            if (getImageFileName().length() < MIN_SIZE) {
 //                                alertImageLowQuatity();
 //                            }
-                            fos.flush();
-                            fos.close();
+//                            fos.flush();
+//                            fos.close();
                             Toast.makeText(mRootView.getContext(), "Đã lưu ảnh", Toast.LENGTH_SHORT).show();
                             setNextFocusEdittextCSM();
                             mEditTextCSM.setFocusableInTouchMode(true);
                         }
-                    } catch (FileNotFoundException e) {
-                        MySnackBar.make(mRootView, "Lỗi khi lưu ảnh", false);
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        MySnackBar.make(mRootView, "Lỗi khi lưu ảnh", false);
-                        e.printStackTrace();
+//                    } catch (FileNotFoundException e) {
+//                        MySnackBar.make(mRootView, "Lỗi khi lưu ảnh", false);
+//                        e.printStackTrace();
+//                    } catch (IOException e) {
+//                        MySnackBar.make(mRootView, "Lỗi khi lưu ảnh", false);
+//                        e.printStackTrace();
+//                    }
+                    } catch (Exception e) {
+
                     }
                 }
             } else if (resultCode == RESULT_CANCELED) {

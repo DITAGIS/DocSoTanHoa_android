@@ -559,8 +559,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 COLUMN_HOADON_DUONG + " = '" + hoaDon.getDuong() + "'," +
                 COLUMN_HOADON_GHI_CHU + " = '" + hoaDon.getGhiChu() + "'," +
                 COLUMN_HOADON_VI_TRI + " = '" + hoaDon.getViTri() + "'," +
-                COLUMN_HOADON_HINH + " = '" + hoaDon.getImage() + "'," +
-                COLUMN_HOADON_HINH_BYTE_ARRAY + " = '" + hoaDon.getImage_byteArray() + "'" +
+                COLUMN_HOADON_HINH + " = '" + hoaDon.getImage() + "'" +
+
 
                 " where " +
                 COLUMN_HOADON_DANHBO + " ='" + hoaDon.getDanhBo() + "' and " +
