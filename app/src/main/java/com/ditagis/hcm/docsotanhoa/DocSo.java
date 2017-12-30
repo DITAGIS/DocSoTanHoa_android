@@ -1733,20 +1733,21 @@ public class DocSo extends Fragment {
     }
 
     private void doCamera() {
-        if (!mHoaDon.getImage().equals("null")) {
-            try {
-                showImage(mHoaDon.getImage());
-            } catch (Exception e) {
-                capture();
-            }
-        } else {
-//            File f = ImageFile.getFile(currentTime, mRootView, mDanhBo);
-//            if (f != null && f.exists()) {
+//        if (!mHoaDon.getImage().equals("null")) {
+//            try {
+//                showImage(mHoaDon.getImage());
+//            } catch (Exception e) {
+//                capture();
+//            }
+//        } else {
+////            File f = ImageFile.getFile(currentTime, mRootView, mDanhBo);
+////            if (f != null && f.exists()) {
             if (mHoaDon.getImage_byteArray().length > 100) {
+
                 showImage(ImageFile.getFile(currentTime, mRootView, mDanhBo));
             } else
                 capture();
-        }
+//        }
 
     }
 
