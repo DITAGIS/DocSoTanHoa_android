@@ -31,6 +31,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -116,9 +117,12 @@ public class DocSo extends Fragment {
     private ArrayAdapter<String> mAdapterDot;
     private List<String> mDots = new ArrayList<>();
     private ViewPager mViewPager;
+    private FrameLayout mFrameLayoutViewImage;
+    private ImageView mImageViewFrame;
+    private Button mBtnCloseViewImageFrame;
 
     @SuppressLint("ClickableViewAccessibility")
-    public DocSo(Activity activity, LayoutInflater inflater, int mKy, final int mDot, String mUsername, String staffName, int theme, ViewPager viewPager) {
+    public DocSo(Activity activity, final LayoutInflater inflater, int mKy, final int mDot, String mUsername, String staffName, int theme, ViewPager viewPager) {
         this.mActivity = activity;
         this.mStaffName = staffName;
         this.mDot = mDot;
@@ -141,7 +145,15 @@ public class DocSo extends Fragment {
         mSpinDiaChi = (Spinner) mRootView.findViewById(R.id.spin_ds_diachi);
         mDots.add(dotString);
 
-
+        mFrameLayoutViewImage = (FrameLayout) mRootView.findViewById(R.id.layout_ds_viewImage);
+        mImageViewFrame = (ImageView) mRootView.findViewById(R.id.imgView_frame);
+        mBtnCloseViewImageFrame = (Button) mRootView.findViewById(R.id.btn_ds_close_viewImage_frame);
+        mBtnCloseViewImageFrame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFrameLayoutViewImage.setVisibility(View.INVISIBLE);
+            }
+        });
         //for camera
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
@@ -209,27 +221,21 @@ public class DocSo extends Fragment {
                     }
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
                     setMaxLenghtAutoCompleteTextView(15);
-                    for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike)) {
-                        if (s.toString().equals(hoaDon.getDanhBo()))
-                            for (int i = 0; i < mMLTs.size(); i++)
-                                if (hoaDon.getMaLoTrinh().equals(mMLTs.get(i).replace(" ", "")))
-                                    mSpinMLT.setSelection(i);
+                    for (int i = 0; i < mDBs.size(); i++) {
+                        if (s.toString().equals(mDBs.get(i)))
+                            mSpinMLT.setSelection(i);
                     }
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_tenKH))) {
                     setMaxLenghtAutoCompleteTextView(50);
-                    for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike)) {
-                        if (s.toString().equals(hoaDon.getTenKhachHang()))
-                            for (int i = 0; i < mMLTs.size(); i++)
-                                if (hoaDon.getMaLoTrinh().equals(mMLTs.get(i).replace(" ", "")))
-                                    mSpinMLT.setSelection(i);
+                    for (int i = 0; i < mTenKHs.size(); i++) {
+                        if (s.toString().equals(mTenKHs.get(i)))
+                            mSpinMLT.setSelection(i);
                     }
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_diaChi))) {
                     setMaxLenghtAutoCompleteTextView(50);
-                    for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike)) {
-                        if (s.toString().equals(hoaDon.getDiaChi()))
-                            for (int i = 0; i < mMLTs.size(); i++)
-                                if (hoaDon.getMaLoTrinh().equals(mMLTs.get(i).replace(" ", "")))
-                                    mSpinMLT.setSelection(i);
+                    for (int i = 0; i < mDiaChis.size(); i++) {
+                        if (s.toString().equals(mDiaChis.get(i)))
+                            mSpinMLT.setSelection(i);
                     }
                 }
             }
@@ -1120,14 +1126,29 @@ public class DocSo extends Fragment {
 
     private void selectMLT(int position) {
         mMlt = mMLTs.get(position).replace(" ", "");
+
         mSpinTenKH.setSelection(position);
         mSpinDiaChi.setSelection(position);
         selectDanhBo(position);
     }
 
+    private void showImageViewInFrame(byte[] image) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+        Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length, options);
+
+double scale = bitmap.getHeight()/mFrameLayoutViewImage.getHeight();
+        BitmapDrawable resizedDialogImage = new BitmapDrawable(this.getResources(),
+                Bitmap.createScaledBitmap(bitmap,(int)( bitmap.getWidth()/scale),(int)( bitmap.getHeight()/scale), false));
+
+        mImageViewFrame.setBackground(resizedDialogImage);
+    }
+
     private void selectDanhBo(int position) {
         if (checkNull())
             return;
+
         mSpinCode.setSelection(0);
         mSpinMLT.setSelection(position);
         mSpinDB.setSelection(position);
@@ -1135,6 +1156,11 @@ public class DocSo extends Fragment {
         mDanhBo = mDBs.get(position).replace(" ", "");
         mHoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
 
+        mFrameLayoutViewImage.setVisibility(View.INVISIBLE);
+        if (mHoaDon.getImage_byteArray().length > 1000) {
+            showImageViewInFrame(mHoaDon.getImage_byteArray());
+            mFrameLayoutViewImage.setVisibility(View.VISIBLE);
+        }
         mSoNha = mHoaDon.getSoNha();
         mDuong = mHoaDon.getDuong();
         //xử lý sđt
@@ -1731,6 +1757,7 @@ public class DocSo extends Fragment {
         dialog.show();
     }
 
+
     private void doCamera() {
 //        if (!mHoaDon.getImage().equals("null")) {
 //            try {
@@ -1818,7 +1845,8 @@ public class DocSo extends Fragment {
                             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
                             rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-                            mHoaDon.setImage_byteArray(outputStream.toByteArray());
+                            byte[] image = outputStream.toByteArray();
+                            mHoaDon.setImage_byteArray(image);
                             LocalDatabase.getInstance(mRootView.getContext()).updateHoaDon_Image(mHoaDon, Flag.UNREAD);
 
 //                            if (getImageFileName().length() < MIN_SIZE) {
@@ -1829,6 +1857,8 @@ public class DocSo extends Fragment {
                             Toast.makeText(mRootView.getContext(), "Đã lưu ảnh", Toast.LENGTH_SHORT).show();
                             setNextFocusEdittextCSM();
                             mEditTextCSM.setFocusableInTouchMode(true);
+                            mFrameLayoutViewImage.setVisibility(View.VISIBLE);
+                            showImageViewInFrame(image);
                         }
 //                    } catch (FileNotFoundException e) {
 //                        MySnackBar.make(mRootView, "Lỗi khi lưu ảnh", false);
