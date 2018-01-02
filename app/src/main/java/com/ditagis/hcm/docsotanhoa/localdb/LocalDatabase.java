@@ -195,6 +195,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
     }
 
     public boolean addHoaDon(HoaDon hoaDon) {
+
         //check exist
 //        if (getHoaDon_UnRead(hoaDon.getDanhBo()) != null)
 //            return false;
@@ -202,80 +203,85 @@ public class LocalDatabase extends SQLiteOpenHelper {
             return false;
 //        if (getHoaDon_Synchronized(hoaDon.getDanhBo()) != null)
 //            return false;
+
         Log.i(TAG, "LocalDatabase.addHoaDon ... " + hoaDon.getDanhBo());
 
         SQLiteDatabase db = this.getWritableDatabase();
+        try {
+            String sql = "INSERT INTO " + TABLE_HOADON + " ("
+                    + COLUMN_HOADON_DOT + ", "
+                    + COLUMN_HOADON_DANHBO + ", "
+                    + COLUMN_HOADON_KHACHHANG + ", "
+                    + COLUMN_HOADON_SONHA + ", "
+                    + COLUMN_HOADON_DUONG + ", "
+                    + COLUMN_HOADON_GIABIEU + ", "
+                    + COLUMN_HOADON_DINHMUC + ", "
+                    + COLUMN_HOADON_KY + ", "
+                    + COLUMN_HOADON_CHISOCU + ", "
+                    + COLUMN_HOADON_MALOTRINH + ", "
+                    + COLUMN_HOADON_SDT + ", "
+                    + COLUMN_HOADON_CODE1 + ", "
+                    + COLUMN_HOADON_CODE2 + ", "
+                    + COLUMN_HOADON_CODE3 + ", "
+                    + COLUMN_HOADON_CSC1 + ", "
+                    + COLUMN_HOADON_CSC2 + ", "
+                    + COLUMN_HOADON_CSC3 + ", "
+                    + COLUMN_HOADON_SANLUONG1 + ", "
+                    + COLUMN_HOADON_SANLUONG2 + ", "
+                    + COLUMN_HOADON_SANLUONG3 + ", "
+                    + COLUMN_HOADON_FLAG + ", "
+                    + COLUMN_HOADON_CODE_MOI + ", "
+                    + COLUMN_HOADON_CSM + ", "
+                    + COLUMN_HOADON_TTMOI + ", "
+                    + COLUMN_HOADON_GHI_CHU + ", "
+                    + COLUMN_HOADON_HINH + ", "
+                    + COLUMN_HOADON_HINH_BYTE_ARRAY + ", "
+                    + COLUMN_HOADON_THOI_GIAN + ", "
+                    + COLUMN_HOADON_SO_THAN + ", "
+                    + COLUMN_HOADON_HIEU + ", "
+                    + COLUMN_HOADON_CO + ", "
+                    + COLUMN_HOADON_VI_TRI
+                    + ") Values ('" + hoaDon.getDot() + "', '"
+                    + hoaDon.getDanhBo() + "', '" +
+                    hoaDon.getTenKhachHang() + "', '" +
+                    hoaDon.getSoNha() + "', '" +
+                    hoaDon.getDuong() + "','" +
+                    hoaDon.getGiaBieu() + "','" +
+                    hoaDon.getDinhMuc() + "','" +
+                    hoaDon.getKy() + "','" +
+                    hoaDon.getChiSoCu() + "','" +
+                    hoaDon.getMaLoTrinh() + "','" +
+                    hoaDon.getSdt() + "','" +
+                    hoaDon.getCode_CSC_SanLuong().getCode1() + "','" +
+                    hoaDon.getCode_CSC_SanLuong().getCode2() + "','" +
+                    hoaDon.getCode_CSC_SanLuong().getCode3() + "','" +
+                    hoaDon.getCode_CSC_SanLuong().getCSC1() + "','" +
+                    hoaDon.getCode_CSC_SanLuong().getCSC2() + "','" +
+                    hoaDon.getCode_CSC_SanLuong().getCSC3() + "','" +
+                    hoaDon.getCode_CSC_SanLuong().getSanLuong1() + "','" +
+                    hoaDon.getCode_CSC_SanLuong().getSanLuong2() + "','" +
+                    hoaDon.getCode_CSC_SanLuong().getSanLuong3() + "'," +
+                    hoaDon.getFlag() + ",'" +
+                    hoaDon.getCodeMoi() + "','" +
+                    hoaDon.getChiSoMoi() + "','" +
+                    hoaDon.getTieuThuMoi() + "','" +
+                    hoaDon.getGhiChu() + "','" +
+                    hoaDon.getImage() + "','" +
+                    hoaDon.getImage_byteArray() + "','" +
+                    hoaDon.getThoiGian() + "','" +
+                    hoaDon.getSoThan() + "','" +
+                    hoaDon.getHieu() + "','" +
+                    hoaDon.getCo() + "','" +
+                    hoaDon.getViTri() + "')";
+            db.execSQL(sql);
 
-        String sql = "INSERT INTO " + TABLE_HOADON + " ("
-                + COLUMN_HOADON_DOT + ", "
-                + COLUMN_HOADON_DANHBO + ", "
-                + COLUMN_HOADON_KHACHHANG + ", "
-                + COLUMN_HOADON_SONHA + ", "
-                + COLUMN_HOADON_DUONG + ", "
-                + COLUMN_HOADON_GIABIEU + ", "
-                + COLUMN_HOADON_DINHMUC + ", "
-                + COLUMN_HOADON_KY + ", "
-                + COLUMN_HOADON_CHISOCU + ", "
-                + COLUMN_HOADON_MALOTRINH + ", "
-                + COLUMN_HOADON_SDT + ", "
-                + COLUMN_HOADON_CODE1 + ", "
-                + COLUMN_HOADON_CODE2 + ", "
-                + COLUMN_HOADON_CODE3 + ", "
-                + COLUMN_HOADON_CSC1 + ", "
-                + COLUMN_HOADON_CSC2 + ", "
-                + COLUMN_HOADON_CSC3 + ", "
-                + COLUMN_HOADON_SANLUONG1 + ", "
-                + COLUMN_HOADON_SANLUONG2 + ", "
-                + COLUMN_HOADON_SANLUONG3 + ", "
-                + COLUMN_HOADON_FLAG + ", "
-                + COLUMN_HOADON_CODE_MOI + ", "
-                + COLUMN_HOADON_CSM + ", "
-                + COLUMN_HOADON_TTMOI + ", "
-                + COLUMN_HOADON_GHI_CHU + ", "
-                + COLUMN_HOADON_HINH + ", "
-                + COLUMN_HOADON_HINH_BYTE_ARRAY + ", "
-                + COLUMN_HOADON_THOI_GIAN + ", "
-                + COLUMN_HOADON_SO_THAN + ", "
-                + COLUMN_HOADON_HIEU + ", "
-                + COLUMN_HOADON_CO + ", "
-                + COLUMN_HOADON_VI_TRI
-                + ") Values ('" + hoaDon.getDot() + "', '"
-                + hoaDon.getDanhBo() + "', '" +
-                hoaDon.getTenKhachHang() + "', '" +
-                hoaDon.getSoNha() + "', '" +
-                hoaDon.getDuong() + "','" +
-                hoaDon.getGiaBieu() + "','" +
-                hoaDon.getDinhMuc() + "','" +
-                hoaDon.getKy() + "','" +
-                hoaDon.getChiSoCu() + "','" +
-                hoaDon.getMaLoTrinh() + "','" +
-                hoaDon.getSdt() + "','" +
-                hoaDon.getCode_CSC_SanLuong().getCode1() + "','" +
-                hoaDon.getCode_CSC_SanLuong().getCode2() + "','" +
-                hoaDon.getCode_CSC_SanLuong().getCode3() + "','" +
-                hoaDon.getCode_CSC_SanLuong().getCSC1() + "','" +
-                hoaDon.getCode_CSC_SanLuong().getCSC2() + "','" +
-                hoaDon.getCode_CSC_SanLuong().getCSC3() + "','" +
-                hoaDon.getCode_CSC_SanLuong().getSanLuong1() + "','" +
-                hoaDon.getCode_CSC_SanLuong().getSanLuong2() + "','" +
-                hoaDon.getCode_CSC_SanLuong().getSanLuong3() + "'," +
-                hoaDon.getFlag() + ",'" +
-                hoaDon.getCodeMoi() + "','" +
-                hoaDon.getChiSoMoi() + "','" +
-                hoaDon.getTieuThuMoi() + "','" +
-                hoaDon.getGhiChu() + "','" +
-                hoaDon.getImage() + "','" +
-                hoaDon.getImage_byteArray() + "','" +
-                hoaDon.getThoiGian() + "','" +
-                hoaDon.getSoThan() + "','" +
-                hoaDon.getHieu() + "','" +
-                hoaDon.getCo() + "','" +
-                hoaDon.getViTri() + "')";
-        db.execSQL(sql);
+            // Đóng kết nối database.
+            db.close();
+            return true;
+        } catch (Exception e) {
 
-        // Đóng kết nối database.
-        db.close();
-        return true;
+        }
+        return false;
     }
 
     private HoaDon getHoaDon(String danhBo, int flag) {
@@ -504,7 +510,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
 //
 //        // Trèn một dòng dữ liệu vào bảng.
         long result = db.update(TABLE_HOADON, values, COLUMN_HOADON_DANHBO + " = ? and "
-                + COLUMN_HOADON_FLAG + " = ?" , new String[]{hoaDon.getDanhBo(), flag_old + ""});
+                + COLUMN_HOADON_FLAG + " = ?", new String[]{hoaDon.getDanhBo(), flag_old + ""});
 
 //        String sql = "update " + TABLE_HOADON + " set " +
 //                COLUMN_HOADON_FLAG + " = " + flag + "," +
@@ -530,6 +536,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         db.close();
         return true;
     }
+
     public boolean updateHoaDon_Image(HoaDon hoaDon, int flag_old) {
         Log.i(TAG, "LocalDatabase.updateHoaDon ... " + hoaDon.getDanhBo());
 
@@ -541,12 +548,13 @@ public class LocalDatabase extends SQLiteOpenHelper {
 
 //        // Trèn một dòng dữ liệu vào bảng.
         long result = db.update(TABLE_HOADON, values, COLUMN_HOADON_DANHBO + " = ? and "
-                + COLUMN_HOADON_FLAG + " = ?" , new String[]{hoaDon.getDanhBo(), flag_old + ""});
+                + COLUMN_HOADON_FLAG + " = ?", new String[]{hoaDon.getDanhBo(), flag_old + ""});
 
 
         db.close();
         return true;
     }
+
     public boolean updateHoaDon_without_csm(HoaDon hoaDon, int flag_old) {
         Log.i(TAG, "LocalDatabase.updateHoaDon ... " + hoaDon.getDanhBo());
 

@@ -352,6 +352,22 @@ public class DocSo extends Fragment {
                 } else {
                     mTxtCSM.setText(s);
                 }
+                if (mHoaDon.getCode_CSC_SanLuong().getCode1().startsWith("F")) {
+                    for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
+                        if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals("5F")) {
+                            mSpinCode.setSelection(i);
+                            break;
+                        }
+                    }
+                }
+                else if(mHoaDon.getCode_CSC_SanLuong().getCode1().startsWith("K")) {
+                    for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
+                        if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals("5K")) {
+                            mSpinCode.setSelection(i);
+                            break;
+                        }
+                    }
+                }
             }
 
             @Override
@@ -1141,9 +1157,9 @@ public class DocSo extends Fragment {
 
         Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length, options);
 
-double scale = bitmap.getHeight()/mFrameLayoutViewImage.getHeight();
+        double scale = bitmap.getHeight() / mFrameLayoutViewImage.getHeight();
         BitmapDrawable resizedDialogImage = new BitmapDrawable(this.getResources(),
-                Bitmap.createScaledBitmap(bitmap,(int)( bitmap.getWidth()/scale),(int)( bitmap.getHeight()/scale), false));
+                Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() / scale), (int) (bitmap.getHeight() / scale), false));
 
         mImageViewFrame.setBackground(resizedDialogImage);
     }

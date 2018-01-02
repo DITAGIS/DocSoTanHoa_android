@@ -209,7 +209,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
             else kyString = ky + "";
             String like = dotString + userName + "%";
             final ResultSet rs = statement.executeQuery("select danhba from docso where nam = "
-                    + nam + " and ky = " + kyString + " and mlt2 like '" + like + "' and (gioghi is null or (gioghi is not null and (CodeMoi like 'F%' )))");
+                    + nam + " and ky = " + kyString + " and mlt2 like '" + like + "' and (gioghi is null or (gioghi is not null and (CodeMoi like 'F%' )) or gioghi < DATEADD(day,1,'2017-01-01'))");
 
             while (rs.next()) {
                 DBs.add(rs.getString(1));
@@ -243,7 +243,8 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
             else kyString = ky + "";
             String like = dotString + userName + "%";
             mStatement = cnn.prepareStatement(SQL_SELECT_GETALL_BY_USERNAME + " where danhba = ? and  nam = ?" +
-                            " and ky = ? and mlt2 like ? and (gioghi is null or (gioghi is not null and (CodeMoi like 'F%' )))", ResultSet.TYPE_SCROLL_INSENSITIVE,
+                            " and ky = ? and mlt2 like ?  and (gioghi is null or (gioghi is not null and (CodeMoi like 'F%' )) or gioghi < DATEADD(day,1,'2017-01-01'))",
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
             mStatement.setString(1, danhBo);
             mStatement.setInt(2, nam);
