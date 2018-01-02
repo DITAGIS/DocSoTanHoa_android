@@ -2,6 +2,7 @@ package com.ditagis.hcm.docsotanhoa;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -26,6 +27,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -357,6 +359,7 @@ public class DocSo extends Fragment {
 
             }
         });
+
         mRootView.findViewById(R.id.btn_ds_prev).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1859,6 +1862,9 @@ double scale = bitmap.getHeight()/mFrameLayoutViewImage.getHeight();
                             mEditTextCSM.setFocusableInTouchMode(true);
                             mFrameLayoutViewImage.setVisibility(View.VISIBLE);
                             showImageViewInFrame(image);
+
+                            mEditTextCSM.requestFocus();
+
                         }
 //                    } catch (FileNotFoundException e) {
 //                        MySnackBar.make(mRootView, "Lỗi khi lưu ảnh", false);
@@ -1961,5 +1967,7 @@ double scale = bitmap.getHeight()/mFrameLayoutViewImage.getHeight();
     private void setNextFocusEdittextCSM() {
 //        mEditTextCSM.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         mEditTextCSM.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(mEditTextCSM, InputMethodManager.SHOW_FORCED);
     }
 }
