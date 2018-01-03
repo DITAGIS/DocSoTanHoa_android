@@ -1,8 +1,16 @@
 package com.ditagis.hcm.docsotanhoa;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +20,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,16 +28,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver;
 import com.ditagis.hcm.docsotanhoa.theme.ThemeUtils;
 import com.ditagis.hcm.docsotanhoa.utities.ChangePassword;
+import com.ditagis.hcm.docsotanhoa.utities.NUMBER;
 
+import java.io.IOException;
 import java.util.Calendar;
+import java.util.Set;
+import java.util.UUID;
 
 import static com.ditagis.hcm.docsotanhoa.R.id.container;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Runnable {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -39,10 +53,16 @@ public class MainActivity extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
+    BluetoothAdapter mBluetoothAdapter;
+    private UUID applicationUUID = UUID
+            .fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private ProgressDialog mBluetoothConnectProgressDialog;
+    private BluetoothSocket mBluetoothSocket;
+    BluetoothDevice mBluetoothDevice;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
+    protected static final String TAG = "TAG";
     private ViewPager mViewPager;
     private int mKy;
     private int mNam;
@@ -183,9 +203,38 @@ public class MainActivity extends AppCompatActivity {
             new ChangePassword(mUsername, mPassword, MainActivity.this.getApplicationContext(), MainActivity.this);
             return true;
         }
+        else if (id == R.id.action_connect_bluetooth) {
+            mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+            if (mBluetoothAdapter == null) {
+                Toast.makeText(MainActivity.this, "Message1", Toast.LENGTH_SHORT).show();
+            } else {
+                if (!mBluetoothAdapter.isEnabled()) {
+                    Intent enableBtIntent = new Intent(
+                            BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                    startActivityForResult(enableBtIntent,
+                            NUMBER.REQUEST_ENABLE_BT);
+                } else {
+                    ListPairedDevices();
+                    Intent connectIntent = new Intent(MainActivity.this,
+                            DeviceListActivity.class);
+                    startActivityForResult(connectIntent,
+                            NUMBER.REQUEST_CONNECT_DEVICE);
+                }
+            }
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
-
+    private void ListPairedDevices() {
+        Set<BluetoothDevice> mPairedDevices = mBluetoothAdapter
+                .getBondedDevices();
+        if (mPairedDevices.size() > 0) {
+            for (BluetoothDevice mDevice : mPairedDevices) {
+                Log.v(TAG, "PairedDevices: " + mDevice.getName() + "  "
+                        + mDevice.getAddress());
+            }
+        }
+    }
     private void optionChangeUITheme() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Chọn màu nền");
@@ -278,6 +327,35 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
+    @Override
+    public void run() {
+        try {
+            mBluetoothSocket = mBluetoothDevice
+                    .createRfcommSocketToServiceRecord(applicationUUID);
+            mBluetoothAdapter.cancelDiscovery();
+            mBluetoothSocket.connect();
+            mHandler.sendEmptyMessage(0);
+        } catch (IOException eConnectException) {
+            Log.d(TAG, "CouldNotConnectToSocket", eConnectException);
+            closeSocket(mBluetoothSocket);
+            return;
+        }
+    }
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            mBluetoothConnectProgressDialog.dismiss();
+            Toast.makeText(MainActivity.this, "Đã kết nối", Toast.LENGTH_SHORT).show();
+        }
+    };
+    private void closeSocket(BluetoothSocket nOpenSocket) {
+        try {
+            nOpenSocket.close();
+            Log.d(TAG, "SocketClosed");
+        } catch (IOException ex) {
+            Log.d(TAG, "CouldNotCloseSocket");
+        }
+    }
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -320,7 +398,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
+            // Show 2 total pages.
             return 2;
         }
 
@@ -337,10 +415,45 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
+    public void onActivityResult(int mRequestCode, int mResultCode,
+                                 Intent mDataIntent) {
+        super.onActivityResult(mRequestCode, mResultCode, mDataIntent);
+
+        switch (mRequestCode) {
+            case NUMBER.REQUEST_CONNECT_DEVICE:
+                if (mResultCode == Activity.RESULT_OK) {
+                    Bundle mExtra = mDataIntent.getExtras();
+                    String mDeviceAddress = mExtra.getString("DeviceAddress");
+                    Log.v(TAG, "Coming incoming address " + mDeviceAddress);
+                    mBluetoothDevice = mBluetoothAdapter
+                            .getRemoteDevice(mDeviceAddress);
+                    mBluetoothConnectProgressDialog = ProgressDialog.show(this,
+                            "Connecting...", mBluetoothDevice.getName() + " : "
+                                    + mBluetoothDevice.getAddress(), true, false);
+                    Thread mBlutoothConnectThread = new Thread(MainActivity.this);
+                    mBlutoothConnectThread.start();
+                    // pairToDevice(mBluetoothDevice); This method is replaced by
+                    // progress dialog with thread
+                }
+                break;
+
+            case NUMBER.REQUEST_ENABLE_BT:
+                if (mResultCode == Activity.RESULT_OK) {
+                    ListPairedDevices();
+                    Intent connectIntent = new Intent(MainActivity.this,
+                            DeviceListActivity.class);
+                    startActivityForResult(connectIntent, NUMBER.REQUEST_CONNECT_DEVICE);
+                } else {
+                    Toast.makeText(MainActivity.this, "Message", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
 
     @Override
     public void onBackPressed() {
         //do nothing
 
     }
+
 }

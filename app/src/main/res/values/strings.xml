@@ -8,6 +8,7 @@
     <string name="title_activity_scan">Quét mã vạch</string>
     <string name="title_activity_main">Đọc số Tân Hòa</string>
     <string name="save_theme">theme</string>
+    <string name="action_connect_bluetooth">Kết nối BL</string>
     <string name="action_log_out">Đăng xuất</string>
     <string name="action_change_theme">Đổi màu nền</string>
     <string name="action_change_password">Đổi mật khẩu</string>
