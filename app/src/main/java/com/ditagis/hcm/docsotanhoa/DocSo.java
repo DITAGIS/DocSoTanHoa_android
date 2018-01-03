@@ -57,6 +57,7 @@ import com.ditagis.hcm.docsotanhoa.utities.MyAlertByHardware;
 import com.ditagis.hcm.docsotanhoa.utities.MyAlertDialog;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.Note;
+import com.ditagis.hcm.docsotanhoa.utities.Printer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -122,6 +123,7 @@ public class DocSo extends Fragment {
     private FrameLayout mFrameLayoutViewImage;
     private ImageView mImageViewFrame;
     private Button mBtnCloseViewImageFrame;
+
 
     @SuppressLint("ClickableViewAccessibility")
     public DocSo(Activity activity, final LayoutInflater inflater, int mKy, final int mDot, String mUsername, String staffName, int theme, ViewPager viewPager) {
@@ -359,8 +361,7 @@ public class DocSo extends Fragment {
                             break;
                         }
                     }
-                }
-                else if(mHoaDon.getCode_CSC_SanLuong().getCode1().startsWith("K")) {
+                } else if (mHoaDon.getCode_CSC_SanLuong().getCode1().startsWith("K")) {
                     for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
                         if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals("5K")) {
                             mSpinCode.setSelection(i);
@@ -1369,7 +1370,7 @@ public class DocSo extends Fragment {
             this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
 
             Toast.makeText(mRootView.getContext(), "Đã lưu chỉ số mới", Toast.LENGTH_SHORT).show();
-
+            Printer.getInstance().print();
             handleFinishADot();
         } catch (Exception e) {
             MySnackBar.make(mRootView.getRootView(), "Lỗi khi lưu", false);

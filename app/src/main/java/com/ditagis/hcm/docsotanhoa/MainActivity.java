@@ -8,6 +8,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -34,15 +35,15 @@ import com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver;
 import com.ditagis.hcm.docsotanhoa.theme.ThemeUtils;
 import com.ditagis.hcm.docsotanhoa.utities.ChangePassword;
 import com.ditagis.hcm.docsotanhoa.utities.NUMBER;
+import com.ditagis.hcm.docsotanhoa.utities.Printer;
 
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Set;
 import java.util.UUID;
 
 import static com.ditagis.hcm.docsotanhoa.R.id.container;
 
-public class MainActivity extends AppCompatActivity implements Runnable {
+public class MainActivity extends AppCompatActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -123,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 //                        break;
                     case 0:
 //                        mDocSo.setmDot(mLayLoTrinh.getmDo  if (mDocSo.checkDotExist())
-                            mDocSo.refresh();
+                        mDocSo.refresh();
 
                         break;
                     case 1:
@@ -202,8 +203,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
             new ChangePassword(mUsername, mPassword, MainActivity.this.getApplicationContext(), MainActivity.this);
             return true;
-        }
-        else if (id == R.id.action_connect_bluetooth) {
+        } else if (id == R.id.action_connect_bluetooth) {
             mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
             if (mBluetoothAdapter == null) {
                 Toast.makeText(MainActivity.this, "Message1", Toast.LENGTH_SHORT).show();
@@ -221,10 +221,12 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                             NUMBER.REQUEST_CONNECT_DEVICE);
                 }
             }
+
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
     private void ListPairedDevices() {
         Set<BluetoothDevice> mPairedDevices = mBluetoothAdapter
                 .getBondedDevices();
@@ -235,6 +237,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             }
         }
     }
+
     private void optionChangeUITheme() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Chọn màu nền");
@@ -327,35 +330,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         return false;
     }
 
-    @Override
-    public void run() {
-        try {
-            mBluetoothSocket = mBluetoothDevice
-                    .createRfcommSocketToServiceRecord(applicationUUID);
-            mBluetoothAdapter.cancelDiscovery();
-            mBluetoothSocket.connect();
-            mHandler.sendEmptyMessage(0);
-        } catch (IOException eConnectException) {
-            Log.d(TAG, "CouldNotConnectToSocket", eConnectException);
-            closeSocket(mBluetoothSocket);
-            return;
-        }
-    }
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            mBluetoothConnectProgressDialog.dismiss();
-            Toast.makeText(MainActivity.this, "Đã kết nối", Toast.LENGTH_SHORT).show();
-        }
-    };
-    private void closeSocket(BluetoothSocket nOpenSocket) {
-        try {
-            nOpenSocket.close();
-            Log.d(TAG, "SocketClosed");
-        } catch (IOException ex) {
-            Log.d(TAG, "CouldNotCloseSocket");
-        }
-    }
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -415,38 +390,117 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             return null;
         }
     }
+
     public void onActivityResult(int mRequestCode, int mResultCode,
                                  Intent mDataIntent) {
         super.onActivityResult(mRequestCode, mResultCode, mDataIntent);
+        try {
+            switch (mRequestCode) {
+                case NUMBER.REQUEST_CONNECT_DEVICE:
+                    if (mResultCode == Activity.RESULT_OK) {
+                        Bundle mExtra = mDataIntent.getExtras();
+                        String mDeviceAddress = mExtra.getString("DeviceAddress");
+                        Log.v(TAG, "Coming incoming address " + mDeviceAddress);
+                        mBluetoothDevice = mBluetoothAdapter
+                                .getRemoteDevice(mDeviceAddress);
+//
+//                        mBluetoothSocket = mBluetoothDevice
+//                                .createRfcommSocketToServiceRecord(applicationUUID);
+//                        mBluetoothAdapter.cancelDiscovery();
+//                        mBluetoothSocket.connect();
+//                        mHandler.sendEmptyMessage(0);
+                        new ConnectBluetoothAsycn().execute();
+                        // pairToDevice(mBluetoothDevice); This method is replaced by
+                        // progress dialog with thread
+//                        Printer.getInstance().initialize(mBluetoothDevice, mBluetoothAdapter, MainActivity.this.getApplicationContext());
 
-        switch (mRequestCode) {
-            case NUMBER.REQUEST_CONNECT_DEVICE:
-                if (mResultCode == Activity.RESULT_OK) {
-                    Bundle mExtra = mDataIntent.getExtras();
-                    String mDeviceAddress = mExtra.getString("DeviceAddress");
-                    Log.v(TAG, "Coming incoming address " + mDeviceAddress);
-                    mBluetoothDevice = mBluetoothAdapter
-                            .getRemoteDevice(mDeviceAddress);
-                    mBluetoothConnectProgressDialog = ProgressDialog.show(this,
-                            "Connecting...", mBluetoothDevice.getName() + " : "
-                                    + mBluetoothDevice.getAddress(), true, false);
-                    Thread mBlutoothConnectThread = new Thread(MainActivity.this);
-                    mBlutoothConnectThread.start();
-                    // pairToDevice(mBluetoothDevice); This method is replaced by
-                    // progress dialog with thread
-                }
-                break;
+                    }
+                    break;
 
-            case NUMBER.REQUEST_ENABLE_BT:
-                if (mResultCode == Activity.RESULT_OK) {
-                    ListPairedDevices();
-                    Intent connectIntent = new Intent(MainActivity.this,
-                            DeviceListActivity.class);
-                    startActivityForResult(connectIntent, NUMBER.REQUEST_CONNECT_DEVICE);
-                } else {
-                    Toast.makeText(MainActivity.this, "Message", Toast.LENGTH_SHORT).show();
-                }
-                break;
+                case NUMBER.REQUEST_ENABLE_BT:
+                    if (mResultCode == Activity.RESULT_OK) {
+                        ListPairedDevices();
+                        Intent connectIntent = new Intent(MainActivity.this,
+                                DeviceListActivity.class);
+                        startActivityForResult(connectIntent, NUMBER.REQUEST_CONNECT_DEVICE);
+                    } else {
+                        Toast.makeText(MainActivity.this, "Message", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+            }
+        } catch (Exception e) {
+
+
+        }
+    }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+//            mBluetoothConnectProgressDialog.dismiss();
+//            Toast.makeText(MainActivity.this.getApplicationContext(), "Đã kết nối", Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    class ConnectBluetoothAsycn extends AsyncTask<Void, Void, Boolean> {
+
+        private ProgressDialog dialog;
+
+
+        public ConnectBluetoothAsycn() {
+
+//            this.dialog = new ProgressDialog(MainActivity.this.getApplicationContext());
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+//            this.dialog.setTitle("Đang kết nối...");
+//            this.dialog.setMessage(mBluetoothDevice.getName() + " : "
+//                    + mBluetoothDevice.getAddress());
+//            this.dialog.setCancelable(false);
+//            this.dialog.show();
+
+//            this.dialog = ProgressDialog.show(MainActivity.this.getApplicationContext(),
+//                    "Đang kết nối...", mBluetoothDevice.getName() + " : "
+//                            + mBluetoothDevice.getAddress(), true, false);
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                mBluetoothSocket = mBluetoothDevice
+                        .createRfcommSocketToServiceRecord(applicationUUID);
+                mBluetoothAdapter.cancelDiscovery();
+                mBluetoothSocket.connect();
+                mHandler.sendEmptyMessage(0);
+                return true;
+            } catch (Exception e) {
+                System.out.print(e.toString());
+            }
+            return false;
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (result) {
+                Printer.getInstance().initialize(mBluetoothSocket, MainActivity.this.getApplicationContext());
+
+//                if (dialog.isShowing()) {
+//                    dialog.dismiss();
+//                }
+                Toast.makeText(MainActivity.this.getApplicationContext(), "Đã kết nối", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(MainActivity.this.getApplicationContext(), "Kết nối thất bại. Vui lòng kết nối lại", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
