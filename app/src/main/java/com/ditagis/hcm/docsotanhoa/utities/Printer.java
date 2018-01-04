@@ -51,6 +51,10 @@ public class Printer {
     private Printer() {
     }
 
+    public BluetoothSocket getmBluetoothSocket() {
+        return mBluetoothSocket;
+    }
+
     public static Printer getInstance() {
         if (instance == null)
             instance = new Printer();
@@ -84,7 +88,7 @@ public class Printer {
         this.mBluetoothAdapter = mBluetoothAdapter;
     }
 
-    public void print() {
+    public boolean print() {
 //        Thread t = new Thread() {
 //            public void run() {
         try {
@@ -127,23 +131,23 @@ public class Printer {
             y += 40;
             builder.append(String.format("TEXT 7 1 20 %d DANH BA: %s%15s%s\n", y, mHoaDon.getDanhBo(), "MLT: ", mHoaDon.getMaLoTrinh()));
             y += 50;
-            builder.append(String.format("TEXT 7 0 20 %d GIA BIEU: %s - DINH MUC: %sm3\n", y, mHoaDon.getGiaBieu(), mHoaDon.getDinhMuc()));
+            builder.append(String.format("TEXT 7 0 20 %d GIA BIEU: %s - DINH MUC: %s m3\n", y, mHoaDon.getGiaBieu(), mHoaDon.getDinhMuc()));
             y += 30;
             builder.append(String.format("TEXT 7 0 70 %d CHI SO MOI%23s\n", y, mHoaDon.getChiSoMoi()));
             y += 30;
             builder.append(String.format("TEXT 7 0 70 %d CHI SO CU%24s\n", y, mHoaDon.getChiSoCu()));
             y += 30;
-            builder.append(String.format("TEXT 7 0 70 %d TIEU THU%23sm3\n", y, mHoaDon.getTieuThuMoi()));
+            builder.append(String.format("TEXT 7 0 70 %d TIEU THU%25s m3\n", y, mHoaDon.getTieuThuMoi()));
             y += 30;
-            builder.append(String.format("TEXT 7 0 70 %d TIEN NUOC%21.0f VND\n", y, mTienNuoc));
+            builder.append(String.format("TEXT 7 0 70 %d TIEN NUOC%24.0f VND\n", y, mTienNuoc));
             y += 30;
-            builder.append(String.format("TEXT 7 0 70 %d PHI BVMT%22.0f VND\n", y, mTienNuoc / 10));
+            builder.append(String.format("TEXT 7 0 70 %d PHI BVMT%25.0f VND\n", y, mTienNuoc / 10));
             y += 30;
-            builder.append(String.format("TEXT 7 0 70 %d THUE VAT%22.0f VND\n", y, mTienNuoc / 20));
+            builder.append(String.format("TEXT 7 0 70 %d THUE VAT%25.0f VND\n", y, mTienNuoc / 20));
             y += 30;
             builder.append(String.format("TEXT 0 1 70 %d %25s\n", y, "------------"));
             y += 10;
-            builder.append(String.format("TEXT 7 1 40 %d TONG CONG%24.0f VND\n", y, mTienNuoc * 115 / 100) +
+            builder.append(String.format("TEXT 7 1 40 %d TONG CONG%27.0f VND\n", y, mTienNuoc * 115 / 100) +
                     "CENTER\n");
             y += 50;
             builder.append(String.format("TEXT 0 1 0 %d ------------------------\n", y));
@@ -161,13 +165,12 @@ public class Printer {
                     "PRINT\n");
 
             os.write(builder.toString().getBytes());
+            return true;
 ////
         } catch (Exception e) {
             Log.e("MainActivity", "Exe ", e);
         }
-//            }
-//        };
-//        t.start();
+        return false;
     }
 
     private String removeAccent(String s) {

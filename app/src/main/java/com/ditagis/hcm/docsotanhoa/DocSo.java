@@ -125,7 +125,6 @@ public class DocSo extends Fragment {
     private FrameLayout mFrameLayoutViewImage;
     private ImageView mImageViewFrame;
     private Button mBtnCloseViewImageFrame;
-    private LinearLayout mLayoutPrint;
 
     @SuppressLint("ClickableViewAccessibility")
     public DocSo(Activity activity, final LayoutInflater inflater, int mKy, int nam, final int mDot, String mUsername, String staffName, int theme, ViewPager viewPager) {
@@ -152,7 +151,6 @@ public class DocSo extends Fragment {
         mSpinDiaChi = (Spinner) mRootView.findViewById(R.id.spin_ds_diachi);
         mDots.add(dotString);
 
-        mLayoutPrint = (LinearLayout) mRootView.findViewById(R.id.layout_ds_print);
         mFrameLayoutViewImage = (FrameLayout) mRootView.findViewById(R.id.layout_ds_viewImage);
         mImageViewFrame = (ImageView) mRootView.findViewById(R.id.imgView_frame);
         mBtnCloseViewImageFrame = (Button) mRootView.findViewById(R.id.btn_ds_close_viewImage_frame);
@@ -345,6 +343,7 @@ public class DocSo extends Fragment {
                         }
                     }
                 }
+
             }
 
             @Override
@@ -438,7 +437,29 @@ public class DocSo extends Fragment {
     }
 
     private void doPrint() {
-        Printer.getInstance().print();
+        try {
+            if (Printer.getInstance().getmBluetoothSocket() == null) {
+                MySnackBar.make(mEditTextCSM, "Chưa kết nối với máy in", true);
+                return;
+            }
+            if (this.currentTime == null)
+                this.currentTime = Calendar.getInstance().getTime();
+            String datetime = this.formatter.format(this.currentTime);
+            mHoaDon.setThoiGian(datetime);
+            mHoaDon.setTieuThuMoi(((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).getText().toString());
+            mHoaDon.setChiSoMoi(mTxtCSM.getText().toString());
+            Calculate_TienNuoc calculate_tienNuoc = new Calculate_TienNuoc(
+                    Integer.parseInt(mHoaDon.getTieuThuMoi()), mHoaDon.getGiaBieu(),
+                    mHoaDon.getDinhMuc(), mHoaDon.getSh(), mHoaDon.getSx(), mHoaDon.getDv(), mHoaDon.getHc());
+            double tienNuoc = calculate_tienNuoc.getmTienNuoc();
+
+            Printer.getInstance().setValue(mNam, mStaffName,
+                    "01234567890", mHoaDon, tienNuoc);
+            if (Printer.getInstance().print())
+                save(Integer.parseInt(mTxtCSC.getText().toString()), Integer.parseInt(mTxtCSM.getText().toString()));
+        } catch (Exception e) {
+
+        }
     }
 
 //    public void setLayoutPrintVisibility() {
@@ -1359,13 +1380,6 @@ public class DocSo extends Fragment {
             String datetime = this.formatter.format(this.currentTime);
             mHoaDon.setThoiGian(datetime);
 
-
-            Calculate_TienNuoc calculate_tienNuoc = new Calculate_TienNuoc(Integer.parseInt(mHoaDon.getTieuThuMoi()), mHoaDon.getGiaBieu(),
-                    mHoaDon.getDinhMuc(), mHoaDon.getSh(), mHoaDon.getSx(), mHoaDon.getDv(), mHoaDon.getHc());
-            double tienNuoc = calculate_tienNuoc.getmTienNuoc();
-
-            Printer.getInstance().setValue(mNam, mStaffName,
-                    "01234567890", mHoaDon, tienNuoc);
 
             LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonUnRead(mHoaDon);
             mTxtTT.setText("");
