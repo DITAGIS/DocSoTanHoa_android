@@ -1386,12 +1386,11 @@ public class DocSo extends Fragment {
 
             Calculate_TienNuoc calculate_tienNuoc = new Calculate_TienNuoc(Integer.parseInt(mHoaDon.getTieuThuMoi()), mHoaDon.getGiaBieu(),
                     mHoaDon.getDinhMuc(), mHoaDon.getSh(), mHoaDon.getSx(), mHoaDon.getDv(), mHoaDon.getHc());
-            calculate_tienNuoc.calculate();
             double tienNuoc = calculate_tienNuoc.getmTienNuoc();
 
             Printer.getInstance().setValue("10/11/2017", "10/12/2017", mStaffName,
                     "01234567890", mHoaDon, tienNuoc);
-            doPrint();
+
             LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonUnRead(mHoaDon);
             mTxtTT.setText("");
             notifyDataSetChange(mHoaDon);
