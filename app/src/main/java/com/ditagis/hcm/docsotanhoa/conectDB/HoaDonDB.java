@@ -11,16 +11,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
     private final String TABLE_NAME = "DocSo";
-    private final String SQL_SELECT_GETALL_BY_USERNAME = "SELECT gb,dm,CSCU, MLT2, soThanCu, hieucu, cocu, vitricu, codemoi FROM " + TABLE_NAME;
+    private final String SQL_SELECT_GETALL_BY_USERNAME = "SELECT gb,dm,CSCU, MLT2, soThanCu, hieucu, cocu, vitricu, codemoi,tungay, denngay FROM " + TABLE_NAME;
     private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
     private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + " VALUES(?,?,?,?,?)";
     private final String SQL_DELETE = "DELETE FROM " + TABLE_NAME + " WHERE ClassId=?";
-
+    DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     private String mDot;
     private String mStaffname;
     PreparedStatement mStatement;
@@ -200,6 +202,8 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                 String sanLuong_1 = "";
                 int sh, sx, dv, hc;
                 sh = sx = dv = hc = 0;
+                String tuNgay =formatter.format(rs.getDate(10));
+                String denNgay =formatter.format(rs.getDate(11));
                 mStatement = cnn.prepareStatement("SELECT tenkh,so, duong, sdt, sh,sx,dv,hc FROM KhachHang where MLT2 = ?");
                 mStatement.setString(1, maLoTrinh);
                 ResultSet rs1 = mStatement.executeQuery();
@@ -292,10 +296,13 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                 hoaDon.setSx(sx);
                 hoaDon.setDv(dv);
                 hoaDon.setHc(hc);
-                rs.close();
+                hoaDon.setTuNgay(tuNgay);
+                hoaDon.setDenNgay(denNgay);
+
 
 
             }
+            rs.close();
         } catch (SQLException e) {
 
             e.printStackTrace();

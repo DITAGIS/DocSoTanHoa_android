@@ -107,6 +107,7 @@ public class DocSo extends Fragment {
     private int mSumDanhBo, mDanhBoHoanThanh;
     private String mStaffName;
     private int mDot, mKy;
+    private int mNam;
     private String mGhiChu;
     private Date currentTime;
     private ArrayAdapter<String> mAdapterDB, mAdapterTenKH, mAdapterDiaChi, mAdapterSdt;
@@ -127,12 +128,12 @@ public class DocSo extends Fragment {
     private LinearLayout mLayoutPrint;
 
     @SuppressLint("ClickableViewAccessibility")
-    public DocSo(Activity activity, final LayoutInflater inflater, int mKy, final int mDot, String mUsername, String staffName, int theme, ViewPager viewPager) {
+    public DocSo(Activity activity, final LayoutInflater inflater, int mKy,int nam, final int mDot, String mUsername, String staffName, int theme, ViewPager viewPager) {
         this.mActivity = activity;
         this.mStaffName = staffName;
         this.mDot = mDot;
         this.mKy = mKy;
-
+this.mNam = nam;
 
         this.mSelected_theme = theme;
 //        this.mLike = "__" + mUsername + "%";
@@ -271,48 +272,20 @@ public class DocSo extends Fragment {
         mEditTextCSM.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-//                if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
-//                    MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
-//                    ), false);
-//                    mEditTextCSM.setFocusable(false);
-//                    HideKeyboard.hide(mActivity);
-//
-//                } else if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
-//                    MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
-//                    ), false);
-//                    mEditTextCSM.setFocusable(false);
-//                    HideKeyboard.hide(mActivity);
-                if (mHoaDon.getImage_byteArray().length < 100) {
-                    try {
-                        mEditTextCSM.setFocusableInTouchMode(true);
-                    } catch (Exception e) {
-                        MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
-                        ), false);
-                        mEditTextCSM.setFocusable(false);
-                        HideKeyboard.hide(mActivity);
-                    }
-                } else {
-//                    File f = ImageFile.getFile(currentTime, mRootView, mDanhBo);
-//                    if (f != null && f.exists()) {
-                    mEditTextCSM.setFocusableInTouchMode(true);
-//                    } else {
+//                if (mHoaDon.getImage_byteArray().length < 100) {
+//                    try {
+//                        mEditTextCSM.setFocusableInTouchMode(true);
+//                    } catch (Exception e) {
 //                        MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
 //                        ), false);
 //                        mEditTextCSM.setFocusable(false);
 //                        HideKeyboard.hide(mActivity);
 //                    }
-
-                }
-//                if (mHoaDon.getImage().equals("null")) {
-//                    MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
-//                    ), false);
-//                    mEditTextCSM.setFocusable(false);
-//                    HideKeyboard.hide(mActivity);
 //                } else {
 //                    mEditTextCSM.setFocusableInTouchMode(true);
+//
 //                }
 //                return false;
-//            }
                 return false;
             }
         });
@@ -1388,7 +1361,7 @@ public class DocSo extends Fragment {
                     mHoaDon.getDinhMuc(), mHoaDon.getSh(), mHoaDon.getSx(), mHoaDon.getDv(), mHoaDon.getHc());
             double tienNuoc = calculate_tienNuoc.getmTienNuoc();
 
-            Printer.getInstance().setValue("10/11/2017", "10/12/2017", mStaffName,
+            Printer.getInstance().setValue(mNam, mStaffName,
                     "01234567890", mHoaDon, tienNuoc);
 
             LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonUnRead(mHoaDon);
@@ -1906,11 +1879,12 @@ public class DocSo extends Fragment {
 //                            fos.close();
                             Toast.makeText(mRootView.getContext(), "Đã lưu ảnh", Toast.LENGTH_SHORT).show();
                             setNextFocusEdittextCSM();
-                            mEditTextCSM.setFocusableInTouchMode(true);
+
+//                            mEditTextCSM.setFocusableInTouchMode(true);
                             mFrameLayoutViewImage.setVisibility(View.VISIBLE);
                             showImageViewInFrame(image);
 
-                            mEditTextCSM.requestFocus();
+//                            mEditTextCSM.requestFocus();
 
                         }
 //                    } catch (FileNotFoundException e) {

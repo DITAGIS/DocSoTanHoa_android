@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-        mDocSo = new DocSo(MainActivity.this, getLayoutInflater(), mKy, mDot, mUsername, mStaffName, loadPreferences(getString(R.string.save_theme)), mViewPager);
+        mDocSo = new DocSo(MainActivity.this, getLayoutInflater(), mKy, mNam, mDot, mUsername, mStaffName, loadPreferences(getString(R.string.save_theme)), mViewPager);
         mQuanLyDocSo = new QuanLyDocSo(getLayoutInflater(), mDot, mKy, mNam, mUsername);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
