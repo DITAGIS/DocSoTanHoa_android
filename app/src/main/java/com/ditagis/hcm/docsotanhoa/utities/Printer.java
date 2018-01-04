@@ -16,7 +16,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.Normalizer;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -40,6 +42,7 @@ public class Printer {
     private HoaDon mHoaDon;
     private double mTienNuoc;
     private int mNam;
+    //    DecimalFormat df = new DecimalFormat("###.###.###,###");
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -97,7 +100,7 @@ public class Printer {
 //            mBluetoothAdapter.cancelDiscovery();
 //            mBluetoothSocket.connect();
 //            mHandler.sendEmptyMessage(0);
-
+            NumberFormat.getNumberInstance(Locale.CANADA).format(35634646);
             OutputStream os = mBluetoothSocket
                     .getOutputStream();
             String test = "! 0 200 200 210 1\r\n"
@@ -110,9 +113,9 @@ public class Printer {
             builder.append("! 0 200 200 960 1\n" +
 
                     "CENTER\n" +
-                    "TEXT 0 1 0 50 ------------------------------------\n" +
-                    "TEXT 0 1 0 70 CTY CP CAP NUOC TAN HOA\n" + //font 0,4,7
-                    "TEXT 0 1 0 90 95 PHAM HUU CHI, P12, Q5\n" +
+                    "TEXT 0 1 0 30 ------------------------------------\n" +
+                    "TEXT 0 1 0 50 CTY CP CAP NUOC TAN HOA\n" + //font 0,4,7
+                    "TEXT 0 1 0 80 95 PHAM HUU CHI, P12, Q5\n" +
                     "TEXT 7 1 0 100 PHIEU BAO C.SO & TIEN NUOC DU KIEN\n");
             builder.append(String.format("TEXT 0 1 0 %d KY %s/%s\n", y, mHoaDon.getKy(), mNam + ""));
             y += 20;
@@ -128,8 +131,8 @@ public class Printer {
             builder.append(String.format("TEXT 7 0 20 %d KHACH HANG: %s\n", y, mHoaDon.getTenKhachHang()));
             y += 40;
             builder.append(String.format("TEXT 7 0 20 %d DIA CHI: %s\n", y, mHoaDon.getDiaChi()));
-            y += 40;
-            builder.append(String.format("TEXT 7 1 20 %d DANH BA: %s%15s%s\n", y, mHoaDon.getDanhBo(), "MLT: ", mHoaDon.getMaLoTrinh()));
+            y += 35;
+            builder.append(String.format("TEXT 7 1 20 %d DANH BA: %s%11s%s\n", y, spaceDB(mHoaDon.getDanhBo()), "MLT: ",spaceMLT( mHoaDon.getMaLoTrinh())));
             y += 50;
             builder.append(String.format("TEXT 7 0 20 %d GIA BIEU: %s - DINH MUC: %s m3\n", y, mHoaDon.getGiaBieu(), mHoaDon.getDinhMuc()));
             y += 30;
@@ -139,15 +142,15 @@ public class Printer {
             y += 30;
             builder.append(String.format("TEXT 7 0 70 %d TIEU THU%25s m3\n", y, mHoaDon.getTieuThuMoi()));
             y += 30;
-            builder.append(String.format("TEXT 7 0 70 %d TIEN NUOC%24.0f VND\n", y, mTienNuoc));
+            builder.append(String.format("TEXT 7 0 70 %d TIEN NUOC%24s VND\n", y, NumberFormat.getNumberInstance(Locale.US).format(mTienNuoc))); //.0f
             y += 30;
-            builder.append(String.format("TEXT 7 0 70 %d PHI BVMT%25.0f VND\n", y, mTienNuoc / 10));
+            builder.append(String.format("TEXT 7 0 70 %d PHI BVMT%25s VND\n", y, NumberFormat.getNumberInstance(Locale.US).format(mTienNuoc / 10)));
             y += 30;
-            builder.append(String.format("TEXT 7 0 70 %d THUE VAT%25.0f VND\n", y, mTienNuoc / 20));
+            builder.append(String.format("TEXT 7 0 70 %d THUE VAT%25s VND\n", y, NumberFormat.getNumberInstance(Locale.US).format(mTienNuoc / 20)));
             y += 30;
             builder.append(String.format("TEXT 0 1 70 %d %25s\n", y, "------------"));
             y += 10;
-            builder.append(String.format("TEXT 7 1 40 %d TONG CONG%27.0f VND\n", y, mTienNuoc * 115 / 100) +
+            builder.append(String.format("TEXT 7 1 40 %d TONG CONG%27s VND\n", y, NumberFormat.getNumberInstance(Locale.US).format(mTienNuoc * 115 / 100)) +
                     "CENTER\n");
             y += 50;
             builder.append(String.format("TEXT 0 1 0 %d ------------------------\n", y));
@@ -172,7 +175,16 @@ public class Printer {
         }
         return false;
     }
-
+    private String spaceMLT(String mlt) {
+        String output = "";
+        output = (mlt.substring(0, 2)).concat(" ").concat(mlt.substring(2, 4)).concat(" ").concat(mlt.substring(4));
+        return output;
+    }
+    private String spaceDB(String danhBo) {
+        String output = "";
+        output = (danhBo.substring(0, 4)).concat(" ").concat(danhBo.substring(4, 7)).concat(" ").concat(danhBo.substring(7));
+        return output;
+    }
     private String removeAccent(String s) {
 
         String temp = Normalizer.normalize(s, Normalizer.Form.NFD);
