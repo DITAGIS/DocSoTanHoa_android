@@ -128,12 +128,12 @@ public class DocSo extends Fragment {
     private LinearLayout mLayoutPrint;
 
     @SuppressLint("ClickableViewAccessibility")
-    public DocSo(Activity activity, final LayoutInflater inflater, int mKy,int nam, final int mDot, String mUsername, String staffName, int theme, ViewPager viewPager) {
+    public DocSo(Activity activity, final LayoutInflater inflater, int mKy, int nam, final int mDot, String mUsername, String staffName, int theme, ViewPager viewPager) {
         this.mActivity = activity;
         this.mStaffName = staffName;
         this.mDot = mDot;
         this.mKy = mKy;
-this.mNam = nam;
+        this.mNam = nam;
 
         this.mSelected_theme = theme;
 //        this.mLike = "__" + mUsername + "%";
@@ -412,12 +412,12 @@ this.mNam = nam;
                 sort();
             }
         });
-        ((LinearLayout) mRootView.findViewById(R.id.layout_ds_save_without_csm)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                save_without_csm();
-            }
-        });
+//        ((LinearLayout) mRootView.findViewById(R.id.layout_ds_save_without_csm)).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                save_without_csm();
+//            }
+//        });
 
         mSdts.add(" ");
         mSpinSdt = (Spinner) mRootView.findViewById(R.id.spin_ds_sdt);
@@ -441,16 +441,16 @@ this.mNam = nam;
         Printer.getInstance().print();
     }
 
-    public void setLayoutPrintVisibility() {
-        try {
-            if (mLayoutPrint.getVisibility() == View.VISIBLE)
-                mLayoutPrint.setVisibility(View.INVISIBLE);
-            else
-                mLayoutPrint.setVisibility(View.VISIBLE);
-        } catch (Exception e) {
-
-        }
-    }
+//    public void setLayoutPrintVisibility() {
+//        try {
+//            if (mLayoutPrint.getVisibility() == View.VISIBLE)
+//                mLayoutPrint.setVisibility(View.INVISIBLE);
+//            else
+//                mLayoutPrint.setVisibility(View.VISIBLE);
+//        } catch (Exception e) {
+//
+//        }
+//    }
 
     private void change_address() {
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());//getLayoutInflater();
@@ -548,34 +548,6 @@ this.mNam = nam;
         return sdt;
     }
 
-    private void save_without_csm() {
-        HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
-        hoaDon.setCodeMoi(mCode);
-        hoaDon.setGhiChu(mGhiChu);
-        hoaDon.setSoNha(mSoNha);
-        hoaDon.setDuong(mDuong);
-        if (mEditTextViTri.getText().toString().length() > 0)
-            hoaDon.setViTri(mEditTextViTri.getText().toString());
-//        if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
-//
-//        } else if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
-//
-//        } else {
-//            hoaDon.setImage(ImageFile.getFile(currentTime, mRootView, mDanhBo).getAbsolutePath());
-//            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-//            Bitmap bit = BitmapFactory.decodeFile(hoaDon.getImage());
-//            bit.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-//
-//
-//            hoaDon.setImage_byteArray(outputStream.toByteArray());
-//        }
-
-        hoaDon.setSdt(getSdtString());
-        mHoaDon = hoaDon;
-
-        LocalDatabase.getInstance(mRootView.getContext()).updateHoaDon_without_csm(hoaDon, Flag.UNREAD);
-        Toast.makeText(mRootView.getContext(), "Đã lưu", Toast.LENGTH_LONG).show();
-    }
 
     private String spaceMLT(String mlt) {
         String output = "";
@@ -1022,6 +994,7 @@ this.mNam = nam;
                 }
             } catch (Exception e) {
                 MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+                save_without_csm();
                 return;
             }
         } else {
@@ -1048,8 +1021,10 @@ this.mNam = nam;
                         save(csc, csm);
                     }
                 }
+                save_without_csm();
             } else {
                 MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+                save_without_csm();
                 return;
             }
 
@@ -1273,7 +1248,7 @@ this.mNam = nam;
         return false;
     }
 
-//    private void save(int csc, int csm) {
+    //    private void save(int csc, int csm) {
 //        String dotString = mDot + "";
 //        if (mDot < 10)
 //            dotString = "0" + mDot;
@@ -1319,6 +1294,34 @@ this.mNam = nam;
 //        handleFinishADot();
 //
 //    }
+    private void save_without_csm() {
+        HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
+        hoaDon.setCodeMoi(mCode);
+        hoaDon.setGhiChu(mGhiChu);
+        hoaDon.setSoNha(mSoNha);
+        hoaDon.setDuong(mDuong);
+        if (mEditTextViTri.getText().toString().length() > 0)
+            hoaDon.setViTri(mEditTextViTri.getText().toString());
+//        if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
+//
+//        } else if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
+//
+//        } else {
+//            hoaDon.setImage(ImageFile.getFile(currentTime, mRootView, mDanhBo).getAbsolutePath());
+//            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//            Bitmap bit = BitmapFactory.decodeFile(hoaDon.getImage());
+//            bit.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+//
+//
+//            hoaDon.setImage_byteArray(outputStream.toByteArray());
+//        }
+
+        hoaDon.setSdt(getSdtString());
+        mHoaDon = hoaDon;
+
+        LocalDatabase.getInstance(mRootView.getContext()).updateHoaDon_without_csm(hoaDon, Flag.UNREAD);
+        Toast.makeText(mRootView.getContext(), "Đã lưu", Toast.LENGTH_LONG).show();
+    }
 
     private void save(int csc, int csm) {
         try {
@@ -1600,11 +1603,9 @@ this.mNam = nam;
                     public void onClick(DialogInterface dialog, int id) {
                         if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
                             MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
-//                            save(csc, csm);
                         }
                         if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
                             MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
-//                            save(csc, csm);
                         } else {
                             save(csc, csm);
                         }
@@ -1633,8 +1634,6 @@ this.mNam = nam;
     }
 
     private void doScan() {
-//        Barcode.getInstance(mActivity, mRootView).scanCode();
-
         Intent scannerIntent = new Intent(mActivity, ScannerActivity.class);
         startActivityForResult(scannerIntent, REQUEST_ID_SCAN);
     }
@@ -1782,22 +1781,11 @@ this.mNam = nam;
 
 
     private void doCamera() {
-//        if (!mHoaDon.getImage().equals("null")) {
-//            try {
-//                showImage(mHoaDon.getImage());
-//            } catch (Exception e) {
-//                capture();
-//            }
-//        } else {
-////            File f = ImageFile.getFile(currentTime, mRootView, mDanhBo);
-////            if (f != null && f.exists()) {
         if (mHoaDon.getImage_byteArray().length > 100) {
 
             showImage(ImageFile.getFile(currentTime, mRootView, mDanhBo));
         } else
             capture();
-//        }
-
     }
 
     private void capture() {
@@ -1887,15 +1875,8 @@ this.mNam = nam;
 //                            mEditTextCSM.requestFocus();
 
                         }
-//                    } catch (FileNotFoundException e) {
-//                        MySnackBar.make(mRootView, "Lỗi khi lưu ảnh", false);
-//                        e.printStackTrace();
-//                    } catch (IOException e) {
-//                        MySnackBar.make(mRootView, "Lỗi khi lưu ảnh", false);
-//                        e.printStackTrace();
-//                    }
                     } catch (Exception e) {
-
+                        Toast.makeText(mRootView.getContext(), "Chưa lưu được ảnh", Toast.LENGTH_SHORT).show();
                     }
                 }
             } else if (resultCode == RESULT_CANCELED) {

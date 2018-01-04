@@ -1035,13 +1035,44 @@
                             android:textSize="20sp" />
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/layout_ds_save_without_csm"
+                    <!--<LinearLayout-->
+                        <!--android:id="@+id/layout_ds_save_without_csm"-->
 
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:layout_weight="1"-->
+
+                        <!--android:orientation="vertical">-->
+
+                        <!--<LinearLayout-->
+
+                            <!--android:layout_width="50dp"-->
+                            <!--android:layout_height="50dp"-->
+                            <!--android:layout_gravity="center"-->
+                            <!--android:background="@drawable/save_except_csm"-->
+
+                            <!--android:orientation="horizontal">-->
+
+                        <!--</LinearLayout>-->
+
+                        <!--<TextView-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_gravity="bottom"-->
+                            <!--android:gravity="center_horizontal"-->
+                            <!--android:text="Lưu"-->
+                            <!--android:textColor="@color/colorToolBar_Row_1"-->
+                            <!--android:textSize="20sp" />-->
+                    <!--</LinearLayout>-->
+
+                    <LinearLayout
+                        android:id="@+id/layout_ds_print"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
+
 
                         android:orientation="vertical">
 
@@ -1050,7 +1081,7 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_gravity="center"
-                            android:background="@drawable/save_except_csm"
+                            android:background="@drawable/print"
 
                             android:orientation="horizontal">
 
@@ -1061,11 +1092,10 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom"
                             android:gravity="center_horizontal"
-                            android:text="Lưu"
+                            android:text="In GBTN"
                             android:textColor="@color/colorToolBar_Row_1"
                             android:textSize="20sp" />
                     </LinearLayout>
-
                     <LinearLayout
                         android:id="@+id/layout_ds_saveAll"
                         android:layout_width="0dp"
@@ -1103,10 +1133,10 @@
 
         <FrameLayout
             android:id="@+id/layout_ds_viewImage"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="120dp"
+            android:layout_marginBottom="220dp"
             android:background="@color/colorCSC_SL_0_1"
             android:visibility="invisible">
 
@@ -1126,36 +1156,6 @@
                 android:textSize="15sp" />
         </FrameLayout>
 
-        <LinearLayout
-            android:id="@+id/layout_ds_print"
-            android:layout_width="100dp"
-            android:layout_height="75dp"
-            android:layout_gravity="bottom"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:background="@color/color_row_check_1"
-            android:orientation="vertical"
-            android:visibility="invisible">
 
-            <LinearLayout
-
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:background="@drawable/print"
-
-                android:orientation="horizontal">
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:gravity="center_horizontal"
-                android:text="In GBTN"
-                android:textColor="@color/colorToolBar_Row_1"
-                android:textSize="20sp" />
-        </LinearLayout>
     </FrameLayout>
 </android.support.v4.widget.NestedScrollView>

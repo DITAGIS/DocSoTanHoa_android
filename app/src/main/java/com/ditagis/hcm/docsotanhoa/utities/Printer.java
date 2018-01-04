@@ -103,7 +103,7 @@ public class Printer {
 //            DecimalFormat decimalFormat = new DecimalFormat("#. ###");
             int y = 160;
             StringBuilder builder = new StringBuilder();
-            builder.append("! 0 200 200 970 1\n" +
+            builder.append("! 0 200 200 960 1\n" +
 
                     "CENTER\n" +
                     "TEXT 0 1 0 50 ------------------------------------\n" +

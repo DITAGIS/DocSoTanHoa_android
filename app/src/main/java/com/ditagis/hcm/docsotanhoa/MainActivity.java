@@ -223,9 +223,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
             return true;
-        } else if (id == R.id.action_show_hide_print) {
-            mDocSo.setLayoutPrintVisibility();
-            return true;
         }
         return super.onOptionsItemSelected(item);
     }
