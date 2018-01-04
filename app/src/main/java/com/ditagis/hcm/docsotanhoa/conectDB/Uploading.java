@@ -100,8 +100,6 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
     @Override
     public Boolean add(HoaDon hoaDon) {
 
-
-//            int result = addDocSoLuuTru(hoaDon);
         boolean resultUpdateHoaDon = false;
         int resultAddImage = 1;
         if (hoaDon.getImage_byteArray().length > 1000)
