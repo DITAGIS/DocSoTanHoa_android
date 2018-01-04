@@ -223,6 +223,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
             return true;
+        } else if (id == R.id.action_show_hide_print) {
+            mDocSo.setLayoutPrintVisibility();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -497,8 +500,7 @@ public class MainActivity extends AppCompatActivity {
 //                    dialog.dismiss();
 //                }
                 Toast.makeText(MainActivity.this.getApplicationContext(), "Đã kết nối", Toast.LENGTH_SHORT).show();
-            }
-            else {
+            } else {
                 Toast.makeText(MainActivity.this.getApplicationContext(), "Kết nối thất bại. Vui lòng kết nối lại", Toast.LENGTH_LONG).show();
             }
         }

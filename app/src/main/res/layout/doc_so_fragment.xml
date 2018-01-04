@@ -957,7 +957,8 @@
                             android:paddingRight="@dimen/activity_horizontal_margin"
                             android:textColor="@color/colorTextColor_1"
                             android:textColorHint="@color/colorTextColor_1"
-                            android:textCursorDrawable="@null" >
+                            android:textCursorDrawable="@null">
+
                             <requestFocus />
                         </EditText>
                     </TableRow>
@@ -1115,7 +1116,7 @@
                 android:layout_height="wrap_content" />
 
             <Button
-          android:id="@+id/btn_ds_close_viewImage_frame"
+                android:id="@+id/btn_ds_close_viewImage_frame"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="end"
@@ -1124,5 +1125,37 @@
                 android:textColor="@android:color/holo_red_dark"
                 android:textSize="15sp" />
         </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_ds_print"
+            android:layout_width="100dp"
+            android:layout_height="75dp"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@color/color_row_check_1"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <LinearLayout
+
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/print"
+
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:gravity="center_horizontal"
+                android:text="In GBTN"
+                android:textColor="@color/colorToolBar_Row_1"
+                android:textSize="20sp" />
+        </LinearLayout>
     </FrameLayout>
 </android.support.v4.widget.NestedScrollView>

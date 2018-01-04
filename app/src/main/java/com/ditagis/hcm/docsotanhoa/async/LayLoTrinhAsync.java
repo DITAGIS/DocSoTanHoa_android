@@ -118,6 +118,8 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
 
             for (String danhBo : DBs) {
                 if (mIsLoading) {
+                    if(danhBo.equals("13011010951"))
+                        mIsLoading = true;
                     HoaDon hoaDon = _hoadonDB.getHoaDonByUserName(this.mUsername, danhBo, this.mDot, this.mNam, this.mKy);
                     if (hoaDon.getCodeMoi() != null)
                         if (hoaDon.getCodeMoi().contains("F")) {

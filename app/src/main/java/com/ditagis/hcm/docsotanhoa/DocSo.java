@@ -50,6 +50,7 @@ import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 import com.ditagis.hcm.docsotanhoa.theme.ThemeUtils;
 import com.ditagis.hcm.docsotanhoa.utities.CalculateCSM_TieuThu;
+import com.ditagis.hcm.docsotanhoa.utities.Calculate_TienNuoc;
 import com.ditagis.hcm.docsotanhoa.utities.Flag;
 import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
 import com.ditagis.hcm.docsotanhoa.utities.ImageFile;
@@ -123,7 +124,7 @@ public class DocSo extends Fragment {
     private FrameLayout mFrameLayoutViewImage;
     private ImageView mImageViewFrame;
     private Button mBtnCloseViewImageFrame;
-
+    private LinearLayout mLayoutPrint;
 
     @SuppressLint("ClickableViewAccessibility")
     public DocSo(Activity activity, final LayoutInflater inflater, int mKy, final int mDot, String mUsername, String staffName, int theme, ViewPager viewPager) {
@@ -131,6 +132,7 @@ public class DocSo extends Fragment {
         this.mStaffName = staffName;
         this.mDot = mDot;
         this.mKy = mKy;
+
 
         this.mSelected_theme = theme;
 //        this.mLike = "__" + mUsername + "%";
@@ -149,6 +151,7 @@ public class DocSo extends Fragment {
         mSpinDiaChi = (Spinner) mRootView.findViewById(R.id.spin_ds_diachi);
         mDots.add(dotString);
 
+        mLayoutPrint = (LinearLayout) mRootView.findViewById(R.id.layout_ds_print);
         mFrameLayoutViewImage = (FrameLayout) mRootView.findViewById(R.id.layout_ds_viewImage);
         mImageViewFrame = (ImageView) mRootView.findViewById(R.id.imgView_frame);
         mBtnCloseViewImageFrame = (Button) mRootView.findViewById(R.id.btn_ds_close_viewImage_frame);
@@ -405,6 +408,12 @@ public class DocSo extends Fragment {
                 doScan();
             }
         });
+        mRootView.findViewById(R.id.layout_ds_print).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doPrint();
+            }
+        });
         mRootView.findViewById(R.id.layout_ds_note).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -453,6 +462,21 @@ public class DocSo extends Fragment {
         });
         refresh();
 //        sort();
+    }
+
+    private void doPrint() {
+        Printer.getInstance().print();
+    }
+
+    public void setLayoutPrintVisibility() {
+        try {
+            if (mLayoutPrint.getVisibility() == View.VISIBLE)
+                mLayoutPrint.setVisibility(View.INVISIBLE);
+            else
+                mLayoutPrint.setVisibility(View.VISIBLE);
+        } catch (Exception e) {
+
+        }
     }
 
     private void change_address() {
@@ -1359,6 +1383,15 @@ public class DocSo extends Fragment {
             String datetime = this.formatter.format(this.currentTime);
             mHoaDon.setThoiGian(datetime);
 
+
+            Calculate_TienNuoc calculate_tienNuoc = new Calculate_TienNuoc(Integer.parseInt(mHoaDon.getTieuThuMoi()), mHoaDon.getGiaBieu(),
+                    mHoaDon.getDinhMuc(), mHoaDon.getSh(), mHoaDon.getSx(), mHoaDon.getDv(), mHoaDon.getHc());
+            calculate_tienNuoc.calculate();
+            double tienNuoc = calculate_tienNuoc.getmTienNuoc();
+
+            Printer.getInstance().setValue("10/11/2017", "10/12/2017", mStaffName,
+                    "01234567890", mHoaDon, tienNuoc);
+            doPrint();
             LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonUnRead(mHoaDon);
             mTxtTT.setText("");
             notifyDataSetChange(mHoaDon);
@@ -1368,10 +1401,8 @@ public class DocSo extends Fragment {
                 selectMLT(i == mMLTs.size() ? i - 1 : i);
             this.mDanhBoHoanThanh++;
             this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
-
-            Toast.makeText(mRootView.getContext(), "Đã lưu chỉ số mới", Toast.LENGTH_SHORT).show();
-            Printer.getInstance().print();
             handleFinishADot();
+            Toast.makeText(mRootView.getContext(), "Đã lưu chỉ số mới", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             MySnackBar.make(mRootView.getRootView(), "Lỗi khi lưu", false);
         }

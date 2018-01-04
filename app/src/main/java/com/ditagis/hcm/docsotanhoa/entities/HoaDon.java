@@ -27,6 +27,7 @@ public class HoaDon {
     private String thoiGian;
     private Code_CSC_SanLuong code_CSC_SanLuong;
     private int flag;
+    private int sh, sx, dv, hc;
     private String soThan;
     private String viTri;
     private String hieu;
@@ -156,6 +157,38 @@ public class HoaDon {
         this.maLoTrinh = maLoTrinh;
         this.sdt = sdt;
         this.flag = flag;
+    }
+
+    public int getSh() {
+        return sh;
+    }
+
+    public void setSh(int sh) {
+        this.sh = sh;
+    }
+
+    public int getSx() {
+        return sx;
+    }
+
+    public void setSx(int sx) {
+        this.sx = sx;
+    }
+
+    public int getDv() {
+        return dv;
+    }
+
+    public void setDv(int dv) {
+        this.dv = dv;
+    }
+
+    public int getHc() {
+        return hc;
+    }
+
+    public void setHc(int hc) {
+        this.hc = hc;
     }
 
     public int getFlag() {

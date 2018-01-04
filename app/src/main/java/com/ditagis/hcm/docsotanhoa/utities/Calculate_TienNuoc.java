@@ -12,13 +12,14 @@ public class Calculate_TienNuoc {
     private int mSH, mSX, mDV, mHC;
     private int SHTM, SHVM1, SHVM2;
 
-    public Calculate_TienNuoc(String gb, int sh, int sx, int dv, int hc) {
+    public Calculate_TienNuoc(int tieuthu, String gb, String dm, int sh, int sx, int dv, int hc) {
         this.mGB = gb;
+        mDM = Integer.parseInt(dm);
         mSH = sh;
         mSX = sx;
         mDV = dv;
         mHC = hc;
-        this.mTieuThu = -1;
+        this.mTieuThu = tieuthu;
         calculate();
     }
 
@@ -140,7 +141,7 @@ public class Calculate_TienNuoc {
                 reset();
                 if (hasRatio()) {
                     calculateSHTM_VM1_VM2();
-                    double ratioSH = mSH / 100, ratioSX = mSX / 100;
+                    double ratioSH = (double)mSH / 100, ratioSX = (double)mSX / 100;
                     mTienNuoc = ratioSH * calculateTienNuoc_TM_VM1_VM2() + ratioSX * calculateSX();
                 } else {
                     calculateSHTM_VM();
@@ -152,7 +153,7 @@ public class Calculate_TienNuoc {
                 reset();
                 if (hasRatio()) {
                     calculateSHTM_VM1_VM2();
-                    double ratioSH = mSH / 100, ratioDV = mDV / 100;
+                    double ratioSH =(double) mSH / 100, ratioDV = (double)mDV / 100;
                     mTienNuoc = ratioSH * calculateTienNuoc_TM_VM1_VM2() + ratioDV * calculateDV();
                 } else {
                     calculateSHTM_VM();
@@ -164,11 +165,11 @@ public class Calculate_TienNuoc {
                 reset();
                 if (mSH > 0) {
                     calculateSHTM_VM1_VM2();
-                    double ratioSH = mSH / 100, ratioSX = mSX / 100, ratioDV = mDV / 100;
+                    double ratioSH = (double)mSH / 100, ratioSX = (double)mSX / 100, ratioDV = (double)mDV / 100;
                     mTienNuoc = ratioSH * calculateTienNuoc_TM_VM1_VM2() + ratioSX * calculateSX() + ratioDV * calculateDV();
                 } else {
                     calculateSHTM_VM();
-                    double ratioSX = mSX / 100, ratioDV = mDV / 100;
+                    double ratioSX = (double)mSX / 100, ratioDV = (double)mDV / 100;
                     mTienNuoc = ratioSX * calculateSX() + ratioDV * calculateDV();
                 }
                 break;
@@ -182,7 +183,7 @@ public class Calculate_TienNuoc {
                 reset();
                 if (hasRatio()) {
                     calculateSHTM_VM1_VM2();
-                    double ratioSH = mSH / 100, ratioHC = mHC / 100;
+                    double ratioSH = (double)mSH / 100, ratioHC = (double)mHC / 100;
                     mTienNuoc = ratioSH * calculateTienNuoc_TM_VM1_VM2() + ratioHC * calculateHC();
                 } else {
                     calculateSHTM_VM();
@@ -194,7 +195,7 @@ public class Calculate_TienNuoc {
             case "39":
                 reset();
                 calculateSHTM_VM1_VM2();
-                double ratioSH = mSH / 100, ratioSX = mSX / 100, ratioDV = mDV / 100, ratioHC = mHC / 100;
+                double ratioSH =(double) mSH / 100, ratioSX =(double) mSX / 100, ratioDV = (double)mDV / 100, ratioHC =(double) mHC / 100;
                 mTienNuoc = ratioSH * calculateTienNuoc_TM_VM1_VM2() + ratioSX * calculateSX() + ratioDV * calculateDV() + ratioHC * calculateHC();
                 break;
             case "21":
@@ -208,20 +209,20 @@ public class Calculate_TienNuoc {
             case "34":
                 reset();
                 calculateSHTM_VM1_VM2();
-                double ratioSX = mSX / 100, ratioHC = mHC / 100;
-                mTienNuoc = ratioSX * calculateSX() + ratioHC * calculateHC();
+                double ratioSX34 = (double)mSX / 100, ratioHC34 =(double) mHC / 100;
+                mTienNuoc = ratioSX34 * calculateSX() + ratioHC34 * calculateHC();
                 break;
             case "35":
                 reset();
                 calculateSHTM_VM1_VM2();
-                double ratioDV = mDV / 100, ratioHC = mHC / 100;
-                mTienNuoc = ratioDV * calculateDV() + ratioHC * calculateHC();
+                double ratioDV35 = (double)mDV / 100, ratioHC35 = (double)mHC / 100;
+                mTienNuoc = ratioDV35 * calculateDV() + ratioHC35 * calculateHC();
                 break;
             case "36":
                 reset();
                 calculateSHTM_VM1_VM2();
-                double ratioSX = mSX / 100, ratioDV = mDV / 100, ratioHC = mHC / 100;
-                mTienNuoc = ratioSX * calculateSX() + ratioDV * calculateDV() + ratioHC * calculateHC();
+                double ratioSX36 = (double)mSX / 100, ratioDV36 =(double) mDV / 100, ratioHC36 =(double) mHC / 100;
+                mTienNuoc = ratioSX36 * calculateSX() + ratioDV36 * calculateDV() + ratioHC36 * calculateHC();
                 break;
             case "41":
                 mTienNuoc = mTieuThu * 11400;
@@ -229,20 +230,20 @@ public class Calculate_TienNuoc {
             case "44":
                 reset();
                 calculateSHTM_VM1_VM2();
-                double ratioSX = mSX / 100, ratioSH = mSH / 100;
-                mTienNuoc = ratioSX * calculateSX() + ratioSH * calculateSH();
+                double ratioSX44 = (double)mSX / 100, ratioSH44 =(double) mSH / 100;
+                mTienNuoc = ratioSX44 * calculateSX() + ratioSH44 * calculateSH();
                 break;
             case "45":
                 reset();
                 calculateSHTM_VM1_VM2();
-                double ratioDV = mDV / 100, ratioSH = mSH / 100;
-                mTienNuoc = ratioDV * calculateDV() + ratioSH * calculateSH();
+                double ratioDV45 = (double)mDV / 100, ratioSH45 =(double) mSH / 100;
+                mTienNuoc = ratioDV45 * calculateDV() + ratioSH45 * calculateSH();
                 break;
             case "46":
                 reset();
                 calculateSHTM_VM1_VM2();
-                double ratioSX = mSX / 100, ratioSH = mSH / 100, ratioDV = mDV / 100;
-                mTienNuoc = ratioSX * calculateSX() + ratioSH * calculateSH() + ratioDV * calculateDV();
+                double ratioSX46 =(double) mSX / 100, ratioSH46 = (double)mSH / 100, ratioDV46 =(double) mDV / 100;
+                mTienNuoc = ratioSX46 * calculateSX() + ratioSH46 * calculateSH() + ratioDV46 * calculateDV();
                 break;
             case "51":
                 reset();
@@ -262,16 +263,16 @@ public class Calculate_TienNuoc {
             case "59":
                 reset();
                 calculateSHTM_VM1_VM2();
-                double ratioSX = mSX / 100, ratioSH = mSH / 100, ratioDV = mDV / 100, ratioHC = mHC / 100;
-                mTienNuoc = ratioSH * (SHTM * 4770 + SHVM1 * 9180 + SHVM2 * 10260) +
-                        ratioSX * mTieuThu * 8640 + ratioDV * mTieuThu * 15210 + ratioHC * mTieuThu * 9270;
+                double ratioSX59 = (double)mSX / 100, ratioSH59 =(double) mSH / 100, ratioDV59 =(double) mDV / 100, ratioHC59 = (double)mHC / 100;
+                mTienNuoc = ratioSH59 * (SHTM * 4770 + SHVM1 * 9180 + SHVM2 * 10260) +
+                        ratioSX59 * mTieuThu * 8640 + ratioDV59 * mTieuThu * 15210 + ratioHC59 * mTieuThu * 9270;
                 break;
             case "68":
                 reset();
                 calculateSHTM_VM1_VM2();
-                double  ratioSH = mSH / 100, ratioDV = mDV / 100;
-                mTienNuoc = ratioSH * (SHTM * 4770 + SHVM1 * 9180 + SHVM2 * 10260) +
-                        + ratioDV * mTieuThu * 15210 ;
+                double ratioSH68 = (double)mSH / 100, ratioDV68 =(double) mDV / 100;
+                mTienNuoc = ratioSH68 * (SHTM * 4770 + SHVM1 * 9180 + SHVM2 * 10260) +
+                        +ratioDV68 * mTieuThu * 15210;
                 break;
             default:
                 mTienNuoc = 0;
