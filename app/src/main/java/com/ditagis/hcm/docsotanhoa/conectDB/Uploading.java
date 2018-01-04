@@ -1,14 +1,11 @@
 package com.ditagis.hcm.docsotanhoa.conectDB;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.utities.ImageFile;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -51,7 +48,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             " delete from " + TABLE_NAME_HINHDHN + " where DanhBo = ?";
     private final String SQL_INSERT = "INSERT INTO " + NEW_TABLE_NAME + " VALUES(?,?,?,?,?,?,?,?,?,?)";
     private Connection cnn = ConnectionDB.getInstance().getConnection();
-    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private String mDot, mKy, mNam;
     private Context mContext;
 
@@ -130,10 +127,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             if (cnn == null)
                 return;
             PreparedStatement st = cnn.prepareStatement(sql);
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            Bitmap bit = BitmapFactory.decodeFile(hoaDon.getImage());
-            bit.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-            st.setBytes(1, outputStream.toByteArray());
+            st.setBytes(1, hoaDon.getImage_byteArray());
             String stringDate = hoaDon.getThoiGian();
             Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
             st.setTimestamp(2, new java.sql.Timestamp(date.getTime()));
