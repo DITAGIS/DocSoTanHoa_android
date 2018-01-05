@@ -270,21 +270,19 @@ public class DocSo extends Fragment {
         mEditTextCSM.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-//                if (mHoaDon.getImage_byteArray().length < 100) {
-//                    try {
-//                        mEditTextCSM.setFocusableInTouchMode(true);
-//                    } catch (Exception e) {
-//                        MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
-//                        ), false);
-//                        mEditTextCSM.setFocusable(false);
-//                        HideKeyboard.hide(mActivity);
-//                    }
-//                } else {
-//                    mEditTextCSM.setFocusableInTouchMode(true);
-//
-//                }
-//                return false;
+                try {
+                    if (mHoaDon.getImage_byteArray().length < 1000) {
+                        MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
+                        ), false);
+                        mEditTextCSM.setFocusable(false);
+                        HideKeyboard.hide(mActivity);
+                    } else {
+                        mEditTextCSM.setFocusableInTouchMode(true);
+                    }
+                } catch (Exception e) {
+                }
                 return false;
+
             }
         });
 
@@ -296,19 +294,6 @@ public class DocSo extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                mTxtCSM.setText(s.toString());
-//
-//                if (mTxtCSM.getText().toString().length() > 0) {
-//                    int sanLuong = Integer.parseInt(mTxtCSM.getText().toString()) - Integer.parseInt(mTxtCSC.getText().toString());
-//                    mTxtTT.setText(sanLuong + "");
-//                    if (checkCSMFluctuation()) {
-//                        ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
-//                    } else {
-//                        ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
-//                    }
-//                }
-//                Code_Describle code_describle = (Code_Describle) mSpinCode.getItemAtPosition(0);
-//                mCode = code_describle.getCode();
                 if (!mCode.equals("60") && !mCode.equals("62")) {
 
 
@@ -316,11 +301,9 @@ public class DocSo extends Fragment {
                     CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, mHoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString());
 
                     mTxtCSM.setText(csm_tieuThu.getCSM());
-//                mEditTextCSM.setText(csm_tieuThu.getCSM());
                     mTxtTT.setText(csm_tieuThu.getTieuThu());
 
                     if (checkCSMFluctuation()) {
-//                    MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(false);
                         ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
                     } else {
                         ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
@@ -352,88 +335,108 @@ public class DocSo extends Fragment {
             }
         });
 
-        mRootView.findViewById(R.id.btn_ds_prev).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doPrev();
-            }
-        });
-        mRootView.findViewById(R.id.btn_ds_next).setOnClickListener((new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doNext();
-            }
-        }));
+        mRootView.findViewById(R.id.btn_ds_prev).
+
+                setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        doPrev();
+                    }
+                });
+        mRootView.findViewById(R.id.btn_ds_next).
+
+                setOnClickListener((new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        doNext();
+                    }
+                }));
         mEditTextViTri = (EditText) mRootView.findViewById(R.id.etxt_ds_vi_tri);
         mEditTextViTri.setBackgroundResource(R.layout.edit_text_styles);
-        mRootView.findViewById(R.id.imgBtn_ds_camera).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doCamera();
-            }
-        });
+        mRootView.findViewById(R.id.imgBtn_ds_camera).
+
+                setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        doCamera();
+                    }
+                });
 
 
-        mRootView.findViewById(R.id.layout_ds_scan).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doScan();
-            }
-        });
-        mRootView.findViewById(R.id.layout_ds_print).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doPrint();
-            }
-        });
-        mRootView.findViewById(R.id.layout_ds_note).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doNote();
-            }
-        });
-        mRootView.findViewById(R.id.layout_ds_saveAll).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkSave(v);
-            }
-        });
+        mRootView.findViewById(R.id.layout_ds_scan).
+
+                setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        doScan();
+                    }
+                });
+        mRootView.findViewById(R.id.layout_ds_print).
+
+                setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        doPrint();
+                    }
+                });
+        mRootView.findViewById(R.id.layout_ds_note).
+
+                setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        doNote();
+                    }
+                });
+        mRootView.findViewById(R.id.layout_ds_saveAll).
+
+                setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        checkSave(v);
+                    }
+                });
 
         mDBs.clear();
-        for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike)) {
+        for (
+                HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).
+
+                getAllHoaDon_UnRead(mLike))
+
+        {
             mDBs.add(spaceDB(hoaDon.getDanhBo()));
             mTenKHs.add(hoaDon.getTenKhachHang());
             mDiaChis.add(hoaDon.getDiaChi());
         }
-        ((Button) mRootView.findViewById(R.id.btn_ds_sort)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sort();
-            }
-        });
-//        ((LinearLayout) mRootView.findViewById(R.id.layout_ds_save_without_csm)).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                save_without_csm();
-//            }
-//        });
+        ((Button) mRootView.findViewById(R.id.btn_ds_sort)).
+
+                setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        sort();
+                    }
+                });
 
         mSdts.add(" ");
         mSpinSdt = (Spinner) mRootView.findViewById(R.id.spin_ds_sdt);
-        ((ImageButton) mRootView.findViewById(R.id.imgBtn_ds_add_sdt)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                add_sdt();
-            }
-        });
-        ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                change_address();
-            }
-        });
+        ((ImageButton) mRootView.findViewById(R.id.imgBtn_ds_add_sdt)).
+
+                setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        add_sdt();
+                    }
+                });
+        ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).
+
+                setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        change_address();
+                    }
+                });
+
         refresh();
-//        sort();
+
     }
 
     private void doPrint() {
@@ -461,17 +464,6 @@ public class DocSo extends Fragment {
 
         }
     }
-
-//    public void setLayoutPrintVisibility() {
-//        try {
-//            if (mLayoutPrint.getVisibility() == View.VISIBLE)
-//                mLayoutPrint.setVisibility(View.INVISIBLE);
-//            else
-//                mLayoutPrint.setVisibility(View.VISIBLE);
-//        } catch (Exception e) {
-//
-//        }
-//    }
 
     private void change_address() {
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());//getLayoutInflater();
@@ -1918,10 +1910,16 @@ public class DocSo extends Fragment {
             if (resultCode == RESULT_OK) {
                 ScannerActivity upc = new ScannerActivity();
                 Toast.makeText(mActivity, ScannerActivity.upcCodeValue, Toast.LENGTH_LONG).show();
+                for (int i = 0; i < mDBs.size(); i++)
+                    if (mDBs.get(i).equals(spaceDB(ScannerActivity.upcCodeValue)))
+                        selectMLT(i);
+            }
 //                overOnSubmit(upc.upcCodeValue);
 
-            }
-        } else if (requestCode == REQUEST_ID_IMAGE_CAPTURE) {
+
+        } else if (requestCode == REQUEST_ID_IMAGE_CAPTURE)
+
+        {
             if (resultCode == RESULT_OK) {
 //                BitmapFactory.Options options = new BitmapFactory.Options();
 //                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
@@ -1976,6 +1974,7 @@ public class DocSo extends Fragment {
                 MySnackBar.make(mRootView, "Lỗi khi chụp ảnh", false);
             }
         }
+
     }
 
     private void alertImageLowQuatity() {
