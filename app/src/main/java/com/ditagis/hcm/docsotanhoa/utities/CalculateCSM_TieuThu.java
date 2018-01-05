@@ -140,8 +140,9 @@ public class CalculateCSM_TieuThu {
 //                mCSM = mCSC + mTieuThu;
                 break;
             case "F1":
-                mCSM = mCSC;
+
                 mTieuThu = calTieuThuTB();
+                mCSM = mTieuThu + mCSC;
                 break;
             case "F2":
             case "F3":

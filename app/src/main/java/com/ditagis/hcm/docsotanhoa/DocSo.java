@@ -208,66 +208,72 @@ public class DocSo extends Fragment {
         singleComplete.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (mSearchType.equals(mRootView.getContext().getString(R.string.search_mlt))) {
-                    setMaxLenghtAutoCompleteTextView(13);
-                    for (int i = 0; i < mMLTs.size(); i++) {
-                        if (s.toString().equals(mMLTs.get(i))) {
-                            mSpinMLT.setSelection(i);
+                try {
+                    if (mSearchType.equals(mRootView.getContext().getString(R.string.search_mlt))) {
+                        setMaxLenghtAutoCompleteTextView(13);
+                        for (int i = 0; i < mMLTs.size(); i++) {
+                            if (s.toString().equals(mMLTs.get(i))) {
+                                mSpinMLT.setSelection(i);
+                            }
+                        }
+                    } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
+                        setMaxLenghtAutoCompleteTextView(15);
+                        for (int i = 0; i < mDBs.size(); i++) {
+                            if (s.toString().equals(mDBs.get(i)))
+                                mSpinMLT.setSelection(i);
+                        }
+                    } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_tenKH))) {
+                        setMaxLenghtAutoCompleteTextView(50);
+                        for (int i = 0; i < mTenKHs.size(); i++) {
+                            if (s.toString().equals(mTenKHs.get(i)))
+                                mSpinMLT.setSelection(i);
+                        }
+                    } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_diaChi))) {
+                        setMaxLenghtAutoCompleteTextView(50);
+                        for (int i = 0; i < mDiaChis.size(); i++) {
+                            if (s.toString().equals(mDiaChis.get(i)))
+                                mSpinMLT.setSelection(i);
                         }
                     }
-                } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
-                    setMaxLenghtAutoCompleteTextView(15);
-                    for (int i = 0; i < mDBs.size(); i++) {
-                        if (s.toString().equals(mDBs.get(i)))
-                            mSpinMLT.setSelection(i);
-                    }
-                } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_tenKH))) {
-                    setMaxLenghtAutoCompleteTextView(50);
-                    for (int i = 0; i < mTenKHs.size(); i++) {
-                        if (s.toString().equals(mTenKHs.get(i)))
-                            mSpinMLT.setSelection(i);
-                    }
-                } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_diaChi))) {
-                    setMaxLenghtAutoCompleteTextView(50);
-                    for (int i = 0; i < mDiaChis.size(); i++) {
-                        if (s.toString().equals(mDiaChis.get(i)))
-                            mSpinMLT.setSelection(i);
-                    }
+                } catch (Exception e) {
+                    Log.d("asd", e.toString());
                 }
             }
         });
-        mRootView.findViewById(R.id.imgBtn_ds_call).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String regex = "^[0-9]+$";
-                Matcher matcher = Pattern.compile(regex).matcher(mSdt);
-                if (matcher.find()) {
-                    if (mSdt.length() == 0) {
-                        MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.call_errorNotFind), true);
-                    } else {
-                        Intent callIntent = new Intent(Intent.ACTION_CALL);
-                        callIntent.setData(Uri.parse("tel:" + mSdt));
-                        startActivity(callIntent);
+        mRootView.findViewById(R.id.imgBtn_ds_call).
+
+                setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String regex = "^[0-9]+$";
+                        Matcher matcher = Pattern.compile(regex).matcher(mSdt);
+                        if (matcher.find()) {
+                            if (mSdt.length() == 0) {
+                                MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.call_errorNotFind), true);
+                            } else {
+                                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                                callIntent.setData(Uri.parse("tel:" + mSdt));
+                                startActivity(callIntent);
+                            }
+                        } else {
+                            MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.call_errorNotMatch), true);
+                        }
                     }
-                } else {
-                    MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.call_errorNotMatch), true);
-                }
-            }
-        });
+                });
 
         mEditTextCSM.setBackgroundResource(R.layout.edit_text_styles);
 
-        mEditTextCSM.setOnTouchListener(new View.OnTouchListener() {
+        mEditTextCSM.setOnTouchListener(new View.OnTouchListener()
+
+        {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 try {
@@ -286,54 +292,56 @@ public class DocSo extends Fragment {
             }
         });
 
-        mEditTextCSM.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        mEditTextCSM.addTextChangedListener(new
 
-            }
+                                                    TextWatcher() {
+                                                        @Override
+                                                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!mCode.equals("60") && !mCode.equals("62")) {
+                                                        }
+
+                                                        @Override
+                                                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                                            if (!mCode.equals("60") && !mCode.equals("62")) {
 
 
-                    ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(mCode);
-                    CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, mHoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString());
+                                                                ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(mCode);
+                                                                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, mHoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString());
 
-                    mTxtCSM.setText(csm_tieuThu.getCSM());
-                    mTxtTT.setText(csm_tieuThu.getTieuThu());
+                                                                mTxtCSM.setText(csm_tieuThu.getCSM());
+                                                                mTxtTT.setText(csm_tieuThu.getTieuThu());
 
-                    if (checkCSMFluctuation()) {
-                        ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
-                    } else {
-                        ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
-                    }
-                } else {
-                    mTxtCSM.setText(s);
-                }
-                if (mHoaDon.getCode_CSC_SanLuong().getCode1().startsWith("F")) {
-                    for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
-                        if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals("5F")) {
-                            mSpinCode.setSelection(i);
-                            break;
-                        }
-                    }
-                } else if (mHoaDon.getCode_CSC_SanLuong().getCode1().startsWith("K")) {
-                    for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
-                        if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals("5K")) {
-                            mSpinCode.setSelection(i);
-                            break;
-                        }
-                    }
-                }
+                                                                if (checkCSMFluctuation()) {
+                                                                    ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
+                                                                } else {
+                                                                    ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
+                                                                }
+                                                            } else {
+                                                                mTxtCSM.setText(s);
+                                                            }
+                                                            if (mHoaDon.getCode_CSC_SanLuong().getCode1().startsWith("F")) {
+                                                                for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
+                                                                    if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals("5F")) {
+                                                                        mSpinCode.setSelection(i);
+                                                                        break;
+                                                                    }
+                                                                }
+                                                            } else if (mHoaDon.getCode_CSC_SanLuong().getCode1().startsWith("K")) {
+                                                                for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
+                                                                    if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals("5K")) {
+                                                                        mSpinCode.setSelection(i);
+                                                                        break;
+                                                                    }
+                                                                }
+                                                            }
 
-            }
+                                                        }
 
-            @Override
-            public void afterTextChanged(Editable s) {
+                                                        @Override
+                                                        public void afterTextChanged(Editable s) {
 
-            }
-        });
+                                                        }
+                                                    });
 
         mRootView.findViewById(R.id.btn_ds_prev).
 
@@ -1026,64 +1034,42 @@ public class DocSo extends Fragment {
                 switch (iChecked) {
                     case R.id.radio_search_mlt:
                         mSearchType = mRootView.getContext().getString(R.string.search_mlt);
+                        singleComplete.setAdapter(new CustomArrayAdapter(
+                                mRootView.getContext(),
+                                android.R.layout.simple_list_item_1,
+                                mMLTs
+                        ));
                         singleComplete.setText("");
                         break;
                     case R.id.radio_search_danhbo:
                         mSearchType = mRootView.getContext().getString(R.string.search_danhbo);
                         singleComplete.setText("");
+                        singleComplete.setAdapter(new CustomArrayAdapter(
+                                mRootView.getContext(),
+                                android.R.layout.simple_list_item_1,
+                                mDBs
+                        ));
                         break;
                     case R.id.radio_search_tenKH:
                         mSearchType = mRootView.getContext().getString(R.string.search_tenKH);
                         singleComplete.setText("");
+                        singleComplete.setAdapter(new CustomArrayAdapter(
+                                mRootView.getContext(),
+                                android.R.layout.simple_list_item_1,
+                                mTenKHs
+                        ));
                         break;
                     case R.id.radio_search_diaChi:
                         mSearchType = mRootView.getContext().getString(R.string.search_diaChi);
                         singleComplete.setText("");
+                        singleComplete.setAdapter(new CustomArrayAdapter(
+                                mRootView.getContext(),
+                                android.R.layout.simple_list_item_1,
+                                mDiaChis
+                        ));
                         break;
                 }
-//                mSearchType = spinSearchType.getSelectedItem().toString();
                 singleComplete.setHint(mSearchType);
-
-                if (mSearchType.equals(mRootView.getContext().getString(R.string.search_mlt))) {
-                    singleComplete.setAdapter(new CustomArrayAdapter(
-                            mRootView.getContext(),
-                            android.R.layout.simple_list_item_2,
-                            mMLTs
-                    ));
-
-                } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
-                    mDBs.clear();
-                    for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike)) {
-                        mDBs.add(spaceDB(hoaDon.getDanhBo()));
-                    }
-                    singleComplete.setAdapter(new CustomArrayAdapter(
-                            mRootView.getContext(),
-                            android.R.layout.simple_list_item_1,
-                            mDBs
-                    ));
-                } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_tenKH))) {
-                    mTenKHs.clear();
-                    for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike)) {
-                        mTenKHs.add(hoaDon.getTenKhachHang());
-                    }
-
-                    singleComplete.setAdapter(new CustomArrayAdapter(
-                            mRootView.getContext(),
-                            android.R.layout.simple_list_item_2,
-                            mTenKHs
-                    ));
-                } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_diaChi))) {
-                    mDiaChis.clear();
-                    for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike)) {
-                        mDiaChis.add(hoaDon.getDiaChi());
-                    }
-
-                    singleComplete.setAdapter(new CustomArrayAdapter(
-                            mRootView.getContext(),
-                            android.R.layout.simple_list_item_2,
-                            mDiaChis
-                    ));
-                }
                 dialog.dismiss();
             }
         });

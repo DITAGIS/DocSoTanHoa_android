@@ -172,7 +172,6 @@
                             android:gravity="start"
                             android:hint="@string/search_mlt"
                             android:inputType="textAutoComplete|textAutoCorrect"
-                            android:maxLength="11"
                             android:paddingLeft="@dimen/activity_horizontal_margin"
 
                             android:textColor="@color/colorTextColor_1"
