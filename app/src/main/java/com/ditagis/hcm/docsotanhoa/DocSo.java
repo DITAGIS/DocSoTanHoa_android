@@ -376,7 +376,7 @@ public class DocSo extends Fragment {
                 setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        doPrint();
+                        checkPrint();
                     }
                 });
         mRootView.findViewById(R.id.layout_ds_note).
@@ -437,6 +437,68 @@ public class DocSo extends Fragment {
 
         refresh();
 
+    }
+
+    private void checkPrint() {
+        if (mHoaDon.getImage_byteArray().length > 1000) {
+            try {
+                int csc = Integer.parseInt(mTxtCSC.getText().toString());
+                int csm = -1;
+                if (mTxtCSM.getText().toString().trim().length() == 0 && !checkCode()) {
+
+//                alertCSM_Null(csc, csm);
+                    MySnackBar.make(mRootView.getRootView(), "Chưa nhập chỉ số mới", true);
+
+                } else {
+                    if (mTxtCSM.getText().toString().length() > 0)
+                        csm = Integer.parseInt(mTxtCSM.getText().toString());
+                    if (checkCSMFluctuation()) {
+                        MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(true);
+//                MyAlertByHardware.getInstance(mRootView.getContext()).playSound();
+                        alertCSMFluctuationPrint(csc, csm);
+                    } else if (csm < csc) {
+                        alertCSM_lt_CSCPrint(csc, csm);
+
+                    } else {
+                        doPrint();
+                    }
+                }
+            } catch (Exception e) {
+                MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+                save_without_csm();
+                return;
+            }
+        } else {
+//            File f = ImageFile.getFile(currentTime, mRootView, mDanhBo);
+//            if (f != null && f.exists()) {
+//                int csc = Integer.parseInt(mTxtCSC.getText().toString());
+//                int csm = -1;
+//                if (mTxtCSM.getText().toString().length() == 0 && !checkCode()) {
+//
+////                alertCSM_Null(csc, csm);
+//                    MySnackBar.make(mRootView.getRootView(), "Chưa nhập chỉ số mới", true);
+//
+//                } else {
+//                    if (mTxtCSM.getText().toString().length() > 0)
+//                        csm = Integer.parseInt(mTxtCSM.getText().toString());
+//                    if (checkCSMFluctuation()) {
+//                        MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(true);
+////                MyAlertByHardware.getInstance(mRootView.getContext()).playSound();
+//                        alertCSMFluctuation(csc, csm);
+//                    } else if (csm < csc) {
+//                        alertCSM_lt_CSC(csc, csm);
+//
+//                    } else {
+//                        doPrint();
+//                    }
+//                }
+//                save_without_csm();
+//            } else {
+            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+            save_without_csm();
+            return;
+//            }
+        }
     }
 
     private void doPrint() {
@@ -1633,20 +1695,6 @@ public class DocSo extends Fragment {
     }
 
     private void alertCSMFluctuation(final int csc, final int csm) {
-//        LinearLayout layout = (LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0);
-//        for (int i = 1; i <= 3; i++) {
-//            try {
-//                layout.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
-//                Thread.sleep(100);
-//                layout.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
-//                Thread.sleep(100);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//
-//
-//        }
-
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle(mRootView.getContext().getString(R.string.alert_csm_fluctuation_title));
         builder.setCancelable(false);
@@ -1654,15 +1702,50 @@ public class DocSo extends Fragment {
 
                 .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
-                            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
-//                            save(csc, csm);
-                        } else if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
-                            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
-//                            save(csc, csm);
-                        } else {
-                            save(csc, csm);
-                        }
+                        save(csc, csm);
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("Kiểm tra lại", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.show();
+    }
+
+    private void alertCSMFluctuationPrint(final int csc, final int csm) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
+        builder.setTitle(mRootView.getContext().getString(R.string.alert_csm_fluctuation_title));
+        builder.setCancelable(false);
+        builder.setMessage(mRootView.getContext().getString(R.string.alert_csm_fluctuation_message))
+
+                .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        doPrint();
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("Kiểm tra lại", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.show();
+    }
+
+    private void alertCSM_lt_CSC(final int csc, final int csm) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
+        builder.setTitle(mRootView.getContext().getString(R.string.alert_csm_lt_csc_title));
+        builder.setMessage(mRootView.getContext().getString(R.string.alert_csm_lt_csc_message))
+                .setCancelable(false)
+                .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        save(csc, csm);
                         dialog.dismiss();
                     }
                 })
@@ -1677,21 +1760,14 @@ public class DocSo extends Fragment {
 
     }
 
-    private void alertCSM_lt_CSC(final int csc, final int csm) {
+    private void alertCSM_lt_CSCPrint(final int csc, final int csm) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle(mRootView.getContext().getString(R.string.alert_csm_lt_csc_title));
         builder.setMessage(mRootView.getContext().getString(R.string.alert_csm_lt_csc_message))
                 .setCancelable(false)
                 .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
-                            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
-                        }
-                        if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
-                            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
-                        } else {
-                            save(csc, csm);
-                        }
+                        doPrint();
                         dialog.dismiss();
                     }
                 })
