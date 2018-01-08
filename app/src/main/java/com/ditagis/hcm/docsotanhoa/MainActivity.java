@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
         mDocSo = new DocSo(MainActivity.this, getLayoutInflater(), mKy, mNam, mDot, mUsername, mStaffName, mStaffPhone, loadPreferences(getString(R.string.save_theme)), mViewPager);
         DialogSelectDot.show(MainActivity.this, mDot, mKy, mNam, mUsername, mDocSo);
-        mQuanLyDocSo = new QuanLyDocSo(getLayoutInflater(), mDot, mKy, mNam, mUsername);
+        mQuanLyDocSo = new QuanLyDocSo(getLayoutInflater(), mDot, mKy, mNam, mUsername, mStaffName,mStaffPhone);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {

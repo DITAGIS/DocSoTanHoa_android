@@ -48,9 +48,11 @@ import com.ditagis.hcm.docsotanhoa.entities.Codes;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 import com.ditagis.hcm.docsotanhoa.utities.CalculateCSM_TieuThu;
+import com.ditagis.hcm.docsotanhoa.utities.Calculate_TienNuoc;
 import com.ditagis.hcm.docsotanhoa.utities.Flag;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.Note;
+import com.ditagis.hcm.docsotanhoa.utities.Printer;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -72,6 +74,7 @@ public class QuanLyDocSo extends Fragment {
     private View mRootView;
     private SumDanhBoDB mSumDanhBoDB;
     AutoCompleteTextView singleComplete;
+    private String mStaffName, mStaffPhone;
     List<String> mDBs = new ArrayList<String>(), mMlts = new ArrayList<>(), mTenKHs = new ArrayList<>(), mDiaChis = new ArrayList<>(), mDots = new ArrayList<>(), mSdts = new ArrayList<>();
     ;
     private String mSdt;
@@ -90,9 +93,10 @@ public class QuanLyDocSo extends Fragment {
     }
 
 
-    public QuanLyDocSo(LayoutInflater inflater, int dot, int ky, int nam, String userName) {
+    public QuanLyDocSo(LayoutInflater inflater, int dot, int ky, int nam, String userName, String staffName, String staffPhone) {
         mRootView = inflater.inflate(R.layout.quan_ly_doc_so_fragment, null);
-
+        this.mStaffName = staffName;
+        this.mStaffPhone = staffPhone;
         mDot = dot;
         mKy = ky;
         mNam = nam;
@@ -606,13 +610,31 @@ public class QuanLyDocSo extends Fragment {
         });
         if (hoaDon.getFlag() == Flag.READ)
 //        TODO chỉnh sửa khách hàng
+        {
+            final HoaDon finalHoaDon = hoaDon;
             builder.setNegativeButton("Chỉnh sửa", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                     edit_info(view);
                 }
+            }).setPositiveButton("In GBTN", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    if (Printer.getInstance().getmBluetoothSocket() == null) {
+                        MySnackBar.make(mGridView, "Chưa kết nối với máy in", true);
+                        return;
+                    }
+                    Calculate_TienNuoc calculate_tienNuoc = new Calculate_TienNuoc(
+                            Integer.parseInt(finalHoaDon.getTieuThuMoi()), finalHoaDon.getGiaBieu(),
+                            finalHoaDon.getDinhMuc(), finalHoaDon.getSh(), finalHoaDon.getSx(), finalHoaDon.getDv(), finalHoaDon.getHc());
+                    double tienNuoc = calculate_tienNuoc.getmTienNuoc();
+                    Printer.getInstance().setValue(mNam, mStaffName, mStaffPhone, finalHoaDon, tienNuoc);
+                    Printer.getInstance().print();
+                }
             });
+        }
         AlertDialog dialog = builder.create();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
