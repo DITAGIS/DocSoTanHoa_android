@@ -97,7 +97,7 @@ public class DocSo extends Fragment {
     TextView mTxtTT, mTxtTT1, mTxtTT2, mTxtTT3;
     Spinner mSpinMLT;
     Spinner mSpinDB = null, mSpinTenKH, mSpinDiaChi;
-    Spinner mSpinCode, mSpinDot, mSpinSdt;
+    Spinner mSpinCode, mSpinDot, mSpinKy, mSpinNam, mSpinSdt;
     AutoCompleteTextView singleComplete;
     Uri mUri;
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -119,8 +119,8 @@ public class DocSo extends Fragment {
     private String mSearchType;
     private int mSelected_theme;
     private String mLike;
-    private ArrayAdapter<String> mAdapterDot;
-    private List<String> mDots = new ArrayList<>();
+    private ArrayAdapter<String> mAdapterDot, mAdapterKy, mAdapterNam;
+    private List<String> mDots = new ArrayList<>(), mKys = new ArrayList<>(), mNams = new ArrayList<>();
     private ViewPager mViewPager;
     private FrameLayout mFrameLayoutViewImage;
     private ImageView mImageViewFrame;
@@ -147,6 +147,9 @@ public class DocSo extends Fragment {
         mTxtTT1 = (TextView) mRootView.findViewById(R.id.txt_ds_tieuThu1);
         mTxtTT2 = (TextView) mRootView.findViewById(R.id.txt_ds_tieuThu2);
         mTxtTT3 = (TextView) mRootView.findViewById(R.id.txt_ds_tieuThu3);
+
+        mSpinNam = (Spinner) mRootView.findViewById(R.id.spin_ds_nam);
+        mSpinKy = (Spinner) mRootView.findViewById(R.id.spin_ds_ky);
         mSpinDot = (Spinner) mRootView.findViewById(R.id.spin_ds_dot);
         mSpinTenKH = (Spinner) mRootView.findViewById(R.id.spin_ds_tenKH);
         mSpinDiaChi = (Spinner) mRootView.findViewById(R.id.spin_ds_diachi);
@@ -174,7 +177,8 @@ public class DocSo extends Fragment {
                         ));
         singleComplete.setBackgroundResource(R.layout.edit_text_styles);
 
-        ((TextView) mRootView.findViewById(R.id.txt_ds_ky)).setText(this.mKy + "");
+        mKys.add(mKy + "");
+        mNams.add(mNam + "");
         ((TextView) mRootView.findViewById(R.id.txt_ds_staffName)).setText(this.mStaffName);
 
         mTxtComplete = (TextView) mRootView.findViewById(R.id.txt_ds_complete);
@@ -293,56 +297,54 @@ public class DocSo extends Fragment {
             }
         });
 
-        mEditTextCSM.addTextChangedListener(new
+        mEditTextCSM.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                                                    TextWatcher() {
-                                                        @Override
-                                                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
-                                                        }
-
-                                                        @Override
-                                                        public void onTextChanged(CharSequence s, int start, int before, int count) {
-                                                            if (!mCode.equals("60") && !mCode.equals("62")) {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!mCode.equals("60") && !mCode.equals("62")) {
 
 
-                                                                ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(mCode);
-                                                                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, mHoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString());
+                    ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(mCode);
+                    CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, mHoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString());
 
-                                                                mTxtCSM.setText(csm_tieuThu.getCSM());
-                                                                mTxtTT.setText(csm_tieuThu.getTieuThu());
+                    mTxtCSM.setText(csm_tieuThu.getCSM());
+                    mTxtTT.setText(csm_tieuThu.getTieuThu());
 
-                                                                if (checkCSMFluctuation()) {
-                                                                    ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
-                                                                } else {
-                                                                    ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
-                                                                }
-                                                            } else {
-                                                                mTxtCSM.setText(s);
-                                                            }
-                                                            if (mHoaDon.getCode_CSC_SanLuong().getCode1().startsWith("F")) {
-                                                                for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
-                                                                    if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals("5F")) {
-                                                                        mSpinCode.setSelection(i);
-                                                                        break;
-                                                                    }
-                                                                }
-                                                            } else if (mHoaDon.getCode_CSC_SanLuong().getCode1().startsWith("K")) {
-                                                                for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
-                                                                    if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals("5K")) {
-                                                                        mSpinCode.setSelection(i);
-                                                                        break;
-                                                                    }
-                                                                }
-                                                            }
+                    if (checkCSMFluctuation()) {
+                        ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
+                    } else {
+                        ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
+                    }
+                } else {
+                    mTxtCSM.setText(s);
+                }
+                if (mHoaDon.getCode_CSC_SanLuong().getCode1().startsWith("F")) {
+                    for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
+                        if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals("5F")) {
+                            mSpinCode.setSelection(i);
+                            break;
+                        }
+                    }
+                } else if (mHoaDon.getCode_CSC_SanLuong().getCode1().startsWith("K")) {
+                    for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
+                        if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals("5K")) {
+                            mSpinCode.setSelection(i);
+                            break;
+                        }
+                    }
+                }
 
-                                                        }
+            }
 
-                                                        @Override
-                                                        public void afterTextChanged(Editable s) {
+            @Override
+            public void afterTextChanged(Editable s) {
 
-                                                        }
-                                                    });
+            }
+        });
 
         mRootView.findViewById(R.id.btn_ds_prev).
 
@@ -688,10 +690,12 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.txt_ds_complete)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_staffName_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_staffName)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_nam_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_ky_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                ((TextView) mRootView.findViewById(R.id.txt_ds_ky)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_dot_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
 
+                mAdapterNam = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mNams);
+                mAdapterKy = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mKys);
                 mAdapterDot = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mDots);
                 ((TextView) mRootView.findViewById(R.id.editauto_ds_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
@@ -758,10 +762,12 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.txt_ds_complete)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_staffName_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_staffName)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_nam_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_ky_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((TextView) mRootView.findViewById(R.id.txt_ds_ky)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_dot_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
 
+                mAdapterNam = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mNams);
+                mAdapterKy = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mKys);
                 mAdapterDot = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mDots);
                 ((TextView) mRootView.findViewById(R.id.editauto_ds_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
@@ -831,6 +837,32 @@ public class DocSo extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mSdt = mSpinSdt.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        mAdapterNam.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        mSpinNam.setAdapter(mAdapterNam);
+        mSpinNam.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        mAdapterKy.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        mSpinKy.setAdapter(mAdapterKy);
+        mSpinKy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
             }
 
             @Override

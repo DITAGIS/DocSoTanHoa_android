@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                     case 0:
 //                        mDocSo.setmDot(mLayLoTrinh.getmDo  if (mDocSo.checkDotExist())
                         mDocSo.refresh();
-
+                        DialogSelectDot.show(MainActivity.this, mDot, mKy, mNam, mUsername, mDocSo);
                         break;
                     case 1:
 //                        mQuanLyDocSo.setmDot(mLayLoTrinh.getmDot());

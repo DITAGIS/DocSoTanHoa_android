@@ -88,7 +88,32 @@
 
                     <!--Table row kỳ-->
                     <TableRow android:layout_weight="1">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1">
 
+                            <TextView
+                                android:id="@+id/txt_ds_nam_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:layout_gravity="center_vertical"
+                                android:text="Năm: "
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="@color/colorTextColor_1" />
+
+                            <Spinner
+                                android:id="@+id/spin_ds_nam"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="@color/colorTextColor_1" />
+                        </LinearLayout>
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -97,7 +122,7 @@
 
                             <TextView
                                 android:id="@+id/txt_ds_ky_title"
-                                android:layout_width="@dimen/width_title_item_docso"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
 
                                 android:layout_gravity="center_vertical"
@@ -105,8 +130,8 @@
                                 android:textAppearance="?android:attr/textAppearanceMedium"
                                 android:textColor="@color/colorTextColor_1" />
 
-                            <TextView
-                                android:id="@+id/txt_ds_ky"
+                            <Spinner
+                                android:id="@+id/spin_ds_ky"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
@@ -124,7 +149,7 @@
 
                             <TextView
                                 android:id="@+id/txt_ds_dot_title"
-                                android:layout_width="@dimen/width_title_item_docso"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
 
