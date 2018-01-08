@@ -26,7 +26,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -39,7 +38,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,7 +56,6 @@ import com.ditagis.hcm.docsotanhoa.utities.Flag;
 import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
 import com.ditagis.hcm.docsotanhoa.utities.ImageFile;
 import com.ditagis.hcm.docsotanhoa.utities.MyAlertByHardware;
-import com.ditagis.hcm.docsotanhoa.utities.MyAlertDialog;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.Note;
 import com.ditagis.hcm.docsotanhoa.utities.Printer;
@@ -128,6 +125,10 @@ public class DocSo extends Fragment {
     private FrameLayout mFrameLayoutViewImage;
     private ImageView mImageViewFrame;
     private Button mBtnCloseViewImageFrame;
+
+    public int getmDot() {
+        return mDot;
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     public DocSo(Activity activity, final LayoutInflater inflater, int mKy, int nam, final int mDot, String mUsername, String staffName, String staffPhone, int theme, ViewPager viewPager) {
@@ -450,7 +451,7 @@ public class DocSo extends Fragment {
                     }
                 });
 
-        refresh();
+        setTheme();
 
     }
 
@@ -1138,7 +1139,7 @@ public class DocSo extends Fragment {
 
         setTextProgress();
 
-        setTheme();
+
     }
 
     private void setTextProgress() {
@@ -1254,7 +1255,10 @@ public class DocSo extends Fragment {
 
     private void getDotExist() {
         String like;
-        for (int i = mDot - 1; i >= mDot - 3; i--) {
+        int count = 0;
+        for (int i = mDot - 1; i >= 0; i--) {
+            if (count == 3)
+                break;
             String dotExist = "";
             if (i < 10)
                 dotExist = "0" + i;
@@ -1262,9 +1266,12 @@ public class DocSo extends Fragment {
             if (!mDots.contains(dotExist)) {
                 like = dotExist.concat(mLike.substring(2, 4)).concat("%");
                 if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(like).size() > 0) {
-                    mDots.add(0, dotExist);
+                    mDots.add(dotExist);
+
                 }
             }
+            if (mDots.size() > 0)
+                count++;
         }
 //        if (mDots.size() > 1) {
 //            MyAlertDialog.show(mRootView.getContext(), false, mRootView.getContext().getString(R.string.dotExist_title), mRootView.getContext().getString(R.string.dotExist_message));
@@ -1282,6 +1289,14 @@ public class DocSo extends Fragment {
                 return;
             }
         }
+    }
+
+    public void selectDotFromOut(int dot) {
+        for (int i = 0; i < mDots.size(); i++)
+            if (Integer.parseInt(mDots.get(i)) == dot) {
+                mSpinDot.setSelection(i);
+                return;
+            }
     }
 
     private void selectDot(int position) {

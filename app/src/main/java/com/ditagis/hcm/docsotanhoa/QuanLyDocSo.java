@@ -92,6 +92,9 @@ public class QuanLyDocSo extends Fragment {
         return mUploading;
     }
 
+    public int getmDot() {
+        return mDot;
+    }
 
     public QuanLyDocSo(LayoutInflater inflater, int dot, int ky, int nam, String userName, String staffName, String staffPhone) {
         mRootView = inflater.inflate(R.layout.quan_ly_doc_so_fragment, null);
@@ -442,6 +445,14 @@ public class QuanLyDocSo extends Fragment {
         ConnectivityManager cm = (ConnectivityManager) mRootView.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnected();
+    }
+
+    public void selectDotFromOut(int dot) {
+        for (int i = 0; i < mDots.size(); i++)
+            if (Integer.parseInt(mDots.get(i)) == dot) {
+                mSpinDot.setSelection(i);
+                return;
+            }
     }
 
     private void selectDot(int position) {

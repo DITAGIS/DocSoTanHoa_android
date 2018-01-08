@@ -308,7 +308,7 @@
                             android:layout_height="55dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="@dimen/activity_horizontal_margin_btn"
-                            android:layout_weight="0.3"
+                            android:layout_weight="0.2"
                             android:background="@color/colorCSC_SL_0_1"
                             android:contentDescription="Prev"
                             android:orientation="vertical">

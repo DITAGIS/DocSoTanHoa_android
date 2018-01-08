@@ -128,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
                     case 0:
 //                        mDocSo.setmDot(mLayLoTrinh.getmDo  if (mDocSo.checkDotExist())
                         mDocSo.refresh();
+                        mDocSo.selectDotFromOut(mQuanLyDocSo.getmDot());
 //                        DialogSelectDot.show(MainActivity.this, mDot, mKy, mNam, mUsername, mDocSo);
                         break;
                     case 1:
@@ -135,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
 //                        mQuanLyDocSo.getmUploading().setmDot(mLayLoTrinh.getmDot());
 
                         mQuanLyDocSo.refresh();
+                        mQuanLyDocSo.selectDotFromOut(mDocSo.getmDot());
 //                        DialogSelectDot.show(MainActivity.this, mDot, mKy, mNam, mUsername, mQuanLyDocSo);
                         break;
                 }
@@ -150,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
         mDocSo = new DocSo(MainActivity.this, getLayoutInflater(), mKy, mNam, mDot, mUsername, mStaffName, mStaffPhone, loadPreferences(getString(R.string.save_theme)), mViewPager);
         DialogSelectDot.show(MainActivity.this, mDot, mKy, mNam, mUsername, mDocSo);
-        mQuanLyDocSo = new QuanLyDocSo(getLayoutInflater(), mDot, mKy, mNam, mUsername, mStaffName,mStaffPhone);
+        mQuanLyDocSo = new QuanLyDocSo(getLayoutInflater(), mDot, mKy, mNam, mUsername, mStaffName, mStaffPhone);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
