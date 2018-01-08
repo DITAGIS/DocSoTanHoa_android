@@ -1266,9 +1266,9 @@ public class DocSo extends Fragment {
                 }
             }
         }
-        if (mDots.size() > 1) {
-            MyAlertDialog.show(mRootView.getContext(), false, mRootView.getContext().getString(R.string.dotExist_title), mRootView.getContext().getString(R.string.dotExist_message));
-        }
+//        if (mDots.size() > 1) {
+//            MyAlertDialog.show(mRootView.getContext(), false, mRootView.getContext().getString(R.string.dotExist_title), mRootView.getContext().getString(R.string.dotExist_message));
+//        }
     }
 
     public void selectDotFromDialog(String dot) {

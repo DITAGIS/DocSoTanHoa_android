@@ -106,7 +106,7 @@
 
                             <Spinner
                                 android:id="@+id/spin_ds_nam"
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_weight="1"
@@ -118,7 +118,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1">
+                            android:layout_weight="0.8">
 
                             <TextView
                                 android:id="@+id/txt_ds_ky_title"
@@ -132,7 +132,7 @@
 
                             <Spinner
                                 android:id="@+id/spin_ds_ky"
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_weight="1"
@@ -145,7 +145,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1">
+                            android:layout_weight="0.8">
 
                             <TextView
                                 android:id="@+id/txt_ds_dot_title"
@@ -159,7 +159,7 @@
 
                             <Spinner
                                 android:id="@+id/spin_ds_dot"
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
 
