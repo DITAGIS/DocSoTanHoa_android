@@ -12,14 +12,15 @@ import java.util.List;
 public class CalculateCSM_TieuThu {
     private String mCode;
     private Code_CSC_SanLuong mCodeCSCSanLuong;
-    private int mCSC, mCSM, mTieuThu;
+    private int mCSC, mCSM, mTieuThu, mCSGo;
     private String mCSMString;
 
-    public CalculateCSM_TieuThu(String code, Code_CSC_SanLuong mCodeCSCSanLuong, int csc, String csm) {
+    public CalculateCSM_TieuThu(String code, Code_CSC_SanLuong mCodeCSCSanLuong, int csc, String csm, int csgo) {
         this.mCode = code;
         this.mCodeCSCSanLuong = mCodeCSCSanLuong;
         this.mCSMString = csm;
         this.mCSC = csc;
+        this.mCSGo = csgo;
         this.mCSM = -1;
         this.mTieuThu = -1;
         calculate();
@@ -134,7 +135,7 @@ public class CalculateCSM_TieuThu {
                 //todo để trống
                 if (!mCSMString.equals("null") && mCSMString.length() > 0) {
                     mCSM = Integer.parseInt(mCSMString);
-                    mTieuThu = mCSM - mCSC;
+                    mTieuThu = mCSM + mCSGo - mCSC;
                 }
 //                mTieuThu = calTieuThuTB();
 //                mCSM = mCSC + mTieuThu;

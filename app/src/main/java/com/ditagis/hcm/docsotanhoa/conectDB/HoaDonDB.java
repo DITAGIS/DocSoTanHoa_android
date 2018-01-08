@@ -202,8 +202,8 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                 String sanLuong_1 = "";
                 int sh, sx, dv, hc;
                 sh = sx = dv = hc = 0;
-                String tuNgay =formatter.format(rs.getDate(10));
-                String denNgay =formatter.format(rs.getDate(11));
+                String tuNgay = formatter.format(rs.getDate(10));
+                String denNgay = formatter.format(rs.getDate(11));
                 mStatement = cnn.prepareStatement("SELECT tenkh,so, duong, sdt, sh,sx,dv,hc FROM KhachHang where MLT2 = ?");
                 mStatement.setString(1, maLoTrinh);
                 ResultSet rs1 = mStatement.executeQuery();
@@ -300,7 +300,6 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                 hoaDon.setDenNgay(denNgay);
 
 
-
             }
             rs.close();
         } catch (SQLException e) {
@@ -308,6 +307,31 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
             e.printStackTrace();
         }
         return hoaDon;
+    }
+
+    public int getCSGo(String danhBo) {
+        Connection cnn = ConnectionDB.getInstance().getConnection();
+        int csgo = 0;
+        try {
+            if (cnn == null)
+                return 0;
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
+            mStatement = cnn.prepareStatement("select csgo from baothay where danhba = ? ");
+            mStatement.setString(1, danhBo);
+
+            ResultSet rs = mStatement.executeQuery();
+
+            while (rs.next()) {
+                csgo = rs.getInt(1);
+            }
+            rs.close();
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+        return csgo;
     }
 
     public void closeStatement() {

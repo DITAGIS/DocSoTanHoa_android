@@ -90,7 +90,7 @@ public class DialogSelectDot {
 
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert);
-        builder.setTitle("Chọn quyển đọc số");
+        builder.setTitle("Chọn quyển đã đọc");
         builder.setCancelable(true);
         LayoutInflater inflater = LayoutInflater.from(context);
         View dialogLayout = inflater.inflate(R.layout.layout_dialog_select_dot_folder, null);

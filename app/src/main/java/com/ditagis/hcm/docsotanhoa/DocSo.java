@@ -44,6 +44,7 @@ import android.widget.Toast;
 
 import com.ditagis.hcm.docsotanhoa.adapter.CodeSpinnerAdapter;
 import com.ditagis.hcm.docsotanhoa.adapter.CustomArrayAdapter;
+import com.ditagis.hcm.docsotanhoa.conectDB.HoaDonDB;
 import com.ditagis.hcm.docsotanhoa.entities.Code_Describle;
 import com.ditagis.hcm.docsotanhoa.entities.Codes;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
@@ -107,7 +108,7 @@ public class DocSo extends Fragment {
     private int mSumDanhBo, mDanhBoHoanThanh;
     private String mStaffName, mStaffPhone;
     private int mDot, mKy;
-    private int mNam;
+    private int mNam, mCSGo;
     private String mGhiChu;
     private Date currentTime;
     private ArrayAdapter<String> mAdapterDB, mAdapterTenKH, mAdapterDiaChi, mAdapterSdt;
@@ -309,7 +310,7 @@ public class DocSo extends Fragment {
 
 
                     ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(mCode);
-                    CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, mHoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString());
+                    CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, mHoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString(), mCSGo);
 
                     mTxtCSM.setText(csm_tieuThu.getCSM());
                     mTxtTT.setText(csm_tieuThu.getTieuThu());
@@ -958,7 +959,10 @@ public class DocSo extends Fragment {
                 HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
                 if (hoaDon == null || hoaDon.getCode_CSC_SanLuong() == null)
                     return;
-                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString());
+
+                if (mCode.equals("82"))
+                    mCSGo = new HoaDonDB().getCSGo(mDanhBo);
+                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString(), mCSGo);
 
                 mTxtCSM.setText(csm_tieuThu.getCSM());
                 mEditTextCSM.setText(csm_tieuThu.getCSM());
