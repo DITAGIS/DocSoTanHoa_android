@@ -304,6 +304,7 @@ public class QuanLyDocSo extends Fragment {
 
         createDot();
     }
+
     public void selectDotFromDialog(String dot) {
         int dotInt = Integer.parseInt(dot);
         String dotString = dotInt + "";
@@ -316,6 +317,7 @@ public class QuanLyDocSo extends Fragment {
             }
         }
     }
+
     private void notifyDataSetGridViewChange() {
         mQuanLyDocSoAdapter.notifyDataSetChanged();
         mQuanLyDocSoAdapter.sort(new Comparator<GridViewQuanLyDocSoAdapter.Item>() {
@@ -890,6 +892,10 @@ public class QuanLyDocSo extends Fragment {
                 mCode = code_describle.getCode();
                 if (mCode.equals("82"))
                     mCSGo = new HoaDonDB().getCSGo(danhBo);
+                if (mCSGo == -1) {
+                    MySnackBar.make(mTxtComplete, "Chưa có dữ liệu báo thay", true);
+                    mSpinCode.setSelection(0);
+                }
                 CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(hoaDon.getChiSoCu()), hoaDon.getChiSoMoi(), mCSGo);
 
                 etxtCSM.setText(csm_tieuThu.getCSM());
@@ -920,7 +926,7 @@ public class QuanLyDocSo extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(hoaDon.getChiSoCu()), s.toString(),mCSGo);
+                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(hoaDon.getChiSoCu()), s.toString(), mCSGo);
 
                 txtTT.setText(csm_tieuThu.getTieuThu());
                 hoaDon.setChiSoMoi(s.toString());

@@ -311,7 +311,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
 
     public int getCSGo(String danhBo) {
         Connection cnn = ConnectionDB.getInstance().getConnection();
-        int csgo = 0;
+        int csgo = -1;
         try {
             if (cnn == null)
                 return 0;

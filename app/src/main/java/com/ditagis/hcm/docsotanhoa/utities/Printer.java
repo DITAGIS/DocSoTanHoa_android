@@ -115,7 +115,7 @@ public class Printer {
 
             int y = 160;
             StringBuilder builder = new StringBuilder();
-            builder.append("! 0 200 200 960 1\n" +
+            builder.append("! 0 200 200 1020 1\n" +
 
                     "CENTER\n" +
                     "TEXT 0 1 0 30 ------------------------------------\n" +
