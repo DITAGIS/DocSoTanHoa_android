@@ -5,6 +5,9 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -38,7 +41,7 @@ public class Printer {
     private ProgressDialog mBluetoothConnectProgressDialog;
     private UUID applicationUUID = UUID
             .fromString("00001101-0000-1000-8000-00805F9B34FB");
-    private String mTuNgay, mDenNgay, mStaffName, mStaffSdt;
+    private String mTuNgay, mDenNgay, mStaffName, mStaffPhone;
     private HoaDon mHoaDon;
     private double mTienNuoc;
     private int mNam;
@@ -64,10 +67,10 @@ public class Printer {
         return instance;
     }
 
-    public void setValue(int nam, String staffName, String staffSdt, HoaDon hoaDon, double tienNuoc) {
+    public void setValue(int nam, String staffName, String staffPhone, HoaDon hoaDon, double tienNuoc) {
         mNam = nam;
         mStaffName = staffName;
-        mStaffSdt = staffSdt;
+        mStaffPhone = staffPhone;
         mHoaDon = hoaDon;
         mTienNuoc = tienNuoc;
     }
@@ -103,11 +106,6 @@ public class Printer {
             NumberFormat.getNumberInstance(Locale.CANADA).format(35634646);
             OutputStream os = mBluetoothSocket
                     .getOutputStream();
-            String test = "! 0 200 200 210 1\r\n"
-                    + "TEXT 4 0 30 40 This is a CPCL test.\r\n"  //type, font, size, x position, y position, data
-//                            + "FORM\r\n"
-                    + "PRINT\r\n";
-//            DecimalFormat decimalFormat = new DecimalFormat("#. ###");
             int y = 160;
             StringBuilder builder = new StringBuilder();
             builder.append("! 0 200 200 960 1\n" +
@@ -126,13 +124,15 @@ public class Printer {
             builder.append(String.format("BARCODE 128 1 1 50 0 %d %s\n", y, mHoaDon.getDanhBo()) +
                     "LEFT\n");
             y += 60;
-            builder.append(String.format("TEXT 7 0 20 %d NHAN VIEN: %s - %s\n", y, removeAccent(mStaffName), mStaffSdt));
+            builder.append(String.format("TEXT 7 0 20 %d NHAN VIEN: %s\n", y, removeAccent(mStaffName)));
+            y += 40;
+            builder.append(String.format("TEXT 7 0 20 %d So dien thoai: %s\n", y, mStaffPhone));
             y += 40;
             builder.append(String.format("TEXT 7 0 20 %d KHACH HANG: %s\n", y, mHoaDon.getTenKhachHang()));
             y += 40;
             builder.append(String.format("TEXT 7 0 20 %d DIA CHI: %s\n", y, mHoaDon.getDiaChi()));
             y += 35;
-            builder.append(String.format("TEXT 7 1 20 %d DANH BA: %s%11s%s\n", y, spaceDB(mHoaDon.getDanhBo()), "MLT: ",spaceMLT( mHoaDon.getMaLoTrinh())));
+            builder.append(String.format("TEXT 7 1 20 %d DANH BA: %s%11s%s\n", y, spaceDB(mHoaDon.getDanhBo()), "MLT: ", spaceMLT(mHoaDon.getMaLoTrinh())));
             y += 50;
             builder.append(String.format("TEXT 7 0 20 %d GIA BIEU: %s - DINH MUC: %s m3\n", y, mHoaDon.getGiaBieu(), mHoaDon.getDinhMuc()));
             y += 30;
@@ -175,16 +175,28 @@ public class Printer {
         }
         return false;
     }
+
+    public Bitmap convertToBitmap(Drawable drawable, int widthPixels, int heightPixels) {
+        Bitmap mutableBitmap = Bitmap.createBitmap(widthPixels, heightPixels, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(mutableBitmap);
+        drawable.setBounds(0, 0, widthPixels, heightPixels);
+        drawable.draw(canvas);
+
+        return mutableBitmap;
+    }
+
     private String spaceMLT(String mlt) {
         String output = "";
         output = (mlt.substring(0, 2)).concat(" ").concat(mlt.substring(2, 4)).concat(" ").concat(mlt.substring(4));
         return output;
     }
+
     private String spaceDB(String danhBo) {
         String output = "";
         output = (danhBo.substring(0, 4)).concat(" ").concat(danhBo.substring(4, 7)).concat(" ").concat(danhBo.substring(7));
         return output;
     }
+
     private String removeAccent(String s) {
 
         String temp = Normalizer.normalize(s, Normalizer.Form.NFD);

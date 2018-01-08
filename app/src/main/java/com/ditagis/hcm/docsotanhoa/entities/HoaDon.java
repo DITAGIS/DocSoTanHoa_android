@@ -33,13 +33,23 @@ public class HoaDon {
     private String hieu;
     private String co;
     private String tieuThuTBMoi;
-private String tuNgay, denNgay;
+    private String tuNgay, denNgay;
+    private String staffPhone;
+
     public byte[] getImage_byteArray() {
         return image_byteArray;
     }
 
     public void setImage_byteArray(byte[] image_byteArray) {
         this.image_byteArray = image_byteArray;
+    }
+
+    public String getStaffPhone() {
+        return staffPhone;
+    }
+
+    public void setStaffPhone(String staffPhone) {
+        this.staffPhone = staffPhone;
     }
 
     public String getTuNgay() {

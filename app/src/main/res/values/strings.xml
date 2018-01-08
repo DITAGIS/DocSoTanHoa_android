@@ -41,6 +41,7 @@
     <string name="extra_username">username</string>
     <string name="extra_password">password</string>
     <string name="extra_staffname">staffname</string>
+    <string name="extra_staffPhone">staffPhone</string>
     <string name="extra_dot">dot</string>
     <string name="extra_ky">ky</string>
     <string name="extra_nam">nam</string>

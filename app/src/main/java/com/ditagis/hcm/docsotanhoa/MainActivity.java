@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     private int mKy;
     private int mNam;
     private int mDot;
-    private String mUsername, mPassword, mStaffName;
+    private String mUsername, mPassword, mStaffName, mStaffPhone;
 
     private LayLoTrinh mLayLoTrinh;
     private DocSo mDocSo;
@@ -92,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
             this.mPassword = getIntent().getExtras().getString(this.getString(R.string.extra_password));
         if (getIntent().getExtras().getString(this.getString(R.string.extra_staffname)) != null)
             this.mStaffName = getIntent().getExtras().getString(this.getString(R.string.extra_staffname));
+        if (getIntent().getExtras().getString(this.getString(R.string.extra_staffPhone)) != null)
+            this.mStaffPhone = getIntent().getExtras().getString(this.getString(R.string.extra_staffPhone));
         if (getIntent().getExtras().getInt(this.getString(R.string.extra_nam)) > 0)
             this.mNam = getIntent().getExtras().getInt(this.getString(R.string.extra_nam));
         if (getIntent().getExtras().getInt(this.getString(R.string.extra_dot)) > 0)
@@ -144,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-        mDocSo = new DocSo(MainActivity.this, getLayoutInflater(), mKy, mNam, mDot, mUsername, mStaffName, loadPreferences(getString(R.string.save_theme)), mViewPager);
+        mDocSo = new DocSo(MainActivity.this, getLayoutInflater(), mKy, mNam, mDot, mUsername, mStaffName,mStaffPhone, loadPreferences(getString(R.string.save_theme)), mViewPager);
         mQuanLyDocSo = new QuanLyDocSo(getLayoutInflater(), mDot, mKy, mNam, mUsername);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -491,7 +493,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean result) {
             if (result) {
-                Printer.getInstance().initialize(mBluetoothSocket, MainActivity.this.getApplicationContext());
+                Printer.getInstance().initialize(mBluetoothSocket, MainActivity.this);
 
 //                if (dialog.isShowing()) {
 //                    dialog.dismiss();

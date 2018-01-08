@@ -21,7 +21,7 @@ import java.util.List;
 public class LogInDB implements IDB<User, Boolean, String> {
 
     private final String TABLE_NAME = "MayDS1";
-    private final String SQL_SELECT = "select NhanVienID from " + TABLE_NAME + " where may = ? and password = ?";
+    private final String SQL_SELECT = "select NhanVienID, dienthoai from " + TABLE_NAME + " where may = ? and password = ?";
     private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + " VALUES(?,?)";
     private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET password=? WHERE username=?";
     private final String SQL_UPDATE_ALL = "UPDATE " + TABLE_NAME + " SET password=?";
@@ -35,13 +35,17 @@ public class LogInDB implements IDB<User, Boolean, String> {
         private String mStaffName;
         private String username;
         private String password;
+        private String mStaffPhone;
 
+        public String getmStaffPhone() {
+            return mStaffPhone;
+        }
 
-
-        public Result(String mDot, String mStaffName, String userName) {
+        public Result(String mDot, String mStaffName, String userName, String staffPhone) {
             this.mDot = mDot;
             this.mStaffName = mStaffName;
             this.username = userName;
+            this.mStaffPhone = staffPhone;
         }
 
         public String getmKy() {
@@ -152,10 +156,10 @@ public class LogInDB implements IDB<User, Boolean, String> {
     public Result logIn(User user) {
 
         Calendar calendar = Calendar.getInstance();
-        String ky ="";
+        String ky = "";
 //        int ky  = 10; // lay ky 10
 //        int dot = calendar.get(Calendar.DAY_OF_MONTH);
-       String nam = "";
+        String nam = "";
         Connection cnn = ConnectionDB.getInstance().getConnection();
         String sql = this.SQL_SELECT;
 
@@ -167,21 +171,22 @@ public class LogInDB implements IDB<User, Boolean, String> {
             statement.setString(2, (new EncodeMD5()).encode(user.getPassWord()));
             ResultSet resultSet = statement.executeQuery();
             String staffName = "";
+            String staffPhone = "";
             if (resultSet.next()) {
                 staffName = resultSet.getString(1);
-
+                staffPhone = resultSet.getString(2);
             }
             resultSet.close();
             statement = cnn.prepareStatement("select distinct top 1 nam from docso order by nam desc");
             ResultSet rsNam = statement.executeQuery();
-            while (rsNam.next()){
+            while (rsNam.next()) {
                 nam = rsNam.getString(1);
                 break;
             }
             rsNam.close();
             statement = cnn.prepareStatement("select distinct top 1 ky from docso where nam = " + nam + " order by ky desc");
             ResultSet rsKy = statement.executeQuery();
-            while (rsKy.next()){
+            while (rsKy.next()) {
                 ky = rsKy.getString(1);
                 break;
             }
@@ -197,7 +202,7 @@ public class LogInDB implements IDB<User, Boolean, String> {
 //            mDot = dot + "";
             statement.close();
             rsDot.close();
-            Result result = new Result(mDot, staffName, user.getUserName());
+            Result result = new Result(mDot, staffName, user.getUserName(), staffPhone);
             result.setmNam(nam);
             result.setmKy(ky);
             return result;

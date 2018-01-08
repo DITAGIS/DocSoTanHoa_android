@@ -105,7 +105,7 @@ public class DocSo extends Fragment {
     private HoaDon mHoaDon;
     private String mCode, mSoNha, mDuong;
     private int mSumDanhBo, mDanhBoHoanThanh;
-    private String mStaffName;
+    private String mStaffName, mStaffPhone;
     private int mDot, mKy;
     private int mNam;
     private String mGhiChu;
@@ -127,9 +127,10 @@ public class DocSo extends Fragment {
     private Button mBtnCloseViewImageFrame;
 
     @SuppressLint("ClickableViewAccessibility")
-    public DocSo(Activity activity, final LayoutInflater inflater, int mKy, int nam, final int mDot, String mUsername, String staffName, int theme, ViewPager viewPager) {
+    public DocSo(Activity activity, final LayoutInflater inflater, int mKy, int nam, final int mDot, String mUsername, String staffName, String staffPhone, int theme, ViewPager viewPager) {
         this.mActivity = activity;
         this.mStaffName = staffName;
+        this.mStaffPhone = staffPhone;
         this.mDot = mDot;
         this.mKy = mKy;
         this.mNam = nam;
@@ -526,8 +527,7 @@ public class DocSo extends Fragment {
                     mHoaDon.getDinhMuc(), mHoaDon.getSh(), mHoaDon.getSx(), mHoaDon.getDv(), mHoaDon.getHc());
             double tienNuoc = calculate_tienNuoc.getmTienNuoc();
 
-            Printer.getInstance().setValue(mNam, mStaffName,
-                    "01234567890", mHoaDon, tienNuoc);
+            Printer.getInstance().setValue(mNam, mStaffName, mStaffPhone, mHoaDon, tienNuoc);
             if (Printer.getInstance().print())
                 save(Integer.parseInt(mTxtCSC.getText().toString()), Integer.parseInt(mTxtCSM.getText().toString()));
         } catch (Exception e) {

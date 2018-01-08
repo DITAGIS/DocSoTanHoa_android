@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private ImageButton mImgBtnViewPassword;
 
     private LoginAsync mLoginAsync;
-    private String mUsername, mPassword, mStaffName;
+    private String mUsername, mPassword, mStaffName, mStaffPhone;
     private String mDot, mKy, mNam;
     private NetworkStateChangeReceiver mStateChangeReceiver;
     private IntentFilter mIntentFilter;
@@ -189,6 +189,7 @@ public class LoginActivity extends AppCompatActivity {
                 LoginActivity.this.mKy = result.getmKy();
                 LoginActivity.this.mDot = result.getmDot();
                 LoginActivity.this.mNam = result.getmNam();
+                LoginActivity.this.mStaffPhone = result.getmStaffPhone();
             }
             publishProgress(result);
             return result;
@@ -228,9 +229,9 @@ public class LoginActivity extends AppCompatActivity {
 
         Calendar calendar = Calendar.getInstance();
         int ky = Integer.parseInt(mKy);
-       int nam = Integer.parseInt(mNam);
+        int nam = Integer.parseInt(mNam);
         int dot = Integer.parseInt(mDot);
-        new LayLoTrinh(LoginActivity.this, getLayoutInflater(), ky, nam, dot, mUsername, mStaffName, mPassword);
+        new LayLoTrinh(LoginActivity.this, getLayoutInflater(), ky, nam, dot, mUsername, mStaffName, mPassword, mStaffPhone);
     }
 
     public boolean requestPermisson() {
