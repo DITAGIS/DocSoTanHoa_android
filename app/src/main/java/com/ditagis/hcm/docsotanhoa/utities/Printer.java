@@ -21,6 +21,7 @@ import java.text.DateFormat;
 import java.text.Normalizer;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -36,6 +37,9 @@ public class Printer {
     BluetoothAdapter mBluetoothAdapter;
     DateFormat formatter_old = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     DateFormat formatter = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+    DateFormat formatter_day_of_week = new SimpleDateFormat("E");
+    Calendar cal = Calendar.getInstance();
+
     private BluetoothSocket mBluetoothSocket;
     private Context mContext;
     private ProgressDialog mBluetoothConnectProgressDialog;
@@ -106,6 +110,9 @@ public class Printer {
             NumberFormat.getNumberInstance(Locale.CANADA).format(35634646);
             OutputStream os = mBluetoothSocket
                     .getOutputStream();
+            cal.setTime(formatter_old.parse(mHoaDon.getThoiGian()));
+            int[] dates = getDates(cal);
+
             int y = 160;
             StringBuilder builder = new StringBuilder();
             builder.append("! 0 200 200 960 1\n" +
@@ -155,7 +162,7 @@ public class Printer {
             y += 50;
             builder.append(String.format("TEXT 0 1 0 %d ------------------------\n", y));
             y += 10;
-            builder.append(String.format("TEXT 7 1 0 %d NGAY THU TIEN DU KIEN 22 - 23\n", y));
+            builder.append(String.format("TEXT 7 1 0 %d NGAY THU TIEN DU KIEN %s - %s\n", y, dates[0]+"",dates[1]+""));
             y += 60;
             builder.append(String.format("TEXT 7 0 0 %d DIEN THOAI: 39 557 795 DE DUOC HUONG DAN\n", y));
             y += 30;
@@ -174,6 +181,21 @@ public class Printer {
             Log.e("MainActivity", "Exe ", e);
         }
         return false;
+    }
+
+    private int[] getDates(Calendar cal) {
+        int[] dates = new int[2];
+        cal.add(Calendar.DATE, 3);
+        while (cal.get(Calendar.DAY_OF_WEEK) > 6 || cal.get(Calendar.DAY_OF_WEEK) < 2)
+            cal.add(Calendar.DATE, 1);
+        dates[0] = cal.get(Calendar.DATE);
+
+
+        cal.add(Calendar.DATE, 1);
+        while (cal.get(Calendar.DAY_OF_WEEK) > 6 || cal.get(Calendar.DAY_OF_WEEK) < 2)
+            cal.add(Calendar.DATE, 1);
+        dates[1] = cal.get(Calendar.DATE);
+        return dates;
     }
 
     public Bitmap convertToBitmap(Drawable drawable, int widthPixels, int heightPixels) {
