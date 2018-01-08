@@ -52,12 +52,19 @@ public class DialogSelectDot {
         final AlertDialog dialog = builder.create();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.show();
-        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//                docSo.selectDotFromDialog(selectFolderAdapter.getItem(position).getDot());
+//                dialog.dismiss();
+//                return false;
+//            }
+//        });
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 docSo.selectDotFromDialog(selectFolderAdapter.getItem(position).getDot());
                 dialog.dismiss();
-                return false;
             }
         });
         return 0;

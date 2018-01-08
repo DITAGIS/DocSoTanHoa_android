@@ -1234,7 +1234,7 @@ public class DocSo extends Fragment {
             dotString = "0" + dotInt;
         for (int i = 0; i < mAdapterDot.getCount(); i++) {
             if (mAdapterDot.getItem(i).equals(dotString)) {
-                selectDot(i);
+                mSpinDot.setSelection(i);
                 return;
             }
         }
