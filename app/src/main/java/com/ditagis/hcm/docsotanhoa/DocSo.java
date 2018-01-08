@@ -1205,7 +1205,7 @@ public class DocSo extends Fragment {
         mAdapterDot.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         mSpinDot.setAdapter(mAdapterDot);
         int position = mDots.size() - 1;
-        mSpinDot.setSelection(position);
+//        mSpinDot.setSelection(position);
     }
 
     private void getDotExist() {
@@ -1224,6 +1224,19 @@ public class DocSo extends Fragment {
         }
         if (mDots.size() > 1) {
             MyAlertDialog.show(mRootView.getContext(), false, mRootView.getContext().getString(R.string.dotExist_title), mRootView.getContext().getString(R.string.dotExist_message));
+        }
+    }
+
+    public void selectDotFromDialog(String dot) {
+        int dotInt = Integer.parseInt(dot);
+        String dotString = dotInt + "";
+        if (dotInt < 10)
+            dotString = "0" + dotInt;
+        for (int i = 0; i < mAdapterDot.getCount(); i++) {
+            if (mAdapterDot.getItem(i).equals(dotString)) {
+                selectDot(i);
+                return;
+            }
         }
     }
 

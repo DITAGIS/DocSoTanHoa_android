@@ -34,6 +34,7 @@ import android.widget.Toast;
 import com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver;
 import com.ditagis.hcm.docsotanhoa.theme.ThemeUtils;
 import com.ditagis.hcm.docsotanhoa.utities.ChangePassword;
+import com.ditagis.hcm.docsotanhoa.utities.DialogSelectDot;
 import com.ditagis.hcm.docsotanhoa.utities.NUMBER;
 import com.ditagis.hcm.docsotanhoa.utities.Printer;
 
@@ -146,7 +147,8 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-        mDocSo = new DocSo(MainActivity.this, getLayoutInflater(), mKy, mNam, mDot, mUsername, mStaffName,mStaffPhone, loadPreferences(getString(R.string.save_theme)), mViewPager);
+        mDocSo = new DocSo(MainActivity.this, getLayoutInflater(), mKy, mNam, mDot, mUsername, mStaffName, mStaffPhone, loadPreferences(getString(R.string.save_theme)), mViewPager);
+        DialogSelectDot.show(MainActivity.this, mDot, mKy, mNam, mUsername, mDocSo);
         mQuanLyDocSo = new QuanLyDocSo(getLayoutInflater(), mDot, mKy, mNam, mUsername);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -223,6 +225,10 @@ public class MainActivity extends AppCompatActivity {
                             NUMBER.REQUEST_CONNECT_DEVICE);
                 }
             }
+
+            return true;
+        } else if (id == R.id.action_select_folder) {
+            DialogSelectDot.show(MainActivity.this, mDot, mKy, mNam, mUsername, mDocSo);
 
             return true;
         }

@@ -9,6 +9,7 @@
     <string name="title_activity_main">Đọc số Tân Hòa</string>
     <string name="save_theme">theme</string>
     <string name="action_connect_bluetooth">Kết nối máy in</string>
+    <string name="action_select_folder">Chọn quyển</string>
     <string name="action_show_hide_print">Hiện/ẩn nút in GBTN</string>
     <string name="action_log_out">Đăng xuất</string>
     <string name="action_change_theme">Đổi màu nền</string>

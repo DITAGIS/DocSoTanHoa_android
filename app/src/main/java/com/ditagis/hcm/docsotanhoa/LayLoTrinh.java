@@ -26,6 +26,7 @@ import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.entities.ResultLayLoTrinh;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 import com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver;
+import com.ditagis.hcm.docsotanhoa.utities.DialogSelectDot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -159,6 +160,8 @@ public class LayLoTrinh {
         dialog.show();
     }
 
+
+
     public void setTextProgress() {
 
         String dotString = mDot + "";
@@ -212,6 +215,7 @@ public class LayLoTrinh {
 //        if (output.getCount() < output.getTotal()) {
 //            MySnackBar.make(rootView, rootView.getContext().getString(R.string.load_danhbo_error), true);
 //        } else {
+
         Intent intent = new Intent(mActivity, MainActivity.class);
 
         intent.putExtra(mActivity.getString(R.string.extra_username), mUsername);
