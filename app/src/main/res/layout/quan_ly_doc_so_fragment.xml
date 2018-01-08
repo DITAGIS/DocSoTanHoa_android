@@ -154,27 +154,84 @@
                 android:gravity="start"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/activity_horizontal_margin">
-
-                <TextView
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="0.5"
-                    android:text="Lọc theo đợt: "
-                    android:textColor="@color/colorTextColor_1"
-                    android:textSize="18sp" />
+                    android:layout_weight="1">
 
-                <Spinner
-                    android:id="@+id/spin_qlds_dot"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_gravity="center_vertical"
+                        android:text="Năm: "
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorTextColor_1" />
+
+                    <Spinner
+                        android:id="@+id/spin_qlds_nam"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorTextColor_1" />
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginRight="@dimen/button_horizontal_margin"
-                    android:layout_weight="0.5"
-                    android:gravity="end|center_horizontal"
+                    android:layout_weight="0.8">
 
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/colorTextColor_1" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_gravity="center_vertical"
+                        android:text="Kỳ: "
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorTextColor_1" />
+
+                    <Spinner
+                        android:id="@+id/spin_qlds_ky"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorTextColor_1" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.8">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+
+                        android:text="Đợt: "
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorTextColor_1" />
+
+                    <Spinner
+                        android:id="@+id/spin_qlds_dot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorTextColor_1" />
+                </LinearLayout>
+
             </LinearLayout>
 
 

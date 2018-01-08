@@ -75,8 +75,9 @@ public class QuanLyDocSo extends Fragment {
     private SumDanhBoDB mSumDanhBoDB;
     AutoCompleteTextView singleComplete;
     private String mStaffName, mStaffPhone;
-    List<String> mDBs = new ArrayList<String>(), mMlts = new ArrayList<>(), mTenKHs = new ArrayList<>(), mDiaChis = new ArrayList<>(), mDots = new ArrayList<>(), mSdts = new ArrayList<>();
-    ;
+    List<String> mDBs = new ArrayList<String>(), mMlts = new ArrayList<>(), mTenKHs = new ArrayList<>(), mDiaChis = new ArrayList<>(), mDots = new ArrayList<>(), mSdts = new ArrayList<>(),
+            mKys = new ArrayList<>(), mNams = new ArrayList<>();
+
     private String mSdt;
     private Spinner mSpinSdt;
     private String mLike;
@@ -85,8 +86,9 @@ public class QuanLyDocSo extends Fragment {
     Spinner mSpinCode;
     private String mCode;
     private String mKyString;
-    private ArrayAdapter<String> mAdapterDot, mAdapterSdt;
-    private Spinner mSpinDot;
+    private ArrayAdapter<String> mAdapterDot, mAdapterSdt, mAdapterKy, mAdapterNam;
+    ;
+    private Spinner mSpinDot, mSpinKy, mSpinNam;
 
     public Uploading getmUploading() {
         return mUploading;
@@ -122,7 +124,8 @@ public class QuanLyDocSo extends Fragment {
         mKyString = mKy + "";
         if (mKy < 10)
             mKyString = "0" + mKy;
-
+        mKys.add(mKyString);
+        mNams.add(mNam + "");
         mSumDanhBo = mSumDanhBoDB.getSum(mKyString, mNam, mLike);
         this.mDanhBoHoanThanh = mSumDanhBoDB.getSumSynchronized(mKyString, mNam, mLike);
         //Gán DataSource vào ArrayAdapter
@@ -295,6 +298,8 @@ public class QuanLyDocSo extends Fragment {
             }
         });
         mSpinDot = (Spinner) mRootView.findViewById(R.id.spin_qlds_dot);
+        mSpinKy = (Spinner) mRootView.findViewById(R.id.spin_qlds_ky);
+        mSpinNam = (Spinner) mRootView.findViewById(R.id.spin_qlds_nam);
         mSpinDot.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -310,6 +315,12 @@ public class QuanLyDocSo extends Fragment {
 
 
         createDot();
+        mAdapterKy = new ArrayAdapter<>(mRootView.getContext(), R.layout.spinner_item_left1, mKys);
+        mAdapterKy.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        mSpinKy.setAdapter(mAdapterKy);
+        mAdapterNam = new ArrayAdapter<>(mRootView.getContext(), R.layout.spinner_item_left1, mNams);
+        mAdapterNam.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        mSpinNam.setAdapter(mAdapterNam);
     }
 
     public void selectDotFromDialog(String dot) {
