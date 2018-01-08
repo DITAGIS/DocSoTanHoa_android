@@ -303,7 +303,18 @@ public class QuanLyDocSo extends Fragment {
 
         createDot();
     }
-
+    public void selectDotFromDialog(String dot) {
+        int dotInt = Integer.parseInt(dot);
+        String dotString = dotInt + "";
+        if (dotInt < 10)
+            dotString = "0" + dotInt;
+        for (int i = 0; i < mAdapterDot.getCount(); i++) {
+            if (mAdapterDot.getItem(i).equals(dotString)) {
+                mSpinDot.setSelection(i);
+                return;
+            }
+        }
+    }
     private void notifyDataSetGridViewChange() {
         mQuanLyDocSoAdapter.notifyDataSetChanged();
         mQuanLyDocSoAdapter.sort(new Comparator<GridViewQuanLyDocSoAdapter.Item>() {

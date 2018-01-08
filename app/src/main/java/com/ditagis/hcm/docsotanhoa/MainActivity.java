@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
 //                        mQuanLyDocSo.getmUploading().setmDot(mLayLoTrinh.getmDot());
 
                         mQuanLyDocSo.refresh();
+                        DialogSelectDot.show(MainActivity.this, mDot, mKy, mNam, mUsername, mQuanLyDocSo);
                         break;
                 }
             }
