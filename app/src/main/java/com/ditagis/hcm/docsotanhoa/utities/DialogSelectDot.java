@@ -41,6 +41,7 @@ public class DialogSelectDot {
                 count++;
 
         }
+        if(count > 0){
         AlertDialog.Builder builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Chọn quyển đọc số");
         builder.setCancelable(false);
@@ -67,7 +68,7 @@ public class DialogSelectDot {
                 docSo.selectDotFromDialog(selectFolderAdapter.getItem(position).getDot());
                 dialog.dismiss();
             }
-        });
+        });}
         return 0;
     }
 
@@ -89,6 +90,7 @@ public class DialogSelectDot {
                 count++;
 
         }
+        if(count>0){
         AlertDialog.Builder builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Chọn quyển đã đọc");
         builder.setCancelable(false);
@@ -115,7 +117,7 @@ public class DialogSelectDot {
                 qlds.selectDotFromDialog(selectFolderAdapter.getItem(position).getDot());
                 dialog.dismiss();
             }
-        });
+        });}
         return 0;
     }
 }
