@@ -71,7 +71,7 @@
                             android:layout_width="@dimen/width_title_item_docso"
                             android:layout_column="0"
                             android:layout_gravity="center_vertical"
-                            android:text="Nhân viên:"
+                            android:text="Tên NV:"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/colorTextColor_1" />
 
@@ -963,7 +963,7 @@
                             android:layout_width="@dimen/width_title_item_docso"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:text="Chỉ số mới"
+                            android:text="CS Mới"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/colorTextColor_1" />
 

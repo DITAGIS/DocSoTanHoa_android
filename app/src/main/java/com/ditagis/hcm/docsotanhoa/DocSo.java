@@ -581,6 +581,11 @@ public class DocSo extends Fragment {
 
     public void setmSelected_theme(int mSelected_theme) {
         this.mSelected_theme = mSelected_theme;
+        try{
+            setTheme();
+        }catch(Exception e){
+
+        }
     }
 
     public int getmSumDanhBo() {

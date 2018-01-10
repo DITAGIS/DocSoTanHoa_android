@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
                         mQuanLyDocSo.refresh();
                         mQuanLyDocSo.selectDotFromOut(mDocSo.getmDot());
-//                        DialogSelectDot.show(MainActivity.this, mDot, mKy, mNam, mUsername, mQuanLyDocSo);
+                        DialogSelectDot.show(MainActivity.this, mDot, mKy, mNam, mUsername, mQuanLyDocSo);
                         break;
                 }
             }

@@ -65,7 +65,7 @@ import java.util.List;
 public class QuanLyDocSo extends Fragment {
     GridView mGridView;
     TextView mTxtComplete;
-    private List<HoaDon> hoaDons;
+    private List<HoaDon> mHoaDons;
     private GridViewQuanLyDocSoAdapter mQuanLyDocSoAdapter;
     private int mSumDanhBo = 0, mDanhBoHoanThanh;
     private int mDot, mKy, mNam, mCSGo;
@@ -180,9 +180,9 @@ public class QuanLyDocSo extends Fragment {
                 return false;
             }
         });
-        hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
-        hoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike));
-        for (HoaDon hoaDon : this.hoaDons) {
+        mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
+        mHoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike));
+        for (HoaDon hoaDon : this.mHoaDons) {
             mDBs.add(hoaDon.getDanhBo());
         }
         mSearchType = mRootView.getContext().getString(R.string.search_danhbo);
@@ -205,7 +205,7 @@ public class QuanLyDocSo extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
                     mQuanLyDocSoAdapter.clear();
-                    for (HoaDon hoaDon : hoaDons) {
+                    for (HoaDon hoaDon : mHoaDons) {
                         if (hoaDon.getDanhBo().contains(s.toString()))
                             mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
                                     hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
@@ -219,11 +219,11 @@ public class QuanLyDocSo extends Fragment {
                             ));
                     }
                     notifyDataSetGridViewChange();
-                    ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + hoaDons.size());
+                    ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + mHoaDons.size());
 
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_tenKH))) {
                     mQuanLyDocSoAdapter.clear();
-                    for (HoaDon hoaDon : hoaDons) {
+                    for (HoaDon hoaDon : mHoaDons) {
                         if (hoaDon.getTenKhachHang().toLowerCase().contains(s.toString().toLowerCase()))
                             mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
                                     hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
@@ -236,10 +236,10 @@ public class QuanLyDocSo extends Fragment {
                                     hoaDon.getFlag()));
                     }
                     notifyDataSetGridViewChange();
-                    ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + hoaDons.size());
+                    ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + mHoaDons.size());
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_diaChi))) {
                     mQuanLyDocSoAdapter.clear();
-                    for (HoaDon hoaDon : hoaDons) {
+                    for (HoaDon hoaDon : mHoaDons) {
                         if (hoaDon.getDiaChi().toLowerCase().contains(s.toString().toLowerCase()))
                             mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
                                     hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
@@ -249,7 +249,7 @@ public class QuanLyDocSo extends Fragment {
                                     hoaDon.getCodeMoi(), hoaDon.getDiaChi(), hoaDon.getThoiGian(), hoaDon.getFlag()));
                     }
                     notifyDataSetGridViewChange();
-                    ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + hoaDons.size());
+                    ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + mHoaDons.size());
                 }
             }
 
@@ -277,7 +277,7 @@ public class QuanLyDocSo extends Fragment {
                 //xử lý trường hợp lọc tất cả
                 if (code.equals(Codes.getInstance().getCodeDescribles_qlds()[0].getCode()))
                     code = "";
-                for (HoaDon hoaDon : hoaDons) {
+                for (HoaDon hoaDon : mHoaDons) {
                     if (hoaDon.getCodeMoi() == null)
                         continue;
                     if (hoaDon.getCodeMoi().contains(code))
@@ -289,7 +289,7 @@ public class QuanLyDocSo extends Fragment {
                                 hoaDon.getCodeMoi(), hoaDon.getDiaChi(), hoaDon.getThoiGian(), hoaDon.getFlag()));
                 }
                 notifyDataSetGridViewChange();
-                ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + hoaDons.size());
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + mHoaDons.size());
             }
 
             @Override
@@ -423,11 +423,11 @@ public class QuanLyDocSo extends Fragment {
 
     public void refresh() {
         createDot();
-        hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
-        hoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike));
+        mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
+        mHoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike));
         setTextProgress();
         mQuanLyDocSoAdapter.clear();
-        for (HoaDon hoaDon : this.hoaDons) {
+        for (HoaDon hoaDon : this.mHoaDons) {
             mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
                     hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
                     hoaDon.getDanhBo(),
@@ -442,7 +442,7 @@ public class QuanLyDocSo extends Fragment {
         notifyDataSetGridViewChange();
 
         setDynamicWidth(mGridView);
-        ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + hoaDons.size());
+        ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + mHoaDons.size());
     }
 
     private void setTextProgress() {
@@ -474,6 +474,8 @@ public class QuanLyDocSo extends Fragment {
 
         List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
         hoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike));
+        mHoaDons.clear();
+        mHoaDons.addAll(hoaDons);
         mQuanLyDocSoAdapter.clear();
         for (HoaDon hoaDon : hoaDons) {
             mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
@@ -571,7 +573,7 @@ public class QuanLyDocSo extends Fragment {
 
                 if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
                     mDBs.clear();
-                    for (HoaDon hoaDon : hoaDons) {
+                    for (HoaDon hoaDon : mHoaDons) {
                         mDBs.add(hoaDon.getDanhBo());
                     }
                     singleComplete.setAdapter(new CustomArrayAdapter(
@@ -581,7 +583,7 @@ public class QuanLyDocSo extends Fragment {
                     ));
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_tenKH))) {
                     mTenKHs.clear();
-                    for (HoaDon hoaDon : hoaDons) {
+                    for (HoaDon hoaDon : mHoaDons) {
                         mTenKHs.add(hoaDon.getTenKhachHang());
                     }
 
@@ -592,7 +594,7 @@ public class QuanLyDocSo extends Fragment {
                     ));
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_diaChi))) {
                     mDiaChis.clear();
-                    for (HoaDon hoaDon : hoaDons) {
+                    for (HoaDon hoaDon : mHoaDons) {
                         mDiaChis.add(hoaDon.getDiaChi());
                     }
 
@@ -924,8 +926,8 @@ public class QuanLyDocSo extends Fragment {
         CodeSpinnerAdapter adapterCode = new CodeSpinnerAdapter(mRootView.getContext(), android.R.layout.simple_spinner_dropdown_item, Codes.getInstance().getCodeDescribles_ds());
         adapterCode.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spinCode.setAdapter(adapterCode);
-        for (int i = 0; i < Codes.getInstance().getCodeDescribles_qlds().length; i++)
-            if (Codes.getInstance().getCodeDescribles_qlds()[i].getCode().equals(hoaDon.getCodeMoi())) {
+        for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++)
+            if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals(hoaDon.getCodeMoi())) {
                 spinCode.setSelection(i);
                 break;
             }
@@ -1092,14 +1094,14 @@ public class QuanLyDocSo extends Fragment {
         @Override
         protected Void doInBackground(String... params) {
             Boolean isValid = false;
-            hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
+            mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
             for (GridViewQuanLyDocSoAdapter.Item item : mQuanLyDocSoAdapter.getItems()) {
-                for (HoaDon hoaDon : hoaDons) {
+                for (HoaDon hoaDon : mHoaDons) {
                     if (item.getDanhbo().equals(hoaDon.getDanhBo()) &&
                             hoaDon.getFlag() == Flag.READ) {
                         boolean success1 = mUploading.add(hoaDon);
                         if (success1) {
-                            hoaDons.remove(hoaDon);
+                            mHoaDons.remove(hoaDon);
                             mQuanLyDocSoAdapter.removeItem(hoaDon.getMaLoTrinh());
                             countUpload--;
                             LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonSynchronized(hoaDon);
@@ -1120,7 +1122,7 @@ public class QuanLyDocSo extends Fragment {
             super.onProgressUpdate(values);
             boolean isValid = values[0];
             notifyDataSetGridViewChange();
-            ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + hoaDons.size());
+            ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + mHoaDons.size());
             mDanhBoHoanThanh += LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike).size();
             setTextProgress();
             if (isValid) {
