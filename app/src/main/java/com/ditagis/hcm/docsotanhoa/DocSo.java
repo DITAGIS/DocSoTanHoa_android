@@ -562,7 +562,8 @@ public class DocSo extends Fragment {
                 mDiaChis.remove(mSpinDiaChi.getSelectedItemPosition());
                 mDiaChis.add(mSpinDiaChi.getSelectedItemPosition(), mSoNha + " " + mDuong);
                 mAdapterDiaChi.notifyDataSetChanged();
-
+                mHoaDon.setSoNha(mSoNha);
+                mHoaDon.setDuong(mDuong);
                 dialog.dismiss();
 
             }
@@ -612,6 +613,7 @@ public class DocSo extends Fragment {
                     mAdapterSdt.notifyDataSetChanged();
                     mSdt = mSdts.get(0);
                     mSpinSdt.setSelection(0);
+                    mHoaDon.setSdt(mSdt);
                 }
                 dialog.dismiss();
 
@@ -2068,6 +2070,7 @@ public class DocSo extends Fragment {
                             mGhiChu = mGhiChu.concat("_").concat(etxtghichu.getText().toString());
                         break;
                 }
+                mHoaDon.setGhiChu(mGhiChu);
                 dialog.dismiss();
             }
         }).setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
