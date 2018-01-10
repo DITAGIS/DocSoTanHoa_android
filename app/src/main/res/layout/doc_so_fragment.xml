@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
@@ -658,7 +659,7 @@
                             android:textColor="@color/colorTextColor_1" />
 
                         <TextView
-                            android:id="@+id/txt_ds_sanLuong_title"
+                            android:id="@+id/txt_ds_tieuThu_title"
                             android:layout_width="@dimen/width_title_item_docso"
                             android:layout_height="wrap_content"
                             android:layout_column="0"

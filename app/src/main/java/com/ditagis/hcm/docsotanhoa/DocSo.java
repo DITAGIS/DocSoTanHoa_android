@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -157,7 +158,7 @@ public class DocSo extends Fragment {
         mSpinDot = (Spinner) mRootView.findViewById(R.id.spin_ds_dot);
         mSpinTenKH = (Spinner) mRootView.findViewById(R.id.spin_ds_tenKH);
         mSpinDiaChi = (Spinner) mRootView.findViewById(R.id.spin_ds_diachi);
-        mDots.add(dotString);
+//        mDots.add(dotString);
         mTxtCSC = (TextView) mRootView.findViewById(R.id.txt_ds_CSC);
         mFrameLayoutViewImage = (FrameLayout) mRootView.findViewById(R.id.layout_ds_viewImage);
         mImageViewFrame = (ImageView) mRootView.findViewById(R.id.imgView_frame);
@@ -581,9 +582,9 @@ public class DocSo extends Fragment {
 
     public void setmSelected_theme(int mSelected_theme) {
         this.mSelected_theme = mSelected_theme;
-        try{
+        try {
             setTheme();
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
     }
@@ -710,6 +711,7 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.editauto_ds_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setBackgroundResource(R.layout.edit_text_styles);
                 ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
                 ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setBackgroundResource(R.layout.edit_text_styles);
                 ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
@@ -719,10 +721,11 @@ public class DocSo extends Fragment {
                 ((Button) mRootView.findViewById(R.id.btn_ds_sort)).setBackgroundResource(R.layout.edit_text_styles);
                 ((Button) mRootView.findViewById(R.id.btn_ds_sort)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_so_than_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                ((TextView) mRootView.findViewById(R.id.txt_ds_so_than)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_so_than)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorToolBar_Row_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_vi_tri_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                mEditTextViTri.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                mEditTextViTri.setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                mEditTextViTri.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorToolBar_Row_1));
+                mEditTextViTri.setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorToolBar_Row_1));
+                mEditTextViTri.setBackgroundResource(R.layout.edit_text_styles);
                 ((TextView) mRootView.findViewById(R.id.txt_ds_hieu_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_hieu)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_co_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
@@ -733,7 +736,6 @@ public class DocSo extends Fragment {
 //                ((ImageButton) mRootView.findViewById(R.id.btn_ds_next)).setImageResource(R.drawable.next);
 //                ((ImageButton) mRootView.findViewById(R.id.btn_ds_next)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
 //                ((ImageButton) mRootView.findViewById(R.id.btn_ds_next)).setBackgroundResource(R.layout.edit_text_styles);
-                ((TextView) mRootView.findViewById(R.id.txt_ds_so_than)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorToolBar_Row_1));
 
 //                mEditTextViTri.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorToolBar_Row_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_tenKH_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
@@ -749,22 +751,54 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.etxt_ds_sdt_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 mAdapterSdt = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mSdts);
                 ((TextView) mRootView.findViewById(R.id.txt_ds_CSC_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                ((TextView) mRootView.findViewById(R.id.txt_ds_CSC)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_CSM)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorToolBar_Row_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_code_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_code1)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_code2)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_code3)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_CSC3)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_CSC2)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_CSC)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_CSM)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu3)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu2)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu1)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+
                 mTxtCSC.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 mTxtCSM.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
 //            ((TableLayout) mRootView.findViewById(R.id.layout_ds_csm)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_csm_1));
                 ((TextView) mRootView.findViewById(R.id.spin_ds_code_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                mAdapterCode = new CodeSpinnerAdapter(mRootView.getContext(), R.layout.spinner_item_left1, Codes.getInstance().getCodeDescribles_ds());
+                mAdapterCode = new CodeSpinnerAdapter(mRootView.getContext(), R.layout.spincode_dropdown, Codes.getInstance().getCodeDescribles_ds()) {
+                    @Override
+                    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                        View view = super.getDropDownView(position, convertView, parent);
+                        TextView row_code = (TextView) view.findViewById(R.id.row_code);
+                        TextView row_describle = (TextView) view.findViewById(R.id.row_describle);
+                        if (position % 2 == 0) { // we're on an even row
+                            view.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
+                            row_code.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                            row_describle.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                        } else {
+                            view.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
+                            row_code.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                            row_describle.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                        }
+                        return view;
+                    }
+
+                };
 
                 ((TextView) mRootView.findViewById(R.id.etxt_ds_CSM_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-
+                ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setBackgroundResource(R.layout.edit_text_styles);
                 break;
             case ThemeUtils.THEME_DARK:
                 ((LinearLayout) mRootView.findViewById(R.id.layout_ds)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
@@ -782,19 +816,21 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.editauto_ds_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setBackgroundResource(R.layout.edit_text_styles2);
                 ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
-                ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setBackgroundResource(R.layout.edit_text_styles);
+                ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setBackgroundResource(R.layout.edit_text_styles2);
                 ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.spin_ds_mlt_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 mAdapterMLT = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mMLTs);
                 ((Button) mRootView.findViewById(R.id.btn_ds_sort)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
-                ((Button) mRootView.findViewById(R.id.btn_ds_sort)).setBackgroundResource(R.layout.edit_text_styles);
+                ((Button) mRootView.findViewById(R.id.btn_ds_sort)).setBackgroundResource(R.layout.edit_text_styles2);
                 ((Button) mRootView.findViewById(R.id.btn_ds_sort)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_so_than_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((TextView) mRootView.findViewById(R.id.txt_ds_so_than)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_so_than)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorToolBar_Row_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_vi_tri_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                mEditTextViTri.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                mEditTextViTri.setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                mEditTextViTri.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorToolBar_Row_2));
+                mEditTextViTri.setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorToolBar_Row_2));
+                mEditTextViTri.setBackgroundResource(R.layout.edit_text_styles2);
                 ((TextView) mRootView.findViewById(R.id.txt_ds_hieu_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_hieu)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_co_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
@@ -805,7 +841,6 @@ public class DocSo extends Fragment {
 //                ((ImageButton) mRootView.findViewById(R.id.btn_ds_next)).setImageResource(R.drawable.next);
 //                ((ImageButton) mRootView.findViewById(R.id.btn_ds_next)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
 //                ((ImageButton) mRootView.findViewById(R.id.btn_ds_next)).setBackgroundResource(R.layout.edit_text_styles);
-                ((TextView) mRootView.findViewById(R.id.txt_ds_so_than)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorToolBar_Row_2));
 
 //                mEditTextViTri.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorToolBar_Row_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_tenKH_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
@@ -814,29 +849,61 @@ public class DocSo extends Fragment {
 
                 ((TextView) mRootView.findViewById(R.id.txt_ds_diachi_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
-                ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).setBackgroundResource(R.layout.edit_text_styles);
+                ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).setBackgroundResource(R.layout.edit_text_styles2);
                 ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
 
                 mAdapterDiaChi = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_bold_left2, mDiaChis);
                 ((TextView) mRootView.findViewById(R.id.etxt_ds_sdt_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 mAdapterSdt = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mSdts);
                 ((TextView) mRootView.findViewById(R.id.txt_ds_CSC_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((TextView) mRootView.findViewById(R.id.txt_ds_CSC)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_CSM)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorToolBar_Row_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_code_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_code1)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_code2)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_code3)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_CSC3)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_CSC2)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_CSC)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_CSM)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu3)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu2)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu1)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+
                 mTxtCSC.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 mTxtCSM.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+
 //            ((TableLayout) mRootView.findViewById(R.id.layout_ds_csm)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_csm_2));
                 ((TextView) mRootView.findViewById(R.id.spin_ds_code_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                mAdapterCode = new CodeSpinnerAdapter(mRootView.getContext(), R.layout.spinner_item_left2, Codes.getInstance().getCodeDescribles_ds());
+                mAdapterCode = new CodeSpinnerAdapter(mRootView.getContext(), R.layout.spincode_dropdown2, Codes.getInstance().getCodeDescribles_ds()) {
+                    @Override
+                    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                        View view = super.getDropDownView(position, convertView, parent);
+                        TextView row_code = (TextView) view.findViewById(R.id.row_code);
+                        TextView row_describle = (TextView) view.findViewById(R.id.row_describle);
+                        if (position % 2 == 0) { // we're on an even row
+                            view.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
+                            row_code.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                            row_describle.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                        } else {
+                            view.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
+                            row_code.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                            row_describle.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                        }
+                        return view;
+                    }
+                };
 
                 ((TextView) mRootView.findViewById(R.id.etxt_ds_CSM_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-
+                ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setBackgroundResource(R.layout.edit_text_styles2);
                 break;
 
         }
@@ -953,8 +1020,9 @@ public class DocSo extends Fragment {
         });
 
 
-        mAdapterCode.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        mAdapterCode.setDropDownViewResource(R.layout.spincode_dropdown2);
         mSpinCode = (Spinner) mRootView.findViewById(R.id.spin_ds_code);
+
         mSpinCode.setAdapter(mAdapterCode);
         mSpinCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -995,7 +1063,19 @@ public class DocSo extends Fragment {
                 mSpinCode.setSelection(0);
             }
         });
+        setBackGroundTintModeSpinner(PorterDuff.Mode.LIGHTEN);
+    }
 
+    private void setBackGroundTintModeSpinner(PorterDuff.Mode mode) {
+        mSpinNam.setBackgroundTintMode(mode);
+        mSpinKy.setBackgroundTintMode(mode);
+        mSpinDot.setBackgroundTintMode(mode);
+        mSpinMLT.setBackgroundTintMode(mode);
+        mSpinDB.setBackgroundTintMode(mode);
+        mSpinDiaChi.setBackgroundTintMode(mode);
+        mSpinTenKH.setBackgroundTintMode(mode);
+        mSpinSdt.setBackgroundTintMode(mode);
+        mSpinCode.setBackgroundTintMode(mode);
     }
 
     private void sort() {
@@ -1251,9 +1331,11 @@ public class DocSo extends Fragment {
 
     private void createDot() {
         getDotExist();
-        mAdapterDot = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mDots);
-        mAdapterDot.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-        mSpinDot.setAdapter(mAdapterDot);
+//        mAdapterDot = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mDots);
+//        mAdapterDot.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+//        mAdapterDot.clear();
+//        mAdapterDot.addAll(mDots);
+        mAdapterDot.notifyDataSetChanged();
         int position = mDots.size() - 1;
 //        mSpinDot.setSelection(position);
     }
@@ -1261,7 +1343,7 @@ public class DocSo extends Fragment {
     private void getDotExist() {
         String like;
         int count = 0;
-        for (int i = mDot - 1; i >= 0; i--) {
+        for (int i = mDot; i >= 0; i--) {
             if (count == 3)
                 break;
             String dotExist = "";
