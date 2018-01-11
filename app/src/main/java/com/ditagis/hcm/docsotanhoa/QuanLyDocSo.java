@@ -56,9 +56,11 @@ import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.Note;
 import com.ditagis.hcm.docsotanhoa.utities.Printer;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by ThanLe on 25/10/2017.
@@ -817,6 +819,10 @@ public class QuanLyDocSo extends Fragment {
             if (hoaDon == null)
                 return;
         }
+        Calculate_TienNuoc calculate_tienNuoc = new Calculate_TienNuoc(
+                Integer.parseInt(hoaDon.getTieuThuMoi()), hoaDon.getGiaBieu(),
+                hoaDon.getDinhMuc(), hoaDon.getSh(), hoaDon.getSx(), hoaDon.getDv(), hoaDon.getHc());
+        final double tienNuoc = calculate_tienNuoc.getmTienNuoc();
         //--------------------
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Danh bộ: " + danhBo);
@@ -829,6 +835,7 @@ public class QuanLyDocSo extends Fragment {
         if (hoaDon.getFlag() == Flag.READ)
 //        TODO chỉnh sửa khách hàng
         {
+
             final HoaDon finalHoaDon = hoaDon;
             builder.setNegativeButton("Chỉnh sửa", new DialogInterface.OnClickListener() {
                 @Override
@@ -844,10 +851,7 @@ public class QuanLyDocSo extends Fragment {
                         MySnackBar.make(mGridView, "Chưa kết nối với máy in", true);
                         return;
                     }
-                    Calculate_TienNuoc calculate_tienNuoc = new Calculate_TienNuoc(
-                            Integer.parseInt(finalHoaDon.getTieuThuMoi()), finalHoaDon.getGiaBieu(),
-                            finalHoaDon.getDinhMuc(), finalHoaDon.getSh(), finalHoaDon.getSx(), finalHoaDon.getDv(), finalHoaDon.getHc());
-                    double tienNuoc = calculate_tienNuoc.getmTienNuoc();
+
                     Printer.getInstance().setValue(mNam, mStaffName, mStaffPhone, finalHoaDon, tienNuoc);
                     Printer.getInstance().print();
                 }
@@ -888,7 +892,7 @@ public class QuanLyDocSo extends Fragment {
         ((TextView) dialog.findViewById(R.id.txt_layout_qlds_CSM)).setText(hoaDon.getChiSoMoi());
         ((TextView) dialog.findViewById(R.id.txt_layout_qlds_tieuThu)).setText(hoaDon.getTieuThuMoi());
         ((TextView) dialog.findViewById(R.id.txt_layout_qlds_giaBieu)).setText(hoaDon.getGiaBieu());
-        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_tienNuoc)).setText("");//TODO tien nuoc
+        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_tienNuoc)).setText(NumberFormat.getNumberInstance(Locale.US).format(tienNuoc * 115 / 100) + " VNĐ");//TODO tien nuoc
 
         ((TextView) dialog.findViewById(R.id.txt_layout_qlds_ghiChu)).setText(hoaDon.getGhiChu());
     }
