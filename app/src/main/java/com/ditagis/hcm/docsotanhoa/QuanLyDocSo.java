@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -47,6 +48,7 @@ import com.ditagis.hcm.docsotanhoa.entities.Code_Describle;
 import com.ditagis.hcm.docsotanhoa.entities.Codes;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
+import com.ditagis.hcm.docsotanhoa.theme.ThemeUtils;
 import com.ditagis.hcm.docsotanhoa.utities.CalculateCSM_TieuThu;
 import com.ditagis.hcm.docsotanhoa.utities.Calculate_TienNuoc;
 import com.ditagis.hcm.docsotanhoa.utities.Flag;
@@ -66,6 +68,7 @@ public class QuanLyDocSo extends Fragment {
     GridView mGridView;
     TextView mTxtComplete;
     private List<HoaDon> mHoaDons;
+    private int mSelected_theme;
     private GridViewQuanLyDocSoAdapter mQuanLyDocSoAdapter;
     private int mSumDanhBo = 0, mDanhBoHoanThanh;
     private int mDot, mKy, mNam, mCSGo;
@@ -98,7 +101,7 @@ public class QuanLyDocSo extends Fragment {
         return mDot;
     }
 
-    public QuanLyDocSo(LayoutInflater inflater, int dot, int ky, int nam, String userName, String staffName, String staffPhone) {
+    public QuanLyDocSo(LayoutInflater inflater, int dot, int ky, int nam, String userName, String staffName, String staffPhone, int selected_theme) {
         mRootView = inflater.inflate(R.layout.quan_ly_doc_so_fragment, null);
         this.mStaffName = staffName;
         this.mStaffPhone = staffPhone;
@@ -106,6 +109,7 @@ public class QuanLyDocSo extends Fragment {
         mKy = ky;
         mNam = nam;
         mUsername = userName;
+        this.mSelected_theme = selected_theme;
         String dotString = mDot + "";
         if (mDot < 10)
             dotString = "0" + mDot;
@@ -117,7 +121,7 @@ public class QuanLyDocSo extends Fragment {
         mSpinCode = (Spinner) mRootView.findViewById(R.id.spin_qlds_filter);
         mSpinCode.setAdapter(mAdapterCode);
 
-        mTxtComplete = (TextView) mRootView.findViewById(R.id.txt_qlds_tienTrinh);
+        mTxtComplete = (TextView) mRootView.findViewById(R.id.txt_qlds_complete);
         mUploading = new Uploading(mDot, mKy, mNam, mRootView.getContext());
         mGridView = (GridView) mRootView.findViewById(R.id.grid_qlds_danhSachDocSo);
         mSumDanhBoDB = new SumDanhBoDB();
@@ -314,13 +318,24 @@ public class QuanLyDocSo extends Fragment {
 //        mDots.add(dotString);
 
 
-        createDot();
-        mAdapterKy = new ArrayAdapter<>(mRootView.getContext(), R.layout.spinner_item_left1, mKys);
-        mAdapterKy.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-        mSpinKy.setAdapter(mAdapterKy);
-        mAdapterNam = new ArrayAdapter<>(mRootView.getContext(), R.layout.spinner_item_left1, mNams);
-        mAdapterNam.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-        mSpinNam.setAdapter(mAdapterNam);
+//        createDot();
+//        mAdapterKy = new ArrayAdapter<>(mRootView.getContext(), R.layout.spinner_item_left1, mKys);
+//        mAdapterKy.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+//        mSpinKy.setAdapter(mAdapterKy);
+//        mAdapterNam = new ArrayAdapter<>(mRootView.getContext(), R.layout.spinner_item_left1, mNams);
+//        mAdapterNam.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+//        mSpinNam.setAdapter(mAdapterNam);
+
+        setTheme();
+    }
+
+    public void setmSelected_theme(int mSelected_theme) {
+        this.mSelected_theme = mSelected_theme;
+        try {
+            setTheme();
+        } catch (Exception e) {
+
+        }
     }
 
     public void selectDotFromDialog(String dot) {
@@ -395,6 +410,180 @@ public class QuanLyDocSo extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         refresh();
         return mRootView;
+    }
+
+    private void setTheme() {
+        switch (mSelected_theme) {
+            case ThemeUtils.THEME_DEFAULT:
+                ((LinearLayout) mRootView.findViewById(R.id.layout_qlds)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
+                ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_qlds)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_qlds)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_qlds)).setBackgroundResource(R.layout.edit_text_styles);
+                ((Button) mRootView.findViewById(R.id.btn_qlds_optionSearch)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
+                ((Button) mRootView.findViewById(R.id.btn_qlds_optionSearch)).setBackgroundResource(R.layout.edit_text_styles);
+                ((Button) mRootView.findViewById(R.id.btn_qlds_optionSearch)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.editauto_qlds_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_filter_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_nam_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_ky_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_dot_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+
+                mAdapterNam = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mNams);
+                mAdapterKy = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mKys);
+                mAdapterDot = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mDots);
+
+                ((LinearLayout) mRootView.findViewById(R.id.layout_qlds_gridview_title)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorGridviewTitle_1));
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_danhbo_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_diachi_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_csc_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_csmoi_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_tieuthu_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_code_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_thoigian_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_trangthai_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                mAdapterCode = new CodeSpinnerAdapter(mRootView.getContext(), R.layout.spincode_dropdown, Codes.getInstance().getCodeDescribles_qlds()) {
+                    @Override
+                    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                        View view = super.getDropDownView(position, convertView, parent);
+                        TextView row_code = (TextView) view.findViewById(R.id.row_code);
+                        TextView row_describle = (TextView) view.findViewById(R.id.row_describle);
+                        if (position % 2 == 0) { // we're on an even row
+                            view.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
+                            row_code.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                            row_describle.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                        } else {
+                            view.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
+                            row_code.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                            row_describle.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                        }
+                        return view;
+                    }
+                };
+                ((LinearLayout) mRootView.findViewById(R.id.layout_qlds_summary)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorSummary_1));
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                break;
+            case ThemeUtils.THEME_DARK:
+                ((LinearLayout) mRootView.findViewById(R.id.layout_qlds)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
+                ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_qlds)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_qlds)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_qlds)).setBackgroundResource(R.layout.edit_text_styles2);
+                ((Button) mRootView.findViewById(R.id.btn_qlds_optionSearch)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
+                ((Button) mRootView.findViewById(R.id.btn_qlds_optionSearch)).setBackgroundResource(R.layout.edit_text_styles2);
+                ((Button) mRootView.findViewById(R.id.btn_qlds_optionSearch)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.editauto_qlds_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_filter_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_nam_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_ky_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_dot_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+
+                mAdapterNam = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mNams);
+                mAdapterKy = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mKys);
+                mAdapterDot = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mDots);
+
+                ((LinearLayout) mRootView.findViewById(R.id.layout_qlds_gridview_title)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorGridviewTitle_2));
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_danhbo_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_diachi_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_csc_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_csmoi_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_tieuthu_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_code_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_thoigian_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_trangthai_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                mAdapterCode = new CodeSpinnerAdapter(mRootView.getContext(), R.layout.spincode_dropdown2, Codes.getInstance().getCodeDescribles_qlds()) {
+                    @Override
+                    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                        View view = super.getDropDownView(position, convertView, parent);
+                        TextView row_code = (TextView) view.findViewById(R.id.row_code);
+                        TextView row_describle = (TextView) view.findViewById(R.id.row_describle);
+                        if (position % 2 == 0) { // we're on an even row
+                            view.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
+                            row_code.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                            row_describle.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                        } else {
+                            view.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
+                            row_code.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                            row_describle.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                        }
+                        return view;
+                    }
+                };
+
+                ((LinearLayout) mRootView.findViewById(R.id.layout_qlds_summary)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorSummary_2));
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+
+                break;
+
+        }
+        mAdapterNam.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        mSpinNam.setAdapter(mAdapterNam);
+        mSpinNam.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        mAdapterKy.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        mSpinKy.setAdapter(mAdapterKy);
+        mSpinKy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        mAdapterDot.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        mSpinDot.setAdapter(mAdapterDot);
+        createDot();
+        mSpinDot.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectDot(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        mAdapterCode.setDropDownViewResource(R.layout.spincode_dropdown2);
+
+        mSpinCode.setAdapter(mAdapterCode);
+        mSpinCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mSpinCode.setSelection(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                mSpinCode.setSelection(0);
+            }
+        });
+
+
+        setBackGroundTintModeSpinner(PorterDuff.Mode.LIGHTEN);
+    }
+
+    private void setBackGroundTintModeSpinner(PorterDuff.Mode mode) {
+        mSpinNam.setBackgroundTintMode(mode);
+        mSpinKy.setBackgroundTintMode(mode);
+        mSpinDot.setBackgroundTintMode(mode);
+
+        mSpinCode.setBackgroundTintMode(mode);
     }
 
     private void setDynamicWidth(GridView gridView) {
@@ -495,9 +684,10 @@ public class QuanLyDocSo extends Fragment {
 
     private void createDot() {
         getDotExist();
-        mAdapterDot = new ArrayAdapter<>(mRootView.getContext(), R.layout.spinner_item_left1, mDots);
-        mAdapterDot.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-        mSpinDot.setAdapter(mAdapterDot);
+//        mAdapterDot = new ArrayAdapter<>(mRootView.getContext(), R.layout.spinner_item_left1, mDots);
+//        mAdapterDot.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+//        mSpinDot.setAdapter(mAdapterDot);
+        mAdapterDot.notifyDataSetChanged();
         int position = mDots.size() - 1;
         mSpinDot.setSelection(position);
     }

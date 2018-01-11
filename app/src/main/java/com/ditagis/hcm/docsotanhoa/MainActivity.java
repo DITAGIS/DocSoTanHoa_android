@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
         mDocSo = new DocSo(MainActivity.this, getLayoutInflater(), mKy, mNam, mDot, mUsername, mStaffName, mStaffPhone, loadPreferences(getString(R.string.save_theme)), mViewPager);
         DialogSelectDot.show(MainActivity.this, mDot, mKy, mNam, mUsername, mDocSo);
-        mQuanLyDocSo = new QuanLyDocSo(getLayoutInflater(), mDot, mKy, mNam, mUsername, mStaffName, mStaffPhone);
+        mQuanLyDocSo = new QuanLyDocSo(getLayoutInflater(), mDot, mKy, mNam, mUsername, mStaffName, mStaffPhone, loadPreferences(getString(R.string.save_theme)));
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -270,10 +270,12 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.radio_theme_1:
                         savePreferences(getString(R.string.save_theme), ThemeUtils.THEME_DEFAULT);
                         mDocSo.setmSelected_theme(ThemeUtils.THEME_DEFAULT);
+                        mQuanLyDocSo.setmSelected_theme(ThemeUtils.THEME_DEFAULT);
                         break;
                     case R.id.radio_theme_2:
                         savePreferences(getString(R.string.save_theme), ThemeUtils.THEME_DARK);
                         mDocSo.setmSelected_theme(ThemeUtils.THEME_DARK);
+                        mQuanLyDocSo.setmSelected_theme(ThemeUtils.THEME_DARK);
                         break;
                 }
                 mDocSo.refresh();
