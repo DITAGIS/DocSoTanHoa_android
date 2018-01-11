@@ -61,14 +61,14 @@ public class Printer {
     private Printer() {
     }
 
-    public BluetoothSocket getmBluetoothSocket() {
-        return mBluetoothSocket;
-    }
-
     public static Printer getInstance() {
         if (instance == null)
             instance = new Printer();
         return instance;
+    }
+
+    public BluetoothSocket getmBluetoothSocket() {
+        return mBluetoothSocket;
     }
 
     public void setValue(int nam, String staffName, String staffPhone, HoaDon hoaDon, double tienNuoc) {
@@ -162,7 +162,7 @@ public class Printer {
             y += 50;
             builder.append(String.format("TEXT 0 1 0 %d ------------------------\n", y));
             y += 10;
-            builder.append(String.format("TEXT 7 1 0 %d NGAY THU TIEN DU KIEN %s - %s\n", y, dates[0]+"",dates[1]+""));
+            builder.append(String.format("TEXT 7 1 0 %d NGAY THU TIEN DU KIEN %s - %s\n", y, dates[0] + "", dates[1] + ""));
             y += 60;
             builder.append(String.format("TEXT 7 0 0 %d DIEN THOAI: 39 557 795 DE DUOC HUONG DAN\n", y));
             y += 30;

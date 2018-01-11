@@ -17,46 +17,6 @@ public class ChangePasswordDB implements IDB<User, Boolean, String> {
     private final String TABLE_NAME = "MayDS1";
     private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET password=? WHERE may=?";
 
-    public class Result {
-        private String mDot;
-        private String mStaffName;
-        private String username;
-        private String password;
-
-        public Result() {
-        }
-
-        public Result(String mDot, String mStaffName, String userName) {
-            this.mDot = mDot;
-            this.mStaffName = mStaffName;
-            this.username = userName;
-        }
-
-        public String getmDot() {
-            return mDot;
-        }
-
-        public String getmStaffName() {
-            return mStaffName;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-    }
-
     public ChangePasswordDB.Result changePassword(String userName, String oldPassword, String newPassword) {
         Connection cnn = ConnectionDB.getInstance().getConnection();
 //        LogInDB.Result result = new LogInDB().logIn(new User(userName, oldPassword));
@@ -114,5 +74,45 @@ public class ChangePasswordDB implements IDB<User, Boolean, String> {
     @Override
     public List<User> getAll() {
         return null;
+    }
+
+    public class Result {
+        private String mDot;
+        private String mStaffName;
+        private String username;
+        private String password;
+
+        public Result() {
+        }
+
+        public Result(String mDot, String mStaffName, String userName) {
+            this.mDot = mDot;
+            this.mStaffName = mStaffName;
+            this.username = userName;
+        }
+
+        public String getmDot() {
+            return mDot;
+        }
+
+        public String getmStaffName() {
+            return mStaffName;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
     }
 }

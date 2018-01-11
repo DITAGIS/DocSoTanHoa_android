@@ -24,12 +24,11 @@ public class Barcode {
     private static Activity mActivity;
     private static AlertDialog.Builder mBuilder;
     private static AlertDialog mDialog;
+    private static Barcode mInstance;
 
     private Barcode() {
 
     }
-
-    private static Barcode mInstance;
 
     public static Barcode getInstance(Activity activity, View rootView) {
         mActivity = activity;
@@ -66,7 +65,7 @@ public class Barcode {
 //            mDialog.dismiss();
 //            mActivity.setContentView(R.layout.activity_main);
 //            setContentView(R.layout.activity_main);
-            mActivity.startActivity(new Intent(mActivity,MainActivity.class));
+            mActivity.startActivity(new Intent(mActivity, MainActivity.class));
             mActivity.finish();
             scannerView.stopCamera();
         }

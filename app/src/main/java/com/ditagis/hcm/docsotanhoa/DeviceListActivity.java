@@ -20,6 +20,28 @@ public class DeviceListActivity extends AppCompatActivity {
     protected static final String TAG = "TAG";
     private BluetoothAdapter mBluetoothAdapter;
     private ArrayAdapter<String> mPairedDevicesArrayAdapter;
+    private AdapterView.OnItemClickListener mDeviceClickListener = new AdapterView.OnItemClickListener() {
+        public void onItemClick(AdapterView<?> mAdapterView, View mView, int mPosition, long mLong) {
+
+            try {
+
+
+                mBluetoothAdapter.cancelDiscovery();
+                String mDeviceInfo = ((TextView) mView).getText().toString();
+                String mDeviceAddress = mDeviceInfo.substring(mDeviceInfo.length() - 17);
+                Log.v(TAG, "Device_Address " + mDeviceAddress);
+
+                Bundle mBundle = new Bundle();
+                mBundle.putString("DeviceAddress", mDeviceAddress);
+                Intent mBackIntent = new Intent();
+                mBackIntent.putExtras(mBundle);
+                setResult(Activity.RESULT_OK, mBackIntent);
+                finish();
+            } catch (Exception ex) {
+
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,28 +76,5 @@ public class DeviceListActivity extends AppCompatActivity {
             mBluetoothAdapter.cancelDiscovery();
         }
     }
-
-    private AdapterView.OnItemClickListener mDeviceClickListener = new AdapterView.OnItemClickListener() {
-        public void onItemClick(AdapterView<?> mAdapterView, View mView, int mPosition, long mLong) {
-
-            try {
-
-
-                mBluetoothAdapter.cancelDiscovery();
-                String mDeviceInfo = ((TextView) mView).getText().toString();
-                String mDeviceAddress = mDeviceInfo.substring(mDeviceInfo.length() - 17);
-                Log.v(TAG, "Device_Address " + mDeviceAddress);
-
-                Bundle mBundle = new Bundle();
-                mBundle.putString("DeviceAddress", mDeviceAddress);
-                Intent mBackIntent = new Intent();
-                mBackIntent.putExtras(mBundle);
-                setResult(Activity.RESULT_OK, mBackIntent);
-                finish();
-            } catch (Exception ex) {
-
-            }
-        }
-    };
 }
 

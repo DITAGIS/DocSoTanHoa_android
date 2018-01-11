@@ -36,6 +36,26 @@ public class HoaDon {
     private String tuNgay, denNgay;
     private String staffPhone;
 
+    public HoaDon() {
+        super();
+
+    }
+
+    public HoaDon(String dot, String danhBo, String tenKhachHang, String soNha, String duong, String giaBieu, String dinhMuc, String ky, String chiSoCu, String maLoTrinh, String sdt, int flag) {
+        this.dot = dot;
+        this.danhBo = danhBo;
+        this.tenKhachHang = tenKhachHang;
+        this.soNha = soNha;
+        this.duong = duong;
+        this.giaBieu = giaBieu;
+        this.dinhMuc = dinhMuc;
+        this.ky = ky;
+        this.chiSoCu = chiSoCu;
+        this.maLoTrinh = maLoTrinh;
+        this.sdt = sdt;
+        this.flag = flag;
+    }
+
     public byte[] getImage_byteArray() {
         return image_byteArray;
     }
@@ -104,26 +124,16 @@ public class HoaDon {
         return soThan;
     }
 
+    public void setSoThan(String soThan) {
+        this.soThan = soThan;
+    }
+
     public String getViTri() {
         return viTri;
     }
 
     public void setViTri(String viTri) {
         this.viTri = viTri;
-    }
-
-
-    public void setSoThan(String soThan) {
-        this.soThan = soThan;
-    }
-
-    public HoaDon() {
-        super();
-
-    }
-
-    public void setSdt(String sdt) {
-        this.sdt = sdt;
     }
 
     public String getImage() {
@@ -144,6 +154,10 @@ public class HoaDon {
 
     public String getSdt() {
         return sdt;
+    }
+
+    public void setSdt(String sdt) {
+        this.sdt = sdt;
     }
 
     public String getCodeMoi() {
@@ -168,21 +182,6 @@ public class HoaDon {
 
     public void setTieuThuMoi(String tieuThuMoi) {
         this.tieuThuMoi = tieuThuMoi;
-    }
-
-    public HoaDon(String dot, String danhBo, String tenKhachHang, String soNha, String duong, String giaBieu, String dinhMuc, String ky, String chiSoCu, String maLoTrinh, String sdt, int flag) {
-        this.dot = dot;
-        this.danhBo = danhBo;
-        this.tenKhachHang = tenKhachHang;
-        this.soNha = soNha;
-        this.duong = duong;
-        this.giaBieu = giaBieu;
-        this.dinhMuc = dinhMuc;
-        this.ky = ky;
-        this.chiSoCu = chiSoCu;
-        this.maLoTrinh = maLoTrinh;
-        this.sdt = sdt;
-        this.flag = flag;
     }
 
     public int getSh() {

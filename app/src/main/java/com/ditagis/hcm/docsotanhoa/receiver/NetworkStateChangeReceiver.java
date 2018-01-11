@@ -19,9 +19,9 @@ import static android.content.Context.CONNECTIVITY_SERVICE;
 
 public class NetworkStateChangeReceiver extends BroadcastReceiver {
     ProgressDialog dialog;
-    private Activity mActivity;
     CountDownTimer timer;
     boolean mIsRunning = false;
+    private Activity mActivity;
 
     public NetworkStateChangeReceiver(View view, Activity activity) {
         dialog = new ProgressDialog(view.getContext(), android.R.style.Theme_Material_Dialog_Alert);
@@ -44,6 +44,7 @@ public class NetworkStateChangeReceiver extends BroadcastReceiver {
                     dialog.dismiss();
                 }
             }
+
             public void onFinish() {
                 dialog.dismiss();
                 mActivity.finish();

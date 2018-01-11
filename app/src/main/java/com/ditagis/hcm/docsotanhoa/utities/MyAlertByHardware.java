@@ -14,11 +14,12 @@ import android.support.annotation.Nullable;
  * Created by ThanLe on 11/28/2017.
  */
 
-public class MyAlertByHardware extends Service{
+public class MyAlertByHardware extends Service {
+    private static MyAlertByHardware instance;
     private Context context;
     private Ringtone r;
     private Vibrator vb;
-    private  RingtoneManager ringMan;
+    private RingtoneManager ringMan;
 
     private MyAlertByHardware(Context context) {
         vb = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
@@ -27,8 +28,6 @@ public class MyAlertByHardware extends Service{
         ringMan = new RingtoneManager(context);
         this.context = context;
     }
-
-    private static MyAlertByHardware instance;
 
     public static MyAlertByHardware getInstance(Context context) {
         if (instance == null)
@@ -59,7 +58,7 @@ public class MyAlertByHardware extends Service{
     }
 
     public void stopSound() {
-        if(this.r.isPlaying()) {
+        if (this.r.isPlaying()) {
             this.r.stop();
 
         }

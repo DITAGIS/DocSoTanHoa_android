@@ -17,7 +17,8 @@ import java.util.Date;
 
 public class ImageFile {
     public static DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-    public static File getFile(Date currentTime, View rootView, String danhBo){
+
+    public static File getFile(Date currentTime, View rootView, String danhBo) {
 
         if (currentTime == null)
             return null;
@@ -31,11 +32,12 @@ public class ImageFile {
         File f = new File(outFile, datetime + "_" + danhBo + ".jpeg");
         return f;
     }
-    public static File getFile(String dateTime, Context context, String danhBo){
+
+    public static File getFile(String dateTime, Context context, String danhBo) {
 
         String path = Environment.getExternalStorageDirectory().getPath();
 //                path = path.substring(0, path.length() - 1).concat("1");
-        File outFile = new File(path,context.getString(R.string.path_saveImage));
+        File outFile = new File(path, context.getString(R.string.path_saveImage));
 
         if (!outFile.exists())
             outFile.mkdir();

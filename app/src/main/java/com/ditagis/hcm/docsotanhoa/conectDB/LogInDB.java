@@ -27,66 +27,13 @@ public class LogInDB implements IDB<User, Boolean, String> {
     private final String SQL_UPDATE_ALL = "UPDATE " + TABLE_NAME + " SET password=?";
     private final String SQL_DELETE = "DELETE FROM " + TABLE_NAME + " WHERE USERNAME=?";
 
+    public static void main(String[] args) {
+//        LogInDB logInDB = new LogInDB();
+//
+//        for (int i = 1; i <= 70; i++)
+//            logInDB.setPassword(i, "54321");
 
-    public class Result {
-        private String mNam;
-        private String mKy;
-        private String mDot;
-        private String mStaffName;
-        private String username;
-        private String password;
-        private String mStaffPhone;
-
-        public String getmStaffPhone() {
-            return mStaffPhone;
-        }
-
-        public Result(String mDot, String mStaffName, String userName, String staffPhone) {
-            this.mDot = mDot;
-            this.mStaffName = mStaffName;
-            this.username = userName;
-            this.mStaffPhone = staffPhone;
-        }
-
-        public String getmKy() {
-            return mKy;
-        }
-
-        public void setmKy(String mKy) {
-            this.mKy = mKy;
-        }
-
-        public String getmNam() {
-            return mNam;
-        }
-
-        public void setmNam(String mNam) {
-            this.mNam = mNam;
-        }
-
-        public String getmDot() {
-            return mDot;
-        }
-
-        public String getmStaffName() {
-            return mStaffName;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
+        System.out.print(new EncodeMD5().encode("54321"));
     }
 
     @NonNull
@@ -262,13 +209,64 @@ public class LogInDB implements IDB<User, Boolean, String> {
         return result;
     }
 
+    public class Result {
+        private String mNam;
+        private String mKy;
+        private String mDot;
+        private String mStaffName;
+        private String username;
+        private String password;
+        private String mStaffPhone;
 
-    public static void main(String[] args) {
-//        LogInDB logInDB = new LogInDB();
-//
-//        for (int i = 1; i <= 70; i++)
-//            logInDB.setPassword(i, "54321");
+        public Result(String mDot, String mStaffName, String userName, String staffPhone) {
+            this.mDot = mDot;
+            this.mStaffName = mStaffName;
+            this.username = userName;
+            this.mStaffPhone = staffPhone;
+        }
 
-        System.out.print(new EncodeMD5().encode("54321"));
+        public String getmStaffPhone() {
+            return mStaffPhone;
+        }
+
+        public String getmKy() {
+            return mKy;
+        }
+
+        public void setmKy(String mKy) {
+            this.mKy = mKy;
+        }
+
+        public String getmNam() {
+            return mNam;
+        }
+
+        public void setmNam(String mNam) {
+            this.mNam = mNam;
+        }
+
+        public String getmDot() {
+            return mDot;
+        }
+
+        public String getmStaffName() {
+            return mStaffName;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
     }
 }

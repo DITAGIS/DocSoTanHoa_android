@@ -23,9 +23,9 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
     private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + " VALUES(?,?,?,?,?)";
     private final String SQL_DELETE = "DELETE FROM " + TABLE_NAME + " WHERE ClassId=?";
     DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+    PreparedStatement mStatement;
     private String mDot;
     private String mStaffname;
-    PreparedStatement mStatement;
 
     public String getmDot() {
         return mDot;

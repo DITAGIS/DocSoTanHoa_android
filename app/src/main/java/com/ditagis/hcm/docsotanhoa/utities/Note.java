@@ -5,6 +5,7 @@ package com.ditagis.hcm.docsotanhoa.utities;
  */
 
 public class Note {
+    private static final Note instance = new Note();
     private static String[] notes;
     private static String[] notes_sub_dutchi, notes_sub_kinhdoanh;
 
@@ -55,8 +56,6 @@ public class Note {
         };
     }
 
-    private static final Note instance = new Note();
-
     public static final Note getInstance() {
         return instance;
     }
@@ -65,10 +64,12 @@ public class Note {
         return notes;
 
     }
+
     public String[] getNotes_sub_dutchi() {
         return notes_sub_dutchi;
 
     }
+
     public String[] getNotes_sub_kinhdoanh() {
         return notes_sub_kinhdoanh;
 

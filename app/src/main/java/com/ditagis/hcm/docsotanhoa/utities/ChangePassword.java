@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.ditagis.hcm.docsotanhoa.R;
 import com.ditagis.hcm.docsotanhoa.async.ChangePassswordAsync;
 import com.ditagis.hcm.docsotanhoa.conectDB.ChangePasswordDB;
-import com.ditagis.hcm.docsotanhoa.conectDB.LogInDB;
 
 /**
  * Created by ThanLe on 11/22/2017.
@@ -156,7 +155,7 @@ public class ChangePassword {
 
                                 if (output == null) {
                                     ;
-                                } else  {
+                                } else {
                                     dialogChangePw.dismiss();
                                     Toast.makeText(mContext, mActivity.getString(R.string.change_password_success), Toast.LENGTH_LONG).show();
                                 }

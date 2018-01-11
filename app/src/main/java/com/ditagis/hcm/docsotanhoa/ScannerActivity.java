@@ -13,8 +13,8 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
  */
 
 public class ScannerActivity extends Activity implements ZXingScannerView.ResultHandler {
-    private ZXingScannerView mScannerView;
     protected static String upcCodeValue;
+    private ZXingScannerView mScannerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

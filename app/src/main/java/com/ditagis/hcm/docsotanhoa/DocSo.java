@@ -127,10 +127,6 @@ public class DocSo extends Fragment {
     private ImageView mImageViewFrame;
     private Button mBtnCloseViewImageFrame;
 
-    public int getmDot() {
-        return mDot;
-    }
-
     @SuppressLint("ClickableViewAccessibility")
     public DocSo(Activity activity, final LayoutInflater inflater, int mKy, int nam, final int mDot, String mUsername, String staffName, String staffPhone, int theme, ViewPager viewPager) {
         this.mActivity = activity;
@@ -454,6 +450,10 @@ public class DocSo extends Fragment {
 
         setTheme();
 
+    }
+
+    public int getmDot() {
+        return mDot;
     }
 
     private void checkPrint() {
@@ -1345,7 +1345,7 @@ public class DocSo extends Fragment {
     private void getDotExist() {
         String like;
         int count = 0;
-        for (int i = mDot; i >= 0; i--) {
+        for (int i = 20; i >= 0; i--) {
             if (count == 3)
                 break;
             String dotExist = "";

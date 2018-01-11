@@ -5,5 +5,5 @@
     android:gravity="left"
     android:padding="5dip"
     android:textColor="@color/colorToolBar_Row_2"
-    android:textStyle="bold"
-    android:textSize="17dp" />
+    android:textSize="17dp"
+    android:textStyle="bold" />

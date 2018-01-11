@@ -5,6 +5,7 @@ package com.ditagis.hcm.docsotanhoa.utities;
  */
 
 public class Code {
+    private static final Code instance = new Code();
     private static String[] codes;
 
     private Code() {
@@ -27,8 +28,6 @@ public class Code {
                 "Q  Không có nước hoàn toàn"
         };
     }
-
-    private static final Code instance = new Code();
 
     public static final Code getInstance() {
         return instance;

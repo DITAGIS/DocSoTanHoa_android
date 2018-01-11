@@ -10,6 +10,6 @@
         android:layout_height="350dp"
         android:adjustViewBounds="true"
         android:maxLines="5"
-        android:onClick="doNote"/>
+        android:onClick="doNote" />
 
 </LinearLayout>

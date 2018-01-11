@@ -26,7 +26,6 @@ import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.entities.ResultLayLoTrinh;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 import com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver;
-import com.ditagis.hcm.docsotanhoa.utities.DialogSelectDot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,10 +54,6 @@ public class LayLoTrinh {
     private Activity mActivity;
 
     private NetworkStateChangeReceiver mStateChangeReceiver;
-
-    public int getmDot() {
-        return mDot;
-    }
 
     public LayLoTrinh(Activity activity, LayoutInflater inflater, int mKy, int mNam, int mDot, String mUsername, String mStaffName, String mPassWord, String staffPhone) {
         this.mActivity = activity;
@@ -110,6 +105,9 @@ public class LayLoTrinh {
 
     }
 
+    public int getmDot() {
+        return mDot;
+    }
 
     public void selectDot() {
         String[] dots = new String[20];
@@ -159,7 +157,6 @@ public class LayLoTrinh {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.show();
     }
-
 
 
     public void setTextProgress() {

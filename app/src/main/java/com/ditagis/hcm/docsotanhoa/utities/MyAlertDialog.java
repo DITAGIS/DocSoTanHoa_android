@@ -10,7 +10,7 @@ import android.view.Window;
  */
 
 public class MyAlertDialog {
-    public static void show(Context context, Boolean cancelable, String title, String message){
+    public static void show(Context context, Boolean cancelable, String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle(title).setMessage(message);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {

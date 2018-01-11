@@ -14,25 +14,26 @@
         android:layout_height="wrap_content">
 
 
-
         <RadioButton
-            android:textSize="18dp"
             android:id="@+id/radio_search_danhbo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/search_danhbo" />
+            android:text="@string/search_danhbo"
+            android:textSize="18dp" />
+
         <RadioButton
-            android:textSize="18dp"
             android:id="@+id/radio_search_tenKH"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/search_tenKH" />
+            android:text="@string/search_tenKH"
+            android:textSize="18dp" />
+
         <RadioButton
-            android:textSize="18dp"
             android:id="@+id/radio_search_diaChi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/search_diaChi" />
+            android:text="@string/search_diaChi"
+            android:textSize="18dp" />
     </RadioGroup>
     <!--<Spinner-->
     <!--android:id="@+id/spin_select_type_seach"-->

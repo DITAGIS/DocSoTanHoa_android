@@ -15,6 +15,7 @@ import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
  */
 
 public class ChangePassswordAsync extends AsyncTask<String, ChangePasswordDB.Result, ChangePasswordDB.Result> {
+    public AsyncResponse delegate = null;
     private String userName;
     private String oldPassword;
     private String newPassword;
@@ -23,11 +24,6 @@ public class ChangePassswordAsync extends AsyncTask<String, ChangePasswordDB.Res
     private Context mContext;
     private Activity mActivity;
     private View view;
-    public AsyncResponse delegate = null;
-
-    public interface AsyncResponse {
-        void processFinish(ChangePasswordDB.Result output);
-    }
 
     public ChangePassswordAsync(View view, Activity activity, Context context, String userName, String oldPassword, String newPassword, String confirmPassword, AsyncResponse delegate) {
         this.userName = userName;
@@ -77,5 +73,9 @@ public class ChangePassswordAsync extends AsyncTask<String, ChangePasswordDB.Res
         if (dialog.isShowing()) {
             dialog.dismiss();
         }
+    }
+
+    public interface AsyncResponse {
+        void processFinish(ChangePasswordDB.Result output);
     }
 }

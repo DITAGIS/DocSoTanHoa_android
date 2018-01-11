@@ -5,6 +5,7 @@ package com.ditagis.hcm.docsotanhoa.entities;
  */
 
 public class Codes {
+    private static final Codes instance = new Codes();
     private static Code_Describle[] codeDescribles_ds;
     private static Code_Describle[] codeDescribles_qlds;
 
@@ -88,8 +89,6 @@ public class Codes {
                 new Code_Describle("Q ", " Không có nước hoàn toàn")
         };
     }
-
-    private static final Codes instance = new Codes();
 
     public static final Codes getInstance() {
         return instance;

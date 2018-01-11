@@ -18,7 +18,7 @@
         android:id="@+id/paired_devices"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#fff"
         android:layout_weight="1"
+        android:background="#fff"
         android:stackFromBottom="true" />
 </LinearLayout>

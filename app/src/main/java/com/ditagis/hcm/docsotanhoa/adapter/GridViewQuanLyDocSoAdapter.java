@@ -19,6 +19,101 @@ import java.util.List;
  */
 
 public class GridViewQuanLyDocSoAdapter extends ArrayAdapter<GridViewQuanLyDocSoAdapter.Item> {
+    private Context context;
+    private List<Item> items;
+    public GridViewQuanLyDocSoAdapter(Context context, List<Item> items) {
+        super(context, 0, items);
+        this.context = context;
+        this.items = items;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void clear() {
+        items.clear();
+    }
+
+    @Override
+    public int getCount() {
+        return items.size();
+    }
+
+    public Item getItem(String mlt) {
+        for (Item item : this.items)
+            if (item.getTieuThu().equals(mlt))
+                return item;
+        return null;
+    }
+
+    public boolean removeItem(String mlt) {
+        for (Item item : this.items)
+            if (item.getTieuThu().equals(mlt)) {
+                this.items.remove(item);
+                return true;
+            }
+        return false;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.row_quan_ly_doc_so, null);
+        }
+        Item item = items.get(position);
+
+
+        TextView txtDanhBo = (TextView) convertView.findViewById(R.id.row_qlds_txt_danhBo);
+        txtDanhBo.setText(item.getDanhbo());
+
+        TextView txtCSC = (TextView) convertView.findViewById(R.id.row_qlds_txt_csc);
+        txtCSC.setText(item.getCsc());
+
+        TextView txtCSM = (TextView) convertView.findViewById(R.id.row_qlds_txt_csm);
+        txtCSM.setText(item.getCsm());
+
+        TextView txtSanLuong = (TextView) convertView.findViewById(R.id.row_qlds_txt_sanLuong);
+        txtSanLuong.setText(item.getTieuThu());
+        TextView txtCode = (TextView) convertView.findViewById(R.id.row_qlds_txt_code);
+        txtCode.setText(item.getCode());
+
+        TextView txtDiaChi = (TextView) convertView.findViewById(R.id.row_qlds_txt_diaChi);
+        txtDiaChi.setText(item.getDiaChi());
+
+        TextView txtThoiGian = (TextView) convertView.findViewById(R.id.row_qlds_txt_thoiGian);
+        txtThoiGian.setText(item.getThoiGian());
+
+        TextView txtTrangThai = (TextView) convertView.findViewById(R.id.row_qlds_txt_trangThai);
+
+        LinearLayout row_layout = (LinearLayout) convertView.findViewById(R.id.row_qlds_layout);
+
+        switch (item.getFlag()) {
+            case Flag.UNREAD:
+                txtTrangThai.setText(parent.getContext().getApplicationContext().getString(R.string.flag_unread));
+                break;
+            case Flag.READ:
+                txtTrangThai.setText(parent.getContext().getApplicationContext().getString(R.string.flag_read));
+                row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.colorBackground_1));
+                break;
+            case Flag.SYNCHRONIZED:
+                txtTrangThai.setText(parent.getContext().getApplicationContext().getString(R.string.flag_sych));
+                row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_check_1));
+                break;
+        }
+
+
+//        row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_check_1));
+
+        return convertView;
+    }
+
     public static class Item {
         String tieuThu;
         String danhbo;
@@ -102,102 +197,5 @@ public class GridViewQuanLyDocSoAdapter extends ArrayAdapter<GridViewQuanLyDocSo
         public void setCsm(String csm) {
             this.csm = csm;
         }
-    }
-
-    private Context context;
-    private List<Item> items;
-
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public GridViewQuanLyDocSoAdapter(Context context, List<Item> items) {
-        super(context, 0, items);
-        this.context = context;
-        this.items = items;
-    }
-
-    public void clear() {
-        items.clear();
-    }
-
-    @Override
-    public int getCount() {
-        return items.size();
-    }
-
-
-    public Item getItem(String mlt) {
-        for (Item item : this.items)
-            if (item.getTieuThu().equals(mlt))
-                return item;
-        return null;
-    }
-
-    public boolean removeItem(String mlt) {
-        for (Item item : this.items)
-            if (item.getTieuThu().equals(mlt)) {
-                this.items.remove(item);
-                return true;
-            }
-        return false;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.row_quan_ly_doc_so, null);
-        }
-        Item item = items.get(position);
-
-
-        TextView txtDanhBo = (TextView) convertView.findViewById(R.id.row_qlds_txt_danhBo);
-        txtDanhBo.setText(item.getDanhbo());
-
-        TextView txtCSC = (TextView) convertView.findViewById(R.id.row_qlds_txt_csc);
-        txtCSC.setText(item.getCsc());
-
-        TextView txtCSM = (TextView) convertView.findViewById(R.id.row_qlds_txt_csm);
-        txtCSM.setText(item.getCsm());
-
-        TextView txtSanLuong = (TextView) convertView.findViewById(R.id.row_qlds_txt_sanLuong);
-        txtSanLuong.setText(item.getTieuThu());
-        TextView txtCode = (TextView) convertView.findViewById(R.id.row_qlds_txt_code);
-        txtCode.setText(item.getCode());
-
-        TextView txtDiaChi = (TextView) convertView.findViewById(R.id.row_qlds_txt_diaChi);
-        txtDiaChi.setText(item.getDiaChi());
-
-        TextView txtThoiGian = (TextView) convertView.findViewById(R.id.row_qlds_txt_thoiGian);
-        txtThoiGian.setText(item.getThoiGian());
-
-        TextView txtTrangThai = (TextView) convertView.findViewById(R.id.row_qlds_txt_trangThai);
-
-        LinearLayout row_layout = (LinearLayout) convertView.findViewById(R.id.row_qlds_layout);
-
-        switch (item.getFlag()) {
-            case Flag.UNREAD:
-                txtTrangThai.setText(parent.getContext().getApplicationContext().getString(R.string.flag_unread));
-                break;
-            case Flag.READ:
-                txtTrangThai.setText(parent.getContext().getApplicationContext().getString(R.string.flag_read));
-                row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.colorBackground_1));
-                break;
-            case Flag.SYNCHRONIZED:
-                txtTrangThai.setText(parent.getContext().getApplicationContext().getString(R.string.flag_sych));
-                row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_check_1));
-                break;
-        }
-
-
-//        row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_check_1));
-
-        return convertView;
     }
 }

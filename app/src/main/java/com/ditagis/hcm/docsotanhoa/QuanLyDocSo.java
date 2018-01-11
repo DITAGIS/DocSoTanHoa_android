@@ -69,6 +69,10 @@ import java.util.Locale;
 public class QuanLyDocSo extends Fragment {
     GridView mGridView;
     TextView mTxtComplete;
+    AutoCompleteTextView singleComplete;
+    List<String> mDBs = new ArrayList<String>(), mMlts = new ArrayList<>(), mTenKHs = new ArrayList<>(), mDiaChis = new ArrayList<>(), mDots = new ArrayList<>(), mSdts = new ArrayList<>(),
+            mKys = new ArrayList<>(), mNams = new ArrayList<>();
+    Spinner mSpinCode;
     private List<HoaDon> mHoaDons;
     private int mSelected_theme;
     private GridViewQuanLyDocSoAdapter mQuanLyDocSoAdapter;
@@ -78,30 +82,17 @@ public class QuanLyDocSo extends Fragment {
     private Uploading mUploading;
     private View mRootView;
     private SumDanhBoDB mSumDanhBoDB;
-    AutoCompleteTextView singleComplete;
     private String mStaffName, mStaffPhone;
-    List<String> mDBs = new ArrayList<String>(), mMlts = new ArrayList<>(), mTenKHs = new ArrayList<>(), mDiaChis = new ArrayList<>(), mDots = new ArrayList<>(), mSdts = new ArrayList<>(),
-            mKys = new ArrayList<>(), mNams = new ArrayList<>();
-
     private String mSdt;
     private Spinner mSpinSdt;
     private String mLike;
     private String mSearchType;
     private CodeSpinnerAdapter mAdapterCode;
-    Spinner mSpinCode;
     private String mCode;
     private String mKyString;
     private ArrayAdapter<String> mAdapterDot, mAdapterSdt, mAdapterKy, mAdapterNam;
     ;
     private Spinner mSpinDot, mSpinKy, mSpinNam;
-
-    public Uploading getmUploading() {
-        return mUploading;
-    }
-
-    public int getmDot() {
-        return mDot;
-    }
 
     public QuanLyDocSo(LayoutInflater inflater, int dot, int ky, int nam, String userName, String staffName, String staffPhone, int selected_theme) {
         mRootView = inflater.inflate(R.layout.quan_ly_doc_so_fragment, null);
@@ -331,6 +322,18 @@ public class QuanLyDocSo extends Fragment {
         setTheme();
     }
 
+    public Uploading getmUploading() {
+        return mUploading;
+    }
+
+    public int getmDot() {
+        return mDot;
+    }
+
+    public void setmDot(int mDot) {
+        this.mDot = mDot;
+    }
+
     public void setmSelected_theme(int mSelected_theme) {
         this.mSelected_theme = mSelected_theme;
         try {
@@ -393,10 +396,6 @@ public class QuanLyDocSo extends Fragment {
         dialog.setView(dialogLayout);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.show();
-    }
-
-    public void setmDot(int mDot) {
-        this.mDot = mDot;
     }
 
     public void setmKy(int mKy) {

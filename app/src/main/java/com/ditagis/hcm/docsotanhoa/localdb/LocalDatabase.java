@@ -96,14 +96,14 @@ public class LocalDatabase extends SQLiteOpenHelper {
 
     private static LocalDatabase instance;
 
+    private LocalDatabase(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
     public static LocalDatabase getInstance(Context context) {
         if (instance == null)
             instance = new LocalDatabase(context.getApplicationContext());
         return instance;
-    }
-
-    private LocalDatabase(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     // Tạo các bảng.
@@ -406,6 +406,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         }
         return hoaDons;
     }
+
     public List<HoaDon> getAllHoaDonForSelectFolderQLDS(String like, int flag) {
         List<HoaDon> hoaDons = new ArrayList<HoaDon>();
         Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
@@ -443,13 +444,14 @@ public class LocalDatabase extends SQLiteOpenHelper {
         }
         return hoaDons;
     }
+
     public List<HoaDon> getAllHoaDon(String may, String dot, String ky) {
         List<HoaDon> hoaDons = new ArrayList<HoaDon>();
         Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + dot + may + "%' and "+COLUMN_HOADON_KY
-                + "="+ ky, null);
+        Cursor cursor = db.rawQuery("select * from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + dot + may + "%' and " + COLUMN_HOADON_KY
+                + "=" + ky, null);
         if (cursor.moveToFirst()) {
             do {
                 HoaDon hoaDon = new HoaDon(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6),

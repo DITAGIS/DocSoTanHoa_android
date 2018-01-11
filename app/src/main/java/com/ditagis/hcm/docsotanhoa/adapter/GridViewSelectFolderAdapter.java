@@ -19,59 +19,16 @@ import java.util.List;
  */
 
 public class GridViewSelectFolderAdapter extends ArrayAdapter<GridViewSelectFolderAdapter.Item> {
-    public static class Item {
-        String ky;
-        String dot;
-        String nam;
-        String soLuong;
-        String may;
-        int flag;
-
-        public Item(String ky, String dot, String nam, String soLuong, String may, int flag) {
-            this.ky = ky;
-            this.dot = dot;
-            this.nam = nam;
-            this.soLuong = soLuong;
-            this.may = may;
-            this.flag = flag;
-        }
-
-        public String getMay() {
-            return may;
-        }
-
-        public String getKy() {
-            return ky;
-        }
-
-        public String getDot() {
-            return dot;
-        }
-
-        public String getNam() {
-            return nam;
-        }
-
-        public String getSoLuong() {
-            return soLuong;
-        }
-
-        public int getFlag() {
-            return flag;
-        }
-    }
-
     private Context context;
     private List<Item> items;
-
-    public List<Item> getItems() {
-        return items;
-    }
-
     public GridViewSelectFolderAdapter(Context context, List<Item> items) {
         super(context, 0, items);
         this.context = context;
         this.items = items;
+    }
+
+    public List<Item> getItems() {
+        return items;
     }
 
     public void clear() {
@@ -81,6 +38,11 @@ public class GridViewSelectFolderAdapter extends ArrayAdapter<GridViewSelectFold
     @Override
     public int getCount() {
         return items.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
     }
 
 
@@ -99,11 +61,6 @@ public class GridViewSelectFolderAdapter extends ArrayAdapter<GridViewSelectFold
 //            }
 //        return false;
 //    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -152,5 +109,47 @@ public class GridViewSelectFolderAdapter extends ArrayAdapter<GridViewSelectFold
 //        row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_check_1));
 
         return convertView;
+    }
+
+    public static class Item {
+        String ky;
+        String dot;
+        String nam;
+        String soLuong;
+        String may;
+        int flag;
+
+        public Item(String ky, String dot, String nam, String soLuong, String may, int flag) {
+            this.ky = ky;
+            this.dot = dot;
+            this.nam = nam;
+            this.soLuong = soLuong;
+            this.may = may;
+            this.flag = flag;
+        }
+
+        public String getMay() {
+            return may;
+        }
+
+        public String getKy() {
+            return ky;
+        }
+
+        public String getDot() {
+            return dot;
+        }
+
+        public String getNam() {
+            return nam;
+        }
+
+        public String getSoLuong() {
+            return soLuong;
+        }
+
+        public int getFlag() {
+            return flag;
+        }
     }
 }

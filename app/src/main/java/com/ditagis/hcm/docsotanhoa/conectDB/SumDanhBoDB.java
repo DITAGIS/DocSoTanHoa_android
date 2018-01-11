@@ -44,6 +44,7 @@ public class SumDanhBoDB {
         }
         return complete;
     }
+
     public int getSumSynchronized(String ky, int nam, String like) {
         int sum = 0;
         String sql = this.SQL_SELECT_SUM_SYNC;
@@ -70,6 +71,7 @@ public class SumDanhBoDB {
         }
         return sum;
     }
+
     public int getSum(String ky, int nam, String like) {
         int sum = 0;
         String sql = this.SQL_SELECT_SUM;

@@ -19,6 +19,7 @@ public class MySnackBar {
         Snackbar.make(view, id, time)
                 .setAction("Action", null).show();
     }
+
     public static void make(View view, int id, int time) {
         Snackbar.make(view, id, time)
                 .setAction("Action", null).show();

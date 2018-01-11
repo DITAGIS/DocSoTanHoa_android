@@ -4,7 +4,7 @@ package com.ditagis.hcm.docsotanhoa.entities;
  * Created by ThanLe on 12/10/2017.
  */
 
-public class User  {
+public class User {
 
     private String userName;
     private String passWord;

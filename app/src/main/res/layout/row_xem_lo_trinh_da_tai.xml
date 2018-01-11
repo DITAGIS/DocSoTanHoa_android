@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/row_xltdt_layout"
+    android:id="@+id/row_xltdt_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center_vertical"
     android:minHeight="?android:attr/listPreferredItemHeightSmall"
     android:orientation="horizontal"
-    android:gravity="center_vertical"
     android:textAppearance="?android:attr/textAppearanceListItemSmall">
 
     <TextView
         android:id="@+id/row_xltdt_txt_malotrinh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:gravity="center" />
 
     <TextView
         android:id="@+id/row_xltdt_txt_tongDanhBo"
@@ -23,15 +23,14 @@ android:id="@+id/row_xltdt_layout"
         android:gravity="center" />
 
     <!--<CheckBox-->
-        <!--android:id="@+id/row_llt_chk"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight="1"-->
-        <!--android:layout_gravity="right" />-->
+    <!--android:id="@+id/row_llt_chk"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:layout_gravity="right" />-->
     <ImageView
+        android:id="@+id/row_xltdt_img_Check"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-       android:id="@+id/row_xltdt_img_Check"
-        android:layout_weight="1"
-        />
+        android:layout_weight="1" />
 </LinearLayout>

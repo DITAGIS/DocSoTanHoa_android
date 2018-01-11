@@ -32,19 +32,17 @@ import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import java.util.Calendar;
 
 public class LoginActivity extends AppCompatActivity {
+    private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_ID_WRITE_FILE = 2;
     private EditText mTxtUsername;
     private EditText mTxtPassword;
     private Button btnLogin;
     private ImageButton mImgBtnViewPassword;
-
     private LoginAsync mLoginAsync;
     private String mUsername, mPassword, mStaffName, mStaffPhone;
     private String mDot, mKy, mNam;
     private NetworkStateChangeReceiver mStateChangeReceiver;
     private IntentFilter mIntentFilter;
-    private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
-
-    private static final int REQUEST_ID_WRITE_FILE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,6 +150,100 @@ public class LoginActivity extends AppCompatActivity {
 //        }
     }
 
+    public void doLayLoTrinh() {
+//        CheckConnectRealTime.asyncTask.cancel(true);
+
+        Calendar calendar = Calendar.getInstance();
+        int ky = Integer.parseInt(mKy);
+        int nam = Integer.parseInt(mNam);
+        int dot = Integer.parseInt(mDot);
+        new LayLoTrinh(LoginActivity.this, getLayoutInflater(), ky, nam, dot, mUsername, mStaffName, mPassword, mStaffPhone);
+    }
+
+    public boolean requestPermisson() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.CALL_PHONE, Manifest.permission.READ_PHONE_STATE},
+                    REQUEST_ID_IMAGE_CAPTURE);
+        }
+        if (Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            return false;
+        } else
+            return true;
+    }
+
+    public boolean requestPermissonWriteFile() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_ID_WRITE_FILE);
+        }
+        if (Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            return false;
+        } else
+            return true;
+    }
+
+    /**
+     * Method used to delete Preferences
+     */
+
+    @Override
+    public void onBackPressed() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
+        builder.setCancelable(true);
+
+        builder.setTitle(this.getString(R.string.quit));
+        builder.setPositiveButton(this.getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        builder.setNegativeButton(this.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.show();
+    }
+//
+//    public SharedPreferences getPreferences() {
+//        return getSharedPreferences("LOGGED_IN", MODE_PRIVATE);
+//    }
+//
+//    /**
+//     * Method used to save Preferences
+//     */
+//    public void savePreferences(String key, String value) {
+//        SharedPreferences sharedPreferences = getPreferences();
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putString(key, value);
+//        editor.commit();
+//    }
+
+    /**
+     * Method used to load Preferences
+     */
+//    public String loadPreferences(String key) {
+//        try {
+//            SharedPreferences sharedPreferences = getPreferences();
+//            String strSavedMemo = sharedPreferences.getString(key, "");
+//            return strSavedMemo;
+//        } catch (NullPointerException nullPointerException) {
+//            return null;
+//        }
+//    }
 
     class LoginAsync extends AsyncTask<String, LogInDB.Result, LogInDB.Result> {
         private LogInDB loginDB = new LogInDB();
@@ -222,101 +314,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
 
-    }
-
-    public void doLayLoTrinh() {
-//        CheckConnectRealTime.asyncTask.cancel(true);
-
-        Calendar calendar = Calendar.getInstance();
-        int ky = Integer.parseInt(mKy);
-        int nam = Integer.parseInt(mNam);
-        int dot = Integer.parseInt(mDot);
-        new LayLoTrinh(LoginActivity.this, getLayoutInflater(), ky, nam, dot, mUsername, mStaffName, mPassword, mStaffPhone);
-    }
-
-    public boolean requestPermisson() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            Manifest.permission.CALL_PHONE, Manifest.permission.READ_PHONE_STATE},
-                    REQUEST_ID_IMAGE_CAPTURE);
-        }
-        if (Build.VERSION.SDK_INT >= 23 &&
-                ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            return false;
-        } else
-            return true;
-    }
-
-    public boolean requestPermissonWriteFile() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    REQUEST_ID_WRITE_FILE);
-        }
-        if (Build.VERSION.SDK_INT >= 23 &&
-                ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            return false;
-        } else
-            return true;
-    }
-//
-//    public SharedPreferences getPreferences() {
-//        return getSharedPreferences("LOGGED_IN", MODE_PRIVATE);
-//    }
-//
-//    /**
-//     * Method used to save Preferences
-//     */
-//    public void savePreferences(String key, String value) {
-//        SharedPreferences sharedPreferences = getPreferences();
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putString(key, value);
-//        editor.commit();
-//    }
-
-    /**
-     * Method used to load Preferences
-     */
-//    public String loadPreferences(String key) {
-//        try {
-//            SharedPreferences sharedPreferences = getPreferences();
-//            String strSavedMemo = sharedPreferences.getString(key, "");
-//            return strSavedMemo;
-//        } catch (NullPointerException nullPointerException) {
-//            return null;
-//        }
-//    }
-
-    /**
-     * Method used to delete Preferences
-     */
-
-    @Override
-    public void onBackPressed() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
-        builder.setCancelable(true);
-
-        builder.setTitle(this.getString(R.string.quit));
-        builder.setPositiveButton(this.getString(R.string.ok), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-        builder.setNegativeButton(this.getString(R.string.cancel), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.show();
     }
 
 }

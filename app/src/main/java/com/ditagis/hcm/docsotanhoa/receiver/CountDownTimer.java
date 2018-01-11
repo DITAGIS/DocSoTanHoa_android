@@ -50,19 +50,49 @@ import android.os.SystemClock;
  */
 public abstract class CountDownTimer {
 
+    private static final int MSG = 1;
     /**
      * Millis since epoch when alarm should stop.
      */
     private final long mMillisInFuture;
-
     /**
      * The interval in millis that the user receives callbacks
      */
     private final long mCountdownInterval;
-
     private long mStopTimeInFuture;
-
     private boolean mCancelled = false;
+    // handles counting down
+    private Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            synchronized (CountDownTimer.this) {
+                final long millisLeft = mStopTimeInFuture - SystemClock.elapsedRealtime();
+
+                if (millisLeft <= 0) {
+                    onFinish();
+                } else if (millisLeft < mCountdownInterval) {
+                    // no tick, just delay until done
+                    sendMessageDelayed(obtainMessage(MSG), millisLeft);
+                } else {
+                    long lastTickStart = SystemClock.elapsedRealtime();
+                    onTick(millisLeft);
+
+                    // take into account user's onTick taking time to execute
+                    long delay = lastTickStart + mCountdownInterval - SystemClock.elapsedRealtime();
+
+                    // special case: user's onTick took more than interval to
+                    // complete, skip to next interval
+                    while (delay < 0) delay += mCountdownInterval;
+
+                    if (!mCancelled) {
+                        sendMessageDelayed(obtainMessage(MSG), delay);
+                    }
+                }
+            }
+        }
+    };
 
     /**
      * @param millisInFuture    The number of millis in the future from the call
@@ -100,7 +130,6 @@ public abstract class CountDownTimer {
         return this;
     }
 
-
     /**
      * Callback fired on regular interval.
      *
@@ -112,41 +141,4 @@ public abstract class CountDownTimer {
      * Callback fired when the time is up.
      */
     public abstract void onFinish();
-
-
-    private static final int MSG = 1;
-
-
-    // handles counting down
-    private Handler mHandler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-
-            synchronized (CountDownTimer.this) {
-                final long millisLeft = mStopTimeInFuture - SystemClock.elapsedRealtime();
-
-                if (millisLeft <= 0) {
-                    onFinish();
-                } else if (millisLeft < mCountdownInterval) {
-                    // no tick, just delay until done
-                    sendMessageDelayed(obtainMessage(MSG), millisLeft);
-                } else {
-                    long lastTickStart = SystemClock.elapsedRealtime();
-                    onTick(millisLeft);
-
-                    // take into account user's onTick taking time to execute
-                    long delay = lastTickStart + mCountdownInterval - SystemClock.elapsedRealtime();
-
-                    // special case: user's onTick took more than interval to
-                    // complete, skip to next interval
-                    while (delay < 0) delay += mCountdownInterval;
-
-                    if (!mCancelled) {
-                        sendMessageDelayed(obtainMessage(MSG), delay);
-                    }
-                }
-            }
-        }
-    };
 }

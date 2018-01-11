@@ -16,36 +16,8 @@ import java.util.List;
  */
 
 public class GridViewLayLoTrinhAdapter extends ArrayAdapter<GridViewLayLoTrinhAdapter.Item> {
-    public static class Item {
-        String mtl;
-        String danhbo;
-
-        public Item(String mtl, String danhbo) {
-            this.mtl = mtl;
-            this.danhbo = danhbo;
-        }
-
-        public String getMtl() {
-            return mtl;
-        }
-
-        public void setMtl(String mtl) {
-            this.mtl = mtl;
-        }
-
-        public String getDanhbo() {
-            return danhbo;
-        }
-
-        public void setDanhbo(String danhbo) {
-            this.danhbo = danhbo;
-        }
-
-    }
-
-    private Context context;
     public List<Item> items;
-
+    private Context context;
     public GridViewLayLoTrinhAdapter(Context context, List<Item> items) {
         super(context, 0, items);
         this.context = context;
@@ -60,7 +32,6 @@ public class GridViewLayLoTrinhAdapter extends ArrayAdapter<GridViewLayLoTrinhAd
     public int getCount() {
         return items.size();
     }
-
 
     public Item getItem(String mlt) {
         for (Item item : this.items)
@@ -107,5 +78,32 @@ public class GridViewLayLoTrinhAdapter extends ArrayAdapter<GridViewLayLoTrinhAd
 //            row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_uncheck));
 //        }
         return convertView;
+    }
+
+    public static class Item {
+        String mtl;
+        String danhbo;
+
+        public Item(String mtl, String danhbo) {
+            this.mtl = mtl;
+            this.danhbo = danhbo;
+        }
+
+        public String getMtl() {
+            return mtl;
+        }
+
+        public void setMtl(String mtl) {
+            this.mtl = mtl;
+        }
+
+        public String getDanhbo() {
+            return danhbo;
+        }
+
+        public void setDanhbo(String danhbo) {
+            this.danhbo = danhbo;
+        }
+
     }
 }

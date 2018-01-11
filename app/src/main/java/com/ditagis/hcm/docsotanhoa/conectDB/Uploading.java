@@ -47,8 +47,8 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
     private final String SQL_DELETE = "if exists (select danhbo from " + TABLE_NAME_HINHDHN + " where danhbo = ?)" +
             " delete from " + TABLE_NAME_HINHDHN + " where DanhBo = ?";
     private final String SQL_INSERT = "INSERT INTO " + NEW_TABLE_NAME + " VALUES(?,?,?,?,?,?,?,?,?,?)";
-    private Connection cnn = ConnectionDB.getInstance().getConnection();
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private Connection cnn = ConnectionDB.getInstance().getConnection();
     private String mDot, mKy, mNam;
     private Context mContext;
 
@@ -110,7 +110,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
         }
         if (resultAddImage > 0)
             resultUpdateHoaDon = update(hoaDon);
-        return resultUpdateHoaDon ;
+        return resultUpdateHoaDon;
 //return result > 0;
 
 

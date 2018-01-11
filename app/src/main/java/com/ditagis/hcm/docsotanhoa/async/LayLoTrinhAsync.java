@@ -23,6 +23,7 @@ import java.util.List;
  */
 
 public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayLoTrinh> {
+    public AsyncResponse mDelegate = null;
     private ProgressDialog dialog;
     private HoaDonDB _hoadonDB;
     private Context mContext;
@@ -34,28 +35,6 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
     private int count;
     private Activity mActivity;
     private boolean mIsLoading;
-
-    public boolean ismIsLoading() {
-        return mIsLoading;
-    }
-
-    public void setmIsLoading(boolean mIsLoading) {
-        this.mIsLoading = mIsLoading;
-    }
-
-    public void setmKy(int ky) {
-        this.mKy = ky;
-    }
-
-    public interface AsyncResponse {
-        void processFinish(ResultLayLoTrinh output);
-    }
-
-    public void setmDot(int mDot) {
-        this.mDot = mDot;
-    }
-
-    public AsyncResponse mDelegate = null;
 
     public LayLoTrinhAsync(HoaDonDB hoaDonDB, LocalDatabase localDatabase, String username, int dot, int ky, int nam, Context context, Activity activity, AsyncResponse delegate) {
         this.mContext = context;
@@ -72,6 +51,22 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
         this.mIsLoading = true;
     }
 
+    public boolean ismIsLoading() {
+        return mIsLoading;
+    }
+
+    public void setmIsLoading(boolean mIsLoading) {
+        this.mIsLoading = mIsLoading;
+    }
+
+    public void setmKy(int ky) {
+        this.mKy = ky;
+    }
+
+    public void setmDot(int mDot) {
+        this.mDot = mDot;
+    }
+
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
@@ -86,7 +81,6 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
         this.dialog.setCancelable(false);
         this.dialog.show();
     }
-
 
     @Override
     protected ResultLayLoTrinh doInBackground(Boolean... params) {
@@ -171,6 +165,10 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
             }
         } else
             Toast.makeText(this.mContext, mContext.getString(R.string.load_danhbo_complete), Toast.LENGTH_LONG).show();
+    }
+
+    public interface AsyncResponse {
+        void processFinish(ResultLayLoTrinh output);
     }
 
 }

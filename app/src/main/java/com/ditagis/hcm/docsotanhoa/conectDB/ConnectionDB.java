@@ -16,13 +16,21 @@ public class ConnectionDB {
     private static final String DB = "DocSoTH";
     private static final String USER = "docsotanhoa";
     private static final String PASSWORD = "Docso111";//Docso111
-    private Connection connection;
     private static final ConnectionDB _instance = new ConnectionDB();
+    private Connection connection;
+
+    private ConnectionDB() {
+        connection = getConnect();
+    }
 
     public static final ConnectionDB getInstance() {
         return _instance;
     }
 
+    public static void main(String[] args) {
+        ConnectionDB cndb = new ConnectionDB();
+        System.out.println(cndb.getConnect());
+    }
 
     public Connection getConnection() {
         if (connection == null)
@@ -32,10 +40,6 @@ public class ConnectionDB {
 
     public void setConnection(Connection connection) {
         this.connection = connection;
-    }
-
-    private ConnectionDB() {
-        connection = getConnect();
     }
 
     public void reConnect() {
@@ -57,11 +61,6 @@ public class ConnectionDB {
             e.printStackTrace();
         }
         return cnn;
-    }
-
-    public static void main(String[] args) {
-        ConnectionDB cndb = new ConnectionDB();
-        System.out.println(cndb.getConnect());
     }
 
 }

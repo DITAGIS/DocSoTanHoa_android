@@ -20,7 +20,7 @@ public class DanhBo_ChiSoMoi {
     private String image;
     private int hasImage;// 1 là đã lưu, 0 là chưa lưu
 
-    public DanhBo_ChiSoMoi(String danhBo, String maLoTrinh, String dot, String tenKH, String diaChi, String sdt, String giaBieu, String code, String chiSoCu, String chiSoMoi,String tieuThu, String note, String image, int hasImage) {
+    public DanhBo_ChiSoMoi(String danhBo, String maLoTrinh, String dot, String tenKH, String diaChi, String sdt, String giaBieu, String code, String chiSoCu, String chiSoMoi, String tieuThu, String note, String image, int hasImage) {
         this.danhBo = danhBo;
         this.maLoTrinh = maLoTrinh;
         this.dot = dot;
@@ -53,22 +53,6 @@ public class DanhBo_ChiSoMoi {
         this.dot = dot;
     }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public void setChiSoMoi(String chiSoMoi) {
-        this.chiSoMoi = chiSoMoi;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    public void setSdt(String sdt) {
-        this.sdt = sdt;
-    }
-
     public String getDanhBo() {
         return danhBo;
     }
@@ -89,12 +73,20 @@ public class DanhBo_ChiSoMoi {
         return sdt;
     }
 
+    public void setSdt(String sdt) {
+        this.sdt = sdt;
+    }
+
     public String getGiaBieu() {
         return giaBieu;
     }
 
     public String getCode() {
         return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getChiSoCu() {
@@ -105,8 +97,16 @@ public class DanhBo_ChiSoMoi {
         return chiSoMoi;
     }
 
+    public void setChiSoMoi(String chiSoMoi) {
+        this.chiSoMoi = chiSoMoi;
+    }
+
     public String getNote() {
         return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public String getImage() {
