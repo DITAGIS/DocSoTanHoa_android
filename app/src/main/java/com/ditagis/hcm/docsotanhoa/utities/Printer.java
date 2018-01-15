@@ -113,20 +113,20 @@ public class Printer {
             cal.setTime(formatter_old.parse(mHoaDon.getThoiGian()));
             int[] dates = getDates(cal);
 
-            int y = 160;
+            int y = 100;
             StringBuilder builder = new StringBuilder();
-            builder.append("! 0 200 200 1090 1\n" +
+            builder.append("! 0 200 200 1000 1\n" +
 
                     "CENTER\n" +
-                    "TEXT 0 1 0 30 ------------------------------------\n" +
-                    "TEXT 0 1 0 50 CTY CP CAP NUOC TAN HOA\n" + //font 0,4,7
-                    "TEXT 0 1 0 80 95 PHAM HUU CHI, P12, Q5\n" +
-                    "TEXT 7 1 0 100 PHIEU BAO C.SO & TIEN NUOC DU KIEN\n");
+
+                    "TEXT 0 1 0 0 CTY CP CAP NUOC TAN HOA\n" + //font 0,4,7
+                    "TEXT 0 1 0 30 95 PHAM HUU CHI, P12, Q5\n" +
+                    "TEXT 7 1 0 50 PHIEU BAO C.SO & TIEN NUOC DU KIEN\n");
             builder.append(String.format("TEXT 0 1 0 %d KY %s/%s\n", y, mHoaDon.getKy(), mNam + ""));
             y += 20;
             builder.append(String.format("TEXT 0 1 0 %d (%s * %s)\n", y, mHoaDon.getTuNgay(), mHoaDon.getDenNgay()));
 
-            builder.append("TEXT 7 0 0 200 ------------------------\n");
+            builder.append("TEXT 7 0 0 135 -------------------------------\n");
             y += 40;
             builder.append(String.format("BARCODE 128 1 1 50 0 %d %s\n", y, mHoaDon.getDanhBo()) +
                     "LEFT\n");
@@ -139,15 +139,16 @@ public class Printer {
             y += 40;
             builder.append(String.format("TEXT 7 0 20 %d DIA CHI: %s\n", y, removeAccent(mHoaDon.getDiaChi())));
             y += 35;
-            builder.append(String.format("TEXT 7 1 20 %d DANH BA: %s%11s%s\n", y, spaceDB(mHoaDon.getDanhBo()), "MLT: ", spaceMLT(mHoaDon.getMaLoTrinh())));
-            y += 50;
+            builder.append(String.format("TEXT 7 0 20 %d DANH BA: %s%11s%s\n", y, spaceDB(mHoaDon.getDanhBo()), "MLT: ", spaceMLT(mHoaDon.getMaLoTrinh())));
+            y += 35;
             builder.append(String.format("TEXT 7 0 20 %d GIA BIEU: %s - DINH MUC: %s m3\n", y, mHoaDon.getGiaBieu(), mHoaDon.getDinhMuc()));
             y += 35;
             builder.append(String.format("TEXT 7 0 70 %d CHI SO MOI%23s\n", y, mHoaDon.getChiSoMoi()));
             y += 35;
             builder.append(String.format("TEXT 7 0 70 %d CHI SO CU%24s\n", y, mHoaDon.getChiSoCu()));
-            y += 45;
+            y += 40;
             builder.append(String.format("TEXT 7 0 70 %d TIEU THU\n", y, mHoaDon.getTieuThuMoi()));
+            y -= 5;
             builder.append(String.format("TEXT 7 1 70 %d         %25s m3\n", y, mHoaDon.getTieuThuMoi()));
             y += 55;
             builder.append(String.format("TEXT 7 0 70 %d TIEN NUOC%24s VND\n", y, NumberFormat.getNumberInstance(Locale.US).format(mTienNuoc))); //.0f
@@ -156,12 +157,12 @@ public class Printer {
             y += 35;
             builder.append(String.format("TEXT 7 0 70 %d THUE VAT%25s VND\n", y, NumberFormat.getNumberInstance(Locale.US).format(mTienNuoc / 20)));
             y += 35;
-            builder.append(String.format("TEXT 7 0 230 %d %25s\n", y, "------------"));
+            builder.append(String.format("TEXT 7 0 230 %d %25s\n", y, "-----------"));
             y += 10;
             builder.append(String.format("TEXT 7 1 40 %d TONG CONG%27s VND\n", y, NumberFormat.getNumberInstance(Locale.US).format(mTienNuoc * 115 / 100)) +
                     "CENTER\n");
             y += 50;
-            builder.append(String.format("TEXT 7 0 0 %d ------------------------\n", y));
+            builder.append(String.format("TEXT 7 0 0 %d -------------------------------\n", y));
             y += 15;
             builder.append(String.format("TEXT 7 1 0 %d NGAY THU TIEN DU KIEN %s - %s\n", y, dates[0] + "", dates[1] + ""));
             y += 60;
@@ -169,11 +170,11 @@ public class Printer {
             y += 40;
             builder.append(String.format("TEXT 7 1 0 %d PHIEU NAY KHONG CO GIA TRI THANH TOAN\n", y));
             y += 50;
-            builder.append(String.format("TEXT 7 0 0 %d ------------------------\n", y));
+            builder.append(String.format("TEXT 7 0 0 %d -------------------------------\n", y));
             y += 20;
             builder.append(String.format("TEXT 7 0 80 %d Printed on: %s\n", y, formatter.format(formatter_old.parse(mHoaDon.getThoiGian()))));
-            y += 48;
-            builder.append(String.format("TEXT 7 0 0 %d ------------------------------\n", y) +
+            y += 30;
+            builder.append(String.format("TEXT 7 0 0 %d -------------------------------\n", y) +
 //                                    "FORM\n" +
                     "PRINT\n");
 
