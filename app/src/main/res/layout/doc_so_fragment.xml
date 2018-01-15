@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:background="@color/colorBackground_1"
-
+            android:focusableInTouchMode="true"
             android:gravity="center_horizontal"
             android:orientation="vertical">
             <!--Layout hiển thị thông tin-->
@@ -985,7 +985,7 @@
                             android:textColorHint="@color/colorTextColor_1"
                             android:textCursorDrawable="@null">
 
-                            <requestFocus />
+                            <!--<requestFocus />-->
                         </EditText>
                     </TableRow>
                 </TableLayout>

@@ -2282,8 +2282,8 @@ public class DocSo extends Fragment {
 
     private void setNextFocusEdittextCSM() {
 //        mEditTextCSM.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-        mEditTextCSM.requestFocus();
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(mEditTextCSM, InputMethodManager.SHOW_FORCED);
+//        mEditTextCSM.requestFocus();
+//        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.showSoftInput(mEditTextCSM, InputMethodManager.SHOW_FORCED);
     }
 }
