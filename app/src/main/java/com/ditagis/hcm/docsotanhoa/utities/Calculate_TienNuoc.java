@@ -60,7 +60,7 @@ public class Calculate_TienNuoc {
     }
 
     private boolean hasSHVM2() {
-        return SHVM1 >= mDM;
+        return SHVM1 >=(double) mDM/2;
     }
 
     private void calculateSHTM_VM1_VM2() {
