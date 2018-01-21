@@ -702,7 +702,7 @@ public class QuanLyDocSo extends Fragment {
             if (i < 10)
                 dotString = "0" + i;
             List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mUsername, dotString, mKy + "");
-            if (hoaDons.size() > 0)
+            if (hoaDons.size() > 0 && !mDots.contains(dotString))
                 mDots.add(dotString);
             if (mDots.size() > 0)
                 count++;

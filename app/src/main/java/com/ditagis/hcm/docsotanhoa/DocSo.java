@@ -2,7 +2,6 @@ package com.ditagis.hcm.docsotanhoa;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -28,7 +27,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -126,6 +124,7 @@ public class DocSo extends Fragment {
     private FrameLayout mFrameLayoutViewImage;
     private ImageView mImageViewFrame;
     private Button mBtnCloseViewImageFrame;
+    private String mUsername;
 
     @SuppressLint("ClickableViewAccessibility")
     public DocSo(Activity activity, final LayoutInflater inflater, int mKy, int nam, final int mDot, String mUsername, String staffName, String staffPhone, int theme, ViewPager viewPager) {
@@ -135,7 +134,7 @@ public class DocSo extends Fragment {
         this.mDot = mDot;
         this.mKy = mKy;
         this.mNam = nam;
-
+        this.mUsername = mUsername;
         this.mSelected_theme = theme;
 //        this.mLike = "__" + mUsername + "%";
         mViewPager = viewPager;
@@ -1030,34 +1029,7 @@ public class DocSo extends Fragment {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (checkNull())
-                    return;
-                Code_Describle code_describle = (Code_Describle) mSpinCode.getItemAtPosition(position);
-                mCode = code_describle.getCode();
-                ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(mCode);
-                HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
-                if (hoaDon == null || hoaDon.getCode_CSC_SanLuong() == null)
-                    return;
-
-                if (mCode.equals("82")) {
-                    mCSGo = new HoaDonDB().getCSGo(mDanhBo);
-                    if (mCSGo == -1) {
-                        MySnackBar.make(mTxtCSM, "Chưa có dữ liệu báo thay", true);
-                        mSpinCode.setSelection(0);
-                    }
-                }
-                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString(), mCSGo);
-
-                mTxtCSM.setText(csm_tieuThu.getCSM());
-                mEditTextCSM.setText(csm_tieuThu.getCSM());
-                mTxtTT.setText(csm_tieuThu.getTieuThu());
-
-                if (checkCSMFluctuation()) {
-//                    MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(false);
-                    ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
-                } else {
-                    ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
-                }
+                selectCode((position));
             }
 
             @Override
@@ -1354,7 +1326,7 @@ public class DocSo extends Fragment {
             else dotExist = i + "";
             if (!mDots.contains(dotExist)) {
                 like = dotExist.concat(mLike.substring(2, 4)).concat("%");
-                if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(like).size() > 0) {
+                if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(like, mKy).size() > 0) {
                     mDots.add(dotExist);
 
                 }
@@ -1413,6 +1385,37 @@ public class DocSo extends Fragment {
         mAdapterTenKH.notifyDataSetChanged();
         sort();
         setTextProgress();
+    }
+
+    private void selectCode(int position) {
+        if (checkNull())
+            return;
+        Code_Describle code_describle = (Code_Describle) mSpinCode.getItemAtPosition(position);
+        mCode = code_describle.getCode();
+        ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(mCode);
+        HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo);
+        if (hoaDon == null || hoaDon.getCode_CSC_SanLuong() == null)
+            return;
+
+        if (mCode.equals("82")) {
+            mCSGo = new HoaDonDB().getCSGo(mDanhBo);
+            if (mCSGo == -1) {
+                MySnackBar.make(mTxtCSM, "Chưa có dữ liệu báo thay", true);
+                mSpinCode.setSelection(0);
+            }
+        }
+        CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString(), mCSGo);
+
+        mTxtCSM.setText(csm_tieuThu.getCSM());
+        mEditTextCSM.setText(csm_tieuThu.getCSM());
+        mTxtTT.setText(csm_tieuThu.getTieuThu());
+
+        if (checkCSMFluctuation()) {
+//                    MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(false);
+            ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
+        } else {
+            ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
+        }
     }
 
     private void selectMLT(int position) {

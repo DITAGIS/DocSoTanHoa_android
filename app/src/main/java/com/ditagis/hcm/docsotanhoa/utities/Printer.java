@@ -115,7 +115,7 @@ public class Printer {
 
             int y = 100;
             StringBuilder builder = new StringBuilder();
-            builder.append("! 0 200 200 1000 1\n" +
+            builder.append("! 0 200 200 995 1\n" +
 
                     "CENTER\n" +
 
@@ -148,7 +148,7 @@ public class Printer {
             builder.append(String.format("TEXT 7 0 70 %d CHI SO CU%24s\n", y, mHoaDon.getChiSoCu()));
             y += 40;
             builder.append(String.format("TEXT 7 0 70 %d TIEU THU\n", y, mHoaDon.getTieuThuMoi()));
-            y -= 5;
+            y -= 10;
             builder.append(String.format("TEXT 7 1 70 %d         %25s m3\n", y, mHoaDon.getTieuThuMoi()));
             y += 55;
             builder.append(String.format("TEXT 7 0 70 %d TIEN NUOC%24s VND\n", y, NumberFormat.getNumberInstance(Locale.US).format(mTienNuoc))); //.0f

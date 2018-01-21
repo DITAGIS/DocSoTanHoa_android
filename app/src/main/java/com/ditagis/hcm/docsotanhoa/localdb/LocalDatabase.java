@@ -364,9 +364,50 @@ public class LocalDatabase extends SQLiteOpenHelper {
     public List<HoaDon> getAllHoaDon_UnRead(String like) {
         return getAllHoaDon(like, Flag.UNREAD);
     }
-
+    public List<HoaDon> getAllHoaDon_UnRead(String like, int ky) {
+        return getAllHoaDon(like, ky, Flag.UNREAD);
+    }
     public List<HoaDon> getAllHoaDon_Synchronized(String like) {
         return getAllHoaDon(like, Flag.SYNCHRONIZED);
+    }
+    public List<HoaDon> getAllHoaDon(String like, int ky, int flag) {
+        List<HoaDon> hoaDons = new ArrayList<HoaDon>();
+        Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + like +
+                        "' and " + COLUMN_HOADON_KY + " = " + ky+
+                " and " + COLUMN_HOADON_FLAG + " = " + flag, null);
+        if (cursor.moveToFirst()) {
+            do {
+                HoaDon hoaDon = new HoaDon(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6),
+                        cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getInt(20));
+                hoaDon.setMaLoTrinh(cursor.getString(9));
+                Code_CSC_SanLuong code_csc_sanLuong = new Code_CSC_SanLuong(cursor.getString(11), cursor.getString(12), cursor.getString(13),
+                        cursor.getString(14), cursor.getString(15), cursor.getString(16),
+                        cursor.getString(17), cursor.getString(18), cursor.getString(19));
+                hoaDon.setCode_CSC_SanLuong(code_csc_sanLuong);
+                hoaDon.setCodeMoi(cursor.getString(21));
+                hoaDon.setChiSoMoi(cursor.getString(22));
+                hoaDon.setTieuThuMoi(cursor.getString(23));
+                hoaDon.setGhiChu(cursor.getString(24));
+                hoaDon.setImage(cursor.getString(25));
+                hoaDon.setImage_byteArray(cursor.getBlob(26));
+                hoaDon.setThoiGian(cursor.getString(27));
+                hoaDon.setSoThan(cursor.getString(28));
+                hoaDon.setHieu(cursor.getString(29));
+                hoaDon.setCo(cursor.getString(30));
+                hoaDon.setViTri(cursor.getString(31));
+                hoaDon.setSh(cursor.getInt(32));
+                hoaDon.setSx(cursor.getInt(33));
+                hoaDon.setDv(cursor.getInt(34));
+                hoaDon.setHc(cursor.getInt(35));
+                hoaDon.setTuNgay(cursor.getString(36));
+                hoaDon.setDenNgay(cursor.getString(37));
+                hoaDons.add(hoaDon);
+            } while (cursor.moveToNext());
+        }
+        return hoaDons;
     }
 
     public List<HoaDon> getAllHoaDon(String like, int flag) {
