@@ -364,28 +364,32 @@ public class LocalDatabase extends SQLiteOpenHelper {
     public List<HoaDon> getAllHoaDon_UnRead(int ky) {
         return getAllHoaDon(ky, Flag.UNREAD);
     }
-//    public List<HoaDon> getAllHoaDon_UnRead(int nam) {
+
+    //    public List<HoaDon> getAllHoaDon_UnRead(int nam) {
 //        return getAllHoaDon(nam, Flag.UNREAD);
 //    }
     public List<HoaDon> getAllHoaDon_UnRead(String like, int ky) {
         return getAllHoaDon(like, ky, Flag.UNREAD);
     }
+
     public List<HoaDon> getAllHoaDon_Read(String like, int ky) {
         return getAllHoaDon(like, ky, Flag.READ);
     }
-//    public List<HoaDon> getAllHoaDon_Synchronized(String like) {
+
+    //    public List<HoaDon> getAllHoaDon_Synchronized(String like) {
 //        return getAllHoaDon(like, Flag.SYNCHRONIZED);
 //    }
     public List<HoaDon> getAllHoaDon_Synchronized(String like, int ky) {
         return getAllHoaDon(like, ky, Flag.SYNCHRONIZED);
     }
+
     public List<HoaDon> getAllHoaDon(String like, int ky, int flag) {
         List<HoaDon> hoaDons = new ArrayList<HoaDon>();
         Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + like +
-                        "' and " + COLUMN_HOADON_KY + " = " + ky+
+                "' and " + COLUMN_HOADON_KY + " = " + ky +
                 " and " + COLUMN_HOADON_FLAG + " = " + flag, null);
         if (cursor.moveToFirst()) {
             do {
@@ -456,7 +460,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
         }
         return hoaDons;
     }
-//    public List<HoaDon> getAllHoaDon(int nam) {
+
+    //    public List<HoaDon> getAllHoaDon(int nam) {
 //        List<HoaDon> hoaDons = new ArrayList<HoaDon>();
 //        Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
 //
@@ -498,7 +503,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from " + TABLE_HOADON + " where " +COLUMN_HOADON_KY + " = " + ky + COLUMN_HOADON_MALOTRINH + " like '" + like + "' and " + COLUMN_HOADON_FLAG + " <> " + flag, null);
+        Cursor cursor = db.rawQuery("select * from " + TABLE_HOADON + " where " + COLUMN_HOADON_KY + " = " + ky + " and " + COLUMN_HOADON_MALOTRINH + " like '" + like + "' and " + COLUMN_HOADON_FLAG + " <> " + flag, null);
         if (cursor.moveToFirst()) {
             do {
                 HoaDon hoaDon = new HoaDon(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6),
