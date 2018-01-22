@@ -66,7 +66,7 @@ public class DialogSelectDot {
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    docSo.selectDotFromDialog(selectFolderAdapter.getItem(position).getDot());
+                    docSo.selectDotFromDialog(selectFolderAdapter,selectFolderAdapter.getItem(position).getKy(),selectFolderAdapter.getItem(position).getDot());
                     dialog.dismiss();
                 }
             });
@@ -117,7 +117,7 @@ public class DialogSelectDot {
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    qlds.selectDotFromDialog(selectFolderAdapter.getItem(position).getDot());
+                    qlds.selectDotFromDialog(selectFolderAdapter, selectFolderAdapter.getItem(position).getKy(),selectFolderAdapter.getItem(position).getDot());
                     dialog.dismiss();
                 }
             });

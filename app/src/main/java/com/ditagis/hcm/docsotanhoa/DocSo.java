@@ -43,6 +43,7 @@ import android.widget.Toast;
 
 import com.ditagis.hcm.docsotanhoa.adapter.CodeSpinnerAdapter;
 import com.ditagis.hcm.docsotanhoa.adapter.CustomArrayAdapter;
+import com.ditagis.hcm.docsotanhoa.adapter.GridViewSelectFolderAdapter;
 import com.ditagis.hcm.docsotanhoa.conectDB.HoaDonDB;
 import com.ditagis.hcm.docsotanhoa.entities.Code_Describle;
 import com.ditagis.hcm.docsotanhoa.entities.Codes;
@@ -124,6 +125,7 @@ public class DocSo extends Fragment {
     private FrameLayout mFrameLayoutViewImage;
     private ImageView mImageViewFrame;
     private Button mBtnCloseViewImageFrame;
+    private GridViewSelectFolderAdapter mSelectFolderAdapter;
     private String mUsername;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -1325,21 +1327,26 @@ public class DocSo extends Fragment {
         String like;
         int count = 0;
         for (int i = 20; i >= 0; i--) {
-            if (count == 3)
-                break;
-            String dotExist = "";
-            if (i < 10)
-                dotExist = "0" + i;
-            else dotExist = i + "";
-            if (!mDots.contains(dotExist)) {
-                like = dotExist.concat(mLike.substring(2, 4)).concat("%");
-                if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(like, mKy).size() > 0) {
-                    mDots.add(dotExist);
+            if (mSelectFolderAdapter != null)
+                for (GridViewSelectFolderAdapter.Item item : mSelectFolderAdapter.getItems()) {
+                    if (mKy == Integer.parseInt(item.getKy()) && i != Integer.parseInt(item.getDot()))
+                        break;
+                    if (count == 3)
+                        break;
+                    String dotExist = "";
+                    if (i < 10)
+                        dotExist = "0" + i;
+                    else dotExist = i + "";
+                    if (!mDots.contains(dotExist)) {
+                        like = dotExist.concat(mLike.substring(2, 4)).concat("%");
+                        if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(like, mKy).size() > 0) {
+                            mDots.add(dotExist);
 
+                        }
+                    }
+                    if (mDots.size() > 0)
+                        count++;
                 }
-            }
-            if (mDots.size() > 0)
-                count++;
         }
 //        if (mDots.size() > 1) {
 //            MyAlertDialog.show(mRootView.getContext(), false, mRootView.getContext().getString(R.string.dotExist_title), mRootView.getContext().getString(R.string.dotExist_message));
@@ -1382,11 +1389,23 @@ public class DocSo extends Fragment {
 //        }
 //    }
 
-    public void selectDotFromDialog(String dot) {
+    public void selectDotFromDialog(GridViewSelectFolderAdapter adapter, String ky, String dot) {
+        mSelectFolderAdapter = adapter;
+        int kyInt = Integer.parseInt(ky);
+        String kyString = kyInt + "";
+        if (kyInt < 10)
+            kyString = "0" + kyInt;
         int dotInt = Integer.parseInt(dot);
         String dotString = dotInt + "";
         if (dotInt < 10)
             dotString = "0" + dotInt;
+
+        for (int i = 0; i < mAdapterKy.getCount(); i++) {
+            if (mAdapterKy.getItem(i).equals(kyString)) {
+                mSpinKy.setSelection(i);
+                return;
+            }
+        }
         for (int i = 0; i < mAdapterDot.getCount(); i++) {
             if (mAdapterDot.getItem(i).equals(dotString)) {
                 mSpinDot.setSelection(i);

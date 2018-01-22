@@ -41,6 +41,7 @@ import android.widget.Toast;
 import com.ditagis.hcm.docsotanhoa.adapter.CodeSpinnerAdapter;
 import com.ditagis.hcm.docsotanhoa.adapter.CustomArrayAdapter;
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewQuanLyDocSoAdapter;
+import com.ditagis.hcm.docsotanhoa.adapter.GridViewSelectFolderAdapter;
 import com.ditagis.hcm.docsotanhoa.conectDB.HoaDonDB;
 import com.ditagis.hcm.docsotanhoa.conectDB.SumDanhBoDB;
 import com.ditagis.hcm.docsotanhoa.conectDB.Uploading;
@@ -91,7 +92,7 @@ public class QuanLyDocSo extends Fragment {
     private String mCode;
     private String mKyString;
     private ArrayAdapter<String> mAdapterDot, mAdapterSdt, mAdapterKy, mAdapterNam;
-    ;
+    private GridViewSelectFolderAdapter mSelectFolderAdapter;
     private Spinner mSpinDot, mSpinKy, mSpinNam;
 
     public QuanLyDocSo(LayoutInflater inflater, int dot, int ky, int nam, String userName, String staffName, String staffPhone, int selected_theme) {
@@ -343,11 +344,23 @@ public class QuanLyDocSo extends Fragment {
         }
     }
 
-    public void selectDotFromDialog(String dot) {
+    public void selectDotFromDialog(GridViewSelectFolderAdapter adapter, String ky, String dot) {
+        mSelectFolderAdapter = adapter;
+        int kyInt = Integer.parseInt(ky);
+        String kyString = kyInt + "";
+        if (kyInt < 10)
+            kyString = "0" + kyInt;
         int dotInt = Integer.parseInt(dot);
         String dotString = dotInt + "";
         if (dotInt < 10)
             dotString = "0" + dotInt;
+
+        for (int i = 0; i < mAdapterKy.getCount(); i++) {
+            if (mAdapterKy.getItem(i).equals(kyString)) {
+                mSpinKy.setSelection(i);
+                return;
+            }
+        }
         for (int i = 0; i < mAdapterDot.getCount(); i++) {
             if (mAdapterDot.getItem(i).equals(dotString)) {
                 mSpinDot.setSelection(i);
@@ -728,17 +741,22 @@ public class QuanLyDocSo extends Fragment {
     private void getDotExist() {
         int count = 0;
         for (int i = 20; i >= 1; i--) {
-            if (count == 3)
-                break;
-            String dotString = i + "";
-            if (i < 10)
-                dotString = "0" + i;
-            List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mUsername, dotString, mKy + "");
-            if (hoaDons.size() > 0 && !mDots.contains(dotString))
-                mDots.add(dotString);
-            if (mDots.size() > 0)
-                count++;
+            if(mSelectFolderAdapter!= null)
+            for (GridViewSelectFolderAdapter.Item item : mSelectFolderAdapter.getItems()) {
+                if (mKy == Integer.parseInt(item.getKy()) && i != Integer.parseInt(item.getDot()))
+                    break;
+                if (count == 3)
+                    break;
+                String dotString = i + "";
+                if (i < 10)
+                    dotString = "0" + i;
+                List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mUsername, dotString, mKy + "");
+                if (hoaDons.size() > 0 && !mDots.contains(dotString))
+                    mDots.add(dotString);
+                if (mDots.size() > 0)
+                    count++;
 
+            }
         }
 //        if (mDots.size() > 1) {
 //            MyAlertDialog.show(mRootView.getContext(), false, mRootView.getContext().getString(R.string.dotExist_title), mRootView.getContext().getString(R.string.dotExist_message));
