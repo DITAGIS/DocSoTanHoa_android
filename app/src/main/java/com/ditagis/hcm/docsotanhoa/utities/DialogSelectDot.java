@@ -27,20 +27,21 @@ public class DialogSelectDot {
         final GridViewSelectFolderAdapter selectFolderAdapter = new GridViewSelectFolderAdapter(context, new ArrayList<GridViewSelectFolderAdapter.Item>());
 
         int count = 0;
-        for (int i = 20; i >= 1; i--) {
-            if (count == 3)
-                break;
-            String dotString = i + "";
-            if (i < 10)
-                dotString = "0" + i;
-            List<HoaDon> hoaDons = LocalDatabase.getInstance(context).getAllHoaDon(mUsername, dotString, mKy + "");
-            if (hoaDons.size() > 0)
-                selectFolderAdapter.add(new GridViewSelectFolderAdapter.Item(mKy + "", i + "", mNam + "",
-                        hoaDons.size() + "", mUsername, hoaDons.get(0).getFlag()));
-            if (selectFolderAdapter.getCount() > 0)
-                count++;
+        for (int ky = 12; ky >= 1; ky--)
+            for (int i = 20; i >= 1; i--) {
+                if (count == 3)
+                    break;
+                String dotString = i + "";
+                if (i < 10)
+                    dotString = "0" + i;
+                List<HoaDon> hoaDons = LocalDatabase.getInstance(context).getAllHoaDon(mUsername, dotString, ky + "");
+                if (hoaDons.size() > 0)
+                    selectFolderAdapter.add(new GridViewSelectFolderAdapter.Item(ky + "", i + "", mNam + "",
+                            hoaDons.size() + "", mUsername, hoaDons.get(0).getFlag()));
+                if (selectFolderAdapter.getCount() > 0)
+                    count++;
 
-        }
+            }
         if (count > 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert);
             builder.setTitle("Chọn quyển đọc số");
@@ -77,20 +78,21 @@ public class DialogSelectDot {
         final GridViewSelectFolderAdapter selectFolderAdapter = new GridViewSelectFolderAdapter(context, new ArrayList<GridViewSelectFolderAdapter.Item>());
 
         int count = 0;
-        for (int i = 20; i >= 1; i--) {
-            if (count == 3)
-                break;
-            String dotString = i + "";
-            if (i < 10)
-                dotString = "0" + i;
-            List<HoaDon> hoaDons = LocalDatabase.getInstance(context).getAllHoaDonForSelectFolderQLDS(dotString + mUsername + "%", Flag.UNREAD);
-            if (hoaDons.size() > 0)
-                selectFolderAdapter.add(new GridViewSelectFolderAdapter.Item(mKy + "", i + "", mNam + "",
-                        hoaDons.size() + "", mUsername, hoaDons.get(0).getFlag()));
-            if (selectFolderAdapter.getCount() > 0)
-                count++;
+        for (int ky = 12; ky >= 1; ky--)
+            for (int i = 20; i >= 1; i--) {
+                if (count == 3)
+                    break;
+                String dotString = i + "";
+                if (i < 10)
+                    dotString = "0" + i;
+                List<HoaDon> hoaDons = LocalDatabase.getInstance(context).getAllHoaDonForSelectFolderQLDS(dotString + mUsername + "%", ky, Flag.UNREAD);
+                if (hoaDons.size() > 0)
+                    selectFolderAdapter.add(new GridViewSelectFolderAdapter.Item(ky + "", i + "", mNam + "",
+                            hoaDons.size() + "", mUsername, hoaDons.get(0).getFlag()));
+                if (selectFolderAdapter.getCount() > 0)
+                    count++;
 
-        }
+            }
         if (count > 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert);
             builder.setTitle("Chọn quyển đã đọc");

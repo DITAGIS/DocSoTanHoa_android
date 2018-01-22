@@ -165,7 +165,7 @@ public class QuanLyDocSo extends Fragment {
                         return true;
                     case MotionEvent.ACTION_UP:
                         v.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorPrimary_1));
-                        if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike).size() == 0) {
+                        if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike,mKy).size() == 0) {
                             MySnackBar.make(mGridView, "Chưa có danh bộ!!!", false);
                         } else if (isOnline()) {
                             doUpLoad();
@@ -177,8 +177,8 @@ public class QuanLyDocSo extends Fragment {
                 return false;
             }
         });
-        mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
-        mHoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike));
+        mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike,mKy);
+        mHoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike,mKy));
         for (HoaDon hoaDon : this.mHoaDons) {
             mDBs.add(hoaDon.getDanhBo());
         }
@@ -613,8 +613,8 @@ public class QuanLyDocSo extends Fragment {
 
     public void refresh() {
         createDot();
-        mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
-        mHoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike));
+        mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike,mKy);
+        mHoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike,mKy));
         setTextProgress();
         mQuanLyDocSoAdapter.clear();
         for (HoaDon hoaDon : this.mHoaDons) {
@@ -663,8 +663,8 @@ public class QuanLyDocSo extends Fragment {
 
         mLike = dotString.concat(mLike.substring(2, 4)).concat("%");
 
-        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
-        hoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike));
+        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike,mKy);
+        hoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike,mKy));
         mHoaDons.clear();
         mHoaDons.addAll(hoaDons);
         mQuanLyDocSoAdapter.clear();
@@ -1291,7 +1291,7 @@ public class QuanLyDocSo extends Fragment {
         @Override
         protected Void doInBackground(String... params) {
             Boolean isValid = false;
-            mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike);
+            mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike,mKy);
             for (GridViewQuanLyDocSoAdapter.Item item : mQuanLyDocSoAdapter.getItems()) {
                 for (HoaDon hoaDon : mHoaDons) {
                     if (item.getDanhbo().equals(hoaDon.getDanhBo()) &&
@@ -1320,7 +1320,7 @@ public class QuanLyDocSo extends Fragment {
             boolean isValid = values[0];
             notifyDataSetGridViewChange();
             ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + mHoaDons.size());
-            mDanhBoHoanThanh += LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike).size();
+            mDanhBoHoanThanh += LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike,mKy).size();
             setTextProgress();
             if (isValid) {
                 Toast.makeText(mRootView.getContext(), "Đồng bộ thành công", Toast.LENGTH_SHORT).show();

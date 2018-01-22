@@ -92,8 +92,8 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
         if (mDot < 10)
             dotString = "0" + mDot;
         String like = dotString + mUsername + "%";
-        hoaDons = this.mLocalDatabase.getAllHoaDon_UnRead(like);
-        hoaDons.addAll(this.mLocalDatabase.getAllHoaDon_Read(like));
+        hoaDons = this.mLocalDatabase.getAllHoaDon_UnRead(like,mKy);
+        hoaDons.addAll(this.mLocalDatabase.getAllHoaDon_Read(like,mKy));
 //        } else {
 
 

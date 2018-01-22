@@ -177,7 +177,7 @@ public class DocSo extends Fragment {
                         ));
         singleComplete.setBackgroundResource(R.layout.edit_text_styles);
 
-        mKys.add(mKy + "");
+//        mKys.add(mKy + "");
         mNams.add(mNam + "");
         ((TextView) mRootView.findViewById(R.id.txt_ds_staffName)).setText(this.mStaffName);
 
@@ -191,7 +191,7 @@ public class DocSo extends Fragment {
 
         mMLTs = new ArrayList<String>();
 
-        for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike)) {
+        for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike, mKy)) {
             mMLTs.add(spaceMLT(hoaDon.getMaLoTrinh()));
         }
         mSpinMLT = (Spinner) mRootView.findViewById(R.id.spin_ds_mlt);
@@ -412,7 +412,7 @@ public class DocSo extends Fragment {
         for (
                 HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).
 
-                getAllHoaDon_UnRead(mLike))
+                getAllHoaDon_UnRead(mLike, mKy))
 
         {
             mDBs.add(spaceDB(hoaDon.getDanhBo()));
@@ -937,15 +937,16 @@ public class DocSo extends Fragment {
         });
         mAdapterKy.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         mSpinKy.setAdapter(mAdapterKy);
+        createKy();
         mSpinKy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                selectKy(position);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                selectKy(0);
             }
         });
         mAdapterDot.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
@@ -959,7 +960,7 @@ public class DocSo extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                selectDot(0);
             }
         });
 
@@ -1064,7 +1065,7 @@ public class DocSo extends Fragment {
         mTenKHs.clear();
         mDiaChis.clear();
 
-        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike);
+        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike, mKy);
         for (String mlt : mMLTs) {
             for (HoaDon hoaDon : hoaDons) {
                 if (mlt.equals(spaceMLT(hoaDon.getMaLoTrinh()))) {
@@ -1203,8 +1204,8 @@ public class DocSo extends Fragment {
 
     private void setTextProgress() {
 
-        this.mSumDanhBo = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike).size();
-        this.mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike).size();
+        this.mSumDanhBo = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike, mKy).size();
+        this.mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy).size();
         this.mSumDanhBo += this.mDanhBoHoanThanh;
         this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
 
@@ -1304,15 +1305,21 @@ public class DocSo extends Fragment {
     }
 
     private void createDot() {
+        mAdapterDot.clear();
         getDotExist();
-//        mAdapterDot = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mDots);
-//        mAdapterDot.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-//        mAdapterDot.clear();
-//        mAdapterDot.addAll(mDots);
         mAdapterDot.notifyDataSetChanged();
-        int position = mDots.size() - 1;
-//        mSpinDot.setSelection(position);
     }
+
+    private void createKy() {
+        mAdapterKy.clear();
+        getKyExist();
+        mAdapterKy.notifyDataSetChanged();
+    }
+//
+//    private void createNam() {
+//        getNamExist();
+//        mAdapterKy.notifyDataSetChanged();
+//    }
 
     private void getDotExist() {
         String like;
@@ -1339,6 +1346,42 @@ public class DocSo extends Fragment {
 //        }
     }
 
+    private void getKyExist() {
+        int count = 0;
+        String kyString = "";
+        for (int i = 12; i >= 0; i--) {
+            if (count == 2)
+                break;
+            kyString = i + "";
+            if (i < 10)
+                kyString = "0" + i;
+            if (!mKys.contains(kyString)) {
+                if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(i).size() > 0) {
+                    mKys.add(kyString);
+                }
+            }
+            if (mKys.size() > 0)
+                count++;
+        }
+    }
+
+//    private void getNamExist() {
+//        int count = 0;
+//        int nam = Calendar.getInstance().get(Calendar.YEAR);
+//        for (int i = nam; i >= 0; i--) {
+//            if (count == 2)
+//                break;
+//            if (!mNams.contains(nam)) {
+//                if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(i).size() > 0) {
+//                    mNams.add(nam + "");
+//
+//                }
+//            }
+//            if (mNams.size() > 0)
+//                count++;
+//        }
+//    }
+
     public void selectDotFromDialog(String dot) {
         int dotInt = Integer.parseInt(dot);
         String dotString = dotInt + "";
@@ -1360,13 +1403,18 @@ public class DocSo extends Fragment {
             }
     }
 
+    private void selectKy(int position) {
+        mKy = Integer.parseInt(mKys.get(position));
+        createDot();
+    }
+
     private void selectDot(int position) {
         String dotString = mDots.get(position);
         mDot = Integer.parseInt(dotString);
 
         mLike = dotString.concat(mLike.substring(2, 4)).concat("%");
 
-        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike);
+        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike, mKy);
         mMLTs.clear();
         mDBs.clear();
         mDiaChis.clear();
@@ -1705,7 +1753,7 @@ public class DocSo extends Fragment {
             dotString = "0" + mDot;
         String like = dotString.concat(mLike.substring(2, 4)).concat("%");
 
-        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(like);
+        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(like, mKy);
         if (hoaDons.size() > 0)
             return true;
         return false;
@@ -1717,7 +1765,7 @@ public class DocSo extends Fragment {
             dotString = "0" + mDot;
         String like = dotString.concat(mLike.substring(2, 4)).concat("%");
 
-        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(like);
+        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(like, mKy);
         if (hoaDons.size() > 0)
             return;
         else {

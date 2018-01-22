@@ -55,7 +55,7 @@ public class LayLoTrinh {
 
     private NetworkStateChangeReceiver mStateChangeReceiver;
 
-    public LayLoTrinh(Activity activity, LayoutInflater inflater, int mKy, int mNam, int mDot, String mUsername, String mStaffName, String mPassWord, String staffPhone) {
+    public LayLoTrinh(Activity activity, LayoutInflater inflater, final int mKy, int mNam, int mDot, String mUsername, String mStaffName, String mPassWord, String staffPhone) {
         this.mActivity = activity;
         this.mKy = mKy;
         this.mNam = mNam;
@@ -77,7 +77,7 @@ public class LayLoTrinh {
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(LayLoTrinh.this.mDot + LayLoTrinh.this.mUsername + "%")) {
+                for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(LayLoTrinh.this.mDot + LayLoTrinh.this.mUsername + "%",mKy)) {
                     mlts.add((hoaDon.getMaLoTrinh()));
                 }
             }
@@ -164,7 +164,7 @@ public class LayLoTrinh {
         String dotString = mDot + "";
         if (this.mDot < 10)
             dotString = "0" + this.mDot;
-        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(dotString + this.mUsername + "%");
+        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(dotString + this.mUsername + "%",mKy);
         LayLoTrinh.this.mSumMLT = hoaDons.size();
         LayLoTrinh.this.m_txtTongMLT.setText("Tổng mã lộ trình: " + mSumMLT);
         LayLoTrinh.this.mSumDanhBo = mSumMLT;
