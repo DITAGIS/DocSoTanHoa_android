@@ -346,6 +346,23 @@ public class QuanLyDocSo extends Fragment {
 
     public void selectDotFromDialog(GridViewSelectFolderAdapter adapter, String ky, String dot) {
         mSelectFolderAdapter = adapter;
+
+        boolean isFound = false;
+
+        for (int i = 0; i < mKys.size(); i++) {
+            for (GridViewSelectFolderAdapter.Item item : mSelectFolderAdapter.getItems()) {
+                if (item.getKy().equals(Integer.parseInt(mKys.get(i)) + "")) {
+                    isFound = true;
+                    break;
+                }
+            }
+            if (!isFound) {
+                mKys.remove(mKys.get(i));
+                i--;
+            }
+            isFound = false;
+        }
+        mAdapterKy.notifyDataSetChanged();
         int kyInt = Integer.parseInt(ky);
         String kyString = kyInt + "";
         if (kyInt < 10)
@@ -734,29 +751,28 @@ public class QuanLyDocSo extends Fragment {
 //        mAdapterDot.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
 //        mSpinDot.setAdapter(mAdapterDot);
         mAdapterDot.notifyDataSetChanged();
-        int position = mDots.size() - 1;
-        mSpinDot.setSelection(position);
+        selectDot(0);
     }
 
     private void getDotExist() {
         int count = 0;
         for (int i = 20; i >= 1; i--) {
-            if(mSelectFolderAdapter!= null)
-            for (GridViewSelectFolderAdapter.Item item : mSelectFolderAdapter.getItems()) {
-                if (mKy == Integer.parseInt(item.getKy()) && i != Integer.parseInt(item.getDot()))
-                    break;
-                if (count == 3)
-                    break;
-                String dotString = i + "";
-                if (i < 10)
-                    dotString = "0" + i;
-                List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mUsername, dotString, mKy + "");
-                if (hoaDons.size() > 0 && !mDots.contains(dotString))
-                    mDots.add(dotString);
-                if (mDots.size() > 0)
-                    count++;
+//            if(mSelectFolderAdapter!= null)
+//            for (GridViewSelectFolderAdapter.Item item : mSelectFolderAdapter.getItems()) {
+//                if (mKy == Integer.parseInt(item.getKy()) && i != Integer.parseInt(item.getDot()))
+//                    break;
+            if (count == 3)
+                break;
+            String dotString = i + "";
+            if (i < 10)
+                dotString = "0" + i;
+            List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mUsername, dotString, mKy + "");
+            if (hoaDons.size() > 0 && !mDots.contains(dotString))
+                mDots.add(dotString);
+            if (mDots.size() > 0)
+                count++;
 
-            }
+//            }
         }
 //        if (mDots.size() > 1) {
 //            MyAlertDialog.show(mRootView.getContext(), false, mRootView.getContext().getString(R.string.dotExist_title), mRootView.getContext().getString(R.string.dotExist_message));
