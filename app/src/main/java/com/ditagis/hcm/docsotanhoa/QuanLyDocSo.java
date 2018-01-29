@@ -166,7 +166,7 @@ public class QuanLyDocSo extends Fragment {
                         return true;
                     case MotionEvent.ACTION_UP:
                         v.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorPrimary_1));
-                        if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy).size() == 0) {
+                        if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy, true).size() == 0) {
                             MySnackBar.make(mGridView, "Chưa có danh bộ!!!", false);
                         } else if (isOnline()) {
                             doUpLoad();
@@ -178,8 +178,8 @@ public class QuanLyDocSo extends Fragment {
                 return false;
             }
         });
-        mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy);
-        mHoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike, mKy));
+        mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy, true);
+        mHoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike, mKy, true));
         for (HoaDon hoaDon : this.mHoaDons) {
             mDBs.add(hoaDon.getDanhBo());
         }
@@ -644,8 +644,8 @@ public class QuanLyDocSo extends Fragment {
 
     public void refresh() {
         createKy();
-        mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy);
-        mHoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike, mKy));
+        mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy, true);
+        mHoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike, mKy, true));
         setTextProgress();
         mQuanLyDocSoAdapter.clear();
         for (HoaDon hoaDon : this.mHoaDons) {
@@ -694,29 +694,31 @@ public class QuanLyDocSo extends Fragment {
     }
 
     private void selectDot(int position) {
-        String dotString = mDots.get(position);
-        mDot = Integer.parseInt(dotString);
+        if (mDots.size() > 0) {
+            String dotString = mDots.get(position);
+            mDot = Integer.parseInt(dotString);
 
-        mLike = dotString.concat(mLike.substring(2, 4)).concat("%");
+            mLike = dotString.concat(mLike.substring(2, 4)).concat("%");
 
-        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy);
-        hoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike, mKy));
-        mHoaDons.clear();
-        mHoaDons.addAll(hoaDons);
-        mQuanLyDocSoAdapter.clear();
-        for (HoaDon hoaDon : hoaDons) {
-            mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
-                    hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
-                    hoaDon.getDanhBo(),
-                    hoaDon.getChiSoCu(),
-                    hoaDon.getChiSoMoi(),
-                    hoaDon.getCodeMoi(), hoaDon.getDiaChi(), hoaDon.getThoiGian(),
-                    hoaDon.getFlag()));
+            List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy, false);
+            hoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike, mKy, false));
+            mHoaDons.clear();
+            mHoaDons.addAll(hoaDons);
+            mQuanLyDocSoAdapter.clear();
+            for (HoaDon hoaDon : hoaDons) {
+                mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
+                        hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
+                        hoaDon.getDanhBo(),
+                        hoaDon.getChiSoCu(),
+                        hoaDon.getChiSoMoi(),
+                        hoaDon.getCodeMoi(), hoaDon.getDiaChi(), hoaDon.getThoiGian(),
+                        hoaDon.getFlag()));
+            }
+            mSpinCode.setSelection(0);
+            notifyDataSetGridViewChange();
+            ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + hoaDons.size());
+            setTextProgress();
         }
-        mSpinCode.setSelection(0);
-        notifyDataSetGridViewChange();
-        ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + hoaDons.size());
-        setTextProgress();
     }
 
     private void createKy() {
@@ -735,7 +737,7 @@ public class QuanLyDocSo extends Fragment {
             if (i < 10)
                 kyString = "0" + i;
             if (!mKys.contains(kyString)) {
-                if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(i).size() > 0) {
+                if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(i, false).size() > 0) {
                     mKys.add(kyString);
                 }
             }
@@ -766,8 +768,9 @@ public class QuanLyDocSo extends Fragment {
             String dotString = i + "";
             if (i < 10)
                 dotString = "0" + i;
-            List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mUsername, dotString, mKy + "");
-            if (hoaDons.size() > 0 && !mDots.contains(dotString))
+            List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mUsername, dotString, mKy + "", false);
+            boolean isExistHoaDon = LocalDatabase.getInstance(mRootView.getContext()).getExistHoaDon(mUsername, dotString, mKy + "");
+            if (isExistHoaDon && !mDots.contains(dotString))
                 mDots.add(dotString);
             if (mDots.size() > 0)
                 count++;
@@ -781,7 +784,7 @@ public class QuanLyDocSo extends Fragment {
     }
 
     private void deleteHoaDon() {
-        List<HoaDon> hoaDonLst = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon();
+        List<HoaDon> hoaDonLst = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(false);
         for (HoaDon hoaDon : hoaDonLst) {
             if (Integer.parseInt(hoaDon.getDot()) < mDot - 3 && hoaDon.getFlag() == Flag.SYNCHRONIZED
                     ) {
@@ -878,12 +881,13 @@ public class QuanLyDocSo extends Fragment {
 
     private void showMoreInfo(final View view) {
         String danhBo = ((TextView) view.findViewById(R.id.row_qlds_txt_danhBo)).getText().toString();
-        HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_Read(danhBo);
+        HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_Read(danhBo, true);
         if (hoaDon == null) {
-            hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_Synchronized(danhBo);
+            hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_Synchronized(danhBo, true);
             if (hoaDon == null)
                 return;
         }
+
         Calculate_TienNuoc calculate_tienNuoc = new Calculate_TienNuoc(
                 Integer.parseInt(hoaDon.getTieuThuMoi()), hoaDon.getGiaBieu(),
                 hoaDon.getDinhMuc(), hoaDon.getSh(), hoaDon.getSx(), hoaDon.getDv(), hoaDon.getHc());
@@ -947,6 +951,7 @@ public class QuanLyDocSo extends Fragment {
                 MySnackBar.make(image.getRootView(), "Không tìm thấy hình ảnh", false);
             }
         }
+        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_SoThan)).setText(hoaDon.getSoThan());
         ((TextView) dialog.findViewById(R.id.txt_layout_qlds_MLT)).setText(hoaDon.getMaLoTrinh());
 //                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_DanhBo)).setText(danhBo_CSM.getDanhBo());
         ((TextView) dialog.findViewById(R.id.txt_layout_qlds_tenKH)).setText(hoaDon.getTenKhachHang());
@@ -965,7 +970,7 @@ public class QuanLyDocSo extends Fragment {
     private void edit_info(View view) {
 
         final String danhBo = ((TextView) view.findViewById(R.id.row_qlds_txt_danhBo)).getText().toString();
-        final HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_Read(danhBo);
+        final HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_Read(danhBo, true);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Cập nhật thông tin chỉ số");
@@ -1023,6 +1028,7 @@ public class QuanLyDocSo extends Fragment {
         ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_MLT)).setText(hoaDon.getMaLoTrinh());
 //                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_DanhBo)).setText(danhBo_CSM.getDanhBo());
         ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_tenKH)).setText(hoaDon.getTenKhachHang());
+        ((TextView) dialogLayout.findViewById(R.id.txt_layout_qlds_SoThan)).setText(hoaDon.getSoThan());
         final EditText etxtAddressStreet = (EditText) dialogLayout.findViewById(R.id.etxt_layout_edit_address_street);
         etxtAddressStreet.setText(hoaDon.getDuong());
         ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_CSC)).setText(hoaDon.getChiSoCu());
@@ -1186,7 +1192,24 @@ public class QuanLyDocSo extends Fragment {
         });
 
         final Spinner spinCode = (Spinner) dialogLayout.findViewById(R.id.spin_edit_code);
-        CodeSpinnerAdapter adapterCode = new CodeSpinnerAdapter(mRootView.getContext(), android.R.layout.simple_spinner_dropdown_item, Codes.getInstance().getCodeDescribles_ds());
+        CodeSpinnerAdapter adapterCode = new CodeSpinnerAdapter(mRootView.getContext(), R.layout.spincode_dropdown2, Codes.getInstance().getCodeDescribles_ds()) {
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView row_code = (TextView) view.findViewById(R.id.row_code);
+                TextView row_describle = (TextView) view.findViewById(R.id.row_describle);
+                if (position % 2 == 0) { // we're on an even row
+                    view.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
+                    row_code.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                    row_describle.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                } else {
+                    view.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
+                    row_code.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                    row_describle.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                }
+                return view;
+            }
+        };
         adapterCode.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spinCode.setAdapter(adapterCode);
         for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++)
@@ -1197,9 +1220,11 @@ public class QuanLyDocSo extends Fragment {
         spinCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Code_Describle code_describle = (Code_Describle) spinCode.getItemAtPosition(position);
+
+//                Code_Describle code_describle = (Code_Describle) spinCode.getItemAtPosition(position);
+                Code_Describle code_describle = Codes.getInstance().getCodeDescribles_ds()[position];
                 mCode = code_describle.getCode();
-                if (mCode.equals("82"))
+                if (mCode.startsWith("8"))
                     mCSGo = new HoaDonDB().getCSGo(danhBo);
                 if (mCSGo == -1) {
                     MySnackBar.make(mTxtComplete, "Chưa có dữ liệu báo thay", true);
@@ -1357,7 +1382,7 @@ public class QuanLyDocSo extends Fragment {
         @Override
         protected Void doInBackground(String... params) {
             Boolean isValid = false;
-            mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy);
+            mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy, false);
             for (GridViewQuanLyDocSoAdapter.Item item : mQuanLyDocSoAdapter.getItems()) {
                 for (HoaDon hoaDon : mHoaDons) {
                     if (item.getDanhbo().equals(hoaDon.getDanhBo()) &&
@@ -1386,7 +1411,7 @@ public class QuanLyDocSo extends Fragment {
             boolean isValid = values[0];
             notifyDataSetGridViewChange();
             ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + mHoaDons.size());
-            mDanhBoHoanThanh += LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike, mKy).size();
+            mDanhBoHoanThanh += LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike, mKy, false).size();
             setTextProgress();
             if (isValid) {
                 Toast.makeText(mRootView.getContext(), "Đồng bộ thành công", Toast.LENGTH_SHORT).show();

@@ -142,22 +142,22 @@ public class CalculateCSM_TieuThu {
                 mCSM = -1;
                 break;
             case "80":
-//                if (!mCSMString.equals("null") && mCSMString.length() > 0)
-//                    mCSM = Integer.parseInt(mCSMString);
-                mTieuThu = calTieuThuTB();
-                mCSM = mCSC + mTieuThu;
-                break;
-            case "81":
-                //todo để trống
-                if (!mCSMString.equals("null") && mCSMString.length() > 0) {
-                    mCSM = Integer.parseInt(mCSMString);
-                    mTieuThu = mCSM - mCSC;
-                }
-//                mTieuThu = calTieuThuTB();
-//                mCSM = mTieuThu + mCSC;
+////                if (!mCSMString.equals("null") && mCSMString.length() > 0)
+////                    mCSM = Integer.parseInt(mCSMString);
 //                mTieuThu = calTieuThuTB();
 //                mCSM = mCSC + mTieuThu;
-                break;
+//                break;
+            case "81":
+//                //todo để trống
+//                if (!mCSMString.equals("null") && mCSMString.length() > 0) {
+//                    mCSM = Integer.parseInt(mCSMString);
+//                    mTieuThu = mCSM - mCSC;
+//                }
+////                mTieuThu = calTieuThuTB();
+////                mCSM = mTieuThu + mCSC;
+////                mTieuThu = calTieuThuTB();
+////                mCSM = mCSC + mTieuThu;
+//                break;
             case "82":
             case "83":
                 //todo để trống

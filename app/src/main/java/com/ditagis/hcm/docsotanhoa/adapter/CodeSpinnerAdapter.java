@@ -55,13 +55,15 @@ public class CodeSpinnerAdapter extends ArrayAdapter<Code_Describle> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View dropDownView = inflater.inflate(layoutResourceId, parent, false);
+        try {
+            TextView row_code = (TextView) dropDownView.findViewById(R.id.row_code);
+            row_code.setText(codeDescribles[position].getCode());
 
-        TextView row_code = (TextView) dropDownView.findViewById(R.id.row_code);
-        row_code.setText(codeDescribles[position].getCode());
+            TextView row_describle = (TextView) dropDownView.findViewById(R.id.row_describle);
+            row_describle.setText(codeDescribles[position].getDescribe());
+        } catch (Exception e) {
 
-        TextView row_describle = (TextView) dropDownView.findViewById(R.id.row_describle);
-        row_describle.setText(codeDescribles[position].getDescribe());
-
+        }
         return dropDownView;
 
     }

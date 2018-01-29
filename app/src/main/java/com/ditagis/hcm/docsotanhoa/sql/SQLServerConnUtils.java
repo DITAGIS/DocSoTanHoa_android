@@ -5,11 +5,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class SQLServerConnUtils {
-    public static String HOST_NAME = "103.74.117.51";//"112.78.4.175";
+    public static String HOST_NAME = "192.168.90.14";//"103.74.117.51";//"112.78.4.175";
     public static String INSTANCE_NAME = "MSSQLSERVER";
     public static String database = "DocSoTH";
-    public static String PASSWORD = "Docso123";
-    public static String USERNAME = "docsotanhoa";
+    public static String PASSWORD = "P@ssW012d";
+    public static String USERNAME = "sa";
 
     public static Connection getSQLServerConnection()
             throws SQLException, ClassNotFoundException {

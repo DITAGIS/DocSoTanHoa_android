@@ -92,8 +92,8 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
         if (mDot < 10)
             dotString = "0" + mDot;
         String like = dotString + mUsername + "%";
-        hoaDons = this.mLocalDatabase.getAllHoaDon_UnRead(like,mKy);
-        hoaDons.addAll(this.mLocalDatabase.getAllHoaDon_Read(like,mKy));
+        hoaDons = this.mLocalDatabase.getAllHoaDon_UnRead(like,mKy,false);
+        hoaDons.addAll(this.mLocalDatabase.getAllHoaDon_Read(like,mKy,false));
 //        } else {
 
 
@@ -128,7 +128,7 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
 
                     hoaDons.add(hoaDon);
                     resultLayLoTrinh.addItemToDa(new GridViewLayLoTrinhAdapter.Item(hoaDon.getMaLoTrinh(), hoaDon.getDanhBo()));
-                    this.mLocalDatabase.addHoaDon(hoaDon);
+                    this.mLocalDatabase.addHoaDon(hoaDon,false);
                     publishProgress(hoaDons);
                 } else
                     break;

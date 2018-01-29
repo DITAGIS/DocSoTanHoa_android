@@ -77,7 +77,7 @@ public class LayLoTrinh {
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(LayLoTrinh.this.mDot + LayLoTrinh.this.mUsername + "%",mKy)) {
+                for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(LayLoTrinh.this.mDot + LayLoTrinh.this.mUsername + "%",mKy,false)) {
                     mlts.add((hoaDon.getMaLoTrinh()));
                 }
             }
@@ -164,7 +164,7 @@ public class LayLoTrinh {
         String dotString = mDot + "";
         if (this.mDot < 10)
             dotString = "0" + this.mDot;
-        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(dotString + this.mUsername + "%",mKy);
+        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(dotString + this.mUsername + "%",mKy,false);
         LayLoTrinh.this.mSumMLT = hoaDons.size();
         LayLoTrinh.this.m_txtTongMLT.setText("Tổng mã lộ trình: " + mSumMLT);
         LayLoTrinh.this.mSumDanhBo = mSumMLT;

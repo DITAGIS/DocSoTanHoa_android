@@ -44,6 +44,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
     private final String SQL_INSERT_HINHDHN = "INSERT INTO " + TABLE_NAME_HINHDHN + " VALUES(?,?,?,?,?,?)  ";
     private final String SQL_UPDATE_HINHDHN = "update t set Image = ?, CreateDate =? from( select top 1 * from " + TABLE_NAME_HINHDHN +
             " where danhbo = ? order by CreateDate desc) t";
+
     private final String SQL_DELETE = "if exists (select danhbo from " + TABLE_NAME_HINHDHN + " where danhbo = ?)" +
             " delete from " + TABLE_NAME_HINHDHN + " where DanhBo = ?";
     private final String SQL_INSERT = "INSERT INTO " + NEW_TABLE_NAME + " VALUES(?,?,?,?,?,?,?,?,?,?)";

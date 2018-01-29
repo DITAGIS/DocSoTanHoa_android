@@ -15,7 +15,7 @@ public class ConnectionDB {
     private static final int PORT = 1433;
     private static final String DB = "DocSoTH";
     private static final String USER = "docsotanhoa";
-    private static final String PASSWORD = "Docso111";//Docso111
+    private static final String PASSWORD = "Docso111";
     private static final ConnectionDB _instance = new ConnectionDB();
     private Connection connection;
 
@@ -49,8 +49,7 @@ public class ConnectionDB {
     private Connection getConnect() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        String url = "jdbc:jtds:sqlserver://" + SERVER + ":1433/"
-                + database + ";instance=" + INSTANCT_NAME;
+        String url = String.format("jdbc:jtds:sqlserver://%s:%s/%s;instance=%s",SERVER,PORT,database,INSTANCT_NAME);
         Connection cnn = null;
         try {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");

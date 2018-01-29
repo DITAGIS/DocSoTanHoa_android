@@ -34,7 +34,7 @@ public class DialogSelectDot {
                 String dotString = dot + "";
                 if (dot < 10)
                     dotString = "0" + dot;
-                List<HoaDon> hoaDons = LocalDatabase.getInstance(context).getAllHoaDon(mUsername, dotString, ky + "");
+                List<HoaDon> hoaDons = LocalDatabase.getInstance(context).getAllHoaDon(mUsername, dotString, ky + "",false);
                 if (hoaDons.size() > 0)
                     selectFolderAdapter.add(new GridViewSelectFolderAdapter.Item(ky + "", dot + "", mNam + "",
                             hoaDons.size() + "", mUsername, hoaDons.get(0).getFlag()));
@@ -85,7 +85,7 @@ public class DialogSelectDot {
                 String dotString = dot + "";
                 if (dot < 10)
                     dotString = "0" + dot;
-                List<HoaDon> hoaDons = LocalDatabase.getInstance(context).getAllHoaDonForSelectFolderQLDS(dotString + mUsername + "%", ky, Flag.READ);
+                List<HoaDon> hoaDons = LocalDatabase.getInstance(context).getAllHoaDonForSelectFolderQLDS(dotString + mUsername + "%", ky, Flag.READ,false);
                 if (hoaDons.size() > 0)
                     selectFolderAdapter.add(new GridViewSelectFolderAdapter.Item(ky + "", dot + "", mNam + "",
                             hoaDons.size() + "", mUsername, hoaDons.get(0).getFlag()));

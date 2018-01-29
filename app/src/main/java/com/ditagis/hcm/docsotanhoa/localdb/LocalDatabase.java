@@ -206,12 +206,12 @@ public class LocalDatabase extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean addHoaDon(HoaDon hoaDon) {
+    public boolean addHoaDon(HoaDon hoaDon, boolean getImage) {
 
         //check exist
 //        if (getHoaDon_UnRead(hoaDon.getDanhBo()) != null)
 //            return false;
-        if (getHoaDon_Read(hoaDon.getDanhBo()) != null)
+        if (getHoaDon_Read(hoaDon.getDanhBo(), getImage) != null)
             return false;
 //        if (getHoaDon_Synchronized(hoaDon.getDanhBo()) != null)
 //            return false;
@@ -308,7 +308,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         return false;
     }
 
-    private HoaDon getHoaDon(String danhBo, int flag) {
+    private HoaDon getHoaDon(String danhBo, int flag, boolean getImage) {
         Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
         HoaDon hoaDon = null;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -328,7 +328,6 @@ public class LocalDatabase extends SQLiteOpenHelper {
             hoaDon.setTieuThuMoi(cursor.getString(23));
             hoaDon.setGhiChu(cursor.getString(24));
             hoaDon.setImage(cursor.getString(25));
-            hoaDon.setImage_byteArray(cursor.getBlob(26));
             hoaDon.setThoiGian(cursor.getString(27));
             hoaDon.setSoThan(cursor.getString(28));
             hoaDon.setHieu(cursor.getString(29));
@@ -340,20 +339,26 @@ public class LocalDatabase extends SQLiteOpenHelper {
             hoaDon.setHc(cursor.getInt(35));
             hoaDon.setTuNgay(cursor.getString(36));
             hoaDon.setDenNgay(cursor.getString(37));
+            try {
+                if (getImage)
+                    hoaDon.setImage_byteArray(cursor.getBlob(26));
+            } catch (Exception e) {
+
+            }
         }
         return hoaDon;
     }
 
-    public HoaDon getHoaDon_UnRead(String danhBo) {
-        return getHoaDon(danhBo, Flag.UNREAD);
+    public HoaDon getHoaDon_UnRead(String danhBo, boolean getImage) {
+        return getHoaDon(danhBo, Flag.UNREAD, getImage);
     }
 
-    public HoaDon getHoaDon_Read(String danhBo) {
-        return getHoaDon(danhBo, Flag.READ);
+    public HoaDon getHoaDon_Read(String danhBo, boolean getImage) {
+        return getHoaDon(danhBo, Flag.READ, getImage);
     }
 
-    public HoaDon getHoaDon_Synchronized(String danhBo) {
-        return getHoaDon(danhBo, Flag.SYNCHRONIZED);
+    public HoaDon getHoaDon_Synchronized(String danhBo, boolean getImage) {
+        return getHoaDon(danhBo, Flag.SYNCHRONIZED, getImage);
     }
 
 
@@ -361,29 +366,29 @@ public class LocalDatabase extends SQLiteOpenHelper {
 //        return getAllHoaDon(like, Flag.READ);
 //    }
 
-    public List<HoaDon> getAllHoaDon_UnRead(int ky) {
-        return getAllHoaDon(ky, Flag.UNREAD);
+    public List<HoaDon> getAllHoaDon_UnRead(int ky, boolean getImage) {
+        return getAllHoaDon(ky, Flag.UNREAD, getImage);
     }
 
     //    public List<HoaDon> getAllHoaDon_UnRead(int nam) {
 //        return getAllHoaDon(nam, Flag.UNREAD);
 //    }
-    public List<HoaDon> getAllHoaDon_UnRead(String like, int ky) {
-        return getAllHoaDon(like, ky, Flag.UNREAD);
+    public List<HoaDon> getAllHoaDon_UnRead(String like, int ky, boolean getImage) {
+        return getAllHoaDon(like, ky, Flag.UNREAD, getImage);
     }
 
-    public List<HoaDon> getAllHoaDon_Read(String like, int ky) {
-        return getAllHoaDon(like, ky, Flag.READ);
+    public List<HoaDon> getAllHoaDon_Read(String like, int ky, boolean getImage) {
+        return getAllHoaDon(like, ky, Flag.READ, getImage);
     }
 
     //    public List<HoaDon> getAllHoaDon_Synchronized(String like) {
 //        return getAllHoaDon(like, Flag.SYNCHRONIZED);
 //    }
-    public List<HoaDon> getAllHoaDon_Synchronized(String like, int ky) {
-        return getAllHoaDon(like, ky, Flag.SYNCHRONIZED);
+    public List<HoaDon> getAllHoaDon_Synchronized(String like, int ky, boolean getImage) {
+        return getAllHoaDon(like, ky, Flag.SYNCHRONIZED, getImage);
     }
 
-    public List<HoaDon> getAllHoaDon(String like, int ky, int flag) {
+    public List<HoaDon> getAllHoaDon(String like, int ky, int flag, boolean getImage) {
         List<HoaDon> hoaDons = new ArrayList<HoaDon>();
         Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
 
@@ -405,7 +410,6 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setTieuThuMoi(cursor.getString(23));
                 hoaDon.setGhiChu(cursor.getString(24));
                 hoaDon.setImage(cursor.getString(25));
-                hoaDon.setImage_byteArray(cursor.getBlob(26));
                 hoaDon.setThoiGian(cursor.getString(27));
                 hoaDon.setSoThan(cursor.getString(28));
                 hoaDon.setHieu(cursor.getString(29));
@@ -417,13 +421,19 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setHc(cursor.getInt(35));
                 hoaDon.setTuNgay(cursor.getString(36));
                 hoaDon.setDenNgay(cursor.getString(37));
+                try {
+                    if (getImage)
+                        hoaDon.setImage_byteArray(cursor.getBlob(26));
+                } catch (Exception e) {
+
+                }
                 hoaDons.add(hoaDon);
             } while (cursor.moveToNext());
         }
         return hoaDons;
     }
 
-    public List<HoaDon> getAllHoaDon(int ky, int flag) {
+    public List<HoaDon> getAllHoaDon(int ky, int flag, boolean getImage) {
         List<HoaDon> hoaDons = new ArrayList<HoaDon>();
         Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
 
@@ -443,7 +453,6 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setTieuThuMoi(cursor.getString(23));
                 hoaDon.setGhiChu(cursor.getString(24));
                 hoaDon.setImage(cursor.getString(25));
-                hoaDon.setImage_byteArray(cursor.getBlob(26));
                 hoaDon.setThoiGian(cursor.getString(27));
                 hoaDon.setSoThan(cursor.getString(28));
                 hoaDon.setHieu(cursor.getString(29));
@@ -455,6 +464,12 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setHc(cursor.getInt(35));
                 hoaDon.setTuNgay(cursor.getString(36));
                 hoaDon.setDenNgay(cursor.getString(37));
+                try {
+                    if (getImage)
+                        hoaDon.setImage_byteArray(cursor.getBlob(26));
+                } catch (Exception e) {
+
+                }
                 hoaDons.add(hoaDon);
             } while (cursor.moveToNext());
         }
@@ -498,7 +513,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
 //        }
 //        return hoaDons;
 //    }
-    public List<HoaDon> getAllHoaDonForSelectFolderQLDS(String like, int ky, int flag) {
+    public List<HoaDon> getAllHoaDonForSelectFolderQLDS(String like, int ky, int flag, boolean getImage) {
         List<HoaDon> hoaDons = new ArrayList<HoaDon>();
         Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
 
@@ -518,7 +533,6 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setTieuThuMoi(cursor.getString(23));
                 hoaDon.setGhiChu(cursor.getString(24));
                 hoaDon.setImage(cursor.getString(25));
-                hoaDon.setImage_byteArray(cursor.getBlob(26));
                 hoaDon.setThoiGian(cursor.getString(27));
                 hoaDon.setSoThan(cursor.getString(28));
                 hoaDon.setHieu(cursor.getString(29));
@@ -530,16 +544,22 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setHc(cursor.getInt(35));
                 hoaDon.setTuNgay(cursor.getString(36));
                 hoaDon.setDenNgay(cursor.getString(37));
+                try {
+                    if (getImage)
+                        hoaDon.setImage_byteArray(cursor.getBlob(26));
+                } catch (Exception e) {
+
+                }
                 hoaDons.add(hoaDon);
+
             } while (cursor.moveToNext());
         }
         return hoaDons;
     }
 
-    public List<HoaDon> getAllHoaDon(String may, String dot, String ky) {
+    public List<HoaDon> getAllHoaDon(String may, String dot, String ky, boolean getImage) {
         List<HoaDon> hoaDons = new ArrayList<HoaDon>();
         Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
-
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + dot + may + "%' and " + COLUMN_HOADON_KY
                 + "=" + ky, null);
@@ -557,7 +577,6 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setTieuThuMoi(cursor.getString(23));
                 hoaDon.setGhiChu(cursor.getString(24));
                 hoaDon.setImage(cursor.getString(25));
-                hoaDon.setImage_byteArray(cursor.getBlob(26));
                 hoaDon.setThoiGian(cursor.getString(27));
                 hoaDon.setSoThan(cursor.getString(28));
                 hoaDon.setHieu(cursor.getString(29));
@@ -569,13 +588,19 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setHc(cursor.getInt(35));
                 hoaDon.setTuNgay(cursor.getString(36));
                 hoaDon.setDenNgay(cursor.getString(37));
+                try {
+                    if (getImage)
+                        hoaDon.setImage_byteArray(cursor.getBlob(26));
+                } catch (Exception e) {
+
+                }
                 hoaDons.add(hoaDon);
             } while (cursor.moveToNext());
         }
         return hoaDons;
     }
 
-    public List<HoaDon> getAllHoaDon() {
+    public List<HoaDon> getAllHoaDon(boolean getImage) {
         List<HoaDon> hoaDons = new ArrayList<HoaDon>();
         Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
 
@@ -595,7 +620,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setTieuThuMoi(cursor.getString(23));
                 hoaDon.setGhiChu(cursor.getString(24));
                 hoaDon.setImage(cursor.getString(25));
-                hoaDon.setImage_byteArray(cursor.getBlob(26));
+
                 hoaDon.setThoiGian(cursor.getString(27));
                 hoaDon.setSoThan(cursor.getString(28));
                 hoaDon.setHieu(cursor.getString(29));
@@ -607,6 +632,12 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setHc(cursor.getInt(35));
                 hoaDon.setTuNgay(cursor.getString(36));
                 hoaDon.setDenNgay(cursor.getString(37));
+                try {
+                    if (getImage)
+                        hoaDon.setImage_byteArray(cursor.getBlob(26));
+                } catch (Exception e) {
+
+                }
                 hoaDons.add(hoaDon);
             } while (cursor.moveToNext());
         }
@@ -704,4 +735,12 @@ public class LocalDatabase extends SQLiteOpenHelper {
         db.close();
     }
 
+    public boolean getExistHoaDon(String may, String dot, String ky) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + dot + may + "%' and " + COLUMN_HOADON_KY
+                + "=" + ky, null);
+        if (cursor.moveToNext())
+            return true;
+        else return false;
+    }
 }
