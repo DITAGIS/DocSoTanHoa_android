@@ -298,7 +298,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                 hoaDon.setHc(hc);
                 hoaDon.setTuNgay(tuNgay);
                 hoaDon.setDenNgay(denNgay);
-
+                hoaDon.setCsgo(getCSGo(hoaDon.getDanhBo()));
 
             }
             rs.close();

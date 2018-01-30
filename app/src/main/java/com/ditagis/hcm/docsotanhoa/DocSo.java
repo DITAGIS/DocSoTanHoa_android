@@ -1502,11 +1502,12 @@ public class DocSo extends Fragment {
             return;
 
         if (mCode.startsWith("8")) {
-            mCSGo = new HoaDonDB().getCSGo(mDanhBo);
-            if (mCSGo == -1) {
+            if (mHoaDon.getCsgo() == -1) {
                 MySnackBar.make(mTxtCSM, "Chưa có dữ liệu báo thay", true);
                 mSpinCode.setSelection(0);
             }
+            else
+                mCSGo = mHoaDon.getCsgo();
         }
         CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString(), mCSGo);
 

@@ -28,6 +28,7 @@ public class HoaDon {
     private Code_CSC_SanLuong code_CSC_SanLuong;
     private int flag;
     private int sh, sx, dv, hc;
+    private int csgo;
     private String soThan;
     private String viTri;
     private String hieu;
@@ -62,6 +63,14 @@ public class HoaDon {
 
     public void setImage_byteArray(byte[] image_byteArray) {
         this.image_byteArray = image_byteArray;
+    }
+
+    public int getCsgo() {
+        return csgo;
+    }
+
+    public void setCsgo(int csgo) {
+        this.csgo = csgo;
     }
 
     public String getStaffPhone() {
