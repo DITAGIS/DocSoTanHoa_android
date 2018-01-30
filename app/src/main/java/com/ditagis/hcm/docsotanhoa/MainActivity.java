@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                     case 0:
 //                        mDocSo.setmDot(mLayLoTrinh.getmDo  if (mDocSo.checkDotExist())
                         mDocSo.refresh();
-                        mDocSo.selectDotFromOut(mQuanLyDocSo.getmDot());
+//                        mDocSo.selectDotFromOut(mQuanLyDocSo.getmDot());
 //                        DialogSelectDot.show(MainActivity.this, mDot, mKy, mNam, mUsername, mDocSo);
                         break;
                     case 1:
@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
 //                        mQuanLyDocSo.getmUploading().setmDot(mLayLoTrinh.getmDot());
 
                         mQuanLyDocSo.refresh();
-                        mQuanLyDocSo.selectDotFromOut(mDocSo.getmDot());
+//                        mQuanLyDocSo.selectDotFromOut(mDocSo.getmDot());
                         DialogSelectDot.show(MainActivity.this, mDot, mKy, mNam, mUsername, mQuanLyDocSo);
                         break;
                 }

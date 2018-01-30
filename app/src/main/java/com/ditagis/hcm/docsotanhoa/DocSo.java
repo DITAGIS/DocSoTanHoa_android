@@ -193,7 +193,7 @@ public class DocSo extends Fragment {
 
         mMLTs = new ArrayList<String>();
 
-        for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike, mKy,false)) {
+        for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike, mKy, false)) {
             mMLTs.add(spaceMLT(hoaDon.getMaLoTrinh()));
         }
         mSpinMLT = (Spinner) mRootView.findViewById(R.id.spin_ds_mlt);
@@ -414,7 +414,7 @@ public class DocSo extends Fragment {
         for (
                 HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).
 
-                getAllHoaDon_UnRead(mLike, mKy,false))
+                getAllHoaDon_UnRead(mLike, mKy, false))
 
         {
             mDBs.add(spaceDB(hoaDon.getDanhBo()));
@@ -599,33 +599,51 @@ public class DocSo extends Fragment {
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());//getLayoutInflater();
         View dialogLayout = inflater.inflate(R.layout.layout_add_sdt, null);
         final EditText etxtSdt = (EditText) dialogLayout.findViewById(R.id.etxt_add_sdt);
-
+        etxtSdt.setText(mSdt);
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Thêm số điện thoại");
-        builder.setPositiveButton(mRootView.getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(mRootView.getContext().getString(R.string.add), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-
-                if (etxtSdt.getText().toString().length() > 0) {
+                dialog.dismiss();
+                if (etxtSdt.getText().toString().trim().length() > 0) {
                     if (mSdts.contains(" "))
                         mSdts.clear();
+                    for (String sdt : mSdts)
+                        if (sdt.contains(etxtSdt.getText().toString().trim())) {
+                            return;
+                        }
                     mSdts.add(etxtSdt.getText().toString());
                     mAdapterSdt.notifyDataSetChanged();
                     mSdt = mSdts.get(0);
                     mSpinSdt.setSelection(0);
                     mHoaDon.setSdt(mSdt);
                 }
-                dialog.dismiss();
+
 
             }
-        }).setNegativeButton(mRootView.getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+        }).setNegativeButton(mRootView.getContext().getString(R.string.edit), new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+
+                if (mSdts.size() > 0) {
+                    if (mSdts.contains(" "))
+                        mSdts.clear();
+                    mSdts.remove(mSdt);
+                    if (etxtSdt.getText().toString().length() > 0) {
+                        mSdts.add(etxtSdt.getText().toString());
+
+                    }
+                    mAdapterSdt.notifyDataSetChanged();
+                    mSdt = mSdts.get(0);
+                    mSpinSdt.setSelection(0);
+                    mHoaDon.setSdt(mSdt);
+                }
             }
-        }).setCancelable(false);
+        }).setCancelable(true);
         AlertDialog dialog = builder.create();
 
         dialog.setView(dialogLayout);
@@ -1067,7 +1085,7 @@ public class DocSo extends Fragment {
         mTenKHs.clear();
         mDiaChis.clear();
 
-        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike, mKy,false);
+        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getallhoadonDS(mLike, mKy);
         for (String mlt : mMLTs) {
             for (HoaDon hoaDon : hoaDons) {
                 if (mlt.equals(spaceMLT(hoaDon.getMaLoTrinh()))) {
@@ -1206,8 +1224,8 @@ public class DocSo extends Fragment {
 
     private void setTextProgress() {
 
-        this.mSumDanhBo = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike, mKy,false).size();
-        this.mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy,false).size();
+        this.mSumDanhBo = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy,Flag.UNREAD, false);
+        this.mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy,Flag.READ, false);
         this.mSumDanhBo += this.mDanhBoHoanThanh;
         this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
 
@@ -1340,7 +1358,7 @@ public class DocSo extends Fragment {
             else dotExist = i + "";
             if (!mDots.contains(dotExist)) {
                 like = dotExist.concat(mLike.substring(2, 4)).concat("%");
-                if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(like, mKy,false).size() > 0) {
+                if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(like, mKy,Flag.UNREAD, false) > 0) {
                     mDots.add(dotExist);
 
                 }
@@ -1364,7 +1382,7 @@ public class DocSo extends Fragment {
             if (i < 10)
                 kyString = "0" + i;
             if (!mKys.contains(kyString)) {
-                if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(i,false).size() > 0) {
+                if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(i, false).size() > 0) {
                     mKys.add(kyString);
                 }
             }
@@ -1451,7 +1469,7 @@ public class DocSo extends Fragment {
 
             mLike = dotString.concat(mLike.substring(2, 4)).concat("%");
 
-            List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike, mKy,false);
+            List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getallhoadonDS(mLike, mKy);
             mMLTs.clear();
             mDBs.clear();
             mDiaChis.clear();
@@ -1479,7 +1497,7 @@ public class DocSo extends Fragment {
         Code_Describle code_describle = (Code_Describle) mSpinCode.getItemAtPosition(position);
         mCode = code_describle.getCode();
         ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(mCode);
-        HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo,false);
+        HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo, false);
         if (hoaDon == null || hoaDon.getCode_CSC_SanLuong() == null)
             return;
 
@@ -1513,18 +1531,18 @@ public class DocSo extends Fragment {
     }
 
     private void showImageViewInFrame(byte[] image) {
-        try{
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        try {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
 
-        Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length, options);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length, options);
 
-        double scale = bitmap.getHeight() / mFrameLayoutViewImage.getHeight();
-        BitmapDrawable resizedDialogImage = new BitmapDrawable(this.getResources(),
-                Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() / scale), (int) (bitmap.getHeight() / scale), false));
+            double scale = bitmap.getHeight() / mFrameLayoutViewImage.getHeight();
+            BitmapDrawable resizedDialogImage = new BitmapDrawable(this.getResources(),
+                    Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() / scale), (int) (bitmap.getHeight() / scale), false));
 
-        mImageViewFrame.setBackground(resizedDialogImage);}
-        catch(Exception e){
+            mImageViewFrame.setBackground(resizedDialogImage);
+        } catch (Exception e) {
 
         }
     }
@@ -1538,7 +1556,7 @@ public class DocSo extends Fragment {
         mSpinDB.setSelection(position);
         HideKeyboard.hide(mActivity);
         mDanhBo = mDBs.get(position).replace(" ", "");
-        mHoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo,true);
+        mHoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo, true);
 
         mFrameLayoutViewImage.setVisibility(View.INVISIBLE);
         if (mHoaDon.getImage_byteArray().length > 1000) {
@@ -1687,7 +1705,7 @@ public class DocSo extends Fragment {
 //
 //    }
     private void save_without_csm() {
-        HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo,false);
+        HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo, false);
         hoaDon.setCodeMoi(mCode);
         hoaDon.setGhiChu(mGhiChu);
         hoaDon.setSoNha(mSoNha);
@@ -1795,7 +1813,7 @@ public class DocSo extends Fragment {
             dotString = "0" + mDot;
         String like = dotString.concat(mLike.substring(2, 4)).concat("%");
 
-        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(like, mKy,false);
+        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(like, mKy, false);
         if (hoaDons.size() > 0)
             return true;
         return false;
@@ -1807,7 +1825,7 @@ public class DocSo extends Fragment {
             dotString = "0" + mDot;
         String like = dotString.concat(mLike.substring(2, 4)).concat("%");
 
-        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(like, mKy,false);
+        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(like, mKy, false);
         if (hoaDons.size() > 0)
             return;
         else {

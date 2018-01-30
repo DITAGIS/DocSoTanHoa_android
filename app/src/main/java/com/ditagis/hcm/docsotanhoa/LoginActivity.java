@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -217,33 +218,33 @@ public class LoginActivity extends AppCompatActivity {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.show();
     }
-//
-//    public SharedPreferences getPreferences() {
-//        return getSharedPreferences("LOGGED_IN", MODE_PRIVATE);
-//    }
-//
-//    /**
-//     * Method used to save Preferences
-//     */
-//    public void savePreferences(String key, String value) {
-//        SharedPreferences sharedPreferences = getPreferences();
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putString(key, value);
-//        editor.commit();
-//    }
+
+    public SharedPreferences getPreferences() {
+        return getSharedPreferences("LOGGED_IN", MODE_PRIVATE);
+    }
+
+    /**
+     * Method used to save Preferences
+     */
+    public void savePreferences(String key, String value) {
+        SharedPreferences sharedPreferences = getPreferences();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(key, value);
+        editor.commit();
+    }
 
     /**
      * Method used to load Preferences
      */
-//    public String loadPreferences(String key) {
-//        try {
-//            SharedPreferences sharedPreferences = getPreferences();
-//            String strSavedMemo = sharedPreferences.getString(key, "");
-//            return strSavedMemo;
-//        } catch (NullPointerException nullPointerException) {
-//            return null;
-//        }
-//    }
+    public String loadPreferences(String key) {
+        try {
+            SharedPreferences sharedPreferences = getPreferences();
+            String strSavedMemo = sharedPreferences.getString(key, "");
+            return strSavedMemo;
+        } catch (NullPointerException nullPointerException) {
+            return null;
+        }
+    }
 
     class LoginAsync extends AsyncTask<String, LogInDB.Result, LogInDB.Result> {
         private LogInDB loginDB = new LogInDB();

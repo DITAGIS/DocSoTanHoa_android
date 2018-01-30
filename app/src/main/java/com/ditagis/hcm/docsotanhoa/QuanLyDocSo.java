@@ -178,11 +178,11 @@ public class QuanLyDocSo extends Fragment {
                 return false;
             }
         });
-        mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy, true);
-        mHoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike, mKy, true));
-        for (HoaDon hoaDon : this.mHoaDons) {
-            mDBs.add(hoaDon.getDanhBo());
-        }
+//        mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy, true);
+//        mHoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike, mKy, true));
+//        for (HoaDon hoaDon : this.mHoaDons) {
+//            mDBs.add(hoaDon.getDanhBo());
+//        }
         mSearchType = mRootView.getContext().getString(R.string.search_danhbo);
         singleComplete = (AutoCompleteTextView) mRootView.findViewById(R.id.editauto_qlds);
         singleComplete.setAdapter(
@@ -399,29 +399,49 @@ public class QuanLyDocSo extends Fragment {
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());//getLayoutInflater();
         View dialogLayout = inflater.inflate(R.layout.layout_add_sdt, null);
         final EditText etxtSdt = (EditText) dialogLayout.findViewById(R.id.etxt_add_sdt);
-
+        etxtSdt.setText(mSdt);
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Thêm số điện thoại");
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(mRootView.getContext().getString(R.string.add), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (etxtSdt.getText().toString().length() > 0) {
+
+                dialog.dismiss();
+                if (etxtSdt.getText().toString().trim().length() > 0) {
                     if (mSdts.contains(" "))
                         mSdts.clear();
+                    for (String sdt : mSdts)
+                        if (sdt.contains(etxtSdt.getText().toString().trim())) {
+                            return;
+                        }
                     mSdts.add(etxtSdt.getText().toString());
                     mAdapterSdt.notifyDataSetChanged();
                     mSdt = mSdts.get(0);
                     mSpinSdt.setSelection(0);
                 }
-                dialog.dismiss();
+
+
             }
-        }).setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+        }).setNegativeButton(mRootView.getContext().getString(R.string.edit), new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+
+                if (mSdts.size() > 0) {
+                    if (mSdts.contains(" "))
+                        mSdts.clear();
+                    mSdts.remove(mSdt);
+                    if (etxtSdt.getText().toString().length() > 0) {
+                        mSdts.add(etxtSdt.getText().toString());
+
+                    }
+                    mAdapterSdt.notifyDataSetChanged();
+                    mSdt = mSdts.get(0);
+                    mSpinSdt.setSelection(0);
+                }
             }
-        }).setCancelable(false);
+        }).setCancelable(true);
         AlertDialog dialog = builder.create();
         dialog.setView(dialogLayout);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -644,23 +664,23 @@ public class QuanLyDocSo extends Fragment {
 
     public void refresh() {
         createKy();
-        mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy, true);
-        mHoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike, mKy, true));
-        setTextProgress();
-        mQuanLyDocSoAdapter.clear();
-        for (HoaDon hoaDon : this.mHoaDons) {
-            mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
-                    hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
-                    hoaDon.getDanhBo(),
-                    hoaDon.getChiSoCu(),
-                    hoaDon.getChiSoMoi(),
-                    hoaDon.getCodeMoi(),
-                    hoaDon.getDiaChi(),
-                    hoaDon.getThoiGian(),
-                    hoaDon.getFlag()));
-        }
+//        mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy, true);
+//        mHoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike, mKy, true));
+//        setTextProgress();
+//        mQuanLyDocSoAdapter.clear();
+//        for (HoaDon hoaDon : this.mHoaDons) {
+//            mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
+//                    hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
+//                    hoaDon.getDanhBo(),
+//                    hoaDon.getChiSoCu(),
+//                    hoaDon.getChiSoMoi(),
+//                    hoaDon.getCodeMoi(),
+//                    hoaDon.getDiaChi(),
+//                    hoaDon.getThoiGian(),
+//                    hoaDon.getFlag()));
+//        }
         mSpinCode.setSelection(0);
-        notifyDataSetGridViewChange();
+//        notifyDataSetGridViewChange();
 
         setDynamicWidth(mGridView);
         ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + mHoaDons.size());
@@ -673,8 +693,8 @@ public class QuanLyDocSo extends Fragment {
 
     private void setTextProgress() {
 //        this.mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike).size();
-        this.mDanhBoHoanThanh = mSumDanhBoDB.getSumSynchronized(mKyString, mNam, mLike);
-        this.mSumDanhBo = mSumDanhBoDB.getSum(mKyString, mNam, mLike);
+        this.mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy, Flag.SYNCHRONIZED, false);
+        this.mSumDanhBo = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy, Flag.READ, false);
         this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
 
     }
@@ -699,9 +719,11 @@ public class QuanLyDocSo extends Fragment {
             mDot = Integer.parseInt(dotString);
 
             mLike = dotString.concat(mLike.substring(2, 4)).concat("%");
-
-            List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy, false);
-            hoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike, mKy, false));
+            List<HoaDon> hoaDons = LocalDatabase.getInstance((mRootView.getContext())).getAllHoaDonQLDS(mLike, mKy);
+//            List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy, false);
+//            hoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike, mKy, false));
+            if (mHoaDons == null)
+                mHoaDons = new ArrayList<>();
             mHoaDons.clear();
             mHoaDons.addAll(hoaDons);
             mQuanLyDocSoAdapter.clear();
@@ -768,7 +790,7 @@ public class QuanLyDocSo extends Fragment {
             String dotString = i + "";
             if (i < 10)
                 dotString = "0" + i;
-            List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mUsername, dotString, mKy + "", false);
+//            List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mUsername, dotString, mKy + "", false);
             boolean isExistHoaDon = LocalDatabase.getInstance(mRootView.getContext()).getExistHoaDon(mUsername, dotString, mKy + "");
             if (isExistHoaDon && !mDots.contains(dotString))
                 mDots.add(dotString);

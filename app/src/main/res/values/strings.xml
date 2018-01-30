@@ -24,6 +24,8 @@
     <string name="quit">Thoát ứng dụng Đọc số Tân Hòa?</string>
     <string name="ok">Đồng ý</string>
     <string name="cancel">Hủy</string>
+    <string name="edit">Sửa</string>
+    <string name="add">Thêm</string>
 
     <string name="dotExist_title">Đọc vét</string>
     <string name="dotExist_message">Hiện tại còn những đợt trước chưa đọc xong. Người dùng có thể chọn đợt để đọc vét.</string>
