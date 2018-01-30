@@ -153,31 +153,31 @@ public class QuanLyDocSo extends Fragment {
         imgBtnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                doUpLoad();
 
             }
         });
-        imgBtnUpload.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        v.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorImgBtnUpload_1));
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        v.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorPrimary_1));
-                        if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy, true).size() == 0) {
-                            MySnackBar.make(mGridView, "Chưa có danh bộ!!!", false);
-                        } else if (isOnline()) {
-                            doUpLoad();
-                        } else {
-                            MySnackBar.make(mGridView, "Kiểm tra kết nối Internet và thử lại", false);
-                        }
-                        return true;
-                }
-                return false;
-            }
-        });
+//        imgBtnUpload.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                switch (event.getAction()) {
+//                    case MotionEvent.ACTION_DOWN:
+//                        v.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorImgBtnUpload_1));
+//                        return true;
+//                    case MotionEvent.ACTION_UP:
+//                        v.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorPrimary_1));
+//                        if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy, true).size() == 0) {
+//                            MySnackBar.make(mGridView, "Chưa có danh bộ!!!", false);
+//                        } else if (isOnline()) {
+//                            doUpLoad();
+//                        } else {
+//                            MySnackBar.make(mGridView, "Kiểm tra kết nối Internet và thử lại", false);
+//                        }
+//                        return true;
+//                }
+//                return false;
+//            }
+//        });
 //        mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy, true);
 //        mHoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike, mKy, true));
 //        for (HoaDon hoaDon : this.mHoaDons) {
@@ -664,23 +664,22 @@ public class QuanLyDocSo extends Fragment {
 
     public void refresh() {
         createKy();
-//        mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy, true);
-//        mHoaDons.addAll(LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike, mKy, true));
-//        setTextProgress();
-//        mQuanLyDocSoAdapter.clear();
-//        for (HoaDon hoaDon : this.mHoaDons) {
-//            mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
-//                    hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
-//                    hoaDon.getDanhBo(),
-//                    hoaDon.getChiSoCu(),
-//                    hoaDon.getChiSoMoi(),
-//                    hoaDon.getCodeMoi(),
-//                    hoaDon.getDiaChi(),
-//                    hoaDon.getThoiGian(),
-//                    hoaDon.getFlag()));
-//        }
+        mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonQLDS(mLike, mKy);
+        setTextProgress();
+        mQuanLyDocSoAdapter.clear();
+        for (HoaDon hoaDon : this.mHoaDons) {
+            mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
+                    hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
+                    hoaDon.getDanhBo(),
+                    hoaDon.getChiSoCu(),
+                    hoaDon.getChiSoMoi(),
+                    hoaDon.getCodeMoi(),
+                    hoaDon.getDiaChi(),
+                    hoaDon.getThoiGian(),
+                    hoaDon.getFlag()));
+        }
         mSpinCode.setSelection(0);
-//        notifyDataSetGridViewChange();
+        notifyDataSetGridViewChange();
 
         setDynamicWidth(mGridView);
         ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + mHoaDons.size());
@@ -694,7 +693,7 @@ public class QuanLyDocSo extends Fragment {
     private void setTextProgress() {
 //        this.mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike).size();
         this.mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy, Flag.SYNCHRONIZED, false);
-        this.mSumDanhBo = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy, Flag.READ, false);
+        this.mSumDanhBo = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSumSize(mLike, mKy);
         this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
 
     }
@@ -1404,7 +1403,7 @@ public class QuanLyDocSo extends Fragment {
         @Override
         protected Void doInBackground(String... params) {
             Boolean isValid = false;
-            mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy, false);
+            mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy, true);
             for (GridViewQuanLyDocSoAdapter.Item item : mQuanLyDocSoAdapter.getItems()) {
                 for (HoaDon hoaDon : mHoaDons) {
                     if (item.getDanhbo().equals(hoaDon.getDanhBo()) &&

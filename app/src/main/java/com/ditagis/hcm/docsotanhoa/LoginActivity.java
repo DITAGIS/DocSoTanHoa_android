@@ -31,6 +31,7 @@ import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 
 import java.util.Calendar;
+import java.util.Set;
 
 public class LoginActivity extends AppCompatActivity {
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
@@ -79,11 +80,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        this.mStateChangeReceiver = new NetworkStateChangeReceiver(btnLogin, LoginActivity.this);
-        this.mIntentFilter = new IntentFilter();
-        this.mIntentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-        this.mIntentFilter.addAction("android.net.conn.WIFI_STATE_CHANGED");
-        registerReceiver(mStateChangeReceiver, this.mIntentFilter);
+//        this.mStateChangeReceiver = new NetworkStateChangeReceiver(btnLogin, LoginActivity.this);
+//        this.mIntentFilter = new IntentFilter();
+//        this.mIntentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+//        this.mIntentFilter.addAction("android.net.conn.WIFI_STATE_CHANGED");
+//        registerReceiver(mStateChangeReceiver, this.mIntentFilter);
 
         TelephonyManager mngr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 
@@ -103,13 +104,13 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onResumeFragments() {
-        if (mStateChangeReceiver == null) {
-            this.mStateChangeReceiver = new NetworkStateChangeReceiver(btnLogin, LoginActivity.this);
-            this.mIntentFilter = new IntentFilter();
-            this.mIntentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-            this.mIntentFilter.addAction("android.net.conn.WIFI_STATE_CHANGED");
-            registerReceiver(mStateChangeReceiver, this.mIntentFilter);
-        }
+//        if (mStateChangeReceiver == null) {
+//            this.mStateChangeReceiver = new NetworkStateChangeReceiver(btnLogin, LoginActivity.this);
+//            this.mIntentFilter = new IntentFilter();
+//            this.mIntentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+//            this.mIntentFilter.addAction("android.net.conn.WIFI_STATE_CHANGED");
+//            registerReceiver(mStateChangeReceiver, this.mIntentFilter);
+//        }
         super.onResumeFragments();
     }
 
@@ -142,7 +143,13 @@ public class LoginActivity extends AppCompatActivity {
             mLoginAsync = new LoginAsync();
             mLoginAsync.execute(LoginActivity.this.mUsername, LoginActivity.this.mPassword);
         }
-//        } else if (mTxtPassword.getText().toString().equals(loadPreferences(mTxtUsername.getText().toString()))) {
+//        else if (mTxtPassword.getText().toString().equals(loadPreferences(mTxtUsername.getText().toString()).)) {
+//            mTxtPassword.setText("");
+//            mTxtUsername.setText("");
+//            Toast.makeText(LoginActivity.this, this.getString(R.string.login_with_saved_account), Toast.LENGTH_SHORT).show();
+//            doLayLoTrinh();
+//        }
+//        } else if (mTxtPassword.getText().toString().equals(loadPreference(mTxtUsername.getText().toString()))) {
 //
 //            mTxtPassword.setText("");
 //            mTxtUsername.setText("");
@@ -153,12 +160,15 @@ public class LoginActivity extends AppCompatActivity {
 
     public void doLayLoTrinh() {
 //        CheckConnectRealTime.asyncTask.cancel(true);
+        try {
+            Calendar calendar = Calendar.getInstance();
+            int ky = Integer.parseInt(mKy);
+            int nam = Integer.parseInt(mNam);
+            int dot = Integer.parseInt(mDot);
+            new LayLoTrinh(LoginActivity.this, getLayoutInflater(), ky, nam, dot, mUsername, mStaffName, mPassword, mStaffPhone);
+        } catch (Exception e) {
 
-        Calendar calendar = Calendar.getInstance();
-        int ky = Integer.parseInt(mKy);
-        int nam = Integer.parseInt(mNam);
-        int dot = Integer.parseInt(mDot);
-        new LayLoTrinh(LoginActivity.this, getLayoutInflater(), ky, nam, dot, mUsername, mStaffName, mPassword, mStaffPhone);
+        }
     }
 
     public boolean requestPermisson() {
@@ -233,13 +243,42 @@ public class LoginActivity extends AppCompatActivity {
         editor.commit();
     }
 
+    public void savePreferences(String key, Set<String> values) {
+        SharedPreferences sharedPreferences = getPreferences();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putStringSet(key, values);
+        editor.commit();
+    }
+
+    public boolean deletePreferences(String key) {
+        SharedPreferences.Editor editor = getPreferences().edit();
+        editor.remove(key).commit();
+        return false;
+    }
+
+    public boolean deletePreferences() {
+        SharedPreferences.Editor editor = getPreferences().edit();
+        editor.clear().commit();
+        return false;
+    }
+
     /**
      * Method used to load Preferences
      */
-    public String loadPreferences(String key) {
+    public String loadPreference(String key) {
         try {
             SharedPreferences sharedPreferences = getPreferences();
             String strSavedMemo = sharedPreferences.getString(key, "");
+            return strSavedMemo;
+        } catch (NullPointerException nullPointerException) {
+            return null;
+        }
+    }
+
+    public Set<String> loadPreferences(String key) {
+        try {
+            SharedPreferences sharedPreferences = getPreferences();
+            Set<String> strSavedMemo = sharedPreferences.getStringSet(key, null);
             return strSavedMemo;
         } catch (NullPointerException nullPointerException) {
             return null;
@@ -273,10 +312,16 @@ public class LoginActivity extends AppCompatActivity {
         protected LogInDB.Result doInBackground(String... params) {
             String username = params[0];
             String password = params[1];
+
             LogInDB.Result result = this.loginDB.logIn(new User(username, password));
             if (result == null)
                 ;
             else if (result.getmStaffName() == null || result.getmStaffName().length() > 0) {
+                deletePreferences();
+                savePreferences(username, password);
+                savePreferences(password, result.getmStaffName());
+                savePreferences(result.getmStaffName(), result.getmDot());
+
                 LoginActivity.this.mPassword = result.getPassword();
                 LoginActivity.this.mStaffName = result.getmStaffName();
                 LoginActivity.this.mKy = result.getmKy();

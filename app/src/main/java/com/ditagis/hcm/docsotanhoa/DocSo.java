@@ -1358,7 +1358,7 @@ public class DocSo extends Fragment {
             else dotExist = i + "";
             if (!mDots.contains(dotExist)) {
                 like = dotExist.concat(mLike.substring(2, 4)).concat("%");
-                if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(like, mKy,Flag.UNREAD, false) > 0) {
+                if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(like, mKy, false).size() > 0) {
                     mDots.add(dotExist);
 
                 }

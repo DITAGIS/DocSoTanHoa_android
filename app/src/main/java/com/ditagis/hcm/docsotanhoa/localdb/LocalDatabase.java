@@ -343,7 +343,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
             hoaDon.setHc(cursor.getInt(35));
             hoaDon.setTuNgay(cursor.getString(36));
             hoaDon.setDenNgay(cursor.getString(37));
-            hoaDon.setCsgo(cursor.getInt(38));
+//            hoaDon.setCsgo(cursor.getInt(38));
             try {
                 if (getImage)
                     hoaDon.setImage_byteArray(cursor.getBlob(26));
@@ -394,19 +394,20 @@ public class LocalDatabase extends SQLiteOpenHelper {
     }
 
     public int getAllHoaDonSize(String like, int ky, int flag, boolean getImage) {
-        List<HoaDon> hoaDons = new ArrayList<HoaDon>();
+        int count = 0;
         Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
-        int size = 0;
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select " + COLUMN_HOADON_DANHBO + " from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + like +
-                "' and " + COLUMN_HOADON_KY + " = " + ky +
-                " and " + COLUMN_HOADON_FLAG + " = " + flag, null);
+        Cursor cursor = db.rawQuery("select " +
+                COLUMN_HOADON_DANHBO + "" +
+
+                " from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + like + "%' and " + COLUMN_HOADON_KY
+                + "=" + ky + " and " + COLUMN_HOADON_FLAG + "=" + flag, null);
         if (cursor.moveToFirst()) {
             do {
-                size++;
+             count++;
             } while (cursor.moveToNext());
         }
-        return size;
+        return count;
     }
 
     public List<HoaDon> getAllHoaDon(String like, int ky, int flag, boolean getImage) {
@@ -441,7 +442,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setDv(cursor.getInt(34));
                 hoaDon.setHc(cursor.getInt(35));
                 hoaDon.setTuNgay(cursor.getString(36));
-                hoaDon.setDenNgay(cursor.getString(37));   hoaDon.setCsgo(cursor.getInt(38));
+                hoaDon.setDenNgay(cursor.getString(37));
+//                hoaDon.setCsgo(cursor.getInt(38));
                 try {
                     if (getImage)
                         hoaDon.setImage_byteArray(cursor.getBlob(26));
@@ -486,7 +488,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setDv(cursor.getInt(34));
                 hoaDon.setHc(cursor.getInt(35));
                 hoaDon.setTuNgay(cursor.getString(36));
-                hoaDon.setDenNgay(cursor.getString(37));   hoaDon.setCsgo(cursor.getInt(38));
+                hoaDon.setDenNgay(cursor.getString(37));
+//                hoaDon.setCsgo(cursor.getInt(38));
                 try {
                     if (getImage)
                         hoaDon.setImage_byteArray(cursor.getBlob(26));
@@ -568,7 +571,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setDv(cursor.getInt(34));
                 hoaDon.setHc(cursor.getInt(35));
                 hoaDon.setTuNgay(cursor.getString(36));
-                hoaDon.setDenNgay(cursor.getString(37));   hoaDon.setCsgo(cursor.getInt(38));
+                hoaDon.setDenNgay(cursor.getString(37));
+//                hoaDon.setCsgo(cursor.getInt(38));
                 try {
                     if (getImage)
                         hoaDon.setImage_byteArray(cursor.getBlob(26));
@@ -614,7 +618,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setDv(cursor.getInt(34));
                 hoaDon.setHc(cursor.getInt(35));
                 hoaDon.setTuNgay(cursor.getString(36));
-                hoaDon.setDenNgay(cursor.getString(37));   hoaDon.setCsgo(cursor.getInt(38));
+                hoaDon.setDenNgay(cursor.getString(37));
+//                hoaDon.setCsgo(cursor.getInt(38));
                 try {
                     if (getImage)
                         hoaDon.setImage_byteArray(cursor.getBlob(26));
@@ -660,7 +665,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setDv(cursor.getInt(34));
                 hoaDon.setHc(cursor.getInt(35));
                 hoaDon.setTuNgay(cursor.getString(36));
-                hoaDon.setDenNgay(cursor.getString(37));   hoaDon.setCsgo(cursor.getInt(38));
+                hoaDon.setDenNgay(cursor.getString(37));
+//                hoaDon.setCsgo(cursor.getInt(38));
                 try {
                     if (getImage)
                         hoaDon.setImage_byteArray(cursor.getBlob(26));
@@ -819,7 +825,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
 
                 " from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + mLike + "%' and " + COLUMN_HOADON_KY
                 + "=" + ky + " and( " + COLUMN_HOADON_FLAG + "=" + Flag.UNREAD +
-                " or " + COLUMN_HOADON_FLAG + "=" + Flag.READ + ")", null);
+                " or " + COLUMN_HOADON_FLAG + "=" + Flag.READ + " or (" + COLUMN_HOADON_FLAG + " = " + Flag.SYNCHRONIZED + " and " +
+                COLUMN_HOADON_CODE_MOI + " like 'F%'" + ")" + ")", null);
         if (cursor.moveToFirst()) {
             do {
                 HoaDon hoaDon = new HoaDon();
@@ -855,5 +862,22 @@ public class LocalDatabase extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         return hoaDons;
+    }
+
+    public int getAllHoaDonSumSize(String mLike, int ky) {
+        List<HoaDon> hoaDons = new ArrayList<HoaDon>();
+        Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
+        SQLiteDatabase db = this.getReadableDatabase();
+        int size = 0;
+        Cursor cursor = db.rawQuery("select " +
+                COLUMN_HOADON_DANHBO + "" +
+                " from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + mLike + "%' and " + COLUMN_HOADON_KY
+                + "=" + ky, null);
+        if (cursor.moveToFirst()) {
+            do {
+                size++;
+            } while (cursor.moveToNext());
+        }
+        return size;
     }
 }

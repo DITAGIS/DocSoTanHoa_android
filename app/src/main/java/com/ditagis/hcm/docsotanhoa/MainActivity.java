@@ -322,7 +322,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Method used to load Preferences
      */
-//    public String loadPreferences(String key) {
+//    public String loadPreference(String key) {
 //        try {
 //            SharedPreferences sharedPreferences = getPreferences();
 //            String strSavedMemo = sharedPreferences.getString(key, "");
