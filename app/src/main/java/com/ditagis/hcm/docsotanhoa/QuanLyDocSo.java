@@ -18,7 +18,6 @@ import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -201,7 +200,25 @@ public class QuanLyDocSo extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
+                if (mSearchType.equals(mRootView.getContext().getString(R.string.search_mlt))) {
+                    mQuanLyDocSoAdapter.clear();
+                    for (HoaDon hoaDon : mHoaDons) {
+                        if (hoaDon.getMaLoTrinh().contains(s.toString()))
+                            mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
+                                    hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
+                                    hoaDon.getDanhBo(),
+                                    hoaDon.getChiSoCu(),
+                                    hoaDon.getChiSoMoi(),
+                                    hoaDon.getCodeMoi(),
+                                    hoaDon.getDiaChi(),
+                                    hoaDon.getThoiGian(),
+                                    hoaDon.getFlag()
+                            ));
+                    }
+                    notifyDataSetGridViewChange();
+                    ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + mHoaDons.size());
+
+                } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
                     mQuanLyDocSoAdapter.clear();
                     for (HoaDon hoaDon : mHoaDons) {
                         if (hoaDon.getDanhBo().contains(s.toString()))
@@ -823,11 +840,12 @@ public class QuanLyDocSo extends Fragment {
         builder.setTitle("Tùy chọn tìm kiếm");
         builder.setCancelable(true);
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
-        View dialogLayout = inflater.inflate(R.layout.layout_dialog_select_search_type_qlds, null);
+        View dialogLayout = inflater.inflate(R.layout.layout_dialog_select_search_type, null);
 
         final RadioGroup group = (RadioGroup) dialogLayout.findViewById(R.id.radioGroup_searchtype);
-
-        if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_danhbo))) {
+        if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_mlt)))
+            group.check(R.id.radio_search_mlt);
+        else if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_danhbo))) {
             group.check(R.id.radio_search_danhbo);
         } else if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_tenKH))) {
             group.check(R.id.radio_search_tenKH);
@@ -840,6 +858,10 @@ public class QuanLyDocSo extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 int iChecked = group.getCheckedRadioButtonId();
                 switch (iChecked) {
+                    case R.id.radio_search_mlt:
+                        mSearchType = mRootView.getContext().getString(R.string.search_mlt);
+                        singleComplete.setText("");
+                        break;
                     case R.id.radio_search_danhbo:
                         mSearchType = mRootView.getContext().getString(R.string.search_danhbo);
                         singleComplete.setText("");
@@ -855,8 +877,17 @@ public class QuanLyDocSo extends Fragment {
                 }
 //                mSearchType = spinSearchType.getSelectedItem().toString();
                 singleComplete.setHint(mSearchType);
-
-                if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
+                if (mSearchType.equals(mRootView.getContext().getString(R.string.search_mlt))) {
+                    mMlts.clear();
+                    for (HoaDon hoaDon : mHoaDons) {
+                        mMlts.add(hoaDon.getMaLoTrinh());
+                    }
+                    singleComplete.setAdapter(new CustomArrayAdapter(
+                            mRootView.getContext(),
+                            android.R.layout.simple_list_item_1,
+                            mMlts
+                    ));
+                } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
                     mDBs.clear();
                     for (HoaDon hoaDon : mHoaDons) {
                         mDBs.add(hoaDon.getDanhBo());
