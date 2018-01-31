@@ -126,12 +126,20 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
                             hoaDon.setChiSoMoi("0");
                             hoaDon.setTieuThuMoi("0");
                         }
-                    if (hoaDon.getCode_CSC_SanLuong().getCode1().startsWith("K")) {
-                        hoaDon.setCodeMoi("5K");
-                    }
-                    if (hoaDon.getCode_CSC_SanLuong().getCode1().startsWith("F")) {
-                        hoaDon.setCodeMoi("5F");
-                    }
+                        //đọc vét khi chưa đồng bộ
+                        else if(this.mLocalDatabase.getHoaDon_Read(danhBo,false).getCodeMoi().startsWith("F")){
+                        LocalDatabase.getInstance(mContext).deleteHoaDon(hoaDon.getDanhBo(), Flag.READ);
+                        hoaDon.setCodeMoi("40");
+                        hoaDon.setChiSoMoi("0");
+                        hoaDon.setTieuThuMoi("0");
+                        }
+
+//                    if (hoaDon.getCode_CSC_SanLuong().getCode1().startsWith("K")) {
+//                        hoaDon.setCodeMoi("5K");
+//                    }
+//                    if (hoaDon.getCode_CSC_SanLuong().getCode1().startsWith("F")) {
+//                        hoaDon.setCodeMoi("5F");
+//                    }
                     if (hoaDon == null) {
                         _hoadonDB.closeStatement();
                         return null;

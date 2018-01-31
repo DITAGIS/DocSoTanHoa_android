@@ -324,21 +324,7 @@ public class DocSo extends Fragment {
                 } else {
                     mTxtCSM.setText(s);
                 }
-                if (mHoaDon.getCode_CSC_SanLuong().getCode1().startsWith("F")) {
-                    for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
-                        if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals("5F")) {
-                            mSpinCode.setSelection(i);
-                            break;
-                        }
-                    }
-                } else if (mHoaDon.getCode_CSC_SanLuong().getCode1().startsWith("K")) {
-                    for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
-                        if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals("5K")) {
-                            mSpinCode.setSelection(i);
-                            break;
-                        }
-                    }
-                }
+
 
             }
 
@@ -1545,14 +1531,35 @@ public class DocSo extends Fragment {
     private void selectDanhBo(int position) {
         if (checkNull())
             return;
-
-        mSpinCode.setSelection(0);
         mSpinMLT.setSelection(position);
         mSpinDB.setSelection(position);
         HideKeyboard.hide(mActivity);
         mDanhBo = mDBs.get(position).replace(" ", "");
         mHoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo, true);
+        for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
 
+            if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals(mHoaDon.getCodeMoi())) {
+                mSpinCode.setSelection(i);
+                break;
+            }
+        }
+        if (mHoaDon.getCode_CSC_SanLuong().getCode1().startsWith("F")) {
+            for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
+                if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals("5F")) {
+                    mSpinCode.setSelection(i);
+                    break;
+                }
+            }
+        } else if (mHoaDon.getCode_CSC_SanLuong().getCode1().startsWith("K")) {
+            for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
+                if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals("5K")) {
+                    mSpinCode.setSelection(i);
+                    break;
+                }
+            }
+        } else {
+            mSpinCode.setSelection(0);
+        }
         mFrameLayoutViewImage.setVisibility(View.INVISIBLE);
         if (mHoaDon.getImage_byteArray().length > 1000) {
             showImageViewInFrame(mHoaDon.getImage_byteArray());
@@ -1584,14 +1591,7 @@ public class DocSo extends Fragment {
 //                            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
 
         mTxtCSC.setText(mHoaDon.getChiSoCu());
-        int positionCode = 0;
-        for (Code_Describle code_describle : Codes.getInstance().getCodeDescribles_ds()) {
-            if (code_describle.getCode().equals(mHoaDon.getCodeMoi())) {
-                mSpinCode.setSelection(positionCode);
-                break;
-            }
-            positionCode++;
-        }
+
         ((TextView) mRootView.findViewById(R.id.txt_ds_so_than)).setText(mHoaDon.getSoThan());
         ((TextView) mRootView.findViewById(R.id.txt_ds_hieu)).setText(mHoaDon.getHieu());
         ((TextView) mRootView.findViewById(R.id.txt_ds_co)).setText(mHoaDon.getCo());
@@ -1620,8 +1620,7 @@ public class DocSo extends Fragment {
 //        } else {
         mGhiChu = "";
         mCode = "40";
-        mEditTextCSM.setText("");
-        mTxtCSM.setText("");
+
 
 //        }
     }
