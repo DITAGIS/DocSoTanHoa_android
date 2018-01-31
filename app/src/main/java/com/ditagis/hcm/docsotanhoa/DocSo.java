@@ -316,7 +316,7 @@ public class DocSo extends Fragment {
                     mTxtCSM.setText(csm_tieuThu.getCSM());
                     mTxtTT.setText(csm_tieuThu.getTieuThu());
 
-                    if (checkCSMFluctuation()) {
+                    if (checkCSMFluctuation() != 0) {
                         ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
                     } else {
                         ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
@@ -455,16 +455,8 @@ public class DocSo extends Fragment {
                 } else {
                     if (mTxtCSM.getText().toString().length() > 0)
                         csm = Integer.parseInt(mTxtCSM.getText().toString());
-                    if (checkCSMFluctuation()) {
-                        MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(true);
-//                MyAlertByHardware.getInstance(mRootView.getContext()).playSound();
-                        alertCSMFluctuationPrint(csc, csm);
-                    } else if (csm < csc) {
-                        alertCSM_lt_CSCPrint(csc, csm);
+                    canhBaoCSM(csc, csm, true);
 
-                    } else {
-                        doPrint();
-                    }
                 }
             } catch (Exception e) {
                 MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
@@ -501,6 +493,36 @@ public class DocSo extends Fragment {
             save_without_csm();
             return;
 //            }
+        }
+    }
+
+    private void canhBaoCSM(int csc, int csm, boolean isPrint) {
+        switch (checkCSMFluctuation()) {
+            case 0:
+                if (csm < csc) {
+                    MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(true);
+                    alertCSM_lt_CSCPrint(csc, csm);
+                    ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
+
+                } else if (isPrint) {
+                    doPrint();
+                    ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
+
+                } else {
+                    save(csc, csm);
+                    ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
+
+                }
+                break;
+            case -1:
+                MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(true);
+                alertCSMFluctuationPrint(csc, csm, -1);
+                break;
+
+            case 1:
+                MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(true);
+                alertCSMFluctuationPrint(csc, csm, 1);
+                break;
         }
     }
 
@@ -671,8 +693,8 @@ public class DocSo extends Fragment {
         }
     }
 
-    private boolean checkCSMFluctuation() {
-        int tieuThu = 0, sum = 0, avergare = 0, min = 0, max = 0;
+    private int checkCSMFluctuation() {
+        int tieuThu = 0, sum = 0, TTTB = 0, min = 0, max = 0;
         List<Integer> tieuThuList = new ArrayList<>();
         if (mTxtTT.getText().length() > 0) {
             tieuThu = Integer.parseInt(mTxtTT.getText().toString());
@@ -684,19 +706,15 @@ public class DocSo extends Fragment {
                 tieuThuList.add(Integer.parseInt(mTxtTT3.getText().toString()));
             for (Integer item : tieuThuList)
                 sum += item;
-            avergare = sum / tieuThuList.size();
-            min = avergare / 2;
-            max = 3 * avergare / 2;
-            for (Integer item : tieuThuList)
-                if (max < item)
-                    max = item;
-            if (min <= tieuThu && tieuThu <= max)
-                return false;
-            else
-                return true;
+            TTTB = sum / tieuThuList.size();
+            if ((double) tieuThu / TTTB >= 1.5)
+                return 1;
+            else if ((double) TTTB / tieuThu >= 1.5)
+                return -1;
+            else return 0;
 
         } else
-            return false;
+            return 0;
     }
 
     private void setTheme() {
@@ -1226,16 +1244,7 @@ public class DocSo extends Fragment {
                 } else {
                     if (mTxtCSM.getText().toString().length() > 0)
                         csm = Integer.parseInt(mTxtCSM.getText().toString());
-                    if (checkCSMFluctuation()) {
-                        MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(true);
-//                MyAlertByHardware.getInstance(mRootView.getContext()).playSound();
-                        alertCSMFluctuation(csc, csm);
-                    } else if (csm < csc) {
-                        alertCSM_lt_CSC(csc, csm);
-
-                    } else {
-                        save(csc, csm);
-                    }
+                    canhBaoCSM(csc, csm, false);
                 }
             } catch (Exception e) {
                 MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
@@ -1255,16 +1264,7 @@ public class DocSo extends Fragment {
                 } else {
                     if (mTxtCSM.getText().toString().length() > 0)
                         csm = Integer.parseInt(mTxtCSM.getText().toString());
-                    if (checkCSMFluctuation()) {
-                        MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(true);
-//                MyAlertByHardware.getInstance(mRootView.getContext()).playSound();
-                        alertCSMFluctuation(csc, csm);
-                    } else if (csm < csc) {
-                        alertCSM_lt_CSC(csc, csm);
-
-                    } else {
-                        save(csc, csm);
-                    }
+                    canhBaoCSM(csc, csm, false);
                 }
                 save_without_csm();
             } else {
@@ -1495,7 +1495,7 @@ public class DocSo extends Fragment {
         mEditTextCSM.setText(csm_tieuThu.getCSM());
         mTxtTT.setText(csm_tieuThu.getTieuThu());
 
-        if (checkCSMFluctuation()) {
+        if (checkCSMFluctuation() != 0) {
 //                    MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(false);
             ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
         } else {
@@ -1946,40 +1946,42 @@ public class DocSo extends Fragment {
 
     }
 
-    private void alertCSMFluctuation(final int csc, final int csm) {
+//    private void alertCSMFluctuation(final int csc, final int csm) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
+//        builder.setTitle(mRootView.getContext().getString(R.string.alert_csm_fluctuation_title));
+//        builder.setCancelable(false);
+//        builder.setMessage(mRootView.getContext().getString(R.string.alert_csm_fluctuation_message))
+//
+//                .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        save(csc, csm);
+//                        dialog.dismiss();
+//                    }
+//                })
+//                .setNegativeButton("Kiểm tra lại", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//        AlertDialog dialog = builder.create();
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.show();
+//    }
+
+    private void alertCSMFluctuationPrint(final int csc, final int csm, int canhBao) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle(mRootView.getContext().getString(R.string.alert_csm_fluctuation_title));
         builder.setCancelable(false);
-        builder.setMessage(mRootView.getContext().getString(R.string.alert_csm_fluctuation_message))
-
-                .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        save(csc, csm);
-                        dialog.dismiss();
-                    }
-                })
-                .setNegativeButton("Kiểm tra lại", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
-                });
-        AlertDialog dialog = builder.create();
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.show();
-    }
-
-    private void alertCSMFluctuationPrint(final int csc, final int csm) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
-        builder.setTitle(mRootView.getContext().getString(R.string.alert_csm_fluctuation_title));
-        builder.setCancelable(false);
-        builder.setMessage(mRootView.getContext().getString(R.string.alert_csm_fluctuation_message))
-
-                .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        doPrint();
-                        dialog.dismiss();
-                    }
-                })
+        if (canhBao == -1)
+            builder.setMessage(mRootView.getContext().getString(R.string.alert_csm_fluctuation_message_low));
+        else
+            builder.setMessage(mRootView.getContext().getString(R.string.alert_csm_fluctuation_message_high));
+        builder.setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                doPrint();
+                dialog.dismiss();
+            }
+        })
                 .setNegativeButton("Kiểm tra lại", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();

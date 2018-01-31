@@ -75,7 +75,8 @@
     <string name="alert_csm_lt_csc_title">Chỉ số mới nhỏ hơn chỉ số cũ</string>
     <string name="alert_csm_lt_csc_message">Kiểm tra danh bộ hiện tại thuộc diện thay mới đồng hồ?</string>
     <string name="alert_csm_fluctuation_title">Chỉ số tiêu thụ</string>
-    <string name="alert_csm_fluctuation_message">Chỉ số tiêu thụ đang quá chênh lệch so với mức trung bình.\nVẫn lưu?</string>
+    <string name="alert_csm_fluctuation_message_low">Chỉ số tiêu thụ đang thấp hơn so với mức trung bình.\nVẫn lưu?</string>
+    <string name="alert_csm_fluctuation_message_high">Chỉ số tiêu thụ đang cao hơn so với mức trung bình.\nVẫn lưu?</string>
 
     <string name="alert_imgLowQuatity_Title">Ảnh chụp kém chất lượng!</string>
     <string name="alert_imgLowQuatity_Message">Vui lòng chụp lại hình ảnh khác</string>
