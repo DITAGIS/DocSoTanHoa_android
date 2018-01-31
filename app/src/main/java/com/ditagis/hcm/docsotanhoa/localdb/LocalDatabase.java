@@ -403,7 +403,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 + "=" + ky + " and " + COLUMN_HOADON_FLAG + "=" + flag, null);
         if (cursor.moveToFirst()) {
             do {
-             count++;
+                count++;
             } while (cursor.moveToNext());
         }
         return count;
@@ -766,8 +766,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
         Log.i(TAG, "LocalDatabase.updateHoaDon ... " + danhBo);
 
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_HOADON, COLUMN_HOADON_DANHBO + " = ? and " + COLUMN_HOADON_FLAG + " =?",
-                new String[]{danhBo, flag + ""});
+        db.delete(TABLE_HOADON, COLUMN_HOADON_DANHBO + " = ? ",
+                new String[]{danhBo});
         db.close();
     }
 
@@ -823,10 +823,10 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 COLUMN_HOADON_DANHBO + "" +
                 " from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + mLike + "' and " + COLUMN_HOADON_KY
                 + "=" + ky + " and( " + COLUMN_HOADON_FLAG + "=" + Flag.UNREAD +
-                " or " + COLUMN_HOADON_FLAG + "=" + Flag.READ +
+                " or (" + COLUMN_HOADON_FLAG + "=" + Flag.READ + " and " + COLUMN_HOADON_CODE_MOI + " not like 'F%'" +
 //                " or (" + COLUMN_HOADON_FLAG + " = " + Flag.SYNCHRONIZED + " and " +
 //                COLUMN_HOADON_CODE_MOI + " like 'F%'" + ")" +
-                ")";
+                "))";
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
