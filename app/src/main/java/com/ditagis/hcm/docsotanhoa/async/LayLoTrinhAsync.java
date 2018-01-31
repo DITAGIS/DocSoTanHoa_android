@@ -122,6 +122,9 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
                     if (hoaDon.getCodeMoi() != null)
                         if (hoaDon.getCodeMoi().contains("F")) {
                             LocalDatabase.getInstance(mContext).deleteHoaDon(hoaDon.getDanhBo(), Flag.SYNCHRONIZED);
+                            hoaDon.setCodeMoi("40");
+                            hoaDon.setChiSoMoi("0");
+                            hoaDon.setTieuThuMoi("0");
                         }
                     if (hoaDon == null) {
                         _hoadonDB.closeStatement();
@@ -130,7 +133,7 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
 
                     hoaDons.add(hoaDon);
                     resultLayLoTrinh.addItemToDa(new GridViewLayLoTrinhAdapter.Item(hoaDon.getMaLoTrinh(), hoaDon.getDanhBo()));
-                    this.mLocalDatabase.addHoaDon(hoaDon,false);
+                    this.mLocalDatabase.addHoaDon(hoaDon, false);
                     publishProgress(hoaDons);
                 } else
                     break;
