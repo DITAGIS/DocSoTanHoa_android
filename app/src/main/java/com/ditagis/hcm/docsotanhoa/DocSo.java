@@ -44,7 +44,6 @@ import android.widget.Toast;
 import com.ditagis.hcm.docsotanhoa.adapter.CodeSpinnerAdapter;
 import com.ditagis.hcm.docsotanhoa.adapter.CustomArrayAdapter;
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewSelectFolderAdapter;
-import com.ditagis.hcm.docsotanhoa.conectDB.HoaDonDB;
 import com.ditagis.hcm.docsotanhoa.entities.Code_Describle;
 import com.ditagis.hcm.docsotanhoa.entities.Codes;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
@@ -1142,7 +1141,6 @@ public class DocSo extends Fragment {
 //        spinSearchType.setAdapter(adapterSearchType);
 
         final RadioGroup group = (RadioGroup) dialogLayout.findViewById(R.id.radioGroup_searchtype);
-
         if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_mlt)))
             group.check(R.id.radio_search_mlt);
         else if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_danhbo)))
@@ -1218,14 +1216,12 @@ public class DocSo extends Fragment {
 //        ((TextView) mRootView.findViewById(R.id.spin_ds_dot)).setText(this.mDot + "");
 
         setTextProgress();
-
-
     }
 
     private void setTextProgress() {
 
-        this.mSumDanhBo = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy,Flag.UNREAD, false);
-        this.mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy,Flag.READ, false);
+        this.mSumDanhBo = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy, Flag.UNREAD, false);
+        this.mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy, Flag.READ, false);
         this.mSumDanhBo += this.mDanhBoHoanThanh;
         this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
 
@@ -1360,7 +1356,6 @@ public class DocSo extends Fragment {
                 like = dotExist.concat(mLike.substring(2, 4)).concat("%");
                 if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(like, mKy, false).size() > 0) {
                     mDots.add(dotExist);
-
                 }
             }
             if (mDots.size() > 0)
@@ -1505,8 +1500,7 @@ public class DocSo extends Fragment {
             if (mHoaDon.getCsgo() == -1) {
                 MySnackBar.make(mTxtCSM, "Chưa có dữ liệu báo thay", true);
                 mSpinCode.setSelection(0);
-            }
-            else
+            } else
                 mCSGo = mHoaDon.getCsgo();
         }
         CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString(), mCSGo);

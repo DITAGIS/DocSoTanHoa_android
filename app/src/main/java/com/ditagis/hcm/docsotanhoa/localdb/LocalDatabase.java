@@ -399,7 +399,6 @@ public class LocalDatabase extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select " +
                 COLUMN_HOADON_DANHBO + "" +
-
                 " from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + like + "%' and " + COLUMN_HOADON_KY
                 + "=" + ky + " and " + COLUMN_HOADON_FLAG + "=" + flag, null);
         if (cursor.moveToFirst()) {
