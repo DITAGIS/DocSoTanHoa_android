@@ -636,7 +636,26 @@ public class QuanLyDocSo extends Fragment {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mSpinCode.setSelection(position);
+                mQuanLyDocSoAdapter.clear();
+                Code_Describle code_describle = (Code_Describle) mSpinCode.getItemAtPosition(position);
+                String code = code_describle.getCode();
+                //xử lý trường hợp lọc tất cả
+                if (code.equals(Codes.getInstance().getCodeDescribles_qlds()[0].getCode()))
+                    code = "";
+                for (HoaDon hoaDon : mHoaDons) {
+                    if (hoaDon.getCodeMoi() == null)
+                        continue;
+                    if (hoaDon.getCodeMoi().contains(code))
+                        mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
+                                hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
+                                hoaDon.getMaLoTrinh(), hoaDon.getDanhBo(),
+                                hoaDon.getChiSoCu(),
+                                hoaDon.getChiSoMoi(),
+                                hoaDon.getCodeMoi(), hoaDon.getDiaChi(), hoaDon.getThoiGian(), hoaDon.getFlag()));
+                }
+                notifyDataSetGridViewChange();
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + mHoaDons.size());
+
             }
 
             @Override
