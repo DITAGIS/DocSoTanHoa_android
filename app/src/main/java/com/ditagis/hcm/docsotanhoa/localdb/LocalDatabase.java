@@ -819,13 +819,15 @@ public class LocalDatabase extends SQLiteOpenHelper {
         List<HoaDon> hoaDons = new ArrayList<HoaDon>();
         Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select " +
+        String query = "select " +
                 COLUMN_HOADON_DANHBO + "" +
-
-                " from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + mLike + "%' and " + COLUMN_HOADON_KY
+                " from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + mLike + "' and " + COLUMN_HOADON_KY
                 + "=" + ky + " and( " + COLUMN_HOADON_FLAG + "=" + Flag.UNREAD +
-                " or " + COLUMN_HOADON_FLAG + "=" + Flag.READ + " or (" + COLUMN_HOADON_FLAG + " = " + Flag.SYNCHRONIZED + " and " +
-                COLUMN_HOADON_CODE_MOI + " like 'F%'" + ")" + ")", null);
+                " or " + COLUMN_HOADON_FLAG + "=" + Flag.READ +
+//                " or (" + COLUMN_HOADON_FLAG + " = " + Flag.SYNCHRONIZED + " and " +
+//                COLUMN_HOADON_CODE_MOI + " like 'F%'" + ")" +
+                ")";
+        Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
                 HoaDon hoaDon = new HoaDon();
