@@ -69,6 +69,8 @@ public class GridViewQuanLyDocSoAdapter extends ArrayAdapter<GridViewQuanLyDocSo
         }
         Item item = items.get(position);
 
+        TextView txtMLT = (TextView) convertView.findViewById(R.id.row_qlds_txt_mlt);
+        txtMLT.setText(item.getMlt());
 
         TextView txtDanhBo = (TextView) convertView.findViewById(R.id.row_qlds_txt_danhBo);
         txtDanhBo.setText(item.getDanhbo());
@@ -115,6 +117,7 @@ public class GridViewQuanLyDocSoAdapter extends ArrayAdapter<GridViewQuanLyDocSo
     }
 
     public static class Item {
+        String mlt;
         String tieuThu;
         String danhbo;
         String csc, csm;
@@ -123,8 +126,9 @@ public class GridViewQuanLyDocSoAdapter extends ArrayAdapter<GridViewQuanLyDocSo
         String thoiGian;
         int flag;
 
-        public Item(String tieuThu, String danhbo, String csc, String csm, String code, String diaChi, String thoiGian, int flag) {
+        public Item(String tieuThu,String mlt, String danhbo, String csc, String csm, String code, String diaChi, String thoiGian, int flag) {
             this.tieuThu = tieuThu;
+            this.mlt = mlt;
             this.danhbo = danhbo;
             this.csc = csc;
             this.csm = csm;
@@ -132,6 +136,14 @@ public class GridViewQuanLyDocSoAdapter extends ArrayAdapter<GridViewQuanLyDocSo
             this.diaChi = diaChi;
             this.thoiGian = thoiGian;
             this.flag = flag;
+        }
+
+        public String getMlt() {
+            return mlt;
+        }
+
+        public void setMlt(String mlt) {
+            this.mlt = mlt;
         }
 
         public int getFlag() {

@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/row_qlds_layout"
-    android:layout_width="850dp"
+    android:layout_width="950dp"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:minHeight="?android:attr/listPreferredItemHeightSmall"
     android:orientation="horizontal"
     android:textAppearance="?android:attr/textAppearanceListItemSmall">
 
+    <TextView
+        android:id="@+id/row_qlds_txt_mlt"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
 
+        android:gravity="center_horizontal"
+        android:textColor="@color/colorToolBar_Row_1"
+        android:textSize="15sp" />
     <TextView
         android:id="@+id/row_qlds_txt_danhBo"
         android:layout_width="100dp"

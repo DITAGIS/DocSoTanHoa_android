@@ -206,6 +206,7 @@ public class QuanLyDocSo extends Fragment {
                         if (hoaDon.getMaLoTrinh().contains(s.toString()))
                             mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
                                     hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
+                                    hoaDon.getMaLoTrinh(),
                                     hoaDon.getDanhBo(),
                                     hoaDon.getChiSoCu(),
                                     hoaDon.getChiSoMoi(),
@@ -224,7 +225,7 @@ public class QuanLyDocSo extends Fragment {
                         if (hoaDon.getDanhBo().contains(s.toString()))
                             mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
                                     hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
-                                    hoaDon.getDanhBo(),
+                                    hoaDon.getMaLoTrinh(), hoaDon.getDanhBo(),
                                     hoaDon.getChiSoCu(),
                                     hoaDon.getChiSoMoi(),
                                     hoaDon.getCodeMoi(),
@@ -242,7 +243,7 @@ public class QuanLyDocSo extends Fragment {
                         if (hoaDon.getTenKhachHang().toLowerCase().contains(s.toString().toLowerCase()))
                             mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
                                     hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
-                                    hoaDon.getDanhBo(),
+                                    hoaDon.getMaLoTrinh(), hoaDon.getDanhBo(),
                                     hoaDon.getChiSoCu(),
                                     hoaDon.getChiSoMoi(),
                                     hoaDon.getCodeMoi(),
@@ -258,6 +259,7 @@ public class QuanLyDocSo extends Fragment {
                         if (hoaDon.getDiaChi().toLowerCase().contains(s.toString().toLowerCase()))
                             mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
                                     hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
+                                    hoaDon.getMaLoTrinh(),
                                     hoaDon.getDanhBo(),
                                     hoaDon.getChiSoCu(),
                                     hoaDon.getChiSoMoi(),
@@ -298,7 +300,7 @@ public class QuanLyDocSo extends Fragment {
                     if (hoaDon.getCodeMoi().contains(code))
                         mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
                                 hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
-                                hoaDon.getDanhBo(),
+                                hoaDon.getMaLoTrinh(), hoaDon.getDanhBo(),
                                 hoaDon.getChiSoCu(),
                                 hoaDon.getChiSoMoi(),
                                 hoaDon.getCodeMoi(), hoaDon.getDiaChi(), hoaDon.getThoiGian(), hoaDon.getFlag()));
@@ -687,7 +689,7 @@ public class QuanLyDocSo extends Fragment {
         for (HoaDon hoaDon : this.mHoaDons) {
             mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
                     hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
-                    hoaDon.getDanhBo(),
+                    hoaDon.getMaLoTrinh(),      hoaDon.getDanhBo(),
                     hoaDon.getChiSoCu(),
                     hoaDon.getChiSoMoi(),
                     hoaDon.getCodeMoi(),
@@ -746,7 +748,7 @@ public class QuanLyDocSo extends Fragment {
             for (HoaDon hoaDon : hoaDons) {
                 mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
                         hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
-                        hoaDon.getDanhBo(),
+                        hoaDon.getMaLoTrinh(),      hoaDon.getDanhBo(),
                         hoaDon.getChiSoCu(),
                         hoaDon.getChiSoMoi(),
                         hoaDon.getCodeMoi(), hoaDon.getDiaChi(), hoaDon.getThoiGian(),
