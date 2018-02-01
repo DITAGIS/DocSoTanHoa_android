@@ -35,6 +35,7 @@ import com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver;
 import com.ditagis.hcm.docsotanhoa.theme.ThemeUtils;
 import com.ditagis.hcm.docsotanhoa.utities.ChangePassword;
 import com.ditagis.hcm.docsotanhoa.utities.DialogSelectDot;
+import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.NUMBER;
 import com.ditagis.hcm.docsotanhoa.utities.Printer;
 
@@ -513,9 +514,9 @@ public class MainActivity extends AppCompatActivity {
 //                if (dialog.isShowing()) {
 //                    dialog.dismiss();
 //                }
-                Toast.makeText(MainActivity.this.getApplicationContext(), "Đã kết nối", Toast.LENGTH_SHORT).show();
+                MySnackBar.make(MainActivity.this.mViewPager, "Đã kết nối", true);
             } else {
-                Toast.makeText(MainActivity.this.getApplicationContext(), "Kết nối thất bại. Vui lòng kết nối lại", Toast.LENGTH_LONG).show();
+                MySnackBar.make(MainActivity.this.mViewPager, "Kết nối thất bại. Vui lòng kết nối lại", true);
             }
         }
     }
