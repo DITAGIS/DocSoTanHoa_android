@@ -1567,23 +1567,25 @@ public class DocSo extends Fragment {
                 break;
             }
         }
-        if (mHoaDon.getCode_CSC_SanLuong().getCode1().startsWith("F")) {
-            for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
-                if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals("5F")) {
-                    mSpinCode.setSelection(i);
-                    mCode = Codes.getInstance().getCodeDescribles_ds()[i].getCode();
-                    break;
-                }
-            }
-        } else if (mHoaDon.getCode_CSC_SanLuong().getCode1().startsWith("K")) {
-            for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
-                if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals("5K")) {
-                    mSpinCode.setSelection(i);
-                    mCode = Codes.getInstance().getCodeDescribles_ds()[i].getCode();
-                    break;
-                }
-            }
-        } else {
+//        if (mHoaDon.getCode_CSC_SanLuong().getCode1().startsWith("F")) {
+//            for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
+//                if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals("5F")) {
+//                    mSpinCode.setSelection(i);
+//                    mCode = Codes.getInstance().getCodeDescribles_ds()[i].getCode();
+//                    break;
+//                }
+//            }
+//        } else if (mHoaDon.getCode_CSC_SanLuong().getCode1().startsWith("K")) {
+//            for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
+//                if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals("5K")) {
+//                    mSpinCode.setSelection(i);
+//                    mCode = Codes.getInstance().getCodeDescribles_ds()[i].getCode();
+//                    break;
+//                }
+//            }
+//        } else
+
+            {
             mSpinCode.setSelection(0);
             mCode = Codes.getInstance().getCodeDescribles_ds()[0].getCode();
         }
