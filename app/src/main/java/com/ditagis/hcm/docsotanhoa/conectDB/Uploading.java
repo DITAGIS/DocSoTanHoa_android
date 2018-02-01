@@ -29,7 +29,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
     private final String TABLE_NAME_KH = "KhachHang";
     private final String TABLE_NAME_DOCSO_LUUTRU = "DocSoLuuTru";
     private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME_DOCSO + " SET CSMOI=?, CODEMoi=?, GhiChuDS=?, tieuthumoi =?, gioghi = ?, sdt = ?, vitrimoi = ? WHERE docsoId like ? DANHBa=? and dot = ? ";
+    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME_DOCSO + " SET CSMOI=?, CODEMoi=?, GhiChuDS=?, tieuthumoi =?, gioghi = ?, sdt = ?, vitrimoi = ? WHERE docsoId like ? and DANHBa=? and dot = ? ";
 
     private final String SQL_UPDATE_KH = "UPDATE " + TABLE_NAME_KH + " SET somoi =?, duong = ? WHERE DANHBa=? ";
     private final String SQL_SELECT_KH = "SELECT so from " + TABLE_NAME_KH + " WHERE DANHBa=? ";
