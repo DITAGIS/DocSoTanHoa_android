@@ -1376,6 +1376,8 @@ public class QuanLyDocSo extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //TODO: lưu chỉnh sửa
+                if (etxtCSM.getText().toString().trim().length() == 0 || txtTT.getText().toString().trim().toString().length() ==0F)
+                    return;
                 hoaDon.setChiSoMoi(etxtCSM.getText().toString());
                 hoaDon.setCodeMoi(mCode);
                 if (etxtAddress.getText().toString().trim().length() > 0)
