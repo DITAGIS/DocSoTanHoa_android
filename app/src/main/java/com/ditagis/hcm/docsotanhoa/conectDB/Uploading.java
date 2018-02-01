@@ -102,15 +102,19 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
     public Boolean add(HoaDon hoaDon) {
 
         boolean resultUpdateHoaDon = false;
-        int resultAddImage = 1;
-        if (hoaDon.getImage_byteArray().length > 1000)
-            resultAddImage = addHinhDHN(hoaDon);
-        if (resultAddImage <= 0) {
-            updateHinhDHN(hoaDon);
-            resultAddImage = 1;
+        try {
+            int resultAddImage = 1;
+            if (hoaDon.getImage_byteArray().length > 1000)
+                resultAddImage = addHinhDHN(hoaDon);
+            if (resultAddImage <= 0) {
+                updateHinhDHN(hoaDon);
+                resultAddImage = 1;
+            }
+            if (resultAddImage > 0)
+                resultUpdateHoaDon = update(hoaDon);
+        } catch (Exception e) {
+
         }
-        if (resultAddImage > 0)
-            resultUpdateHoaDon = update(hoaDon);
         return resultUpdateHoaDon;
 //return result > 0;
 

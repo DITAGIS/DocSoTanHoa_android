@@ -283,6 +283,7 @@ public class DocSo extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 try {
+
                     if (mHoaDon.getImage_byteArray().length < 1000) {
                         MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
                         ), false);
@@ -443,8 +444,9 @@ public class DocSo extends Fragment {
     }
 
     private void checkPrint() {
-        if (mHoaDon.getImage_byteArray().length > 1000) {
-            try {
+        try {
+            if (mHoaDon.getImage_byteArray().length > 1000) {
+
                 int csc = Integer.parseInt(mTxtCSC.getText().toString());
                 int csm = -1;
                 if (mTxtCSM.getText().toString().trim().length() == 0 && !checkCode()) {
@@ -458,12 +460,8 @@ public class DocSo extends Fragment {
                     canhBaoCSM(csc, csm, true);
 
                 }
-            } catch (Exception e) {
-                MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
-                save_without_csm();
-                return;
-            }
-        } else {
+
+            } else {
 //            File f = ImageFile.getFile(currentTime, mRootView, mDanhBo);
 //            if (f != null && f.exists()) {
 //                int csc = Integer.parseInt(mTxtCSC.getText().toString());
@@ -489,10 +487,15 @@ public class DocSo extends Fragment {
 //                }
 //                save_without_csm();
 //            } else {
+                MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+                save_without_csm();
+                return;
+//            }
+            }
+        } catch (Exception e) {
             MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
             save_without_csm();
             return;
-//            }
         }
     }
 
@@ -1225,7 +1228,8 @@ public class DocSo extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
+            savedInstanceState) {
 
         return mRootView;
     }
@@ -1249,8 +1253,9 @@ public class DocSo extends Fragment {
     }
 
     private void checkSave(View v) {
-        if (mHoaDon.getImage_byteArray().length > 1000) {
-            try {
+        try {
+            if (mHoaDon.getImage_byteArray().length > 1000) {
+
                 int csc = Integer.parseInt(mTxtCSC.getText().toString());
                 int csm = -1;
                 if (mTxtCSM.getText().toString().trim().length() == 0 && !checkCode()) {
@@ -1263,33 +1268,33 @@ public class DocSo extends Fragment {
                         csm = Integer.parseInt(mTxtCSM.getText().toString());
                     canhBaoCSM(csc, csm, false);
                 }
-            } catch (Exception e) {
-                MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
-                save_without_csm();
-                return;
-            }
-        } else {
-            File f = ImageFile.getFile(currentTime, mRootView, mDanhBo);
-            if (f != null && f.exists()) {
-                int csc = Integer.parseInt(mTxtCSC.getText().toString());
-                int csm = -1;
-                if (mTxtCSM.getText().toString().length() == 0 && !checkCode()) {
+            } else {
+                File f = ImageFile.getFile(currentTime, mRootView, mDanhBo);
+                if (f != null && f.exists()) {
+                    int csc = Integer.parseInt(mTxtCSC.getText().toString());
+                    int csm = -1;
+                    if (mTxtCSM.getText().toString().length() == 0 && !checkCode()) {
 
 //                alertCSM_Null(csc, csm);
-                    MySnackBar.make(mRootView.getRootView(), "Chưa nhập chỉ số mới", true);
+                        MySnackBar.make(mRootView.getRootView(), "Chưa nhập chỉ số mới", true);
 
+                    } else {
+                        if (mTxtCSM.getText().toString().length() > 0)
+                            csm = Integer.parseInt(mTxtCSM.getText().toString());
+                        canhBaoCSM(csc, csm, false);
+                    }
+                    save_without_csm();
                 } else {
-                    if (mTxtCSM.getText().toString().length() > 0)
-                        csm = Integer.parseInt(mTxtCSM.getText().toString());
-                    canhBaoCSM(csc, csm, false);
+                    MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+                    save_without_csm();
+                    return;
                 }
-                save_without_csm();
-            } else {
-                MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
-                save_without_csm();
-                return;
-            }
 
+            }
+        } catch (Exception e) {
+            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+            save_without_csm();
+            return;
         }
 //        if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
 //            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
@@ -1583,9 +1588,13 @@ public class DocSo extends Fragment {
             mCode = Codes.getInstance().getCodeDescribles_ds()[0].getCode();
         }
         mFrameLayoutViewImage.setVisibility(View.INVISIBLE);
-        if (mHoaDon.getImage_byteArray().length > 1000) {
-            showImageViewInFrame(mHoaDon.getImage_byteArray());
-            mFrameLayoutViewImage.setVisibility(View.VISIBLE);
+        try {
+            if (mHoaDon.getImage_byteArray().length > 1000) {
+                showImageViewInFrame(mHoaDon.getImage_byteArray());
+                mFrameLayoutViewImage.setVisibility(View.VISIBLE);
+            }
+        } catch (Exception e) {
+
         }
         mSoNha = mHoaDon.getSoNha();
         mDuong = mHoaDon.getDuong();
@@ -1864,39 +1873,44 @@ public class DocSo extends Fragment {
 
     private void showImage(File f) {
         //get bitmap from file
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        try {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
 //        Bitmap bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(), options);
-        Bitmap bitmap = BitmapFactory.decodeByteArray(mHoaDon.getImage_byteArray(), 0, mHoaDon.getImage_byteArray().length, options);
-        //--------------------
-        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        }).setNegativeButton("Chụp lại", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                capture();
-                dialog.dismiss();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());//getLayoutInflater();
-        View dialogLayout = inflater.inflate(R.layout.layout_imageview_docso, null);
-        dialog.setView(dialogLayout);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(mHoaDon.getImage_byteArray(), 0, mHoaDon.getImage_byteArray().length, options);
+            //--------------------
+            AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).setNegativeButton("Chụp lại", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    capture();
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());//getLayoutInflater();
+            View dialogLayout = inflater.inflate(R.layout.layout_imageview_docso, null);
+            dialog.setView(dialogLayout);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        // Without this line there is a very small border around the image (1px)
-        dialog.getWindow().setBackgroundDrawable(null);
+            // Without this line there is a very small border around the image (1px)
+            dialog.getWindow().setBackgroundDrawable(null);
 
-        dialog.show();
-        ImageView image = (ImageView) dialog.findViewById(R.id.imgView_docso);
+            dialog.show();
+            ImageView image = (ImageView) dialog.findViewById(R.id.imgView_docso);
 
-        BitmapDrawable resizedDialogImage = new BitmapDrawable(this.getResources(), Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), false));
+            BitmapDrawable resizedDialogImage = new BitmapDrawable(this.getResources(), Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), false));
 
-        image.setBackground(resizedDialogImage);
+            image.setBackground(resizedDialogImage);
+        } catch (Exception e) {
+            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+            return;
+        }
 
     }
 
@@ -2220,11 +2234,15 @@ public class DocSo extends Fragment {
 
 
     private void doCamera() {
-        if (mHoaDon.getImage_byteArray().length > 100) {
+        try {
+            if (mHoaDon.getImage_byteArray().length > 100) {
 
-            showImage(ImageFile.getFile(currentTime, mRootView, mDanhBo));
-        } else
+                showImage(ImageFile.getFile(currentTime, mRootView, mDanhBo));
+            } else
+                capture();
+        } catch (Exception e) {
             capture();
+        }
     }
 
     private void capture() {

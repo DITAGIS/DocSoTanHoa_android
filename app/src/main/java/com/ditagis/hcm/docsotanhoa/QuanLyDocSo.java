@@ -407,9 +407,14 @@ public class QuanLyDocSo extends Fragment {
 
     private void notifyDataSetGridViewChange() {
         mQuanLyDocSoAdapter.notifyDataSetChanged();
+//        mQuanLyDocSoAdapter.sort(new Comparator<GridViewQuanLyDocSoAdapter.Item>() {
+//            public int compare(GridViewQuanLyDocSoAdapter.Item item1, GridViewQuanLyDocSoAdapter.Item item2) {
+//                return item2.getThoiGian().compareTo(item1.getThoiGian());
+//            }
+//        });
         mQuanLyDocSoAdapter.sort(new Comparator<GridViewQuanLyDocSoAdapter.Item>() {
             public int compare(GridViewQuanLyDocSoAdapter.Item item1, GridViewQuanLyDocSoAdapter.Item item2) {
-                return item2.getThoiGian().compareTo(item1.getThoiGian());
+                return item1.getMlt().compareTo(item2.getMlt());
             }
         });
     }
@@ -708,7 +713,7 @@ public class QuanLyDocSo extends Fragment {
         for (HoaDon hoaDon : this.mHoaDons) {
             mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
                     hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
-                    hoaDon.getMaLoTrinh(),      hoaDon.getDanhBo(),
+                    hoaDon.getMaLoTrinh(), hoaDon.getDanhBo(),
                     hoaDon.getChiSoCu(),
                     hoaDon.getChiSoMoi(),
                     hoaDon.getCodeMoi(),
@@ -767,7 +772,7 @@ public class QuanLyDocSo extends Fragment {
             for (HoaDon hoaDon : hoaDons) {
                 mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
                         hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
-                        hoaDon.getMaLoTrinh(),      hoaDon.getDanhBo(),
+                        hoaDon.getMaLoTrinh(), hoaDon.getDanhBo(),
                         hoaDon.getChiSoCu(),
                         hoaDon.getChiSoMoi(),
                         hoaDon.getCodeMoi(), hoaDon.getDiaChi(), hoaDon.getThoiGian(),
@@ -1008,21 +1013,23 @@ public class QuanLyDocSo extends Fragment {
         dialog.setView(dialogLayout);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.show();
+        try {
+            if (hoaDon.getImage_byteArray().length > 1000) {
+                ImageView image = (ImageView) dialog.findViewById(R.id.imgView_qlds);
+                try {
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(hoaDon.getImage_byteArray(), 0, hoaDon.getImage_byteArray().length, options);
 
-        if (hoaDon.getImage_byteArray().length > 1000) {
-            ImageView image = (ImageView) dialog.findViewById(R.id.imgView_qlds);
-            try {
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-                Bitmap bitmap = BitmapFactory.decodeByteArray(hoaDon.getImage_byteArray(), 0, hoaDon.getImage_byteArray().length, options);
 
+                    BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.7), (int) (bitmap.getHeight() * 0.7), false));
 
-                BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.7), (int) (bitmap.getHeight() * 0.7), false));
-
-                image.setBackground(resizedDialogImage);
-            } catch (Exception e) {
-                MySnackBar.make(image.getRootView(), "Không tìm thấy hình ảnh", false);
+                    image.setBackground(resizedDialogImage);
+                } catch (Exception e) {
+                    MySnackBar.make(image.getRootView(), "Không tìm thấy hình ảnh", false);
+                }
             }
+        } catch (Exception e) {
         }
         ((TextView) dialog.findViewById(R.id.txt_layout_qlds_SoThan)).setText(hoaDon.getSoThan());
         ((TextView) dialog.findViewById(R.id.txt_layout_qlds_MLT)).setText(hoaDon.getMaLoTrinh());
@@ -1083,20 +1090,23 @@ public class QuanLyDocSo extends Fragment {
                 add_sdt();
             }
         });
+        try {
+            if (hoaDon.getImage_byteArray().length > 1000) {
+                ImageView image = (ImageView) dialogLayout.findViewById(R.id.imgView_edit);
+                try {
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(hoaDon.getImage_byteArray(), 0, hoaDon.getImage_byteArray().length, options);
 
-        if (hoaDon.getImage_byteArray().length > 1000) {
-            ImageView image = (ImageView) dialogLayout.findViewById(R.id.imgView_edit);
-            try {
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-                Bitmap bitmap = BitmapFactory.decodeByteArray(hoaDon.getImage_byteArray(), 0, hoaDon.getImage_byteArray().length, options);
+                    BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.7), (int) (bitmap.getHeight() * 0.7), false));
 
-                BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.7), (int) (bitmap.getHeight() * 0.7), false));
+                    image.setBackground(resizedDialogImage);
+                } catch (Exception e) {
 
-                image.setBackground(resizedDialogImage);
-            } catch (Exception e) {
-
+                }
             }
+        } catch (Exception e) {
+
         }
         ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_MLT)).setText(hoaDon.getMaLoTrinh());
 //                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_DanhBo)).setText(danhBo_CSM.getDanhBo());
