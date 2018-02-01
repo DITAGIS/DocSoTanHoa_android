@@ -123,8 +123,8 @@ public class QuanLyDocSo extends Fragment {
             mKyString = "0" + mKy;
         mKys.add(mKyString);
         mNams.add(mNam + "");
-        mSumDanhBo = mSumDanhBoDB.getSum(mKyString, mNam, mLike);
-        this.mDanhBoHoanThanh = mSumDanhBoDB.getSumSynchronized(mKyString, mNam, mLike);
+//        mSumDanhBo = mSumDanhBoDB.getSum(mKyString, mNam, mLike);
+//        this.mDanhBoHoanThanh = mSumDanhBoDB.getSumSynchronized(mKyString, mNam, mLike);
         //Gán DataSource vào ArrayAdapter
         mQuanLyDocSoAdapter = new GridViewQuanLyDocSoAdapter(mRootView.getContext(), new ArrayList<GridViewQuanLyDocSoAdapter.Item>());
 

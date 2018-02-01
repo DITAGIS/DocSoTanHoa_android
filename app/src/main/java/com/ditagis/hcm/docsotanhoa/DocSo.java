@@ -508,8 +508,14 @@ public class DocSo extends Fragment {
                     else
                         alertCSM_lt_CSC_save(csc, csm);
 
-                }
+                } else {
+                    if (isPrint)
+                        doPrint();
+                    else
+                        save(csc, csm);
+                    ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
 
+                }
                 break;
             case -1:
                 MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(true);
