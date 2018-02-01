@@ -127,11 +127,14 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
                             hoaDon.setTieuThuMoi("0");
                         }
                         //đọc vét khi chưa đồng bộ
-                        else if(this.mLocalDatabase.getHoaDon_Read(danhBo,false).getCodeMoi().startsWith("F")){
-                        LocalDatabase.getInstance(mContext).deleteHoaDon(hoaDon.getDanhBo(), Flag.READ);
-                        hoaDon.setCodeMoi("40");
-                        hoaDon.setChiSoMoi("0");
-                        hoaDon.setTieuThuMoi("0");
+                        else {
+                            HoaDon hoaDonLocal = this.mLocalDatabase.getHoaDon_Read(danhBo, false);
+                            if (hoaDonLocal != null && hoaDonLocal.getCodeMoi().startsWith("F")) {
+                                LocalDatabase.getInstance(mContext).deleteHoaDon(hoaDon.getDanhBo(), Flag.READ);
+                                hoaDon.setCodeMoi("40");
+                                hoaDon.setChiSoMoi("0");
+                                hoaDon.setTieuThuMoi("0");
+                            }
                         }
 
 //                    if (hoaDon.getCode_CSC_SanLuong().getCode1().startsWith("K")) {
@@ -155,7 +158,9 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
             _hoadonDB.closeStatement();
         }
 //        }
-        if (hoaDons != null) {
+        if (hoaDons != null)
+
+        {
             resultLayLoTrinh.setDot(dotString);
             resultLayLoTrinh.setTotal(count);
 

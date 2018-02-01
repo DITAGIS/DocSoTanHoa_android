@@ -501,27 +501,38 @@ public class DocSo extends Fragment {
             case 0:
                 if (csm < csc) {
                     MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(true);
-                    alertCSM_lt_CSCPrint(csc, csm);
                     ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
 
-                } else if (isPrint) {
-                    doPrint();
-                    ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
-
-                } else {
-                    save(csc, csm);
-                    ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
+                    if (isPrint)
+                        alertCSM_lt_CSCPrint(csc, csm);
+                    else
+                        alertCSM_lt_CSC_save(csc, csm);
 
                 }
+
                 break;
             case -1:
                 MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(true);
-                alertCSMFluctuationPrint(csc, csm, -1);
+                if (isPrint)
+                    alertCSMFluctuationPrint(csc, csm, -1);
+                else {
+                    alertCSMFluctuation_save(csc, csm, -1);
+                }
                 break;
 
             case 1:
                 MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(true);
-                alertCSMFluctuationPrint(csc, csm, 1);
+                if (isPrint)
+                    alertCSMFluctuationPrint(csc, csm, 1);
+                else
+                    alertCSMFluctuation_save(csc, csm, 1);
+                break;
+
+            default:
+                save(csc, csm);
+                ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
+
+
                 break;
         }
     }
@@ -1536,10 +1547,12 @@ public class DocSo extends Fragment {
         HideKeyboard.hide(mActivity);
         mDanhBo = mDBs.get(position).replace(" ", "");
         mHoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo, true);
+
         for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
 
             if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals(mHoaDon.getCodeMoi())) {
                 mSpinCode.setSelection(i);
+                mCode = Codes.getInstance().getCodeDescribles_ds()[i].getCode();
                 break;
             }
         }
@@ -1547,6 +1560,7 @@ public class DocSo extends Fragment {
             for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
                 if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals("5F")) {
                     mSpinCode.setSelection(i);
+                    mCode = Codes.getInstance().getCodeDescribles_ds()[i].getCode();
                     break;
                 }
             }
@@ -1554,11 +1568,13 @@ public class DocSo extends Fragment {
             for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
                 if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals("5K")) {
                     mSpinCode.setSelection(i);
+                    mCode = Codes.getInstance().getCodeDescribles_ds()[i].getCode();
                     break;
                 }
             }
         } else {
             mSpinCode.setSelection(0);
+            mCode = Codes.getInstance().getCodeDescribles_ds()[0].getCode();
         }
         mFrameLayoutViewImage.setVisibility(View.INVISIBLE);
         if (mHoaDon.getImage_byteArray().length > 1000) {
@@ -1591,7 +1607,8 @@ public class DocSo extends Fragment {
 //                            ((TextView) findViewById(R.id.txt_ds_dinhmuc)).setText(hoaDon.getDinhMuc());
 
         mTxtCSC.setText(mHoaDon.getChiSoCu());
-
+        mTxtCSM.setText("");
+        mEditTextCSM.setText("");
         ((TextView) mRootView.findViewById(R.id.txt_ds_so_than)).setText(mHoaDon.getSoThan());
         ((TextView) mRootView.findViewById(R.id.txt_ds_hieu)).setText(mHoaDon.getHieu());
         ((TextView) mRootView.findViewById(R.id.txt_ds_co)).setText(mHoaDon.getCo());
@@ -1946,27 +1963,29 @@ public class DocSo extends Fragment {
 
     }
 
-//    private void alertCSMFluctuation(final int csc, final int csm) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
-//        builder.setTitle(mRootView.getContext().getString(R.string.alert_csm_fluctuation_title));
-//        builder.setCancelable(false);
-//        builder.setMessage(mRootView.getContext().getString(R.string.alert_csm_fluctuation_message))
-//
-//                .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        save(csc, csm);
-//                        dialog.dismiss();
-//                    }
-//                })
-//                .setNegativeButton("Kiểm tra lại", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        dialog.dismiss();
-//                    }
-//                });
-//        AlertDialog dialog = builder.create();
-//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        dialog.show();
-//    }
+    private void alertCSMFluctuation_save(final int csc, final int csm, int canhBao) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
+        builder.setTitle(mRootView.getContext().getString(R.string.alert_csm_fluctuation_title));
+        builder.setCancelable(false);
+        if (canhBao == -1)
+            builder.setMessage(mRootView.getContext().getString(R.string.alert_csm_fluctuation_message_low));
+        else
+            builder.setMessage(mRootView.getContext().getString(R.string.alert_csm_fluctuation_message_high));
+        builder.setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                save(csc, csm);
+                dialog.dismiss();
+            }
+        })
+                .setNegativeButton("Kiểm tra lại", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.show();
+    }
 
     private void alertCSMFluctuationPrint(final int csc, final int csm, int canhBao) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
@@ -1992,7 +2011,7 @@ public class DocSo extends Fragment {
         dialog.show();
     }
 
-    private void alertCSM_lt_CSC(final int csc, final int csm) {
+    private void alertCSM_lt_CSC_save(final int csc, final int csm) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle(mRootView.getContext().getString(R.string.alert_csm_lt_csc_title));
         builder.setMessage(mRootView.getContext().getString(R.string.alert_csm_lt_csc_message))

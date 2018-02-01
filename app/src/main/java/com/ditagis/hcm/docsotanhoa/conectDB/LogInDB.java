@@ -124,31 +124,28 @@ public class LogInDB implements IDB<User, Boolean, String> {
                 staffPhone = resultSet.getString(2);
             }
             resultSet.close();
-            statement = cnn.prepareStatement("select distinct top 1 nam from docso order by nam desc");
+            statement = cnn.prepareStatement("select distinct top 1 DocSoID,dot from docso order by DocSoID desc");
             ResultSet rsNam = statement.executeQuery();
+            String docSoID = "";
+            String mDot = null;
             while (rsNam.next()) {
-                nam = rsNam.getString(1);
+                docSoID = rsNam.getString(1);
+                nam = docSoID.substring(0, 4);
+                ky = docSoID.substring(4, 6);
+                mDot = rsNam.getString(2);
                 break;
             }
             rsNam.close();
-            statement = cnn.prepareStatement("select distinct top 1 ky from docso where nam = " + nam + " order by ky desc");
-            ResultSet rsKy = statement.executeQuery();
-            while (rsKy.next()) {
-                ky = rsKy.getString(1);
-                break;
-            }
-
-            rsKy.close();
-            statement = cnn.prepareStatement("SELECT TOP 1 dot from DocSo where nam = "
-                    + nam + " and ky = " + ky + " order by dot desc");
-            ResultSet rsDot = statement.executeQuery();
-            String mDot = null;
-            if (rsDot.next()) {
-                mDot = rsDot.getString(1);
-            }
-//            mDot = dot + "";
+//            statement = cnn.prepareStatement("SELECT TOP 1 dot from DocSo where nam = "
+//                    + nam + " and ky = " + ky + " order by dot desc");
+//            ResultSet rsDot = statement.executeQuery();
+//
+//            if (rsDot.next()) {
+//                mDot = rsDot.getString(1);
+//            }
+////            mDot = dot + "";
             statement.close();
-            rsDot.close();
+//            rsDot.close();
             Result result = new Result(mDot, staffName, user.getUserName(), staffPhone);
             result.setmNam(nam);
             result.setmKy(ky);

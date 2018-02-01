@@ -6,14 +6,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import static com.ditagis.hcm.docsotanhoa.sql.SQLServerConnUtils.database;
-
 public class ConnectionDB {
     private static final String PROTOCOL = "jdbc:jtds:sqlserver://";
-    private static final String SERVER = "103.74.117.51"; // Tadu
+    private static final String SERVER = "113.161.88.180";//"103.74.117.51"; // Tadu
     private static final String INSTANCT_NAME = "MSSQLSERVER";
-    private static final int PORT = 1433;
-    private static final String DB = "DocSoTH";
+    private static final int PORT = 1810;
+    private static final String DB = "DocSoTH2";
     private static final String USER = "docsotanhoa";
     private static final String PASSWORD = "Docso111";
     private static final ConnectionDB _instance = new ConnectionDB();
@@ -49,7 +47,7 @@ public class ConnectionDB {
     private Connection getConnect() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        String url = String.format("jdbc:jtds:sqlserver://%s:%s/%s;instance=%s",SERVER,PORT,database,INSTANCT_NAME);
+        String url = String.format("jdbc:jtds:sqlserver://%s:%s/%s;instance=%s",SERVER,PORT,DB,INSTANCT_NAME);
         Connection cnn = null;
         try {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
