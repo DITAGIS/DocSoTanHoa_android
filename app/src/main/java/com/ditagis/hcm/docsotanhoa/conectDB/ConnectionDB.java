@@ -8,10 +8,10 @@ import java.sql.SQLException;
 
 public class ConnectionDB {
     private static final String PROTOCOL = "jdbc:jtds:sqlserver://";
-    private static final String SERVER = "113.161.88.180";//"103.74.117.51"; // Tadu
+    private static final String SERVER = "103.74.117.51"; // //"113.161.88.180"
     private static final String INSTANCT_NAME = "MSSQLSERVER";
-    private static final int PORT = 1810;
-    private static final String DB = "DocSoTH2";
+    private static final int PORT = 1433;//1810;
+    private static final String DB = "DocSoTH";//"DocSoTH2";
     private static final String USER = "docsotanhoa";
     private static final String PASSWORD = "Docso111";
     private static final ConnectionDB _instance = new ConnectionDB();
