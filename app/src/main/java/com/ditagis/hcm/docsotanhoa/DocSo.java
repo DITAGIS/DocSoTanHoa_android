@@ -1869,7 +1869,28 @@ public class DocSo extends Fragment {
         else {
             //bỏ đợt hiện tại khỏi spinner
             mDots.remove(dotString);
+
             mAdapterDot.notifyDataSetChanged();
+            ((TextView) mRootView.findViewById(R.id.txt_ds_so_than)).setText("");
+            ((TextView) mRootView.findViewById(R.id.etxt_ds_vi_tri)).setText("");
+            ((TextView) mRootView.findViewById(R.id.txt_ds_hieu)).setText("");
+            ((TextView) mRootView.findViewById(R.id.txt_ds_co)).setText("");
+            ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu)).setText("");
+            ((TextView) mRootView.findViewById(R.id.txt_ds_dinhmuc)).setText("");
+            ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText("");
+            ((TextView) mRootView.findViewById(R.id.txt_ds_code1)).setText("");
+            ((TextView) mRootView.findViewById(R.id.txt_ds_code2)).setText("");
+            ((TextView) mRootView.findViewById(R.id.txt_ds_code3)).setText("");
+            ((TextView) mRootView.findViewById(R.id.txt_ds_CSM)).setText("");
+            ((TextView) mRootView.findViewById(R.id.txt_ds_CSC)).setText("");
+            ((TextView) mRootView.findViewById(R.id.txt_ds_CSC2)).setText("");
+            ((TextView) mRootView.findViewById(R.id.txt_ds_CSC3)).setText("");
+            ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).setText("");
+            ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu1)).setText("");
+            ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu2)).setText("");
+            ((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu3)).setText("");
+            mSdts.clear();
+            mAdapterSdt.notifyDataSetChanged();
 
             if (mDots.size() > 0)
                 mSpinDot.setSelection(0);

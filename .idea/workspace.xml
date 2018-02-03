@@ -19,7 +19,7 @@
     <list default="true" id="46a10ebd-f94e-40ec-8d8e-12fac7840b85" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CalculateCSM_TieuThu.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CalculateCSM_TieuThu.java" />
     </list>
     <ignored path="HCM_DOCSOTANHOA.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -68,11 +68,9 @@
       <file leaf-file-name="CalculateCSM_TieuThu.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CalculateCSM_TieuThu.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="252" column="2" lean-forward="false" selection-start-line="252" selection-start-column="2" selection-end-line="252" selection-end-column="2" />
-              <folding>
-                <element signature="method#calTieuThuTB#0;class#CalculateCSM_TieuThu#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="24">
+              <caret line="262" column="57" lean-forward="false" selection-start-line="262" selection-start-column="57" selection-end-line="262" selection-end-column="57" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -80,8 +78,8 @@
       <file leaf-file-name="DocSo.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="98">
-              <caret line="585" column="14" lean-forward="false" selection-start-line="585" selection-start-column="14" selection-end-line="585" selection-end-column="14" />
+            <state relative-caret-position="379">
+              <caret line="1891" column="26" lean-forward="false" selection-start-line="1891" selection-start-column="26" selection-end-line="1891" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -109,7 +107,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>optionsearch</find>
       <find>optio</find>
       <find>singlecomplete.set</find>
       <find>singlecomplete.add</find>
@@ -128,7 +125,6 @@
       <find>CSMFluctuation</find>
       <find>canhba</find>
       <find>ref</find>
-      <find>save</find>
       <find>do</find>
       <find>selectdanh</find>
       <find>sort</find>
@@ -139,6 +135,8 @@
       <find>mhoadon.getcode_csc_sanluong().getcsc1</find>
       <find>selectcod</find>
       <find>changedia</find>
+      <find>save</find>
+      <find>handle</find>
     </findStrings>
     <replaceStrings>
       <replace>builder.append(String.format(</replace>
@@ -2088,8 +2086,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/Uploading.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/doc_so_fragment.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/HoaDonDB.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CalculateCSM_TieuThu.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CalculateCSM_TieuThu.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java" />
       </list>
     </option>
@@ -2366,7 +2364,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1517630336979" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1517631907573" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -2414,7 +2412,7 @@
       </Profilers>
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1517630336979" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1517631907573" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -2597,7 +2595,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1517630336980" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1517631907573" />
       </method>
     </configuration>
     <list size="2">
@@ -2641,13 +2639,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1506944363424</updated>
-    </task>
-    <task id="LOCAL-00026" summary="ngay thu tien cach 3 - 4 ngay doc so, trung t7, cn thi ++">
-      <created>1515378149351</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1515378149351</updated>
     </task>
     <task id="LOCAL-00027" summary="add dialog select folder">
       <created>1515384902461</created>
@@ -2985,7 +2976,14 @@
       <option name="project" value="LOCAL" />
       <updated>1517629848858</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="xu ly dia chi">
+      <created>1517630351551</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1517630351551</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="TodoView">
@@ -3047,7 +3045,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="create ky, select ky" />
     <MESSAGE value="getHoaDon try catch image" />
     <MESSAGE value="khong load hinh khi khong can thiet: load danh sach danh bo." />
     <MESSAGE value="bao thay offline" />
@@ -3072,7 +3069,8 @@
     <MESSAGE value="xu ly code bao thay: khong co csgo" />
     <MESSAGE value="xu ly code retour" />
     <MESSAGE value="xu ly code retour reup" />
-    <option name="LAST_COMMIT_MESSAGE" value="xu ly code retour reup" />
+    <MESSAGE value="xu ly dia chi" />
+    <option name="LAST_COMMIT_MESSAGE" value="xu ly dia chi" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3416,7 +3414,7 @@
         <state relative-caret-position="330">
           <caret line="299" column="30" lean-forward="false" selection-start-line="299" selection-start-column="30" selection-end-line="299" selection-end-column="30" />
           <folding>
-            <element signature="e#12924#12977#0" expanded="true" />
+            <element signature="e#12924#12977#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3577,16 +3575,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CalculateCSM_TieuThu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="252" column="2" lean-forward="false" selection-start-line="252" selection-start-column="2" selection-end-line="252" selection-end-column="2" />
-          <folding>
-            <element signature="method#calTieuThuTB#0;class#CalculateCSM_TieuThu#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -3595,10 +3583,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CalculateCSM_TieuThu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24">
+          <caret line="262" column="57" lean-forward="false" selection-start-line="262" selection-start-column="57" selection-end-line="262" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="98">
-          <caret line="585" column="14" lean-forward="false" selection-start-line="585" selection-start-column="14" selection-end-line="585" selection-end-column="14" />
+        <state relative-caret-position="379">
+          <caret line="1891" column="26" lean-forward="false" selection-start-line="1891" selection-start-column="26" selection-end-line="1891" selection-end-column="26" />
           <folding />
         </state>
       </provider>

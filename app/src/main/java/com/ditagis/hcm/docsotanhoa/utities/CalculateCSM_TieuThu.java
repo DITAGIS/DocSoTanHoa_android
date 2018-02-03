@@ -250,7 +250,7 @@ public class CalculateCSM_TieuThu {
 //                csmString += "0";
 //            }
 //            csmString += (mCSM + "");
-            csmString = (int)Math.pow(10,lenghtCSC) + mCSM + "";
+            csmString = (int) Math.pow(10, lenghtCSC) + mCSM + "";
             tieuThu = Integer.parseInt(csmString) - mCSC - 1;
         } catch (Exception e) {
 
@@ -259,25 +259,28 @@ public class CalculateCSM_TieuThu {
     }
 
     private int calTieuThuTB() {
-        int csc = Integer.parseInt(mCodeCSCSanLuong.getCSC1());
-        String tt1 = mCodeCSCSanLuong.getSanLuong1();
-        String tt2 = mCodeCSCSanLuong.getSanLuong2();
-        String tt3 = mCodeCSCSanLuong.getSanLuong3();
-        int tieuThu1 = 0, tieuThu2 = 0, tieuThu3 = 0;
-        if (tt1.length() > 0)
-            tieuThu1 = Integer.parseInt(tt1);
-        if (tt2.length() > 0)
-            tieuThu2 = Integer.parseInt(tt2);
-        if (tt3.length() > 0)
-            tieuThu3 = Integer.parseInt(tt3);
-        double tempDouble = ((double) (tieuThu1 + tieuThu2 + tieuThu3)) / 3;
-        //lấy 1 chữ số sau dấu thập phân
-        int tempInt = (int) (tempDouble * 10);
-        String s = tempInt + "";
-        int lastNumber = Integer.parseInt(s.substring(s.length() - 1));
-        if (lastNumber <= 5)
-            return tempInt / 10;
-        else return tempInt / 10 + 1;
+        try {
+            String tt1 = mCodeCSCSanLuong.getSanLuong1();
+            String tt2 = mCodeCSCSanLuong.getSanLuong2();
+            String tt3 = mCodeCSCSanLuong.getSanLuong3();
+            int tieuThu1 = 0, tieuThu2 = 0, tieuThu3 = 0;
+            if (tt1.length() > 0)
+                tieuThu1 = Integer.parseInt(tt1);
+            if (tt2.length() > 0)
+                tieuThu2 = Integer.parseInt(tt2);
+            if (tt3.length() > 0)
+                tieuThu3 = Integer.parseInt(tt3);
+            double tempDouble = ((double) (tieuThu1 + tieuThu2 + tieuThu3)) / 3;
+            //lấy 1 chữ số sau dấu thập phân
+            int tempInt = (int) (tempDouble * 10);
+            String s = tempInt + "";
+            int lastNumber = Integer.parseInt(s.substring(s.length() - 1));
+            if (lastNumber <= 5)
+                return tempInt / 10;
+            else return tempInt / 10 + 1;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
 
