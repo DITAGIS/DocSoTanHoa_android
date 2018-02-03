@@ -716,25 +716,31 @@ public class DocSo extends Fragment {
     private int checkCSMFluctuation() {
         int tieuThu = 0, sum = 0, TTTB = 0, min = 0, max = 0;
         List<Integer> tieuThuList = new ArrayList<>();
-        if (mTxtTT.getText().length() > 0) {
-            tieuThu = Integer.parseInt(mTxtTT.getText().toString());
-            if (mTxtTT1.getText().length() > 0)
-                tieuThuList.add(Integer.parseInt(mTxtTT1.getText().toString()));
-            if (mTxtTT2.getText().length() > 0)
-                tieuThuList.add(Integer.parseInt(mTxtTT2.getText().toString()));
-            if (mTxtTT3.getText().length() > 0)
-                tieuThuList.add(Integer.parseInt(mTxtTT3.getText().toString()));
-            for (Integer item : tieuThuList)
-                sum += item;
-            TTTB = sum / tieuThuList.size();
-            if ((double) tieuThu / TTTB >= 1.5)
-                return 1;
-            else if ((double) TTTB / tieuThu >= 1.5)
-                return -1;
-            else return 0;
+        try {
+            if (mTxtTT.getText().length() > 0) {
 
-        } else
+                tieuThu = Integer.parseInt(mTxtTT.getText().toString());
+                if (mTxtTT1.getText().length() > 0)
+                    tieuThuList.add(Integer.parseInt(mTxtTT1.getText().toString()));
+                if (mTxtTT2.getText().length() > 0)
+                    tieuThuList.add(Integer.parseInt(mTxtTT2.getText().toString()));
+                if (mTxtTT3.getText().length() > 0)
+                    tieuThuList.add(Integer.parseInt(mTxtTT3.getText().toString()));
+                for (Integer item : tieuThuList)
+                    sum += item;
+
+                TTTB = sum / tieuThuList.size();
+                if ((double) tieuThu / TTTB >= 1.5)
+                    return 1;
+                else if ((double) TTTB / tieuThu >= 1.5)
+                    return -1;
+                else return 0;
+
+            } else
+                return 0;
+        } catch (Exception e) {
             return 0;
+        }
     }
 
     private void setTheme() {
@@ -1507,7 +1513,8 @@ public class DocSo extends Fragment {
         if (mCode.startsWith("8")) {
             if (mHoaDon.getCsgo() == -1) {
                 MySnackBar.make(mTxtCSM, "Chưa có dữ liệu báo thay", true);
-                mSpinCode.setSelection(0);
+                mCSGo = -1;
+//                mSpinCode.setSelection(0);
             } else
                 mCSGo = mHoaDon.getCsgo();
         }
@@ -1585,7 +1592,7 @@ public class DocSo extends Fragment {
 //            }
 //        } else
 
-            {
+        {
             mSpinCode.setSelection(0);
             mCode = Codes.getInstance().getCodeDescribles_ds()[0].getCode();
         }

@@ -212,52 +212,52 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
         return false;
     }
 
-    private int addDocSoLuuTru(HoaDon hoaDon) {
-        String sql = this.SQL_INSERT_LUUTRU;
-
-        try {
-            cnn = ConnectionDB.getInstance().getConnection();
-            if (cnn == null)
-                return 0;
-            PreparedStatement st = cnn.prepareStatement(sql);
-            st.setString(1, this.mNam + this.mKy + hoaDon.getDanhBo());
-            st.setString(2, hoaDon.getDanhBo());
-            st.setString(3, hoaDon.getMaLoTrinh());
-            st.setString(4, hoaDon.getMaLoTrinh());
-            st.setString(5, hoaDon.getSoNha());
-            st.setString(6, "");
-            st.setString(7, hoaDon.getDuong());
-            st.setString(8, hoaDon.getSdt());
-            st.setString(9, hoaDon.getGiaBieu());
-            st.setString(10, hoaDon.getDinhMuc());
-            st.setString(11, this.mNam);
-            st.setString(12, this.mKy);
-            st.setString(13, this.mDot);
-            st.setString(14, hoaDon.getMaLoTrinh().substring(2, 4));
-            st.setString(15, "");
-            st.setString(16, "");
-            st.setString(17, hoaDon.getChiSoCu());
-            st.setString(18, hoaDon.getChiSoMoi());
-            st.setString(19, hoaDon.getCode_CSC_SanLuong().getCode1());
-            st.setString(20, hoaDon.getCodeMoi());
-            st.setString(21, "");
-            st.setString(22, "");
-            st.setString(23, hoaDon.getCode_CSC_SanLuong().getSanLuong1());
-            int tieuThuMoi = Integer.parseInt(hoaDon.getChiSoMoi()) - Integer.parseInt(hoaDon.getChiSoCu());
-            st.setString(24, tieuThuMoi + "");
-            for (int i = 25; i <= 55; i++)
-                st.setString(i, "");
-            st.setString(56, hoaDon.getGhiChu());
-            for (int i = 57; i <= 62; i++)
-                st.setString(i, "");
-            int result = st.executeUpdate();
-            st.close();
-            return result;
-        } catch (SQLException e1) {
-            e1.printStackTrace();
-        }
-        return 0;
-    }
+//    private int addDocSoLuuTru(HoaDon hoaDon) {
+//        String sql = this.SQL_INSERT_LUUTRU;
+//
+//        try {
+//            cnn = ConnectionDB.getInstance().getConnection();
+//            if (cnn == null)
+//                return 0;
+//            PreparedStatement st = cnn.prepareStatement(sql);
+//            st.setString(1, this.mNam + this.mKy + hoaDon.getDanhBo());
+//            st.setString(2, hoaDon.getDanhBo());
+//            st.setString(3, hoaDon.getMaLoTrinh());
+//            st.setString(4, hoaDon.getMaLoTrinh());
+//            st.setString(5, hoaDon.getSoNha());
+//            st.setString(6, "");
+//            st.setString(7, hoaDon.getDuong());
+//            st.setString(8, hoaDon.getSdt());
+//            st.setString(9, hoaDon.getGiaBieu());
+//            st.setString(10, hoaDon.getDinhMuc());
+//            st.setString(11, this.mNam);
+//            st.setString(12, this.mKy);
+//            st.setString(13, this.mDot);
+//            st.setString(14, hoaDon.getMaLoTrinh().substring(2, 4));
+//            st.setString(15, "");
+//            st.setString(16, "");
+//            st.setString(17, hoaDon.getChiSoCu());
+//            st.setString(18, hoaDon.getChiSoMoi());
+//            st.setString(19, hoaDon.getCode_CSC_SanLuong().getCode1());
+//            st.setString(20, hoaDon.getCodeMoi());
+//            st.setString(21, "");
+//            st.setString(22, "");
+//            st.setString(23, hoaDon.getCode_CSC_SanLuong().getSanLuong1());
+//            int tieuThuMoi = Integer.parseInt(hoaDon.getChiSoMoi()) - Integer.parseInt(hoaDon.getChiSoCu());
+//            st.setString(24, tieuThuMoi + "");
+//            for (int i = 25; i <= 55; i++)
+//                st.setString(i, "");
+//            st.setString(56, hoaDon.getGhiChu());
+//            for (int i = 57; i <= 62; i++)
+//                st.setString(i, "");
+//            int result = st.executeUpdate();
+//            st.close();
+//            return result;
+//        } catch (SQLException e1) {
+//            e1.printStackTrace();
+//        }
+//        return 0;
+//    }
 
     private int addHinhDHN(HoaDon hoaDon) {
         String sqlInsert_HinhDHN = this.SQL_INSERT_HINHDHN;

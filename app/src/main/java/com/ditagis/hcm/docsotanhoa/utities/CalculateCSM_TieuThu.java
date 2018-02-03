@@ -80,6 +80,7 @@ public class CalculateCSM_TieuThu {
     }
 
     public void calculate() {
+
         if (mCode == null)
             mCode = "40";
         switch (mCode) {
@@ -163,7 +164,13 @@ public class CalculateCSM_TieuThu {
                 //todo để trống
                 if (!mCSMString.equals("null") && mCSMString.length() > 0) {
                     mCSM = Integer.parseInt(mCSMString);
-                    mTieuThu = mCSM + mCSGo - mCSC;
+                    if (mCSGo == -1) {
+                        mTieuThu = mCSM;
+                    } else {
+                        mTieuThu = mCSM + mCSGo - mCSC;
+                    }
+
+
                 }
 //                mTieuThu = calTieuThuTB();
 //                mCSM = mCSC + mTieuThu;

@@ -18,7 +18,7 @@ import java.util.List;
 
 public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
     private final String TABLE_NAME = "DocSo";
-    private final String SQL_SELECT_GETALL_BY_USERNAME = "SELECT gb,dm,CSCU, MLT2, soThanCu, hieucu, cocu, vitricu, codemoi,tungay, denngay FROM " + TABLE_NAME;
+    private final String SQL_SELECT_GETALL_BY_USERNAME = "SELECT gb,dm,CSCU, MLT2, soThanCu, hieucu, cocu, vitricu, codemoi,tungay, denngay,codecu, tieuthucu FROM " + TABLE_NAME;
     private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
     private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + " VALUES(?,?,?,?,?)";
     private final String SQL_DELETE = "DELETE FROM " + TABLE_NAME + " WHERE ClassId=?";
@@ -209,6 +209,8 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                 sh = sx = dv = hc = 0;
                 String tuNgay = formatter.format(rs.getDate(10));
                 String denNgay = formatter.format(rs.getDate(11));
+                code1 = rs.getString(12);
+                sanLuong_1 = rs.getString(13);
 //                mStatement = cnn.prepareStatement("SELECT tenkh,so, duong, sdt, sh,sx,dv,hc FROM KhachHang where MLT2 = ?");
 //                mStatement.setString(1, maLoTrinh);
                 query = "SELECT tenkh,so, duong, sdt, sh,sx,dv,hc FROM KhachHang where danhba = '" + danhBo + "'";
@@ -255,31 +257,37 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                     kyString = kyNamList.get(0) + "";
                     if (kyNamList.get(0) < 10)
                         kyString = "0" + kyNamList.get(0);
-                    query = "SELECT cscu, csmoi, codemoi, tieuthumoi FROM Docso where docsoid like '" + kyNamList.get(1) + kyString + "%' and danhba = '" + danhBo + "'";
+                    query = "SELECT cscu, codecu, tieuthucu FROM Docso where docsoid like '" + kyNamList.get(1) + kyString + "%' and danhba = '" + danhBo + "'";
 
-//                    mStatement = cnn.prepareStatement(sqlCode_CSC_SanLuong);
-//                    mStatement.setString(1, kyNamList.get(1) + kyNamList.get(0) + "%");
-//                    mStatement.setString(2, danhBo);
+
+
+
                     ResultSet rs2 = mStatement.executeQuery(query);
                     if (rs2.next()) {
                         CSC1 = rs2.getString(1);
-                        code1 = rs2.getString(3);
-                        sanLuong_1 = rs2.getString(4);
+                        code2 = rs2.getString(2);
+                        sanLuong_2 = rs2.getString(3);
                     }
-
+                    if (code1.equals("M0")) {
+                        query = "select chiso from thongbao where danhba ='" + danhBo + "'";
+                        ResultSet rsThongBao =  mStatement.executeQuery(query);
+                        if(rsThongBao.next()){
+                            chiSoCu = rsThongBao.getString(1);
+                        }
+                    }
 //                mStatement = cnn.prepareStatement(sqlCode_CSC_SanLuong);
 //                mStatement.setString(1, danhBo);
                     kyString = kyNamList.get(2) + "";
                     if (kyNamList.get(2) < 10)
                         kyString = "0" + kyNamList.get(2);
-                    query = "SELECT cscu, csmoi, codemoi, tieuthumoi  FROM Docso where docsoid like '" + kyNamList.get(3) +kyString + "%' and danhba = '" + danhBo + "'";
+                    query = "SELECT cscu, codecu, tieuthucu  FROM Docso where docsoid like '" + kyNamList.get(3) + kyString + "%' and danhba = '" + danhBo + "'";
 //
 //                    mStatement.setString(1, kyNamList.get(3) + kyNamList.get(2) + "%");
                     ResultSet rs3 = mStatement.executeQuery(query);
                     if (rs3.next()) {
                         CSC2 = rs3.getString(1);
-                        code2 = rs3.getString(3);
-                        sanLuong_2 = rs3.getString(4);
+                        code3 = rs3.getString(2);
+                        sanLuong_3 = rs3.getString(3);
                     }
 
 //                mStatement = cnn.prepareStatement(sqlCode_CSC_SanLuong);
@@ -287,17 +295,16 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                     kyString = kyNamList.get(4) + "";
                     if (kyNamList.get(4) < 10)
                         kyString = "0" + kyNamList.get(4);
-                    query = "SELECT cscu, csmoi, codemoi, tieuthumoi  FROM Docso where docsoid like '" + kyNamList.get(5) + kyString + "%' and danhba = '" + danhBo + "'";
+                    query = "SELECT cscu  FROM Docso where docsoid like '" + kyNamList.get(5) + kyString + "%' and danhba = '" + danhBo + "'";
 
 //                    mStatement.setString(1, kyNamList.get(5) + kyNamList.get(4) + "%");
                     ResultSet rs4 = mStatement.executeQuery(query);
                     if (rs4.next()) {
                         CSC3 = rs4.getString(1);
-                        code3 = rs4.getString(3);
-                        sanLuong_3 = rs4.getString(4);
+
                     }
                     rs1.close();
-                    rs2.close();
+//                    rs2.close();
                     rs3.close();
                     rs4.close();
                 }
