@@ -244,14 +244,16 @@ public class CalculateCSM_TieuThu {
             String csmString = "1";
 
             int lenghtCSC = (mCSC + "").length();
-            int lenghtCSM = (mCSM + "").length();
-            int needAdd = lenghtCSC - lenghtCSM;
-            for (int i = 0; i < needAdd; i++) {
-                csmString += "0";
-            }
-            csmString += (mCSM + "");
+//            int lenghtCSM = (mCSM + "").length();
+//            int needAdd = lenghtCSC - lenghtCSM;
+//            for (int i = 0; i < needAdd; i++) {
+//                csmString += "0";
+//            }
+//            csmString += (mCSM + "");
+            csmString = (int)Math.pow(10,lenghtCSC) + mCSM + "";
             tieuThu = Integer.parseInt(csmString) - mCSC - 1;
         } catch (Exception e) {
+
         }
         return tieuThu;
     }
