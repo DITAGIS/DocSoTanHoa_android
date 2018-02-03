@@ -250,7 +250,7 @@ public class CalculateCSM_TieuThu {
                 csmString += "0";
             }
             csmString += (mCSM + "");
-            tieuThu = Integer.parseInt(csmString) - mCSC;
+            tieuThu = Integer.parseInt(csmString) - mCSC - 1;
         } catch (Exception e) {
         }
         return tieuThu;
