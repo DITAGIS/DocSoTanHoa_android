@@ -186,7 +186,7 @@ public class CalculateCSM_TieuThu {
                 mTieuThu = calTieuThuTB();
                 mCSM = mTieuThu + mCSC;
                 break;
-            case "K":
+            case "K ":
                 //todo để trống
                 mCSM = mCSC;
                 mTieuThu = 0;
@@ -210,7 +210,7 @@ public class CalculateCSM_TieuThu {
                     mCSM = 0;
                 mTieuThu = 0;
                 break;
-            case "X":
+            case "X ":
                 if (!mCSMString.equals("null") && mCSMString.length() > 0)
                     mCSM = Integer.parseInt(mCSMString);
                 mTieuThu = retour();
@@ -224,7 +224,7 @@ public class CalculateCSM_TieuThu {
                     mCSM = 0;
                 mTieuThu = 0;
                 break;
-            case "Q":
+            case "Q ":
                 if (!mCSMString.equals("null") && mCSMString.length() > 0)
                     mCSM = Integer.parseInt(mCSMString);
                 else
@@ -239,17 +239,20 @@ public class CalculateCSM_TieuThu {
     }
 
     private int retour() {
-        int tieuThu;
-        String csmString = "1";
+        int tieuThu = 0;
+        try {
+            String csmString = "1";
 
-        int lenghtCSC = (mCSC + "").length();
-        int lenghtCSM = (mCSM + "").length();
-        int needAdd = lenghtCSC - lenghtCSM;
-        for (int i = 0; i < needAdd; i++) {
-            csmString += "0";
+            int lenghtCSC = (mCSC + "").length();
+            int lenghtCSM = (mCSM + "").length();
+            int needAdd = lenghtCSC - lenghtCSM;
+            for (int i = 0; i < needAdd; i++) {
+                csmString += "0";
+            }
+            csmString += (mCSM + "");
+            tieuThu = Integer.parseInt(csmString) - mCSC;
+        } catch (Exception e) {
         }
-        csmString += (mCSM + "");
-        tieuThu = Integer.parseInt(csmString) - mCSC;
         return tieuThu;
     }
 
