@@ -100,10 +100,9 @@ public class CalculateCSM_TieuThu {
             case "5M":
             case "5Q":
             case "5N":
-//                if (!mCSMString.equals("null") && mCSMString.length() > 0)
-//                    mCSM = Integer.parseInt(mCSMString);
+                if (!mCSMString.equals("null") && mCSMString.length() > 0)
+                    mCSM = Integer.parseInt(mCSMString);
 //                else
-                mCSM = 0;
                 mTieuThu = 0;
                 break;
             case "5F":
@@ -186,9 +185,9 @@ public class CalculateCSM_TieuThu {
                 mTieuThu = calTieuThuTB();
                 mCSM = mTieuThu + mCSC;
                 break;
-            case "K ":
+            case "K":
                 //todo để trống
-                mCSM = mCSC;
+                mCSM = 0;
                 mTieuThu = 0;
                 break;
             case "M0":

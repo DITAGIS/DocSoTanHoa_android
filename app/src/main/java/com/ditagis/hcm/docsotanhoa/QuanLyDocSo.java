@@ -41,6 +41,7 @@ import com.ditagis.hcm.docsotanhoa.adapter.CodeSpinnerAdapter;
 import com.ditagis.hcm.docsotanhoa.adapter.CustomArrayAdapter;
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewQuanLyDocSoAdapter;
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewSelectFolderAdapter;
+import com.ditagis.hcm.docsotanhoa.conectDB.ConnectionDB;
 import com.ditagis.hcm.docsotanhoa.conectDB.HoaDonDB;
 import com.ditagis.hcm.docsotanhoa.conectDB.SumDanhBoDB;
 import com.ditagis.hcm.docsotanhoa.conectDB.Uploading;
@@ -56,6 +57,7 @@ import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.Note;
 import com.ditagis.hcm.docsotanhoa.utities.Printer;
 
+import java.sql.Connection;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -1515,6 +1517,7 @@ public class QuanLyDocSo extends Fragment {
             if (this.countUpload == 0) {
                 Toast.makeText(mRootView.getContext(), "Đồng bộ thành công", Toast.LENGTH_SHORT).show();
             } else {
+                ConnectionDB.getInstance().reConnect();
                 Toast.makeText(mRootView.getContext(), "Đồng bộ thất bại. Kiểm tra lại kết nối internet", Toast.LENGTH_SHORT).show();
             }
             refresh();

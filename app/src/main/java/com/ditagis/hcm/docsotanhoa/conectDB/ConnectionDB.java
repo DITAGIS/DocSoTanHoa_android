@@ -36,6 +36,12 @@ public class ConnectionDB {
         return connection;
     }
 
+    public Connection getConnection(boolean isLogin) {
+
+        connection = getConnect();
+        return connection;
+    }
+
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
@@ -47,7 +53,7 @@ public class ConnectionDB {
     private Connection getConnect() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        String url = String.format("jdbc:jtds:sqlserver://%s:%s/%s;instance=%s",SERVER,PORT,DB,INSTANCT_NAME);
+        String url = String.format("jdbc:jtds:sqlserver://%s:%s/%s;instance=%s", SERVER, PORT, DB, INSTANCT_NAME);
         Connection cnn = null;
         try {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
