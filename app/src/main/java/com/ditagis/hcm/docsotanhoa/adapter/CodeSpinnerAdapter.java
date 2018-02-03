@@ -35,6 +35,10 @@ public class CodeSpinnerAdapter extends ArrayAdapter<Code_Describle> {
         return codeDescribles[position];
     }
 
+    public void clear() {
+        codeDescribles = new Code_Describle[]{};
+    }
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

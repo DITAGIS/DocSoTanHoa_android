@@ -1892,6 +1892,8 @@ public class DocSo extends Fragment {
             mSdts.clear();
             mAdapterSdt.notifyDataSetChanged();
 
+            mAdapterCode.clear();
+            mAdapterCode.notifyDataSetChanged();
             if (mDots.size() > 0)
                 mSpinDot.setSelection(0);
             else {
