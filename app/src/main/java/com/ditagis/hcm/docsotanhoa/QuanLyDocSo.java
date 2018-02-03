@@ -1376,7 +1376,7 @@ public class QuanLyDocSo extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //TODO: lưu chỉnh sửa
-                if (etxtCSM.getText().toString().trim().length() == 0 || txtTT.getText().toString().trim().toString().length() ==0F)
+                if (etxtCSM.getText().toString().trim().length() == 0 || txtTT.getText().toString().trim().toString().length() == 0F)
                     return;
                 hoaDon.setChiSoMoi(etxtCSM.getText().toString());
                 hoaDon.setCodeMoi(mCode);
@@ -1443,9 +1443,10 @@ public class QuanLyDocSo extends Fragment {
 
     }
 
-    class UploadingAsync extends AsyncTask<String, Boolean, Void> {
+    class UploadingAsync extends AsyncTask<String, Integer, Void> {
         private ProgressDialog dialog;
         private int countUpload = 0;
+        private int sum = 0;
 
         public UploadingAsync() {
             this.dialog = new ProgressDialog(mRootView.getContext(), android.R.style.Theme_Material_Dialog_Alert);
@@ -1462,6 +1463,7 @@ public class QuanLyDocSo extends Fragment {
             for (GridViewQuanLyDocSoAdapter.Item item : mQuanLyDocSoAdapter.getItems())
                 if (item.getFlag() == Flag.READ)
                     countUpload++;
+            sum = countUpload;
         }
 
         @Override
@@ -1478,6 +1480,7 @@ public class QuanLyDocSo extends Fragment {
                             mQuanLyDocSoAdapter.removeItem(hoaDon.getMaLoTrinh());
                             countUpload--;
                             LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonSynchronized(hoaDon);
+                            publishProgress(countUpload);
                         }
                         break;
                     }
@@ -1485,25 +1488,18 @@ public class QuanLyDocSo extends Fragment {
             }
             if (countUpload == 0)
                 isValid = true;
-            publishProgress(isValid);
+
             return null;
 
         }
 
         @Override
-        protected void onProgressUpdate(Boolean... values) {
+        protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            boolean isValid = values[0];
-            notifyDataSetGridViewChange();
-            ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + mHoaDons.size());
-            mDanhBoHoanThanh += LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike, mKy, false).size();
-            setTextProgress();
-            if (isValid) {
-                Toast.makeText(mRootView.getContext(), "Đồng bộ thành công", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(mRootView.getContext(), "Đồng bộ thất bại. Kiểm tra lại kết nối internet", Toast.LENGTH_SHORT).show();
-            }
-            refresh();
+            int count = values[0];
+            String title = String.format("%s %d/%d (%d%%)", "Đang đồng bộ: ", sum-count, sum, Math.round((sum-count) * 100 / sum));
+            dialog.setTitle(title);
+
         }
 
         @Override
@@ -1512,6 +1508,16 @@ public class QuanLyDocSo extends Fragment {
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
+            notifyDataSetGridViewChange();
+            ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + mHoaDons.size());
+            mDanhBoHoanThanh += LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike, mKy, false).size();
+            setTextProgress();
+            if (this.countUpload == 0) {
+                Toast.makeText(mRootView.getContext(), "Đồng bộ thành công", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(mRootView.getContext(), "Đồng bộ thất bại. Kiểm tra lại kết nối internet", Toast.LENGTH_SHORT).show();
+            }
+            refresh();
         }
     }
 

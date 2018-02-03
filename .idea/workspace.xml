@@ -18,8 +18,7 @@
   <component name="ChangeListManager">
     <list default="true" id="46a10ebd-f94e-40ec-8d8e-12fac7840b85" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/adapter/CodeSpinnerAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/adapter/CodeSpinnerAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java" />
     </list>
     <ignored path="HCM_DOCSOTANHOA.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -65,56 +64,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="CalculateCSM_TieuThu.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CalculateCSM_TieuThu.java">
+      <file leaf-file-name="QuanLyDocSo.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="24">
-              <caret line="262" column="57" lean-forward="false" selection-start-line="262" selection-start-column="57" selection-end-line="262" selection-end-column="57" />
+            <state relative-caret-position="234">
+              <caret line="1499" column="75" lean-forward="false" selection-start-line="1499" selection-start-column="75" selection-end-line="1499" selection-end-column="75" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DocSo.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java">
+      <file leaf-file-name="LayLoTrinhAsync.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/async/LayLoTrinhAsync.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="1894" column="28" lean-forward="false" selection-start-line="1894" selection-start-column="28" selection-end-line="1894" selection-end-column="28" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CodeSpinnerAdapter.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/adapter/CodeSpinnerAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="37" column="16" lean-forward="false" selection-start-line="37" selection-start-column="16" selection-end-line="37" selection-end-column="16" />
-              <folding>
-                <element signature="e#1017#1018#0" expanded="true" />
-                <element signature="e#1064#1065#0" expanded="true" />
-                <element signature="e#1091#1092#0" expanded="true" />
-                <element signature="e#1146#1147#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ConnectionDB.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/ConnectionDB.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LocalDatabase.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="174">
-              <caret line="548" column="0" lean-forward="false" selection-start-line="548" selection-start-column="0" selection-end-line="548" selection-end-column="0" />
+            <state relative-caret-position="388">
+              <caret line="178" column="0" lean-forward="false" selection-start-line="178" selection-start-column="0" selection-end-line="178" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -132,7 +96,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>singlecomplete.set</find>
       <find>singlecomplete.add</find>
       <find>new GridViewQuanLyDocSoAdapter.Item</find>
       <find>mspincode</find>
@@ -162,6 +125,7 @@
       <find>save</find>
       <find>mAdapterCode</find>
       <find>handle</find>
+      <find>upload</find>
     </findStrings>
     <replaceStrings>
       <replace>builder.append(String.format(</replace>
@@ -2106,7 +2070,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/async/LayLoTrinhAsync.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/ConnectionDB.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/Uploading.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/doc_so_fragment.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/HoaDonDB.java" />
@@ -2114,6 +2077,7 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CalculateCSM_TieuThu.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/adapter/CodeSpinnerAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java" />
       </list>
     </option>
   </component>
@@ -2199,28 +2163,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="docsotanhoa" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TanHoa_DocSo_Android" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="docsotanhoa" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="utities" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -2411,7 +2353,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1517632871038" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1517634956666" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -2459,7 +2401,7 @@
       </Profilers>
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1517632871038" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1517634956666" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -2642,7 +2584,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1517632871038" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1517634956668" />
       </method>
     </configuration>
     <list size="2">
@@ -2686,13 +2628,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1506944363424</updated>
-    </task>
-    <task id="LOCAL-00028" summary="mspindot setselection">
-      <created>1515385146299</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1515385146299</updated>
     </task>
     <task id="LOCAL-00029" summary="add spinNam, spinKy">
       <created>1515386064905</created>
@@ -3030,7 +2965,14 @@
       <option name="project" value="LOCAL" />
       <updated>1517631927636</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <task id="LOCAL-00077" summary="xoa ds khi doc xong reup">
+      <created>1517632887827</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1517632887827</updated>
+    </task>
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="TodoView">
@@ -3092,7 +3034,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="khong load hinh khi khong can thiet: load danh sach danh bo." />
     <MESSAGE value="bao thay offline" />
     <MESSAGE value="textprogress" />
     <MESSAGE value="set height gridview qlds" />
@@ -3117,7 +3058,8 @@
     <MESSAGE value="xu ly code retour reup" />
     <MESSAGE value="xu ly dia chi" />
     <MESSAGE value="xoa ds khi doc xong" />
-    <option name="LAST_COMMIT_MESSAGE" value="xoa ds khi doc xong" />
+    <MESSAGE value="xoa ds khi doc xong reup" />
+    <option name="LAST_COMMIT_MESSAGE" value="xoa ds khi doc xong reup" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3128,7 +3070,7 @@
           </selected-grouping-rules>
         </breakpoints-dialog>
       </breakpoints-dialog>
-      <option name="time" value="335" />
+      <option name="time" value="337" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="app">
@@ -3140,13 +3082,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$USER_HOME$/AppData/Local/Android/sdk/extras/android/m2repository/com/android/support/appcompat-v7/25.3.1/appcompat-v7-25.3.1-sources.jar!/android/support/v7/widget/ActionMenuView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="775" column="0" lean-forward="false" selection-start-line="775" selection-start-column="0" selection-end-line="775" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/AppData/Local/Android/sdk/extras/android/m2repository/com/android/support/appcompat-v7/25.3.1/appcompat-v7-25.3.1-sources.jar!/android/support/v7/view/menu/MenuItemImpl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="182">
@@ -3228,42 +3163,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27321">
-          <caret line="1385" column="35" lean-forward="false" selection-start-line="1385" selection-start-column="35" selection-end-line="1385" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#13793#13794#0" expanded="false" />
-            <element signature="e#13855#13856#0" expanded="false" />
-            <element signature="e#16678#16679#0" expanded="false" />
-            <element signature="e#16711#16712#0" expanded="false" />
-            <element signature="e#16739#16740#0" expanded="false" />
-            <element signature="e#16766#16767#0" expanded="false" />
-            <element signature="e#16803#16804#0" expanded="false" />
-            <element signature="e#16835#16836#0" expanded="false" />
-            <element signature="e#21443#21444#0" expanded="false" />
-            <element signature="e#21473#21474#0" expanded="false" />
-            <element signature="e#21510#21511#0" expanded="false" />
-            <element signature="e#21542#21543#0" expanded="false" />
-            <element signature="e#34332#34333#0" expanded="false" />
-            <element signature="e#34375#34376#0" expanded="false" />
-            <element signature="e#36618#36619#0" expanded="false" />
-            <element signature="e#36675#36676#0" expanded="false" />
-            <element signature="e#50773#50774#0" expanded="false" />
-            <element signature="e#50821#50822#0" expanded="false" />
-            <element signature="e#56693#56694#0" expanded="false" />
-            <element signature="e#56734#56735#0" expanded="false" />
-            <element signature="e#67266#67267#0" expanded="false" />
-            <element signature="e#67330#67331#0" expanded="false" />
-            <element signature="e#73222#73223#0" expanded="false" />
-            <element signature="e#73286#73287#0" expanded="false" />
-            <element signature="e#75765#75766#0" expanded="false" />
-            <element signature="e#75829#75830#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -3310,16 +3209,6 @@
             <element signature="e#7951#7952#0" expanded="false" />
             <element signature="e#8003#8004#0" expanded="false" />
             <element signature="e#8051#8052#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/Uploading.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="214" column="0" lean-forward="false" selection-start-line="214" selection-start-column="0" selection-end-line="214" selection-end-column="0" />
-          <folding>
-            <element signature="e#7732#7781#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3441,45 +3330,6 @@
           <caret line="299" column="30" lean-forward="false" selection-start-line="299" selection-start-column="30" selection-end-line="299" selection-end-column="30" />
           <folding>
             <element signature="e#12924#12977#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/async/LayLoTrinhAsync.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="118" column="0" lean-forward="false" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-24/android/os/AsyncTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="244" column="0" lean-forward="false" selection-start-line="244" selection-start-column="0" selection-end-line="244" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#27480#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#9600#9610#0" expanded="false" />
-            <element signature="e#10985#10995#0" expanded="false" />
-            <element signature="e#11112#11349#0" expanded="false" />
-            <element signature="e#11348#11349#0" expanded="false" />
-            <element signature="e#12413#12414#0" expanded="false" />
-            <element signature="e#12452#12453#0" expanded="false" />
-            <element signature="e#12605#13027#0" expanded="false" />
-            <element signature="e#13026#13027#0" expanded="false" />
-            <element signature="e#13912#13942#1" expanded="false" />
-            <element signature="e#14281#14282#0" expanded="false" />
-            <element signature="e#14311#14312#0" expanded="false" />
-            <element signature="e#16750#16751#0" expanded="false" />
-            <element signature="e#16779#16780#0" expanded="false" />
-            <element signature="e#17764#17765#0" expanded="false" />
-            <element signature="e#17803#17804#0" expanded="false" />
-            <element signature="e#25285#25286#0" expanded="false" />
-            <element signature="e#25335#25336#0" expanded="false" />
-            <element signature="e#26427#26428#0" expanded="false" />
-            <element signature="e#26480#26481#0" expanded="false" />
-            <element signature="e#27196#27244#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3651,6 +3501,48 @@
             <element signature="e#1091#1092#0" expanded="true" />
             <element signature="e#1146#1147#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-25/android/os/AsyncTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="655" column="25" lean-forward="false" selection-start-line="655" selection-start-column="25" selection-end-line="655" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/Uploading.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="262" column="40" lean-forward="false" selection-start-line="262" selection-start-column="40" selection-end-line="262" selection-end-column="40" />
+          <folding>
+            <element signature="e#7732#7781#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-24/android/os/AsyncTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="313" column="0" lean-forward="false" selection-start-line="313" selection-start-column="0" selection-end-line="313" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/async/LayLoTrinhAsync.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="388">
+          <caret line="178" column="0" lean-forward="false" selection-start-line="178" selection-start-column="0" selection-end-line="178" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="1499" column="75" lean-forward="false" selection-start-line="1499" selection-start-column="75" selection-end-line="1499" selection-end-column="75" />
+          <folding />
         </state>
       </provider>
     </entry>
