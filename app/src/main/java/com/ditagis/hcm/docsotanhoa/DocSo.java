@@ -592,6 +592,9 @@ public class DocSo extends Fragment {
                 mAdapterDiaChi.notifyDataSetChanged();
                 mHoaDon.setSoNha(mSoNha);
                 mHoaDon.setDuong(mDuong);
+
+                LocalDatabase.getInstance(mRootView.getContext()).updateHoaDon_Address(mHoaDon.getDanhBo(), mSoNha, mDuong, Flag.UNREAD);
+
                 dialog.dismiss();
 
             }

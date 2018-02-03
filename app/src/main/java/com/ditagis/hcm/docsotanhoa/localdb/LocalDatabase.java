@@ -737,6 +737,26 @@ public class LocalDatabase extends SQLiteOpenHelper {
         return true;
     }
 
+    public boolean updateHoaDon_Address(String danhBo, String soNha, String duong, int flag_old) {
+        Log.i(TAG, "LocalDatabase.updateHoaDon ... " + danhBo);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String sql = "update " + TABLE_HOADON + " set " +
+                COLUMN_HOADON_SONHA + " = '" + soNha + "'," +
+                COLUMN_HOADON_DUONG + " = '" + duong + "'" +
+
+
+                " where " +
+                COLUMN_HOADON_DANHBO + " ='" + danhBo + "' and " +
+                COLUMN_HOADON_FLAG + " = " + flag_old;
+
+        db.execSQL(sql);
+        // Đóng kết nối database.
+        db.close();
+        return true;
+    }
+
     public boolean updateHoaDon_without_csm(HoaDon hoaDon, int flag_old) {
         Log.i(TAG, "LocalDatabase.updateHoaDon ... " + hoaDon.getDanhBo());
 
