@@ -18,10 +18,9 @@
   <component name="ChangeListManager">
     <list default="true" id="46a10ebd-f94e-40ec-8d8e-12fac7840b85" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/ConnectionDB.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/ConnectionDB.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/LogInDB.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/LogInDB.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CalculateCSM_TieuThu.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CalculateCSM_TieuThu.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/doc_so_fragment.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/doc_so_fragment.xml" />
     </list>
     <ignored path="HCM_DOCSOTANHOA.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -67,11 +66,37 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="QuanLyDocSo.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DocSo.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="21">
+              <caret line="276" column="0" lean-forward="false" selection-start-line="256" selection-start-column="7" selection-end-line="276" selection-end-column="0" />
+              <folding>
+                <marker date="1517642409572" expanded="false" signature="11663:11723" ph="&quot;Lỗi không tìm thấy số điện thoại!&quot;" />
+                <marker date="1517642409572" expanded="false" signature="12122:12183" ph="&quot;Lỗi chứa ký tự đặc biệt&quot;" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="QuanLyDocSo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
+            <state relative-caret-position="30051">
               <caret line="1519" column="55" lean-forward="false" selection-start-line="1519" selection-start-column="55" selection-end-line="1519" selection-end-column="55" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+          <provider editor-type-id="android-manifest">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="231">
+              <caret line="11" column="70" lean-forward="false" selection-start-line="11" selection-start-column="54" selection-end-line="11" selection-end-column="70" />
               <folding />
             </state>
           </provider>
@@ -80,18 +105,28 @@
       <file leaf-file-name="CalculateCSM_TieuThu.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CalculateCSM_TieuThu.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
+            <state relative-caret-position="1953">
               <caret line="104" column="22" lean-forward="false" selection-start-line="104" selection-start-column="22" selection-end-line="104" selection-end-column="22" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#1813#1814#0" expanded="false" />
+                <element signature="e#1841#1842#0" expanded="false" />
+                <element signature="e#1883#1884#0" expanded="false" />
+                <element signature="e#1917#1918#0" expanded="false" />
+                <element signature="e#1971#1972#0" expanded="false" />
+                <element signature="e#2010#2011#0" expanded="false" />
+                <element signature="e#2256#2257#0" expanded="false" />
+                <element signature="e#2314#2315#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LogInDB.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="LogInDB.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/LogInDB.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="201">
-              <caret line="109" column="59" lean-forward="false" selection-start-line="109" selection-start-column="59" selection-end-line="109" selection-end-column="59" />
+            <state relative-caret-position="255">
+              <caret line="139" column="64" lean-forward="true" selection-start-line="139" selection-start-column="64" selection-end-line="139" selection-end-column="64" />
               <folding />
             </state>
           </provider>
@@ -100,9 +135,34 @@
       <file leaf-file-name="ConnectionDB.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/ConnectionDB.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
+            <state relative-caret-position="442">
               <caret line="50" column="5" lean-forward="false" selection-start-line="48" selection-start-column="3" selection-end-line="50" selection-end-column="5" />
+              <folding>
+                <element signature="e#1435#1436#0" expanded="true" />
+                <element signature="e#1468#1469#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HoaDonDB.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/HoaDonDB.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="297" column="40" lean-forward="false" selection-start-line="297" selection-start-column="40" selection-end-line="297" selection-end-column="40" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LocalDatabase.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="11214">
+              <caret line="548" column="0" lean-forward="false" selection-start-line="548" selection-start-column="0" selection-end-line="548" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -110,7 +170,7 @@
       <file leaf-file-name="LayLoTrinhAsync.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/async/LayLoTrinhAsync.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="388">
+            <state relative-caret-position="3192">
               <caret line="178" column="0" lean-forward="false" selection-start-line="178" selection-start-column="0" selection-end-line="178" selection-end-column="0" />
               <folding />
             </state>
@@ -129,7 +189,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>singlecomplete.add</find>
       <find>new GridViewQuanLyDocSoAdapter.Item</find>
       <find>mspincode</find>
       <find>mSpinCode.setsel</find>
@@ -159,6 +218,7 @@
       <find>mAdapterCode</find>
       <find>handle</find>
       <find>upload</find>
+      <find>call</find>
     </findStrings>
     <replaceStrings>
       <replace>builder.append(String.format(</replace>
@@ -2102,15 +2162,15 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/async/LayLoTrinhAsync.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/Uploading.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/doc_so_fragment.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/HoaDonDB.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/adapter/CodeSpinnerAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CalculateCSM_TieuThu.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/LogInDB.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/ConnectionDB.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/doc_so_fragment.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/LogInDB.java" />
       </list>
     </option>
   </component>
@@ -2154,6 +2214,10 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -2216,60 +2280,12 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="utities" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TanHoa_DocSo_Android" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="docsotanhoa" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="conectDB" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TanHoa_DocSo_Android" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="docsotanhoa" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="async" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="ProjectPane" />
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2278,7 +2294,7 @@
     <property name="device.picker.selection" value="5200b8cfea346405" />
     <property name="android.project.structure.last.selected" value="Project" />
     <property name="android.project.structure.proportion" value="0.15" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="D:/Download/GetIMEInumber-Android-Examples.com/GetIMEInumber-Android-Examples.com_/GetIMEInumber-Android-Examples.com" />
     <property name="show.do.not.ask.upgrade.gradle.plugin" value="2.3.3" />
   </component>
   <component name="RecentsManager">
@@ -2408,7 +2424,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1517637044324" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1517753919636" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -2456,7 +2472,7 @@
       </Profilers>
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1517637044324" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1517753919636" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -2488,27 +2504,6 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <method />
-    </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
       <method />
     </configuration>
     <configuration default="true" type="JarApplication" factoryName="JAR Application">
@@ -2639,7 +2634,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1517637044325" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1517753919637" />
       </method>
     </configuration>
     <list size="2">
@@ -2683,13 +2678,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1506944363424</updated>
-    </task>
-    <task id="LOCAL-00030" summary="add selectFolder qlds">
-      <created>1515386555298</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1515386555298</updated>
     </task>
     <task id="LOCAL-00031" summary="code 82, get csgo online when select code 82">
       <created>1515389580867</created>
@@ -3027,7 +3015,14 @@
       <option name="project" value="LOCAL" />
       <updated>1517634974154</updated>
     </task>
-    <option name="localTasksCounter" value="79" />
+    <task id="LOCAL-00079" summary="dong bo sau khi mat ket noi">
+      <created>1517637065166</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1517637065166</updated>
+    </task>
+    <option name="localTasksCounter" value="80" />
     <servers />
   </component>
   <component name="TodoView">
@@ -3043,29 +3038,27 @@
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
     <layout>
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33063585" sideWeight="0.50427806" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947975" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32994652" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3653179" sideWeight="0.49572194" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947975" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967836" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33063585" sideWeight="0.50427806" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3213873" sideWeight="0.49786097" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32716763" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947975" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947975" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24705882" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4416185" sideWeight="0.49786097" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32994652" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32994652" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3653179" sideWeight="0.49572194" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -3075,6 +3068,8 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967836" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4416185" sideWeight="0.49786097" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -3089,7 +3084,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="textprogress" />
     <MESSAGE value="set height gridview qlds" />
     <MESSAGE value="doc vet code F" />
     <MESSAGE value="doc vet code F --&gt; set codemoi, csmoi, tieuthumoi" />
@@ -3114,7 +3108,8 @@
     <MESSAGE value="xoa ds khi doc xong" />
     <MESSAGE value="xoa ds khi doc xong reup" />
     <MESSAGE value="dong bo phan tram" />
-    <option name="LAST_COMMIT_MESSAGE" value="dong bo phan tram" />
+    <MESSAGE value="dong bo sau khi mat ket noi" />
+    <option name="LAST_COMMIT_MESSAGE" value="dong bo sau khi mat ket noi" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3125,7 +3120,7 @@
           </selected-grouping-rules>
         </breakpoints-dialog>
       </breakpoints-dialog>
-      <option name="time" value="337" />
+      <option name="time" value="338" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="app">
@@ -3137,13 +3132,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$USER_HOME$/AppData/Local/Android/sdk/extras/android/m2repository/com/android/support/appcompat-v7/25.3.1/appcompat-v7-25.3.1-sources.jar!/android/support/v7/view/menu/MenuItemImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="177" column="0" lean-forward="false" selection-start-line="177" selection-start-column="0" selection-end-line="177" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/AppData/Local/Android/sdk/extras/android/m2repository/com/android/support/appcompat-v7/25.3.1/appcompat-v7-25.3.1-sources.jar!/android/support/v7/view/menu/MenuBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="19404">
@@ -3208,14 +3196,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/layout_edit_thongtin_docso.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="903">
           <caret line="43" column="53" lean-forward="false" selection-start-line="43" selection-start-column="53" selection-end-line="43" selection-end-column="53" />
-          <folding />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
@@ -3330,19 +3317,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/doc_so_fragment.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="676" column="58" lean-forward="false" selection-start-line="676" selection-start-column="58" selection-end-line="676" selection-end-column="58" />
-          <folding>
-            <element signature="e#31949#34218#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/LoginActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
@@ -3350,14 +3324,6 @@
           <folding>
             <element signature="e#12924#12977#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/HoaDonDB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="297" column="40" lean-forward="false" selection-start-line="297" selection-start-column="40" selection-end-line="297" selection-end-column="40" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3373,7 +3339,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
           <caret line="10402" column="0" lean-forward="false" selection-start-line="10402" selection-start-column="0" selection-end-line="10402" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3381,7 +3346,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
           <caret line="508" column="0" lean-forward="false" selection-start-line="508" selection-start-column="0" selection-end-line="508" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3389,7 +3353,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
           <caret line="200" column="0" lean-forward="false" selection-start-line="200" selection-start-column="0" selection-end-line="200" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3397,7 +3360,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="182">
           <caret line="182" column="0" lean-forward="false" selection-start-line="182" selection-start-column="0" selection-end-line="182" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3405,7 +3367,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="182">
           <caret line="345" column="0" lean-forward="false" selection-start-line="345" selection-start-column="0" selection-end-line="345" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3413,44 +3374,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="173">
           <caret line="101" column="0" lean-forward="false" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#31769#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#4519#4520#0" expanded="false" />
-            <element signature="e#4552#4553#0" expanded="false" />
-            <element signature="e#5003#5004#0" expanded="false" />
-            <element signature="e#5040#5041#0" expanded="false" />
-            <element signature="e#5218#5219#0" expanded="false" />
-            <element signature="e#5259#5260#0" expanded="false" />
-            <element signature="e#5605#5606#0" expanded="false" />
-            <element signature="e#5650#5651#0" expanded="false" />
-            <element signature="e#6442#6443#0" expanded="false" />
-            <element signature="e#6475#6476#0" expanded="false" />
-            <element signature="e#10650#10651#0" expanded="false" />
-            <element signature="e#10693#10694#0" expanded="false" />
-            <element signature="e#11006#11007#0" expanded="false" />
-            <element signature="e#11055#11056#0" expanded="false" />
-            <element signature="e#13251#13252#0" expanded="false" />
-            <element signature="e#13314#13315#0" expanded="false" />
-            <element signature="e#20585#20586#0" expanded="false" />
-            <element signature="e#20637#20638#0" expanded="false" />
-            <element signature="e#21480#21481#0" expanded="false" />
-            <element signature="e#21529#21530#0" expanded="false" />
-            <element signature="e#21886#21887#0" expanded="false" />
-            <element signature="e#21941#21942#0" expanded="false" />
-            <element signature="e#27042#27043#0" expanded="false" />
-            <element signature="e#27097#27098#0" expanded="false" />
-            <element signature="e#27933#27934#0" expanded="false" />
-            <element signature="e#27992#27993#0" expanded="false" />
-            <element signature="e#28453#28454#0" expanded="false" />
-            <element signature="e#28509#28510#0" expanded="false" />
-            <element signature="e#28690#28691#0" expanded="false" />
-            <element signature="e#28720#28721#0" expanded="false" />
-            <element signature="e#30052#30053#0" expanded="false" />
-            <element signature="e#30090#30091#0" expanded="false" />
-            <element signature="e#30428#30429#0" expanded="false" />
-            <element signature="e#30464#30465#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3458,7 +3381,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="201">
           <caret line="142" column="48" lean-forward="true" selection-start-line="142" selection-start-column="48" selection-end-line="142" selection-end-column="48" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3466,15 +3388,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-189">
           <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="548" column="0" lean-forward="false" selection-start-line="548" selection-start-column="0" selection-end-line="548" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3482,15 +3395,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="172">
           <caret line="279" column="16" lean-forward="false" selection-start-line="279" selection-start-column="16" selection-end-line="279" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="1894" column="28" lean-forward="false" selection-start-line="1894" selection-start-column="28" selection-end-line="1894" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3498,12 +3402,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
           <caret line="37" column="16" lean-forward="false" selection-start-line="37" selection-start-column="16" selection-end-line="37" selection-end-column="16" />
-          <folding>
-            <element signature="e#1017#1018#0" expanded="true" />
-            <element signature="e#1064#1065#0" expanded="true" />
-            <element signature="e#1091#1092#0" expanded="true" />
-            <element signature="e#1146#1147#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3529,37 +3427,30 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="172">
           <caret line="313" column="0" lean-forward="false" selection-start-line="313" selection-start-column="0" selection-end-line="313" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CalculateCSM_TieuThu.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
+        <state relative-caret-position="1953">
           <caret line="104" column="22" lean-forward="false" selection-start-line="104" selection-start-column="22" selection-end-line="104" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/LogInDB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="109" column="59" lean-forward="false" selection-start-line="109" selection-start-column="59" selection-end-line="109" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/ConnectionDB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="50" column="5" lean-forward="false" selection-start-line="48" selection-start-column="3" selection-end-line="50" selection-end-column="5" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1813#1814#0" expanded="false" />
+            <element signature="e#1841#1842#0" expanded="false" />
+            <element signature="e#1883#1884#0" expanded="false" />
+            <element signature="e#1917#1918#0" expanded="false" />
+            <element signature="e#1971#1972#0" expanded="false" />
+            <element signature="e#2010#2011#0" expanded="false" />
+            <element signature="e#2256#2257#0" expanded="false" />
+            <element signature="e#2314#2315#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/async/LayLoTrinhAsync.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="388">
+        <state relative-caret-position="3192">
           <caret line="178" column="0" lean-forward="false" selection-start-line="178" selection-start-column="0" selection-end-line="178" selection-end-column="0" />
           <folding />
         </state>
@@ -3567,8 +3458,80 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
+        <state relative-caret-position="30051">
           <caret line="1519" column="55" lean-forward="false" selection-start-line="1519" selection-start-column="55" selection-end-line="1519" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="11" column="70" lean-forward="false" selection-start-line="11" selection-start-column="54" selection-end-line="11" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="11214">
+          <caret line="548" column="0" lean-forward="false" selection-start-line="548" selection-start-column="0" selection-end-line="548" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/doc_so_fragment.xml">
+      <provider selected="true" editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="11823">
+          <caret line="563" column="63" lean-forward="false" selection-start-line="556" selection-start-column="16" selection-end-line="563" selection-end-column="63" />
+          <folding>
+            <element signature="e#32005#34274#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="276" column="0" lean-forward="false" selection-start-line="256" selection-start-column="7" selection-end-line="276" selection-end-column="0" />
+          <folding>
+            <marker date="1517642409572" expanded="false" signature="11663:11723" ph="&quot;Lỗi không tìm thấy số điện thoại!&quot;" />
+            <marker date="1517642409572" expanded="false" signature="12122:12183" ph="&quot;Lỗi chứa ký tự đặc biệt&quot;" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/ConnectionDB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="50" column="5" lean-forward="false" selection-start-line="48" selection-start-column="3" selection-end-line="50" selection-end-column="5" />
+          <folding>
+            <element signature="e#1435#1436#0" expanded="true" />
+            <element signature="e#1468#1469#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/HoaDonDB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="297" column="40" lean-forward="false" selection-start-line="297" selection-start-column="40" selection-end-line="297" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/LogInDB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="139" column="64" lean-forward="true" selection-start-line="139" selection-start-column="64" selection-end-line="139" selection-end-column="64" />
           <folding />
         </state>
       </provider>

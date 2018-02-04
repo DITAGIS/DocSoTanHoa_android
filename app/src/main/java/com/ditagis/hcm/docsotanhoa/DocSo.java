@@ -254,26 +254,26 @@ public class DocSo extends Fragment {
                 }
             }
         });
-        mRootView.findViewById(R.id.imgBtn_ds_call).
-
-                setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String regex = "^[0-9]+$";
-                        Matcher matcher = Pattern.compile(regex).matcher(mSdt);
-                        if (matcher.find()) {
-                            if (mSdt.length() == 0) {
-                                MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.call_errorNotFind), true);
-                            } else {
-                                Intent callIntent = new Intent(Intent.ACTION_CALL);
-                                callIntent.setData(Uri.parse("tel:" + mSdt));
-                                startActivity(callIntent);
-                            }
-                        } else {
-                            MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.call_errorNotMatch), true);
-                        }
-                    }
-                });
+//        mRootView.findViewById(R.id.imgBtn_ds_call).
+//
+//                setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        String regex = "^[0-9]+$";
+//                        Matcher matcher = Pattern.compile(regex).matcher(mSdt);
+//                        if (matcher.find()) {
+//                            if (mSdt.length() == 0) {
+//                                MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.call_errorNotFind), true);
+//                            } else {
+//                                Intent callIntent = new Intent(Intent.ACTION_CALL);
+//                                callIntent.setData(Uri.parse("tel:" + mSdt));
+//                                startActivity(callIntent);
+//                            }
+//                        } else {
+//                            MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.call_errorNotMatch), true);
+//                        }
+//                    }
+//                });
 
         mEditTextCSM.setBackgroundResource(R.layout.edit_text_styles);
 

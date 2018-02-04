@@ -124,18 +124,27 @@ public class LogInDB implements IDB<User, Boolean, String> {
                 staffPhone = resultSet.getString(2);
             }
             resultSet.close();
-            statement = cnn.prepareStatement("select distinct top 1 DocSoID,dot from docso order by DocSoID desc");
-            ResultSet rsNam = statement.executeQuery();
+            statement = cnn.prepareStatement("select distinct top 1 DocSoID from docso where may = '" + user.getUserName() + "' order by DocSoID desc");
+            ResultSet rsNamKy = statement.executeQuery();
             String docSoID = "";
             String mDot = null;
-            while (rsNam.next()) {
-                docSoID = rsNam.getString(1);
+            while (rsNamKy.next()) {
+                docSoID = rsNamKy.getString(1);
                 nam = docSoID.substring(0, 4);
                 ky = docSoID.substring(4, 6);
-                mDot = rsNam.getString(2);
                 break;
             }
-            rsNam.close();
+            rsNamKy.close();
+            statement = cnn.prepareStatement("select distinct top 1 dot, may from docso where docsoid like '" + docSoID.substring(0, 6) + "%' \n" +
+                    "and gioghi < '2017-12-31 00:00:00.000'\n" +
+                    "and may = '" + user.getUserName() + "'\n" +
+                    "order by dot desc \n" +
+                    "\n");
+            ResultSet rsDot = statement.executeQuery();
+            while ((rsDot.next())) {
+                mDot = rsDot.getString(1);
+            }
+            rsDot.close();
 //            statement = cnn.prepareStatement("SELECT TOP 1 dot from DocSo where nam = "
 //                    + nam + " and ky = " + ky + " order by dot desc");
 //            ResultSet rsDot = statement.executeQuery();
