@@ -1450,13 +1450,13 @@ public class DocSo extends Fragment {
         for (int i = 0; i < mAdapterKy.getCount(); i++) {
             if (mAdapterKy.getItem(i).equals(kyString)) {
                 mSpinKy.setSelection(i);
-                return;
+                break;
             }
         }
         for (int i = 0; i < mAdapterDot.getCount(); i++) {
             if (mAdapterDot.getItem(i).equals(dotString)) {
                 mSpinDot.setSelection(i);
-                return;
+                break;
             }
         }
     }
