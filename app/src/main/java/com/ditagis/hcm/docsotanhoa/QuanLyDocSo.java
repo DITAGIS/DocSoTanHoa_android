@@ -57,7 +57,6 @@ import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.Note;
 import com.ditagis.hcm.docsotanhoa.utities.Printer;
 
-import java.sql.Connection;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -202,10 +201,13 @@ public class QuanLyDocSo extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() == 0)
+                    return;
                 if (mSearchType.equals(mRootView.getContext().getString(R.string.search_mlt))) {
                     mQuanLyDocSoAdapter.clear();
+                    int countTieuThu = 0;
                     for (HoaDon hoaDon : mHoaDons) {
-                        if (hoaDon.getMaLoTrinh().contains(s.toString()))
+                        if (hoaDon.getMaLoTrinh().contains(s.toString())) {
                             mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
                                     hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
                                     hoaDon.getMaLoTrinh(),
@@ -217,14 +219,22 @@ public class QuanLyDocSo extends Fragment {
                                     hoaDon.getThoiGian(),
                                     hoaDon.getFlag()
                             ));
+                            try {
+                                countTieuThu += Integer.parseInt(hoaDon.getTieuThuMoi());
+                            } catch (Exception e) {
+                            }
+                        }
                     }
                     notifyDataSetGridViewChange();
-                    ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + mHoaDons.size());
+                    ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText(String.format("Số lượng: %s/%s     Tiêu thụ: %s m3", mQuanLyDocSoAdapter.getCount(), mHoaDons.size(), countTieuThu));
 
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
+                    if (s.length() == 0)
+                        return;
                     mQuanLyDocSoAdapter.clear();
+                    int countTieuThu = 0;
                     for (HoaDon hoaDon : mHoaDons) {
-                        if (hoaDon.getDanhBo().contains(s.toString()))
+                        if (hoaDon.getDanhBo().contains(s.toString())) {
                             mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
                                     hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
                                     hoaDon.getMaLoTrinh(), hoaDon.getDanhBo(),
@@ -235,14 +245,22 @@ public class QuanLyDocSo extends Fragment {
                                     hoaDon.getThoiGian(),
                                     hoaDon.getFlag()
                             ));
+                            try {
+                                countTieuThu += Integer.parseInt(hoaDon.getTieuThuMoi());
+                            } catch (Exception e) {
+                            }
+                        }
                     }
                     notifyDataSetGridViewChange();
-                    ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + mHoaDons.size());
+                    ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText(String.format("Số lượng: %s/%s     Tiêu thụ: %s m3", mQuanLyDocSoAdapter.getCount(), mHoaDons.size(), countTieuThu));
 
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_tenKH))) {
+                    if (s.length() == 0)
+                        return;
                     mQuanLyDocSoAdapter.clear();
+                    int countTieuThu = 0;
                     for (HoaDon hoaDon : mHoaDons) {
-                        if (hoaDon.getTenKhachHang().toLowerCase().contains(s.toString().toLowerCase()))
+                        if (hoaDon.getTenKhachHang().toLowerCase().contains(s.toString().toLowerCase())) {
                             mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
                                     hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
                                     hoaDon.getMaLoTrinh(), hoaDon.getDanhBo(),
@@ -252,13 +270,21 @@ public class QuanLyDocSo extends Fragment {
                                     hoaDon.getDiaChi(),
                                     hoaDon.getThoiGian(),
                                     hoaDon.getFlag()));
+                            try {
+                                countTieuThu += Integer.parseInt(hoaDon.getTieuThuMoi());
+                            } catch (Exception e) {
+                            }
+                        }
                     }
                     notifyDataSetGridViewChange();
-                    ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + mHoaDons.size());
+                    ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText(String.format("Số lượng: %s/%s     Tiêu thụ: %s m3", mQuanLyDocSoAdapter.getCount(), mHoaDons.size(), countTieuThu));
                 } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_diaChi))) {
+                    if (s.length() == 0)
+                        return;
                     mQuanLyDocSoAdapter.clear();
+                    int countTieuThu = 0;
                     for (HoaDon hoaDon : mHoaDons) {
-                        if (hoaDon.getDiaChi().toLowerCase().contains(s.toString().toLowerCase()))
+                        if (hoaDon.getDiaChi().toLowerCase().contains(s.toString().toLowerCase())) {
                             mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
                                     hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
                                     hoaDon.getMaLoTrinh(),
@@ -266,9 +292,14 @@ public class QuanLyDocSo extends Fragment {
                                     hoaDon.getChiSoCu(),
                                     hoaDon.getChiSoMoi(),
                                     hoaDon.getCodeMoi(), hoaDon.getDiaChi(), hoaDon.getThoiGian(), hoaDon.getFlag()));
+                            try {
+                                countTieuThu += Integer.parseInt(hoaDon.getTieuThuMoi());
+                            } catch (Exception e) {
+                            }
+                        }
                     }
                     notifyDataSetGridViewChange();
-                    ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + mHoaDons.size());
+                    ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText(String.format("Số lượng: %s/%s     Tiêu thụ: %s m3", mQuanLyDocSoAdapter.getCount(), mHoaDons.size(), countTieuThu));
                 }
             }
 
@@ -296,19 +327,26 @@ public class QuanLyDocSo extends Fragment {
                 //xử lý trường hợp lọc tất cả
                 if (code.equals(Codes.getInstance().getCodeDescribles_qlds()[0].getCode()))
                     code = "";
+                int countTieuThu = 0;
                 for (HoaDon hoaDon : mHoaDons) {
                     if (hoaDon.getCodeMoi() == null)
                         continue;
-                    if (hoaDon.getCodeMoi().contains(code))
+
+                    if (hoaDon.getCodeMoi().contains(code)) {
                         mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
                                 hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
                                 hoaDon.getMaLoTrinh(), hoaDon.getDanhBo(),
                                 hoaDon.getChiSoCu(),
                                 hoaDon.getChiSoMoi(),
                                 hoaDon.getCodeMoi(), hoaDon.getDiaChi(), hoaDon.getThoiGian(), hoaDon.getFlag()));
+                        try {
+                            countTieuThu += Integer.parseInt(hoaDon.getTieuThuMoi());
+                        } catch (Exception e) {
+                        }
+                    }
                 }
                 notifyDataSetGridViewChange();
-                ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + mHoaDons.size());
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText(String.format("Số lượng: %s/%s     Tiêu thụ: %s m3", mQuanLyDocSoAdapter.getCount(), mHoaDons.size(), countTieuThu));
             }
 
             @Override
@@ -367,22 +405,24 @@ public class QuanLyDocSo extends Fragment {
 
     public void selectDotFromDialog(GridViewSelectFolderAdapter adapter, String ky, String dot) {
         mSelectFolderAdapter = adapter;
-
+        mKys.clear();
         boolean isFound = false;
-
-        for (int i = 0; i < mKys.size(); i++) {
-            for (GridViewSelectFolderAdapter.Item item : mSelectFolderAdapter.getItems()) {
-                if (item.getKy().equals(Integer.parseInt(mKys.get(i)) + "")) {
-                    isFound = true;
-                    break;
-                }
-            }
-            if (!isFound) {
-                mKys.remove(mKys.get(i));
-                i--;
-            }
-            isFound = false;
+        for (GridViewSelectFolderAdapter.Item item : mSelectFolderAdapter.getItems()) {
+            mKys.add(item.getKy().length() == 1 ? "0" + item.getKy() : item.getKy());
         }
+//        for (int i = 0; i < mKys.size(); i++) {
+//            for (GridViewSelectFolderAdapter.Item item : mSelectFolderAdapter.getItems()) {
+//                if (item.getKy().equals(Integer.parseInt(mKys.get(i)) + "")) {
+//                    isFound = true;
+//                    break;
+//                }
+//            }
+//            if (!isFound) {
+//                mKys.remove(mKys.get(i));
+//                i--;
+//            }
+//            isFound = false;
+//        }
         mAdapterKy.notifyDataSetChanged();
         int kyInt = Integer.parseInt(ky);
         String kyString = kyInt + "";
@@ -609,7 +649,7 @@ public class QuanLyDocSo extends Fragment {
         });
         mAdapterKy.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         mSpinKy.setAdapter(mAdapterKy);
-        createKy();
+
         mSpinKy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -649,19 +689,26 @@ public class QuanLyDocSo extends Fragment {
                 //xử lý trường hợp lọc tất cả
                 if (code.equals(Codes.getInstance().getCodeDescribles_qlds()[0].getCode()))
                     code = "";
+                int countTieuThu = 0;
                 for (HoaDon hoaDon : mHoaDons) {
                     if (hoaDon.getCodeMoi() == null)
                         continue;
-                    if (hoaDon.getCodeMoi().contains(code))
+                    if (hoaDon.getCodeMoi().contains(code)) {
                         mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
                                 hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
                                 hoaDon.getMaLoTrinh(), hoaDon.getDanhBo(),
                                 hoaDon.getChiSoCu(),
                                 hoaDon.getChiSoMoi(),
                                 hoaDon.getCodeMoi(), hoaDon.getDiaChi(), hoaDon.getThoiGian(), hoaDon.getFlag()));
+                        try {
+                            countTieuThu += Integer.parseInt(hoaDon.getTieuThuMoi());
+                        } catch (Exception e) {
+                        }
+                    }
                 }
+
                 notifyDataSetGridViewChange();
-                ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + mHoaDons.size());
+                ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText(String.format("Số lượng: %s/%s     Tiêu thụ: %s m3", mQuanLyDocSoAdapter.getCount(), mHoaDons.size(), countTieuThu));
 
             }
 
@@ -708,10 +755,11 @@ public class QuanLyDocSo extends Fragment {
     }
 
     public void refresh() {
-        createKy();
+//        createKy();
         mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonQLDS(mLike, mKy);
         setTextProgress();
         mQuanLyDocSoAdapter.clear();
+        int countTieuThu = 0;
         for (HoaDon hoaDon : this.mHoaDons) {
             mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
                     hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
@@ -722,17 +770,31 @@ public class QuanLyDocSo extends Fragment {
                     hoaDon.getDiaChi(),
                     hoaDon.getThoiGian(),
                     hoaDon.getFlag()));
+            try {
+                countTieuThu += Integer.parseInt(hoaDon.getTieuThuMoi());
+            } catch (Exception e) {
+
+            }
         }
         mSpinCode.setSelection(0);
+
         notifyDataSetGridViewChange();
 
         setDynamicWidth(mGridView);
-        ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + mHoaDons.size());
+        ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).
+
+                setText(String.format("Số lượng: %s/%s     Tiêu thụ: %s m3", mQuanLyDocSoAdapter.getCount(), mHoaDons.
+
+                        size(), countTieuThu));
     }
 
     private void selectKy(int position) {
-        mKy = Integer.parseInt(mKys.get(position));
-        createDot();
+        try {
+            //todo?
+            mKy = Integer.parseInt(mKys.get(position));
+            createDot();
+        } catch (Exception e) {
+        }
     }
 
     private void setTextProgress() {
@@ -771,6 +833,7 @@ public class QuanLyDocSo extends Fragment {
             mHoaDons.clear();
             mHoaDons.addAll(hoaDons);
             mQuanLyDocSoAdapter.clear();
+            int countTieuThu = 0;
             for (HoaDon hoaDon : hoaDons) {
                 mQuanLyDocSoAdapter.add(new GridViewQuanLyDocSoAdapter.Item(
                         hoaDon.getTieuThuMoi() == null ? "" : hoaDon.getTieuThuMoi(),
@@ -779,10 +842,14 @@ public class QuanLyDocSo extends Fragment {
                         hoaDon.getChiSoMoi(),
                         hoaDon.getCodeMoi(), hoaDon.getDiaChi(), hoaDon.getThoiGian(),
                         hoaDon.getFlag()));
+                try {
+                    countTieuThu += Integer.parseInt(hoaDon.getTieuThuMoi());
+                } catch (Exception e) {
+                }
             }
             mSpinCode.setSelection(0);
             notifyDataSetGridViewChange();
-            ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + hoaDons.size());
+            ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText(String.format("Số lượng: %s/%s     Tiêu thụ: %s m3", mQuanLyDocSoAdapter.getCount(), mHoaDons.size(), countTieuThu));
             setTextProgress();
         }
     }
@@ -1499,7 +1566,7 @@ public class QuanLyDocSo extends Fragment {
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
             int count = values[0];
-            String title = String.format("%s %d/%d (%d%%)", "Đang đồng bộ: ", sum-count, sum, Math.round((sum-count) * 100 / sum));
+            String title = String.format("%s %d/%d (%d%%)", "Đang đồng bộ: ", sum - count, sum, Math.round((sum - count) * 100 / sum));
             dialog.setTitle(title);
 
         }
@@ -1511,7 +1578,7 @@ public class QuanLyDocSo extends Fragment {
                 dialog.dismiss();
             }
             notifyDataSetGridViewChange();
-            ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText("Số lượng: " + mQuanLyDocSoAdapter.getCount() + "/" + mHoaDons.size());
+//            ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setText(String.format("Số lượng: %s/%s     Tiêu thụ: %s m3", mQuanLyDocSoAdapter.getCount(), mHoaDons.size(), countTieuThu));
             mDanhBoHoanThanh += LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike, mKy, false).size();
             setTextProgress();
             if (this.countUpload == 0) {

@@ -91,7 +91,6 @@ public class DialogSelectDot {
                             hoaDons.size() + "", mUsername, hoaDons.get(0).getFlag()));
                 if (selectFolderAdapter.getCount() > 0)
                     count++;
-
             }
         if (count > 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert);

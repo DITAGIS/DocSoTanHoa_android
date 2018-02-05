@@ -70,8 +70,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -993,7 +991,7 @@ public class DocSo extends Fragment {
         });
         mAdapterKy.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         mSpinKy.setAdapter(mAdapterKy);
-        createKy();
+//        createKy();
         mSpinKy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -1423,20 +1421,23 @@ public class DocSo extends Fragment {
     public void selectDotFromDialog(GridViewSelectFolderAdapter adapter, String ky, String dot) {
         mSelectFolderAdapter = adapter;
         boolean isFound = false;
-
-        for (int i = 0; i < mKys.size(); i++) {
-            for (GridViewSelectFolderAdapter.Item item : mSelectFolderAdapter.getItems()) {
-                if (item.getKy().equals(Integer.parseInt(mKys.get(i)) + "")) {
-                    isFound = true;
-                    break;
-                }
-            }
-            if (!isFound) {
-                mKys.remove(mKys.get(i));
-                i--;
-            }
-            isFound = false;
+        mKys.clear();
+        for (GridViewSelectFolderAdapter.Item item : mSelectFolderAdapter.getItems()) {
+            mKys.add(item.getKy().length() == 1 ? "0" + item.getKy() : item.getKy());
         }
+//        for (int i = 0; i < mKys.size(); i++) {
+//            for (GridViewSelectFolderAdapter.Item item : mSelectFolderAdapter.getItems()) {
+//                if (item.getKy().equals(Integer.parseInt(mKys.get(i)) + "")) {
+//                    isFound = true;
+//                    break;
+//                }
+//            }
+//            if (!isFound) {
+//                mKys.remove(mKys.get(i));
+//                i--;
+//            }
+//            isFound = false;
+//        }
         mAdapterKy.notifyDataSetChanged();
         int kyInt = Integer.parseInt(ky);
         String kyString = kyInt + "";

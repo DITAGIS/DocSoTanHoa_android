@@ -135,11 +135,12 @@ public class LogInDB implements IDB<User, Boolean, String> {
                 break;
             }
             rsNamKy.close();
-            statement = cnn.prepareStatement("select distinct top 1 dot, may from docso where docsoid like '" + docSoID.substring(0, 6) + "%' \n" +
-                    "and gioghi < '2017-12-31 00:00:00.000'\n" +
-                    "and may = '" + user.getUserName() + "'\n" +
-                    "order by dot desc \n" +
-                    "\n");
+            statement = cnn.prepareStatement("select distinct top 1 dot, may from docso where docsoid like '" + docSoID.substring(0, 6) + "%'" +
+                    " and gioghi < '2017-12-31 00:00:00.000'" +
+                    " and may = '" + user.getUserName() + "'" +
+                    " order by dot desc " +
+                    "");
+            mDot = "01";
             ResultSet rsDot = statement.executeQuery();
             while ((rsDot.next())) {
                 mDot = rsDot.getString(1);

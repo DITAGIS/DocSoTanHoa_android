@@ -833,10 +833,12 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 COLUMN_HOADON_CODE_MOI + "," +
                 COLUMN_HOADON_SONHA + "," +
                 COLUMN_HOADON_DUONG + "," +
+
                 COLUMN_HOADON_THOI_GIAN + "," +
                 COLUMN_HOADON_TTMOI + "," +
                 COLUMN_HOADON_FLAG + "," +
-                COLUMN_HOADON_MALOTRINH + "" +
+                COLUMN_HOADON_MALOTRINH + "," +
+                COLUMN_HOADON_KHACHHANG + "" +
                 " from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + mLike + "%' and " + COLUMN_HOADON_KY
                 + "=" + ky + " and( " + COLUMN_HOADON_FLAG + "=" + Flag.SYNCHRONIZED +
                 " or " + COLUMN_HOADON_FLAG + "=" + Flag.READ + ")", null);
@@ -854,6 +856,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setTieuThuMoi(cursor.getString(7));
                 hoaDon.setFlag(cursor.getInt(8));
                 hoaDon.setMaLoTrinh(cursor.getString(9));
+                hoaDon.setTenKhachHang(cursor.getString(10));
                 hoaDons.add(hoaDon);
             } while (cursor.moveToNext());
         }
