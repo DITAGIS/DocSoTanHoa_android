@@ -309,6 +309,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         } catch (Exception e) {
 
         }
+
         return false;
     }
 
@@ -351,6 +352,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
 
             }
         }
+        cursor.close();
+        db.close();
         return hoaDon;
     }
 
@@ -406,6 +409,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 count++;
             } while (cursor.moveToNext());
         }
+        cursor.close();
+        db.close();
         return count;
     }
 
@@ -454,6 +459,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDons.add(hoaDon);
             } while (cursor.moveToNext());
         }
+        cursor.close();
+        db.close();
         return hoaDons;
     }
 
@@ -500,6 +507,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDons.add(hoaDon);
             } while (cursor.moveToNext());
         }
+        cursor.close();
+        db.close();
         return hoaDons;
     }
 
@@ -584,6 +593,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
 
             } while (cursor.moveToNext());
         }
+        cursor.close();
+        db.close();
         return hoaDons;
     }
 
@@ -630,6 +641,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDons.add(hoaDon);
             } while (cursor.moveToNext());
         }
+        cursor.close();
+        db.close();
         return hoaDons;
     }
 
@@ -677,6 +690,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDons.add(hoaDon);
             } while (cursor.moveToNext());
         }
+        cursor.close();
+        db.close();
         return hoaDons;
     }
 
@@ -795,9 +810,15 @@ public class LocalDatabase extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("select " + COLUMN_HOADON_DANHBO + " from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + dot + may + "%' and " + COLUMN_HOADON_KY
                 + "=" + ky, null);
-        if (cursor.moveToNext())
+        if (cursor.moveToNext()) {
+            cursor.close();
+            db.close();
             return true;
-        else return false;
+        } else {
+            cursor.close();
+            db.close();
+            return false;
+        }
     }
 
     public List<HoaDon> getAllHoaDonQLDS(String mLike, int ky) {
@@ -836,6 +857,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDons.add(hoaDon);
             } while (cursor.moveToNext());
         }
+        cursor.close();
+        db.close();
         return hoaDons;
     }
 
@@ -860,6 +883,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDons.add(hoaDon);
             } while (cursor.moveToNext());
         }
+        cursor.close();
+        db.close();
         return hoaDons;
     }
 
@@ -886,6 +911,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDons.add(hoaDon);
             } while (cursor.moveToNext());
         }
+        cursor.close();
+        db.close();
         return hoaDons;
     }
 
@@ -903,6 +930,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 size++;
             } while (cursor.moveToNext());
         }
+        cursor.close();
+        db.close();
         return size;
     }
 }
