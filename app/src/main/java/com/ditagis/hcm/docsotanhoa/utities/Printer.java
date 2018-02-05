@@ -115,7 +115,7 @@ public class Printer {
 
             int y = 100;
             StringBuilder builder = new StringBuilder();
-            builder.append("! 0 200 200 995 1\n" +
+            builder.append("! 0 200 200 1000 1\n" +
 
                     "CENTER\n" +
 
@@ -138,9 +138,11 @@ public class Printer {
             builder.append(String.format("TEXT 7 0 20 %d KHACH HANG: %s\n", y,removeAccent(mHoaDon.getTenKhachHang())));
             y += 40;
             builder.append(String.format("TEXT 7 0 20 %d DIA CHI: %s\n", y, removeAccent(mHoaDon.getDiaChi())));
-            y += 35;
-            builder.append(String.format("TEXT 7 0 20 %d DANH BA: %s%11s%s\n", y, spaceDB(mHoaDon.getDanhBo()), "MLT: ", spaceMLT(mHoaDon.getMaLoTrinh())));
-            y += 35;
+            y += 45;
+            builder.append(String.format("TEXT 7 0 20 %d DANH BA: %s%11s%s\n", y, "             ", "MLT: ", ""));
+            y-=20;
+            builder.append(String.format("TEXT 7 1 20 %d          %s%11s%s\n", y, spaceDB(mHoaDon.getDanhBo()), " ", spaceMLT(mHoaDon.getMaLoTrinh())));
+            y += 50;
             builder.append(String.format("TEXT 7 0 20 %d GIA BIEU: %s - DINH MUC: %s m3\n", y, mHoaDon.getGiaBieu(), mHoaDon.getDinhMuc()));
             y += 35;
             builder.append(String.format("TEXT 7 0 70 %d CHI SO MOI%23s\n", y, mHoaDon.getChiSoMoi()));
