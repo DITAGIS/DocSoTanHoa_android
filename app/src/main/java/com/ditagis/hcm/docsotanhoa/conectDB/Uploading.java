@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
+import com.ditagis.hcm.docsotanhoa.utities.Calculate_TienNuoc;
 import com.ditagis.hcm.docsotanhoa.utities.ImageFile;
 
 import java.io.File;
@@ -29,7 +30,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
     private final String TABLE_NAME_KH = "KhachHang";
     private final String TABLE_NAME_DOCSO_LUUTRU = "DocSoLuuTru";
     private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME_DOCSO + " SET CSMOI=?, CODEMoi=?, GhiChuDS=?, tieuthumoi =?, gioghi = ?, sdt = ?, vitrimoi = ? WHERE docsoId like ? and DANHBa=? and dot = ? ";
+    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME_DOCSO + " SET CSMOI=?, CODEMoi=?, GhiChuDS=?, tieuthumoi =?, gioghi = ?, sdt = ?, vitrimoi = ?,tiennuoc = ?, bvmt = ?, thue = ?, tongtien = ? WHERE docsoId like ? and DANHBa=? and dot = ? ";
 
     private final String SQL_UPDATE_KH = "UPDATE " + TABLE_NAME_KH + " SET somoi =?, duong = ? WHERE DANHBa=? ";
     private final String SQL_SELECT_KH = "SELECT so from " + TABLE_NAME_KH + " WHERE DANHBa=? ";
@@ -160,7 +161,10 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
     @Override
     public Boolean update(HoaDon hoaDon) {
         String sql = this.SQL_UPDATE;
-
+        Calculate_TienNuoc calculate_tienNuoc = new Calculate_TienNuoc(
+                Integer.parseInt(hoaDon.getTieuThuMoi()), hoaDon.getGiaBieu(),
+                hoaDon.getDinhMuc(), hoaDon.getSh(), hoaDon.getSx(), hoaDon.getDv(), hoaDon.getHc());
+        final double tienNuoc = calculate_tienNuoc.getmTienNuoc();
         //TODO: cập nhật chỉ số cũ = chỉ số mới
         try {
             cnn = ConnectionDB.getInstance().getConnection();
@@ -176,9 +180,13 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             st.setTimestamp(5, new java.sql.Timestamp(date.getTime()));
             st.setString(6, hoaDon.getSdt());
             st.setString(7, hoaDon.getViTri());
-            st.setString(8, this.mNam + this.mKy + "%");
-            st.setString(9, hoaDon.getDanhBo());
-            st.setString(10, hoaDon.getDot());
+            st.setDouble(8, tienNuoc);
+            st.setDouble(9, tienNuoc /10);
+            st.setDouble(10, tienNuoc /20);
+            st.setDouble(11, tienNuoc * 115/100);
+            st.setString(12, this.mNam + this.mKy + "%");
+            st.setString(13, hoaDon.getDanhBo());
+            st.setString(14, hoaDon.getDot());
 
             int result1 = st.executeUpdate();
             String sqlKH = this.SQL_SELECT_KH;
