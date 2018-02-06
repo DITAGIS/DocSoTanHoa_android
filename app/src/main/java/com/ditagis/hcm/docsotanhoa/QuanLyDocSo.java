@@ -1506,6 +1506,7 @@ public class QuanLyDocSo extends Fragment {
     //TODO: progress bar
     private void upLoadData() {
         try {
+            ConnectionDB.getInstance().reConnect();
             new UploadingAsync().execute();
         } catch (Exception e) {
 
@@ -1530,7 +1531,7 @@ public class QuanLyDocSo extends Fragment {
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.show();
             for (GridViewQuanLyDocSoAdapter.Item item : mQuanLyDocSoAdapter.getItems())
-                if (item.getFlag() == Flag.READ)
+                if (item.getFlag() == Flag.READ || item.getFlag() == Flag.CODE_F)
                     countUpload++;
             sum = countUpload;
         }
@@ -1541,8 +1542,8 @@ public class QuanLyDocSo extends Fragment {
             mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy, true);
             for (GridViewQuanLyDocSoAdapter.Item item : mQuanLyDocSoAdapter.getItems()) {
                 for (HoaDon hoaDon : mHoaDons) {
-                    if (item.getDanhbo().equals(hoaDon.getDanhBo()) &&
-                            hoaDon.getFlag() == Flag.READ) {
+                    if (item.getDanhbo().equals(hoaDon.getDanhBo()) && (
+                            hoaDon.getFlag() == Flag.READ || hoaDon.getFlag() == Flag.CODE_F)) {
                         boolean success1 = mUploading.add(hoaDon);
                         if (success1) {
                             mHoaDons.remove(hoaDon);
@@ -1584,7 +1585,7 @@ public class QuanLyDocSo extends Fragment {
             if (this.countUpload == 0) {
                 Toast.makeText(mRootView.getContext(), "Đồng bộ thành công", Toast.LENGTH_SHORT).show();
             } else {
-                ConnectionDB.getInstance().reConnect();
+
                 Toast.makeText(mRootView.getContext(), "Đồng bộ thất bại. Kiểm tra lại kết nối internet", Toast.LENGTH_SHORT).show();
             }
             refresh();

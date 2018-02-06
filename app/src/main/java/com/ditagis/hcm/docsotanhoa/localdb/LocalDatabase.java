@@ -317,7 +317,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
         HoaDon hoaDon = null;
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from " + TABLE_HOADON + " where " + COLUMN_HOADON_DANHBO + " = '" + danhBo + "' and " + COLUMN_HOADON_FLAG + " in( " + flag + "," + Flag.CODE_F + ")", null);
+        Cursor cursor = db.rawQuery("select * from " + TABLE_HOADON + " where " + COLUMN_HOADON_DANHBO + " = '" + danhBo + "' and " + COLUMN_HOADON_FLAG + " in( " + flag + "," + Flag.CODE_F + "," + Flag.CODE_F_SYNCHRONIZED + ")", null);
 
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -403,7 +403,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("select " +
                 COLUMN_HOADON_DANHBO + "" +
                 " from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + like + "%' and " + COLUMN_HOADON_KY
-                + "=" + ky + " and " + COLUMN_HOADON_FLAG + "=" + flag, null);
+                + "=" + ky + " and " + COLUMN_HOADON_FLAG + " in (" + flag + "," + Flag.CODE_F_SYNCHRONIZED + ")", null);
         if (cursor.moveToFirst()) {
             do {
                 count++;
@@ -420,15 +420,15 @@ public class LocalDatabase extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
         String query = "";
-        if (flag == Flag.UNREAD) {
-            query = "select * from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + like +
-                    "' and " + COLUMN_HOADON_KY + " = " + ky +
-                    " and " + COLUMN_HOADON_FLAG + " in ( " + flag + "," + Flag.CODE_F + ")";
-            cursor = db.rawQuery(query, null);
-        }else
-            cursor = db.rawQuery("select * from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + like +
-                    "' and " + COLUMN_HOADON_KY + " = " + ky +
-                    " and " + COLUMN_HOADON_FLAG + " = " + flag, null);
+//        if (flag == Flag.UNREAD) {
+        query = "select * from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + like +
+                "' and " + COLUMN_HOADON_KY + " = " + ky +
+                " and " + COLUMN_HOADON_FLAG + " in ( " + flag + "," + Flag.CODE_F + ")";
+        cursor = db.rawQuery(query, null);
+//        }else
+//            cursor = db.rawQuery("select * from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + like +
+//                    "' and " + COLUMN_HOADON_KY + " = " + ky +
+//                    " and " + COLUMN_HOADON_FLAG + " = " + flag, null);
         if (cursor.moveToFirst()) {
             do {
                 HoaDon hoaDon = new HoaDon(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6),
@@ -722,7 +722,12 @@ public class LocalDatabase extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         if (isCodeF)
             values.put(COLUMN_HOADON_FLAG, Flag.CODE_F);
-        else
+        else if (flag == Flag.SYNCHRONIZED) {
+            if (hoaDon.getFlag() == Flag.CODE_F)
+                values.put(COLUMN_HOADON_FLAG, Flag.CODE_F_SYNCHRONIZED);
+            else
+                values.put(COLUMN_HOADON_FLAG, flag);
+        } else
             values.put(COLUMN_HOADON_FLAG, flag);
         values.put(COLUMN_HOADON_CODE_MOI, hoaDon.getCodeMoi());
         values.put(COLUMN_HOADON_CSM, hoaDon.getChiSoMoi());
@@ -737,7 +742,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         values.put(COLUMN_HOADON_THOI_GIAN, hoaDon.getThoiGian());
 
         db.update(TABLE_HOADON, values, COLUMN_HOADON_DANHBO + " = ? and "
-                + COLUMN_HOADON_FLAG + " in( ?,?)", new String[]{hoaDon.getDanhBo(), flag_old + "", Flag.CODE_F + ""});
+                + COLUMN_HOADON_FLAG + " in( ?,?,?)", new String[]{hoaDon.getDanhBo(), flag_old + "", Flag.CODE_F + "", Flag.CODE_F_SYNCHRONIZED + ""});
         db.close();
         return true;
     }
@@ -849,7 +854,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 COLUMN_HOADON_KHACHHANG + "" +
                 " from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + mLike + "%' and " + COLUMN_HOADON_KY
                 + "=" + ky + " and " + COLUMN_HOADON_FLAG + " in (" + Flag.SYNCHRONIZED +
-                " , " + Flag.READ + "," + Flag.CODE_F + ")", null);
+                " , " + Flag.READ + "," + Flag.CODE_F + "," + Flag.CODE_F_SYNCHRONIZED + ")", null);
         if (cursor.moveToFirst()) {
             do {
                 HoaDon hoaDon = new HoaDon();
@@ -910,7 +915,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 COLUMN_HOADON_SONHA + "," +
                 COLUMN_HOADON_DUONG + "" +
                 " from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + mLike + "%' and " + COLUMN_HOADON_KY
-                + "=" + ky + " and " + COLUMN_HOADON_FLAG + " in (" + Flag.UNREAD + ","+Flag.CODE_F + ")", null);
+                + "=" + ky + " and " + COLUMN_HOADON_FLAG + " in (" + Flag.UNREAD + "," + Flag.CODE_F + "," + Flag.CODE_F_SYNCHRONIZED + ")", null);
         if (cursor.moveToFirst()) {
             do {
                 HoaDon hoaDon = new HoaDon();
