@@ -43,7 +43,6 @@ import com.ditagis.hcm.docsotanhoa.adapter.GridViewQuanLyDocSoAdapter;
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewSelectFolderAdapter;
 import com.ditagis.hcm.docsotanhoa.conectDB.ConnectionDB;
 import com.ditagis.hcm.docsotanhoa.conectDB.HoaDonDB;
-import com.ditagis.hcm.docsotanhoa.conectDB.SumDanhBoDB;
 import com.ditagis.hcm.docsotanhoa.conectDB.Uploading;
 import com.ditagis.hcm.docsotanhoa.entities.Code_Describle;
 import com.ditagis.hcm.docsotanhoa.entities.Codes;
@@ -82,7 +81,6 @@ public class QuanLyDocSo extends Fragment {
     private String mUsername;
     private Uploading mUploading;
     private View mRootView;
-    private SumDanhBoDB mSumDanhBoDB;
     private String mStaffName, mStaffPhone;
     private String mSdt;
     private Spinner mSpinSdt;
@@ -118,7 +116,6 @@ public class QuanLyDocSo extends Fragment {
         mTxtComplete = (TextView) mRootView.findViewById(R.id.txt_qlds_complete);
         mUploading = new Uploading(mDot, mKy, mNam, mRootView.getContext());
         mGridView = (GridView) mRootView.findViewById(R.id.grid_qlds_danhSachDocSo);
-        mSumDanhBoDB = new SumDanhBoDB();
         mKyString = mKy + "";
         if (mKy < 10)
             mKyString = "0" + mKy;

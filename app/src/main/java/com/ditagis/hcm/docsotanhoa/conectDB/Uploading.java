@@ -30,7 +30,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
     private final String TABLE_NAME_KH = "KhachHang";
     private final String TABLE_NAME_DOCSO_LUUTRU = "DocSoLuuTru";
     private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME_DOCSO + " SET CSMOI=?, CODEMoi=?, GhiChuDS=?, tieuthumoi =?, gioghi = ?, sdt = ?, vitrimoi = ?,tiennuoc = ?, bvmt = ?, thue = ?, tongtien = ? WHERE docsoId like ? and DANHBa=? and dot = ? ";
+    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME_DOCSO + " SET CSMOI=?, CODEMoi=?, GhiChuDS=?, tieuthumoi =?, gioghi = ?, sdt = ?, vitrimoi = ?,tiennuoc = ?, bvmt = ?, thue = ?, tongtien = ? WHERE docsoId = ? ";
 
     private final String SQL_UPDATE_KH = "UPDATE " + TABLE_NAME_KH + " SET somoi =?, duong = ? WHERE DANHBa=? ";
     private final String SQL_SELECT_KH = "SELECT so from " + TABLE_NAME_KH + " WHERE DANHBa=? ";
@@ -184,9 +184,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             st.setDouble(9, tienNuoc /10);
             st.setDouble(10, tienNuoc /20);
             st.setDouble(11, tienNuoc * 115/100);
-            st.setString(12, this.mNam + this.mKy + "%");
-            st.setString(13, hoaDon.getDanhBo());
-            st.setString(14, hoaDon.getDot());
+            st.setString(12, this.mNam + this.mKy +hoaDon.getDanhBo());
 
             int result1 = st.executeUpdate();
             String sqlKH = this.SQL_SELECT_KH;

@@ -151,8 +151,8 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
     public HoaDon getHoaDonByUserName(String userName, String danhBo, int dot, int nam, int ky) {
         Connection cnn = ConnectionDB.getInstance().getConnection();
         HoaDon hoaDon = null;
-        String sqlCode_CSC_SanLuong = "SELECT cscu, csmoi, codemoi, tieuthumoi  FROM Docso where docsoid like ? and danhba = ?";
-        String sqlCode_CSC_SanLuong3Ky = "SELECT cscu, csmoi, codemoi, tieuthumoi  FROM Docso where danhba = ? and (ky = ? or ky =? or ky = ?) and nam =? order by ky desc";
+//        String sqlCode_CSC_SanLuong = "SELECT cscu, csmoi, codemoi, tieuthumoi  FROM Docso where docsoid like ? and danhba = ?";
+//        String sqlCode_CSC_SanLuong3Ky = "SELECT cscu, csmoi, codemoi, tieuthumoi  FROM Docso where danhba = ? and (ky = ? or ky =? or ky = ?) and nam =? order by ky desc";
         try {
             if (cnn == null)
                 return null;
@@ -169,8 +169,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                     ResultSet.CONCUR_READ_ONLY);
             String like = dotString + userName + "%";
 //            String query = "select danhba from docso where docsoid like '" + nam + kyString + "%' and mlt2 like '" + like + "' and (gioghi is null or (gioghi is not null and (CodeMoi like 'F%' )) or gioghi < DATEADD(day,1,'2017-01-01'))";
-            String query = SQL_SELECT_GETALL_BY_USERNAME + "  where docsoid like '" + nam + kyString + "%'  and mlt2 like '" + like + "' and danhba =  '" + danhBo +
-                    "'  and (gioghi is null or (gioghi is not null and (CodeMoi like 'F%' )) or gioghi < DATEADD(day,1,'2017-01-01'))";
+            String query = SQL_SELECT_GETALL_BY_USERNAME + "  where docsoid = '" + nam + kyString + danhBo + "'  and (gioghi is null or (gioghi is not null and (CodeMoi like 'F%' )) or gioghi < DATEADD(day,1,'2017-01-01'))";
             final ResultSet rs = mStatement.executeQuery(query);
 
 //            mStatement = cnn.prepareStatement(SQL_SELECT_GETALL_BY_USERNAME + " where docsoid like ? and danhba = ? " +
@@ -257,9 +256,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                     kyString = kyNamList.get(0) + "";
                     if (kyNamList.get(0) < 10)
                         kyString = "0" + kyNamList.get(0);
-                    query = "SELECT cscu, codecu, tieuthucu FROM Docso where docsoid like '" + kyNamList.get(1) + kyString + "%' and danhba = '" + danhBo + "'";
-
-
+                    query = "SELECT cscu, codecu, tieuthucu FROM Docso where docsoid = '" + kyNamList.get(1) + kyString + danhBo + "'";
 
 
                     ResultSet rs2 = mStatement.executeQuery(query);
@@ -270,8 +267,8 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                     }
                     if (code1.equals("M0")) {
                         query = "select chiso from thongbao where danhba ='" + danhBo + "'";
-                        ResultSet rsThongBao =  mStatement.executeQuery(query);
-                        if(rsThongBao.next()){
+                        ResultSet rsThongBao = mStatement.executeQuery(query);
+                        if (rsThongBao.next()) {
                             chiSoCu = rsThongBao.getString(1);
                         }
                     }
@@ -280,7 +277,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                     kyString = kyNamList.get(2) + "";
                     if (kyNamList.get(2) < 10)
                         kyString = "0" + kyNamList.get(2);
-                    query = "SELECT cscu, codecu, tieuthucu  FROM Docso where docsoid like '" + kyNamList.get(3) + kyString + "%' and danhba = '" + danhBo + "'";
+                    query = "SELECT cscu, codecu, tieuthucu  FROM Docso where docsoid = '" + kyNamList.get(3) + kyString + danhBo + "'";
 //
 //                    mStatement.setString(1, kyNamList.get(3) + kyNamList.get(2) + "%");
                     ResultSet rs3 = mStatement.executeQuery(query);
@@ -295,7 +292,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                     kyString = kyNamList.get(4) + "";
                     if (kyNamList.get(4) < 10)
                         kyString = "0" + kyNamList.get(4);
-                    query = "SELECT cscu  FROM Docso where docsoid like '" + kyNamList.get(5) + kyString + "%' and danhba = '" + danhBo + "'";
+                    query = "SELECT cscu  FROM Docso where docsoid = '" + kyNamList.get(5) + kyString + danhBo + "%'";
 
 //                    mStatement.setString(1, kyNamList.get(5) + kyNamList.get(4) + "%");
                     ResultSet rs4 = mStatement.executeQuery(query);
@@ -401,24 +398,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
         return result;
     }
 
-    public List<String> get_DanhBo_ByMLT(String maLoTrinh) {
-        List<String> result = new ArrayList<String>();
-        Connection cnn = ConnectionDB.getInstance().getConnection();
-        try {
-            Statement statement = cnn.createStatement();
-            ResultSet rs = statement.executeQuery(this.SQL_SELECT_DANHBO + " WHERE MLT = '" + maLoTrinh + "'");
-            while (rs.next()) {
-                result.add(rs.getString("DANHBO"));
-            }
-            rs.close();
-            statement.close();
-            cnn.close();
-        } catch (SQLException e) {
 
-            e.printStackTrace();
-        }
-        return result;
-    }
 
 
 }
