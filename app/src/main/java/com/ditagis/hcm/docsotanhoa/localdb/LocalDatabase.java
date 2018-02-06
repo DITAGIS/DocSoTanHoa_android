@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.ditagis.hcm.docsotanhoa.entities.Code_CSC_SanLuong;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
+import com.ditagis.hcm.docsotanhoa.entities.TTDHN;
 import com.ditagis.hcm.docsotanhoa.utities.Flag;
 
 import java.util.ArrayList;
@@ -91,9 +92,9 @@ public class LocalDatabase extends SQLiteOpenHelper {
     private static final String COLUMN_LUUDANHBO_LUU = "LuuDanhBo_Luu"; // lwu khi có hinh ảnh
 
 
-    private static final String TABLE_LOGGEDIN = "Login";
-    private static final String COLUMN_USERNAME = "Username";
-    private static final String COLUMN_PASSWORD = "Password";
+    private static final String TABLE_TTDHN = "TTDHN";
+    private static final String COLUMN_TTDHN_TTDHN = "TTDHN_TTDHN";
+    private static final String COLUMN_TTDHN_CODE = "TTDHN_CODE";
 
     private static LocalDatabase instance;
 
@@ -173,10 +174,14 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 + COLUMN_LUUDANHBO_HINHANH + " TEXT,"
                 + COLUMN_LUUDANHBO_LUU + " TEXT )";
 
+        String script3 = "CREATE TABLE " + TABLE_TTDHN + "("
+                + COLUMN_TTDHN_CODE + " TEXT ,"
+                + COLUMN_TTDHN_TTDHN + " TEXT )";
+
         // Chạy lệnh tạo bảng.
         db.execSQL(script);
-
         db.execSQL(script2);
+        db.execSQL(script3);
     }
 
 
@@ -189,6 +194,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_HOADON);
 
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LUUDANHBO);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TTDHN);
         // Và tạo lại.
         onCreate(db);
     }
@@ -204,7 +210,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_HOADON);
 
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LUUDANHBO);
-
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TTDHN);
         onCreate(db);
     }
 
@@ -311,6 +317,49 @@ public class LocalDatabase extends SQLiteOpenHelper {
         }
 
         return false;
+    }
+
+    public boolean addTTDHN(List<TTDHN> ttdhnList) {
+
+
+        Log.i(TAG, "LocalDatabase.addTTDHn ... " + ttdhnList.size());
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "Delete from " + TABLE_TTDHN;
+        db.execSQL(sql);
+        try {
+            for (TTDHN ttdhn : ttdhnList) {
+                sql = "INSERT INTO " + TABLE_TTDHN + " ("
+                        + COLUMN_TTDHN_CODE + ", "
+                        + COLUMN_TTDHN_TTDHN
+
+                        + ") Values ('" + ttdhn.getCode() + "', '"
+                        + ttdhn.getTTDHN() +
+                        "')";
+                db.execSQL(sql);
+            }
+            // Đóng kết nối database.
+            db.close();
+
+//            return true;
+        } catch (Exception e) {
+            Log.i(TAG, "LocalDatabase.addTTDHn ... " + e.toString());
+        }
+        return false;
+    }
+
+    public String getTTDHN(String code) {
+        Log.i(TAG, "LocalDatabase.getTTDHN ... " + id);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from " + TABLE_TTDHN + " where " + COLUMN_TTDHN_CODE + " = '" + code + "'", null);
+
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            return cursor.getString(1);
+        }
+        cursor.close();
+        db.close();
+        return "";
     }
 
     private HoaDon getHoaDon(String danhBo, int flag, boolean getImage) {

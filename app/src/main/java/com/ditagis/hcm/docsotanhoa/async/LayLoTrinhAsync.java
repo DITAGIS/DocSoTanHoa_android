@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.ditagis.hcm.docsotanhoa.R;
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewLayLoTrinhAdapter;
 import com.ditagis.hcm.docsotanhoa.conectDB.HoaDonDB;
+import com.ditagis.hcm.docsotanhoa.conectDB.TTDHNDB;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.entities.ResultLayLoTrinh;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
@@ -110,6 +111,12 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
             return null;
         }
         count = DBs.size();
+
+
+        //Lấy ttdhn
+        new TTDHNDB(mContext).getTTDHN();
+
+
         if (hoaDons.size() == count) {
             isFound = true;
         }
@@ -190,6 +197,7 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
         } else
             Toast.makeText(this.mContext, mContext.getString(R.string.load_danhbo_complete), Toast.LENGTH_LONG).show();
     }
+
 
     public interface AsyncResponse {
         void processFinish(ResultLayLoTrinh output);
