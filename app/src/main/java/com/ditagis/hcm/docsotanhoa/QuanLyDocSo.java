@@ -1032,11 +1032,8 @@ public class QuanLyDocSo extends Fragment {
             if (hoaDon == null)
                 return;
         }
-
-        Calculate_TienNuoc calculate_tienNuoc = new Calculate_TienNuoc(
-                Integer.parseInt(hoaDon.getTieuThuMoi()), hoaDon.getGiaBieu(),
+        final double tienNuoc = Calculate_TienNuoc.getInstance().calculate(Integer.parseInt(hoaDon.getTieuThuMoi()), hoaDon.getGiaBieu(),
                 hoaDon.getDinhMuc(), hoaDon.getSh(), hoaDon.getSx(), hoaDon.getDv(), hoaDon.getHc());
-        final double tienNuoc = calculate_tienNuoc.getmTienNuoc();
         //--------------------
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Danh bộ: " + danhBo);
@@ -1109,7 +1106,10 @@ public class QuanLyDocSo extends Fragment {
         ((TextView) dialog.findViewById(R.id.txt_layout_qlds_CSM)).setText(hoaDon.getChiSoMoi());
         ((TextView) dialog.findViewById(R.id.txt_layout_qlds_tieuThu)).setText(hoaDon.getTieuThuMoi());
         ((TextView) dialog.findViewById(R.id.txt_layout_qlds_giaBieu)).setText(hoaDon.getGiaBieu());
-        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_tienNuoc)).setText(NumberFormat.getNumberInstance(Locale.US).format(tienNuoc * 115 / 100) + " VNĐ");//TODO tien nuoc
+        double BVMT = 0, VAT = tienNuoc / 20;
+        if (!hoaDon.getGiaBieu().equals("52"))
+            BVMT = tienNuoc / 10;
+        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_tienNuoc)).setText(NumberFormat.getNumberInstance(Locale.US).format(tienNuoc + BVMT + VAT) + " VNĐ");//TODO tien nuoc
 
         ((TextView) dialog.findViewById(R.id.txt_layout_qlds_ghiChu)).setText(hoaDon.getGhiChu());
     }

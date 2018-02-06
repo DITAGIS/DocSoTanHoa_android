@@ -7,26 +7,69 @@ package com.ditagis.hcm.docsotanhoa.utities;
 public class Calculate_TienNuoc {
     private String mGB;
     private int mDM;
-    private int mTieuThu, mTieuThuSH, mTieuThuSX, mTieuThuDV, mTieuThuHC;
+    private int tieuThu, mTieuThuSH, mTieuThuSX, mTieuThuDV, mTieuThuHC;
     private double mTienNuoc;
     private int mSH, mSX, mDV, mHC;
     private int SHTM, SHVM1, SHVM2;
+    private static
+    int DON_GIA_SHTM = 5300;
+    private static
+    int DON_GIA_SHVM1 = 10200;
+    private static
+    int DON_GIA_SHVM2 = 11400;
+    private static
+    int DON_GIA_SX = 9600;
+    private static
+    int DON_GIA_DV = 16900;
+    private static
+    int DON_GIA_HC = 10300;
+    private static
+    int DON_GIA_SH_NUOC_NGOAI = DON_GIA_SHVM2;
 
-    public Calculate_TienNuoc(int tieuthu, String gb, String dm, int sh, int sx, int dv, int hc) {
-        this.mGB = gb;
-        mDM = Integer.parseInt(dm);
-        mSH = sh;
-        mSX = sx;
-        mDV = dv;
-        mHC = hc;
-        this.mTieuThu = tieuthu;
-        calculate();
+    private Calculate_TienNuoc() {
+    }
+
+    private static Calculate_TienNuoc _instance;
+
+    public static Calculate_TienNuoc getInstance() {
+
+        if (_instance == null)
+            _instance = new Calculate_TienNuoc();
+        return _instance;
+
+    }
+
+    public int getLNSH() {
+        return mTieuThuSH;
+    }
+
+    public int getLNHCSN() {
+        return mTieuThuHC;
+    }
+
+    public int getLNSX() {
+        return mTieuThuSX;
+    }
+
+    public int getLNDV() {
+        return mTieuThuDV;
     }
 
     public double getmTienNuoc() {
         return mTienNuoc;
     }
 
+    public int getGTGT() {
+        return doubleToInt(mTienNuoc * 5 / 100);
+    }
+
+    public int getBVMT() {
+        return doubleToInt(mTienNuoc * 0.9);
+    }
+
+    public long getTongTien() {
+        return (long) (getmTienNuoc() + getGTGT() + getBVMT());
+    }
 
     private void reset() {
         SHTM = SHVM1 = SHVM2 = mTieuThuSH = mTieuThuSX = mTieuThuDV = mTieuThuHC = 0;
@@ -60,7 +103,7 @@ public class Calculate_TienNuoc {
     }
 
     private boolean hasSHVM2() {
-        return SHVM1 >=(double) mDM/2;
+        return SHVM1 >= (double) mDM / 2;
     }
 
     private void calculateSHTM_VM1_VM2() {
@@ -79,34 +122,41 @@ public class Calculate_TienNuoc {
     }
 
     private int calculateTienNuoc_TM_VM1_VM2() {
-        return SHTM * 5300 + SHVM1 * 10200 + SHVM2 * 11400;
+        return SHTM * DON_GIA_SHTM + SHVM1 * DON_GIA_SHVM1 + SHVM2 * DON_GIA_SHVM2;
     }
 
     private int calculateSH() {
-        return mTieuThuSH * 11400;
+        return mTieuThuSH * DON_GIA_SHVM2;
     }
 
     private int calculateSX() {
-        return mTieuThuSX * 9600;
+        return mTieuThuSX * DON_GIA_SX;
     }
 
     private int calculateDV() {
-        return mTieuThuDV * 16900;
+        return mTieuThuDV * DON_GIA_DV;
     }
 
     private int calculateHC() {
-        return mTieuThuHC * 10300;
+        return mTieuThuHC * DON_GIA_HC;
     }
 
-    public void calculate() {
 
+    public double calculate(int tieuthu, String gb, String dm, int sh, int sx, int dv, int hc) {
+        this.mGB = gb;
+        mDM = Integer.parseInt(dm);
+        mSH = sh;
+        mSX = sx;
+        mDV = dv;
+        mHC = hc;
+        this.tieuThu = tieuthu;
         switch (mGB) {
             case "11":
                 reset();
-                if (mDM == 0)
-                    mTienNuoc = mTieuThu * 11400;
-                else {
-                    mTieuThuSH = mTieuThu;
+                if (mDM == 0) {
+                    mTienNuoc = tieuThu * DON_GIA_SHVM2;
+                } else {
+                    mTieuThuSH = tieuThu;
                     calculateSHTM_VM1_VM2();
                     mTienNuoc = calculateTienNuoc_TM_VM1_VM2();
                 }
@@ -115,27 +165,32 @@ public class Calculate_TienNuoc {
             case "22":
             case "32":
             case "42":
-                mTienNuoc = mTieuThu * 9600;
+                mTieuThuSX = tieuthu;
+                mTienNuoc = calculateSX();
+
                 break;
             case "13":
             case "23":
             case "33":
             case "43":
-                mTienNuoc = mTieuThu * 16900;
+                mTieuThuDV = tieuthu;
+                mTienNuoc = calculateDV();
+
                 break;
             case "14":
             case "24":
                 reset();
                 if (hasRatio()) {
 
-                    mTieuThuSH = (int) ((double) mSH / 100 * mTieuThu);
-                    mTieuThuSX = (int) ((double) mSX / 100 * mTieuThu);
+                    mTieuThuSH = doubleToInt((double) mSH / 100 * tieuThu);
+                    mTieuThuSX = doubleToInt((double) mSX / 100 * tieuThu);
                     calculateSHTM_VM1_VM2();
                     mTienNuoc = calculateTienNuoc_TM_VM1_VM2() + calculateSX();
                 } else {
-                    mTieuThuSH = mTieuThu;
+                    mTieuThuSH = tieuThu;
                     calculateSHTM_VM();
-                    mTienNuoc = SHTM * 5300 + SHVM1 * 9600;
+                    mTieuThuSX = SHVM1;
+                    mTienNuoc = SHTM * DON_GIA_SHTM + calculateSX();
                 }
                 break;
             case "15":
@@ -143,119 +198,163 @@ public class Calculate_TienNuoc {
                 reset();
                 if (hasRatio()) {
 
-                    mTieuThuSH = (int) ((double) mSH / 100 * mTieuThu);
-                    mTieuThuDV = (int) ((double) mDV / 100 * mTieuThu);
+                    mTieuThuSH = doubleToInt((double) mSH / 100 * tieuThu);
+                    mTieuThuDV = doubleToInt((double) mDV / 100 * tieuThu);
                     calculateSHTM_VM1_VM2();
                     mTienNuoc = calculateTienNuoc_TM_VM1_VM2() + calculateDV();
                 } else {
-                    mTieuThuSH = mTieuThu;
+                    mTieuThuSH = tieuThu;
                     calculateSHTM_VM();
-                    mTienNuoc = SHTM * 5300 + SHVM1 * 16900;
+                    mTieuThuDV = SHVM1;
+                    mTienNuoc = SHTM * DON_GIA_SHTM + calculateDV();
                 }
                 break;
             case "16":
             case "26":
                 reset();
-                if (mSH > 0) {
+                if (mSH > 0) {// có đủ 3 tỉ lệ
 
-                    mTieuThuSH = (int) ((double) mSH / 100 * mTieuThu);
-                    mTieuThuDV = (int) ((double) mDV / 100 * mTieuThu);
-                    mTieuThuSX = (int) ((double) mSX / 100 * mTieuThu);
+                    mTieuThuSH = doubleToInt((double) mSH / 100 * tieuThu);
+                    mTieuThuDV = doubleToInt((double) mDV / 100 * tieuThu);
+                    mTieuThuSX = doubleToInt((double) mSX / 100 * tieuThu);
 
                     calculateSHTM_VM1_VM2();
                     mTienNuoc = calculateTienNuoc_TM_VM1_VM2() + calculateSX() + calculateDV();
                 } else {
-                    if (mTieuThu >= mDM) {
+                    if (tieuThu >= mDM) {
                         mTieuThuSH = mDM;
-                        mTieuThuSX = (int) ((double) mSX / 100 * (mTieuThu - mDM));
-                        mTieuThuDV = (int) ((double) mDV / 100 * (mTieuThu - mDM));
+                        mTieuThuSX = doubleToInt((double) mSX / 100 * (tieuThu - mDM));
+                        mTieuThuDV = doubleToInt((double) mDV / 100 * (tieuThu - mDM));
                     } else {
-                        mTieuThuSH = mTieuThu;
+                        mTieuThuSH = tieuThu;
                     }
                     mTienNuoc = calculateSH() + calculateSX() + calculateDV();
                 }
                 break;
             case "17":
             case "27":
-                mTienNuoc = mTieuThu * 5300;
+                SHTM = tieuthu;
+                mTienNuoc = tieuThu * DON_GIA_SHTM;
+
                 break;
             case "18":
             case "28":
             case "38":
                 reset();
                 if (hasRatio()) {
-                    mTieuThuSH = (int) ((double) mSH / 100 * mTieuThu);
-                    mTieuThuHC = (int) ((double) mHC / 100 * mTieuThu);
-                    calculateTienNuoc_TM_VM1_VM2();
-                    mTienNuoc = calculateSH() + calculateHC();
+                    mTieuThuSH = doubleToInt((double) mSH / 100 * tieuThu);
+                    mTieuThuHC = doubleToInt((double) mHC / 100 * tieuThu);
+                    tieuThu = mTieuThuSH;
+                    calculateSHTM_VM1_VM2();
+                    mTienNuoc = calculateTienNuoc_TM_VM1_VM2() + calculateHC();
                 } else {
+                    mTieuThuSH = tieuthu;
                     calculateSHTM_VM();
-                    mTienNuoc = SHTM * 5300 + SHVM1 * 10300;
+                    mTieuThuHC = SHVM1;
+                    mTienNuoc = SHTM * DON_GIA_SHTM + calculateHC();
                 }
                 break;
             case "19":
             case "29":
             case "39":
                 reset();
-                mTieuThuSH = (int) ((double) mSH / 100 * mTieuThu);
-                mTieuThuSX = (int) ((double) mSX / 100 * mTieuThu);
-                mTieuThuDV = (int) ((double) mDV / 100 * mTieuThu);
-                mTieuThuHC = (int) ((double) mHC / 100 * mTieuThu);
+                mTieuThuSH = doubleToInt((double) mSH / 100 * tieuThu);
+                mTieuThuSX = doubleToInt((double) mSX / 100 * tieuThu);
+                mTieuThuDV = doubleToInt((double) mDV / 100 * tieuThu);
+                mTieuThuHC = doubleToInt((double) mHC / 100 * tieuThu);
                 calculateSHTM_VM1_VM2();
-                mTienNuoc = calculateSH() + calculateSX() + calculateDV() + calculateHC();
+                mTienNuoc = calculateTienNuoc_TM_VM1_VM2() + calculateSX() + calculateDV() + calculateHC();
                 break;
             case "21":
                 reset();
-                mTieuThuSH = mTieuThu;
+                mTieuThuSH = tieuThu;
                 calculateSHTM_VM1_VM2();
                 mTienNuoc = calculateTienNuoc_TM_VM1_VM2();
                 break;
             case "31":
-                mTienNuoc = mTieuThu * 10300;
+                mTieuThuHC = tieuthu;
+                mTienNuoc = tieuThu * DON_GIA_HC;
                 break;
             case "34":
                 reset();
-                mTieuThuSX = (int) ((double) mSX / 100 * mTieuThu);
-                mTieuThuHC = (int) ((double) mHC / 100 * mTieuThu);
+                if (mSX == 0 && mHC == 0)
+                    mTieuThuSX = tieuthu;
+                else {
+                    mTieuThuSX = doubleToInt((double) mSX / 100 * tieuThu);
+                    mTieuThuHC = doubleToInt((double) mHC / 100 * tieuThu);
+                }
                 mTienNuoc = calculateSX() + calculateHC();
                 break;
             case "35":
                 reset();
-                mTieuThuDV = (int) ((double) mDV / 100 * mTieuThu);
-                mTieuThuHC = (int) ((double) mHC / 100 * mTieuThu);
+                if (mDV == 0 && mHC == 0)
+                    mTieuThuDV = tieuthu;
+                else {
+                    mTieuThuDV = doubleToInt((double) mDV / 100 * tieuThu);
+                    mTieuThuHC = doubleToInt((double) mHC / 100 * tieuThu);
+                }
                 mTienNuoc = calculateDV() + calculateHC();
                 break;
             case "36":
                 reset();
-                mTieuThuSX = (int) ((double) mSX / 100 * mTieuThu);
-                mTieuThuDV = (int) ((double) mDV / 100 * mTieuThu);
-                mTieuThuHC = (int) ((double) mHC / 100 * mTieuThu);
+                mTieuThuSX = doubleToInt((double) mSX / 100 * tieuThu);
+                mTieuThuDV = doubleToInt((double) mDV / 100 * tieuThu);
+                mTieuThuHC = doubleToInt((double) mHC / 100 * tieuThu);
                 mTienNuoc = calculateSX() + calculateDV() + calculateHC();
                 break;
 
             case "51":
                 reset();
-                mTieuThuSH = mTieuThu;
+                mTieuThuSH = tieuThu;
                 calculateSHTM_VM1_VM2();
-
-                mTienNuoc = SHTM * 4770 + SHVM1 * 9180 + SHVM2 * 10260;
+                mTienNuoc = 0.9 * (SHTM * DON_GIA_SHTM + SHVM1 * DON_GIA_SHVM1 + SHVM2 * DON_GIA_SHVM2);
                 break;
             case "52":
-                mTienNuoc = mTieuThu * 8640;
+                mTieuThuSX = tieuthu;
+                mTienNuoc = 0.9 * calculateSX();
                 break;
             case "53":
-                mTienNuoc = mTieuThu * 15210;
+                mTieuThuDV = tieuthu;
+                mTienNuoc = 0.9 * calculateDV();
                 break;
             case "54":
-                mTienNuoc = mTieuThu * 9270;
+                mTieuThuHC = tieuthu;
+                mTienNuoc = 0.9 * calculateHC();
                 break;
-
+            case "59":
+                reset();
+                if (mSH == 0 && mDV == 0 && mSX == 0 && mHC == 0)
+                    mTieuThuSH = tieuthu;
+                else {
+                    mTieuThuSH = doubleToInt((double) mSH / 100 * tieuThu);
+                    mTieuThuSX = doubleToInt((double) mSX / 100 * tieuThu);
+                    mTieuThuDV = doubleToInt((double) mDV / 100 * tieuThu);
+                    mTieuThuHC = doubleToInt((double) mHC / 100 * tieuThu);
+                }
+                calculateSHTM_VM1_VM2();
+                mTienNuoc = 0.9 * (calculateTienNuoc_TM_VM1_VM2() + calculateSX() + calculateDV() + calculateHC());
+                break;
+            case "68":
+                if (mSH == 0 && mDV == 0)
+                    mTieuThuSH = tieuthu;
+                else {
+                    mTieuThuSH = doubleToInt((double) mSH / 100 * tieuThu);
+                    mTieuThuDV = doubleToInt((double) mDV / 100 * tieuThu);
+                }
+                calculateSHTM_VM1_VM2();
+                mTienNuoc = 0.9 * (calculateTienNuoc_TM_VM1_VM2() + calculateDV());
+                break;
             default:
                 mTienNuoc = 0;
                 break;
 
         }
+        return mTienNuoc;
+    }
 
+    private int doubleToInt(double number) {
+
+        return (int) Math.round(number);
     }
 
 }

@@ -27,7 +27,7 @@ import java.util.List;
 public class Uploading implements IDB<HoaDon, Boolean, String> {
     private final String TABLE_NAME = "HOADON";
     private final String NEW_TABLE_NAME = "HoaDonMoi";
-    private final String TABLE_NAME_DOCSO = "DocSo";
+    private String TABLE_NAME_DOCSO = "DocSo";
     private final String TABLE_NAME_DOCSO1 = "DocSo20180215";
     private final String TABLE_NAME_KH = "KhachHang";
     private final String TABLE_NAME_DOCSO_LUUTRU = "DocSoLuuTru";
@@ -162,11 +162,10 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
 
     @Override
     public Boolean update(HoaDon hoaDon) {
+        TABLE_NAME_DOCSO += mNam + mKy + mDot;
         String sql = this.SQL_UPDATE;
-        Calculate_TienNuoc calculate_tienNuoc = new Calculate_TienNuoc(
-                Integer.parseInt(hoaDon.getTieuThuMoi()), hoaDon.getGiaBieu(),
+        final double tienNuoc = Calculate_TienNuoc.getInstance().calculate(Integer.parseInt(hoaDon.getTieuThuMoi()), hoaDon.getGiaBieu(),
                 hoaDon.getDinhMuc(), hoaDon.getSh(), hoaDon.getSx(), hoaDon.getDv(), hoaDon.getHc());
-        final double tienNuoc = calculate_tienNuoc.getmTienNuoc();
         //TODO: cập nhật chỉ số cũ = chỉ số mới
         try {
             cnn = ConnectionDB.getInstance().getConnection();
@@ -183,9 +182,12 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             st.setString(6, hoaDon.getSdt());
             st.setString(7, hoaDon.getViTri());
             st.setDouble(8, tienNuoc);
-            st.setDouble(9, tienNuoc / 10);
-            st.setDouble(10, tienNuoc / 20);
-            st.setDouble(11, tienNuoc * 115 / 100);
+            double BVMT = 0, VAT = tienNuoc / 20;
+            if (!hoaDon.getGiaBieu().equals("52"))
+                BVMT = tienNuoc / 10;
+            st.setDouble(9, BVMT);
+            st.setDouble(10, VAT);
+            st.setDouble(11, tienNuoc + BVMT + VAT);
             st.setString(12, LocalDatabase.getInstance(mContext).getTTDHN(hoaDon.getCodeMoi()));
             st.setString(13, this.mNam + this.mKy + hoaDon.getDanhBo());
 

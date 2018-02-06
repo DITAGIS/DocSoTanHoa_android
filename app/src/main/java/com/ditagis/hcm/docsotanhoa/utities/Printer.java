@@ -135,12 +135,12 @@ public class Printer {
             y += 40;
             builder.append(String.format("TEXT 7 0 20 %d So dien thoai: %s\n", y, mStaffPhone));
             y += 40;
-            builder.append(String.format("TEXT 7 0 20 %d KHACH HANG: %s\n", y,removeAccent(mHoaDon.getTenKhachHang())));
+            builder.append(String.format("TEXT 7 0 20 %d KHACH HANG: %s\n", y, removeAccent(mHoaDon.getTenKhachHang())));
             y += 40;
             builder.append(String.format("TEXT 7 0 20 %d DIA CHI: %s\n", y, removeAccent(mHoaDon.getDiaChi())));
             y += 45;
             builder.append(String.format("TEXT 7 0 20 %d DANH BA: %s%11s%s\n", y, "             ", "MLT: ", ""));
-            y-=20;
+            y -= 20;
             builder.append(String.format("TEXT 7 1 20 %d          %s%11s%s\n", y, spaceDB(mHoaDon.getDanhBo()), " ", spaceMLT(mHoaDon.getMaLoTrinh())));
             y += 50;
             builder.append(String.format("TEXT 7 0 20 %d GIA BIEU: %s - DINH MUC: %s m3\n", y, mHoaDon.getGiaBieu(), mHoaDon.getDinhMuc()));
@@ -155,13 +155,17 @@ public class Printer {
             y += 55;
             builder.append(String.format("TEXT 7 0 70 %d TIEN NUOC%24s VND\n", y, NumberFormat.getNumberInstance(Locale.US).format(mTienNuoc))); //.0f
             y += 35;
-            builder.append(String.format("TEXT 7 0 70 %d PHI BVMT%25s VND\n", y, NumberFormat.getNumberInstance(Locale.US).format(mTienNuoc / 10)));
+
+            double BVMT = 0, VAT = mTienNuoc / 20;
+            if (!mHoaDon.getGiaBieu().equals("52"))
+                BVMT = mTienNuoc / 10;
+            builder.append(String.format("TEXT 7 0 70 %d PHI BVMT%25s VND\n", y, NumberFormat.getNumberInstance(Locale.US).format(BVMT)));
             y += 35;
-            builder.append(String.format("TEXT 7 0 70 %d THUE VAT%25s VND\n", y, NumberFormat.getNumberInstance(Locale.US).format(mTienNuoc / 20)));
+            builder.append(String.format("TEXT 7 0 70 %d THUE VAT%25s VND\n", y, NumberFormat.getNumberInstance(Locale.US).format(VAT)));
             y += 35;
             builder.append(String.format("TEXT 7 0 230 %d %25s\n", y, "-----------"));
             y += 10;
-            builder.append(String.format("TEXT 7 1 40 %d TONG CONG%27s VND\n", y, NumberFormat.getNumberInstance(Locale.US).format(mTienNuoc * 115 / 100)) +
+            builder.append(String.format("TEXT 7 1 40 %d TONG CONG%27s VND\n", y, NumberFormat.getNumberInstance(Locale.US).format(mTienNuoc + BVMT + VAT)) +
                     "CENTER\n");
             y += 50;
             builder.append(String.format("TEXT 7 0 0 %d -------------------------------\n", y));

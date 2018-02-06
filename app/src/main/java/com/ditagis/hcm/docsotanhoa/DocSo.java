@@ -556,10 +556,8 @@ public class DocSo extends Fragment {
             mHoaDon.setThoiGian(datetime);
             mHoaDon.setTieuThuMoi(((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).getText().toString());
             mHoaDon.setChiSoMoi(mTxtCSM.getText().toString());
-            Calculate_TienNuoc calculate_tienNuoc = new Calculate_TienNuoc(
-                    Integer.parseInt(mHoaDon.getTieuThuMoi()), mHoaDon.getGiaBieu(),
+            double tienNuoc = Calculate_TienNuoc.getInstance().calculate(   Integer.parseInt(mHoaDon.getTieuThuMoi()), mHoaDon.getGiaBieu(),
                     mHoaDon.getDinhMuc(), mHoaDon.getSh(), mHoaDon.getSx(), mHoaDon.getDv(), mHoaDon.getHc());
-            double tienNuoc = calculate_tienNuoc.getmTienNuoc();
 
             Printer.getInstance().setValue(mNam, mStaffName, mStaffPhone, mHoaDon, tienNuoc);
             if (Printer.getInstance().print())
