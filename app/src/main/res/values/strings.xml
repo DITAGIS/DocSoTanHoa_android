@@ -88,5 +88,6 @@
     <string name="flag_unread">Chưa đọc</string>
     <string name="flag_read">Đã đọc</string>
     <string name="flag_sych">Đã đồng bộ</string>
+    <string name="flag_code_f">Nhà đóng cửa</string>
 
 </resources>

@@ -13,7 +13,6 @@ import com.ditagis.hcm.docsotanhoa.conectDB.HoaDonDB;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.entities.ResultLayLoTrinh;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
-import com.ditagis.hcm.docsotanhoa.utities.Flag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,34 +118,30 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
                     HoaDon hoaDon = _hoadonDB.getHoaDonByUserName(this.mUsername, danhBo, this.mDot, this.mNam, this.mKy);
                     if (hoaDon == null)
                         continue;
-                    if (hoaDon.getCodeMoi() != null)
-                        if (hoaDon.getCodeMoi().startsWith("F")) {
-                            LocalDatabase.getInstance(mContext).deleteHoaDon(hoaDon.getDanhBo(), Flag.SYNCHRONIZED);
-                            hoaDon.setCodeMoi("40");
-                            hoaDon.setChiSoMoi("0");
-                            hoaDon.setTieuThuMoi("0");
-                        }
-                        //đọc vét khi chưa đồng bộ
-                        else {
-                            HoaDon hoaDonLocal = this.mLocalDatabase.getHoaDon_Read(danhBo, false);
-                            if (hoaDonLocal != null && hoaDonLocal.getCodeMoi().startsWith("F")) {
-                                LocalDatabase.getInstance(mContext).deleteHoaDon(hoaDon.getDanhBo(), Flag.READ);
-                                hoaDon.setCodeMoi("40");
-                                hoaDon.setChiSoMoi("0");
-                                hoaDon.setTieuThuMoi("0");
-                            }
-                        }
+                    //Không tải lại code F
+//                    if (hoaDon.getCodeMoi() != null)
+//                        if (hoaDon.getCodeMoi().startsWith("F")) {
+//                            LocalDatabase.getInstance(mContext).deleteHoaDon(hoaDon.getDanhBo(), Flag.SYNCHRONIZED);
+//                            hoaDon.setCodeMoi("40");
+//                            hoaDon.setChiSoMoi("0");
+//                            hoaDon.setTieuThuMoi("0");
+//                        }
+//                        //đọc vét khi chưa đồng bộ
+//                        else {
+//                            HoaDon hoaDonLocal = this.mLocalDatabase.getHoaDon_Read(danhBo, false);
+//                            if (hoaDonLocal != null && hoaDonLocal.getCodeMoi().startsWith("F")) {
+//                                LocalDatabase.getInstance(mContext).deleteHoaDon(hoaDon.getDanhBo(), Flag.READ);
+//                                hoaDon.setCodeMoi("40");
+//                                hoaDon.setChiSoMoi("0");
+//                                hoaDon.setTieuThuMoi("0");
+//                            }
+//                        }
 
-//                    if (hoaDon.getCode_CSC_SanLuong().getCode1().startsWith("K")) {
-//                        hoaDon.setCodeMoi("5K");
+
+//                    if (hoaDon == null) {
+//                        _hoadonDB.closeStatement();
+//                        return null;
 //                    }
-//                    if (hoaDon.getCode_CSC_SanLuong().getCode1().startsWith("F")) {
-//                        hoaDon.setCodeMoi("5F");
-//                    }
-                    if (hoaDon == null) {
-                        _hoadonDB.closeStatement();
-                        return null;
-                    }
 
                     hoaDons.add(hoaDon);
                     resultLayLoTrinh.addItemToDa(new GridViewLayLoTrinhAdapter.Item(hoaDon.getMaLoTrinh(), hoaDon.getDanhBo()));

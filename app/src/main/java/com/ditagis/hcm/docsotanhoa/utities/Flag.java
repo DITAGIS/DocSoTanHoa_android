@@ -8,4 +8,5 @@ public class Flag {
     public static final int UNREAD = 0;
     public static final int READ = 1;
     public static final int SYNCHRONIZED = 2;
+    public static final int CODE_F = 3;
 }

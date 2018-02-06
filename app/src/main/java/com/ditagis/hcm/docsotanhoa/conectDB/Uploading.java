@@ -24,31 +24,20 @@ import java.util.List;
  */
 
 public class Uploading implements IDB<HoaDon, Boolean, String> {
-    private final String TABLE_NAME = "HOADON";
     private final String NEW_TABLE_NAME = "HoaDonMoi";
     private final String TABLE_NAME_DOCSO = "DocSo";
     private final String TABLE_NAME_KH = "KhachHang";
-    private final String TABLE_NAME_DOCSO_LUUTRU = "DocSoLuuTru";
-    private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME_DOCSO + " SET CSMOI=?, CODEMoi=?, GhiChuDS=?, tieuthumoi =?, gioghi = ?, sdt = ?, vitrimoi = ?,tiennuoc = ?, bvmt = ?, thue = ?, tongtien = ? WHERE docsoId = ? ";
+    private final String SQL_UPDATE = "UPDATE top (1) " + TABLE_NAME_DOCSO + " SET CSMOI=?, CODEMoi=?, GhiChuDS=?, tieuthumoi =?, gioghi = ?, sdt = ?, vitrimoi = ?,tiennuoc = ?, bvmt = ?, thue = ?, tongtien = ? WHERE docsoId = ? ";
 
     private final String SQL_UPDATE_KH = "UPDATE " + TABLE_NAME_KH + " SET somoi =?, duong = ? WHERE DANHBa=? ";
     private final String SQL_SELECT_KH = "SELECT so from " + TABLE_NAME_KH + " WHERE DANHBa=? ";
-    private final String SQL_INSERT_LUUTRU = "INSERT INTO " + TABLE_NAME_DOCSO_LUUTRU + " VALUES (?,?,?,?,?,?,?,?,?,?," +
-            "?,?,?,?,?,?,?,?,?,?," +
-            "?,?,?,?,?,?,?,?,?,?," +
-            "?,?,?,?,?,?,?,?,?,?," +
-            "?,?,?,?,?,?,?,?,?,?," +
-            "?,?,?,?,?,?,?,?,?,?," +
-            "?,?)";
     private final String TABLE_NAME_HINHDHN = "HinhDHN";//(Danhbo, Image, Latitude, Longitude, CreateBy, CreateDate)
     private final String SQL_INSERT_HINHDHN = "INSERT INTO " + TABLE_NAME_HINHDHN + " VALUES(?,?,?,?,?,?)  ";
-    private final String SQL_UPDATE_HINHDHN = "update t set Image = ?, CreateDate =? from( select top 1 * from " + TABLE_NAME_HINHDHN +
+    private final String SQL_UPDATE_HINHDHN = "update top(1) t set Image = ?, CreateDate =? from( select top 1 * from " + TABLE_NAME_HINHDHN +
             " where danhbo = ? order by CreateDate desc) t";
 
     private final String SQL_DELETE = "if exists (select danhbo from " + TABLE_NAME_HINHDHN + " where danhbo = ?)" +
             " delete from " + TABLE_NAME_HINHDHN + " where DanhBo = ?";
-    private final String SQL_INSERT = "INSERT INTO " + NEW_TABLE_NAME + " VALUES(?,?,?,?,?,?,?,?,?,?)";
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private Connection cnn = ConnectionDB.getInstance().getConnection();
     private String mDot, mKy, mNam;

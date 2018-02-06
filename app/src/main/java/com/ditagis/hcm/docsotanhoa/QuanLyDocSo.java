@@ -1505,8 +1505,11 @@ public class QuanLyDocSo extends Fragment {
 
     //TODO: progress bar
     private void upLoadData() {
-        new UploadingAsync().execute();
+        try {
+            new UploadingAsync().execute();
+        } catch (Exception e) {
 
+        }
     }
 
     class UploadingAsync extends AsyncTask<String, Integer, Void> {

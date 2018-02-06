@@ -189,10 +189,10 @@ public class DocSo extends Fragment {
 
 
         mMLTs = new ArrayList<String>();
-
-        for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike, mKy, false)) {
-            mMLTs.add(spaceMLT(hoaDon.getMaLoTrinh()));
-        }
+//
+//        for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike, mKy, false)) {
+//            mMLTs.add(spaceMLT(hoaDon.getMaLoTrinh()));
+//        }
         mSpinMLT = (Spinner) mRootView.findViewById(R.id.spin_ds_mlt);
         mSpinDB = (Spinner) mRootView.findViewById(R.id.spin_ds_db);
         ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setOnClickListener(new View.OnClickListener() {
@@ -1569,15 +1569,18 @@ public class DocSo extends Fragment {
         HideKeyboard.hide(mActivity);
         mDanhBo = mDBs.get(position).replace(" ", "");
         mHoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo, true);
-
+        boolean hasCodeMoi = false;
         for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
 
             if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals(mHoaDon.getCodeMoi())) {
                 mSpinCode.setSelection(i);
                 mCode = Codes.getInstance().getCodeDescribles_ds()[i].getCode();
+                hasCodeMoi = true;
+
                 break;
             }
         }
+
 //        if (mHoaDon.getCode_CSC_SanLuong().getCode1().startsWith("F")) {
 //            for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
 //                if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals("5F")) {
@@ -1596,7 +1599,7 @@ public class DocSo extends Fragment {
 //            }
 //        } else
 
-        {
+        if (!hasCodeMoi) {
             mSpinCode.setSelection(0);
             mCode = Codes.getInstance().getCodeDescribles_ds()[0].getCode();
         }
@@ -1809,11 +1812,17 @@ public class DocSo extends Fragment {
             mHoaDon.setThoiGian(datetime);
 
 
-            LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonUnRead(mHoaDon);
             mTxtTT.setText("");
-            notifyDataSetChange(mHoaDon);
-
             int i = mSpinMLT.getSelectedItemPosition();
+            //Xử lý code F
+            if (mHoaDon.getCodeMoi().startsWith("F")) {
+                LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonUnRead(mHoaDon, true);
+                i++;
+            } else {
+                LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonUnRead(mHoaDon, false);
+                notifyDataSetChange(mHoaDon);
+            }
+
             if (mMLTs.size() != 0)
                 selectMLT(i == mMLTs.size() ? i - 1 : i);
             this.mDanhBoHoanThanh++;

@@ -108,6 +108,10 @@ public class GridViewQuanLyDocSoAdapter extends ArrayAdapter<GridViewQuanLyDocSo
                 txtTrangThai.setText(parent.getContext().getApplicationContext().getString(R.string.flag_sych));
                 row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_check_1));
                 break;
+            case Flag.CODE_F:
+                txtTrangThai.setText(parent.getContext().getApplicationContext().getString(R.string.flag_code_f));
+                row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.colorAlertWrongPassword_2));
+                break;
         }
 
 
