@@ -5,6 +5,12 @@
     <string name="title_activity_chup_anh">Chụp ảnh</string>
     <string name="title_activity_quan_ly_doc_so">Quản lý đọc số</string>
 
+    <string name="preference_dot">Dot</string>
+    <string name="preference_ky">Ky</string>
+    <string name="preference_nam">Nam</string>
+    <string name="preference_tenNV">tenNV</string>
+    <string name="preference_sdtNV">sdt</string>
+
     <string name="title_activity_scan">Quét mã vạch</string>
     <string name="title_activity_main">Đọc số Tân Hòa</string>
     <string name="save_theme">theme</string>

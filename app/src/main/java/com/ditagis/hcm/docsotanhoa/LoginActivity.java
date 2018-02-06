@@ -142,20 +142,26 @@ public class LoginActivity extends AppCompatActivity {
         } else if (CheckConnect.isOnline(LoginActivity.this)) {
             mLoginAsync = new LoginAsync();
             mLoginAsync.execute(LoginActivity.this.mUsername, LoginActivity.this.mPassword);
+        } else if (mTxtPassword.getText().toString().equals(loadPreference(mTxtUsername.getText().toString()))) {
+            LoginActivity.this.mPassword = mTxtPassword.getText().toString();
+            LoginActivity.this.mStaffName = loadPreference(getString(R.string.preference_tenNV));
+            LoginActivity.this.mKy = loadPreference(getString(R.string.preference_ky));
+            LoginActivity.this.mDot = loadPreference(getString(R.string.preference_dot));
+            LoginActivity.this.mNam = loadPreference(getString(R.string.preference_nam));
+            LoginActivity.this.mStaffPhone = loadPreference(getString(R.string.preference_sdtNV));
+
+
+           if (mStaffName == null)
+                MySnackBar.make(btnLogin, "Chưa khởi tạo máy " + mTxtUsername.getText().toString(), true);
+            else if (mStaffName.length() > 0) {
+
+                mTxtPassword.setText("");
+                mTxtUsername.setText("");
+                doLayLoTrinh();
+            } else {
+                MySnackBar.make(btnLogin, R.string.login_fail, true);
+            }
         }
-//        else if (mTxtPassword.getText().toString().equals(loadPreferences(mTxtUsername.getText().toString()).)) {
-//            mTxtPassword.setText("");
-//            mTxtUsername.setText("");
-//            Toast.makeText(LoginActivity.this, this.getString(R.string.login_with_saved_account), Toast.LENGTH_SHORT).show();
-//            doLayLoTrinh();
-//        }
-//        } else if (mTxtPassword.getText().toString().equals(loadPreference(mTxtUsername.getText().toString()))) {
-//
-//            mTxtPassword.setText("");
-//            mTxtUsername.setText("");
-//            Toast.makeText(LoginActivity.this, this.getString(R.string.login_with_saved_account), Toast.LENGTH_SHORT).show();
-//            doLayLoTrinh();
-//        }
     }
 
     public void doLayLoTrinh() {
@@ -316,11 +322,16 @@ public class LoginActivity extends AppCompatActivity {
             LogInDB.Result result = this.loginDB.logIn(new User(username, password));
             if (result == null)
                 ;
+
             else if (result.getmStaffName() == null || result.getmStaffName().length() > 0) {
+
                 deletePreferences();
                 savePreferences(username, password);
-                savePreferences(password, result.getmStaffName());
-                savePreferences(result.getmStaffName(), result.getmDot());
+                savePreferences(getString(R.string.preference_tenNV), result.getmStaffName());
+                savePreferences(getString(R.string.preference_dot), result.getmDot());
+                savePreferences(getString(R.string.preference_ky), result.getmKy());
+                savePreferences(getString(R.string.preference_nam), result.getmNam());
+                savePreferences(getString(R.string.preference_sdtNV), result.getmStaffPhone());
 
                 LoginActivity.this.mPassword = result.getPassword();
                 LoginActivity.this.mStaffName = result.getmStaffName();
@@ -329,6 +340,8 @@ public class LoginActivity extends AppCompatActivity {
                 LoginActivity.this.mNam = result.getmNam();
                 LoginActivity.this.mStaffPhone = result.getmStaffPhone();
             }
+
+
             publishProgress(result);
             return result;
         }

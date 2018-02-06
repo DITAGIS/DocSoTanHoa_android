@@ -104,6 +104,11 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
         if (_hoadonDB == null)
             _hoadonDB = new HoaDonDB();
         List<String> DBs = _hoadonDB.getCountHoaDon(this.mUsername, this.mDot, this.mNam, this.mKy);
+
+        //đọc offline
+        if (DBs == null) {
+            return null;
+        }
         count = DBs.size();
         if (hoaDons.size() == count) {
             isFound = true;
