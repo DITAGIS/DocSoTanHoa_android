@@ -51,6 +51,7 @@ import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 import com.ditagis.hcm.docsotanhoa.theme.ThemeUtils;
 import com.ditagis.hcm.docsotanhoa.utities.CalculateCSM_TieuThu;
 import com.ditagis.hcm.docsotanhoa.utities.Calculate_TienNuoc;
+import com.ditagis.hcm.docsotanhoa.utities.CheckConnect;
 import com.ditagis.hcm.docsotanhoa.utities.Flag;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.Note;
@@ -1482,6 +1483,10 @@ public class QuanLyDocSo extends Fragment {
     }
 
     private void doUpLoad() {
+        if (!CheckConnect.isOnline(getActivity())) {
+            MySnackBar.make(mTxtComplete, mRootView.getContext().getString(R.string.no_connect), true);
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Đồng bộ danh bộ?");
         builder.setMessage("Dữ liệu sau khi đồng bộ sẽ không thể chỉnh sửa!")

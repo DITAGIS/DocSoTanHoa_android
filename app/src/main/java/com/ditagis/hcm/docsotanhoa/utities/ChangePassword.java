@@ -41,7 +41,10 @@ public class ChangePassword {
     }
 
     private void changePassword() {
-
+        if (!CheckConnect.isOnline(mActivity)) {
+            MySnackBar.make(mActivity.findViewById(R.id.container), R.string.no_connect, true);
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity, android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Đổi mật khẩu");
         builder.setCancelable(false);
@@ -52,10 +55,7 @@ public class ChangePassword {
         dialogChangePw.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 
-        if (!CheckConnect.isOnline(mActivity)) {
-            MySnackBar.make(dialogLayout, R.string.no_connect, true);
-            return;
-        }
+
         dialogChangePw.show();
 
 
@@ -189,6 +189,8 @@ public class ChangePassword {
 
             }
         });
+
+
     }
 
 
