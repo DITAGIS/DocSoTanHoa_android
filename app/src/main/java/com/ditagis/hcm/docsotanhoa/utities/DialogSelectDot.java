@@ -29,8 +29,6 @@ public class DialogSelectDot {
         int count = 0;
         for (int ky = 12; ky >= 1; ky--)
             for (int dot = 20; dot >= 1; dot--) {
-                if (count ==CONSTANT.MAX_DOT)
-                    break;
                 String dotString = dot + "";
                 if (dot < 10)
                     dotString = "0" + dot;
@@ -42,6 +40,11 @@ public class DialogSelectDot {
                     count++;
 
             }
+        if (selectFolderAdapter.getCount() > CONSTANT.MAX_DOT) {
+            LocalDatabase.getInstance(context).deleteHoaDon(selectFolderAdapter.getItem(CONSTANT.MAX_DOT).getKy(),
+                    selectFolderAdapter.getItem(CONSTANT.MAX_DOT).getDot());
+            selectFolderAdapter.remove(selectFolderAdapter.getItem(CONSTANT.MAX_DOT));
+        }
         if (count > 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert);
             builder.setTitle("Chọn quyển đọc số");
@@ -55,14 +58,6 @@ public class DialogSelectDot {
             final AlertDialog dialog = builder.create();
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.show();
-//        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-//                docSo.selectDotFromDialog(selectFolderAdapter.getItem(position).getDot());
-//                dialog.dismiss();
-//                return false;
-//            }
-//        });
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -80,7 +75,7 @@ public class DialogSelectDot {
         int count = 0;
         for (int ky = 12; ky >= 1; ky--)
             for (int dot = 20; dot >= 1; dot--) {
-                if (count ==CONSTANT.MAX_DOT)
+                if (count == CONSTANT.MAX_DOT)
                     break;
                 String dotString = dot + "";
                 if (dot < 10)

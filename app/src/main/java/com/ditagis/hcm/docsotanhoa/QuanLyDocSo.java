@@ -870,7 +870,8 @@ public class QuanLyDocSo extends Fragment {
                 kyString = "0" + i;
             if (!mKys.contains(kyString)) {
                 if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(i, false).size() > 0) {
-                    mKys.add(kyString);
+                    if (!mKys.contains(kyString))
+                        mKys.add(kyString);
                 }
             }
             if (mKys.size() > 0)

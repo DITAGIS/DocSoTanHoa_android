@@ -557,7 +557,7 @@ public class DocSo extends Fragment {
             mHoaDon.setThoiGian(datetime);
             mHoaDon.setTieuThuMoi(((TextView) mRootView.findViewById(R.id.txt_ds_tieuThu)).getText().toString());
             mHoaDon.setChiSoMoi(mTxtCSM.getText().toString());
-            double tienNuoc = Calculate_TienNuoc.getInstance().calculate(   Integer.parseInt(mHoaDon.getTieuThuMoi()), mHoaDon.getGiaBieu(),
+            double tienNuoc = Calculate_TienNuoc.getInstance().calculate(Integer.parseInt(mHoaDon.getTieuThuMoi()), mHoaDon.getGiaBieu(),
                     mHoaDon.getDinhMuc(), mHoaDon.getSh(), mHoaDon.getSx(), mHoaDon.getDv(), mHoaDon.getHc());
 
             Printer.getInstance().setValue(mNam, mStaffName, mStaffPhone, mHoaDon, tienNuoc);
@@ -1421,8 +1421,11 @@ public class DocSo extends Fragment {
         mSelectFolderAdapter = adapter;
         boolean isFound = false;
         mKys.clear();
+        String kyString = "";
         for (GridViewSelectFolderAdapter.Item item : mSelectFolderAdapter.getItems()) {
-            mKys.add(item.getKy().length() == 1 ? "0" + item.getKy() : item.getKy());
+            kyString = item.getKy().length() == 1 ? "0" + item.getKy() : item.getKy();
+            if (!mKys.contains(kyString))
+                mKys.add(kyString);
         }
 //        for (int i = 0; i < mKys.size(); i++) {
 //            for (GridViewSelectFolderAdapter.Item item : mSelectFolderAdapter.getItems()) {
@@ -1439,7 +1442,7 @@ public class DocSo extends Fragment {
 //        }
         mAdapterKy.notifyDataSetChanged();
         int kyInt = Integer.parseInt(ky);
-        String kyString = kyInt + "";
+        kyString = kyInt + "";
         if (kyInt < 10)
             kyString = "0" + kyInt;
         int dotInt = Integer.parseInt(dot);

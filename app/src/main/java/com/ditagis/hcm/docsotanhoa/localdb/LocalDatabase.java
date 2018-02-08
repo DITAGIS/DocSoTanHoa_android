@@ -868,6 +868,14 @@ public class LocalDatabase extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void deleteHoaDon(String ky, String dot) {
+        Log.i(TAG, "LocalDatabase.updateHoaDon ... " + ky + dot);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_HOADON, COLUMN_HOADON_KY + " = ? and " + COLUMN_HOADON_DOT + " = ?",
+                new String[]{ky, dot});
+        db.close();
+    }
 
     public boolean getExistHoaDon(String may, String dot, String ky) {
         SQLiteDatabase db = this.getWritableDatabase();
