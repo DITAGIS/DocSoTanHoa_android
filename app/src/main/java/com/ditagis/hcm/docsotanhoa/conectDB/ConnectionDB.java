@@ -56,7 +56,7 @@ public class ConnectionDB {
     private Connection getConnect() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        String url = String.format("jdbc:jtds:sqlserver://%s:%s/%s;instance=%s", SERVER1, PORT1, DB1, INSTANCT_NAME);
+        String url = String.format("jdbc:jtds:sqlserver://%s:%s/%s;instance=%s", SERVER, PORT, DB, INSTANCT_NAME);
         Connection cnn = null;
         try {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");

@@ -1382,13 +1382,17 @@ public class QuanLyDocSo extends Fragment {
                     MySnackBar.make(mTxtComplete, "Chưa có dữ liệu báo thay", true);
                     mSpinCode.setSelection(0);
                 }
-                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(hoaDon.getChiSoCu()), hoaDon.getChiSoMoi(), mCSGo);
+                try {
+                    CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(hoaDon.getChiSoCu()), hoaDon.getChiSoMoi(), mCSGo);
 
-                etxtCSM.setText(csm_tieuThu.getCSM());
-                txtTT.setText(csm_tieuThu.getTieuThu());
+                    etxtCSM.setText(csm_tieuThu.getCSM());
+                    txtTT.setText(csm_tieuThu.getTieuThu());
 
-                hoaDon.setChiSoMoi(csm_tieuThu.getCSM());
-                hoaDon.setTieuThuMoi(csm_tieuThu.getTieuThu());
+                    hoaDon.setChiSoMoi(csm_tieuThu.getCSM());
+                    hoaDon.setTieuThuMoi(csm_tieuThu.getTieuThu());
+                } catch (Exception e) {
+
+                }
                 if (CalculateCSM_TieuThu.checkCSMFluctuation(hoaDon.getTieuThuMoi(), hoaDon.getCode_CSC_SanLuong().getSanLuong1(),
                         hoaDon.getCode_CSC_SanLuong().getSanLuong2(), hoaDon.getCode_CSC_SanLuong().getSanLuong3())) {
                     etxtCSM.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
@@ -1411,17 +1415,20 @@ public class QuanLyDocSo extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(hoaDon.getChiSoCu()), s.toString(), mCSGo);
 
-                CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(hoaDon.getChiSoCu()), s.toString(), mCSGo);
+                    txtTT.setText(csm_tieuThu.getTieuThu());
+                    hoaDon.setChiSoMoi(s.toString());
+                    hoaDon.setTieuThuMoi(csm_tieuThu.getTieuThu());
+                    if (CalculateCSM_TieuThu.checkCSMFluctuation(csm_tieuThu.getTieuThu(), hoaDon.getCode_CSC_SanLuong().getSanLuong1(),
+                            hoaDon.getCode_CSC_SanLuong().getSanLuong2(), hoaDon.getCode_CSC_SanLuong().getSanLuong3())) {
+                        etxtCSM.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
+                    } else {
+                        etxtCSM.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
+                    }
+                } catch (Exception e) {
 
-                txtTT.setText(csm_tieuThu.getTieuThu());
-                hoaDon.setChiSoMoi(s.toString());
-                hoaDon.setTieuThuMoi(csm_tieuThu.getTieuThu());
-                if (CalculateCSM_TieuThu.checkCSMFluctuation(csm_tieuThu.getTieuThu(), hoaDon.getCode_CSC_SanLuong().getSanLuong1(),
-                        hoaDon.getCode_CSC_SanLuong().getSanLuong2(), hoaDon.getCode_CSC_SanLuong().getSanLuong3())) {
-                    etxtCSM.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
-                } else {
-                    etxtCSM.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
                 }
             }
 
