@@ -32,7 +32,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
     private final String TABLE_NAME_KH = "KhachHang";
     private final String TABLE_NAME_DOCSO_LUUTRU = "DocSoLuuTru";
     private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME_DOCSO + " SET CSMOI=?, CODEMoi=?, GhiChuDS=?, tieuthumoi =?, gioghi = ?, sdt = ?, vitrimoi = ?,tiennuoc = ?, bvmt = ?, thue = ?, tongtien = ?, ttdhnmoi=? WHERE docsoId = ? ";
+    private String SQL_UPDATE = "UPDATE top (1)" + TABLE_NAME_DOCSO + " SET CSMOI=?, CODEMoi=?, GhiChuDS=?, tieuthumoi =?, gioghi = ?, sdt = ?, vitrimoi = ?,tiennuoc = ?, bvmt = ?, thue = ?, tongtien = ?, ttdhnmoi=? WHERE docsoId = ? ";
 
     private final String SQL_UPDATE_KH = "UPDATE " + TABLE_NAME_KH + " SET somoi =?, duong = ? WHERE DANHBa=? ";
     private final String SQL_SELECT_KH = "SELECT so from " + TABLE_NAME_KH + " WHERE DANHBa=? ";
@@ -162,7 +162,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
 
     @Override
     public Boolean update(HoaDon hoaDon) {
-        TABLE_NAME_DOCSO += mNam + mKy + mDot;
+//        TABLE_NAME_DOCSO += mNam + mKy + mDot;
         String sql = this.SQL_UPDATE;
         final double tienNuoc = Calculate_TienNuoc.getInstance().calculate(Integer.parseInt(hoaDon.getTieuThuMoi()), hoaDon.getGiaBieu(),
                 hoaDon.getDinhMuc(), hoaDon.getSh(), hoaDon.getSx(), hoaDon.getDv(), hoaDon.getHc());

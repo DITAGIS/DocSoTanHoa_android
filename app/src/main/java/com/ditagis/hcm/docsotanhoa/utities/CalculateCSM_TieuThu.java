@@ -187,7 +187,8 @@ public class CalculateCSM_TieuThu {
                 break;
             case "K":
                 //todo để trống
-                mCSM = 0;
+
+                mCSM = mCSC;
                 mTieuThu = 0;
                 break;
             case "M0":

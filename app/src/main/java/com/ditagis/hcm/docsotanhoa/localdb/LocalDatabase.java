@@ -868,6 +868,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         db.close();
     }
 
+
     public boolean getExistHoaDon(String may, String dot, String ky) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("select " + COLUMN_HOADON_DANHBO + " from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + dot + may + "%' and " + COLUMN_HOADON_KY
@@ -934,11 +935,13 @@ public class LocalDatabase extends SQLiteOpenHelper {
         String query = "select " +
                 COLUMN_HOADON_DANHBO + "" +
                 " from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + mLike + "' and " + COLUMN_HOADON_KY
-                + "=" + ky + " and( " + COLUMN_HOADON_FLAG + "=" + Flag.UNREAD +
-                " or (" + COLUMN_HOADON_FLAG + "=" + Flag.READ + " and " + COLUMN_HOADON_CODE_MOI + " not like 'F%'" +
+                + "=" + ky + " and( " + COLUMN_HOADON_FLAG + " in (" + Flag.UNREAD +
+                " ," + Flag.READ +
+                " ," + Flag.CODE_F +
 //                " or (" + COLUMN_HOADON_FLAG + " = " + Flag.SYNCHRONIZED + " and " +
 //                COLUMN_HOADON_CODE_MOI + " like 'F%'" + ")" +
                 "))";
+
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {

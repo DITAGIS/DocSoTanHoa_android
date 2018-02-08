@@ -29,12 +29,12 @@ public class DialogSelectDot {
         int count = 0;
         for (int ky = 12; ky >= 1; ky--)
             for (int dot = 20; dot >= 1; dot--) {
-                if (count == 3)
+                if (count ==CONSTANT.MAX_DOT)
                     break;
                 String dotString = dot + "";
                 if (dot < 10)
                     dotString = "0" + dot;
-                List<HoaDon> hoaDons = LocalDatabase.getInstance(context).getAllHoaDon(mUsername, dotString, ky + "",false);
+                List<HoaDon> hoaDons = LocalDatabase.getInstance(context).getAllHoaDon(mUsername, dotString, ky + "", false);
                 if (hoaDons.size() > 0)
                     selectFolderAdapter.add(new GridViewSelectFolderAdapter.Item(ky + "", dot + "", mNam + "",
                             hoaDons.size() + "", mUsername, hoaDons.get(0).getFlag()));
@@ -66,7 +66,7 @@ public class DialogSelectDot {
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    docSo.selectDotFromDialog(selectFolderAdapter,selectFolderAdapter.getItem(position).getKy(),selectFolderAdapter.getItem(position).getDot());
+                    docSo.selectDotFromDialog(selectFolderAdapter, selectFolderAdapter.getItem(position).getKy(), selectFolderAdapter.getItem(position).getDot());
                     dialog.dismiss();
                 }
             });
@@ -80,12 +80,12 @@ public class DialogSelectDot {
         int count = 0;
         for (int ky = 12; ky >= 1; ky--)
             for (int dot = 20; dot >= 1; dot--) {
-                if (count == 3)
+                if (count ==CONSTANT.MAX_DOT)
                     break;
                 String dotString = dot + "";
                 if (dot < 10)
                     dotString = "0" + dot;
-                List<HoaDon> hoaDons = LocalDatabase.getInstance(context).getAllHoaDonForSelectFolderQLDS(dotString + mUsername + "%", ky, Flag.READ,false);
+                List<HoaDon> hoaDons = LocalDatabase.getInstance(context).getAllHoaDonForSelectFolderQLDS(dotString + mUsername + "%", ky, Flag.READ, false);
                 if (hoaDons.size() > 0)
                     selectFolderAdapter.add(new GridViewSelectFolderAdapter.Item(ky + "", dot + "", mNam + "",
                             hoaDons.size() + "", mUsername, hoaDons.get(0).getFlag()));
@@ -116,7 +116,7 @@ public class DialogSelectDot {
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    qlds.selectDotFromDialog(selectFolderAdapter, selectFolderAdapter.getItem(position).getKy(),selectFolderAdapter.getItem(position).getDot());
+                    qlds.selectDotFromDialog(selectFolderAdapter, selectFolderAdapter.getItem(position).getKy(), selectFolderAdapter.getItem(position).getDot());
                     dialog.dismiss();
                 }
             });

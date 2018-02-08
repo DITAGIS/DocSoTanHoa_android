@@ -49,6 +49,7 @@ import com.ditagis.hcm.docsotanhoa.entities.Codes;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 import com.ditagis.hcm.docsotanhoa.theme.ThemeUtils;
+import com.ditagis.hcm.docsotanhoa.utities.CONSTANT;
 import com.ditagis.hcm.docsotanhoa.utities.CalculateCSM_TieuThu;
 import com.ditagis.hcm.docsotanhoa.utities.Calculate_TienNuoc;
 import com.ditagis.hcm.docsotanhoa.utities.Flag;
@@ -1359,7 +1360,7 @@ public class DocSo extends Fragment {
 //                for (GridViewSelectFolderAdapter.Item item : mSelectFolderAdapter.getItems()) {
 //                    if (mKy == Integer.parseInt(item.getKy()) && i != Integer.parseInt(item.getDot()))
 //                        break;
-            if (count == 3)
+            if (count == CONSTANT.MAX_DOT)
                 break;
             String dotExist = "";
             if (i < 10)

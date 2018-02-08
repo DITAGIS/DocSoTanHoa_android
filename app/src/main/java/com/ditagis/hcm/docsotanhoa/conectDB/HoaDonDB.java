@@ -133,7 +133,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                 kyString = "0" + ky;
             else kyString = ky + "";
             String like = dotString + userName + "%";
-            final ResultSet rs = statement.executeQuery("select danhba from docso where docsoid like '" + nam + kyString + "%' and mlt2 like '" + like + "' and (gioghi is null or (gioghi is not null and (CodeMoi like 'F%' )) or gioghi < DATEADD(day,1,'2017-01-01'))");
+            final ResultSet rs = statement.executeQuery("select danhba from docso where docsoid like '" + nam + kyString + "%' and mlt2 like '" + like + "' and (gioghi is null or  gioghi < DATEADD(day,1,'2017-01-01'))");
 
             while (rs.next()) {
                 DBs.add(rs.getString(1));
