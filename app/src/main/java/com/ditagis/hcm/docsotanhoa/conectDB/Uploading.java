@@ -187,17 +187,24 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
                 } else if (hoaDon.getCode_CSC_SanLuong().getCode1().equals("62")) {
                     codeMoi = "56";
                 } else if (hoaDon.getCode_CSC_SanLuong().getCode1().equals("M0")) {
-                    PreparedStatement statement = cnn.prepareStatement("select top 1 ngaykiem from thongbao where danhba = '" + hoaDon.getDanhBo() + "' order by ngaykiem desc");
-                    ResultSet resultSet = statement.executeQuery();
-                    if (resultSet.next()) {
-                        Date ngayKiem = resultSet.getDate(1);
-                        long date = (Calendar.getInstance().getTimeInMillis() - ngayKiem.getTime()) / (1000 * 60 * 60 * 24);
-                        if (date < 32)
-                            codeMoi = "M1";
-                        else if (date < 62)
-                            codeMoi = "M2";
-                        else
-                            codeMoi = "M3";
+                    try {
+                        PreparedStatement statement = cnn.prepareStatement("select top 1 ngaykiem from thongbao where danhba = '" + hoaDon.getDanhBo() + "' order by ngaykiem desc");
+                        ResultSet resultSet = statement.executeQuery();
+                        if (resultSet.next()) {
+                            Date ngayKiem = resultSet.getDate(1);
+                            long date = (Calendar.getInstance().getTimeInMillis() - ngayKiem.getTime()) / (1000 * 60 * 60 * 24);
+                            if (date < 32)
+                                codeMoi = "M1";
+                            else if (date < 62)
+                                codeMoi = "M2";
+                            else
+                                codeMoi = "M3";
+
+                            resultSet.close();
+                            statement.close();
+                        }
+                    } catch (Exception e) {
+
                     }
                 } else ;
                 //do nothing;

@@ -1551,6 +1551,7 @@ public class QuanLyDocSo extends Fragment {
                 for (HoaDon hoaDon : mHoaDons) {
                     if (item.getDanhbo().equals(hoaDon.getDanhBo()) && (
                             hoaDon.getFlag() == Flag.READ || hoaDon.getFlag() == Flag.CODE_F)) {
+                        String codeMoi = hoaDon.getCodeMoi();
                         boolean success1 = mUploading.add(hoaDon);
                         if (success1) {
                             mHoaDons.remove(hoaDon);

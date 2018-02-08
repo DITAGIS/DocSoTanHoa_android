@@ -29,6 +29,8 @@ public class DialogSelectDot {
         int count = 0;
         for (int ky = 12; ky >= 1; ky--)
             for (int dot = 20; dot >= 1; dot--) {
+                if (count == CONSTANT.MAX_DOT)
+                    break;
                 String dotString = dot + "";
                 if (dot < 10)
                     dotString = "0" + dot;
@@ -40,10 +42,10 @@ public class DialogSelectDot {
                     count++;
 
             }
-        if (selectFolderAdapter.getCount() > CONSTANT.MAX_DOT) {
-            LocalDatabase.getInstance(context).deleteHoaDon(selectFolderAdapter.getItem(CONSTANT.MAX_DOT).getKy(),
-                    selectFolderAdapter.getItem(CONSTANT.MAX_DOT).getDot());
-            selectFolderAdapter.remove(selectFolderAdapter.getItem(CONSTANT.MAX_DOT));
+        if (count > CONSTANT.MAX_DOT) {
+            LocalDatabase.getInstance(context).deleteHoaDon(selectFolderAdapter.getItem(selectFolderAdapter.getCount() - 1).getKy(),
+                    selectFolderAdapter.getItem(selectFolderAdapter.getCount() - 1).getDot());
+            selectFolderAdapter.remove(selectFolderAdapter.getItem(selectFolderAdapter.getCount() - 1));
         }
         if (count > 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert);
