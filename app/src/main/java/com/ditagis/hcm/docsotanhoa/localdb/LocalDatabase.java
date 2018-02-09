@@ -946,6 +946,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 + "=" + ky + " and( " + COLUMN_HOADON_FLAG + " in (" + Flag.UNREAD +
                 " ," + Flag.READ +
                 " ," + Flag.CODE_F +
+                " ," + Flag.CODE_F_SYNCHRONIZED +
 //                " or (" + COLUMN_HOADON_FLAG + " = " + Flag.SYNCHRONIZED + " and " +
 //                COLUMN_HOADON_CODE_MOI + " like 'F%'" + ")" +
                 "))";
