@@ -1117,364 +1117,366 @@ public class QuanLyDocSo extends Fragment {
     }
 
     private void edit_info(View view) {
-
-        final String danhBo = ((TextView) view.findViewById(R.id.row_qlds_txt_danhBo)).getText().toString();
-        final HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_Read(danhBo, true);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
-        builder.setTitle("Cập nhật thông tin chỉ số");
-        builder.setCancelable(false);
-        LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
-        View dialogLayout = inflater.inflate(R.layout.layout_edit_thongtin_docso, null);
-        final EditText etxtAddress = (EditText) dialogLayout.findViewById(R.id.etxt_layout_edit_address_number);
-        etxtAddress.setText(hoaDon.getSoNha());
-        mSdts.add(" ");
-        if (hoaDon.getSdt().length() > 0) {
-            mSdts.clear();
-            String[] sdts = hoaDon.getSdt().split("-");
-            for (String sdt : sdts) {
-                mSdts.add(sdt.trim());
-            }
-        }
-        mAdapterSdt = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mSdts);
-        mAdapterSdt.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-        mSpinSdt = (Spinner) dialogLayout.findViewById(R.id.spin_qlds_sdt);
-        mSpinSdt.setAdapter(mAdapterSdt);
-        mSpinSdt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mSdt = mSpinSdt.getItemAtPosition(position).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-//        mSdt = mSdts.get(0);
-        mSpinSdt.setSelection(0);
-        ((ImageButton) dialogLayout.findViewById(R.id.imgBtn_qlds_add_sdt)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                add_sdt();
-            }
-        });
         try {
-            if (hoaDon.getImage_byteArray().length > 1000) {
-                ImageView image = (ImageView) dialogLayout.findViewById(R.id.imgView_edit);
-                try {
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(hoaDon.getImage_byteArray(), 0, hoaDon.getImage_byteArray().length, options);
+            final String danhBo = ((TextView) view.findViewById(R.id.row_qlds_txt_danhBo)).getText().toString();
+            final HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_Read(danhBo, true);
 
-                    BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.7), (int) (bitmap.getHeight() * 0.7), false));
-
-                    image.setBackground(resizedDialogImage);
-                } catch (Exception e) {
-
+            AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
+            builder.setTitle("Cập nhật thông tin chỉ số");
+            builder.setCancelable(false);
+            LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
+            View dialogLayout = inflater.inflate(R.layout.layout_edit_thongtin_docso, null);
+            final EditText etxtAddress = (EditText) dialogLayout.findViewById(R.id.etxt_layout_edit_address_number);
+            etxtAddress.setText(hoaDon.getSoNha());
+            mSdts.add(" ");
+            if (hoaDon.getSdt().length() > 0) {
+                mSdts.clear();
+                String[] sdts = hoaDon.getSdt().split("-");
+                for (String sdt : sdts) {
+                    mSdts.add(sdt.trim());
                 }
             }
-        } catch (Exception e) {
+            mAdapterSdt = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mSdts);
+            mAdapterSdt.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+            mSpinSdt = (Spinner) dialogLayout.findViewById(R.id.spin_qlds_sdt);
+            mSpinSdt.setAdapter(mAdapterSdt);
+            mSpinSdt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    mSdt = mSpinSdt.getItemAtPosition(position).toString();
+                }
 
-        }
-        ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_MLT)).setText(hoaDon.getMaLoTrinh());
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+//        mSdt = mSdts.get(0);
+            mSpinSdt.setSelection(0);
+            ((ImageButton) dialogLayout.findViewById(R.id.imgBtn_qlds_add_sdt)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    add_sdt();
+                }
+            });
+            try {
+                if (hoaDon.getImage_byteArray().length > 1000) {
+                    ImageView image = (ImageView) dialogLayout.findViewById(R.id.imgView_edit);
+                    try {
+                        BitmapFactory.Options options = new BitmapFactory.Options();
+                        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(hoaDon.getImage_byteArray(), 0, hoaDon.getImage_byteArray().length, options);
+
+                        BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.7), (int) (bitmap.getHeight() * 0.7), false));
+
+                        image.setBackground(resizedDialogImage);
+                    } catch (Exception e) {
+
+                    }
+                }
+            } catch (Exception e) {
+
+            }
+            ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_MLT)).setText(hoaDon.getMaLoTrinh());
 //                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_DanhBo)).setText(danhBo_CSM.getDanhBo());
-        ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_tenKH)).setText(hoaDon.getTenKhachHang());
-        ((TextView) dialogLayout.findViewById(R.id.txt_layout_qlds_SoThan)).setText(hoaDon.getSoThan());
-        final EditText etxtAddressStreet = (EditText) dialogLayout.findViewById(R.id.etxt_layout_edit_address_street);
-        etxtAddressStreet.setText(hoaDon.getDuong());
-        ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_CSC)).setText(hoaDon.getChiSoCu());
-        final TextView txtTT = (TextView) dialogLayout.findViewById(R.id.txt_layout_edit_tieuThu);
-        txtTT.setText(hoaDon.getTieuThuMoi());
-        final EditText etxtCSM = (EditText) dialogLayout.findViewById(R.id.etxt_layout_edit_CSM);
+            ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_tenKH)).setText(hoaDon.getTenKhachHang());
+            ((TextView) dialogLayout.findViewById(R.id.txt_layout_qlds_SoThan)).setText(hoaDon.getSoThan());
+            final EditText etxtAddressStreet = (EditText) dialogLayout.findViewById(R.id.etxt_layout_edit_address_street);
+            etxtAddressStreet.setText(hoaDon.getDuong());
+            ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_CSC)).setText(hoaDon.getChiSoCu());
+            final TextView txtTT = (TextView) dialogLayout.findViewById(R.id.txt_layout_edit_tieuThu);
+            txtTT.setText(hoaDon.getTieuThuMoi());
+            final EditText etxtCSM = (EditText) dialogLayout.findViewById(R.id.etxt_layout_edit_CSM);
 
-        etxtCSM.setText(hoaDon.getChiSoMoi());
+            etxtCSM.setText(hoaDon.getChiSoMoi());
 
 //        final EditText etxtSDT = (EditText) dialogLayout.findViewById(R.id.etxt_layout_edit_SDT);
 //        etxtSDT.setText(hoaDon.getSdt());
 
-        final TextView txtNote = (TextView) dialogLayout.findViewById(R.id.txt_layout_edit_ghiChu);
-        txtNote.setText(hoaDon.getGhiChu());
-        final HoaDon finalHoaDon = hoaDon;
-        ((Button) dialogLayout.findViewById(R.id.btn_layout_edit_ghiChu)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            final TextView txtNote = (TextView) dialogLayout.findViewById(R.id.txt_layout_edit_ghiChu);
+            txtNote.setText(hoaDon.getGhiChu());
+            final HoaDon finalHoaDon = hoaDon;
+            ((Button) dialogLayout.findViewById(R.id.btn_layout_edit_ghiChu)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                final AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
-                builder.setTitle("Ghi chú");
-                LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
-                View dialogLayout = inflater.inflate(R.layout.layout_dialog_select_ghichu, null);
-                final Spinner spin_ghichu = (Spinner) dialogLayout.findViewById(R.id.spin_select_ghichu);
-                final Spinner spin_ghichu_sub = (Spinner) dialogLayout.findViewById(R.id.spin_select_ghichu_sub);
-                final EditText etxtghichu = (EditText) dialogLayout.findViewById(R.id.etxt_select_ghichu);
-                etxtghichu.setBackgroundResource(R.layout.edit_text_styles);
-                etxtghichu.setEnabled(false);
-                LinearLayout layout_ghichu_sub = (LinearLayout) dialogLayout.findViewById(R.id.layout_select_ghichu_sub);
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
+                    builder.setTitle("Ghi chú");
+                    LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
+                    View dialogLayout = inflater.inflate(R.layout.layout_dialog_select_ghichu, null);
+                    final Spinner spin_ghichu = (Spinner) dialogLayout.findViewById(R.id.spin_select_ghichu);
+                    final Spinner spin_ghichu_sub = (Spinner) dialogLayout.findViewById(R.id.spin_select_ghichu_sub);
+                    final EditText etxtghichu = (EditText) dialogLayout.findViewById(R.id.etxt_select_ghichu);
+                    etxtghichu.setBackgroundResource(R.layout.edit_text_styles);
+                    etxtghichu.setEnabled(false);
+                    LinearLayout layout_ghichu_sub = (LinearLayout) dialogLayout.findViewById(R.id.layout_select_ghichu_sub);
 
-                ArrayAdapter<String> adapterNotes = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_note_left, Note.getInstance().getNotes());
-                final ArrayAdapter<String> adapterNotes_sub_dutchi = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_note_left, Note.getInstance().getNotes_sub_dutchi());
-                final ArrayAdapter<String> adapterNotes_sub_kinhdoanh = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_note_left, Note.getInstance().getNotes_sub_kinhdoanh());
+                    ArrayAdapter<String> adapterNotes = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_note_left, Note.getInstance().getNotes());
+                    final ArrayAdapter<String> adapterNotes_sub_dutchi = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_note_left, Note.getInstance().getNotes_sub_dutchi());
+                    final ArrayAdapter<String> adapterNotes_sub_kinhdoanh = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_note_left, Note.getInstance().getNotes_sub_kinhdoanh());
 
-                spin_ghichu.setAdapter(adapterNotes);
-                int positionNote = 0, positionNoteSub = 0;
-                for (String note : Note.getInstance().getNotes()) {
-                    if (positionNote == Note.getInstance().getNotes().length - 1) {
-                        if (!finalHoaDon.getGhiChu().equals("null"))
-                            etxtghichu.setText(finalHoaDon.getGhiChu());
-                    } else if (finalHoaDon.getGhiChu().contains(note)) {
-                        spin_ghichu.setSelection(positionNote);
-                        switch (positionNote) {
-                            case 1:
-                                spin_ghichu.setSelection(1);
-                                for (String noteSub : Note.getInstance().getNotes_sub_dutchi()) {
-                                    if (finalHoaDon.getGhiChu().contains(noteSub)) {
-                                        spin_ghichu_sub.setSelection(positionNoteSub);
-                                        if (finalHoaDon.getGhiChu().contains("_")) {
-                                            String[] ghiChus = finalHoaDon.getGhiChu().split("_");
-                                            etxtghichu.setText(ghiChus[1]);
+                    spin_ghichu.setAdapter(adapterNotes);
+                    int positionNote = 0, positionNoteSub = 0;
+                    for (String note : Note.getInstance().getNotes()) {
+                        if (positionNote == Note.getInstance().getNotes().length - 1) {
+                            if (!finalHoaDon.getGhiChu().equals("null"))
+                                etxtghichu.setText(finalHoaDon.getGhiChu());
+                        } else if (finalHoaDon.getGhiChu().contains(note)) {
+                            spin_ghichu.setSelection(positionNote);
+                            switch (positionNote) {
+                                case 1:
+                                    spin_ghichu.setSelection(1);
+                                    for (String noteSub : Note.getInstance().getNotes_sub_dutchi()) {
+                                        if (finalHoaDon.getGhiChu().contains(noteSub)) {
+                                            spin_ghichu_sub.setSelection(positionNoteSub);
+                                            if (finalHoaDon.getGhiChu().contains("_")) {
+                                                String[] ghiChus = finalHoaDon.getGhiChu().split("_");
+                                                etxtghichu.setText(ghiChus[1]);
+                                            }
+                                            break;
                                         }
-                                        break;
+                                        positionNoteSub++;
                                     }
-                                    positionNoteSub++;
-                                }
-                                break;
-                            case 2:
-                                spin_ghichu.setSelection(2);
-                                for (String noteSub : Note.getInstance().getNotes_sub_kinhdoanh()) {
-                                    if (finalHoaDon.getGhiChu().contains(noteSub)) {
-                                        spin_ghichu_sub.setSelection(positionNoteSub);
-                                        if (finalHoaDon.getGhiChu().contains("_")) {
-                                            String[] ghiChus = finalHoaDon.getGhiChu().split("_");
-                                            etxtghichu.setText(ghiChus[1]);
+                                    break;
+                                case 2:
+                                    spin_ghichu.setSelection(2);
+                                    for (String noteSub : Note.getInstance().getNotes_sub_kinhdoanh()) {
+                                        if (finalHoaDon.getGhiChu().contains(noteSub)) {
+                                            spin_ghichu_sub.setSelection(positionNoteSub);
+                                            if (finalHoaDon.getGhiChu().contains("_")) {
+                                                String[] ghiChus = finalHoaDon.getGhiChu().split("_");
+                                                etxtghichu.setText(ghiChus[1]);
+                                            }
+                                            break;
                                         }
-                                        break;
+                                        positionNoteSub++;
                                     }
-                                    positionNoteSub++;
-                                }
-                                break;
-                            default:
-                                if (finalHoaDon.getGhiChu().contains("_")) {
-                                    String[] ghiChus = finalHoaDon.getGhiChu().split("_");
-                                    etxtghichu.setText(ghiChus[1]);
-                                }
-                                spin_ghichu.setSelection(positionNote);
-                                break;
+                                    break;
+                                default:
+                                    if (finalHoaDon.getGhiChu().contains("_")) {
+                                        String[] ghiChus = finalHoaDon.getGhiChu().split("_");
+                                        etxtghichu.setText(ghiChus[1]);
+                                    }
+                                    spin_ghichu.setSelection(positionNote);
+                                    break;
+                            }
+                            break;
                         }
-                        break;
+                        positionNote++;
                     }
-                    positionNote++;
-                }
-                spin_ghichu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        switch (position) {
-                            case 0:
-                                etxtghichu.setEnabled(true);
-                                spin_ghichu_sub.setEnabled(false);
-                                spin_ghichu_sub.setVisibility(View.INVISIBLE);
-                                break;
-                            case 1:
-                                etxtghichu.setEnabled(true);
+                    spin_ghichu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            switch (position) {
+                                case 0:
+                                    etxtghichu.setEnabled(true);
+                                    spin_ghichu_sub.setEnabled(false);
+                                    spin_ghichu_sub.setVisibility(View.INVISIBLE);
+                                    break;
+                                case 1:
+                                    etxtghichu.setEnabled(true);
 //                                etxtghichu.setText("");
-                                spin_ghichu_sub.setAdapter(adapterNotes_sub_dutchi);
-                                spin_ghichu_sub.setEnabled(true);
-                                spin_ghichu_sub.setVisibility(View.VISIBLE);
-                                break;
-                            case 2:
-                                etxtghichu.setEnabled(true);
+                                    spin_ghichu_sub.setAdapter(adapterNotes_sub_dutchi);
+                                    spin_ghichu_sub.setEnabled(true);
+                                    spin_ghichu_sub.setVisibility(View.VISIBLE);
+                                    break;
+                                case 2:
+                                    etxtghichu.setEnabled(true);
 //                                etxtghichu.setText("");
-                                spin_ghichu_sub.setAdapter(adapterNotes_sub_kinhdoanh);
-                                spin_ghichu_sub.setEnabled(true);
-                                spin_ghichu_sub.setVisibility(View.VISIBLE);
-                                break;
-                            default:
-                                spin_ghichu_sub.setEnabled(false);
+                                    spin_ghichu_sub.setAdapter(adapterNotes_sub_kinhdoanh);
+                                    spin_ghichu_sub.setEnabled(true);
+                                    spin_ghichu_sub.setVisibility(View.VISIBLE);
+                                    break;
+                                default:
+                                    spin_ghichu_sub.setEnabled(false);
 //                                etxtghichu.setText("");
-                                etxtghichu.setEnabled(true);
-                                spin_ghichu_sub.setVisibility(View.VISIBLE);
-                                break;
+                                    etxtghichu.setEnabled(true);
+                                    spin_ghichu_sub.setVisibility(View.VISIBLE);
+                                    break;
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
 
-                    }
-                });
+                        }
+                    });
 
-                builder.setCancelable(false);
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String ghiChu = "";
+                    builder.setCancelable(false);
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String ghiChu = "";
 //                mGhiChu = input.getText().toString();
-                        switch (spin_ghichu.getSelectedItemPosition()) {
-                            case 0:
-                                txtNote.setText(etxtghichu.getText().toString());
-                                break;
-                            case 1:
-                            case 2:
-                                ghiChu = spin_ghichu.getSelectedItem().toString() + ": " + spin_ghichu_sub.getSelectedItem().toString();
+                            switch (spin_ghichu.getSelectedItemPosition()) {
+                                case 0:
+                                    txtNote.setText(etxtghichu.getText().toString());
+                                    break;
+                                case 1:
+                                case 2:
+                                    ghiChu = spin_ghichu.getSelectedItem().toString() + ": " + spin_ghichu_sub.getSelectedItem().toString();
 
-                                if (etxtghichu.getText().toString().trim().length() > 0)
-                                    ghiChu = ghiChu.concat("_").concat(etxtghichu.getText().toString());
-                                txtNote.setText(ghiChu);
-                                break;
-                            default:
-                                ghiChu = spin_ghichu.getSelectedItem().toString();
-                                if (etxtghichu.getText().toString().trim().length() > 0)
-                                    ghiChu = ghiChu.concat("_").concat(etxtghichu.getText().toString());
-                                txtNote.setText(ghiChu);
-                                break;
+                                    if (etxtghichu.getText().toString().trim().length() > 0)
+                                        ghiChu = ghiChu.concat("_").concat(etxtghichu.getText().toString());
+                                    txtNote.setText(ghiChu);
+                                    break;
+                                default:
+                                    ghiChu = spin_ghichu.getSelectedItem().toString();
+                                    if (etxtghichu.getText().toString().trim().length() > 0)
+                                        ghiChu = ghiChu.concat("_").concat(etxtghichu.getText().toString());
+                                    txtNote.setText(ghiChu);
+                                    break;
+                            }
+                            dialog.dismiss();
                         }
-                        dialog.dismiss();
-                    }
-                }).setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.setView(dialogLayout);
-                final AlertDialog dialog = builder.create();
+                    }).setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setView(dialogLayout);
+                    final AlertDialog dialog = builder.create();
 //        dialog.setView(input);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.show();
-            }
-        });
-
-        final Spinner spinCode = (Spinner) dialogLayout.findViewById(R.id.spin_edit_code);
-        CodeSpinnerAdapter adapterCode = new CodeSpinnerAdapter(mRootView.getContext(), R.layout.spincode_dropdown2, Codes.getInstance().getCodeDescribles_ds()) {
-            @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
-                TextView row_code = (TextView) view.findViewById(R.id.row_code);
-                TextView row_describle = (TextView) view.findViewById(R.id.row_describle);
-                if (position % 2 == 0) { // we're on an even row
-                    view.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
-                    row_code.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                    row_describle.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                } else {
-                    view.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
-                    row_code.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                    row_describle.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.show();
                 }
-                return view;
-            }
-        };
-        adapterCode.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-        spinCode.setAdapter(adapterCode);
-        for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++)
-            if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals(hoaDon.getCodeMoi())) {
-                spinCode.setSelection(i);
-                break;
-            }
-        spinCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            });
+
+            final Spinner spinCode = (Spinner) dialogLayout.findViewById(R.id.spin_edit_code);
+            CodeSpinnerAdapter adapterCode = new CodeSpinnerAdapter(mRootView.getContext(), R.layout.spincode_dropdown2, Codes.getInstance().getCodeDescribles_ds()) {
+                @Override
+                public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                    View view = super.getDropDownView(position, convertView, parent);
+                    TextView row_code = (TextView) view.findViewById(R.id.row_code);
+                    TextView row_describle = (TextView) view.findViewById(R.id.row_describle);
+                    if (position % 2 == 0) { // we're on an even row
+                        view.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
+                        row_code.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                        row_describle.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
+                    } else {
+                        view.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
+                        row_code.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                        row_describle.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
+                    }
+                    return view;
+                }
+            };
+            adapterCode.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+            spinCode.setAdapter(adapterCode);
+            for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++)
+                if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals(hoaDon.getCodeMoi())) {
+                    spinCode.setSelection(i);
+                    break;
+                }
+            spinCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
 //                Code_Describle code_describle = (Code_Describle) spinCode.getItemAtPosition(position);
-                Code_Describle code_describle = Codes.getInstance().getCodeDescribles_ds()[position];
-                mCode = code_describle.getCode();
-                if (mCode.startsWith("8"))
-                    mCSGo = new HoaDonDB().getCSGo(danhBo);
-                if (mCSGo == -1) {
-                    MySnackBar.make(mTxtComplete, "Chưa có dữ liệu báo thay", true);
-                    mSpinCode.setSelection(0);
-                }
-                try {
-                    CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(hoaDon.getChiSoCu()), hoaDon.getChiSoMoi(), mCSGo);
+                    Code_Describle code_describle = Codes.getInstance().getCodeDescribles_ds()[position];
+                    mCode = code_describle.getCode();
+                    if (mCode.startsWith("8"))
+                        mCSGo = new HoaDonDB().getCSGo(danhBo);
+                    if (mCSGo == -1) {
+                        MySnackBar.make(mTxtComplete, "Chưa có dữ liệu báo thay", true);
+                        mSpinCode.setSelection(0);
+                    }
+                    try {
+                        CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(hoaDon.getChiSoCu()), hoaDon.getChiSoMoi(), mCSGo);
 
-                    etxtCSM.setText(csm_tieuThu.getCSM());
-                    txtTT.setText(csm_tieuThu.getTieuThu());
+                        etxtCSM.setText(csm_tieuThu.getCSM());
+                        txtTT.setText(csm_tieuThu.getTieuThu());
 
-                    hoaDon.setChiSoMoi(csm_tieuThu.getCSM());
-                    hoaDon.setTieuThuMoi(csm_tieuThu.getTieuThu());
-                } catch (Exception e) {
+                        hoaDon.setChiSoMoi(csm_tieuThu.getCSM());
+                        hoaDon.setTieuThuMoi(csm_tieuThu.getTieuThu());
+                    } catch (Exception e) {
 
-                }
-                if (CalculateCSM_TieuThu.checkCSMFluctuation(hoaDon.getTieuThuMoi(), hoaDon.getCode_CSC_SanLuong().getSanLuong1(),
-                        hoaDon.getCode_CSC_SanLuong().getSanLuong2(), hoaDon.getCode_CSC_SanLuong().getSanLuong3())) {
-                    etxtCSM.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
-                } else {
-                    etxtCSM.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        etxtCSM.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                try {
-                    CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(hoaDon.getChiSoCu()), s.toString(), mCSGo);
-
-                    txtTT.setText(csm_tieuThu.getTieuThu());
-                    hoaDon.setChiSoMoi(s.toString());
-                    hoaDon.setTieuThuMoi(csm_tieuThu.getTieuThu());
-                    if (CalculateCSM_TieuThu.checkCSMFluctuation(csm_tieuThu.getTieuThu(), hoaDon.getCode_CSC_SanLuong().getSanLuong1(),
+                    }
+                    if (CalculateCSM_TieuThu.checkCSMFluctuation(hoaDon.getTieuThuMoi(), hoaDon.getCode_CSC_SanLuong().getSanLuong1(),
                             hoaDon.getCode_CSC_SanLuong().getSanLuong2(), hoaDon.getCode_CSC_SanLuong().getSanLuong3())) {
                         etxtCSM.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
                     } else {
                         etxtCSM.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
                     }
-                } catch (Exception e) {
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
 
                 }
-            }
+            });
+            etxtCSM.addTextChangedListener(new TextWatcher() {
 
-            @Override
-            public void afterTextChanged(Editable s) {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-        });
-        ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_giaBieu)).setText(hoaDon.getGiaBieu());
-        ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_tienNuoc)).setText("");//TODO tien nuoc
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    try {
+                        CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(hoaDon.getChiSoCu()), s.toString(), mCSGo);
+
+                        txtTT.setText(csm_tieuThu.getTieuThu());
+                        hoaDon.setChiSoMoi(s.toString());
+                        hoaDon.setTieuThuMoi(csm_tieuThu.getTieuThu());
+                        if (CalculateCSM_TieuThu.checkCSMFluctuation(csm_tieuThu.getTieuThu(), hoaDon.getCode_CSC_SanLuong().getSanLuong1(),
+                                hoaDon.getCode_CSC_SanLuong().getSanLuong2(), hoaDon.getCode_CSC_SanLuong().getSanLuong3())) {
+                            etxtCSM.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
+                        } else {
+                            etxtCSM.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
+                        }
+                    } catch (Exception e) {
+
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+            ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_giaBieu)).setText(hoaDon.getGiaBieu());
+            ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_tienNuoc)).setText("");//TODO tien nuoc
 
 //        ((TextView) dialogLayout.findViewById(R.id.etxt_layout_edit_ghiChu)).setText(hoaDon.getGhiChu());
 
-        builder.setView(dialogLayout)
-                .setPositiveButton("Hủy", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).setNegativeButton("Lưu thay đổi", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //TODO: lưu chỉnh sửa
-                if (etxtCSM.getText().toString().trim().length() == 0 || txtTT.getText().toString().trim().toString().length() == 0F)
-                    return;
-                hoaDon.setChiSoMoi(etxtCSM.getText().toString());
-                hoaDon.setCodeMoi(mCode);
-                if (etxtAddress.getText().toString().trim().length() > 0)
-                    hoaDon.setSoNha(etxtAddress.getText().toString());
-                if (etxtAddressStreet.getText().toString().trim().length() > 0)
-                    hoaDon.setDuong(etxtAddressStreet.getText().toString());
+            builder.setView(dialogLayout)
+                    .setPositiveButton("Hủy", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).setNegativeButton("Lưu thay đổi", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //TODO: lưu chỉnh sửa
+                    if (etxtCSM.getText().toString().trim().length() == 0 || txtTT.getText().toString().trim().toString().length() == 0F)
+                        return;
+                    hoaDon.setChiSoMoi(etxtCSM.getText().toString());
+                    hoaDon.setCodeMoi(mCode);
+                    if (etxtAddress.getText().toString().trim().length() > 0)
+                        hoaDon.setSoNha(etxtAddress.getText().toString());
+                    if (etxtAddressStreet.getText().toString().trim().length() > 0)
+                        hoaDon.setDuong(etxtAddressStreet.getText().toString());
 //                hoaDon.setSdt(etxtSDT.getText().toString());
-                hoaDon.setGhiChu(txtNote.getText().toString());
-                hoaDon.setSdt(getSdtString());
-                LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonRead(hoaDon);
-                refresh();
-                dialog.dismiss();
+                    hoaDon.setGhiChu(txtNote.getText().toString());
+                    hoaDon.setSdt(getSdtString());
+                    LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonRead(hoaDon);
+                    refresh();
+                    dialog.dismiss();
 
 
-            }
-        });
+                }
+            });
 
-        AlertDialog dialog = builder.create();
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.show();
+            AlertDialog dialog = builder.create();
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.show();
+        } catch (Exception e) {
 
+        }
 
     }
 
