@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
+import com.ditagis.hcm.docsotanhoa.utities.CONSTANT;
 import com.ditagis.hcm.docsotanhoa.utities.Calculate_TienNuoc;
 import com.ditagis.hcm.docsotanhoa.utities.ImageFile;
 
@@ -109,7 +110,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
         boolean resultUpdateHoaDon = false;
         try {
             int resultAddImage = 1;
-            if (hoaDon.getImage_byteArray().length > 1000)
+            if (hoaDon.getImage_byteArray().length > CONSTANT.MIN_IMAGE_QUATITY)
                 resultAddImage = addHinhDHN(hoaDon);
             if (resultAddImage <= 0) {
                 updateHinhDHN(hoaDon);

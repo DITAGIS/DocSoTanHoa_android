@@ -8,15 +8,18 @@ import java.sql.SQLException;
 
 public class ConnectionDB {
     private static final String PROTOCOL = "jdbc:jtds:sqlserver://";
-    private static final String SERVER = "103.74.117.51"; //
-    private static final String SERVER1 = "113.161.88.180";
+    private static final String SERVER = "103.74.117.51";
+    private static final String SERVER14 = "113.161.88.180";
+    private static final String SERVER_LOCAL = "12.0.4237.0";
     private static final String INSTANCT_NAME = "MSSQLSERVER";
-    private static final int PORT = 1433;//1810;
-    private static final int PORT1 =1810;
+    private static final int PORT = 1433;
+    private static final int PORT14 =1810;
     private static final String DB = "DocSoTH";
-    private static final String DB1 = "DocSoTH2";
+    private static final String DB14 = "DocSoTH2";
     private static final String USER = "docsotanhoa";
+    private static final String USER_LOCAL = "sa";
     private static final String PASSWORD = "Docso111";
+    private static final String PASSWORD_LOCAL = "123456";
     private static final ConnectionDB _instance = new ConnectionDB();
     private Connection connection;
 
@@ -40,7 +43,6 @@ public class ConnectionDB {
     }
 
     public Connection getConnection(boolean isLogin) {
-
         connection = getConnect();
         return connection;
     }

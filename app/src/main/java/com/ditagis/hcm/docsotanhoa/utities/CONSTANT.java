@@ -6,4 +6,5 @@ package com.ditagis.hcm.docsotanhoa.utities;
 
 public class CONSTANT {
     public static int MAX_DOT = 6;
+    public static final int MIN_IMAGE_QUATITY = 100;
 }

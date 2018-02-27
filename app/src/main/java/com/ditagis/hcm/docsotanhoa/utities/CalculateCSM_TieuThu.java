@@ -233,9 +233,7 @@ public class CalculateCSM_TieuThu {
                 break;
             default:
                 break;
-
         }
-
     }
 
     private int retour() {
@@ -251,7 +249,7 @@ public class CalculateCSM_TieuThu {
 //            }
 //            csmString += (mCSM + "");
             csmString = (int) Math.pow(10, lenghtCSC) + mCSM + "";
-            tieuThu = Integer.parseInt(csmString) - mCSC - 1;
+            tieuThu = Integer.parseInt(csmString) - mCSC;
         } catch (Exception e) {
 
         }

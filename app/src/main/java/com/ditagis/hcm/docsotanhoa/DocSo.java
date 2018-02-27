@@ -59,6 +59,7 @@ import com.ditagis.hcm.docsotanhoa.utities.MyAlertByHardware;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.Note;
 import com.ditagis.hcm.docsotanhoa.utities.Printer;
+import com.ditagis.hcm.docsotanhoa.utities.Utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -126,6 +127,10 @@ public class DocSo extends Fragment {
     private GridViewSelectFolderAdapter mSelectFolderAdapter;
     private String mUsername;
 
+
+    public DocSo(){
+
+    }
     @SuppressLint("ClickableViewAccessibility")
     public DocSo(Activity activity, final LayoutInflater inflater, int mKy, int nam, final int mDot, String mUsername, String staffName, String staffPhone, int theme, ViewPager viewPager) {
         this.mActivity = activity;
@@ -283,7 +288,7 @@ public class DocSo extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 try {
 
-                    if (mHoaDon.getImage_byteArray().length < 1000) {
+                    if (mHoaDon.getImage_byteArray().length < CONSTANT.MIN_IMAGE_QUATITY) {
                         MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
                         ), false);
                         mEditTextCSM.setFocusable(false);
@@ -444,7 +449,7 @@ public class DocSo extends Fragment {
 
     private void checkPrint() {
         try {
-            if (mHoaDon.getImage_byteArray().length > 1000) {
+            if (mHoaDon.getImage_byteArray().length > CONSTANT.MIN_IMAGE_QUATITY) {
 
                 int csc = Integer.parseInt(mTxtCSC.getText().toString());
                 int csm = -1;
@@ -1085,6 +1090,7 @@ public class DocSo extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 mSpinCode.setSelection(0);
+                mCode = Codes.getInstance().getCodeDescribles_ds()[0].getCode();
             }
         });
         setBackGroundTintModeSpinner(PorterDuff.Mode.LIGHTEN);
@@ -1260,7 +1266,7 @@ public class DocSo extends Fragment {
 
     private void checkSave(View v) {
         try {
-            if (mHoaDon.getImage_byteArray().length > 1000) {
+            if (mHoaDon.getImage_byteArray().length > CONSTANT.MIN_IMAGE_QUATITY) {
 
                 int csc = Integer.parseInt(mTxtCSC.getText().toString());
                 int csm = -1;
@@ -1607,7 +1613,7 @@ public class DocSo extends Fragment {
         }
         mFrameLayoutViewImage.setVisibility(View.INVISIBLE);
         try {
-            if (mHoaDon.getImage_byteArray().length > 1000) {
+            if (mHoaDon.getImage_byteArray().length > CONSTANT.MIN_IMAGE_QUATITY) {
                 showImageViewInFrame(mHoaDon.getImage_byteArray());
                 mFrameLayoutViewImage.setVisibility(View.VISIBLE);
             }
@@ -1669,7 +1675,7 @@ public class DocSo extends Fragment {
 //
 //        } else {
         mGhiChu = "";
-        mCode = "40";
+//        mCode = "40";
 
 
 //        }
@@ -1812,7 +1818,6 @@ public class DocSo extends Fragment {
                 this.currentTime = Calendar.getInstance().getTime();
             String datetime = this.formatter.format(this.currentTime);
             mHoaDon.setThoiGian(datetime);
-
 
             mTxtTT.setText("");
             int i = mSpinMLT.getSelectedItemPosition();
@@ -2282,7 +2287,7 @@ public class DocSo extends Fragment {
 
     private void doCamera() {
         try {
-            if (mHoaDon.getImage_byteArray().length > 100) {
+            if (mHoaDon.getImage_byteArray().length > CONSTANT.MIN_IMAGE_QUATITY) {
 
                 showImage(ImageFile.getFile(currentTime, mRootView, mDanhBo));
             } else

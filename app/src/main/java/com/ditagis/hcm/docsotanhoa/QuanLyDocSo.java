@@ -95,6 +95,7 @@ public class QuanLyDocSo extends Fragment {
     private GridViewSelectFolderAdapter mSelectFolderAdapter;
     private Spinner mSpinDot, mSpinKy, mSpinNam;
 
+    
     public QuanLyDocSo(LayoutInflater inflater, int dot, int ky, int nam, String userName, String staffName, String staffPhone, int selected_theme) {
         mRootView = inflater.inflate(R.layout.quan_ly_doc_so_fragment, null);
         this.mStaffName = staffName;
@@ -1080,7 +1081,7 @@ public class QuanLyDocSo extends Fragment {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.show();
         try {
-            if (hoaDon.getImage_byteArray().length > 1000) {
+            if (hoaDon.getImage_byteArray().length > CONSTANT.MIN_IMAGE_QUATITY) {
                 ImageView image = (ImageView) dialog.findViewById(R.id.imgView_qlds);
                 try {
                     BitmapFactory.Options options = new BitmapFactory.Options();
@@ -1160,7 +1161,7 @@ public class QuanLyDocSo extends Fragment {
                 }
             });
             try {
-                if (hoaDon.getImage_byteArray().length > 1000) {
+                if (hoaDon.getImage_byteArray().length > CONSTANT.MIN_IMAGE_QUATITY) {
                     ImageView image = (ImageView) dialogLayout.findViewById(R.id.imgView_edit);
                     try {
                         BitmapFactory.Options options = new BitmapFactory.Options();
