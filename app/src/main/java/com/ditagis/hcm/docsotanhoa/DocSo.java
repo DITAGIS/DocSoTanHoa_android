@@ -59,7 +59,6 @@ import com.ditagis.hcm.docsotanhoa.utities.MyAlertByHardware;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.Note;
 import com.ditagis.hcm.docsotanhoa.utities.Printer;
-import com.ditagis.hcm.docsotanhoa.utities.Utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -128,9 +127,10 @@ public class DocSo extends Fragment {
     private String mUsername;
 
 
-    public DocSo(){
+    public DocSo() {
 
     }
+
     @SuppressLint("ClickableViewAccessibility")
     public DocSo(Activity activity, final LayoutInflater inflater, int mKy, int nam, final int mDot, String mUsername, String staffName, String staffPhone, int theme, ViewPager viewPager) {
         this.mActivity = activity;
@@ -1257,9 +1257,11 @@ public class DocSo extends Fragment {
 
     private void setTextProgress() {
 
-        this.mSumDanhBo = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy, Flag.UNREAD, false);
-        this.mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy, Flag.READ, false);
-        this.mSumDanhBo += this.mDanhBoHoanThanh;
+        this.mSumDanhBo = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSizeDocSo(mLike, mKy, false);
+        this.mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy, Flag.READ, false) +
+                LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy, Flag.CODE_F, false) +
+                LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy, Flag.CODE_F_SYNCHRONIZED, false);
+//        this.mSumDanhBo += this.mDanhBoHoanThanh;
         this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
 
     }

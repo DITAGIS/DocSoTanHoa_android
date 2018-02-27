@@ -1467,8 +1467,6 @@ public class QuanLyDocSo extends Fragment {
                     LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonRead(hoaDon);
                     refresh();
                     dialog.dismiss();
-
-
                 }
             });
 

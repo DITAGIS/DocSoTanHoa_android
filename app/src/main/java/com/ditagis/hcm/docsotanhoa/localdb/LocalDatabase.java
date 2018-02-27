@@ -445,6 +445,11 @@ public class LocalDatabase extends SQLiteOpenHelper {
         return getAllHoaDon(like, ky, Flag.SYNCHRONIZED, getImage);
     }
 
+    public int getAllHoaDonSizeDocSo(String like, int ky, boolean getImage) {
+        return getAllHoaDonSize(like, ky, Flag.READ, getImage)+getAllHoaDonSize(like, ky, Flag.UNREAD, getImage) + getAllHoaDonSize(like, ky, Flag.CODE_F, getImage) + getAllHoaDonSize(like, ky, Flag.CODE_F_SYNCHRONIZED, getImage);
+
+    }
+
     public int getAllHoaDonSize(String like, int ky, int flag, boolean getImage) {
         int count = 0;
         Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
@@ -870,7 +875,6 @@ public class LocalDatabase extends SQLiteOpenHelper {
 
     public void deleteHoaDon(String ky, String dot) {
         Log.i(TAG, "LocalDatabase.updateHoaDon ... " + ky + dot);
-
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_HOADON, COLUMN_HOADON_KY + " = ? and " + COLUMN_HOADON_DOT + " = ?",
                 new String[]{ky, dot});

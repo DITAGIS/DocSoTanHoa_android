@@ -21,10 +21,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/LoginActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/LoginActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/ConnectionDB.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/ConnectionDB.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/Uploading.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/Uploading.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CONSTANT.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CONSTANT.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CalculateCSM_TieuThu.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CalculateCSM_TieuThu.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java" />
     </list>
     <ignored path="HCM_DOCSOTANHOA.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -70,18 +67,40 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="DocSo.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="LocalDatabase.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="95">
+              <caret line="448" column="47" lean-forward="false" selection-start-line="448" selection-start-column="47" selection-end-line="448" selection-end-column="47" />
+              <folding>
+                <element signature="method#addHoaDon#0;class#LocalDatabase#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CalculateCSM_TieuThu.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CalculateCSM_TieuThu.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2713">
+              <caret line="235" column="9" lean-forward="false" selection-start-line="235" selection-start-column="9" selection-end-line="235" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DocSo.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="1756" column="17" lean-forward="false" selection-start-line="1756" selection-start-column="17" selection-end-line="1756" selection-end-column="17" />
+            <state relative-caret-position="54">
+              <caret line="1242" column="81" lean-forward="true" selection-start-line="1242" selection-start-column="81" selection-end-line="1242" selection-end-column="81" />
               <folding>
-                <element signature="e#15450#15634#0" expanded="true" />
-                <element signature="e#15633#15634#0" expanded="true" />
-                <element signature="e#16003#16189#0" expanded="true" />
-                <element signature="e#16188#16189#0" expanded="true" />
-                <element signature="e#18115#18116#0" expanded="true" />
-                <element signature="e#18142#18143#0" expanded="true" />
+                <element signature="e#15402#15586#0" expanded="true" />
+                <element signature="e#15585#15586#0" expanded="true" />
+                <element signature="e#15955#16141#0" expanded="true" />
+                <element signature="e#16140#16141#0" expanded="true" />
+                <element signature="e#18067#18068#0" expanded="true" />
+                <element signature="e#18094#18095#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -100,43 +119,33 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="strings.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="296">
-              <caret line="62" column="43" lean-forward="false" selection-start-line="62" selection-start-column="43" selection-end-line="62" selection-end-column="43" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="QuanLyDocSo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="117">
-              <caret line="1468" column="19" lean-forward="false" selection-start-line="1468" selection-start-column="19" selection-end-line="1468" selection-end-column="19" />
+            <state relative-caret-position="369">
+              <caret line="827" column="61" lean-forward="false" selection-start-line="827" selection-start-column="61" selection-end-line="827" selection-end-column="61" />
               <folding>
                 <element signature="e#59885#60048#0" expanded="true" />
                 <element signature="e#60047#60048#0" expanded="true" />
-                <element signature="e#80417#80418#0" expanded="false" />
-                <marker date="1519720396039" expanded="false" signature="62480:62580" ph="(v) → {" />
-                <marker date="1519720396039" expanded="false" signature="63649:63657" ph="&lt;~&gt;" />
-                <marker date="1519720396039" expanded="false" signature="63836:63844" ph="&lt;~&gt;" />
-                <marker date="1519720396039" expanded="false" signature="64037:64045" ph="&lt;~&gt;" />
-                <marker date="1519720396039" expanded="false" signature="69429:69583" ph="(dialog, which) → {" />
-                <marker date="1519720396039" expanded="false" signature="70992:71019" ph="}" />
-                <marker date="1519720396039" expanded="false" signature="71046:71200" ph="(dialog, which) → {" />
-                <marker date="1519720396039" expanded="false" signature="71267:71294" ph="}" />
-                <marker date="1519720396039" expanded="false" signature="71567:71586" ph="}" />
-                <marker date="1519720396039" expanded="false" signature="77603:77757" ph="(dialog, which) → {" />
-                <marker date="1519720396039" expanded="false" signature="77824:77851" ph="}" />
-                <marker date="1519720396039" expanded="false" signature="77887:78025" ph="(dialog, which) → {" />
-                <marker date="1519720396039" expanded="false" signature="79033:79052" ph="}" />
-                <marker date="1519720396039" expanded="false" signature="79766:79819" ph="&quot;Kiểm tra kết nối internet và thử lại!&quot;" />
-                <marker date="1519720396039" expanded="false" signature="80203:80316" ph="(dialog, id) → {" />
-                <marker date="1519720396039" expanded="false" signature="80480:80626" ph="(dialog, which) → {" />
-                <marker date="1519720396039" expanded="false" signature="81521:81583" ph="&quot;Đang đồng bộ dữ liệu đọc số...&quot;" />
-                <marker date="1519720396039" expanded="false" signature="81616:81680" ph="&quot;Giữ kết nối mạng ổn định trong quá trình đồng bộ!&quot;" />
+                <element signature="e#77887#79050#0" expanded="true" />
+                <element signature="e#79049#79050#0" expanded="true" />
+                <element signature="e#80415#80416#0" expanded="false" />
+                <marker date="1519722532488" expanded="false" signature="62480:62580" ph="(v) → {" />
+                <marker date="1519722532488" expanded="false" signature="63649:63657" ph="&lt;~&gt;" />
+                <marker date="1519722532488" expanded="false" signature="63836:63844" ph="&lt;~&gt;" />
+                <marker date="1519722532488" expanded="false" signature="64037:64045" ph="&lt;~&gt;" />
+                <marker date="1519722532488" expanded="false" signature="69429:69583" ph="(dialog, which) → {" />
+                <marker date="1519722532488" expanded="false" signature="70992:71019" ph="}" />
+                <marker date="1519722532488" expanded="false" signature="71046:71200" ph="(dialog, which) → {" />
+                <marker date="1519722532488" expanded="false" signature="71267:71294" ph="}" />
+                <marker date="1519722532488" expanded="false" signature="71567:71586" ph="}" />
+                <marker date="1519722532488" expanded="false" signature="77603:77757" ph="(dialog, which) → {" />
+                <marker date="1519722532488" expanded="false" signature="77824:77851" ph="}" />
+                <marker date="1519722532488" expanded="false" signature="79764:79817" ph="&quot;Kiểm tra kết nối internet và thử lại!&quot;" />
+                <marker date="1519722532488" expanded="false" signature="80201:80314" ph="(dialog, id) → {" />
+                <marker date="1519722532488" expanded="false" signature="80478:80624" ph="(dialog, which) → {" />
+                <marker date="1519722532488" expanded="false" signature="81519:81581" ph="&quot;Đang đồng bộ dữ liệu đọc số...&quot;" />
+                <marker date="1519722532488" expanded="false" signature="81614:81678" ph="&quot;Giữ kết nối mạng ổn định trong quá trình đồng bộ!&quot;" />
               </folding>
             </state>
           </provider>
@@ -155,11 +164,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LoginActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="LoginActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/LoginActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="346">
+            <state relative-caret-position="283">
               <caret line="72" column="22" lean-forward="false" selection-start-line="72" selection-start-column="22" selection-end-line="72" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DialogSelectDot.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/DialogSelectDot.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="231">
+              <caret line="45" column="56" lean-forward="false" selection-start-line="45" selection-start-column="56" selection-end-line="45" selection-end-column="56" />
               <folding />
             </state>
           </provider>
@@ -177,36 +196,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Utils.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/Utils.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="19" column="54" lean-forward="false" selection-start-line="19" selection-start-column="54" selection-end-line="19" selection-end-column="54" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ConnectionDB.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/ConnectionDB.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="454">
-              <caret line="63" column="62" lean-forward="false" selection-start-line="63" selection-start-column="62" selection-end-line="63" selection-end-column="62" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CONSTANT.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CONSTANT.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="8" column="52" lean-forward="false" selection-start-line="8" selection-start-column="52" selection-end-line="8" selection-end-column="52" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -219,7 +208,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>const</find>
       <find>(int)</find>
       <find>showmo</find>
       <find>delete</find>
@@ -249,6 +237,7 @@
       <find>print</find>
       <find>layout_ds_pr</find>
       <find>MIN_IMAGE_QUATITY</find>
+      <find>textpro</find>
     </findStrings>
     <replaceStrings>
       <replace>builder.append(String.format(</replace>
@@ -2195,17 +2184,17 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/Calculate_TienNuoc.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CONSTANT_NUMBER.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/DialogSelectDot.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/HoaDonDB.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CalculateCSM_TieuThu.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/Utils.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CONSTANT.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/Uploading.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/ConnectionDB.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/doc_so_fragment.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/LoginActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java" />
       </list>
     </option>
   </component>
@@ -2352,6 +2341,50 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="utities" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TanHoa_DocSo_Android" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="docsotanhoa" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="localdb" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TanHoa_DocSo_Android" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="docsotanhoa" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="entities" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2531,7 +2564,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1519721405120" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1519723401860" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -2579,7 +2612,7 @@
       </Profilers>
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1519721405120" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1519723401860" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -2762,7 +2795,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1519721405121" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1519723401860" />
       </method>
     </configuration>
     <list size="2">
@@ -2806,13 +2839,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1506944363424</updated>
-    </task>
-    <task id="LOCAL-00052" summary="bao thay offline">
-      <created>1517287365133</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1517287365134</updated>
     </task>
     <task id="LOCAL-00053" summary="textprogress">
       <created>1517297516978</created>
@@ -3150,7 +3176,14 @@
       <option name="project" value="LOCAL" />
       <updated>1518166647348</updated>
     </task>
-    <option name="localTasksCounter" value="101" />
+    <task id="LOCAL-00101" summary="lay so IMEII, code X, doc vet F1">
+      <created>1519721431567</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1519721431568</updated>
+    </task>
+    <option name="localTasksCounter" value="102" />
     <servers />
   </component>
   <component name="TodoView">
@@ -3182,7 +3215,7 @@
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25026795" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.44665885" sideWeight="0.49572194" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.44665885" sideWeight="0.49572194" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32994652" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32994652" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
@@ -3212,7 +3245,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="xu ly dia chi" />
     <MESSAGE value="xoa ds khi doc xong" />
     <MESSAGE value="xoa ds khi doc xong reup" />
     <MESSAGE value="dong bo phan tram" />
@@ -3237,7 +3269,8 @@
     <MESSAGE value="commit" />
     <MESSAGE value="doi server" />
     <MESSAGE value="tai lai code F khi khong co trong localdatabase" />
-    <option name="LAST_COMMIT_MESSAGE" value="tai lai code F khi khong co trong localdatabase" />
+    <MESSAGE value="lay so IMEII, code X, doc vet F1" />
+    <option name="LAST_COMMIT_MESSAGE" value="lay so IMEII, code X, doc vet F1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3284,13 +3317,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-189">
           <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-25/android/widget/ArrayAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="279" column="16" lean-forward="false" selection-start-line="279" selection-start-column="16" selection-end-line="279" selection-end-column="16" />
         </state>
       </provider>
     </entry>
@@ -3530,14 +3556,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/DialogSelectDot.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1365">
-          <caret line="81" column="40" lean-forward="false" selection-start-line="81" selection-start-column="40" selection-end-line="81" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-24/android/os/AsyncTask.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4494">
@@ -3557,24 +3575,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="263">
           <caret line="18423" column="16" lean-forward="false" selection-start-line="18423" selection-start-column="16" selection-end-line="18423" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17220">
-          <caret line="938" column="24" lean-forward="false" selection-start-line="938" selection-start-column="24" selection-end-line="938" selection-end-column="24" />
-          <folding>
-            <element signature="method#addHoaDon#0;class#LocalDatabase#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CalculateCSM_TieuThu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="235" column="9" lean-forward="true" selection-start-line="235" selection-start-column="9" selection-end-line="235" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3629,57 +3629,12 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="1756" column="17" lean-forward="false" selection-start-line="1756" selection-start-column="17" selection-end-line="1756" selection-end-column="17" />
-          <folding>
-            <element signature="e#15450#15634#0" expanded="true" />
-            <element signature="e#15633#15634#0" expanded="true" />
-            <element signature="e#16003#16189#0" expanded="true" />
-            <element signature="e#16188#16189#0" expanded="true" />
-            <element signature="e#18115#18116#0" expanded="true" />
-            <element signature="e#18142#18143#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/Uploading.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3339">
           <caret line="210" column="29" lean-forward="false" selection-start-line="210" selection-start-column="29" selection-end-line="210" selection-end-column="29" />
           <folding>
             <element signature="method#updateHinhDHN#0;class#Uploading#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="117">
-          <caret line="1468" column="19" lean-forward="false" selection-start-line="1468" selection-start-column="19" selection-end-line="1468" selection-end-column="19" />
-          <folding>
-            <element signature="e#59885#60048#0" expanded="true" />
-            <element signature="e#60047#60048#0" expanded="true" />
-            <element signature="e#80417#80418#0" expanded="false" />
-            <marker date="1519720396039" expanded="false" signature="62480:62580" ph="(v) → {" />
-            <marker date="1519720396039" expanded="false" signature="63649:63657" ph="&lt;~&gt;" />
-            <marker date="1519720396039" expanded="false" signature="63836:63844" ph="&lt;~&gt;" />
-            <marker date="1519720396039" expanded="false" signature="64037:64045" ph="&lt;~&gt;" />
-            <marker date="1519720396039" expanded="false" signature="69429:69583" ph="(dialog, which) → {" />
-            <marker date="1519720396039" expanded="false" signature="70992:71019" ph="}" />
-            <marker date="1519720396039" expanded="false" signature="71046:71200" ph="(dialog, which) → {" />
-            <marker date="1519720396039" expanded="false" signature="71267:71294" ph="}" />
-            <marker date="1519720396039" expanded="false" signature="71567:71586" ph="}" />
-            <marker date="1519720396039" expanded="false" signature="77603:77757" ph="(dialog, which) → {" />
-            <marker date="1519720396039" expanded="false" signature="77824:77851" ph="}" />
-            <marker date="1519720396039" expanded="false" signature="77887:78025" ph="(dialog, which) → {" />
-            <marker date="1519720396039" expanded="false" signature="79033:79052" ph="}" />
-            <marker date="1519720396039" expanded="false" signature="79766:79819" ph="&quot;Kiểm tra kết nối internet và thử lại!&quot;" />
-            <marker date="1519720396039" expanded="false" signature="80203:80316" ph="(dialog, id) → {" />
-            <marker date="1519720396039" expanded="false" signature="80480:80626" ph="(dialog, which) → {" />
-            <marker date="1519720396039" expanded="false" signature="81521:81583" ph="&quot;Đang đồng bộ dữ liệu đọc số...&quot;" />
-            <marker date="1519720396039" expanded="false" signature="81616:81680" ph="&quot;Giữ kết nối mạng ổn định trong quá trình đồng bộ!&quot;" />
           </folding>
         </state>
       </provider>
@@ -3695,11 +3650,90 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="369">
+          <caret line="827" column="61" lean-forward="false" selection-start-line="827" selection-start-column="61" selection-end-line="827" selection-end-column="61" />
+          <folding>
+            <element signature="e#59885#60048#0" expanded="true" />
+            <element signature="e#60047#60048#0" expanded="true" />
+            <element signature="e#77887#79050#0" expanded="true" />
+            <element signature="e#79049#79050#0" expanded="true" />
+            <element signature="e#80415#80416#0" expanded="false" />
+            <marker date="1519722532488" expanded="false" signature="62480:62580" ph="(v) → {" />
+            <marker date="1519722532488" expanded="false" signature="63649:63657" ph="&lt;~&gt;" />
+            <marker date="1519722532488" expanded="false" signature="63836:63844" ph="&lt;~&gt;" />
+            <marker date="1519722532488" expanded="false" signature="64037:64045" ph="&lt;~&gt;" />
+            <marker date="1519722532488" expanded="false" signature="69429:69583" ph="(dialog, which) → {" />
+            <marker date="1519722532488" expanded="false" signature="70992:71019" ph="}" />
+            <marker date="1519722532488" expanded="false" signature="71046:71200" ph="(dialog, which) → {" />
+            <marker date="1519722532488" expanded="false" signature="71267:71294" ph="}" />
+            <marker date="1519722532488" expanded="false" signature="71567:71586" ph="}" />
+            <marker date="1519722532488" expanded="false" signature="77603:77757" ph="(dialog, which) → {" />
+            <marker date="1519722532488" expanded="false" signature="77824:77851" ph="}" />
+            <marker date="1519722532488" expanded="false" signature="79764:79817" ph="&quot;Kiểm tra kết nối internet và thử lại!&quot;" />
+            <marker date="1519722532488" expanded="false" signature="80201:80314" ph="(dialog, id) → {" />
+            <marker date="1519722532488" expanded="false" signature="80478:80624" ph="(dialog, which) → {" />
+            <marker date="1519722532488" expanded="false" signature="81519:81581" ph="&quot;Đang đồng bộ dữ liệu đọc số...&quot;" />
+            <marker date="1519722532488" expanded="false" signature="81614:81678" ph="&quot;Giữ kết nối mạng ổn định trong quá trình đồng bộ!&quot;" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/LoginActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
+        <state relative-caret-position="283">
           <caret line="72" column="22" lean-forward="false" selection-start-line="72" selection-start-column="22" selection-end-line="72" selection-end-column="22" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-25/android/widget/ArrayAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="265" column="16" lean-forward="false" selection-start-line="265" selection-start-column="16" selection-end-line="265" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/DialogSelectDot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="45" column="56" lean-forward="false" selection-start-line="45" selection-start-column="56" selection-end-line="45" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="448" column="47" lean-forward="false" selection-start-line="448" selection-start-column="47" selection-end-line="448" selection-end-column="47" />
+          <folding>
+            <element signature="method#addHoaDon#0;class#LocalDatabase#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/CalculateCSM_TieuThu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2713">
+          <caret line="235" column="9" lean-forward="false" selection-start-line="235" selection-start-column="9" selection-end-line="235" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="1242" column="81" lean-forward="true" selection-start-line="1242" selection-start-column="81" selection-end-line="1242" selection-end-column="81" />
+          <folding>
+            <element signature="e#15402#15586#0" expanded="true" />
+            <element signature="e#15585#15586#0" expanded="true" />
+            <element signature="e#15955#16141#0" expanded="true" />
+            <element signature="e#16140#16141#0" expanded="true" />
+            <element signature="e#18067#18068#0" expanded="true" />
+            <element signature="e#18094#18095#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
