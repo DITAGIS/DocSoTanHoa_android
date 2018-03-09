@@ -22,6 +22,8 @@ public class LogInDB implements IDB<User, Boolean, String> {
 
     private final String TABLE_NAME = "MayDS1";
     private final String SQL_SELECT = "select NhanVienID, dienthoai from " + TABLE_NAME + " where may = ? and password = ?";
+    private final String SQL_SELECT_BY_IMEI = "select NhanVienID, dienthoai, may from " + TABLE_NAME + " where may = ? and password = ? and IMEI = ?";
+    private final String SQL_SELECT_MAY = "select  may from " + TABLE_NAME + " where IMEI = ?";
     private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + " VALUES(?,?)";
     private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET password=? WHERE username=?";
     private final String SQL_UPDATE_ALL = "UPDATE " + TABLE_NAME + " SET password=?";
@@ -100,6 +102,32 @@ public class LogInDB implements IDB<User, Boolean, String> {
         return null;
     }
 
+    public String getUserName(String IMEI) {
+        Connection cnn = ConnectionDB.getInstance().getConnection(true);
+        String sql = this.SQL_SELECT_MAY;
+        String username = "";
+        try {
+            if (cnn == null)
+                return null;
+            PreparedStatement statement = cnn.prepareStatement(sql);
+            statement.setString(1, IMEI);
+//            statement.setString(2, (new EncodeMD5()).encode(user.getPassWord()));
+//            statement.setString(2, IMEI);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                username = resultSet.getString(1);
+            }
+            resultSet.close();
+
+            return username;
+
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+        return username;
+    }
+
     public Result logIn(User user, String IMEI) {
 
         Calendar calendar = Calendar.getInstance();
@@ -108,7 +136,7 @@ public class LogInDB implements IDB<User, Boolean, String> {
 //        int dot = calendar.get(Calendar.DAY_OF_MONTH);
         String nam = "";
         Connection cnn = ConnectionDB.getInstance().getConnection(true);
-        String sql = this.SQL_SELECT;
+        String sql = this.SQL_SELECT_BY_IMEI;
 
         try {
             if (cnn == null)
@@ -116,13 +144,15 @@ public class LogInDB implements IDB<User, Boolean, String> {
             PreparedStatement statement = cnn.prepareStatement(sql);
             statement.setString(1, user.getUserName());
             statement.setString(2, (new EncodeMD5()).encode(user.getPassWord()));
-//            statement.setString(2, IMEI);
+            statement.setString(3, IMEI);
             ResultSet resultSet = statement.executeQuery();
             String staffName = "";
             String staffPhone = "";
+            String username = "";
             if (resultSet.next()) {
                 staffName = resultSet.getString(1);
                 staffPhone = resultSet.getString(2);
+                username = resultSet.getString(3);
             }
             resultSet.close();
             statement = cnn.prepareStatement("select distinct top 1 DocSoID from docso where may = '" + user.getUserName() + "' order by DocSoID desc");
@@ -157,9 +187,10 @@ public class LogInDB implements IDB<User, Boolean, String> {
 ////            mDot = dot + "";
             statement.close();
 //            rsDot.close();
-            Result result = new Result(mDot, staffName, user.getUserName(), staffPhone);
+            Result result = new Result(mDot, staffName, username, staffPhone);
             result.setmNam(nam);
             result.setmKy(ky);
+
             return result;
 
         } catch (SQLException e1) {

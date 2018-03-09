@@ -41,10 +41,12 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private ImageButton mImgBtnViewPassword;
     private LoginAsync mLoginAsync;
+    private GetUserNameAsync mGetUserNameAsync;
     private String mUsername, mPassword, mStaffName, mStaffPhone;
     private String mDot, mKy, mNam;
     private NetworkStateChangeReceiver mStateChangeReceiver;
     private IntentFilter mIntentFilter;
+    private String IMEI = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +105,12 @@ public class LoginActivity extends AppCompatActivity {
         }
         Toast.makeText(LoginActivity.this, mngr.getDeviceId(), Toast.LENGTH_LONG);
 
+        //        Lấy số IMEII
+        IMEI = ((TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+
+        mGetUserNameAsync = new GetUserNameAsync();
+        mGetUserNameAsync.execute( IMEI);
+
     }
 
     @Override
@@ -139,7 +147,6 @@ public class LoginActivity extends AppCompatActivity {
 //        LocalDatabase.getInstance(this.getApplicationContext()).Upgrade();
         LoginActivity.this.mUsername = mTxtUsername.getText().toString();
         LoginActivity.this.mPassword = mTxtPassword.getText().toString();
-        String IMEI = "";
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -150,9 +157,6 @@ public class LoginActivity extends AppCompatActivity {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-//        Lấy số IMEII
-        IMEI = ((TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
-
 
         if (LoginActivity.this.mUsername.length() == 0 || LoginActivity.this.mPassword.length() == 0) {
             MySnackBar.make(btnLogin, R.string.not_null_username_password, true);
@@ -393,4 +397,63 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+
+    class GetUserNameAsync extends AsyncTask<String, String, String> {
+        private LogInDB loginDB = new LogInDB();
+        private ProgressDialog dialog;
+
+        public GetUserNameAsync() {
+            this.dialog = new ProgressDialog(LoginActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            HideKeyboard.hide(LoginActivity.this);
+//            dialog.setMessage("");
+            dialog.setCancelable(false);
+
+            dialog.show();
+
+        }
+
+        public ProgressDialog getDialog() {
+            return dialog;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String IMEI = params[0];
+            String userName = this.loginDB.getUserName(IMEI);
+
+            publishProgress(userName);
+            return userName;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+            String userName = values[0];
+            if (userName == "")
+//                AlertDialogDisConnect.show(btnLogin.getContext(), LoginActivity.this);
+                MySnackBar.make(btnLogin, "Chưa khởi tạo máy cho IMEI: " + userName, true);
+            else if(userName == null){
+              ;
+            }
+            else if (userName.length() > 0) {
+
+                mTxtUsername.setText(userName);
+            } else {
+                MySnackBar.make(btnLogin, R.string.login_fail, true);
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (dialog != null && dialog.isShowing()) {
+                dialog.dismiss();
+            }
+        }
+    }
 }
