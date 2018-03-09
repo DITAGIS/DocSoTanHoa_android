@@ -108,8 +108,8 @@ public class LoginActivity extends AppCompatActivity {
         //        Lấy số IMEII
         IMEI = ((TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
 
-        mGetUserNameAsync = new GetUserNameAsync();
-        mGetUserNameAsync.execute( IMEI);
+//        mGetUserNameAsync = new GetUserNameAsync();
+//        mGetUserNameAsync.execute( IMEI);
 
     }
 
