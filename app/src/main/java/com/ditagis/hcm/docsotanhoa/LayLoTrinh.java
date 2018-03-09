@@ -55,7 +55,7 @@ public class LayLoTrinh {
 
     private NetworkStateChangeReceiver mStateChangeReceiver;
 
-    public LayLoTrinh(Activity activity, LayoutInflater inflater, final int mKy, int mNam, int mDot, String mUsername, String mStaffName, String mPassWord, String staffPhone) {
+    public  LayLoTrinh(Activity activity, LayoutInflater inflater, final int mKy, int mNam, int mDot, String mUsername, String mStaffName, String mPassWord, String staffPhone) {
         this.mActivity = activity;
         this.mKy = mKy;
         this.mNam = mNam;

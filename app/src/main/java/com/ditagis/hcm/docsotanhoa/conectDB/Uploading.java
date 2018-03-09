@@ -182,10 +182,8 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             if (hoaDon.getCodeMoi().startsWith("4")) {
                 if (hoaDon.getCode_CSC_SanLuong().getCode1().startsWith("F") || hoaDon.getCode_CSC_SanLuong().getCode1().equals("K")
                         || hoaDon.getCode_CSC_SanLuong().getCode1().equals("N")) {
-
                     codeMoi = 5 + hoaDon.getCode_CSC_SanLuong().getCode1().substring(0, 1);
-
-                } else if (hoaDon.getCode_CSC_SanLuong().getCode1().equals("62")) {
+                } else if (hoaDon.getCode_CSC_SanLuong().getCode1().startsWith("6")) {
                     codeMoi = "56";
                 } else if (hoaDon.getCode_CSC_SanLuong().getCode1().equals("M0")) {
                     try {

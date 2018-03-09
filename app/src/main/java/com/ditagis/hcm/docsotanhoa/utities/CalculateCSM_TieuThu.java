@@ -12,15 +12,17 @@ import java.util.List;
 public class CalculateCSM_TieuThu {
     private String mCode;
     private Code_CSC_SanLuong mCodeCSCSanLuong;
-    private int mCSC, mCSM, mTieuThu, mCSGo;
+    private int mCSC, mCSM, mTieuThu, mCSGo, mCSGan;
     private String mCSMString;
 
-    public CalculateCSM_TieuThu(String code, Code_CSC_SanLuong mCodeCSCSanLuong, int csc, String csm, int csgo) {
+
+    public CalculateCSM_TieuThu(String code, Code_CSC_SanLuong mCodeCSCSanLuong, int csc, String csm, int csgo, int csgan) {
         this.mCode = code;
         this.mCodeCSCSanLuong = mCodeCSCSanLuong;
         this.mCSMString = csm;
         this.mCSC = csc;
         this.mCSGo = csgo;
+        this.mCSGan = csgan;
         this.mCSM = -1;
         this.mTieuThu = -1;
         calculate();
@@ -166,7 +168,7 @@ public class CalculateCSM_TieuThu {
                     if (mCSGo == -1) {
                         mTieuThu = mCSM;
                     } else {
-                        mTieuThu = mCSM + mCSGo - mCSC;
+                        mTieuThu = mCSM + mCSGo - mCSC - mCSGan;
                     }
 
 

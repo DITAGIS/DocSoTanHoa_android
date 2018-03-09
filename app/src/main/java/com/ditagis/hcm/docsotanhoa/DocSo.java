@@ -316,7 +316,7 @@ public class DocSo extends Fragment {
 
 
                     ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(mCode);
-                    CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, mHoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString(), mCSGo);
+                    CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, mHoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString(), mHoaDon.getCsgo(),mHoaDon.getCsganmoi());
 
                     mTxtCSM.setText(csm_tieuThu.getCSM());
                     mTxtTT.setText(csm_tieuThu.getTieuThu());
@@ -1527,12 +1527,9 @@ public class DocSo extends Fragment {
         if (mCode.startsWith("8")) {
             if (mHoaDon.getCsgo() == -1) {
                 MySnackBar.make(mTxtCSM, "Chưa có dữ liệu báo thay", true);
-                mCSGo = -1;
 //                mSpinCode.setSelection(0);
-            } else
-                mCSGo = mHoaDon.getCsgo();
         }
-        CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString(), mCSGo);
+        CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString(), mHoaDon.getCsgo(),mHoaDon.getCsganmoi());
 
         mTxtCSM.setText(csm_tieuThu.getCSM());
         mEditTextCSM.setText(csm_tieuThu.getCSM());

@@ -72,6 +72,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
     private static final String COLUMN_HOADON_TU_NGAY = "HoaDon_tuNgay";
     private static final String COLUMN_HOADON_DEN_NGAY = "HoaDon_denNgay";
     private static final String COLUMN_HOADON_CSGO = "HoaDon_CSGO";
+    private static final String COLUMN_HOADON_CSGANMOI = "HoaDon_CSGANMOI";
 
 
     private static final String TABLE_LUUDANHBO = "LuuDanhBo";
@@ -155,7 +156,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 + COLUMN_HOADON_HC + " TEXT,"
                 + COLUMN_HOADON_TU_NGAY + " TEXT,"
                 + COLUMN_HOADON_DEN_NGAY + " TEXT,"
-                + COLUMN_HOADON_CSGO + " TEXT" + ")";
+                + COLUMN_HOADON_CSGO + " TEXT,"
+                + COLUMN_HOADON_CSGANMOI + " TEXT" + ")";
 
 
         String script2 = "CREATE TABLE " + TABLE_LUUDANHBO + "("
@@ -267,7 +269,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                     + COLUMN_HOADON_HC + ", "
                     + COLUMN_HOADON_TU_NGAY + ", "
                     + COLUMN_HOADON_DEN_NGAY + ", "
-                    + COLUMN_HOADON_CSGO
+                    + COLUMN_HOADON_CSGO + ", "
+                    + COLUMN_HOADON_CSGANMOI
                     + ") Values ('" + hoaDon.getDot() + "', '"
                     + hoaDon.getDanhBo() + "', '" +
                     hoaDon.getTenKhachHang() + "', '" +
@@ -306,14 +309,15 @@ public class LocalDatabase extends SQLiteOpenHelper {
                     hoaDon.getHc() + "','" +
                     hoaDon.getTuNgay() + "','" +
                     hoaDon.getDenNgay() + "'," +
-                    hoaDon.getCsgo() + ")";
+                    hoaDon.getCsgo() + "," +
+                    hoaDon.getCsganmoi() + ")";
             db.execSQL(sql);
 
             // Đóng kết nối database.
             db.close();
             return true;
         } catch (Exception e) {
-
+            Log.d("ERROR", e.toString());
         }
 
         return false;
@@ -393,7 +397,9 @@ public class LocalDatabase extends SQLiteOpenHelper {
             hoaDon.setHc(cursor.getInt(35));
             hoaDon.setTuNgay(cursor.getString(36));
             hoaDon.setDenNgay(cursor.getString(37));
+
             hoaDon.setCsgo(cursor.getInt(38));
+            hoaDon.setCsgan(cursor.getInt(39));
             try {
                 if (getImage)
                     hoaDon.setImage_byteArray(cursor.getBlob(26));
@@ -446,7 +452,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
     }
 
     public int getAllHoaDonSizeDocSo(String like, int ky, boolean getImage) {
-        return getAllHoaDonSize(like, ky, Flag.READ, getImage)+getAllHoaDonSize(like, ky, Flag.UNREAD, getImage) + getAllHoaDonSize(like, ky, Flag.CODE_F, getImage) + getAllHoaDonSize(like, ky, Flag.CODE_F_SYNCHRONIZED, getImage);
+        return getAllHoaDonSize(like, ky, Flag.READ, getImage) + getAllHoaDonSize(like, ky, Flag.UNREAD, getImage) + getAllHoaDonSize(like, ky, Flag.CODE_F, getImage) + getAllHoaDonSize(like, ky, Flag.CODE_F_SYNCHRONIZED, getImage);
 
     }
 
@@ -509,6 +515,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setTuNgay(cursor.getString(36));
                 hoaDon.setDenNgay(cursor.getString(37));
                 hoaDon.setCsgo(cursor.getInt(38));
+                hoaDon.setCsgan(cursor.getInt(39));
                 try {
                     if (getImage)
                         hoaDon.setImage_byteArray(cursor.getBlob(26));
@@ -557,6 +564,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setTuNgay(cursor.getString(36));
                 hoaDon.setDenNgay(cursor.getString(37));
                 hoaDon.setCsgo(cursor.getInt(38));
+                hoaDon.setCsgan(cursor.getInt(39));
                 try {
                     if (getImage)
                         hoaDon.setImage_byteArray(cursor.getBlob(26));
@@ -642,6 +650,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setTuNgay(cursor.getString(36));
                 hoaDon.setDenNgay(cursor.getString(37));
                 hoaDon.setCsgo(cursor.getInt(38));
+                hoaDon.setCsgan(cursor.getInt(39));
                 try {
                     if (getImage)
                         hoaDon.setImage_byteArray(cursor.getBlob(26));
@@ -691,6 +700,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setTuNgay(cursor.getString(36));
                 hoaDon.setDenNgay(cursor.getString(37));
                 hoaDon.setCsgo(cursor.getInt(38));
+                hoaDon.setCsgan(cursor.getInt(39));
                 try {
                     if (getImage)
                         hoaDon.setImage_byteArray(cursor.getBlob(26));
@@ -740,6 +750,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 hoaDon.setTuNgay(cursor.getString(36));
                 hoaDon.setDenNgay(cursor.getString(37));
                 hoaDon.setCsgo(cursor.getInt(38));
+                hoaDon.setCsgan(cursor.getInt(39));
                 try {
                     if (getImage)
                         hoaDon.setImage_byteArray(cursor.getBlob(26));

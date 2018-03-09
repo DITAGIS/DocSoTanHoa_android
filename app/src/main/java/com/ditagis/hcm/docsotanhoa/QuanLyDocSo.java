@@ -95,7 +95,7 @@ public class QuanLyDocSo extends Fragment {
     private GridViewSelectFolderAdapter mSelectFolderAdapter;
     private Spinner mSpinDot, mSpinKy, mSpinNam;
 
-    
+
     public QuanLyDocSo(LayoutInflater inflater, int dot, int ky, int nam, String userName, String staffName, String staffPhone, int selected_theme) {
         mRootView = inflater.inflate(R.layout.quan_ly_doc_so_fragment, null);
         this.mStaffName = staffName;
@@ -1378,13 +1378,13 @@ public class QuanLyDocSo extends Fragment {
                     Code_Describle code_describle = Codes.getInstance().getCodeDescribles_ds()[position];
                     mCode = code_describle.getCode();
                     if (mCode.startsWith("8"))
-                        mCSGo = new HoaDonDB().getCSGo(danhBo);
+                        mCSGo =hoaDon.getCsgo();
                     if (mCSGo == -1) {
                         MySnackBar.make(mTxtComplete, "Chưa có dữ liệu báo thay", true);
                         mSpinCode.setSelection(0);
                     }
                     try {
-                        CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(hoaDon.getChiSoCu()), hoaDon.getChiSoMoi(), mCSGo);
+                        CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(hoaDon.getChiSoCu()), hoaDon.getChiSoMoi(), hoaDon.getCsgo(), hoaDon.getCsganmoi());
 
                         etxtCSM.setText(csm_tieuThu.getCSM());
                         txtTT.setText(csm_tieuThu.getTieuThu());
@@ -1417,7 +1417,7 @@ public class QuanLyDocSo extends Fragment {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     try {
-                        CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(hoaDon.getChiSoCu()), s.toString(), mCSGo);
+                        CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(hoaDon.getChiSoCu()), s.toString(), hoaDon.getCsgo(), hoaDon.getCsganmoi());
 
                         txtTT.setText(csm_tieuThu.getTieuThu());
                         hoaDon.setChiSoMoi(s.toString());

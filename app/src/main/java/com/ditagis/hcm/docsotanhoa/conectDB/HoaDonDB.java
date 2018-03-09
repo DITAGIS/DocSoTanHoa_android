@@ -19,6 +19,8 @@ import java.util.List;
 public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
     private final String TABLE_NAME = "DocSo";
     private final String SQL_SELECT_GETALL_BY_USERNAME = "SELECT gb,dm,CSCU, MLT2, soThanCu, hieucu, cocu, vitricu, codemoi,tungay, denngay,codecu, tieuthucu FROM " + TABLE_NAME;
+    private final String SQL_SELECT_THONGBAO_CHISOGANMOI = "select chiso from thongbao where danhba = ";
+
     private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
     private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + " VALUES(?,?,?,?,?)";
     private final String SQL_DELETE = "DELETE FROM " + TABLE_NAME + " WHERE ClassId=?";
@@ -306,6 +308,15 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                     rs3.close();
                     rs4.close();
                 }
+//                int chiSoGanMoi = 0;
+                //Lay chi so gan moi
+//                if (code1.equals("M0")) {
+//                    ResultSet rsChiSoGanMoi = mStatement.executeQuery(SQL_SELECT_THONGBAO_CHISOGANMOI + "'" + danhBo + "'");
+//                    if (rsChiSoGanMoi.next()) {
+//                        chiSoGanMoi = rsChiSoGanMoi.getInt(1);
+//                    }
+//                }
+
                 hoaDon = new HoaDon(dotString, danhBo, tenKhachHang, soNha, duong, giaBieu, dinhMuc, ky + "", chiSoCu, maLoTrinh,
                         sdt, Flag.UNREAD);
                 Code_CSC_SanLuong code_csu_sanLuong = new Code_CSC_SanLuong(code1, code2, code3,
@@ -323,8 +334,9 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                 hoaDon.setHc(hc);
                 hoaDon.setTuNgay(tuNgay);
                 hoaDon.setDenNgay(denNgay);
-                hoaDon.setCsgo(getCSGo(hoaDon.getDanhBo()));
-
+                List<Integer> chiso =getCSGo(hoaDon.getDanhBo());
+                hoaDon.setCsgo(chiso.get(0));
+                hoaDon.setCsgan(chiso.get(1));
             }
             rs.close();
         } catch (SQLException e) {
@@ -334,29 +346,37 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
         return hoaDon;
     }
 
-    public int getCSGo(String danhBo) {
+    public List<Integer> getCSGo(String danhBo) {
         Connection cnn = ConnectionDB.getInstance().getConnection();
-        int csgo = -1;
+        int csgo = -1, csgan = 0;
+        List<Integer> chiso = new ArrayList<>();
+        chiso.add(csgo);
+        chiso.add(csgan);
         try {
             if (cnn == null)
-                return 0;
+                return chiso;
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            mStatement = cnn.prepareStatement("select csgo from baothay where danhba = ? ");
+            mStatement = cnn.prepareStatement("select csgo,csgan from baothay where danhba = ? ");
             mStatement.setString(1, danhBo);
 
             ResultSet rs = mStatement.executeQuery();
 
             while (rs.next()) {
                 csgo = rs.getInt(1);
+                csgan = rs.getInt(2);
             }
+
             rs.close();
         } catch (SQLException e) {
 
             e.printStackTrace();
         }
-        return csgo;
+        chiso.clear();
+        chiso.add(csgo);
+        chiso.add(csgan);
+        return chiso;
     }
 
     public void closeStatement() {
@@ -398,8 +418,6 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
         }
         return result;
     }
-
-
 
 
 }

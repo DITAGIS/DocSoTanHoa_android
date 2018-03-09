@@ -53,25 +53,13 @@ public class LoginActivity extends AppCompatActivity {
 
         setTheme(R.style.Theme_AppCompat_DayNight);
 
-           mTxtUsername = (EditText) findViewById(R.id.txtUsername);
+        mTxtUsername = (EditText) findViewById(R.id.txtUsername);
         mTxtUsername.setBackgroundResource(R.layout.edit_text_styles2);
         mTxtPassword = (EditText) findViewById(R.id.txtPassword);
         mTxtPassword.setBackgroundResource(R.layout.edit_text_styles2);
         this.mImgBtnViewPassword = (ImageButton) findViewById(R.id.imgBtn_login_viewPassword);
         requestPermisson();
 
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-//            // TODO: Consider calling
-//            //    ActivityCompat#requestPermissions
-//            // here to request the missing permissions, and then overriding
-//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//            //                                          int[] grantResults)
-//            // to handle the case where the user grants the permission. See the documentation
-//            // for ActivityCompat#requestPermissions for more details.
-//            return;
-//        }
-        //Lấy số IMEII
-//        Toast.makeText(getApplicationContext(), ((TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId() + "", Toast.LENGTH_LONG).show();
 
 //        requestPermissonWriteFile();
         this.mImgBtnViewPassword.setOnClickListener(new View.OnClickListener() {
@@ -151,12 +139,27 @@ public class LoginActivity extends AppCompatActivity {
 //        LocalDatabase.getInstance(this.getApplicationContext()).Upgrade();
         LoginActivity.this.mUsername = mTxtUsername.getText().toString();
         LoginActivity.this.mPassword = mTxtPassword.getText().toString();
+        String IMEI = "";
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+//        Lấy số IMEII
+        IMEI = ((TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+
+
         if (LoginActivity.this.mUsername.length() == 0 || LoginActivity.this.mPassword.length() == 0) {
             MySnackBar.make(btnLogin, R.string.not_null_username_password, true);
             return;
         } else if (CheckConnect.isOnline(LoginActivity.this)) {
             mLoginAsync = new LoginAsync();
-            mLoginAsync.execute(LoginActivity.this.mUsername, LoginActivity.this.mPassword);
+            mLoginAsync.execute(LoginActivity.this.mUsername, LoginActivity.this.mPassword, IMEI);
         } else if (mTxtPassword.getText().toString().equals(loadPreference(mTxtUsername.getText().toString()))) {
             LoginActivity.this.mPassword = mTxtPassword.getText().toString();
             LoginActivity.this.mStaffName = loadPreference(getString(R.string.preference_tenNV));
@@ -166,7 +169,7 @@ public class LoginActivity extends AppCompatActivity {
             LoginActivity.this.mStaffPhone = loadPreference(getString(R.string.preference_sdtNV));
 
 
-           if (mStaffName == null)
+            if (mStaffName == null)
                 MySnackBar.make(btnLogin, "Chưa khởi tạo máy " + mTxtUsername.getText().toString(), true);
             else if (mStaffName.length() > 0) {
 
@@ -333,8 +336,8 @@ public class LoginActivity extends AppCompatActivity {
         protected LogInDB.Result doInBackground(String... params) {
             String username = params[0];
             String password = params[1];
-
-            LogInDB.Result result = this.loginDB.logIn(new User(username, password));
+            String IMEI = params[2];
+            LogInDB.Result result = this.loginDB.logIn(new User(username, password), IMEI);
             if (result == null)
                 ;
 

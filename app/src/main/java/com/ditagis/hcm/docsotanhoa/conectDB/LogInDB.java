@@ -100,7 +100,7 @@ public class LogInDB implements IDB<User, Boolean, String> {
         return null;
     }
 
-    public Result logIn(User user) {
+    public Result logIn(User user, String IMEI) {
 
         Calendar calendar = Calendar.getInstance();
         String ky = "";
@@ -116,6 +116,7 @@ public class LogInDB implements IDB<User, Boolean, String> {
             PreparedStatement statement = cnn.prepareStatement(sql);
             statement.setString(1, user.getUserName());
             statement.setString(2, (new EncodeMD5()).encode(user.getPassWord()));
+//            statement.setString(2, IMEI);
             ResultSet resultSet = statement.executeQuery();
             String staffName = "";
             String staffPhone = "";

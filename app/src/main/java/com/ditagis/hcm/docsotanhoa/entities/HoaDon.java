@@ -28,7 +28,7 @@ public class HoaDon {
     private Code_CSC_SanLuong code_CSC_SanLuong;
     private int flag;
     private int sh, sx, dv, hc;
-    private int csgo;
+    private int csgo,csganmoi;
     private String soThan;
     private String viTri;
     private String hieu;
@@ -55,6 +55,14 @@ public class HoaDon {
         this.maLoTrinh = maLoTrinh;
         this.sdt = sdt;
         this.flag = flag;
+    }
+
+    public int getCsganmoi() {
+        return csganmoi;
+    }
+
+    public void setCsgan(int csganmoi) {
+        this.csganmoi = csganmoi;
     }
 
     public byte[] getImage_byteArray() {
