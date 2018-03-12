@@ -14,6 +14,7 @@ public class CalculateCSM_TieuThu {
     private Code_CSC_SanLuong mCodeCSCSanLuong;
     private int mCSC, mCSM, mTieuThu, mCSGo, mCSGan;
     private String mCSMString;
+    private  final int MIN_TIEU_THU = -9999999;
 
 
     public CalculateCSM_TieuThu(String code, Code_CSC_SanLuong mCodeCSCSanLuong, int csc, String csm, int csgo, int csgan) {
@@ -24,7 +25,7 @@ public class CalculateCSM_TieuThu {
         this.mCSGo = csgo;
         this.mCSGan = csgan;
         this.mCSM = -1;
-        this.mTieuThu = -1;
+        this.mTieuThu = MIN_TIEU_THU;
         calculate();
     }
 
@@ -78,7 +79,8 @@ public class CalculateCSM_TieuThu {
     }
 
     public String getTieuThu() {
-        return mTieuThu == -1 ? "" : mTieuThu + "";
+
+        return mTieuThu == MIN_TIEU_THU ? "" : mTieuThu + "";
     }
 
     public void calculate() {
