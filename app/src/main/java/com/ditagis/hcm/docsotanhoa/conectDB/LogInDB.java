@@ -21,7 +21,7 @@ import java.util.List;
 public class LogInDB implements IDB<User, Boolean, String> {
 
     private final String TABLE_NAME = "MayDS1";
-    private final String SQL_SELECT = "select NhanVienID, dienthoai from " + TABLE_NAME + " where may = ? and password = ?";
+    private final String SQL_SELECT = "select NhanVienID, dienthoai, may from " + TABLE_NAME + " where may = ? and password = ?";
     private final String SQL_SELECT_BY_IMEI = "select NhanVienID, dienthoai, may from " + TABLE_NAME + " where may = ? and password = ? and IMEI = ?";
     private final String SQL_SELECT_MAY = "select  may from " + TABLE_NAME + " where IMEI = ?";
     private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + " VALUES(?,?)";
@@ -127,6 +127,77 @@ public class LogInDB implements IDB<User, Boolean, String> {
         }
         return username;
     }
+    public Result logIn(User user) {
+
+        Calendar calendar = Calendar.getInstance();
+        String ky = "";
+//        int ky  = 10; // lay ky 10
+//        int dot = calendar.get(Calendar.DAY_OF_MONTH);
+        String nam = "";
+        Connection cnn = ConnectionDB.getInstance().getConnection(true);
+        String sql = this.SQL_SELECT;
+
+        try {
+            if (cnn == null)
+                return null;
+            PreparedStatement statement = cnn.prepareStatement(sql);
+            statement.setString(1, user.getUserName());
+            statement.setString(2, (new EncodeMD5()).encode(user.getPassWord()));
+            ResultSet resultSet = statement.executeQuery();
+            String staffName = "";
+            String staffPhone = "";
+            String username = "";
+
+            if (resultSet.next()) {
+                staffName = resultSet.getString(1);
+                staffPhone = resultSet.getString(2);
+                username = resultSet.getString(3);
+            }
+            resultSet.close();
+            statement = cnn.prepareStatement("select distinct top 1 DocSoID from docso where may = '" + user.getUserName() + "' order by DocSoID desc");
+            ResultSet rsNamKy = statement.executeQuery();
+            String docSoID = "";
+            String mDot = null;
+            while (rsNamKy.next()) {
+                docSoID = rsNamKy.getString(1);
+                nam = docSoID.substring(0, 4);
+                ky = docSoID.substring(4, 6);
+                break;
+            }
+            rsNamKy.close();
+            statement = cnn.prepareStatement("select distinct top 1 dot, may from docso where docsoid like '" + docSoID.substring(0, 6) + "%'" +
+                    " and gioghi < '2017-12-31 00:00:00.000'" +
+                    " and may = '" + user.getUserName() + "'" +
+                    " order by dot desc " +
+                    "");
+            mDot = "01";
+            ResultSet rsDot = statement.executeQuery();
+            while ((rsDot.next())) {
+                mDot = rsDot.getString(1);
+            }
+            rsDot.close();
+//            statement = cnn.prepareStatement("SELECT TOP 1 dot from DocSo where nam = "
+//                    + nam + " and ky = " + ky + " order by dot desc");
+//            ResultSet rsDot = statement.executeQuery();
+//
+//            if (rsDot.next()) {
+//                mDot = rsDot.getString(1);
+//            }
+////            mDot = dot + "";
+            statement.close();
+//            rsDot.close();
+            Result result = new Result(mDot, staffName, username, staffPhone);
+            result.setmNam(nam);
+            result.setmKy(ky);
+
+            return result;
+
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+        return null;
+    }
+
 
     public Result logIn(User user, String IMEI) {
 
@@ -149,6 +220,7 @@ public class LogInDB implements IDB<User, Boolean, String> {
             String staffName = "";
             String staffPhone = "";
             String username = "";
+
             if (resultSet.next()) {
                 staffName = resultSet.getString(1);
                 staffPhone = resultSet.getString(2);

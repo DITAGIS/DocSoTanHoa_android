@@ -135,7 +135,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                 kyString = "0" + ky;
             else kyString = ky + "";
             String like = dotString + userName + "%";
-            final ResultSet rs = statement.executeQuery("select danhba from docso where docsoid like '" + nam + kyString + "%' and mlt2 like '" + like + "' and (gioghi is null or  gioghi < DATEADD(day,1,'2017-01-01') or " +
+            final ResultSet rs = statement.executeQuery("select danhba from docso where docsoid like '" + nam + kyString + "%' and mlt2 like '" + like + "' and (codemoi ='' or " +
                     " codemoi like 'F%')");
 
             while (rs.next()) {
@@ -172,7 +172,9 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                     ResultSet.CONCUR_READ_ONLY);
             String like = dotString + userName + "%";
 //            String query = "select danhba from docso where docsoid like '" + nam + kyString + "%' and mlt2 like '" + like + "' and (gioghi is null or (gioghi is not null and (CodeMoi like 'F%' )) or gioghi < DATEADD(day,1,'2017-01-01'))";
-            String query = SQL_SELECT_GETALL_BY_USERNAME + "  where docsoid = '" + nam + kyString + danhBo + "'  and (gioghi is null or (gioghi is not null and (CodeMoi like 'F%' )) or gioghi < DATEADD(day,1,'2017-01-01'))";
+            String query = SQL_SELECT_GETALL_BY_USERNAME + "  where docsoid = '" + nam + kyString + danhBo + "'  and (codemoi ='' or " +
+                    " codemoi like 'F%')";
+
             final ResultSet rs = mStatement.executeQuery(query);
 
 //            mStatement = cnn.prepareStatement(SQL_SELECT_GETALL_BY_USERNAME + " where docsoid like ? and danhba = ? " +

@@ -1529,19 +1529,20 @@ public class DocSo extends Fragment {
                 MySnackBar.make(mTxtCSM, "Chưa có dữ liệu báo thay", true);
 //                mSpinCode.setSelection(0);
             }
-            CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString(), mHoaDon.getCsgo(), mHoaDon.getCsganmoi());
-
-            mTxtCSM.setText(csm_tieuThu.getCSM());
-            mEditTextCSM.setText(csm_tieuThu.getCSM());
-            mTxtTT.setText(csm_tieuThu.getTieuThu());
-
-            if (checkCSMFluctuation() != 0) {
-//                    MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(false);
-                ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
-            } else {
-                ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
-            }
         }
+        CalculateCSM_TieuThu csm_tieuThu = new CalculateCSM_TieuThu(mCode, hoaDon.getCode_CSC_SanLuong(), Integer.parseInt(mTxtCSC.getText().toString()), mEditTextCSM.getText().toString(), mHoaDon.getCsgo(), mHoaDon.getCsganmoi());
+
+        mTxtCSM.setText(csm_tieuThu.getCSM());
+        mEditTextCSM.setText(csm_tieuThu.getCSM());
+        mTxtTT.setText(csm_tieuThu.getTieuThu());
+
+        if (checkCSMFluctuation() != 0) {
+//                    MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(false);
+            ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
+        } else {
+            ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
+        }
+
     }
 
     private void selectMLT(int position) {

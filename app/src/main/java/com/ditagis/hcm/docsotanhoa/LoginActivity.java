@@ -82,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 login();
+//                loginWithIMEI();
             }
         });
 
@@ -106,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(LoginActivity.this, mngr.getDeviceId(), Toast.LENGTH_LONG);
 
         //        Lấy số IMEII
-        IMEI = ((TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+
 
 //        mGetUserNameAsync = new GetUserNameAsync();
 //        mGetUserNameAsync.execute( IMEI);
@@ -140,11 +141,56 @@ public class LoginActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-
     private void login() {
-//        LocalDatabase localDatabase = new LocalDatabase(this);
-//        localDatabase.Upgrade();
-//        LocalDatabase.getInstance(this.getApplicationContext()).Upgrade();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        LoginActivity.this.mUsername = mTxtUsername.getText().toString();
+        LoginActivity.this.mPassword = mTxtPassword.getText().toString();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+
+        if (LoginActivity.this.mUsername.length() == 0 || LoginActivity.this.mPassword.length() == 0) {
+            MySnackBar.make(btnLogin, R.string.not_null_username_password, true);
+            return;
+        } else if (CheckConnect.isOnline(LoginActivity.this)) {
+            mLoginAsync = new LoginAsync();
+            mLoginAsync.execute(LoginActivity.this.mUsername, LoginActivity.this.mPassword);
+        } else if (mTxtPassword.getText().toString().equals(loadPreference(mTxtUsername.getText().toString()))) {
+            LoginActivity.this.mPassword = mTxtPassword.getText().toString();
+            LoginActivity.this.mStaffName = loadPreference(getString(R.string.preference_tenNV));
+            LoginActivity.this.mKy = loadPreference(getString(R.string.preference_ky));
+            LoginActivity.this.mDot = loadPreference(getString(R.string.preference_dot));
+            LoginActivity.this.mNam = loadPreference(getString(R.string.preference_nam));
+            LoginActivity.this.mStaffPhone = loadPreference(getString(R.string.preference_sdtNV));
+
+
+            if (mStaffName == null)
+                MySnackBar.make(btnLogin, "Chưa khởi tạo máy " + mTxtUsername.getText().toString(), true);
+            else if (mStaffName.length() > 0) {
+
+                mTxtPassword.setText("");
+                mTxtUsername.setText("");
+                doLayLoTrinh();
+            } else {
+                MySnackBar.make(btnLogin, R.string.login_fail, true);
+            }
+        }
+    }
+
+    private void loginWithIMEI() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        IMEI = ((TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
         LoginActivity.this.mUsername = mTxtUsername.getText().toString();
         LoginActivity.this.mPassword = mTxtPassword.getText().toString();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
@@ -340,8 +386,13 @@ public class LoginActivity extends AppCompatActivity {
         protected LogInDB.Result doInBackground(String... params) {
             String username = params[0];
             String password = params[1];
-            String IMEI = params[2];
-            LogInDB.Result result = this.loginDB.logIn(new User(username, password), IMEI);
+            String IMEI = "";
+            if (params.length > 2)
+                IMEI = params[2];
+            LogInDB.Result result = null;
+            if (IMEI.equals(""))
+                result = this.loginDB.logIn(new User(username, password));
+            else result = this.loginDB.logIn(new User(username, password), IMEI);
             if (result == null)
                 ;
 
@@ -437,10 +488,9 @@ public class LoginActivity extends AppCompatActivity {
             if (userName == "")
 //                AlertDialogDisConnect.show(btnLogin.getContext(), LoginActivity.this);
                 MySnackBar.make(btnLogin, "Chưa khởi tạo máy cho IMEI: " + userName, true);
-            else if(userName == null){
-              ;
-            }
-            else if (userName.length() > 0) {
+            else if (userName == null) {
+                ;
+            } else if (userName.length() > 0) {
 
                 mTxtUsername.setText(userName);
             } else {

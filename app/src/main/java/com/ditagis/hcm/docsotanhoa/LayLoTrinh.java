@@ -55,7 +55,7 @@ public class LayLoTrinh {
 
     private NetworkStateChangeReceiver mStateChangeReceiver;
 
-    public  LayLoTrinh(Activity activity, LayoutInflater inflater, final int mKy, int mNam, int mDot, String mUsername, String mStaffName, String mPassWord, String staffPhone) {
+    public LayLoTrinh(Activity activity, LayoutInflater inflater, final int mKy, int mNam, int mDot, String mUsername, String mStaffName, String mPassWord, String staffPhone) {
         this.mActivity = activity;
         this.mKy = mKy;
         this.mNam = mNam;
@@ -77,7 +77,7 @@ public class LayLoTrinh {
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(LayLoTrinh.this.mDot + LayLoTrinh.this.mUsername + "%",mKy,false)) {
+                for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(LayLoTrinh.this.mDot + LayLoTrinh.this.mUsername + "%", mKy, false)) {
                     mlts.add((hoaDon.getMaLoTrinh()));
                 }
             }
@@ -164,7 +164,7 @@ public class LayLoTrinh {
         String dotString = mDot + "";
         if (this.mDot < 10)
             dotString = "0" + this.mDot;
-        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(dotString + this.mUsername + "%",mKy,false);
+        List<HoaDon> hoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(dotString + this.mUsername + "%", mKy, false);
         LayLoTrinh.this.mSumMLT = hoaDons.size();
         LayLoTrinh.this.m_txtTongMLT.setText("Tổng mã lộ trình: " + mSumMLT);
         LayLoTrinh.this.mSumDanhBo = mSumMLT;
@@ -214,7 +214,8 @@ public class LayLoTrinh {
 //        } else {
 
         Intent intent = new Intent(mActivity, MainActivity.class);
-
+//        Bundle bundle = intent.getExtras();
+//        bundle.putSerializable("", new Users());
         intent.putExtra(mActivity.getString(R.string.extra_username), mUsername);
         intent.putExtra(mActivity.getString(R.string.extra_password), mPassWord);
         intent.putExtra(mActivity.getString(R.string.extra_staffname), mStaffName);
