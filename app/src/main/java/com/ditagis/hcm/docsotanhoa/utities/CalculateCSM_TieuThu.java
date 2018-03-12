@@ -208,8 +208,8 @@ public class CalculateCSM_TieuThu {
             case "N3":
                 if (!mCSMString.equals("null") && mCSMString.length() > 0)
                     mCSM = Integer.parseInt(mCSMString);
-                else
-                    mCSM = 0;
+//                else
+//                    mCSM = 0;
                 mTieuThu = 0;
                 break;
             case "X ":
@@ -222,15 +222,15 @@ public class CalculateCSM_TieuThu {
                 //todo
                 if (!mCSMString.equals("null") && mCSMString.length() > 0)
                     mCSM = Integer.parseInt(mCSMString);
-                else
-                    mCSM = 0;
+//                else
+//                    mCSM = 0;
                 mTieuThu = 0;
                 break;
             case "Q ":
                 if (!mCSMString.equals("null") && mCSMString.length() > 0)
                     mCSM = Integer.parseInt(mCSMString);
-                else
-                    mCSM = 0;
+//                else
+//                    mCSM = 0;
                 mTieuThu = 0;
                 break;
             default:
