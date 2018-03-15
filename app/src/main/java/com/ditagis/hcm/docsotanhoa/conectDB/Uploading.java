@@ -179,13 +179,15 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             PreparedStatement st = cnn.prepareStatement(sql);
             st.setString(1, hoaDon.getChiSoMoi());
             String codeMoi = hoaDon.getCodeMoi();
+            String codeCu = hoaDon.getCode_CSC_SanLuong().getCode1();
             if (hoaDon.getCodeMoi().startsWith("4")) {
-                if (hoaDon.getCode_CSC_SanLuong().getCode1().startsWith("F") || hoaDon.getCode_CSC_SanLuong().getCode1().equals("K")
-                        || hoaDon.getCode_CSC_SanLuong().getCode1().equals("N")) {
-                    codeMoi = 5 + hoaDon.getCode_CSC_SanLuong().getCode1().substring(0, 1);
-                } else if (hoaDon.getCode_CSC_SanLuong().getCode1().startsWith("6")) {
-                    codeMoi = "56";
-                } else if (hoaDon.getCode_CSC_SanLuong().getCode1().equals("M0")) {
+                if (codeCu.startsWith("F") || codeCu.equals("K")
+                        || codeCu.equals("N") || codeCu.startsWith("6")) {
+                    if (!(5 + codeCu.substring(0, 1)).equals("54"))
+                        codeMoi = 5 + codeCu.substring(0, 1);
+//                } else if (codeCu.startsWith("6")) {
+//                    codeMoi = "56";
+                } else if (codeCu.equals("M0")) {
                     try {
                         PreparedStatement statement = cnn.prepareStatement("select top 1 ngaykiem from thongbao where danhba = '" + hoaDon.getDanhBo() + "' order by ngaykiem desc");
                         ResultSet resultSet = statement.executeQuery();
@@ -207,6 +209,10 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
                     }
                 } else ;
                 //do nothing;
+            }
+            if (Integer.parseInt(hoaDon.getTieuThuMoi()) < 0) {
+                hoaDon.setCodeMoi("N1");
+                hoaDon.setTieuThuMoi("0");
             }
             st.setString(2, codeMoi);
             st.setString(3, hoaDon.getGhiChu());
