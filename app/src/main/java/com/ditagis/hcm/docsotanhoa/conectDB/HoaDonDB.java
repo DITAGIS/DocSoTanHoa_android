@@ -135,7 +135,11 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                 kyString = "0" + ky;
             else kyString = ky + "";
             String like = dotString + userName + "%";
-            final ResultSet rs = statement.executeQuery("select danhba from docso where docsoid like '" + nam + kyString + "%' and mlt2 like '" + like + "' and (codemoi ='' or " +
+
+            //vẫn lấy danh sách code F, phòng trường hợp đọc vét nhưng localdatabase đã xóa
+            final ResultSet rs = statement.executeQuery("select danhba from docso where docsoid like '" + nam + kyString + "%' and mlt2 like '" + like + "' and (codemoi ='' " +
+//                    ")");
+                    "or " +
                     " codemoi like 'F%')");
 
             while (rs.next()) {

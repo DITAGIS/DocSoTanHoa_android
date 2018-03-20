@@ -97,6 +97,8 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
 //        size += this.mLocalDatabase.getAllHoaDonSize(like,mKy,Flag.READ,false);
 //        hoaDons = this.mLocalDatabase.getAllHoaDon_UnRead(like,mKy,true);
 //        hoaDons.addAll(this.mLocalDatabase.getAllHoaDon_Read(like, mKy, true));
+
+        // Lấy
         hoaDons = this.mLocalDatabase.getAllHoaDonLayLoTrinh(like, mKy);
 //        } else {
 

@@ -15,6 +15,7 @@ public class ConnectionDB {
     private static final int PORT = 1433;
     private static final int PORT14 =1810;
     private static final String DB = "DocSoTH";
+    private static final String DB_IMAGE = "DocSoTH_Hinh";
     private static final String DB14 = "DocSoTH2";
     private static final String USER = "docsotanhoa";
     private static final String USER_LOCAL = "sa";
@@ -22,6 +23,7 @@ public class ConnectionDB {
     private static final String PASSWORD_LOCAL = "123456";
     private static final ConnectionDB _instance = new ConnectionDB();
     private Connection connection;
+    private Connection connection_image;
 
     private ConnectionDB() {
         connection = getConnect();
