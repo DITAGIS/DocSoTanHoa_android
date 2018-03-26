@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.ditagis.hcm.docsotanhoa.adapter.GridViewSelectFolderAdapter;
 import com.ditagis.hcm.docsotanhoa.entities.Code_CSC_SanLuong;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.entities.TTDHN;
@@ -719,7 +720,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + dot + may + "%' and " + COLUMN_HOADON_KY
-                + "=" + ky, null);
+                + "='" + ky + "'", null);
         if (cursor.moveToFirst()) {
             do {
                 HoaDon hoaDon = new HoaDon(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6),
@@ -750,8 +751,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 try {
                     if (getImage)
                         hoaDon.setImage_byteArray(cursor.getBlob(26));
-                    else if (hoaDons.size() > 0)
-                        return hoaDons;
+//                    else if (hoaDons.size() > 0)
+//                        return hoaDons;
                 } catch (Exception e) {
 
                 }
@@ -930,11 +931,15 @@ public class LocalDatabase extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void deleteHoaDon(GridViewSelectFolderAdapter adapter) {
+
+    }
+
     public void deleteHoaDon(String ky, String dot) {
         Log.i(TAG, "LocalDatabase.updateHoaDon ... " + ky + dot);
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_HOADON, COLUMN_HOADON_KY + " = ? and " + COLUMN_HOADON_DOT + " = ?",
-                new String[]{ky, dot});
+                new String[]{Integer.parseInt(ky) + "", dot});
         db.close();
     }
 
@@ -1073,5 +1078,31 @@ public class LocalDatabase extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return size;
+    }
+
+    class KyDotAdapter {
+        private String ky;
+        private String dot;
+
+        public KyDotAdapter(String ky, String dot) {
+            this.ky = ky;
+            this.dot = dot;
+        }
+
+        public String getKy() {
+            return ky;
+        }
+
+        public void setKy(String ky) {
+            this.ky = ky;
+        }
+
+        public String getDot() {
+            return dot;
+        }
+
+        public void setDot(String dot) {
+            this.dot = dot;
+        }
     }
 }
