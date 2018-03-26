@@ -508,6 +508,7 @@ public class DocSo extends Fragment {
             case 0:
                 if (csm < csc) {
                     MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(true);
+                    MyAlertByHardware.getInstance(mRootView.getContext()).playSound();
                     ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
 
                     if (isPrint)
@@ -526,6 +527,7 @@ public class DocSo extends Fragment {
                 break;
             case -1:
                 MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(true);
+                MyAlertByHardware.getInstance(mRootView.getContext()).playSound();
                 if (isPrint)
                     alertCSMFluctuationPrint(csc, csm, -1);
                 else {
@@ -535,6 +537,7 @@ public class DocSo extends Fragment {
 
             case 1:
                 MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(true);
+                MyAlertByHardware.getInstance(mRootView.getContext()).playSound();
                 if (isPrint)
                     alertCSMFluctuationPrint(csc, csm, 1);
                 else

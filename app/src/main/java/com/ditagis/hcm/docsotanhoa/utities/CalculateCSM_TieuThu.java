@@ -14,7 +14,7 @@ public class CalculateCSM_TieuThu {
     private Code_CSC_SanLuong mCodeCSCSanLuong;
     private int mCSC, mCSM, mTieuThu, mCSGo, mCSGan;
     private String mCSMString;
-    private  final int MIN_TIEU_THU = -9999999;
+    private final int MIN_TIEU_THU = -9999999;
 
 
     public CalculateCSM_TieuThu(String code, Code_CSC_SanLuong mCodeCSCSanLuong, int csc, String csm, int csgo, int csgan) {
@@ -205,6 +205,7 @@ public class CalculateCSM_TieuThu {
                 }
                 //todo gắn mới
                 break;
+            case "N ":
             case "N1":
             case "N2":
             case "N3":

@@ -45,7 +45,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             "?,?,?,?,?,?,?,?,?,?," +
             "?,?,?,?,?,?,?,?,?,?," +
             "?,?)";
-    private final String TABLE_NAME_HINHDHN = "HinhDHN";//(Danhbo, Image, Latitude, Longitude, CreateBy, CreateDate)
+    private final String TABLE_NAME_HINHDHN = "Docsoth_hinh..HinhDHN";//(Danhbo, Image, Latitude, Longitude, CreateBy, CreateDate)
     private final String SQL_INSERT_HINHDHN = " INSERT INTO " + TABLE_NAME_HINHDHN + " VALUES(?,?,?,?,?,?)  ";
     private final String SQL_UPDATE_HINHDHN = " update t set Image = ?, CreateDate =? from( select top 1 * from " + TABLE_NAME_HINHDHN +
             " where danhbo = ? order by CreateDate desc) t";

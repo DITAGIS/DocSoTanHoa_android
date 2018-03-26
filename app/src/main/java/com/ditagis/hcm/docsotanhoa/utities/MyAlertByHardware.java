@@ -3,6 +3,7 @@ package com.ditagis.hcm.docsotanhoa.utities;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -20,10 +21,12 @@ public class MyAlertByHardware extends Service {
     private Ringtone r;
     private Vibrator vb;
     private RingtoneManager ringMan;
+    private MediaPlayer mPlayer;
 
     private MyAlertByHardware(Context context) {
         vb = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        Uri notification = RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_RINGTONE);
+
+        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         r = RingtoneManager.getRingtone(context.getApplicationContext(), notification);
         ringMan = new RingtoneManager(context);
         this.context = context;
@@ -46,11 +49,11 @@ public class MyAlertByHardware extends Service {
 
 
     public void playSound() {
-//        MediaPlayer mPlayer = MediaPlayer.create(context, R.raw.alert);
+//        mPlayer = MediaPlayer.create(context, R.ra);
 //        mPlayer.setVolume(70, 70);
 //
-////        mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-////        mPlayer.setLooping(false);
+//        mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+//        mPlayer.setLooping(false);
 //        mPlayer.start();
 
 
@@ -60,6 +63,10 @@ public class MyAlertByHardware extends Service {
     public void stopSound() {
         if (this.r.isPlaying()) {
             this.r.stop();
+
+        }
+        if (this.mPlayer.isPlaying()) {
+            this.mPlayer.stop();
 
         }
 
