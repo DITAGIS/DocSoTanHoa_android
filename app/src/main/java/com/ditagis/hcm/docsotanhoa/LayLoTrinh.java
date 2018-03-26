@@ -26,6 +26,7 @@ import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.entities.ResultLayLoTrinh;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 import com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver;
+import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,11 +53,13 @@ public class LayLoTrinh {
     private LayLoTrinhAsync mLayLoTrinhAsync;
     private View mRootView;
     private Activity mActivity;
+    private View mBtnLogin;
 
     private NetworkStateChangeReceiver mStateChangeReceiver;
 
-    public LayLoTrinh(Activity activity, LayoutInflater inflater, final int mKy, int mNam, int mDot, String mUsername, String mStaffName, String mPassWord, String staffPhone) {
+    public LayLoTrinh(Activity activity, View view, LayoutInflater inflater, final int mKy, final int mNam, int mDot, final String mUsername, String mStaffName, String mPassWord, String staffPhone) {
         this.mActivity = activity;
+        this.mBtnLogin = view;
         this.mKy = mKy;
         this.mNam = mNam;
         this.mDot = mDot;
@@ -96,7 +99,15 @@ public class LayLoTrinh {
                 , new LayLoTrinhAsync.AsyncResponse() {
             @Override
             public void processFinish(ResultLayLoTrinh output) {
-                finishLayLoTrinh(output, mRootView);
+                String like = String.format("%02d", getmDot()) + mUsername + "%";
+                int expected = new HoaDonDB().getCountHoaDon(mUsername, getmDot(), mNam, mKy).size();
+                int actual = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonLayLoTrinh(like, mKy).size();
+                if (actual == expected)
+                    finishLayLoTrinh(output, mRootView);
+                else {
+//                    Toast.makeText(mActivity.getApplicationContext(), "Chưa tải xong danh bộ!!!", Toast.LENGTH_LONG).show();
+                    MySnackBar.make(mBtnLogin, "Chưa tải xong danh bộ!!!\n", true);
+                }
             }
         });
 

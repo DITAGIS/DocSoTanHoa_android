@@ -239,7 +239,8 @@ public class LoginActivity extends AppCompatActivity {
             int ky = Integer.parseInt(mKy);
             int nam = Integer.parseInt(mNam);
             int dot = Integer.parseInt(mDot);
-            new LayLoTrinh(LoginActivity.this, getLayoutInflater(), ky, nam, dot, mUsername, mStaffName, mPassword, mStaffPhone);
+            new LayLoTrinh(LoginActivity.this, btnLogin, getLayoutInflater(), ky, nam, dot, mUsername, mStaffName, mPassword, mStaffPhone);
+
         } catch (Exception e) {
 
         }

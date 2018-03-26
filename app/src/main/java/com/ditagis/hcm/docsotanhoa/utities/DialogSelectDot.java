@@ -48,6 +48,7 @@ public class DialogSelectDot {
         if (selectFolderAdapter.getCount() > 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert);
             builder.setTitle("Chọn quyển đọc số");
+            builder.setMessage("Nhấn và giữ quyển cần xóa trong 2 giây để xóa");
             builder.setCancelable(false);
             LayoutInflater inflater = LayoutInflater.from(context);
             View dialogLayout = inflater.inflate(R.layout.layout_dialog_select_dot_folder, null);

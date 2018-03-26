@@ -1009,15 +1009,16 @@ public class LocalDatabase extends SQLiteOpenHelper {
         String query = "select " +
                 COLUMN_HOADON_DANHBO + "" +
                 " from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + mLike + "' and " + COLUMN_HOADON_KY
-                + "=" + ky + " and( " + COLUMN_HOADON_FLAG +
-                " <> " + Flag.SYNCHRONIZED +
+                + "=" + ky ;
+//                + " and( " + COLUMN_HOADON_FLAG +
+//                " <> " + Flag.SYNCHRONIZED +
 //                " in (" + Flag.UNREAD +
 //                " ," + Flag.READ +
 //                " ," + Flag.CODE_F +
 //                " ," + Flag.CODE_F_SYNCHRONIZED +
 //                " or (" + COLUMN_HOADON_FLAG + " = " + Flag.SYNCHRONIZED + " and " +
 //                COLUMN_HOADON_CODE_MOI + " like 'F%'" + ")" +
-                ")";
+//                ")";
 
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
