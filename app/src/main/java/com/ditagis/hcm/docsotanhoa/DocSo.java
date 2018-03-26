@@ -580,9 +580,9 @@ public class DocSo extends Fragment {
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());//getLayoutInflater();
         View dialogLayout = inflater.inflate(R.layout.layout_change_address, null);
         final EditText etxtAddr_num = (EditText) dialogLayout.findViewById(R.id.etxt_address_num);
-        etxtAddr_num.setText(mHoaDon.getSoNha());
+        etxtAddr_num.setText(mSoNha);
         final EditText etxtAddr_street = (EditText) dialogLayout.findViewById(R.id.etxt_address_street);
-        etxtAddr_street.setText(mHoaDon.getDuong());
+        etxtAddr_street.setText(mDuong);
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Thay đổi địa chỉ");
         builder.setPositiveButton(mRootView.getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
