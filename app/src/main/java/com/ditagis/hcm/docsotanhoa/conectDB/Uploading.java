@@ -1,13 +1,14 @@
 package com.ditagis.hcm.docsotanhoa.conectDB;
 
 import android.content.Context;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 
+import com.ditagis.hcm.docsotanhoa.R;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 import com.ditagis.hcm.docsotanhoa.utities.CONSTANT;
 import com.ditagis.hcm.docsotanhoa.utities.Calculate_TienNuoc;
-import com.ditagis.hcm.docsotanhoa.utities.ImageFile;
 
 import java.io.File;
 import java.sql.Connection;
@@ -45,7 +46,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             "?,?,?,?,?,?,?,?,?,?," +
             "?,?,?,?,?,?,?,?,?,?," +
             "?,?)";
-    private final String TABLE_NAME_HINHDHN = "Docsoth_hinh..HinhDHN";//(Danhbo, Image, Latitude, Longitude, CreateBy, CreateDate)
+    private final String TABLE_NAME_HINHDHN = "HinhDHN";//(Danhbo, Image, Latitude, Longitude, CreateBy, CreateDate)
     private final String SQL_INSERT_HINHDHN = " INSERT INTO " + TABLE_NAME_HINHDHN + " VALUES(?,?,?,?,?,?)  ";
     private final String SQL_UPDATE_HINHDHN = " update t set Image = ?, CreateDate =? from( select top 1 * from " + TABLE_NAME_HINHDHN +
             " where danhbo = ? order by CreateDate desc) t";
@@ -106,7 +107,14 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
 
     @Override
     public Boolean add(HoaDon hoaDon) {
-
+        String path = Environment.getExternalStorageDirectory().getPath();
+        File dir = new File(path, mContext.getString(R.string.path_saveImage));
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                new File(dir, children[i]).delete();
+            }
+        }
         boolean resultUpdateHoaDon = false;
         try {
             int resultAddImage = 1;
@@ -340,10 +348,13 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             st1.setTimestamp(6, new java.sql.Timestamp(date.getTime()));
 
             int result = st1.executeUpdate();
-            if (result > 0) {
-                File f = ImageFile.getFile(hoaDon.getThoiGian(), mContext, hoaDon.getDanhBo());
-                f.delete();
-            }
+
+//                path = path.substring(0, path.length() - 1).concat("1");
+
+//            if (result > 0) {
+//                File f = ImageFile.getFile(hoaDon.getThoiGian(), mContext, hoaDon.getDanhBo());
+//                f.delete();
+//            }
             return result;
         } catch (SQLException e) {
 

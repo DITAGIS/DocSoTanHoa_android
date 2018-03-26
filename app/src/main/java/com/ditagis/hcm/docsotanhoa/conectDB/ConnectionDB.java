@@ -13,7 +13,7 @@ public class ConnectionDB {
     private static final String SERVER_LOCAL = "12.0.4237.0";
     private static final String INSTANCT_NAME = "MSSQLSERVER";
     private static final int PORT = 1433;
-    private static final int PORT14 =1810;
+    private static final int PORT14 = 1810;
     private static final String DB = "DocSoTH";
     private static final String DB_IMAGE = "DocSoTH_Hinh";
     private static final String DB14 = "DocSoTH2";
@@ -27,6 +27,7 @@ public class ConnectionDB {
 
     private ConnectionDB() {
         connection = getConnect();
+//        connection_image = getConnect_image();
     }
 
     public static final ConnectionDB getInstance() {
@@ -44,8 +45,15 @@ public class ConnectionDB {
         return connection;
     }
 
+    public Connection getConnectionImage() {
+//        if (connection_image == null)
+//            connection_image = getConnect_image();
+        return connection_image;
+    }
+
     public Connection getConnection(boolean isLogin) {
         connection = getConnect();
+        connection_image = getConnect_image();
         return connection;
     }
 
@@ -73,4 +81,19 @@ public class ConnectionDB {
         return cnn;
     }
 
+    private Connection getConnect_image() {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        String url = String.format("jdbc:jtds:sqlserver://%s:%s/%s;instance=%s", SERVER, PORT, DB_IMAGE, INSTANCT_NAME);
+        Connection cnn = null;
+        try {
+            Class.forName("net.sourceforge.jtds.jdbc.Driver");
+            cnn = DriverManager.getConnection(url, USER, PASSWORD);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return cnn;
+    }
 }
