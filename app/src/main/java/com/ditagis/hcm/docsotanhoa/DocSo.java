@@ -1259,8 +1259,8 @@ public class DocSo extends Fragment {
     }
 
     private void setTextProgress() {
-
-        this.mSumDanhBo = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSizeDocSo(mLike, mKy, false);
+        this.mSumDanhBo = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSumSize(mLike, mKy);
+//        this.mSumDanhBo = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSizeDocSo(mLike, mKy, false);
         this.mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy, Flag.READ, false) +
                 LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy, Flag.CODE_F, false) +
                 LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy, Flag.CODE_F_SYNCHRONIZED, false);

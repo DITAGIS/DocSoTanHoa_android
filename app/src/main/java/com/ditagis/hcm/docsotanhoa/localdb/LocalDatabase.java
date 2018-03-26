@@ -701,8 +701,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 try {
                     if (getImage)
                         hoaDon.setImage_byteArray(cursor.getBlob(26));
-                    else if (hoaDons.size() > 0)
-                        return hoaDons;
+//                    else if (hoaDons.size() > 0)
+//                        return hoaDons;
                 } catch (Exception e) {
 
                 }
