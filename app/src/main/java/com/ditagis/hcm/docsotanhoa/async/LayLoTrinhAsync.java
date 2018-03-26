@@ -36,6 +36,10 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
     private Activity mActivity;
     private boolean mIsLoading;
 
+    public void setmNam(int mNam) {
+        this.mNam = mNam;
+    }
+
     public LayLoTrinhAsync(HoaDonDB hoaDonDB, LocalDatabase localDatabase, String username, int dot, int ky, int nam, Context context, Activity activity, AsyncResponse delegate) {
         this.mContext = context;
         this.mActivity = activity;

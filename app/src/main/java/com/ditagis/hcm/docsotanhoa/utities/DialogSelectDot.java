@@ -70,8 +70,8 @@ public class DialogSelectDot {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                     if (selectFolderAdapter.getCount() < CONSTANT.MAX_DOT) {
-                        MySnackBar.make(gridView, "Không xóa được quyển do số đợt < " + CONSTANT.MAX_DOT, true);
-                        return false;
+                        MySnackBar.make(gridView, "Không xóa được quyển do số quyển < " + CONSTANT.MAX_DOT, true);
+                        return true;
                     }
                     AlertDialog.Builder builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert);
                     builder.setTitle("Xóa quyển đọc số");

@@ -56,7 +56,6 @@ public class MyAlertByHardware extends Service {
 //        mPlayer.setLooping(false);
 //        mPlayer.start();
 
-
         this.r.play();
     }
 

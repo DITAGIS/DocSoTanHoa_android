@@ -53,7 +53,7 @@ public class ConnectionDB {
 
     public Connection getConnection(boolean isLogin) {
         connection = getConnect();
-        connection_image = getConnect_image();
+//        connection_image = getConnect_image();
         return connection;
     }
 

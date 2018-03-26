@@ -1392,6 +1392,16 @@ public class DocSo extends Fragment {
 //        }
     }
 
+//    private void getNamExist() {
+//        for (int i = mNam; i >= mNam - 1; i--) {
+//            if (!mNams.contains(mNam+"")) {
+//                if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(i, false).size() > 0) {
+//                    mKys.add(kyString);
+//                }
+//            }
+//        }
+//    }
+
     private void getKyExist() {
         int count = 0;
         String kyString = "";

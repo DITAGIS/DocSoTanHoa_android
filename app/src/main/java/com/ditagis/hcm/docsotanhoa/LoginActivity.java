@@ -81,8 +81,8 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login();
-//                loginWithIMEI();
+//                login();
+                loginWithIMEI();
             }
         });
 

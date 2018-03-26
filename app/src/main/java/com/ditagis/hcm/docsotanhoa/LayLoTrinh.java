@@ -100,9 +100,17 @@ public class LayLoTrinh {
             @Override
             public void processFinish(ResultLayLoTrinh output) {
                 String like = String.format("%02d", getmDot()) + mUsername + "%";
-                int expected = new HoaDonDB().getCountHoaDon(mUsername, getmDot(), mNam, mKy).size();
+                int expected = 0, actual_Sync = 0;
+
+                try {
+                    expected = new HoaDonDB().getCountHoaDon(mUsername, getmDot(), mNam, mKy).size();
+                    actual_Sync = new HoaDonDB().getCountHoaDon_Sync(mUsername, getmDot(), mNam, mKy).size();
+                } catch (Exception e) {
+
+                }
+
                 int actual = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonLayLoTrinh(like, mKy).size();
-                if (actual == expected)
+                if (actual + actual_Sync >= expected)
                     finishLayLoTrinh(output, mRootView);
                 else {
 //                    Toast.makeText(mActivity.getApplicationContext(), "Chưa tải xong danh bộ!!!", Toast.LENGTH_LONG).show();
@@ -123,6 +131,11 @@ public class LayLoTrinh {
     public void selectDot() {
         String[] dots = new String[20];
         String[] kys = new String[12];
+        String[] nams;
+        if (mKy == 1)
+            nams = new String[]{mNam + "", mNam - 1 + ""};
+        else
+            nams = new String[]{mNam + ""};
         for (int i = 1; i <= 20; i++)
             if (i < 10)
                 dots[i - 1] = "0" + i;
@@ -142,10 +155,14 @@ public class LayLoTrinh {
 
         final Spinner spinDot = (Spinner) dialogLayout.findViewById(R.id.spin_select_dot);
         final Spinner spinKy = (Spinner) dialogLayout.findViewById(R.id.spin_select_ky);
+        final Spinner spinNam = (Spinner) dialogLayout.findViewById(R.id.spin_select_nam);
         ArrayAdapter<String> adapterDot = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_right, dots);
         adapterDot.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         ArrayAdapter<String> adapterKy = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_right, kys);
         adapterKy.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        ArrayAdapter<String> adapterNam = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_right, nams);
+        adapterNam.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        spinNam.setAdapter(adapterNam);
         spinKy.setAdapter(adapterKy);
         spinKy.setSelection(mKy - 1);
         spinDot.setAdapter(adapterDot);
@@ -156,9 +173,11 @@ public class LayLoTrinh {
                     public void onClick(DialogInterface dialog, int which) {
                         mDot = Integer.parseInt(spinDot.getSelectedItem().toString());
                         mKy = Integer.parseInt(spinKy.getSelectedItem().toString());
+                        mNam = Integer.parseInt(spinNam.getSelectedItem().toString());
                         dialog.dismiss();
                         LayLoTrinh.this.mLayLoTrinhAsync.setmDot(mDot);
                         LayLoTrinh.this.mLayLoTrinhAsync.setmKy(mKy);
+                        LayLoTrinh.this.mLayLoTrinhAsync.setmNam(mNam);
                         LayLoTrinh.this.mLayLoTrinhAsync.execute(isOnline(mRootView));
 
                     }

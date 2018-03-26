@@ -150,7 +150,40 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
 
         } catch (SQLException e) {
 
-            e.printStackTrace();
+        }
+        return DBs;
+    }
+
+    public List<String> getCountHoaDon_Sync(String userName, int dot, int nam, int ky) {
+        Connection cnn = ConnectionDB.getInstance().getConnection();
+        List<String> DBs = new ArrayList<>();
+        try {
+            if (cnn == null)
+                return null;
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            Statement statement = cnn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            String dotString = "", kyString = "";
+            if (dot < 10)
+                dotString = "0" + dot;
+            else dotString = dot + "";
+            if (ky < 10)
+                kyString = "0" + ky;
+            else kyString = ky + "";
+            String like = dotString + userName + "%";
+
+            //vẫn lấy danh sách code F, phòng trường hợp đọc vét nhưng localdatabase đã xóa
+            final ResultSet rs = statement.executeQuery("select danhba from docso where docsoid like '" + nam + kyString + "%' and mlt2 like '" + like + "' and codemoi <>'' ");
+
+            while (rs.next()) {
+                DBs.add(rs.getString(1));
+            }
+            rs.close();
+            statement.close();
+
+        } catch (SQLException e) {
+
         }
         return DBs;
     }
@@ -340,7 +373,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                 hoaDon.setHc(hc);
                 hoaDon.setTuNgay(tuNgay);
                 hoaDon.setDenNgay(denNgay);
-                List<Integer> chiso =getCSGo(hoaDon.getDanhBo());
+                List<Integer> chiso = getCSGo(hoaDon.getDanhBo());
                 hoaDon.setCsgo(chiso.get(0));
                 hoaDon.setCsgan(chiso.get(1));
             }
