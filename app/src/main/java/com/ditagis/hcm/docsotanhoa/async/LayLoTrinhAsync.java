@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import com.ditagis.hcm.docsotanhoa.R;
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewLayLoTrinhAdapter;
@@ -200,8 +199,9 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
             if (dialog != null && dialog.isShowing()) {
                 dialog.dismiss();
             }
-        } else
-            Toast.makeText(this.mContext, mContext.getString(R.string.load_danhbo_complete), Toast.LENGTH_LONG).show();
+        }
+//        else
+//            Toast.makeText(this.mContext, mContext.getString(R.string.load_danhbo_complete), Toast.LENGTH_LONG).show();
     }
 
 

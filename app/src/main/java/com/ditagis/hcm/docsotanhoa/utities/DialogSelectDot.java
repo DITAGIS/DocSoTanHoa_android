@@ -74,14 +74,15 @@ public class DialogSelectDot {
             gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                    if (selectFolderAdapter.getCount() < CONSTANT.MAX_DOT) {
-                        MySnackBar.make(gridView, "Không xóa được quyển do số quyển < " + CONSTANT.MAX_DOT, true);
+                    if (selectFolderAdapter.getCount() <= 1) {
+                        MySnackBar.make(gridView, "Không xóa được quyển do số quyển <= " + 1, true);
                         return true;
                     }
                     AlertDialog.Builder builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert);
                     builder.setTitle("Xóa quyển đọc số");
                     final GridViewSelectFolderAdapter.Item item = selectFolderAdapter.getItem(position);
-                    builder.setMessage("Bạn có muốn xóa quyển " + item.getNam() + "_" + item.getKy() + "_" + item.getDot() + "_" + item.getMay());
+                    builder.setMessage("Bạn có muốn xóa quyển " + item.getNam() + "_" + item.getKy() + "_" + item.getDot() + "_" + item.getMay() + "?"
+                            + "\nMọi dữ liệu chưa đọc, đã đọc và đã đồng bộ thuộc quyển này sẽ bị xóa!!!");
                     builder.setCancelable(false);
                     builder.setPositiveButton("Hủy", new DialogInterface.OnClickListener() {
                         @Override

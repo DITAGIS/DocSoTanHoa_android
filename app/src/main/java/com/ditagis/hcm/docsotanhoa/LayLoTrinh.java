@@ -114,8 +114,7 @@ public class LayLoTrinh {
                 if (actual + actual_Sync >= expected)
                     finishLayLoTrinh(output, mRootView);
                 else {
-//                    Toast.makeText(mActivity.getApplicationContext(), "Chưa tải xong danh bộ!!!", Toast.LENGTH_LONG).show();
-                    MySnackBar.make(mBtnLogin, "Chưa tải xong danh bộ!!!\n", true);
+                    MySnackBar.make(mBtnLogin, "Chưa tải xong danh bộ!!!", true);
                 }
             }
         });
