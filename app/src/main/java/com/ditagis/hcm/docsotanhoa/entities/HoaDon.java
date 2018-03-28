@@ -4,7 +4,7 @@ package com.ditagis.hcm.docsotanhoa.entities;
  * @author fuhi
  */
 public class HoaDon {
-
+    private String id;
     private String dot;
     private String danhBo;
     private String tenKhachHang;
@@ -28,7 +28,7 @@ public class HoaDon {
     private Code_CSC_SanLuong code_CSC_SanLuong;
     private int flag;
     private int sh, sx, dv, hc;
-    private int csgo,csganmoi;
+    private int csgo, csganmoi;
     private String soThan;
     private String viTri;
     private String hieu;
@@ -37,9 +37,15 @@ public class HoaDon {
     private String tuNgay, denNgay;
     private String staffPhone;
 
-    public HoaDon() {
-        super();
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public HoaDon() {
     }
 
     public HoaDon(String dot, String danhBo, String tenKhachHang, String soNha, String duong, String giaBieu, String dinhMuc, String ky, String chiSoCu, String maLoTrinh, String sdt, int flag) {

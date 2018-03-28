@@ -207,21 +207,13 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
             else kyString = ky + "";
             Statement mStatement = cnn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
-            String like = dotString + userName + "%";
+            String id = nam + kyString + danhBo;
+
 //            String query = "select danhba from docso where docsoid like '" + nam + kyString + "%' and mlt2 like '" + like + "' and (gioghi is null or (gioghi is not null and (CodeMoi like 'F%' )) or gioghi < DATEADD(day,1,'2017-01-01'))";
-            String query = SQL_SELECT_GETALL_BY_USERNAME + "  where docsoid = '" + nam + kyString + danhBo + "'  and (codemoi ='' or " +
+            String query = SQL_SELECT_GETALL_BY_USERNAME + "  where docsoid = '" +id + "'  and (codemoi ='' or " +
                     " codemoi like 'F%')";
 
             final ResultSet rs = mStatement.executeQuery(query);
-
-//            mStatement = cnn.prepareStatement(SQL_SELECT_GETALL_BY_USERNAME + " where docsoid like ? and danhba = ? " +
-//                            " and mlt2 like ?  and (gioghi is null or (gioghi is not null and (CodeMoi like 'F%' )) or gioghi < DATEADD(day,1,'2017-01-01'))",
-//                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-//                    ResultSet.CONCUR_READ_ONLY);
-//            mStatement.setString(1, nam + kyString + "%");
-//            mStatement.setString(2, danhBo);
-//            mStatement.setString(3, like);
-//            ResultSet rs = mStatement.executeQuery();
 
             while (rs.next()) {
                 String giaBieu = rs.getString(1);
@@ -376,6 +368,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
                 List<Integer> chiso = getCSGo(hoaDon.getDanhBo());
                 hoaDon.setCsgo(chiso.get(0));
                 hoaDon.setCsgan(chiso.get(1));
+                hoaDon.setId(id);
             }
             rs.close();
         } catch (SQLException e) {

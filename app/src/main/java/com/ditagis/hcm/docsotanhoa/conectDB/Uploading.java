@@ -3,6 +3,7 @@ package com.ditagis.hcm.docsotanhoa.conectDB;
 import android.content.Context;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.ditagis.hcm.docsotanhoa.R;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
@@ -19,6 +20,7 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -46,13 +48,13 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             "?,?,?,?,?,?,?,?,?,?," +
             "?,?,?,?,?,?,?,?,?,?," +
             "?,?)";
-    private final String TABLE_NAME_HINHDHN = "HinhDHN";//(Danhbo, Image, Latitude, Longitude, CreateBy, CreateDate)
-    private final String SQL_INSERT_HINHDHN = " INSERT INTO " + TABLE_NAME_HINHDHN + " VALUES(?,?,?,?,?,?)  ";
+    private final String TABLE_NAME_HINHDHN = "HinhDHN1";//(Danhbo, Image, Latitude, Longitude, CreateBy, CreateDate)
+    private final String SQL_INSERT_HINHDHN = " INSERT INTO " + TABLE_NAME_HINHDHN + " VALUES(?,?,?,?)  ";
 //    private final String SQL_UPDATE_HINHDHN = " update t set Image = ?, CreateDate =? from( select top 1 * from " + TABLE_NAME_HINHDHN +
 //            " where danhbo = ? order by CreateDate desc) t";
 
-    private final String SQL_DELETE = "if exists (select danhbo from " + TABLE_NAME_HINHDHN + " where danhbo = ?)" +
-            " delete from " + TABLE_NAME_HINHDHN + " where DanhBo = ?";
+    private final String SQL_DELETE = "if exists (select danhbo from " + TABLE_NAME_HINHDHN + " where hinhdhnid = ?)" +
+            " delete from " + TABLE_NAME_HINHDHN + " where hinhdhnid = ?";
     private final String SQL_INSERT = "INSERT INTO " + NEW_TABLE_NAME + " VALUES(?,?,?,?,?,?,?,?,?,?)";
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     SimpleDateFormat formatCalculateDate = new SimpleDateFormat("dd MM yyyy");
@@ -325,27 +327,44 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             cnn = ConnectionDB.getInstance().getConnection();
             if (cnn == null)
                 return 0;
-            PreparedStatement st1 = cnn.prepareStatement(this.SQL_DELETE);
-            st1.setString(1, hoaDon.getDanhBo());
+            //Lấy danh sách id
+            String query = "select HinhDHNID from hinhdhn1 where danhbo = '" + hoaDon.getDanhBo() + "'  order by CreateDate desc";
+            ResultSet rs = null;
+            List<String> hoadonIDList = new ArrayList<>();
+            Statement st = cnn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+//            st1.setString(1, hoaDon.getDanhBo());
+//            st1.setString(2, hoaDon.getDanhBo());
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                hoadonIDList.add(rs.getString(1));
+            }
+            rs.close();
+            st.close();
+            //Kiểm tra nếu số lượng lớn hơn 12 thì xóa
+
+            PreparedStatement st1;
+            if (hoadonIDList.size() >= 12) {
+                query = SQL_DELETE;
+                st1 = cnn.prepareStatement(query);
+                st1.setString(1, hoadonIDList.get(hoadonIDList.size() - 1));
+                st1.setString(2, hoadonIDList.get(hoadonIDList.size() - 1));
+                st1.executeUpdate();
+            }
+
+            st1 = cnn.prepareStatement(sqlInsert_HinhDHN);
+            st1.setString(1, hoaDon.getId());
             st1.setString(2, hoaDon.getDanhBo());
-            st1.executeUpdate();
-
-            st1 = cnn.prepareStatement(sqlInsert_HinhDHN, Statement.RETURN_GENERATED_KEYS);
-
-            st1.setString(1, hoaDon.getDanhBo());
 
 //            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 //            Bitmap bit = BitmapFactory.decodeFile(hoaDon.getImage());
 //            bit.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
 
-            st1.setBytes(2, hoaDon.getImage_byteArray());
+            st1.setBytes(3, hoaDon.getImage_byteArray());
 
-            st1.setString(3, "0.0");
-            st1.setString(4, "0.0");
-            st1.setString(5, "0");
             String stringDate = hoaDon.getThoiGian();
             Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
-            st1.setTimestamp(6, new java.sql.Timestamp(date.getTime()));
+            st1.setTimestamp(4, new java.sql.Timestamp(date.getTime()));
 
             int result = st1.executeUpdate();
 
@@ -356,12 +375,9 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
 //                f.delete();
 //            }
             return result;
-        } catch (SQLException e) {
-
-        } catch (ParseException e) {
 
         } catch (Exception e) {
-
+            Log.d("Exception", e.toString());
         }
         return 0;
     }
