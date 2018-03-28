@@ -1,16 +1,13 @@
 package com.ditagis.hcm.docsotanhoa.adapter;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ditagis.hcm.docsotanhoa.R;
-import com.ditagis.hcm.docsotanhoa.utities.Flag;
 
 import java.util.List;
 
@@ -89,21 +86,21 @@ public class GridViewSelectFolderAdapter extends ArrayAdapter<GridViewSelectFold
         TextView txtTrangThai = (TextView) convertView.findViewById(R.id.row_select_folder_txt_trangthai);
 
 
-        LinearLayout row_layout = (LinearLayout) convertView.findViewById(R.id.row_select_folder_layout);
-
-        switch (item.getFlag()) {
-            case Flag.UNREAD:
-                txtTrangThai.setText(parent.getContext().getApplicationContext().getString(R.string.flag_unread));
-                break;
-            case Flag.READ:
-                txtTrangThai.setText(parent.getContext().getApplicationContext().getString(R.string.flag_read));
-                row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.colorBackground_1));
-                break;
-            case Flag.SYNCHRONIZED:
-                txtTrangThai.setText(parent.getContext().getApplicationContext().getString(R.string.flag_sych));
-                row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_check_1));
-                break;
-        }
+//        LinearLayout row_layout = (LinearLayout) convertView.findViewById(R.id.row_select_folder_layout);
+//
+//        switch (item.getFlag()) {
+//            case Flag.UNREAD:
+//                txtTrangThai.setText(parent.getContext().getApplicationContext().getString(R.string.flag_unread));
+//                break;
+//            case Flag.READ:
+//                txtTrangThai.setText(parent.getContext().getApplicationContext().getString(R.string.flag_read));
+//                row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.colorBackground_1));
+//                break;
+//            case Flag.SYNCHRONIZED:
+//                txtTrangThai.setText(parent.getContext().getApplicationContext().getString(R.string.flag_sych));
+//                row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_check_1));
+//                break;
+//        }
 
 
 //        row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_check_1));

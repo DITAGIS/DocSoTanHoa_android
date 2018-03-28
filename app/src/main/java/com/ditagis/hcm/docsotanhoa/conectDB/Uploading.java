@@ -48,8 +48,8 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             "?,?)";
     private final String TABLE_NAME_HINHDHN = "HinhDHN";//(Danhbo, Image, Latitude, Longitude, CreateBy, CreateDate)
     private final String SQL_INSERT_HINHDHN = " INSERT INTO " + TABLE_NAME_HINHDHN + " VALUES(?,?,?,?,?,?)  ";
-    private final String SQL_UPDATE_HINHDHN = " update t set Image = ?, CreateDate =? from( select top 1 * from " + TABLE_NAME_HINHDHN +
-            " where danhbo = ? order by CreateDate desc) t";
+//    private final String SQL_UPDATE_HINHDHN = " update t set Image = ?, CreateDate =? from( select top 1 * from " + TABLE_NAME_HINHDHN +
+//            " where danhbo = ? order by CreateDate desc) t";
 
     private final String SQL_DELETE = "if exists (select danhbo from " + TABLE_NAME_HINHDHN + " where danhbo = ?)" +
             " delete from " + TABLE_NAME_HINHDHN + " where DanhBo = ?";
@@ -120,10 +120,10 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             int resultAddImage = 1;
             if (hoaDon.getImage_byteArray().length > CONSTANT.MIN_IMAGE_QUATITY)
                 resultAddImage = addHinhDHN(hoaDon);
-            if (resultAddImage <= 0) {
-                updateHinhDHN(hoaDon);
-                resultAddImage = 1;
-            }
+//            if (resultAddImage <= 0) {
+//                updateHinhDHN(hoaDon);
+//                resultAddImage = 1;
+//            }
             if (resultAddImage > 0) {
                 resultUpdateHoaDon = update(hoaDon);
 
@@ -137,36 +137,36 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
 
     }
 
-    private void updateHinhDHN(HoaDon hoaDon) {
-        String sql = this.SQL_UPDATE_HINHDHN;
-
-        //TODO: cập nhật chỉ số cũ = chỉ số mới
-        try {
-            cnn = ConnectionDB.getInstance().getConnection();
-            if (cnn == null)
-                return;
-            PreparedStatement st = cnn.prepareStatement(sql);
-            st.setBytes(1, hoaDon.getImage_byteArray());
-            String stringDate = hoaDon.getThoiGian();
-            Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
-            st.setTimestamp(2, new java.sql.Timestamp(date.getTime()));
-            st.setString(3, hoaDon.getDanhBo());
-
-            int result1 = st.executeUpdate();
-
-
-            st.close();
-
-
-            return;
-
-        } catch (SQLException e1) {
-            e1.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-    }
+//    private void updateHinhDHN(HoaDon hoaDon) {
+//        String sql = this.SQL_UPDATE_HINHDHN;
+//
+//        //TODO: cập nhật chỉ số cũ = chỉ số mới
+//        try {
+//            cnn = ConnectionDB.getInstance().getConnection();
+//            if (cnn == null)
+//                return;
+//            PreparedStatement st = cnn.prepareStatement(sql);
+//            st.setBytes(1, hoaDon.getImage_byteArray());
+//            String stringDate = hoaDon.getThoiGian();
+//            Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
+//            st.setTimestamp(2, new java.sql.Timestamp(date.getTime()));
+//            st.setString(3, hoaDon.getDanhBo());
+//
+//            int result1 = st.executeUpdate();
+//
+//
+//            st.close();
+//
+//
+//            return;
+//
+//        } catch (SQLException e1) {
+//            e1.printStackTrace();
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 
     @Override
     public Boolean delete(String s) {

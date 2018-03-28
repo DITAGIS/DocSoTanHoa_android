@@ -510,7 +510,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("select " +
                 COLUMN_HOADON_DANHBO + "" +
                 " from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + like + "%' and " + COLUMN_HOADON_KY
-                + "=" + ky + " and " + COLUMN_HOADON_FLAG + " in (" + flag + "," + Flag.CODE_F_SYNCHRONIZED + ")", null);
+                + "=" + ky + " and " + COLUMN_HOADON_FLAG + " in (" + flag + ")", null);
         if (cursor.moveToFirst()) {
             do {
                 count++;
@@ -530,7 +530,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
 //        if (flag == Flag.UNREAD) {
         query = "select * from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + like +
                 "' and " + COLUMN_HOADON_KY + " = " + ky +
-                " and " + COLUMN_HOADON_FLAG + " in ( " + flag + "," + Flag.CODE_F + ")";
+                " and " + COLUMN_HOADON_FLAG + " in ( " + flag + "," + Flag.CODE_F + "," + Flag.CODE_F_SYNCHRONIZED + ")";
         cursor = db.rawQuery(query, null);
 //        }else
 //            cursor = db.rawQuery("select * from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + like +
@@ -713,6 +713,32 @@ public class LocalDatabase extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return hoaDons;
+    }
+
+    public boolean checkExistsHoaDon(String may, String dot, String ky, boolean getImage) {
+        List<HoaDon> hoaDons = new ArrayList<HoaDon>();
+        Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select top 1 from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + dot + may + "%' and " + COLUMN_HOADON_KY
+                + "='" + ky + "'", null);
+        if (cursor.moveToFirst()) {
+            return true;
+
+        }
+        return false;
+    }
+
+    public int getAllHoaDonSize(String may, String dot, String ky, boolean getImage) {
+        Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select count(" + COLUMN_HOADON_DANHBO + ") from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + dot + may + "%' and " + COLUMN_HOADON_KY
+                + "='" + ky + "'", null);
+        if (cursor.moveToFirst()) {
+                return cursor.getInt(0);
+        }
+        cursor.close();
+        db.close();
+        return 0;
     }
 
     public List<HoaDon> getAllHoaDon(String may, String dot, String ky, boolean getImage) {
@@ -1009,7 +1035,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         String query = "select " +
                 COLUMN_HOADON_DANHBO + "" +
                 " from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + mLike + "' and " + COLUMN_HOADON_KY
-                + "=" + ky ;
+                + "=" + ky;
 //                + " and( " + COLUMN_HOADON_FLAG +
 //                " <> " + Flag.SYNCHRONIZED +
 //                " in (" + Flag.UNREAD +

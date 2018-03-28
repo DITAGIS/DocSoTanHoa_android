@@ -1366,7 +1366,7 @@ public class DocSo extends Fragment {
     private void getDotExist() {
         String like;
         int count = 0;
-        for (int i = 20; i >= 0; i--) {
+        for (int i = mDot; i >= 0; i--) {
 //            if (mSelectFolderAdapter != null)
 //                for (GridViewSelectFolderAdapter.Item item : mSelectFolderAdapter.getItems()) {
 //                    if (mKy == Integer.parseInt(item.getKy()) && i != Integer.parseInt(item.getDot()))
@@ -1528,8 +1528,8 @@ public class DocSo extends Fragment {
     }
 
     private void selectCode(int position) {
-        if (checkNull())
-            return;
+//        if (checkNull())
+//            return;
         Code_Describle code_describle = (Code_Describle) mSpinCode.getItemAtPosition(position);
         mCode = code_describle.getCode();
         ((TextView) mRootView.findViewById(R.id.txt_ds_code)).setText(mCode);

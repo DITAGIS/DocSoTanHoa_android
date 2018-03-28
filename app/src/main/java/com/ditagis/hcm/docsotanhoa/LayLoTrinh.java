@@ -59,6 +59,7 @@ public class LayLoTrinh {
 
     public LayLoTrinh(Activity activity, View view, LayoutInflater inflater, final int mKy, final int mNam, int mDot, final String mUsername, String mStaffName, String mPassWord, String staffPhone) {
         this.mActivity = activity;
+
         this.mBtnLogin = view;
         this.mKy = mKy;
         this.mNam = mNam;

@@ -52,7 +52,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         setTheme(R.style.Theme_AppCompat_DayNight);
 
         mTxtUsername = (EditText) findViewById(R.id.txtUsername);
@@ -81,8 +80,8 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                login();
-                loginWithIMEI();
+                login();
+//                loginWithIMEI();
             }
         });
 
