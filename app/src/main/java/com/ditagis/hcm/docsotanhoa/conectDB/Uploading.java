@@ -65,8 +65,8 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
     public Uploading(int dot, int ky, int nam, Context context) {
         this.mDot = dot + "";
         if (dot < 10)
-            this.mDot = "0" + dot;
-        this.mKy = ky + "";
+            this.mKy = ky + "";
+        this.mDot = "0" + dot;
         if (ky < 10)
             this.mKy = "0" + ky;
         this.mNam = nam + "";
@@ -220,10 +220,10 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
                 } else ;
                 //do nothing;
             }
-            if (Integer.parseInt(hoaDon.getTieuThuMoi()) < 0) {
-                hoaDon.setCodeMoi("N1");
-                hoaDon.setTieuThuMoi("0");
-            }
+//            if (Integer.parseInt(hoaDon.getTieuThuMoi()) < 0) {
+//                codeMoi = "N1";
+//                hoaDon.setTieuThuMoi("0");
+//            }
             st.setString(2, codeMoi);
             st.setString(3, hoaDon.getGhiChu());
             st.setString(4, hoaDon.getTieuThuMoi());
@@ -328,7 +328,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             if (cnn == null)
                 return 0;
             //Lấy danh sách id
-            String query = "select HinhDHNID from hinhdhn1 where danhbo = '" + hoaDon.getDanhBo() + "'  order by CreateDate desc";
+            String query = "select HinhDHNID from " + TABLE_NAME_HINHDHN + " where danhbo = '" + hoaDon.getDanhBo() + "'  order by CreateDate desc";
             ResultSet rs = null;
             List<String> hoadonIDList = new ArrayList<>();
             Statement st = cnn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
