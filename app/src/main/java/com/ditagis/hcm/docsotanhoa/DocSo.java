@@ -1263,7 +1263,8 @@ public class DocSo extends Fragment {
 //        this.mSumDanhBo = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSizeDocSo(mLike, mKy, false);
         this.mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy, Flag.READ, false) +
                 LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy, Flag.CODE_F, false) +
-                LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy, Flag.CODE_F_SYNCHRONIZED, false);
+                LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy, Flag.CODE_F_SYNCHRONIZED, false) +
+                LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy, Flag.SYNCHRONIZED, false);
 //        this.mSumDanhBo += this.mDanhBoHoanThanh;
         this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
 

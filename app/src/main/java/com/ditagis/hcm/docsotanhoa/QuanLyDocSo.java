@@ -799,7 +799,8 @@ public class QuanLyDocSo extends Fragment {
 
     private void setTextProgress() {
 //        this.mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike).size();
-        this.mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy, Flag.SYNCHRONIZED, false);
+        this.mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy, Flag.SYNCHRONIZED, false) +
+                LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy, Flag.CODE_F_SYNCHRONIZED, false);
         this.mSumDanhBo = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSumSize(mLike, mKy);
         this.mTxtComplete.setText(this.mDanhBoHoanThanh + "/" + this.mSumDanhBo);
 
