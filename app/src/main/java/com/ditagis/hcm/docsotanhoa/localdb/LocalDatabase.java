@@ -703,6 +703,21 @@ public class LocalDatabase extends SQLiteOpenHelper {
         db.close();
         return true;
     }
+    public boolean updateHoaDonFlag(HoaDon hoaDon, int flag) {
+        Log.i(TAG, "LocalDatabase.updateHoaDon ... " + hoaDon.getDanhBo());
+
+        SQLiteDatabase db = this.getWritableDatabase();
+//
+        ContentValues values = new ContentValues();
+
+            values.put(COLUMN_HOADON_FLAG, flag);
+
+
+        db.update(TABLE_HOADON, values, COLUMN_HOADON_DANHBO + " = ? "
+               , new String[]{hoaDon.getDanhBo()});
+        db.close();
+        return true;
+    }
 
     public boolean updateHoaDon_Image(HoaDon hoaDon, int flag_old) {
         Log.i(TAG, "LocalDatabase.updateHoaDon ... " + hoaDon.getDanhBo());

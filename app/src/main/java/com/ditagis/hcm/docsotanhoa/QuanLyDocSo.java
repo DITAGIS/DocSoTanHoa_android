@@ -42,7 +42,6 @@ import com.ditagis.hcm.docsotanhoa.adapter.CustomArrayAdapter;
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewQuanLyDocSoAdapter;
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewSelectFolderAdapter;
 import com.ditagis.hcm.docsotanhoa.conectDB.ConnectionDB;
-import com.ditagis.hcm.docsotanhoa.conectDB.HoaDonDB;
 import com.ditagis.hcm.docsotanhoa.conectDB.Uploading;
 import com.ditagis.hcm.docsotanhoa.entities.Code_Describle;
 import com.ditagis.hcm.docsotanhoa.entities.Codes;
@@ -1379,7 +1378,7 @@ public class QuanLyDocSo extends Fragment {
                     Code_Describle code_describle = Codes.getInstance().getCodeDescribles_ds()[position];
                     mCode = code_describle.getCode();
                     if (mCode.startsWith("8"))
-                        mCSGo =hoaDon.getCsgo();
+                        mCSGo = hoaDon.getCsgo();
                     if (mCSGo == -1) {
                         MySnackBar.make(mTxtComplete, "Chưa có dữ liệu báo thay", true);
                         mSpinCode.setSelection(0);
@@ -1555,9 +1554,13 @@ public class QuanLyDocSo extends Fragment {
         @Override
         protected Void doInBackground(String... params) {
             Boolean isValid = false;
+
             mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy, true);
             for (GridViewQuanLyDocSoAdapter.Item item : mQuanLyDocSoAdapter.getItems()) {
                 for (HoaDon hoaDon : mHoaDons) {
+//                    if (hoaDon.getDanhBo().equals("13192592871") || hoaDon.getDanhBo().equals("13192592880")) {
+//                        LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonFlag(hoaDon,Flag.READ);
+//                    }
                     if (item.getDanhbo().equals(hoaDon.getDanhBo()) && (
                             hoaDon.getFlag() == Flag.READ || hoaDon.getFlag() == Flag.CODE_F)) {
                         String codeMoi = hoaDon.getCodeMoi();
