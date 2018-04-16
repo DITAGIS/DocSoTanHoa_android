@@ -97,4 +97,8 @@
     <string name="flag_sych">Đã đồng bộ</string>
     <string name="flag_code_f">Nhà đóng cửa</string>
 
+    <string name="ket_qua_location_loc">ket qua location</string>
+    <string name="ket_qua_location_long">ket qua location longtitude</string>
+    <string name="ket_qua_location_lat">ket qua location latitude</string>
+
 </resources>

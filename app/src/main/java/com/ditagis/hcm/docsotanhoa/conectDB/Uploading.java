@@ -99,7 +99,6 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             statement.close();
         } catch (SQLException e) {
 
-            e.printStackTrace();
             return false;
         }
 
@@ -162,9 +161,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             return;
 
         } catch (SQLException e1) {
-            e1.printStackTrace();
         } catch (ParseException e) {
-            e.printStackTrace();
         }
 
     }

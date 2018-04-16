@@ -1594,7 +1594,6 @@ public class DocSo extends Fragment {
         mHoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo, true);
         boolean hasCodeMoi = false;
         for (int i = 0; i < Codes.getInstance().getCodeDescribles_ds().length; i++) {
-
             if (Codes.getInstance().getCodeDescribles_ds()[i].getCode().equals(mHoaDon.getCodeMoi())) {
                 mSpinCode.setSelection(i);
                 mCode = Codes.getInstance().getCodeDescribles_ds()[i].getCode();
@@ -1602,6 +1601,10 @@ public class DocSo extends Fragment {
 
                 break;
             }
+        }
+        if(mSpinCode.getSelectedItemPosition() <0){
+            mSpinCode.setSelection(0);
+            mCode = Codes.getInstance().getCodeDescribles_ds()[0].getCode();
         }
 
 //        if (mHoaDon.getCode_CSC_SanLuong().getCode1().startsWith("F")) {

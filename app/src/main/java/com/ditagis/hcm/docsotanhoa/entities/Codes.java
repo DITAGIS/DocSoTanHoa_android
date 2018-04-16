@@ -35,7 +35,7 @@ public class Codes {
                 new Code_Describle("60", " Ngưng có nước, nước yếu"),
                 new Code_Describle("61", " Kiếng mờ, dơ, nứt"),
                 new Code_Describle("62", " Kẹt số, lệch số, tuôn số\nquay ngược, gắn ngược"),
-                new Code_Describle("63", " Bể kiếng, mất mặt số"),
+                new Code_Describle("63", " Mất, bể kiếng\nMất mặt số"),
                 new Code_Describle("64", " Chủ gỡ, ống ngang\nnâng, hạ, hầm sâu"),
                 new Code_Describle("66", " Lấp mất, không tìm thấy"),
                 new Code_Describle("68", " Bị khóa nước niêm phong\nbị cắt ống bên ngoài"),
@@ -44,9 +44,9 @@ public class Codes {
                 new Code_Describle("M2", " Đọc số sau 2 tháng"),
                 new Code_Describle("M3", " Đọc số sau 3 tháng"),
                 new Code_Describle("N ", " Giữ chỉ số do kỳ trước tạm tính lố\nnhà ĐCƠ, CĐ, KK"),
-                new Code_Describle("N1", " Giữ chỉ số do kỳ trước tạm tính lố\nnhà ĐCƠ, CĐ, KK"),
-                new Code_Describle("N2", " Giữ chỉ số do khách hàng ghi lố"),
-                new Code_Describle("N3", " Giữ chỉ số do nhân viên ghi lố"),
+//                new Code_Describle("N1", " Giữ chỉ số do kỳ trước tạm tính lố\nnhà ĐCƠ, CĐ, KK"),
+//                new Code_Describle("N2", " Giữ chỉ số do khách hàng ghi lố"),
+//                new Code_Describle("N3", " Giữ chỉ số do nhân viên ghi lố"),
                 new Code_Describle("X ", " ĐHN 4 số retour một lần"),
                 new Code_Describle("Q ", " Không có nước hoàn toàn")
         };
@@ -75,7 +75,7 @@ public class Codes {
                 new Code_Describle("60", " Ngưng có nước, nước yếu"),
                 new Code_Describle("61", " Kiếng mờ, dơ, nứt"),
                 new Code_Describle("62", " Kẹt số, lệch số, tuôn số\nquay ngược, gắn ngược"),
-                new Code_Describle("63", " Bể kiếng, mất mặt số"),
+                new Code_Describle("63", " Mất, bể kiếng\nMất mặt số"),
                 new Code_Describle("64", " Chủ gỡ, ống ngang\nnâng, hạ, hầm sâu"),
                 new Code_Describle("66", " Lấp mất, không tìm thấy"),
                 new Code_Describle("68", " Bị khóa nước niêm phong\nbị cắt ống bên ngoài"),
@@ -84,9 +84,9 @@ public class Codes {
                 new Code_Describle("M2", " Đọc số sau 2 tháng"),
                 new Code_Describle("M3", " Đọc số sau 3 tháng"),
                 new Code_Describle("N ", " Giữ chỉ số do kỳ trước tạm tính lố\nnhà ĐCƠ, CĐ, KK"),
-                new Code_Describle("N1", " Giữ chỉ số do kỳ trước tạm tính lố\nnhà ĐCƠ, CĐ, KK"),
-                new Code_Describle("N2", " Giữ chỉ số do khách hàng ghi lố"),
-                new Code_Describle("N3", " Giữ chỉ số do nhân viên ghi lố"),
+//                new Code_Describle("N1", " Giữ chỉ số do kỳ trước tạm tính lố\nnhà ĐCƠ, CĐ, KK"),
+//                new Code_Describle("N2", " Giữ chỉ số do khách hàng ghi lố"),
+//                new Code_Describle("N3", " Giữ chỉ số do nhân viên ghi lố"),
                 new Code_Describle("X ", " ĐHN 4 số retour một lần"),
                 new Code_Describle("Q ", " Không có nước hoàn toàn")
         };

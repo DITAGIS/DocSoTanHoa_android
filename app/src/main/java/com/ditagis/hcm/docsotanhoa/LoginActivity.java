@@ -1,20 +1,27 @@
 package com.ditagis.hcm.docsotanhoa;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.Window;
@@ -28,12 +35,17 @@ import com.ditagis.hcm.docsotanhoa.entities.User;
 import com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver;
 import com.ditagis.hcm.docsotanhoa.utities.CheckConnect;
 import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
+import com.ditagis.hcm.docsotanhoa.utities.LocationHelper;
+import com.ditagis.hcm.docsotanhoa.utities.MyLocationUsingHelper;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.Calendar;
 import java.util.Set;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, ActivityCompat.OnRequestPermissionsResultCallback {
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
     private static final int REQUEST_ID_WRITE_FILE = 2;
     private EditText mTxtUsername;
@@ -47,6 +59,9 @@ public class LoginActivity extends AppCompatActivity {
     private NetworkStateChangeReceiver mStateChangeReceiver;
     private IntentFilter mIntentFilter;
     private String IMEI = "";
+    LocationHelper locationHelper;
+    double latitude, longtitude;
+    Location mLastLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +75,26 @@ public class LoginActivity extends AppCompatActivity {
         mTxtPassword.setBackgroundResource(R.layout.edit_text_styles2);
         this.mImgBtnViewPassword = (ImageButton) findViewById(R.id.imgBtn_login_viewPassword);
         requestPermisson();
-
-
+//        locationHelper = new LocationHelper(this);
+//        locationHelper.checkpermission();
+//
+//
+//        ButterKnife.bind(this);
+//        if (locationHelper.checkPlayServices()) {
+//
+//            // Building the GoogleApi client
+//            locationHelper.buildGoogleApiClient();
+//        }
+//
+//        mLastLocation = locationHelper.getLocation();
+//
+//        if (mLastLocation != null) {
+//            latitude = mLastLocation.getLatitude();
+//            longtitude = mLastLocation.getLongitude();
+//            getAddress();
+//        }
+        final Intent intent = new Intent(this, MyLocationUsingHelper.class);
+        this.startActivityForResult(intent, 1);
 //        requestPermissonWriteFile();
         this.mImgBtnViewPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,8 +113,8 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                login();
-                loginWithIMEI();
+                login();
+//                loginWithIMEI();
             }
         });
 
@@ -138,6 +171,51 @@ public class LoginActivity extends AppCompatActivity {
     protected void onDestroy() {
 //        LoginActivity.this.unregisterReceiver(mStateChangeReceiver);
         super.onDestroy();
+    }
+
+    public void getAddress() {
+        Address locationAddress;
+
+        locationAddress = locationHelper.getAddress(latitude, longtitude);
+
+        if (locationAddress != null) {
+
+            String address = locationAddress.getAddressLine(0);
+            String address1 = locationAddress.getAddressLine(1);
+            String city = locationAddress.getLocality();
+            String state = locationAddress.getAdminArea();
+            String country = locationAddress.getCountryName();
+            String postalCode = locationAddress.getPostalCode();
+
+
+            String currentLocation;
+
+            if (!TextUtils.isEmpty(address)) {
+                currentLocation = address;
+
+                if (!TextUtils.isEmpty(address1))
+                    currentLocation += "\n" + address1;
+
+                if (!TextUtils.isEmpty(city)) {
+                    currentLocation += "\n" + city;
+
+                    if (!TextUtils.isEmpty(postalCode))
+                        currentLocation += " - " + postalCode;
+                } else {
+                    if (!TextUtils.isEmpty(postalCode))
+                        currentLocation += "\n" + postalCode;
+                }
+
+                if (!TextUtils.isEmpty(state))
+                    currentLocation += "\n" + state;
+
+                if (!TextUtils.isEmpty(country))
+                    currentLocation += "\n" + country;
+
+            }
+
+        }
+
     }
 
     private void login() {
@@ -359,6 +437,21 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        mLastLocation = locationHelper.getLocation();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
     class LoginAsync extends AsyncTask<String, LogInDB.Result, LogInDB.Result> {
         private LogInDB loginDB = new LogInDB();
         private ProgressDialog dialog;
@@ -504,6 +597,19 @@ public class LoginActivity extends AppCompatActivity {
             if (dialog != null && dialog.isShowing()) {
                 dialog.dismiss();
             }
+        }
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            final String location = data.getStringExtra(getString(R.string.ket_qua_location_loc));
+            final double longtitude = data.getDoubleExtra(getString(R.string.ket_qua_location_long),0.0);
+            final double latetitude = data.getDoubleExtra(getString(R.string.ket_qua_location_lat),0.0);
+            if (requestCode == 1) {
+                if (resultCode == Activity.RESULT_OK) {
+
+                }
+            }
+        } catch (Exception e) {
         }
     }
 }

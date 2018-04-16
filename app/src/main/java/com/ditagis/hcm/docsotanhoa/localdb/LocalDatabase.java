@@ -714,7 +714,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
 
 
         db.update(TABLE_HOADON, values, COLUMN_HOADON_DANHBO + " = ? "
-               , new String[]{hoaDon.getDanhBo()});
+               , new String[]{hoaDon.getDanhBo() });
         db.close();
         return true;
     }
