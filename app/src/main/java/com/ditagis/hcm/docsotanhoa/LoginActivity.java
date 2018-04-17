@@ -36,13 +36,14 @@ import com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver;
 import com.ditagis.hcm.docsotanhoa.utities.CheckConnect;
 import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
 import com.ditagis.hcm.docsotanhoa.utities.LocationHelper;
-import com.ditagis.hcm.docsotanhoa.utities.MyLocationUsingHelper;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.Calendar;
 import java.util.Set;
+
+import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, ActivityCompat.OnRequestPermissionsResultCallback {
@@ -75,27 +76,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         mTxtPassword.setBackgroundResource(R.layout.edit_text_styles2);
         this.mImgBtnViewPassword = (ImageButton) findViewById(R.id.imgBtn_login_viewPassword);
         requestPermisson();
-//        locationHelper = new LocationHelper(this);
-//        locationHelper.checkpermission();
-//
-//
-//        ButterKnife.bind(this);
-//        if (locationHelper.checkPlayServices()) {
-//
-//            // Building the GoogleApi client
-//            locationHelper.buildGoogleApiClient();
-//        }
-//
-//        mLastLocation = locationHelper.getLocation();
-//
-//        if (mLastLocation != null) {
-//            latitude = mLastLocation.getLatitude();
-//            longtitude = mLastLocation.getLongitude();
-//            getAddress();
-//        }
-        final Intent intent = new Intent(this, MyLocationUsingHelper.class);
-        this.startActivityForResult(intent, 1);
-//        requestPermissonWriteFile();
         this.mImgBtnViewPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,32 +97,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 //                loginWithIMEI();
             }
         });
-
-//        this.mStateChangeReceiver = new NetworkStateChangeReceiver(btnLogin, LoginActivity.this);
-//        this.mIntentFilter = new IntentFilter();
-//        this.mIntentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-//        this.mIntentFilter.addAction("android.net.conn.WIFI_STATE_CHANGED");
-//        registerReceiver(mStateChangeReceiver, this.mIntentFilter);
-
-        TelephonyManager mngr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        Toast.makeText(LoginActivity.this, mngr.getDeviceId(), Toast.LENGTH_LONG);
-
-        //        Lấy số IMEII
-
-
-//        mGetUserNameAsync = new GetUserNameAsync();
-//        mGetUserNameAsync.execute( IMEI);
 
     }
 
@@ -440,6 +394,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         mLastLocation = locationHelper.getLocation();
+
     }
 
     @Override

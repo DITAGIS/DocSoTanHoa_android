@@ -12,7 +12,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -38,6 +41,8 @@ import com.ditagis.hcm.docsotanhoa.utities.DialogSelectDot;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.NUMBER;
 import com.ditagis.hcm.docsotanhoa.utities.Printer;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.Calendar;
 import java.util.Set;
@@ -45,7 +50,8 @@ import java.util.UUID;
 
 import static com.ditagis.hcm.docsotanhoa.R.id.container;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, ActivityCompat.OnRequestPermissionsResultCallback{
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -397,6 +403,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         //do nothing
+
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+       mDocSo.setmLastLocation(mDocSo.getmLocationHelper().getLocation());
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
 

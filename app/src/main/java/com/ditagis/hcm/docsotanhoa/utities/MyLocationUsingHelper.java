@@ -185,6 +185,19 @@ public class MyLocationUsingHelper extends AppCompatActivity implements Connecti
 
         // Once connected with google api, get the location
         mLastLocation = locationHelper.getLocation();
+
+        if (mLastLocation != null) {
+            latitude = mLastLocation.getLatitude();
+            longitude = mLastLocation.getLongitude();
+            getAddress();
+
+        } else {
+
+            if (btnProceed.isEnabled())
+                btnProceed.setEnabled(false);
+
+            showToast("Couldn't get the location. Make sure location is enabled on the device");
+        }
     }
 
     @Override

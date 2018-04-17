@@ -9,6 +9,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Address;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -55,6 +57,7 @@ import com.ditagis.hcm.docsotanhoa.utities.Calculate_TienNuoc;
 import com.ditagis.hcm.docsotanhoa.utities.Flag;
 import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
 import com.ditagis.hcm.docsotanhoa.utities.ImageFile;
+import com.ditagis.hcm.docsotanhoa.utities.LocationHelper;
 import com.ditagis.hcm.docsotanhoa.utities.MyAlertByHardware;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.Note;
@@ -71,6 +74,8 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
+import butterknife.ButterKnife;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -126,9 +131,45 @@ public class DocSo extends Fragment {
     private GridViewSelectFolderAdapter mSelectFolderAdapter;
     private String mUsername;
 
+    LocationHelper mLocationHelper;
+    double mLatitude, mLongtitude;
+    Location mLastLocation;
+    String mAddress;
 
     public DocSo() {
 
+    }
+
+    public LocationHelper getmLocationHelper() {
+        return mLocationHelper;
+    }
+
+    public void setmLocationHelper(LocationHelper mLocationHelper) {
+        this.mLocationHelper = mLocationHelper;
+    }
+
+    public double getmLatitude() {
+        return mLatitude;
+    }
+
+    public void setmLatitude(double mLatitude) {
+        this.mLatitude = mLatitude;
+    }
+
+    public double getmLongtitude() {
+        return mLongtitude;
+    }
+
+    public void setmLongtitude(double mLongtitude) {
+        this.mLongtitude = mLongtitude;
+    }
+
+    public Location getmLastLocation() {
+        return mLastLocation;
+    }
+
+    public void setmLastLocation(Location mLastLocation) {
+        this.mLastLocation = mLastLocation;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -141,6 +182,17 @@ public class DocSo extends Fragment {
         this.mNam = nam;
         this.mUsername = mUsername;
         this.mSelected_theme = theme;
+
+        mLocationHelper = new LocationHelper(mActivity);
+        mLocationHelper.checkpermission();
+
+
+        ButterKnife.bind(mActivity);
+        if (mLocationHelper.checkPlayServices()) {
+
+            // Building the GoogleApi client
+            mLocationHelper.buildGoogleApiClient();
+        }
 //        this.mLike = "__" + mUsername + "%";
         mViewPager = viewPager;
         String dotString = mDot + "";
@@ -1602,7 +1654,7 @@ public class DocSo extends Fragment {
                 break;
             }
         }
-        if(mSpinCode.getSelectedItemPosition() <0){
+        if (mSpinCode.getSelectedItemPosition() < 0) {
             mSpinCode.setSelection(0);
             mCode = Codes.getInstance().getCodeDescribles_ds()[0].getCode();
         }
@@ -1958,7 +2010,7 @@ public class DocSo extends Fragment {
             }).setNegativeButton("Chụp lại", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    capture();
+                    if (checkLocation()) capture();
                     dialog.dismiss();
                 }
             });
@@ -1999,7 +2051,7 @@ public class DocSo extends Fragment {
         }).setNegativeButton("Chụp lại", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                capture();
+                if (checkLocation()) capture();
                 dialog.dismiss();
             }
         });
@@ -2308,14 +2360,16 @@ public class DocSo extends Fragment {
             if (mHoaDon.getImage_byteArray().length > CONSTANT.MIN_IMAGE_QUATITY) {
 
                 showImage(ImageFile.getFile(currentTime, mRootView, mDanhBo));
-            } else
+            } else if (checkLocation())
                 capture();
         } catch (Exception e) {
-            capture();
+            if (checkLocation()) capture();
         }
     }
 
     private void capture() {
+
+
         Intent cameraIntent = new Intent(
                 android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,
@@ -2328,6 +2382,7 @@ public class DocSo extends Fragment {
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, this.mUri);
 //        this.mUri = Uri.fromFile(photo);
         startActivityForResult(cameraIntent, REQUEST_ID_IMAGE_CAPTURE);
+
     }
 
 
@@ -2404,7 +2459,8 @@ public class DocSo extends Fragment {
 //                            mEditTextCSM.setFocusableInTouchMode(true);
                             mFrameLayoutViewImage.setVisibility(View.VISIBLE);
                             showImageViewInFrame(image);
-
+                            LocalDatabase.getInstance(mRootView.getContext()).addLocation(new com.ditagis.hcm.docsotanhoa.entities.Location(mHoaDon.getId(), mLongtitude, mLatitude));
+                            LocalDatabase.getInstance(mRootView.getContext()).getLocation(mHoaDon.getId());
 //                            mEditTextCSM.requestFocus();
 
                         }
@@ -2430,12 +2486,34 @@ public class DocSo extends Fragment {
         builder.setPositiveButton("CHỤP LẠI", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                capture();
+                if (checkLocation())
+                    capture();
             }
         });
         AlertDialog dialog = builder.create();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.show();
+    }
+
+    private boolean checkLocation() {
+        //Kiểm tra đã bật location chưa, hiện thông báo
+        mLocationHelper.getStateLocation();
+        mLastLocation = mLocationHelper.getLocation();
+        if (mLastLocation == null) {
+//            MySnackBar.make(mTxtCSM, "Cần bật vị trí để chụp ảnh!!!", true);
+            return false;
+        } else {
+            mLongtitude = mLastLocation.getLongitude();
+            mLatitude = mLastLocation.getLatitude();
+            Address locationAddress;
+
+            locationAddress = mLocationHelper.getAddress(mLatitude, mLongtitude);
+            mAddress = locationAddress.getAddressLine(0);
+            MySnackBar.make(mTxtCSM, mAddress, true);
+//
+//                         Toast.makeText(mActivity, mAddress, Toast.LENGTH_LONG).show();
+            return true;
+        }
     }
 
     @Nullable
@@ -2506,4 +2584,6 @@ public class DocSo extends Fragment {
 //        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 //        imm.showSoftInput(mEditTextCSM, InputMethodManager.SHOW_FORCED);
     }
+
+
 }

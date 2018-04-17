@@ -10,6 +10,7 @@ import android.util.Log;
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewSelectFolderAdapter;
 import com.ditagis.hcm.docsotanhoa.entities.Code_CSC_SanLuong;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
+import com.ditagis.hcm.docsotanhoa.entities.Location;
 import com.ditagis.hcm.docsotanhoa.entities.TTDHN;
 import com.ditagis.hcm.docsotanhoa.utities.Flag;
 
@@ -94,6 +95,11 @@ public class LocalDatabase extends SQLiteOpenHelper {
     private static final String COLUMN_LUUDANHBO_HINHANH = "LuuDanhBo_HinhAnh";
     private static final String COLUMN_LUUDANHBO_LUU = "LuuDanhBo_Luu"; // lwu khi có hinh ảnh
 
+
+    private static final String TABLE_LOCATION = "VITRI";
+    private static final String COLUMN_LOCATION_LONG = "LOCATION_LONG";
+    private static final String COLUMN_LOCATION_LAT = "LOCATION_LAT";
+    private static final String COLUMN_LOCATION_ID = "LOCATION_ID";
 
     private static final String TABLE_TTDHN = "TTDHN";
     private static final String COLUMN_TTDHN_TTDHN = "TTDHN_TTDHN";
@@ -184,10 +190,16 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 + COLUMN_TTDHN_CODE + " TEXT ,"
                 + COLUMN_TTDHN_TTDHN + " TEXT )";
 
+        String script4 = "CREATE TABLE " + TABLE_LOCATION + "("
+                + COLUMN_LOCATION_ID + " TEXT ,"
+                + COLUMN_LOCATION_LONG + " TEXT ,"
+                + COLUMN_LOCATION_LAT + " TEXT )";
+
         // Chạy lệnh tạo bảng.
         db.execSQL(script);
         db.execSQL(script2);
         db.execSQL(script3);
+        db.execSQL(script4);
     }
 
 
@@ -201,6 +213,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
 
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LUUDANHBO);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TTDHN);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOCATION);
         // Và tạo lại.
         onCreate(db);
     }
@@ -217,6 +230,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
 
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LUUDANHBO);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TTDHN);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOCATION);
         onCreate(db);
     }
 
@@ -317,7 +331,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
                     hoaDon.getTuNgay() + "','" +
                     hoaDon.getDenNgay() + "'," +
                     hoaDon.getCsgo() + "," +
-                    hoaDon.getCsganmoi() + ", '"+
+                    hoaDon.getCsganmoi() + ", '" +
                     hoaDon.getId() + "')";
             db.execSQL(sql);
 
@@ -358,6 +372,82 @@ public class LocalDatabase extends SQLiteOpenHelper {
             Log.i(TAG, "LocalDatabase.addTTDHn ... " + e.toString());
         }
         return false;
+    }
+
+    public boolean addLocation(Location location) {
+        if (updateLocation(location))
+            return false;
+
+        Log.i(TAG, "LocalDatabase.addTTDHn ... " + location.toString());
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql;
+        try {
+            sql = "INSERT INTO " + TABLE_LOCATION + " ("
+                    + COLUMN_LOCATION_ID + ", "
+                    + COLUMN_LOCATION_LONG + ", "
+                    + COLUMN_LOCATION_LAT
+
+                    + ") Values ('" + location.getId() + "', "
+                    + location.getLongtitue() + ", "
+                    + location.getLatitude() + ")";
+
+            db.execSQL(sql);
+
+            // Đóng kết nối database.
+            db.close();
+
+//            return true;
+        } catch (Exception e) {
+            Log.i(TAG, "LocalDatabase.addTTDHn ... " + e.toString());
+        }
+        return false;
+    }
+
+    public boolean update(Location location) {
+        Log.i(TAG, "LocalDatabase.getTTDHN ... " + id);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from " + TABLE_LOCATION + " where " + COLUMN_LOCATION_ID + " = '" + id + "'", null);
+        boolean flag = false;
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+
+            flag = updateLocation(location);
+
+        }
+        cursor.close();
+        db.close();
+        return flag;
+    }
+
+    private boolean updateLocation(Location location) {
+        Log.i(TAG, "LocalDatabase.updateHoaDon ... " + location.getId());
+
+        SQLiteDatabase db = this.getWritableDatabase();
+//
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_LOCATION_LONG, location.getLongtitue());
+        values.put(COLUMN_LOCATION_LAT, location.getLatitude());
+
+        db.update(TABLE_LOCATION, values, COLUMN_LOCATION_ID + " = ?", new String[]{location.getId()});
+        db.close();
+        return true;
+    }
+
+    public Location getLocation(String id) {
+        Log.i(TAG, "LocalDatabase.getTTDHN ... " + id);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from " + TABLE_LOCATION + " where " + COLUMN_LOCATION_ID + " = '" + id + "'", null);
+        Location location = new Location();
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            location.setId(cursor.getString(0));
+            location.setLongtitue(cursor.getDouble(1));
+            location.setLatitude(cursor.getDouble(2));
+        }
+        cursor.close();
+        db.close();
+        return location;
     }
 
     public String getTTDHN(String code) {
@@ -593,14 +683,13 @@ public class LocalDatabase extends SQLiteOpenHelper {
     }
 
 
-
     public int getAllHoaDonSize(String may, String dot, String ky, boolean getImage) {
         Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select count(" + COLUMN_HOADON_DANHBO + ") from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + dot + may + "%' and " + COLUMN_HOADON_KY
                 + "='" + ky + "'", null);
         if (cursor.moveToFirst()) {
-                return cursor.getInt(0);
+            return cursor.getInt(0);
         }
         cursor.close();
         db.close();
@@ -703,6 +792,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         db.close();
         return true;
     }
+
     public boolean updateHoaDonFlag(HoaDon hoaDon, int flag) {
         Log.i(TAG, "LocalDatabase.updateHoaDon ... " + hoaDon.getDanhBo());
 
@@ -710,11 +800,11 @@ public class LocalDatabase extends SQLiteOpenHelper {
 //
         ContentValues values = new ContentValues();
 
-            values.put(COLUMN_HOADON_FLAG, flag);
+        values.put(COLUMN_HOADON_FLAG, flag);
 
 
         db.update(TABLE_HOADON, values, COLUMN_HOADON_DANHBO + " = ? "
-               , new String[]{hoaDon.getDanhBo() });
+                , new String[]{hoaDon.getDanhBo()});
         db.close();
         return true;
     }
