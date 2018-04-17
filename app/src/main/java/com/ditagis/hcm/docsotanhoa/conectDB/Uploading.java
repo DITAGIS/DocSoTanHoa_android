@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 import com.ditagis.hcm.docsotanhoa.R;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
+import com.ditagis.hcm.docsotanhoa.entities.Location;
 import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 import com.ditagis.hcm.docsotanhoa.utities.CONSTANT;
 import com.ditagis.hcm.docsotanhoa.utities.Calculate_TienNuoc;
@@ -47,9 +48,9 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             "?,?,?,?,?,?,?,?,?,?," +
             "?,?,?,?,?,?,?,?,?,?," +
             "?,?)";
-    private final String TABLE_NAME_HINHDHN = "DocsoTh_Hinh..HinhDHN";//(Danhbo, Image, Latitude, Longitude, CreateBy, CreateDate)
-    private final String SQL_INSERT_HINHDHN = " INSERT INTO " + TABLE_NAME_HINHDHN + " VALUES(?,?,?,?)  ";
-    private final String SQL_UPDATE_HINHDHN = " update " + TABLE_NAME_HINHDHN + " set Image = ?, CreateDate =?  " +
+    private final String TABLE_NAME_HINHDHN = "DocsoTh_Hinh..HinhDHN1";//(Danhbo, Image, Latitude, Longitude, CreateBy, CreateDate)
+    private final String SQL_INSERT_HINHDHN = " INSERT INTO " + TABLE_NAME_HINHDHN + " VALUES(?,?,?,?,?,?)  ";
+    private final String SQL_UPDATE_HINHDHN = " update " + TABLE_NAME_HINHDHN + " set Image = ?, CreateDate =?, Longtitude =?, Latitude =?  " +
             "    where hinhdhnid = ?";
 
     private final String SQL_DELETE = "if exists (select danhbo from " + TABLE_NAME_HINHDHN + " where hinhdhnid = ?)" +
@@ -150,7 +151,10 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             String stringDate = hoaDon.getThoiGian();
             Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
             st.setTimestamp(2, new java.sql.Timestamp(date.getTime()));
-            st.setString(3, hoaDon.getId());
+            Location location = LocalDatabase.getInstance(mContext).getLocation(hoaDon.getId());
+            st.setDouble(3, location.getLongtitue());
+            st.setDouble(4, location.getLatitude());
+            st.setString(5, hoaDon.getId());
 
             int result1 = st.executeUpdate();
 
@@ -359,7 +363,9 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             String stringDate = hoaDon.getThoiGian();
             Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
             st1.setTimestamp(4, new java.sql.Timestamp(date.getTime()));
-
+            Location location = LocalDatabase.getInstance(mContext).getLocation(hoaDon.getId());
+            st1.setDouble(5, location.getLongtitue());
+            st1.setDouble(6, location.getLatitude());
             int result = st1.executeUpdate();
 
 //                path = path.substring(0, path.length() - 1).concat("1");

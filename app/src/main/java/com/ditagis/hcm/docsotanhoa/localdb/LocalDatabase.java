@@ -396,7 +396,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
 
             // Đóng kết nối database.
             db.close();
-
+            return true;
 //            return true;
         } catch (Exception e) {
             Log.i(TAG, "LocalDatabase.addTTDHn ... " + e.toString());
@@ -429,24 +429,33 @@ public class LocalDatabase extends SQLiteOpenHelper {
         values.put(COLUMN_LOCATION_LONG, location.getLongtitue());
         values.put(COLUMN_LOCATION_LAT, location.getLatitude());
 
-        db.update(TABLE_LOCATION, values, COLUMN_LOCATION_ID + " = ?", new String[]{location.getId()});
+        int result = db.update(TABLE_LOCATION, values, COLUMN_LOCATION_ID + " = ?", new String[]{location.getId()});
         db.close();
-        return true;
+        return result > 0;
     }
 
     public Location getLocation(String id) {
-        Log.i(TAG, "LocalDatabase.getTTDHN ... " + id);
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from " + TABLE_LOCATION + " where " + COLUMN_LOCATION_ID + " = '" + id + "'", null);
         Location location = new Location();
-        if (cursor != null && cursor.getCount() > 0) {
-            cursor.moveToFirst();
-            location.setId(cursor.getString(0));
-            location.setLongtitue(cursor.getDouble(1));
-            location.setLatitude(cursor.getDouble(2));
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            Log.i(TAG, "LocalDatabase.getTTDHN ... " + id);
+
+            cursor = db.rawQuery("select * from " + TABLE_LOCATION + " where " + COLUMN_LOCATION_ID + " = '" + id + "'", null);
+
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                location.setId(cursor.getString(0));
+                location.setLongtitue(cursor.getDouble(1));
+                location.setLatitude(cursor.getDouble(2));
+            }
+        } catch (Exception e) {
+            Log.d("dsf", e.toString());
+        } finally {
+            cursor.close();
+            db.close();
         }
-        cursor.close();
-        db.close();
+
         return location;
     }
 
