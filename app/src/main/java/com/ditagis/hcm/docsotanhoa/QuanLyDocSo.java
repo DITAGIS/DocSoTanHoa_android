@@ -116,7 +116,7 @@ public class QuanLyDocSo extends Fragment {
         mSpinCode.setAdapter(mAdapterCode);
 
         mTxtComplete = (TextView) mRootView.findViewById(R.id.txt_qlds_complete);
-        mUploading = new Uploading(mDot, mKy, mNam, mRootView.getContext());
+        mUploading = new Uploading( mKy, mNam, mRootView.getContext());
         mGridView = (GridView) mRootView.findViewById(R.id.grid_qlds_danhSachDocSo);
         mKyString = mKy + "";
         if (mKy < 10)

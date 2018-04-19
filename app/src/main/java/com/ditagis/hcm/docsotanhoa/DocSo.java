@@ -46,6 +46,7 @@ import android.widget.Toast;
 import com.ditagis.hcm.docsotanhoa.adapter.CodeSpinnerAdapter;
 import com.ditagis.hcm.docsotanhoa.adapter.CustomArrayAdapter;
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewSelectFolderAdapter;
+import com.ditagis.hcm.docsotanhoa.conectDB.Uploading;
 import com.ditagis.hcm.docsotanhoa.entities.Code_Describle;
 import com.ditagis.hcm.docsotanhoa.entities.Codes;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
@@ -54,6 +55,7 @@ import com.ditagis.hcm.docsotanhoa.theme.ThemeUtils;
 import com.ditagis.hcm.docsotanhoa.utities.CONSTANT;
 import com.ditagis.hcm.docsotanhoa.utities.CalculateCSM_TieuThu;
 import com.ditagis.hcm.docsotanhoa.utities.Calculate_TienNuoc;
+import com.ditagis.hcm.docsotanhoa.utities.CheckConnect;
 import com.ditagis.hcm.docsotanhoa.utities.Flag;
 import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
 import com.ditagis.hcm.docsotanhoa.utities.ImageFile;
@@ -130,7 +132,7 @@ public class DocSo extends Fragment {
     private Button mBtnCloseViewImageFrame;
     private GridViewSelectFolderAdapter mSelectFolderAdapter;
     private String mUsername;
-
+    private Uploading mUploading = new Uploading();
     LocationHelper mLocationHelper;
     double mLatitude, mLongtitude;
     Location mLastLocation;
@@ -2445,23 +2447,28 @@ public class DocSo extends Fragment {
 
                             rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                             byte[] image = outputStream.toByteArray();
-                            mHoaDon.setImage_byteArray(image);
-                            LocalDatabase.getInstance(mRootView.getContext()).updateHoaDon_Image(mHoaDon, Flag.UNREAD);
 
-//                            if (getImageFileName().length() < MIN_SIZE) {
-//                                alertImageLowQuatity();
-//                            }
-//                            fos.flush();
-//                            fos.close();
-                            Toast.makeText(mRootView.getContext(), "Đã lưu ảnh", Toast.LENGTH_SHORT).show();
-                            setNextFocusEdittextCSM();
+//giám sát lộ trình đọc số
+                            if (CheckConnect.isOnline(mActivity)) {
+                                mUploading.setmKy(mKy);
+                                mUploading.setmNam(mNam);
+                                mUploading.setmContext(mRootView.getContext());
+                                LocalDatabase.getInstance(mRootView.getContext()).addLocation(new com.ditagis.hcm.docsotanhoa.entities.Location(mHoaDon.getId(), mLongtitude, mLatitude));
+                                if (this.currentTime == null)
+                                    this.currentTime = Calendar.getInstance().getTime();
+                                String datetime = this.formatter.format(this.currentTime);
+                                mHoaDon.setThoiGian(datetime);
+                                if (mUploading.addHinhDHN(mHoaDon) > 0) {
+                                    mHoaDon.setImage_byteArray(image);
+                                    LocalDatabase.getInstance(mRootView.getContext()).updateHoaDon_Image(mHoaDon, Flag.UNREAD);
 
-//                            mEditTextCSM.setFocusableInTouchMode(true);
-                            mFrameLayoutViewImage.setVisibility(View.VISIBLE);
-                            showImageViewInFrame(image);
-                            LocalDatabase.getInstance(mRootView.getContext()).addLocation(new com.ditagis.hcm.docsotanhoa.entities.Location(mHoaDon.getId(), mLongtitude, mLatitude));
-                            LocalDatabase.getInstance(mRootView.getContext()).getLocation(mHoaDon.getId());
-//                            mEditTextCSM.requestFocus();
+                                    mFrameLayoutViewImage.setVisibility(View.VISIBLE);
+                                    showImageViewInFrame(image);
+                                    Toast.makeText(mRootView.getContext(), "Đã lưu ảnh", Toast.LENGTH_SHORT).show();
+                                }
+                            } else
+                                Toast.makeText(mRootView.getContext(), getString(R.string.no_connect), Toast.LENGTH_SHORT).show();
+
 
                         }
                     } catch (Exception e) {
@@ -2496,6 +2503,10 @@ public class DocSo extends Fragment {
     }
 
     private boolean checkLocation() {
+        if (!CheckConnect.isOnline(mActivity)) {
+            MySnackBar.make(mTxtCSM, getString(R.string.no_connect), true);
+            return false;
+        }
         //Kiểm tra đã bật location chưa, hiện thông báo
         mLocationHelper.getStateLocation();
         mLastLocation = mLocationHelper.getLocation();

@@ -59,24 +59,46 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     SimpleDateFormat formatCalculateDate = new SimpleDateFormat("dd MM yyyy");
     private Connection cnn = ConnectionDB.getInstance().getConnection();
-    private String mDot, mKy, mNam;
+    private String mKy, mNam;
     private Context mContext;
 
-    public Uploading(int dot, int ky, int nam, Context context) {
-        this.mDot = dot + "";
-        if (dot < 10)
-            this.mKy = ky + "";
-        this.mDot = "0" + dot;
+
+    public String getmKy() {
+        return mKy;
+    }
+
+    public void setmKy(int mKy) {
+        this.mKy = mKy + "";
+        if (mKy < 10)
+            this.mKy = "0" + mKy;
+    }
+
+    public String getmNam() {
+        return mNam;
+    }
+
+    public void setmNam(int mNam) {
+        this.mNam = mNam +"";
+    }
+
+    public Context getmContext() {
+        return mContext;
+    }
+
+    public void setmContext(Context mContext) {
+        this.mContext = mContext;
+    }
+
+    public Uploading() {
+
+    }
+
+    public Uploading(int ky, int nam, Context context) {
+        this.mKy = ky + "";
         if (ky < 10)
             this.mKy = "0" + ky;
         this.mNam = nam + "";
         mContext = context;
-    }
-
-    public void setmDot(int dot) {
-        this.mDot = dot + "";
-        if (dot < 10)
-            this.mDot = "0" + dot;
     }
 
     @NonNull
@@ -319,7 +341,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
 //        return 0;
 //    }
 
-    private int addHinhDHN(HoaDon hoaDon) {
+    public int addHinhDHN(HoaDon hoaDon) {
         String sqlInsert_HinhDHN = this.SQL_INSERT_HINHDHN;
         try {
             cnn = ConnectionDB.getInstance().getConnection();
@@ -361,7 +383,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             st1.setBytes(3, hoaDon.getImage_byteArray());
 
             String stringDate = hoaDon.getThoiGian();
-            Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
+             Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
             st1.setTimestamp(4, new java.sql.Timestamp(date.getTime()));
             Location location = LocalDatabase.getInstance(mContext).getLocation(hoaDon.getId());
             st1.setDouble(5, location.getLongtitue());
