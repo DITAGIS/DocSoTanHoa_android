@@ -26,25 +26,24 @@ public class DialogSelectDot {
         final GridViewSelectFolderAdapter selectFolderAdapter = new GridViewSelectFolderAdapter(context, new ArrayList<GridViewSelectFolderAdapter.Item>());
 
         int count = 0;
-        for (int ky = mKy; ky >= 1; ky--) {
-            if (count > CONSTANT.MAX_DOT)
-                break;
-            for (int dot = mDot; dot >= 1; dot--) {
+        for (int ky = 12; ky >= 1; ky--)
+            for (int dot = 20; dot >= 1; dot--) {
+//                if (count > CONSTANT.MAX_DOT)
+//                    break;
                 String dotString = dot + "";
                 if (dot < 10)
                     dotString = "0" + dot;
                 int size = LocalDatabase.getInstance(context).getAllHoaDonSize(mUsername, dotString, ky + "", false);
-//                boolean hasHoaDon = LocalDatabase.getInstance(context).checkExistsHoaDon(mUsername, dotString, ky + "", false);
                 if (size > 0)
                     selectFolderAdapter.add(new GridViewSelectFolderAdapter.Item(String.format("%02d", ky), String.format("%02d", dot), mNam + "",
                             size + "", mUsername, Flag.UNREAD));
                 if (selectFolderAdapter.getCount() > 0)
                     count++;
-                if (count > CONSTANT.MAX_DOT)
+                if (selectFolderAdapter.getCount() > CONSTANT.MAX_DOT)
                     break;
 
             }
-        }
+
         while (selectFolderAdapter.getCount() > CONSTANT.MAX_DOT) {
             GridViewSelectFolderAdapter.Item item = selectFolderAdapter.getItem(selectFolderAdapter.getCount() - 1);
             LocalDatabase.getInstance(context).deleteHoaDon(item.getKy(), item.getDot());

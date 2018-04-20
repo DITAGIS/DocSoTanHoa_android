@@ -1559,9 +1559,6 @@ public class QuanLyDocSo extends Fragment {
             mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy, true);
             for (GridViewQuanLyDocSoAdapter.Item item : mQuanLyDocSoAdapter.getItems()) {
                 for (HoaDon hoaDon : mHoaDons) {
-//                    if (hoaDon.getDanhBo().equals("13192599132") || hoaDon.getDanhBo().equals("13192593072") || hoaDon.getDanhBo().equals("13192592380")) {
-//                        LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonFlag(hoaDon, Flag.CODE_F_SYNCHRONIZED);
-//                    }
                     if (item.getDanhbo().equals(hoaDon.getDanhBo()) && (
                             hoaDon.getFlag() == Flag.READ || hoaDon.getFlag() == Flag.CODE_F)) {
                         String codeMoi = hoaDon.getCodeMoi();
