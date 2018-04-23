@@ -1557,6 +1557,7 @@ public class QuanLyDocSo extends Fragment {
 
 //            mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mLike, mKy,Flag.SYNCHRONIZED, true);
             mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy, true);
+            mUploading.update(mHoaDons);
             for (GridViewQuanLyDocSoAdapter.Item item : mQuanLyDocSoAdapter.getItems()) {
                 for (HoaDon hoaDon : mHoaDons) {
                     if (item.getDanhbo().equals(hoaDon.getDanhBo()) && (

@@ -33,7 +33,7 @@ import java.util.List;
 public class Uploading implements IDB<HoaDon, Boolean, String> {
     private final String TABLE_NAME = "HOADON";
     private final String NEW_TABLE_NAME = "HoaDonMoi";
-    private String TABLE_NAME_DOCSO = "DocSo";
+    private String TABLE_NAME_DOCSO = "DocSo1";
     private final String TABLE_NAME_DOCSO1 = "DocSo20180215";
     private final String TABLE_NAME_KH = "KhachHang";
     private final String TABLE_NAME_DOCSO_LUUTRU = "DocSoLuuTru";
@@ -43,15 +43,15 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             "select docsoid, csmoi, codemoi, ghichuds, tieuthumoi, gioghi, sdt, vitrimoi, tiennuoc, bvmt, thue, " +
             "tongtien, ttdhnmoi,sonhamoi,duong into #docsotemp from docso where 1 = 0;";
 
-    private String SQL_INSERT_TEMP_TABLE = "insert into #docsotemp (docsoid, csmoi, codemoi, ghichuds, tieuthumoi, gioghi, sdt, vitrimoi, tiennuoc, bvmt, thue, tongtien, ttdhnmoi,sonhamoi,duong) " +
+    private String SQL_INSERT_TEMP_TABLE = "insert into #docsotemp (csmoi, codemoi, ghichuds, tieuthumoi, gioghi, sdt, vitrimoi, tiennuoc, bvmt, thue, tongtien, ttdhnmoi,sonhamoi,duong,docsoid) " +
             "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     private String SQL_UPDATE_TEMP_TABLE = "update ds " +
             "set ds.csmoi = temp.csmoi, ds.codemoi = temp.codemoi, ds.ghichuds = temp.ghichuds, ds.tieuthumoi = temp.tieuthumoi," +
             "ds.gioghi = temp.gioghi, ds.sdt = temp.sdt, ds.vitrimoi = temp.vitrimoi, ds.tiennuoc = temp.tiennuoc, ds.bvmt = temp.bvmt," +
-            "ds.thue = temp.thue, ds.tongtien = temp.tongtien, ds.ttdhnmoi = temp.ttdhnmoi from docso ds" +
+            "ds.thue = temp.thue, ds.tongtien = temp.tongtien, ds.ttdhnmoi = temp.ttdhnmoi from " + TABLE_NAME_DOCSO + " ds" +
             " inner join #docsotemp temp on ds.DocSoID = temp.DocSoID;" +
-            "update kh set kh.sonhamoi = temp.somoi, kh.duong = temp.duong from khachhang kh inner join #docsotemp temp on kh.danhba = right(#docsotemp.docsoid,11)";
+            "update kh set kh.somoi = temp.sonhamoi, kh.duong = temp.duong from " + TABLE_NAME_KH + " kh inner join #docsotemp temp on kh.danhba = right(temp.docsoid,11)";
 
     private String SQL_UPDATE = "UPDATE top (1)" + TABLE_NAME_DOCSO + " SET CSMOI=?, CODEMoi=?, GhiChuDS=?, tieuthumoi =?, gioghi = ?, sdt = ?, vitrimoi = ?,tiennuoc = ?, bvmt = ?, thue = ?, tongtien = ?, ttdhnmoi=? WHERE docsoId = ? ";
 
@@ -64,9 +64,13 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             "?,?,?,?,?,?,?,?,?,?," +
             "?,?,?,?,?,?,?,?,?,?," +
             "?,?)";
-    private final String TABLE_NAME_HINHDHN = "DocsoTh_Hinh..HinhDHN1";//(Danhbo, Image, Latitude, Longitude, CreateBy, CreateDate)
-    private final String SQL_INSERT_HINHDHN = " INSERT INTO " + TABLE_NAME_HINHDHN + " VALUES(?,?,?,?,?,?)  ";
-    private final String SQL_UPDATE_HINHDHN = " update " + TABLE_NAME_HINHDHN + " set Image = ?, CreateDate =?, Longtitude =?, Latitude =?  " +
+
+    private final String TABLE_NAME_GIAM_SAT = "GiamSatHanhTrinh";
+    private final String SQL_INSERT_GIAM_SAT = "insert into " + TABLE_NAME_GIAM_SAT + " (id, nhanvien, longtitude, latitude, thoigian) values(?,?,?,?,?)";
+    private final String SQL_UPDATE_GIAM_SAT = "update " + TABLE_NAME_GIAM_SAT + " set longtitude =?, latitude =?, thoigian =? where id =?";
+    private final String TABLE_NAME_HINHDHN = "DocsoTh_Hinh..HinhDHN";//(Danhbo, Image, Latitude, Longitude, CreateBy, CreateDate)
+    private final String SQL_INSERT_HINHDHN = " INSERT INTO " + TABLE_NAME_HINHDHN + " VALUES(?,?,?,?)  ";
+    private final String SQL_UPDATE_HINHDHN = " update " + TABLE_NAME_HINHDHN + " set Image = ?, CreateDate =?  " +
             "    where hinhdhnid = ?";
 
     private final String SQL_DELETE = "if exists (select danhbo from " + TABLE_NAME_HINHDHN + " where hinhdhnid = ?)" +
@@ -122,9 +126,8 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
 
         return true;
     }
+
     public Boolean update(List<HoaDon> hoaDons) {
-//        TABLE_NAME_DOCSO += mNam + mKy + mDot;
-        String sql = this.SQL_CREATE_TEMP_TABLE;
         try {
             cnn = ConnectionDB.getInstance().getConnection();
             Statement stmt = cnn.createStatement();
@@ -192,24 +195,83 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
                 st.setDouble(10, VAT);
                 st.setDouble(11, tienNuoc + BVMT + VAT);
                 st.setString(12, LocalDatabase.getInstance(mContext).getTTDHN(hoaDon.getCodeMoi()));
-                st.setString(13, this.mNam + this.mKy + hoaDon.getDanhBo());
-
-                int result1 = st.executeUpdate();
-                st.close();
-                return result1 > 0;
+                st.setString(13, hoaDon.getSoNha());
+                st.setString(14, hoaDon.getDuong());
+                st.setString(15, this.mNam + this.mKy + hoaDon.getDanhBo());
+                st.addBatch();
             }
+            int[] count = st.executeBatch();
             cnn.commit();
 
             cnn.setAutoCommit(false);
             stmt.addBatch(this.SQL_UPDATE_TEMP_TABLE);
             stmt.executeBatch();
             cnn.commit();
+            return true;
         } catch (SQLException e) {
             Log.i("", e.toString());
         } catch (ParseException e) {
             Log.i("", e.toString());
         }
         return false;
+    }
+
+    public int updateLocation(HoaDon hoaDon) {
+        String sql = this.SQL_UPDATE_GIAM_SAT;
+
+        //TODO: cập nhật chỉ số cũ = chỉ số mới
+        try {
+            cnn = ConnectionDB.getInstance().getConnection();
+            if (cnn == null)
+                return 0;
+            PreparedStatement st = cnn.prepareStatement(sql);
+            Location location = LocalDatabase.getInstance(mContext).getLocation(hoaDon.getId());
+            st.setDouble(1, location.getLongtitue());
+            st.setDouble(2, location.getLatitude());
+            String stringDate = hoaDon.getThoiGian();
+            Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
+            st.setTimestamp(3, new java.sql.Timestamp(date.getTime()));
+            st.setString(4, hoaDon.getId());
+            int result1 = st.executeUpdate();
+
+
+            st.close();
+
+
+            return result1;
+
+        } catch (Exception e1) {
+            Log.i("Lỗi update hình", e1.toString());
+
+        }
+        return 0;
+    }
+
+    public int addLocation(HoaDon hoaDon) {
+        String sql = this.SQL_INSERT_GIAM_SAT;
+        try {
+            cnn = ConnectionDB.getInstance().getConnection();
+            if (cnn == null)
+                return 0;
+
+            PreparedStatement st1 = cnn.prepareStatement(sql);
+            st1.setString(1, hoaDon.getId());
+            st1.setString(2, hoaDon.getMaLoTrinh().substring(2,4));
+            Location location = LocalDatabase.getInstance(mContext).getLocation(hoaDon.getId());
+            st1.setDouble(3, location.getLongtitue());
+            st1.setDouble(4, location.getLatitude());
+            String stringDate = hoaDon.getThoiGian();
+            Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
+            st1.setTimestamp(5, new java.sql.Timestamp(date.getTime()));
+
+            int result = st1.executeUpdate();
+
+            return result;
+
+        } catch (Exception e) {
+            Log.i("Lỗi: ", e.toString());
+        }
+        return 0;
     }
 
     @Override
@@ -223,56 +285,56 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             }
         }
         boolean resultUpdateHoaDon = false;
+        int resultAddImage = 0;
         try {
-            int resultAddImage = 1;
+
             if (hoaDon.getImage_byteArray().length > CONSTANT.MIN_IMAGE_QUATITY)
                 resultAddImage = addHinhDHN(hoaDon);
             if (resultAddImage <= 0) {
-                updateHinhDHN(hoaDon);
-                resultAddImage = 1;
+                resultAddImage = updateHinhDHN(hoaDon);
             }
-            if (resultAddImage > 0) {
-                resultUpdateHoaDon = update(hoaDon);
-            }
+//            if (resultAddImage > 0) {
+//                resultUpdateHoaDon = update(hoaDon);
+//            }
         } catch (Exception e) {
         }
-        return resultUpdateHoaDon;
+        return resultAddImage > 0;
     }
-    private void updateHinhDHN(HoaDon hoaDon) {
+
+    public int updateHinhDHN(HoaDon hoaDon) {
         String sql = this.SQL_UPDATE_HINHDHN;
 
         //TODO: cập nhật chỉ số cũ = chỉ số mới
         try {
             cnn = ConnectionDB.getInstance().getConnection();
             if (cnn == null)
-                return;
+                return 0;
             PreparedStatement st = cnn.prepareStatement(sql);
             st.setBytes(1, hoaDon.getImage_byteArray());
             String stringDate = hoaDon.getThoiGian();
             Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
             st.setTimestamp(2, new java.sql.Timestamp(date.getTime()));
-            Location location = LocalDatabase.getInstance(mContext).getLocation(hoaDon.getId());
-            st.setDouble(3, location.getLongtitue());
-            st.setDouble(4, location.getLatitude());
-            st.setString(5, hoaDon.getId());
-
+            st.setString(3, hoaDon.getId());
             int result1 = st.executeUpdate();
 
 
             st.close();
 
 
-            return;
+            return result1;
 
-        } catch (SQLException e1) {
-        } catch (ParseException e) {
+        } catch (Exception e1) {
+            Log.i("Lỗi update hình", e1.toString());
+
         }
-
+        return 0;
     }
+
     @Override
     public Boolean delete(String s) {
         return null;
     }
+
     @Override
     public Boolean update(HoaDon hoaDon) {
 //        TABLE_NAME_DOCSO += mNam + mKy + mDot;
@@ -369,6 +431,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
         }
         return false;
     }
+
     public int addHinhDHN(HoaDon hoaDon) {
         String sqlInsert_HinhDHN = this.SQL_INSERT_HINHDHN;
         try {
@@ -414,8 +477,8 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
             st1.setTimestamp(4, new java.sql.Timestamp(date.getTime()));
             Location location = LocalDatabase.getInstance(mContext).getLocation(hoaDon.getId());
-            st1.setDouble(5, location.getLongtitue());
-            st1.setDouble(6, location.getLatitude());
+//            st1.setDouble(5, location.getLongtitue());
+//            st1.setDouble(6, location.getLatitude());
             int result = st1.executeUpdate();
 
 //                path = path.substring(0, path.length() - 1).concat("1");
@@ -430,10 +493,12 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
         }
         return 0;
     }
+
     @Override
     public HoaDon find(String s) {
         return null;
     }
+
     @Override
     public List<HoaDon> getAll() {
         return null;

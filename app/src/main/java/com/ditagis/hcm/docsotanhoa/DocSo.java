@@ -63,6 +63,7 @@ import com.ditagis.hcm.docsotanhoa.utities.LocationHelper;
 import com.ditagis.hcm.docsotanhoa.utities.MyAlertByHardware;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.Note;
+import com.ditagis.hcm.docsotanhoa.utities.Preference;
 import com.ditagis.hcm.docsotanhoa.utities.Printer;
 
 import java.io.ByteArrayOutputStream;
@@ -202,6 +203,8 @@ public class DocSo extends Fragment {
             dotString = "0" + mDot;
         this.mLike = dotString + mUsername + "%";
         mRootView = inflater.inflate(R.layout.doc_so_fragment, null);
+        Preference.getInstance().setContext(mRootView.getContext());
+        Preference.getInstance().savePreferences(mRootView.getResources().getString(R.string.preference_tenNV), mStaffName);
         mTxtTT = (TextView) mRootView.findViewById(R.id.txt_ds_tieuThu);
         mTxtTT1 = (TextView) mRootView.findViewById(R.id.txt_ds_tieuThu1);
         mTxtTT2 = (TextView) mRootView.findViewById(R.id.txt_ds_tieuThu2);
@@ -1995,7 +1998,7 @@ public class DocSo extends Fragment {
         mViewPager.setCurrentItem(1, true);
     }
 
-    private void showImage(File f) {
+    private void showImage() {
         //get bitmap from file
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
@@ -2361,7 +2364,7 @@ public class DocSo extends Fragment {
         try {
             if (mHoaDon.getImage_byteArray().length > CONSTANT.MIN_IMAGE_QUATITY) {
 
-                showImage(ImageFile.getFile(currentTime, mRootView, mDanhBo));
+                showImage();
             } else if (checkLocation())
                 capture();
         } catch (Exception e) {
@@ -2458,18 +2461,15 @@ public class DocSo extends Fragment {
                                     this.currentTime = Calendar.getInstance().getTime();
                                 String datetime = this.formatter.format(this.currentTime);
                                 mHoaDon.setThoiGian(datetime);
-                                if (mUploading.addHinhDHN(mHoaDon) > 0) {
+                                if (mUploading.addLocation(mHoaDon) > 0 || mUploading.updateLocation(mHoaDon) > 0) {
                                     mHoaDon.setImage_byteArray(image);
                                     LocalDatabase.getInstance(mRootView.getContext()).updateHoaDon_Image(mHoaDon, Flag.UNREAD);
-
                                     mFrameLayoutViewImage.setVisibility(View.VISIBLE);
                                     showImageViewInFrame(image);
                                     Toast.makeText(mRootView.getContext(), "Đã lưu ảnh", Toast.LENGTH_SHORT).show();
                                 }
                             } else
                                 Toast.makeText(mRootView.getContext(), getString(R.string.no_connect), Toast.LENGTH_SHORT).show();
-
-
                         }
                     } catch (Exception e) {
                         Toast.makeText(mRootView.getContext(), "Chưa lưu được ảnh", Toast.LENGTH_SHORT).show();
