@@ -17,11 +17,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="46a10ebd-f94e-40ec-8d8e-12fac7840b85" name="Default" comment="them location vao bang giamsathanhtrinh khi nhan vien chup anh">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/Preference.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/TanHoa_DocSo_Android.iml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/Uploading.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/Uploading.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java" />
     </list>
     <ignored path="HCM_DOCSOTANHOA.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -66,11 +66,11 @@
     <favorites_list name="HCM_DOCSOTANHOA" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="strings.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="147">
+            <state relative-caret-position="210">
               <caret line="10" column="34" lean-forward="false" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="34" />
               <folding />
             </state>
@@ -80,10 +80,82 @@
       <file leaf-file-name="DocSo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="335">
+            <state relative-caret-position="2310">
               <caret line="205" column="66" lean-forward="false" selection-start-line="205" selection-start-column="66" selection-end-line="205" selection-end-column="66" />
               <folding>
-                <element signature="e#7474#7535#0" expanded="true" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#5578#5579#0" expanded="false" />
+                <element signature="e#5616#5617#0" expanded="false" />
+                <element signature="e#5776#5777#0" expanded="false" />
+                <element signature="e#5808#5809#0" expanded="false" />
+                <element signature="e#5858#5859#0" expanded="false" />
+                <element signature="e#5900#5901#0" expanded="false" />
+                <element signature="e#5938#5939#0" expanded="false" />
+                <element signature="e#5972#5973#0" expanded="false" />
+                <element signature="e#6026#6027#0" expanded="false" />
+                <element signature="e#6072#6073#0" expanded="false" />
+                <element signature="e#6114#6115#0" expanded="false" />
+                <element signature="e#6150#6151#0" expanded="false" />
+                <element signature="e#6210#6211#0" expanded="false" />
+                <element signature="e#6260#6261#0" expanded="false" />
+                <element signature="e#8736#8737#0" expanded="false" />
+                <element signature="e#8819#8820#0" expanded="false" />
+                <element signature="e#10419#10420#0" expanded="false" />
+                <element signature="e#10465#10466#0" expanded="false" />
+                <element signature="e#16563#16564#0" expanded="false" />
+                <element signature="e#16619#16620#0" expanded="false" />
+                <element signature="e#16835#16836#0" expanded="false" />
+                <element signature="e#16891#16892#0" expanded="false" />
+                <element signature="e#17266#17267#0" expanded="false" />
+                <element signature="e#17324#17325#0" expanded="false" />
+                <element signature="e#17544#17545#0" expanded="false" />
+                <element signature="e#17600#17601#0" expanded="false" />
+                <element signature="e#17819#17820#0" expanded="false" />
+                <element signature="e#17879#17880#0" expanded="false" />
+                <element signature="e#18097#18098#0" expanded="false" />
+                <element signature="e#18153#18154#0" expanded="false" />
+                <element signature="e#18374#18375#0" expanded="false" />
+                <element signature="e#18434#18435#0" expanded="false" />
+                <element signature="e#19006#19007#0" expanded="false" />
+                <element signature="e#19060#19061#0" expanded="false" />
+                <element signature="e#19393#19394#0" expanded="false" />
+                <element signature="e#19450#19451#0" expanded="false" />
+                <element signature="e#19684#19685#0" expanded="false" />
+                <element signature="e#19748#19749#0" expanded="false" />
+                <element signature="e#19824#19825#0" expanded="false" />
+                <element signature="e#19851#19852#0" expanded="false" />
+                <element signature="e#27294#27295#0" expanded="false" />
+                <element signature="e#27342#27343#0" expanded="false" />
+                <element signature="e#27780#27781#0" expanded="false" />
+                <element signature="e#27813#27814#0" expanded="false" />
+                <element signature="e#60416#60417#0" expanded="false" />
+                <element signature="e#60459#60460#0" expanded="false" />
+                <element signature="e#60975#60976#0" expanded="false" />
+                <element signature="e#61019#61020#0" expanded="false" />
+                <element signature="e#61515#61516#0" expanded="false" />
+                <element signature="e#61571#61572#0" expanded="false" />
+                <element signature="e#62066#62067#0" expanded="false" />
+                <element signature="e#62122#62123#0" expanded="false" />
+                <element signature="e#62627#62628#0" expanded="false" />
+                <element signature="e#62683#62684#0" expanded="false" />
+                <element signature="e#63191#63192#0" expanded="false" />
+                <element signature="e#63247#63248#0" expanded="false" />
+                <element signature="e#99694#99695#0" expanded="false" />
+                <element signature="e#99744#99745#0" expanded="false" />
+                <element signature="e#100539#100540#0" expanded="false" />
+                <element signature="e#100595#100596#0" expanded="false" />
+                <element signature="e#102491#102492#0" expanded="false" />
+                <element signature="e#102539#102540#0" expanded="false" />
+                <element signature="e#106249#106250#0" expanded="false" />
+                <element signature="e#106313#106314#0" expanded="false" />
+                <element signature="e#107492#107493#0" expanded="false" />
+                <element signature="e#107556#107557#0" expanded="false" />
+                <element signature="e#108594#108595#0" expanded="false" />
+                <element signature="e#108658#108659#0" expanded="false" />
+                <element signature="e#109692#109693#0" expanded="false" />
+                <element signature="e#109756#109757#0" expanded="false" />
+                <element signature="e#117415#117416#0" expanded="false" />
+                <element signature="e#117463#117464#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -92,17 +164,17 @@
       <file leaf-file-name="Preference.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/Preference.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
+            <state relative-caret-position="378">
               <caret line="23" column="0" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="25" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Uploading.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Uploading.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/Uploading.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1258">
+            <state relative-caret-position="62">
               <caret line="258" column="64" lean-forward="false" selection-start-line="258" selection-start-column="64" selection-end-line="258" selection-end-column="64" />
               <folding>
                 <element signature="method#update#0;class#Uploading#0" expanded="false" />
@@ -111,6 +183,26 @@
                 <element signature="method#update#1;class#Uploading#0" expanded="false" />
                 <element signature="method#addHinhDHN#0;class#Uploading#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LayLoTrinhAsync.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/async/LayLoTrinhAsync.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="462">
+              <caret line="164" column="43" lean-forward="false" selection-start-line="164" selection-start-column="43" selection-end-line="164" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LocalDatabase.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="441">
+              <caret line="253" column="74" lean-forward="false" selection-start-line="253" selection-start-column="74" selection-end-line="253" selection-end-column="74" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -194,14 +286,14 @@
         <entry>
           <key>
             <ExternalProjectPojo>
-              <option name="name" value="TanHoa_DocSo_Android" />
+              <option name="name" value="HCM_TanHoa_Android_DocSo" />
               <option name="path" value="$PROJECT_DIR$" />
             </ExternalProjectPojo>
           </key>
           <value>
             <list>
               <ExternalProjectPojo>
-                <option name="name" value="TanHoa_DocSo_Android" />
+                <option name="name" value="HCM_TanHoa_Android_DocSo" />
                 <option name="path" value="$PROJECT_DIR$" />
               </ExternalProjectPojo>
               <ExternalProjectPojo>
@@ -219,7 +311,7 @@
           <value>
             <list>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the sub-projects of root project 'TanHoa_DocSo_Android'." />
+                <option name="description" value="Displays the sub-projects of root project 'HCM_TanHoa_Android_DocSo'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="projects" />
               </ExternalTaskPojo>
@@ -258,7 +350,7 @@
                 <option name="name" value="assembleDebugUnitTest" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the configuration model of root project 'TanHoa_DocSo_Android'. [incubating]" />
+                <option name="description" value="Displays the configuration model of root project 'HCM_TanHoa_Android_DocSo'. [incubating]" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="model" />
               </ExternalTaskPojo>
@@ -273,7 +365,7 @@
                 <option name="name" value="prepareComAndroidSupportAppcompatV72531Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the tasks runnable from root project 'TanHoa_DocSo_Android' (some of the displayed tasks may belong to subprojects)." />
+                <option name="description" value="Displays the tasks runnable from root project 'HCM_TanHoa_Android_DocSo' (some of the displayed tasks may belong to subprojects)." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="tasks" />
               </ExternalTaskPojo>
@@ -306,7 +398,7 @@
                 <option name="name" value="deviceCheck" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays all dependencies declared in root project 'TanHoa_DocSo_Android'." />
+                <option name="description" value="Displays all dependencies declared in root project 'HCM_TanHoa_Android_DocSo'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="dependencies" />
               </ExternalTaskPojo>
@@ -376,7 +468,7 @@
                 <option name="name" value="compileDebugAndroidTestJavaWithJavac" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the components produced by root project 'TanHoa_DocSo_Android'. [incubating]" />
+                <option name="description" value="Displays the components produced by root project 'HCM_TanHoa_Android_DocSo'. [incubating]" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="components" />
               </ExternalTaskPojo>
@@ -524,7 +616,7 @@
                 <option name="name" value="uninstallDebugAndroidTest" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the insight into a specific dependency in root project 'TanHoa_DocSo_Android'." />
+                <option name="description" value="Displays the insight into a specific dependency in root project 'HCM_TanHoa_Android_DocSo'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="dependencyInsight" />
               </ExternalTaskPojo>
@@ -840,12 +932,12 @@
                 <option name="name" value="generateDebugAssets" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the dependent components of components in root project 'TanHoa_DocSo_Android'. [incubating]" />
+                <option name="description" value="Displays the dependent components of components in root project 'HCM_TanHoa_Android_DocSo'. [incubating]" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="dependentComponents" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays all buildscript dependencies declared in root project 'TanHoa_DocSo_Android'." />
+                <option name="description" value="Displays all buildscript dependencies declared in root project 'HCM_TanHoa_Android_DocSo'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="buildEnvironment" />
               </ExternalTaskPojo>
@@ -987,7 +1079,7 @@
                 <option name="name" value="generateReleaseResValues" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the properties of root project 'TanHoa_DocSo_Android'." />
+                <option name="description" value="Displays the properties of root project 'HCM_TanHoa_Android_DocSo'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="properties" />
               </ExternalTaskPojo>
@@ -1969,7 +2061,7 @@
                   </entry>
                 </map>
               </option>
-              <option name="name" value="TanHoa_DocSo_Android" />
+              <option name="name" value="HCM_TanHoa_Android_DocSo" />
               <option name="projectBuildClasspath">
                 <list>
                   <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-3.5-all/exhrs6ca08n232b14ue48lbye/gradle-3.5/src/announce" />
@@ -2166,7 +2258,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/LoginActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/LocationHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/entities/Location.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/DialogSelectDot.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java" />
         <option value="$PROJECT_DIR$/app/libs/jtds-1.3.0.jar!/net/sourceforge/jtds/jdbc/JtdsConnection.class" />
@@ -2175,6 +2266,7 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/Preference.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/Uploading.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java" />
       </list>
     </option>
   </component>
@@ -2217,56 +2309,24 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
-      <pane id="ProjectPane" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="TanHoa_DocSo_Android" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Gradle Scripts" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidBuildScriptsGroupNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TanHoa_DocSo_Android" />
+              <option name="myItemId" value="HCM_TanHoa_Android_DocSo" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="values" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="TanHoa_DocSo_Android" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TanHoa_DocSo_Android" />
+              <option name="myItemId" value="HCM_TanHoa_Android_DocSo" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -2280,7 +2340,7 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="TanHoa_DocSo_Android" />
+              <option name="myItemId" value="HCM_TanHoa_Android_DocSo" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -2298,29 +2358,7 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="TanHoa_DocSo_Android" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="docsotanhoa" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="utities" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TanHoa_DocSo_Android" />
+              <option name="myItemId" value="HCM_TanHoa_Android_DocSo" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -2342,17 +2380,29 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="TanHoa_DocSo_Android" />
+              <option name="myItemId" value="HCM_TanHoa_Android_DocSo" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="docsotanhoa" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="async" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2514,7 +2564,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1524453970299" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1525323281037" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -2562,7 +2612,7 @@
       </Profilers>
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1524453970300" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1525323281037" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -2724,7 +2774,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1524453970301" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1525323281038" />
       </method>
     </configuration>
     <list size="3">
@@ -3128,8 +3178,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="0" width="1936" height="1038" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32982457" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.32982457" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3263158" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17754011" sideWeight="0.52061856" order="3" side_tool="true" content_ui="tabs" />
@@ -3137,7 +3188,6 @@
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32121924" sideWeight="0.50427806" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" x="91" y="91" width="1738" height="848" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31907514" sideWeight="0.49572194" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32716763" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947975" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -3151,7 +3201,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32994652" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34385964" sideWeight="0.49572194" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34385964" sideWeight="0.49572194" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -3160,6 +3210,7 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" x="91" y="91" width="1738" height="848" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967836" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.44327486" sideWeight="0.49572194" order="1" side_tool="false" content_ui="tabs" />
@@ -3222,43 +3273,107 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
+        <state relative-caret-position="210">
           <caret line="10" column="34" lean-forward="false" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/Preference.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="23" column="0" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="25" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="335">
+        <state relative-caret-position="2310">
           <caret line="205" column="66" lean-forward="false" selection-start-line="205" selection-start-column="66" selection-end-line="205" selection-end-column="66" />
           <folding>
-            <element signature="e#7474#7535#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#5578#5579#0" expanded="false" />
+            <element signature="e#5616#5617#0" expanded="false" />
+            <element signature="e#5776#5777#0" expanded="false" />
+            <element signature="e#5808#5809#0" expanded="false" />
+            <element signature="e#5858#5859#0" expanded="false" />
+            <element signature="e#5900#5901#0" expanded="false" />
+            <element signature="e#5938#5939#0" expanded="false" />
+            <element signature="e#5972#5973#0" expanded="false" />
+            <element signature="e#6026#6027#0" expanded="false" />
+            <element signature="e#6072#6073#0" expanded="false" />
+            <element signature="e#6114#6115#0" expanded="false" />
+            <element signature="e#6150#6151#0" expanded="false" />
+            <element signature="e#6210#6211#0" expanded="false" />
+            <element signature="e#6260#6261#0" expanded="false" />
+            <element signature="e#8736#8737#0" expanded="false" />
+            <element signature="e#8819#8820#0" expanded="false" />
+            <element signature="e#10419#10420#0" expanded="false" />
+            <element signature="e#10465#10466#0" expanded="false" />
+            <element signature="e#16563#16564#0" expanded="false" />
+            <element signature="e#16619#16620#0" expanded="false" />
+            <element signature="e#16835#16836#0" expanded="false" />
+            <element signature="e#16891#16892#0" expanded="false" />
+            <element signature="e#17266#17267#0" expanded="false" />
+            <element signature="e#17324#17325#0" expanded="false" />
+            <element signature="e#17544#17545#0" expanded="false" />
+            <element signature="e#17600#17601#0" expanded="false" />
+            <element signature="e#17819#17820#0" expanded="false" />
+            <element signature="e#17879#17880#0" expanded="false" />
+            <element signature="e#18097#18098#0" expanded="false" />
+            <element signature="e#18153#18154#0" expanded="false" />
+            <element signature="e#18374#18375#0" expanded="false" />
+            <element signature="e#18434#18435#0" expanded="false" />
+            <element signature="e#19006#19007#0" expanded="false" />
+            <element signature="e#19060#19061#0" expanded="false" />
+            <element signature="e#19393#19394#0" expanded="false" />
+            <element signature="e#19450#19451#0" expanded="false" />
+            <element signature="e#19684#19685#0" expanded="false" />
+            <element signature="e#19748#19749#0" expanded="false" />
+            <element signature="e#19824#19825#0" expanded="false" />
+            <element signature="e#19851#19852#0" expanded="false" />
+            <element signature="e#27294#27295#0" expanded="false" />
+            <element signature="e#27342#27343#0" expanded="false" />
+            <element signature="e#27780#27781#0" expanded="false" />
+            <element signature="e#27813#27814#0" expanded="false" />
+            <element signature="e#60416#60417#0" expanded="false" />
+            <element signature="e#60459#60460#0" expanded="false" />
+            <element signature="e#60975#60976#0" expanded="false" />
+            <element signature="e#61019#61020#0" expanded="false" />
+            <element signature="e#61515#61516#0" expanded="false" />
+            <element signature="e#61571#61572#0" expanded="false" />
+            <element signature="e#62066#62067#0" expanded="false" />
+            <element signature="e#62122#62123#0" expanded="false" />
+            <element signature="e#62627#62628#0" expanded="false" />
+            <element signature="e#62683#62684#0" expanded="false" />
+            <element signature="e#63191#63192#0" expanded="false" />
+            <element signature="e#63247#63248#0" expanded="false" />
+            <element signature="e#99694#99695#0" expanded="false" />
+            <element signature="e#99744#99745#0" expanded="false" />
+            <element signature="e#100539#100540#0" expanded="false" />
+            <element signature="e#100595#100596#0" expanded="false" />
+            <element signature="e#102491#102492#0" expanded="false" />
+            <element signature="e#102539#102540#0" expanded="false" />
+            <element signature="e#106249#106250#0" expanded="false" />
+            <element signature="e#106313#106314#0" expanded="false" />
+            <element signature="e#107492#107493#0" expanded="false" />
+            <element signature="e#107556#107557#0" expanded="false" />
+            <element signature="e#108594#108595#0" expanded="false" />
+            <element signature="e#108658#108659#0" expanded="false" />
+            <element signature="e#109692#109693#0" expanded="false" />
+            <element signature="e#109756#109757#0" expanded="false" />
+            <element signature="e#117415#117416#0" expanded="false" />
+            <element signature="e#117463#117464#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/Preference.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="23" column="0" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="25" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/Uploading.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1258">
+        <state relative-caret-position="2268">
           <caret line="258" column="64" lean-forward="false" selection-start-line="258" selection-start-column="64" selection-end-line="258" selection-end-column="64" />
           <folding>
             <element signature="method#update#0;class#Uploading#0" expanded="false" />
@@ -3267,6 +3382,141 @@
             <element signature="method#update#1;class#Uploading#0" expanded="false" />
             <element signature="method#addHinhDHN#0;class#Uploading#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="10" column="34" lean-forward="false" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/Preference.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="23" column="0" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="25" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2310">
+          <caret line="205" column="66" lean-forward="false" selection-start-line="205" selection-start-column="66" selection-end-line="205" selection-end-column="66" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#5578#5579#0" expanded="false" />
+            <element signature="e#5616#5617#0" expanded="false" />
+            <element signature="e#5776#5777#0" expanded="false" />
+            <element signature="e#5808#5809#0" expanded="false" />
+            <element signature="e#5858#5859#0" expanded="false" />
+            <element signature="e#5900#5901#0" expanded="false" />
+            <element signature="e#5938#5939#0" expanded="false" />
+            <element signature="e#5972#5973#0" expanded="false" />
+            <element signature="e#6026#6027#0" expanded="false" />
+            <element signature="e#6072#6073#0" expanded="false" />
+            <element signature="e#6114#6115#0" expanded="false" />
+            <element signature="e#6150#6151#0" expanded="false" />
+            <element signature="e#6210#6211#0" expanded="false" />
+            <element signature="e#6260#6261#0" expanded="false" />
+            <element signature="e#8736#8737#0" expanded="false" />
+            <element signature="e#8819#8820#0" expanded="false" />
+            <element signature="e#10419#10420#0" expanded="false" />
+            <element signature="e#10465#10466#0" expanded="false" />
+            <element signature="e#16563#16564#0" expanded="false" />
+            <element signature="e#16619#16620#0" expanded="false" />
+            <element signature="e#16835#16836#0" expanded="false" />
+            <element signature="e#16891#16892#0" expanded="false" />
+            <element signature="e#17266#17267#0" expanded="false" />
+            <element signature="e#17324#17325#0" expanded="false" />
+            <element signature="e#17544#17545#0" expanded="false" />
+            <element signature="e#17600#17601#0" expanded="false" />
+            <element signature="e#17819#17820#0" expanded="false" />
+            <element signature="e#17879#17880#0" expanded="false" />
+            <element signature="e#18097#18098#0" expanded="false" />
+            <element signature="e#18153#18154#0" expanded="false" />
+            <element signature="e#18374#18375#0" expanded="false" />
+            <element signature="e#18434#18435#0" expanded="false" />
+            <element signature="e#19006#19007#0" expanded="false" />
+            <element signature="e#19060#19061#0" expanded="false" />
+            <element signature="e#19393#19394#0" expanded="false" />
+            <element signature="e#19450#19451#0" expanded="false" />
+            <element signature="e#19684#19685#0" expanded="false" />
+            <element signature="e#19748#19749#0" expanded="false" />
+            <element signature="e#19824#19825#0" expanded="false" />
+            <element signature="e#19851#19852#0" expanded="false" />
+            <element signature="e#27294#27295#0" expanded="false" />
+            <element signature="e#27342#27343#0" expanded="false" />
+            <element signature="e#27780#27781#0" expanded="false" />
+            <element signature="e#27813#27814#0" expanded="false" />
+            <element signature="e#60416#60417#0" expanded="false" />
+            <element signature="e#60459#60460#0" expanded="false" />
+            <element signature="e#60975#60976#0" expanded="false" />
+            <element signature="e#61019#61020#0" expanded="false" />
+            <element signature="e#61515#61516#0" expanded="false" />
+            <element signature="e#61571#61572#0" expanded="false" />
+            <element signature="e#62066#62067#0" expanded="false" />
+            <element signature="e#62122#62123#0" expanded="false" />
+            <element signature="e#62627#62628#0" expanded="false" />
+            <element signature="e#62683#62684#0" expanded="false" />
+            <element signature="e#63191#63192#0" expanded="false" />
+            <element signature="e#63247#63248#0" expanded="false" />
+            <element signature="e#99694#99695#0" expanded="false" />
+            <element signature="e#99744#99745#0" expanded="false" />
+            <element signature="e#100539#100540#0" expanded="false" />
+            <element signature="e#100595#100596#0" expanded="false" />
+            <element signature="e#102491#102492#0" expanded="false" />
+            <element signature="e#102539#102540#0" expanded="false" />
+            <element signature="e#106249#106250#0" expanded="false" />
+            <element signature="e#106313#106314#0" expanded="false" />
+            <element signature="e#107492#107493#0" expanded="false" />
+            <element signature="e#107556#107557#0" expanded="false" />
+            <element signature="e#108594#108595#0" expanded="false" />
+            <element signature="e#108658#108659#0" expanded="false" />
+            <element signature="e#109692#109693#0" expanded="false" />
+            <element signature="e#109756#109757#0" expanded="false" />
+            <element signature="e#117415#117416#0" expanded="false" />
+            <element signature="e#117463#117464#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/Uploading.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="62">
+          <caret line="258" column="64" lean-forward="false" selection-start-line="258" selection-start-column="64" selection-end-line="258" selection-end-column="64" />
+          <folding>
+            <element signature="method#update#0;class#Uploading#0" expanded="false" />
+            <element signature="method#updateLocation#0;class#Uploading#0" expanded="false" />
+            <element signature="method#add#0;class#Uploading#0" expanded="false" />
+            <element signature="method#update#1;class#Uploading#0" expanded="false" />
+            <element signature="method#addHinhDHN#0;class#Uploading#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/async/LayLoTrinhAsync.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="164" column="43" lean-forward="false" selection-start-line="164" selection-start-column="43" selection-end-line="164" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="253" column="74" lean-forward="false" selection-start-line="253" selection-start-column="74" selection-end-line="253" selection-end-column="74" />
+          <folding />
         </state>
       </provider>
     </entry>

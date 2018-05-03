@@ -248,92 +248,50 @@ public class LocalDatabase extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         try {
-            String sql = "INSERT INTO " + TABLE_HOADON + " ("
-                    + COLUMN_HOADON_DOT + ", "
-                    + COLUMN_HOADON_DANHBO + ", "
-                    + COLUMN_HOADON_KHACHHANG + ", "
-                    + COLUMN_HOADON_SONHA + ", "
-                    + COLUMN_HOADON_DUONG + ", "
-                    + COLUMN_HOADON_GIABIEU + ", "
-                    + COLUMN_HOADON_DINHMUC + ", "
-                    + COLUMN_HOADON_KY + ", "
-                    + COLUMN_HOADON_CHISOCU + ", "
-                    + COLUMN_HOADON_MALOTRINH + ", "
-                    + COLUMN_HOADON_SDT + ", "
-                    + COLUMN_HOADON_CODE1 + ", "
-                    + COLUMN_HOADON_CODE2 + ", "
-                    + COLUMN_HOADON_CODE3 + ", "
-                    + COLUMN_HOADON_CSC1 + ", "
-                    + COLUMN_HOADON_CSC2 + ", "
-                    + COLUMN_HOADON_CSC3 + ", "
-                    + COLUMN_HOADON_SANLUONG1 + ", "
-                    + COLUMN_HOADON_SANLUONG2 + ", "
-                    + COLUMN_HOADON_SANLUONG3 + ", "
-                    + COLUMN_HOADON_FLAG + ", "
-                    + COLUMN_HOADON_CODE_MOI + ", "
-                    + COLUMN_HOADON_CSM + ", "
-                    + COLUMN_HOADON_TTMOI + ", "
-                    + COLUMN_HOADON_GHI_CHU + ", "
-                    + COLUMN_HOADON_HINH + ", "
-                    + COLUMN_HOADON_HINH_BYTE_ARRAY + ", "
-                    + COLUMN_HOADON_THOI_GIAN + ", "
-                    + COLUMN_HOADON_SO_THAN + ", "
-                    + COLUMN_HOADON_HIEU + ", "
-                    + COLUMN_HOADON_CO + ", "
-                    + COLUMN_HOADON_VI_TRI + ", "
-                    + COLUMN_HOADON_SH + ", "
-                    + COLUMN_HOADON_SX + ", "
-                    + COLUMN_HOADON_DV + ", "
-                    + COLUMN_HOADON_HC + ", "
-                    + COLUMN_HOADON_TU_NGAY + ", "
-                    + COLUMN_HOADON_DEN_NGAY + ", "
-                    + COLUMN_HOADON_CSGO + ", "
-                    + COLUMN_HOADON_CSGANMOI + ", "
-                    + COLUMN_HOADON_ID
-                    + ") Values ('" +
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_HOADON_DOT, hoaDon.getDot());
+            values.put(COLUMN_HOADON_DANHBO, hoaDon.getDanhBo());
+            values.put(COLUMN_HOADON_KHACHHANG, hoaDon.getTenKhachHang());
+            values.put(COLUMN_HOADON_SONHA, hoaDon.getSoNha());
+            values.put(COLUMN_HOADON_DUONG, hoaDon.getDuong());
+            values.put(COLUMN_HOADON_GIABIEU, hoaDon.getGiaBieu());
+            values.put(COLUMN_HOADON_DINHMUC, hoaDon.getDinhMuc());
+            values.put(COLUMN_HOADON_KY, hoaDon.getKy());
+            values.put(COLUMN_HOADON_CHISOCU, hoaDon.getChiSoCu());
+            values.put(COLUMN_HOADON_MALOTRINH, hoaDon.getMaLoTrinh());
+            values.put(COLUMN_HOADON_SDT, hoaDon.getSdt());
+            values.put(COLUMN_HOADON_CODE1, hoaDon.getCode_CSC_SanLuong().getCode1());
+            values.put(COLUMN_HOADON_CODE2, hoaDon.getCode_CSC_SanLuong().getCode2());
+            values.put(COLUMN_HOADON_CODE3, hoaDon.getCode_CSC_SanLuong().getCode3());
+            values.put(COLUMN_HOADON_CSC1, hoaDon.getCode_CSC_SanLuong().getCSC1());
+            values.put(COLUMN_HOADON_CSC2, hoaDon.getCode_CSC_SanLuong().getCSC2());
+            values.put(COLUMN_HOADON_CSC3, hoaDon.getCode_CSC_SanLuong().getCSC3());
+            values.put(COLUMN_HOADON_SANLUONG1, hoaDon.getCode_CSC_SanLuong().getSanLuong1());
+            values.put(COLUMN_HOADON_SANLUONG2, hoaDon.getCode_CSC_SanLuong().getSanLuong2());
+            values.put(COLUMN_HOADON_SANLUONG3, hoaDon.getCode_CSC_SanLuong().getSanLuong3());
+            values.put(COLUMN_HOADON_FLAG, hoaDon.getFlag());
+            values.put(COLUMN_HOADON_CODE_MOI, hoaDon.getCodeMoi());
+            values.put(COLUMN_HOADON_CSM, hoaDon.getChiSoMoi());
+            values.put(COLUMN_HOADON_TTMOI, hoaDon.getTieuThuMoi());
+            values.put(COLUMN_HOADON_GHI_CHU, hoaDon.getGhiChu());
+            values.put(COLUMN_HOADON_HINH, hoaDon.getImage());
+            values.put(COLUMN_HOADON_HINH_BYTE_ARRAY, hoaDon.getImage_byteArray());
+            values.put(COLUMN_HOADON_THOI_GIAN, hoaDon.getThoiGian());
+            values.put(COLUMN_HOADON_SO_THAN, hoaDon.getSoThan());
+            values.put(COLUMN_HOADON_HIEU, hoaDon.getHieu());
+            values.put(COLUMN_HOADON_CO, hoaDon.getCo());
+            values.put(COLUMN_HOADON_VI_TRI, hoaDon.getViTri());
+            values.put(COLUMN_HOADON_SH, hoaDon.getSh());
+            values.put(COLUMN_HOADON_SX, hoaDon.getSx());
+            values.put(COLUMN_HOADON_DV, hoaDon.getDv());
+            values.put(COLUMN_HOADON_HC, hoaDon.getHc());
+            values.put(COLUMN_HOADON_TU_NGAY, hoaDon.getTuNgay());
+            values.put(COLUMN_HOADON_DEN_NGAY, hoaDon.getDenNgay());
+            values.put(COLUMN_HOADON_CSGO, hoaDon.getCsgo());
+            values.put(COLUMN_HOADON_CSGANMOI, hoaDon.getCsganmoi());
+            values.put(COLUMN_HOADON_ID, hoaDon.getId());
 
-                    hoaDon.getDot() + "', '"
-                    + hoaDon.getDanhBo() + "', '" +
-                    hoaDon.getTenKhachHang() + "', '" +
-                    hoaDon.getSoNha() + "', '" +
-                    hoaDon.getDuong() + "','" +
-                    hoaDon.getGiaBieu() + "','" +
-                    hoaDon.getDinhMuc() + "','" +
-                    hoaDon.getKy() + "','" +
-                    hoaDon.getChiSoCu() + "','" +
-                    hoaDon.getMaLoTrinh() + "','" +
-                    hoaDon.getSdt() + "','" +
-                    hoaDon.getCode_CSC_SanLuong().getCode1() + "','" +
-                    hoaDon.getCode_CSC_SanLuong().getCode2() + "','" +
-                    hoaDon.getCode_CSC_SanLuong().getCode3() + "','" +
-                    hoaDon.getCode_CSC_SanLuong().getCSC1() + "','" +
-                    hoaDon.getCode_CSC_SanLuong().getCSC2() + "','" +
-                    hoaDon.getCode_CSC_SanLuong().getCSC3() + "','" +
-                    hoaDon.getCode_CSC_SanLuong().getSanLuong1() + "','" +
-                    hoaDon.getCode_CSC_SanLuong().getSanLuong2() + "','" +
-                    hoaDon.getCode_CSC_SanLuong().getSanLuong3() + "'," +
-                    hoaDon.getFlag() + ",'" +
-                    hoaDon.getCodeMoi() + "','" +
-                    hoaDon.getChiSoMoi() + "','" +
-                    hoaDon.getTieuThuMoi() + "','" +
-                    hoaDon.getGhiChu() + "','" +
-                    hoaDon.getImage() + "','" +
-                    hoaDon.getImage_byteArray() + "','" +
-                    hoaDon.getThoiGian() + "','" +
-                    hoaDon.getSoThan() + "','" +
-                    hoaDon.getHieu() + "','" +
-                    hoaDon.getCo() + "','" +
-                    hoaDon.getViTri() + "','" +
-                    hoaDon.getSh() + "','" +
-                    hoaDon.getSx() + "','" +
-                    hoaDon.getDv() + "','" +
-                    hoaDon.getHc() + "','" +
-                    hoaDon.getTuNgay() + "','" +
-                    hoaDon.getDenNgay() + "'," +
-                    hoaDon.getCsgo() + "," +
-                    hoaDon.getCsganmoi() + ", '" +
-                    hoaDon.getId() + "')";
-            db.execSQL(sql);
+            long value = db.insert(TABLE_HOADON, null, values);
 
             // Đóng kết nối database.
             db.close();
