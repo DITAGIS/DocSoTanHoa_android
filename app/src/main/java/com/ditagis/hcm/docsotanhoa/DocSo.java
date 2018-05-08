@@ -1502,7 +1502,7 @@ public class DocSo extends Fragment {
         mKys.clear();
         String kyString = "";
         for (GridViewSelectFolderAdapter.Item item : mSelectFolderAdapter.getItems()) {
-            kyString = item.getKy().length() == 1 ? "0" + item.getKy() : item.getKy();
+            kyString = String.format("%02d", Integer.parseInt(item.getKy()));
             if (!mKys.contains(kyString))
                 mKys.add(kyString);
         }
@@ -1520,15 +1520,8 @@ public class DocSo extends Fragment {
 //            isFound = false;
 //        }
         mAdapterKy.notifyDataSetChanged();
-        int kyInt = Integer.parseInt(ky);
-        kyString = kyInt + "";
-        if (kyInt < 10)
-            kyString = "0" + kyInt;
-        int dotInt = Integer.parseInt(dot);
-        String dotString = dotInt + "";
-        if (dotInt < 10)
-            dotString = "0" + dotInt;
-
+        kyString = String.format("%02d", Integer.parseInt(ky));
+        String dotString = String.format("%02d", Integer.parseInt(dot));
         for (int i = 0; i < mAdapterKy.getCount(); i++) {
             if (mAdapterKy.getItem(i).equals(kyString)) {
                 mSpinKy.setSelection(i);
@@ -1542,15 +1535,6 @@ public class DocSo extends Fragment {
             }
         }
     }
-
-    public void selectDotFromOut(int dot) {
-        for (int i = 0; i < mDots.size(); i++)
-            if (Integer.parseInt(mDots.get(i)) == dot) {
-                mSpinDot.setSelection(i);
-                return;
-            }
-    }
-
     private void selectKy(int position) {
         mKy = Integer.parseInt(mKys.get(position));
         createDot();

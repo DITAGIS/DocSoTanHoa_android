@@ -116,7 +116,7 @@ public class QuanLyDocSo extends Fragment {
         mSpinCode.setAdapter(mAdapterCode);
 
         mTxtComplete = (TextView) mRootView.findViewById(R.id.txt_qlds_complete);
-        mUploading = new Uploading( mKy, mNam, mRootView.getContext());
+        mUploading = new Uploading(mKy, mNam, mRootView.getContext());
         mGridView = (GridView) mRootView.findViewById(R.id.grid_qlds_danhSachDocSo);
         mKyString = mKy + "";
         if (mKy < 10)
@@ -407,26 +407,12 @@ public class QuanLyDocSo extends Fragment {
         mKys.clear();
         boolean isFound = false;
         for (GridViewSelectFolderAdapter.Item item : mSelectFolderAdapter.getItems()) {
-            mKys.add(item.getKy().length() == 1 ? "0" + item.getKy() : item.getKy());
+            String iKy = String.format("%02d", Integer.parseInt(item.getKy()));
+            if (!mKys.contains(iKy))
+                mKys.add(iKy);
         }
-//        for (int i = 0; i < mKys.size(); i++) {
-//            for (GridViewSelectFolderAdapter.Item item : mSelectFolderAdapter.getItems()) {
-//                if (item.getKy().equals(Integer.parseInt(mKys.get(i)) + "")) {
-//                    isFound = true;
-//                    break;
-//                }
-//            }
-//            if (!isFound) {
-//                mKys.remove(mKys.get(i));
-//                i--;
-//            }
-//            isFound = false;
-//        }
         mAdapterKy.notifyDataSetChanged();
-        int kyInt = Integer.parseInt(ky);
-        String kyString = kyInt + "";
-        if (kyInt < 10)
-            kyString = "0" + kyInt;
+        String kyString = String.format("%02d", Integer.parseInt(ky));
         int dotInt = Integer.parseInt(dot);
         String dotString = dotInt + "";
         if (dotInt < 10)
