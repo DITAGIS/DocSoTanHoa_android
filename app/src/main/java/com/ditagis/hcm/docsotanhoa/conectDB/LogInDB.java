@@ -134,7 +134,7 @@ public class LogInDB implements IDB<User, Boolean, String> {
 //        int ky  = 10; // lay ky 10
 //        int dot = calendar.get(Calendar.DAY_OF_MONTH);
         String nam = "";
-        Connection cnn = ConnectionDB.getInstance().getConnection(true);
+        Connection cnn = ConnectionDB.getInstance().getConnection();
         String sql = this.SQL_SELECT;
 
         try {

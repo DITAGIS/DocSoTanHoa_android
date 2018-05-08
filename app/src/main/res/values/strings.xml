@@ -39,6 +39,7 @@
     <string name="disconnect_title">Không có kết nối internet!</string>
     <string name="disconnect_message">Kiểm tra kết nối internet và thử lại!</string>
     <string name="no_connect">Kiểm tra kết nối internet và thử lại!</string>
+    <string name="connecting">Đang kết nối cơ sở dữ liệu...</string>
     <string name="checking_login">Đang kiểm tra thông tin đăng nhập...</string>
     <string name="checking_login_username">Đang lấy số máy...</string>
     <string name="not_null_username_password">Tên đăng nhập và mật khẩu không được để trống!</string>
@@ -58,7 +59,8 @@
 
     <string name="path_saveImage">.docsotanhoa</string>
 
-    <string name="load_danhbo_title">Đang tải danh bộ: </string>
+    <string name="load_danhbo_title">Đang tải danh bộ...</string>
+    <string name="save_danhbo_title">Đang lưu danh bộ...</string>
     <string name="load_danhbo_message">Giữ kết nối mạng ổn định trong quá trình tải danh bộ!</string>
     <string name="load_danhbo_error">Tải danh bộ thất bại!</string>
     <string name="load_danhbo_complete">Đã tải xong danh bộ!</string>

@@ -34,10 +34,8 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
     private final String TABLE_NAME = "HOADON";
     private final String NEW_TABLE_NAME = "HoaDonMoi";
     private String TABLE_NAME_DOCSO = "DocSo1";
-    private final String TABLE_NAME_DOCSO1 = "DocSo20180215";
     private final String TABLE_NAME_KH = "KhachHang";
     private final String TABLE_NAME_DOCSO_LUUTRU = "DocSoLuuTru";
-    private final String SQL_SELECT_DANHBO = "SELECT DANHBO FROM " + TABLE_NAME;
 
     private String SQL_CREATE_TEMP_TABLE = "if OBJECT_ID('tempdb.dbo.#docsotemp') is not null drop table #docsotemp; " +
             "select docsoid, csmoi, codemoi, ghichuds, tieuthumoi, gioghi, sdt, vitrimoi, tiennuoc, bvmt, thue, " +
@@ -68,7 +66,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
     private final String TABLE_NAME_GIAM_SAT = "GiamSatHanhTrinh";
     private final String SQL_INSERT_GIAM_SAT = "insert into " + TABLE_NAME_GIAM_SAT + " (id, nhanvien, longtitude, latitude, thoigian) values(?,?,?,?,?)";
     private final String SQL_UPDATE_GIAM_SAT = "update " + TABLE_NAME_GIAM_SAT + " set longtitude =?, latitude =?, thoigian =? where id =?";
-    private final String TABLE_NAME_HINHDHN = "DocsoTh_Hinh..HinhDHN";//(Danhbo, Image, Latitude, Longitude, CreateBy, CreateDate)
+    private final String TABLE_NAME_HINHDHN = "Docsoth_hinh..HinhDHN";//(Danhbo, Image, Latitude, Longitude, CreateBy, CreateDate)
     private final String SQL_INSERT_HINHDHN = " INSERT INTO " + TABLE_NAME_HINHDHN + " VALUES(?,?,?,?)  ";
     private final String SQL_UPDATE_HINHDHN = " update " + TABLE_NAME_HINHDHN + " set Image = ?, CreateDate =?  " +
             "    where hinhdhnid = ?";

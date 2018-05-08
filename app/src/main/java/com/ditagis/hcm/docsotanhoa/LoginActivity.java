@@ -28,8 +28,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
+import com.ditagis.hcm.docsotanhoa.conectDB.ConnectionDB;
 import com.ditagis.hcm.docsotanhoa.conectDB.LogInDB;
 import com.ditagis.hcm.docsotanhoa.entities.User;
 import com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver;
@@ -42,8 +42,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.Calendar;
 import java.util.Set;
-
-import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, ActivityCompat.OnRequestPermissionsResultCallback {
@@ -278,13 +276,20 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     public boolean requestPermisson() {
+//        LocationHelper mLocationHelper = new LocationHelper(this);
+//        mLocationHelper.checkpermission();
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            Manifest.permission.CALL_PHONE, Manifest.permission.READ_PHONE_STATE},
+                            Manifest.permission.CALL_PHONE, Manifest.permission.READ_PHONE_STATE,Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION},
                     REQUEST_ID_IMAGE_CAPTURE);
+
         }
         if (Build.VERSION.SDK_INT >= 23 &&
                 ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
@@ -419,7 +424,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         protected void onPreExecute() {
             super.onPreExecute();
             HideKeyboard.hide(LoginActivity.this);
-            dialog.setMessage(LoginActivity.this.getString(R.string.checking_login));
+            dialog.setMessage(LoginActivity.this.getString(R.string.connecting));
             dialog.setCancelable(false);
 
             dialog.show();
@@ -438,6 +443,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             if (params.length > 2)
                 IMEI = params[2];
             LogInDB.Result result = null;
+            ConnectionDB.getInstance().getConnection(true);
+            publishProgress(null);
+
             if (IMEI.equals(""))
                 result = this.loginDB.logIn(new User(username, password));
             else result = this.loginDB.logIn(new User(username, password), IMEI);
@@ -470,9 +478,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         @Override
         protected void onProgressUpdate(LogInDB.Result... values) {
             super.onProgressUpdate(values);
+            if (values == null) {
+                dialog.setMessage(LoginActivity.this.getString(R.string.checking_login));
+                return;
+            }
             LogInDB.Result result = values[0];
             if (result == null) {
-//                AlertDialogDisConnect.show(btnLogin.getContext(), LoginActivity.this);
+
             } else if (result.getmStaffName() == null)
                 MySnackBar.make(btnLogin, "Chưa khởi tạo máy " + result.getUsername(), true);
             else if (result.getmStaffName().length() > 0) {
@@ -554,11 +566,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         }
     }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
             final String location = data.getStringExtra(getString(R.string.ket_qua_location_loc));
-            final double longtitude = data.getDoubleExtra(getString(R.string.ket_qua_location_long),0.0);
-            final double latetitude = data.getDoubleExtra(getString(R.string.ket_qua_location_lat),0.0);
+            final double longtitude = data.getDoubleExtra(getString(R.string.ket_qua_location_long), 0.0);
+            final double latetitude = data.getDoubleExtra(getString(R.string.ket_qua_location_lat), 0.0);
             if (requestCode == 1) {
                 if (resultCode == Activity.RESULT_OK) {
 
