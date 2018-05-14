@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
-    private final String TABLE_NAME = "DocSo";
+    private final String TABLE_NAME = "DocSo31";
     private final String TABLE_NAME_KH = "KhachHang";
     private final String SQL_SELECT_GETALL_BY_USERNAME = "SELECT d.gb,d.dm,CSCU, d.MLT2, soThanCu, hieucu, cocu, vitricu, codemoi,tungay, denngay,codecu, tieuthucu, k.TenKH, k.so, k.duong, k.sdt, sh,sx,dv,hc " +
             " FROM " + TABLE_NAME + " d inner join " + TABLE_NAME_KH + " k on d.danhba= k.danhba ";
@@ -118,7 +118,6 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
         }
         return result;
     }
-
     public List<String> getCountHoaDon(String userName, int dot, int nam, int ky) {
         Connection cnn = ConnectionDB.getInstance().getConnection();
         List<String> DBs = new ArrayList<>();
@@ -139,10 +138,11 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
             String like = dotString + userName + "%";
 
             //vẫn lấy danh sách code F, phòng trường hợp đọc vét nhưng localdatabase đã xóa
-            final ResultSet rs = statement.executeQuery("select danhba from docso where docsoid like '" + nam + kyString + "%' and mlt2 like '" + like + "' and (codemoi ='' " +
+            String sql = "select danhba from "+TABLE_NAME+" where docsoid like '" + nam + kyString + "%' and mlt2 like '" + like + "' and (codemoi ='' " +
 //                    ")");
                     "or " +
-                    " codemoi like 'F%')");
+                    " codemoi like 'F%')";
+            final ResultSet rs = statement.executeQuery(sql);
 
             while (rs.next()) {
                 DBs.add(rs.getString(1));
@@ -176,7 +176,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
             String like = dotString + userName + "%";
 
             //vẫn lấy danh sách code F, phòng trường hợp đọc vét nhưng localdatabase đã xóa
-            final ResultSet rs = statement.executeQuery("select danhba from docso where docsoid like '" + nam + kyString + "%' and mlt2 like '" + like + "' and codemoi <>'' ");
+            final ResultSet rs = statement.executeQuery("select danhba from "+TABLE_NAME+" where docsoid like '" + nam + kyString + "%' and mlt2 like '" + like + "' and codemoi <>'' ");
 
             while (rs.next()) {
                 DBs.add(rs.getString(1));

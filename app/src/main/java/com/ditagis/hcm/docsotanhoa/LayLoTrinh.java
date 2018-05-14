@@ -1,13 +1,13 @@
 package com.ditagis.hcm.docsotanhoa;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -44,7 +44,7 @@ public class LayLoTrinh {
     private GridViewLayLoTrinhAdapter mLayLoTrinhAdapter;
     private int mSumDanhBo;
     private int mSumMLT;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+
     private int mKy;
     private int mNam;
     private int mDot;
