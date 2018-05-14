@@ -34,7 +34,7 @@ import java.util.Locale;
 public class Uploading implements IDB<HoaDon, Boolean, String> {
     private final String TABLE_NAME = "HOADON";
     private final String NEW_TABLE_NAME = "HoaDonMoi";
-    private String TABLE_NAME_DOCSO = "DocSo1";
+    private String TABLE_NAME_DOCSO = "DocSo";
     private final String TABLE_NAME_KH = "KhachHang";
     private final String TABLE_NAME_DOCSO_LUUTRU = "DocSoLuuTru";
 
