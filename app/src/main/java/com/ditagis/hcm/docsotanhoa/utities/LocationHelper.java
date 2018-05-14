@@ -2,12 +2,14 @@ package com.ditagis.hcm.docsotanhoa.utities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
@@ -17,7 +19,6 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
@@ -33,9 +34,9 @@ import java.util.Locale;
  * Created by ThanLe on 4/16/2018.
  */
 
-public class LocationHelper implements PermissionUtils.PermissionResultCallback {
+public class LocationHelper extends AsyncTask<Void, Object, Void> implements PermissionUtils.PermissionResultCallback {
 
-    private Context context;
+    private Context mContext;
     private Activity current_activity;
 
     private boolean isPermissionGranted;
@@ -53,10 +54,17 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback 
 
     private final static int PLAY_SERVICES_REQUEST = 1000;
     private final static int REQUEST_CHECK_SETTINGS = 2000;
+    private ProgressDialog mDialog;
 
-    public LocationHelper(Context context) {
+    public interface AsyncResponse {
+        void processFinish(Void output);
+    }
 
-        this.context = context;
+    public AsyncResponse delegate = null;
+
+    public LocationHelper(Context context, AsyncResponse delegate) {
+        this.delegate = delegate;
+        this.mContext = context;
         this.current_activity = (Activity) context;
 
         permissionUtils = new PermissionUtils(context, this);
@@ -86,7 +94,7 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback 
 
         GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
 
-        int resultCode = googleApiAvailability.isGooglePlayServicesAvailable(context);
+        int resultCode = googleApiAvailability.isGooglePlayServicesAvailable(mContext);
 
         if (resultCode != ConnectionResult.SUCCESS) {
             if (googleApiAvailability.isUserResolvableError(resultCode)) {
@@ -127,7 +135,7 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback 
     public Address getAddress(double latitude, double longitude) {
         Geocoder geocoder;
         List<Address> addresses;
-        geocoder = new Geocoder(context, Locale.getDefault());
+        geocoder = new Geocoder(mContext, Locale.getDefault());
 
         try {
             addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
@@ -147,7 +155,7 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback 
      */
 
     public void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(context)
+        mGoogleApiClient = new GoogleApiClient.Builder(mContext)
                 .addConnectionCallbacks((GoogleApiClient.ConnectionCallbacks) current_activity)
                 .addOnConnectionFailedListener((GoogleApiClient.OnConnectionFailedListener) current_activity)
                 .addApi(LocationServices.API).build();
@@ -169,7 +177,7 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback 
             @Override
             public void onResult(@NonNull LocationSettingsResult locationSettingsResult) {
 
-                final Status status = locationSettingsResult.getStatus();
+                final com.google.android.gms.common.api.Status status = locationSettingsResult.getStatus();
 
                 switch (status.getStatusCode()) {
                     case LocationSettingsStatusCodes.SUCCESS:
@@ -210,7 +218,7 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback 
             @Override
             public void onResult(@NonNull LocationSettingsResult locationSettingsResult) {
 
-                final Status status = locationSettingsResult.getStatus();
+                final com.google.android.gms.common.api.Status status = locationSettingsResult.getStatus();
 
                 switch (status.getStatusCode()) {
                     case LocationSettingsStatusCodes.SUCCESS:
@@ -302,8 +310,81 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback 
 
 
     private void showToast(String message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
     }
 
 
+    @Override
+    protected Void doInBackground(Void... voids) {
+        mGoogleApiClient = new GoogleApiClient.Builder(mContext)
+                .addConnectionCallbacks((GoogleApiClient.ConnectionCallbacks) current_activity)
+                .addOnConnectionFailedListener((GoogleApiClient.OnConnectionFailedListener) current_activity)
+                .addApi(LocationServices.API).build();
+
+        mGoogleApiClient.connect();
+
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(10000);
+        mLocationRequest.setFastestInterval(5000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(mLocationRequest);
+
+        PendingResult<LocationSettingsResult> result =
+                LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient, builder.build());
+
+        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+            @Override
+            public void onResult(@NonNull LocationSettingsResult locationSettingsResult) {
+
+                final com.google.android.gms.common.api.Status status = locationSettingsResult.getStatus();
+
+                switch (status.getStatusCode()) {
+                    case LocationSettingsStatusCodes.SUCCESS:
+                        // All location settings are satisfied. The client can initialize location requests here
+                        mLastLocation = getLocation();
+                        break;
+                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                        try {
+                            // Show the dialog by calling startResolutionForResult(),
+                            // and check the result in onActivityResult().
+                            status.startResolutionForResult(current_activity, REQUEST_CHECK_SETTINGS);
+
+                        } catch (IntentSender.SendIntentException e) {
+                            // Ignore the error.
+                        }
+                        break;
+                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                        break;
+                }
+                publishProgress(null);
+                delegate.processFinish(null);
+            }
+        });
+        return null;
+    }
+
+    @Override
+    protected void onProgressUpdate(Object... values) {
+        super.onProgressUpdate(values);
+        if (mDialog != null && mDialog.isShowing())
+            mDialog.dismiss();
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        mDialog = new ProgressDialog(this.mContext, android.R.style.Theme_Material_Dialog_Alert);
+        this.mDialog.setMessage("Đang chuẩn bị camera...");
+        this.mDialog.setCancelable(false);
+        this.mDialog.show();
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+
+    }
 }
+

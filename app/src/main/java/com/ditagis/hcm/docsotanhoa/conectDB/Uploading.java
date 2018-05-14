@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by ThanLe on 15/10/2017.
@@ -214,6 +215,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
         return false;
     }
 
+
     public int updateLocation(HoaDon hoaDon) {
         String sql = this.SQL_UPDATE_GIAM_SAT;
 
@@ -254,16 +256,22 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
 
             PreparedStatement st1 = cnn.prepareStatement(sql);
             st1.setString(1, hoaDon.getId());
-            st1.setString(2, hoaDon.getMaLoTrinh().substring(2,4));
+            st1.setString(2, hoaDon.getMaLoTrinh().substring(2, 4));
             Location location = LocalDatabase.getInstance(mContext).getLocation(hoaDon.getId());
             st1.setDouble(3, location.getLongtitue());
             st1.setDouble(4, location.getLatitude());
             String stringDate = hoaDon.getThoiGian();
-            Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
+            Date date = Uploading.this.formatter.parse(stringDate);
             st1.setTimestamp(5, new java.sql.Timestamp(date.getTime()));
 
-            int result = st1.executeUpdate();
 
+            Statement stmt = cnn.createStatement();
+            sql = String.format(Locale.US,"insert into " + TABLE_NAME_GIAM_SAT + " (id, nhanvien, longtitude, latitude, thoigian) values('%s','%s',%f,%f,'%s')",
+                    hoaDon.getId(), hoaDon.getMaLoTrinh().substring(2, 4), location.getLongtitue(), location.getLatitude(),
+                    stringDate);
+            int result = stmt.executeUpdate(sql);
+//            int result = st1.executeUpdate();
+            stmt.close();
             return result;
 
         } catch (Exception e) {
@@ -285,11 +293,12 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
         boolean resultUpdateHoaDon = false;
         int resultAddImage = 0;
         try {
-
-            if (hoaDon.getImage_byteArray().length > CONSTANT.MIN_IMAGE_QUATITY)
-                resultAddImage = addHinhDHN(hoaDon);
-            if (resultAddImage <= 0) {
-                resultAddImage = updateHinhDHN(hoaDon);
+            if (addLocation(hoaDon) > 0 || updateLocation(hoaDon) > 0) {
+                if (hoaDon.getImage_byteArray().length > CONSTANT.MIN_IMAGE_QUATITY)
+                    resultAddImage = addHinhDHN(hoaDon);
+                if (resultAddImage <= 0) {
+                    resultAddImage = updateHinhDHN(hoaDon);
+                }
             }
 //            if (resultAddImage > 0) {
 //                resultUpdateHoaDon = update(hoaDon);

@@ -12,6 +12,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.MediaStore;
@@ -78,7 +79,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import butterknife.ButterKnife;
+//import butterknife.ButterKnife;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -186,16 +187,7 @@ public class DocSo extends Fragment {
         this.mUsername = mUsername;
         this.mSelected_theme = theme;
 
-        mLocationHelper = new LocationHelper(mActivity);
-        mLocationHelper.checkpermission();
 
-
-        ButterKnife.bind(mActivity);
-        if (mLocationHelper.checkPlayServices()) {
-
-            // Building the GoogleApi client
-            mLocationHelper.buildGoogleApiClient();
-        }
 //        this.mLike = "__" + mUsername + "%";
         mViewPager = viewPager;
         String dotString = mDot + "";
@@ -237,7 +229,7 @@ public class DocSo extends Fragment {
                                 android.R.layout.simple_list_item_1,
                                 mDBs
                         ));
-        singleComplete.setBackgroundResource(R.layout.edit_text_styles);
+        singleComplete.setBackgroundResource(R.drawable.edit_text_styles);
 
 //        mKys.add(mKy + "");
         mNams.add(mNam + "");
@@ -336,7 +328,7 @@ public class DocSo extends Fragment {
 //                    }
 //                });
 
-        mEditTextCSM.setBackgroundResource(R.layout.edit_text_styles);
+        mEditTextCSM.setBackgroundResource(R.drawable.edit_text_styles);
 
         mEditTextCSM.setOnTouchListener(new View.OnTouchListener()
 
@@ -413,7 +405,7 @@ public class DocSo extends Fragment {
                     }
                 }));
         mEditTextViTri = (EditText) mRootView.findViewById(R.id.etxt_ds_vi_tri);
-        mEditTextViTri.setBackgroundResource(R.layout.edit_text_styles);
+        mEditTextViTri.setBackgroundResource(R.drawable.edit_text_styles);
         mRootView.findViewById(R.id.imgBtn_ds_camera).
 
                 setOnClickListener(new View.OnClickListener() {
@@ -826,21 +818,21 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.editauto_ds_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setBackgroundResource(R.layout.edit_text_styles);
+                ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setBackgroundResource(R.drawable.edit_text_styles);
                 ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
-                ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setBackgroundResource(R.layout.edit_text_styles);
+                ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setBackgroundResource(R.drawable.edit_text_styles);
                 ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.spin_ds_mlt_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 mAdapterMLT = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mMLTs);
                 ((Button) mRootView.findViewById(R.id.btn_ds_sort)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
-                ((Button) mRootView.findViewById(R.id.btn_ds_sort)).setBackgroundResource(R.layout.edit_text_styles);
+                ((Button) mRootView.findViewById(R.id.btn_ds_sort)).setBackgroundResource(R.drawable.edit_text_styles);
                 ((Button) mRootView.findViewById(R.id.btn_ds_sort)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_so_than_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_so_than)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorToolBar_Row_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_vi_tri_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 mEditTextViTri.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorToolBar_Row_1));
                 mEditTextViTri.setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorToolBar_Row_1));
-                mEditTextViTri.setBackgroundResource(R.layout.edit_text_styles);
+                mEditTextViTri.setBackgroundResource(R.drawable.edit_text_styles);
                 ((TextView) mRootView.findViewById(R.id.txt_ds_hieu_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_hieu)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_co_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
@@ -859,7 +851,7 @@ public class DocSo extends Fragment {
 
                 ((TextView) mRootView.findViewById(R.id.txt_ds_diachi_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
-                ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).setBackgroundResource(R.layout.edit_text_styles);
+                ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).setBackgroundResource(R.drawable.edit_text_styles);
                 ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
 
                 mAdapterDiaChi = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_bold_left1, mDiaChis);
@@ -913,7 +905,7 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.etxt_ds_CSM_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setBackgroundResource(R.layout.edit_text_styles);
+                ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setBackgroundResource(R.drawable.edit_text_styles);
                 break;
             case ThemeUtils.THEME_DARK:
                 ((LinearLayout) mRootView.findViewById(R.id.layout_ds)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
@@ -931,21 +923,21 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.editauto_ds_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setBackgroundResource(R.layout.edit_text_styles2);
+                ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setBackgroundResource(R.drawable.edit_text_styles2);
                 ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
-                ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setBackgroundResource(R.layout.edit_text_styles2);
+                ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setBackgroundResource(R.drawable.edit_text_styles2);
                 ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.spin_ds_mlt_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 mAdapterMLT = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mMLTs);
                 ((Button) mRootView.findViewById(R.id.btn_ds_sort)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
-                ((Button) mRootView.findViewById(R.id.btn_ds_sort)).setBackgroundResource(R.layout.edit_text_styles2);
+                ((Button) mRootView.findViewById(R.id.btn_ds_sort)).setBackgroundResource(R.drawable.edit_text_styles2);
                 ((Button) mRootView.findViewById(R.id.btn_ds_sort)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_so_than_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_so_than)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorToolBar_Row_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_vi_tri_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 mEditTextViTri.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorToolBar_Row_2));
                 mEditTextViTri.setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorToolBar_Row_2));
-                mEditTextViTri.setBackgroundResource(R.layout.edit_text_styles2);
+                mEditTextViTri.setBackgroundResource(R.drawable.edit_text_styles2);
                 ((TextView) mRootView.findViewById(R.id.txt_ds_hieu_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_hieu)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_co_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
@@ -964,7 +956,7 @@ public class DocSo extends Fragment {
 
                 ((TextView) mRootView.findViewById(R.id.txt_ds_diachi_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
-                ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).setBackgroundResource(R.layout.edit_text_styles2);
+                ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).setBackgroundResource(R.drawable.edit_text_styles2);
                 ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
 
                 mAdapterDiaChi = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_bold_left2, mDiaChis);
@@ -1018,7 +1010,7 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.etxt_ds_CSM_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setBackgroundResource(R.layout.edit_text_styles2);
+                ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setBackgroundResource(R.drawable.edit_text_styles2);
                 break;
 
         }
@@ -1157,15 +1149,18 @@ public class DocSo extends Fragment {
     }
 
     private void setBackGroundTintModeSpinner(PorterDuff.Mode mode) {
-        mSpinNam.setBackgroundTintMode(mode);
-        mSpinKy.setBackgroundTintMode(mode);
-        mSpinDot.setBackgroundTintMode(mode);
-        mSpinMLT.setBackgroundTintMode(mode);
-        mSpinDB.setBackgroundTintMode(mode);
-        mSpinDiaChi.setBackgroundTintMode(mode);
-        mSpinTenKH.setBackgroundTintMode(mode);
-        mSpinSdt.setBackgroundTintMode(mode);
-        mSpinCode.setBackgroundTintMode(mode);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mSpinNam.setBackgroundTintMode(mode);
+            mSpinKy.setBackgroundTintMode(mode);
+            mSpinDot.setBackgroundTintMode(mode);
+            mSpinMLT.setBackgroundTintMode(mode);
+            mSpinDB.setBackgroundTintMode(mode);
+            mSpinDiaChi.setBackgroundTintMode(mode);
+            mSpinTenKH.setBackgroundTintMode(mode);
+            mSpinSdt.setBackgroundTintMode(mode);
+            mSpinCode.setBackgroundTintMode(mode);
+        }
+
     }
 
     private void sort() {
@@ -1535,6 +1530,7 @@ public class DocSo extends Fragment {
             }
         }
     }
+
     private void selectKy(int position) {
         mKy = Integer.parseInt(mKys.get(position));
         createDot();
@@ -1999,7 +1995,8 @@ public class DocSo extends Fragment {
             }).setNegativeButton("Chụp lại", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    if (checkLocation()) capture();
+//                    if (checkLocation()) capture();
+                    checkLocation();
                     dialog.dismiss();
                 }
             });
@@ -2040,7 +2037,8 @@ public class DocSo extends Fragment {
         }).setNegativeButton("Chụp lại", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (checkLocation()) capture();
+//                if (checkLocation()) capture();
+                checkLocation();
                 dialog.dismiss();
             }
         });
@@ -2209,7 +2207,7 @@ public class DocSo extends Fragment {
         final Spinner spin_ghichu = (Spinner) dialogLayout.findViewById(R.id.spin_select_ghichu);
         final Spinner spin_ghichu_sub = (Spinner) dialogLayout.findViewById(R.id.spin_select_ghichu_sub);
         final EditText etxtghichu = (EditText) dialogLayout.findViewById(R.id.etxt_select_ghichu);
-        etxtghichu.setBackgroundResource(R.layout.edit_text_styles);
+        etxtghichu.setBackgroundResource(R.drawable.edit_text_styles);
         etxtghichu.setEnabled(false);
         LinearLayout layout_ghichu_sub = (LinearLayout) dialogLayout.findViewById(R.id.layout_select_ghichu_sub);
 
@@ -2349,10 +2347,12 @@ public class DocSo extends Fragment {
             if (mHoaDon.getImage_byteArray().length > CONSTANT.MIN_IMAGE_QUATITY) {
 
                 showImage();
-            } else if (checkLocation())
-                capture();
+//            } else if (checkLocation())
+//                capture();
+            } else checkLocation();
         } catch (Exception e) {
-            if (checkLocation()) capture();
+//            if (checkLocation()) capture();
+            checkLocation();
         }
     }
 
@@ -2435,25 +2435,31 @@ public class DocSo extends Fragment {
                             rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                             byte[] image = outputStream.toByteArray();
 
-//giám sát lộ trình đọc số
+
+                            if (this.currentTime == null)
+                                this.currentTime = Calendar.getInstance().getTime();
+                            String datetime = this.formatter.format(this.currentTime);
+                            mHoaDon.setThoiGian(datetime);
+                            mHoaDon.setImage_byteArray(image);
+                            LocalDatabase.getInstance(mRootView.getContext()).updateHoaDon_Image(mHoaDon, Flag.UNREAD);
+                            mFrameLayoutViewImage.setVisibility(View.VISIBLE);
+                            showImageViewInFrame(image);
+                            Toast.makeText(mRootView.getContext(), "Đã lưu ảnh", Toast.LENGTH_SHORT).show();
+                            //giám sát lộ trình đọc số
+                            LocalDatabase.getInstance(mRootView.getContext()).addLocation(new com.ditagis.hcm.docsotanhoa.entities.Location(mHoaDon.getId(), mLongtitude, mLatitude));
                             if (CheckConnect.isOnline(mActivity)) {
                                 mUploading.setmKy(mKy);
                                 mUploading.setmNam(mNam);
                                 mUploading.setmContext(mRootView.getContext());
-                                LocalDatabase.getInstance(mRootView.getContext()).addLocation(new com.ditagis.hcm.docsotanhoa.entities.Location(mHoaDon.getId(), mLongtitude, mLatitude));
-                                if (this.currentTime == null)
-                                    this.currentTime = Calendar.getInstance().getTime();
-                                String datetime = this.formatter.format(this.currentTime);
-                                mHoaDon.setThoiGian(datetime);
+
+
                                 if (mUploading.addLocation(mHoaDon) > 0 || mUploading.updateLocation(mHoaDon) > 0) {
-                                    mHoaDon.setImage_byteArray(image);
-                                    LocalDatabase.getInstance(mRootView.getContext()).updateHoaDon_Image(mHoaDon, Flag.UNREAD);
-                                    mFrameLayoutViewImage.setVisibility(View.VISIBLE);
-                                    showImageViewInFrame(image);
-                                    Toast.makeText(mRootView.getContext(), "Đã lưu ảnh", Toast.LENGTH_SHORT).show();
+
+
                                 }
-                            } else
-                                Toast.makeText(mRootView.getContext(), getString(R.string.no_connect), Toast.LENGTH_SHORT).show();
+                            }
+//                            else
+//                                Toast.makeText(mRootView.getContext(), getString(R.string.no_connect), Toast.LENGTH_SHORT).show();
                         }
                     } catch (Exception e) {
                         Toast.makeText(mRootView.getContext(), "Chưa lưu được ảnh", Toast.LENGTH_SHORT).show();
@@ -2477,8 +2483,9 @@ public class DocSo extends Fragment {
         builder.setPositiveButton("CHỤP LẠI", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (checkLocation())
-                    capture();
+//                if (checkLocation())
+//                    capture();
+                checkLocation();
             }
         });
         AlertDialog dialog = builder.create();
@@ -2486,29 +2493,45 @@ public class DocSo extends Fragment {
         dialog.show();
     }
 
-    private boolean checkLocation() {
-        if (!CheckConnect.isOnline(mActivity)) {
-            MySnackBar.make(mTxtCSM, getString(R.string.no_connect), true);
-            return false;
-        }
+    private void checkLocation() {
+//        if (!CheckConnect.isOnline(mActivity)) {
+//            MySnackBar.make(mTxtCSM, getString(R.string.no_connect), true);
+//            return false;
+//        }
         //Kiểm tra đã bật location chưa, hiện thông báo
-        mLocationHelper.getStateLocation();
-        mLastLocation = mLocationHelper.getLocation();
-        if (mLastLocation == null) {
+//        mLocationHelper.getStateLocation();
+        mLocationHelper = new LocationHelper(mRootView.getContext(), new LocationHelper.AsyncResponse() {
+            @Override
+            public void processFinish(Void output) {
+                mLastLocation = mLocationHelper.getLocation();
+                if (mLastLocation == null) {
 //            MySnackBar.make(mTxtCSM, "Cần bật vị trí để chụp ảnh!!!", true);
-            return false;
-        } else {
-            mLongtitude = mLastLocation.getLongitude();
-            mLatitude = mLastLocation.getLatitude();
-            Address locationAddress;
+//                    return false;
+                } else {
+                    mLongtitude = mLastLocation.getLongitude();
+                    mLatitude = mLastLocation.getLatitude();
+//                    Address locationAddress;
 
-            locationAddress = mLocationHelper.getAddress(mLatitude, mLongtitude);
-            mAddress = locationAddress.getAddressLine(0);
-            MySnackBar.make(mTxtCSM, mAddress, true);
+//                    locationAddress = mLocationHelper.getAddress(mLatitude, mLongtitude);
+//                    mAddress = locationAddress.getAddressLine(0);
+//                    MySnackBar.make(mTxtCSM, mAddress, true);
 //
 //                         Toast.makeText(mActivity, mAddress, Toast.LENGTH_LONG).show();
-            return true;
+                    capture();
+                }
+            }
+        });
+        mLocationHelper.checkpermission();
+
+
+//        ButterKnife.bind(mActivity);
+        if (mLocationHelper.checkPlayServices()) {
+            mLocationHelper.execute();
+            // Building the GoogleApi client
+//            mLocationHelper.buildGoogleApiClient();
         }
+
+
     }
 
     @Nullable

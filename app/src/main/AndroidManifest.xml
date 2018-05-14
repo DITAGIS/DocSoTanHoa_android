@@ -47,11 +47,6 @@
             android:label="@string/title_activity_scan"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".utities.MyLocationUsingHelper"
-            android:label="Lấy vị trí"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
 
         <!-- <receiver -->
         <!-- android:name="com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver" -->

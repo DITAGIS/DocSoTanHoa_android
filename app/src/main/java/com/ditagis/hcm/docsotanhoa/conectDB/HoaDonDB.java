@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
-    private final String TABLE_NAME = "DocSo31";
+    private final String TABLE_NAME = "DocSo";
     private final String TABLE_NAME_KH = "KhachHang";
     private final String SQL_SELECT_GETALL_BY_USERNAME = "SELECT d.gb,d.dm,CSCU, d.MLT2, soThanCu, hieucu, cocu, vitricu, codemoi,tungay, denngay,codecu, tieuthucu, k.TenKH, k.so, k.duong, k.sdt, sh,sx,dv,hc " +
             " FROM " + TABLE_NAME + " d inner join " + TABLE_NAME_KH + " k on d.danhba= k.danhba ";

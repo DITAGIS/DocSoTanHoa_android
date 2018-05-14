@@ -69,9 +69,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         setTheme(R.style.Theme_AppCompat_DayNight);
 
         mTxtUsername = (EditText) findViewById(R.id.txtUsername);
-        mTxtUsername.setBackgroundResource(R.layout.edit_text_styles2);
+        mTxtUsername.setBackgroundResource(R.drawable.edit_text_styles2);
         mTxtPassword = (EditText) findViewById(R.id.txtPassword);
-        mTxtPassword.setBackgroundResource(R.layout.edit_text_styles2);
+        mTxtPassword.setBackgroundResource(R.drawable.edit_text_styles2);
         this.mImgBtnViewPassword = (ImageButton) findViewById(R.id.imgBtn_login_viewPassword);
         requestPermisson();
         this.mImgBtnViewPassword.setOnClickListener(new View.OnClickListener() {

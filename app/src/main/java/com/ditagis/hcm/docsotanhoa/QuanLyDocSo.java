@@ -1,5 +1,6 @@
 package com.ditagis.hcm.docsotanhoa;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,13 +11,16 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,11 +61,13 @@ import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.Note;
 import com.ditagis.hcm.docsotanhoa.utities.Printer;
 
+import java.sql.Connection;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * Created by ThanLe on 25/10/2017.
@@ -191,7 +197,7 @@ public class QuanLyDocSo extends Fragment {
                                 android.R.layout.simple_list_item_1,
                                 mDBs
                         ));
-        singleComplete.setBackgroundResource(R.layout.edit_text_styles2);
+        singleComplete.setBackgroundResource(R.drawable.edit_text_styles2);
         singleComplete.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -221,6 +227,7 @@ public class QuanLyDocSo extends Fragment {
                             try {
                                 countTieuThu += Integer.parseInt(hoaDon.getTieuThuMoi());
                             } catch (Exception e) {
+                                Log.e("", e.toString());
                             }
                         }
                     }
@@ -247,6 +254,7 @@ public class QuanLyDocSo extends Fragment {
                             try {
                                 countTieuThu += Integer.parseInt(hoaDon.getTieuThuMoi());
                             } catch (Exception e) {
+                                Log.e("", e.toString());
                             }
                         }
                     }
@@ -272,6 +280,7 @@ public class QuanLyDocSo extends Fragment {
                             try {
                                 countTieuThu += Integer.parseInt(hoaDon.getTieuThuMoi());
                             } catch (Exception e) {
+                                Log.e("", e.toString());
                             }
                         }
                     }
@@ -294,6 +303,7 @@ public class QuanLyDocSo extends Fragment {
                             try {
                                 countTieuThu += Integer.parseInt(hoaDon.getTieuThuMoi());
                             } catch (Exception e) {
+                                Log.e("", e.toString());
                             }
                         }
                     }
@@ -308,7 +318,7 @@ public class QuanLyDocSo extends Fragment {
             }
         });
 
-        ((Button) mRootView.findViewById(R.id.btn_qlds_optionSearch)).
+        (mRootView.findViewById(R.id.btn_qlds_optionSearch)).
 
                 setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -341,6 +351,7 @@ public class QuanLyDocSo extends Fragment {
                         try {
                             countTieuThu += Integer.parseInt(hoaDon.getTieuThuMoi());
                         } catch (Exception e) {
+                            Log.e("", e.toString());
                         }
                     }
                 }
@@ -381,9 +392,6 @@ public class QuanLyDocSo extends Fragment {
         setTheme();
     }
 
-    public Uploading getmUploading() {
-        return mUploading;
-    }
 
     public int getmDot() {
         return mDot;
@@ -398,36 +406,39 @@ public class QuanLyDocSo extends Fragment {
         try {
             setTheme();
         } catch (Exception e) {
-
+            Log.e("", e.toString());
         }
     }
 
     public void selectDotFromDialog(GridViewSelectFolderAdapter adapter, String ky, String dot) {
         mSelectFolderAdapter = adapter;
         mKys.clear();
-        boolean isFound = false;
         for (GridViewSelectFolderAdapter.Item item : mSelectFolderAdapter.getItems()) {
-            String iKy = String.format("%02d", Integer.parseInt(item.getKy()));
+            @SuppressLint("DefaultLocale") String iKy = String.format("%02d", Integer.parseInt(item.getKy()));
             if (!mKys.contains(iKy))
                 mKys.add(iKy);
         }
         mAdapterKy.notifyDataSetChanged();
-        String kyString = String.format("%02d", Integer.parseInt(ky));
+        @SuppressLint("DefaultLocale") String kyString = String.format("%02d", Integer.parseInt(ky));
         int dotInt = Integer.parseInt(dot);
         String dotString = dotInt + "";
         if (dotInt < 10)
             dotString = "0" + dotInt;
 
         for (int i = 0; i < mAdapterKy.getCount(); i++) {
-            if (mAdapterKy.getItem(i).equals(kyString)) {
-                mSpinKy.setSelection(i);
-                break;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                if (Objects.requireNonNull(mAdapterKy.getItem(i)).equals(kyString)) {
+                    mSpinKy.setSelection(i);
+                    break;
+                }
             }
         }
         for (int i = 0; i < mAdapterDot.getCount(); i++) {
-            if (mAdapterDot.getItem(i).equals(dotString)) {
-                mSpinDot.setSelection(i);
-                break;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                if (Objects.requireNonNull(mAdapterDot.getItem(i)).equals(dotString)) {
+                    mSpinDot.setSelection(i);
+                    break;
+                }
             }
         }
     }
@@ -448,64 +459,64 @@ public class QuanLyDocSo extends Fragment {
 
     private void add_sdt() {
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());//getLayoutInflater();
-        View dialogLayout = inflater.inflate(R.layout.layout_add_sdt, null);
+        @SuppressLint("InflateParams") View dialogLayout = inflater.inflate(R.layout.layout_add_sdt, null);
         final EditText etxtSdt = (EditText) dialogLayout.findViewById(R.id.etxt_add_sdt);
         etxtSdt.setText(mSdt);
-        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
-        builder.setTitle("Thêm số điện thoại");
-        builder.setPositiveButton(mRootView.getContext().getString(R.string.add), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        AlertDialog.Builder builder = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Objects.requireNonNull(builder).setTitle("Thêm số điện thoại");
 
-                dialog.dismiss();
-                if (etxtSdt.getText().toString().trim().length() > 0) {
-                    if (mSdts.contains(" "))
-                        mSdts.clear();
-                    for (String sdt : mSdts)
-                        if (sdt.contains(etxtSdt.getText().toString().trim())) {
-                            return;
-                        }
-                    mSdts.add(etxtSdt.getText().toString());
-                    mAdapterSdt.notifyDataSetChanged();
-                    mSdt = mSdts.get(0);
-                    mSpinSdt.setSelection(0);
-                }
+            Objects.requireNonNull(builder).setPositiveButton(mRootView.getContext().getString(R.string.add), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-
-            }
-        }).setNegativeButton(mRootView.getContext().getString(R.string.edit), new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-
-                if (mSdts.size() > 0) {
-                    if (mSdts.contains(" "))
-                        mSdts.clear();
-                    mSdts.remove(mSdt);
-                    if (etxtSdt.getText().toString().length() > 0) {
+                    dialog.dismiss();
+                    if (etxtSdt.getText().toString().trim().length() > 0) {
+                        if (mSdts.contains(" "))
+                            mSdts.clear();
+                        for (String sdt : mSdts)
+                            if (sdt.contains(etxtSdt.getText().toString().trim())) {
+                                return;
+                            }
                         mSdts.add(etxtSdt.getText().toString());
-
+                        mAdapterSdt.notifyDataSetChanged();
+                        mSdt = mSdts.get(0);
+                        mSpinSdt.setSelection(0);
                     }
-                    mAdapterSdt.notifyDataSetChanged();
-                    mSdt = mSdts.get(0);
-                    mSpinSdt.setSelection(0);
+
+
                 }
-            }
-        }).setCancelable(true);
-        AlertDialog dialog = builder.create();
-        dialog.setView(dialogLayout);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.show();
+            }).setNegativeButton(mRootView.getContext().getString(R.string.edit), new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+
+                    if (mSdts.size() > 0) {
+                        if (mSdts.contains(" "))
+                            mSdts.clear();
+                        mSdts.remove(mSdt);
+                        if (etxtSdt.getText().toString().length() > 0) {
+                            mSdts.add(etxtSdt.getText().toString());
+
+                        }
+                        mAdapterSdt.notifyDataSetChanged();
+                        mSdt = mSdts.get(0);
+                        mSpinSdt.setSelection(0);
+                    }
+                }
+            }).setCancelable(true);
+            AlertDialog dialog = builder.create();
+            dialog.setView(dialogLayout);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.show();
+        }
+
     }
 
-    public void setmKy(int mKy) {
-        this.mKy = mKy;
-    }
-
-    public void setmNam(int mNam) {
-        this.mNam = mNam;
-    }
 
     @Nullable
     @Override
@@ -517,12 +528,12 @@ public class QuanLyDocSo extends Fragment {
     private void setTheme() {
         switch (mSelected_theme) {
             case ThemeUtils.THEME_DEFAULT:
-                ((LinearLayout) mRootView.findViewById(R.id.layout_qlds)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
+                (mRootView.findViewById(R.id.layout_qlds)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
                 ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_qlds)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_qlds)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_qlds)).setBackgroundResource(R.layout.edit_text_styles);
-                ((Button) mRootView.findViewById(R.id.btn_qlds_optionSearch)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
-                ((Button) mRootView.findViewById(R.id.btn_qlds_optionSearch)).setBackgroundResource(R.layout.edit_text_styles);
+                (mRootView.findViewById(R.id.editauto_qlds)).setBackgroundResource(R.drawable.edit_text_styles);
+                (mRootView.findViewById(R.id.btn_qlds_optionSearch)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
+                (mRootView.findViewById(R.id.btn_qlds_optionSearch)).setBackgroundResource(R.drawable.edit_text_styles);
                 ((Button) mRootView.findViewById(R.id.btn_qlds_optionSearch)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.editauto_qlds_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
 
@@ -532,11 +543,11 @@ public class QuanLyDocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.txt_qlds_ky_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_qlds_dot_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
 
-                mAdapterNam = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mNams);
-                mAdapterKy = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mKys);
-                mAdapterDot = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mDots);
+                mAdapterNam = new ArrayAdapter<>(mRootView.getContext(), R.layout.spinner_item_left1, mNams);
+                mAdapterKy = new ArrayAdapter<>(mRootView.getContext(), R.layout.spinner_item_left1, mKys);
+                mAdapterDot = new ArrayAdapter<>(mRootView.getContext(), R.layout.spinner_item_left1, mDots);
 
-                ((LinearLayout) mRootView.findViewById(R.id.layout_qlds_gridview_title)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorGridviewTitle_1));
+                (mRootView.findViewById(R.id.layout_qlds_gridview_title)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorGridviewTitle_1));
                 ((TextView) mRootView.findViewById(R.id.txt_qlds_danhbo_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_qlds_diachi_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_qlds_csc_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
@@ -563,16 +574,16 @@ public class QuanLyDocSo extends Fragment {
                         return view;
                     }
                 };
-                ((LinearLayout) mRootView.findViewById(R.id.layout_qlds_summary)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorSummary_1));
+                (mRootView.findViewById(R.id.layout_qlds_summary)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorSummary_1));
                 ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 break;
             case ThemeUtils.THEME_DARK:
-                ((LinearLayout) mRootView.findViewById(R.id.layout_qlds)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
+                (mRootView.findViewById(R.id.layout_qlds)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
                 ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_qlds)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_qlds)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_qlds)).setBackgroundResource(R.layout.edit_text_styles2);
-                ((Button) mRootView.findViewById(R.id.btn_qlds_optionSearch)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
-                ((Button) mRootView.findViewById(R.id.btn_qlds_optionSearch)).setBackgroundResource(R.layout.edit_text_styles2);
+                (mRootView.findViewById(R.id.editauto_qlds)).setBackgroundResource(R.drawable.edit_text_styles2);
+                (mRootView.findViewById(R.id.btn_qlds_optionSearch)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
+                (mRootView.findViewById(R.id.btn_qlds_optionSearch)).setBackgroundResource(R.drawable.edit_text_styles2);
                 ((Button) mRootView.findViewById(R.id.btn_qlds_optionSearch)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.editauto_qlds_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_qlds_filter_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
@@ -581,11 +592,11 @@ public class QuanLyDocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.txt_qlds_ky_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_qlds_dot_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
 
-                mAdapterNam = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mNams);
-                mAdapterKy = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mKys);
-                mAdapterDot = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mDots);
+                mAdapterNam = new ArrayAdapter<>(mRootView.getContext(), R.layout.spinner_item_left2, mNams);
+                mAdapterKy = new ArrayAdapter<>(mRootView.getContext(), R.layout.spinner_item_left2, mKys);
+                mAdapterDot = new ArrayAdapter<>(mRootView.getContext(), R.layout.spinner_item_left2, mDots);
 
-                ((LinearLayout) mRootView.findViewById(R.id.layout_qlds_gridview_title)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorGridviewTitle_2));
+                (mRootView.findViewById(R.id.layout_qlds_gridview_title)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorGridviewTitle_2));
                 ((TextView) mRootView.findViewById(R.id.txt_qlds_danhbo_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_qlds_diachi_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_qlds_csc_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
@@ -613,7 +624,7 @@ public class QuanLyDocSo extends Fragment {
                     }
                 };
 
-                ((LinearLayout) mRootView.findViewById(R.id.layout_qlds_summary)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorSummary_2));
+                (mRootView.findViewById(R.id.layout_qlds_summary)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorSummary_2));
                 ((TextView) mRootView.findViewById(R.id.txt_qlds_soLuong)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
 
                 break;
@@ -688,6 +699,7 @@ public class QuanLyDocSo extends Fragment {
                         try {
                             countTieuThu += Integer.parseInt(hoaDon.getTieuThuMoi());
                         } catch (Exception e) {
+                            Log.e("", e.toString());
                         }
                     }
                 }
@@ -708,16 +720,17 @@ public class QuanLyDocSo extends Fragment {
     }
 
     private void setBackGroundTintModeSpinner(PorterDuff.Mode mode) {
-        mSpinNam.setBackgroundTintMode(mode);
-        mSpinKy.setBackgroundTintMode(mode);
-        mSpinDot.setBackgroundTintMode(mode);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mSpinNam.setBackgroundTintMode(mode);
+            mSpinKy.setBackgroundTintMode(mode);
+            mSpinDot.setBackgroundTintMode(mode);
 
-        mSpinCode.setBackgroundTintMode(mode);
+            mSpinCode.setBackgroundTintMode(mode);
+
+        }
     }
 
     private void setDynamicWidth(GridView gridView) {
-        HorizontalScrollView hScrollView = (HorizontalScrollView) mRootView.findViewById(R.id.hscroll_qlds);
-        ViewGroup.LayoutParams paramsHScrollView = hScrollView.getLayoutParams();
 
         ListAdapter gridViewAdapter = gridView.getAdapter();
         if (gridViewAdapter == null) {
@@ -735,8 +748,6 @@ public class QuanLyDocSo extends Fragment {
         params.width = totalWidth;
         gridView.setLayoutParams(params);
 
-//        paramsHScrollView.width =  totalWidth;
-//        hScrollView.setLayoutParams(paramsHScrollView);
     }
 
     public void refresh() {
@@ -758,7 +769,7 @@ public class QuanLyDocSo extends Fragment {
             try {
                 countTieuThu += Integer.parseInt(hoaDon.getTieuThuMoi());
             } catch (Exception e) {
-
+                Log.e("", e.toString());
             }
         }
         mSpinCode.setSelection(0);
@@ -779,9 +790,11 @@ public class QuanLyDocSo extends Fragment {
             mKy = Integer.parseInt(mKys.get(position));
             createDot();
         } catch (Exception e) {
+            Log.e("", e.toString());
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void setTextProgress() {
 //        this.mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Synchronized(mLike).size();
         this.mDanhBoHoanThanh = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDonSize(mLike, mKy, Flag.SYNCHRONIZED, false) +
@@ -791,19 +804,6 @@ public class QuanLyDocSo extends Fragment {
 
     }
 
-    private boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager) mRootView.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnected();
-    }
-
-    public void selectDotFromOut(int dot) {
-        for (int i = 0; i < mDots.size(); i++)
-            if (Integer.parseInt(mDots.get(i)) == dot) {
-                mSpinDot.setSelection(i);
-                return;
-            }
-    }
 
     private void selectDot(int position) {
         if (mDots.size() > 0) {
@@ -831,6 +831,7 @@ public class QuanLyDocSo extends Fragment {
                 try {
                     countTieuThu += Integer.parseInt(hoaDon.getTieuThuMoi());
                 } catch (Exception e) {
+                    Log.e("", e.toString());
                 }
             }
             mSpinCode.setSelection(0);
@@ -840,31 +841,6 @@ public class QuanLyDocSo extends Fragment {
         }
     }
 
-    private void createKy() {
-        mAdapterKy.clear();
-        getKyExist();
-        mAdapterKy.notifyDataSetChanged();
-    }
-
-    private void getKyExist() {
-        int count = 0;
-        String kyString = "";
-        for (int i = 12; i >= 0; i--) {
-            if (count == 2)
-                break;
-            kyString = i + "";
-            if (i < 10)
-                kyString = "0" + i;
-            if (!mKys.contains(kyString)) {
-                if (LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(i, false).size() > 0) {
-                    if (!mKys.contains(kyString))
-                        mKys.add(kyString);
-                }
-            }
-            if (mKys.size() > 0)
-                count++;
-        }
-    }
 
     private void createDot() {
         mAdapterDot.clear();
@@ -918,101 +894,107 @@ public class QuanLyDocSo extends Fragment {
 //                mRootView.getContext().getString(R.string.search_danhbo)};
 //                mRootView.getContext().getString(R.string.search_tenKH)};
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
-        builder.setTitle("Tùy chọn tìm kiếm");
-        builder.setCancelable(true);
-        LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
-        View dialogLayout = inflater.inflate(R.layout.layout_dialog_select_search_type, null);
+        AlertDialog.Builder builder = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Objects.requireNonNull(builder).setTitle("Tùy chọn tìm kiếm");
+            builder.setCancelable(true);
+            LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
+            @SuppressLint("InflateParams") View dialogLayout = inflater.inflate(R.layout.layout_dialog_select_search_type, null);
 
-        final RadioGroup group = (RadioGroup) dialogLayout.findViewById(R.id.radioGroup_searchtype);
-        if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_mlt)))
-            group.check(R.id.radio_search_mlt);
-        else if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_danhbo))) {
-            group.check(R.id.radio_search_danhbo);
-        } else if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_tenKH))) {
-            group.check(R.id.radio_search_tenKH);
-        } else if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_diaChi))) {
-            group.check(R.id.radio_search_diaChi);
+            final RadioGroup group = (RadioGroup) dialogLayout.findViewById(R.id.radioGroup_searchtype);
+            if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_mlt)))
+                group.check(R.id.radio_search_mlt);
+            else if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_danhbo))) {
+                group.check(R.id.radio_search_danhbo);
+            } else if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_tenKH))) {
+                group.check(R.id.radio_search_tenKH);
+            } else if (singleComplete.getHint().equals(mRootView.getContext().getString(R.string.search_diaChi))) {
+                group.check(R.id.radio_search_diaChi);
+
+            }
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    int iChecked = group.getCheckedRadioButtonId();
+                    switch (iChecked) {
+                        case R.id.radio_search_mlt:
+                            mSearchType = mRootView.getContext().getString(R.string.search_mlt);
+                            singleComplete.setText("");
+                            break;
+                        case R.id.radio_search_danhbo:
+                            mSearchType = mRootView.getContext().getString(R.string.search_danhbo);
+                            singleComplete.setText("");
+                            break;
+                        case R.id.radio_search_tenKH:
+                            mSearchType = mRootView.getContext().getString(R.string.search_tenKH);
+                            singleComplete.setText("");
+                            break;
+                        case R.id.radio_search_diaChi:
+                            mSearchType = mRootView.getContext().getString(R.string.search_diaChi);
+                            singleComplete.setText("");
+                            break;
+                    }
+//                mSearchType = spinSearchType.getSelectedItem().toString();
+                    singleComplete.setHint(mSearchType);
+                    if (mSearchType.equals(mRootView.getContext().getString(R.string.search_mlt))) {
+                        mMlts.clear();
+                        for (HoaDon hoaDon : mHoaDons) {
+                            mMlts.add(hoaDon.getMaLoTrinh());
+                        }
+                        singleComplete.setAdapter(new CustomArrayAdapter(
+                                mRootView.getContext(),
+                                android.R.layout.simple_list_item_1,
+                                mMlts
+                        ));
+                    } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
+                        mDBs.clear();
+                        for (HoaDon hoaDon : mHoaDons) {
+                            mDBs.add(hoaDon.getDanhBo());
+                        }
+                        singleComplete.setAdapter(new CustomArrayAdapter(
+                                mRootView.getContext(),
+                                android.R.layout.simple_list_item_1,
+                                mDBs
+                        ));
+                    } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_tenKH))) {
+                        mTenKHs.clear();
+                        for (HoaDon hoaDon : mHoaDons) {
+                            mTenKHs.add(hoaDon.getTenKhachHang());
+                        }
+
+                        singleComplete.setAdapter(new CustomArrayAdapter(
+                                mRootView.getContext(),
+                                android.R.layout.simple_list_item_1,
+                                mTenKHs
+                        ));
+                    } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_diaChi))) {
+                        mDiaChis.clear();
+                        for (HoaDon hoaDon : mHoaDons) {
+                            mDiaChis.add(hoaDon.getDiaChi());
+                        }
+
+                        singleComplete.setAdapter(new CustomArrayAdapter(
+                                mRootView.getContext(),
+                                android.R.layout.simple_list_item_1,
+                                mDiaChis
+                        ));
+                    }
+                    dialog.dismiss();
+                }
+            });
+            builder.setView(dialogLayout);
+            final AlertDialog dialog = builder.create();
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.show();
 
         }
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                int iChecked = group.getCheckedRadioButtonId();
-                switch (iChecked) {
-                    case R.id.radio_search_mlt:
-                        mSearchType = mRootView.getContext().getString(R.string.search_mlt);
-                        singleComplete.setText("");
-                        break;
-                    case R.id.radio_search_danhbo:
-                        mSearchType = mRootView.getContext().getString(R.string.search_danhbo);
-                        singleComplete.setText("");
-                        break;
-                    case R.id.radio_search_tenKH:
-                        mSearchType = mRootView.getContext().getString(R.string.search_tenKH);
-                        singleComplete.setText("");
-                        break;
-                    case R.id.radio_search_diaChi:
-                        mSearchType = mRootView.getContext().getString(R.string.search_diaChi);
-                        singleComplete.setText("");
-                        break;
-                }
-//                mSearchType = spinSearchType.getSelectedItem().toString();
-                singleComplete.setHint(mSearchType);
-                if (mSearchType.equals(mRootView.getContext().getString(R.string.search_mlt))) {
-                    mMlts.clear();
-                    for (HoaDon hoaDon : mHoaDons) {
-                        mMlts.add(hoaDon.getMaLoTrinh());
-                    }
-                    singleComplete.setAdapter(new CustomArrayAdapter(
-                            mRootView.getContext(),
-                            android.R.layout.simple_list_item_1,
-                            mMlts
-                    ));
-                } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_danhbo))) {
-                    mDBs.clear();
-                    for (HoaDon hoaDon : mHoaDons) {
-                        mDBs.add(hoaDon.getDanhBo());
-                    }
-                    singleComplete.setAdapter(new CustomArrayAdapter(
-                            mRootView.getContext(),
-                            android.R.layout.simple_list_item_1,
-                            mDBs
-                    ));
-                } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_tenKH))) {
-                    mTenKHs.clear();
-                    for (HoaDon hoaDon : mHoaDons) {
-                        mTenKHs.add(hoaDon.getTenKhachHang());
-                    }
-
-                    singleComplete.setAdapter(new CustomArrayAdapter(
-                            mRootView.getContext(),
-                            android.R.layout.simple_list_item_1,
-                            mTenKHs
-                    ));
-                } else if (mSearchType.equals(mRootView.getContext().getString(R.string.search_diaChi))) {
-                    mDiaChis.clear();
-                    for (HoaDon hoaDon : mHoaDons) {
-                        mDiaChis.add(hoaDon.getDiaChi());
-                    }
-
-                    singleComplete.setAdapter(new CustomArrayAdapter(
-                            mRootView.getContext(),
-                            android.R.layout.simple_list_item_1,
-                            mDiaChis
-                    ));
-                }
-                dialog.dismiss();
-            }
-        });
-        builder.setView(dialogLayout);
-        final AlertDialog dialog = builder.create();
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.show();
-
     }
 
 
+    @SuppressLint({"NewApi", "SetTextI18n"})
     private void showMoreInfo(final View view) {
         String danhBo = ((TextView) view.findViewById(R.id.row_qlds_txt_danhBo)).getText().toString();
         HoaDon hoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_Read(danhBo, true);
@@ -1025,16 +1007,14 @@ public class QuanLyDocSo extends Fragment {
                 hoaDon.getDinhMuc(), hoaDon.getSh(), hoaDon.getSx(), hoaDon.getDv(), hoaDon.getHc());
         //--------------------
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
-        builder.setTitle("Danh bộ: " + danhBo);
+        Objects.requireNonNull(builder).setTitle("Danh bộ: " + danhBo);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
         });
-        if (hoaDon.getFlag() == Flag.READ)
-//        TODO chỉnh sửa khách hàng
-        {
+        if (hoaDon.getFlag() == Flag.READ) {
 
             final HoaDon finalHoaDon = hoaDon;
             builder.setNegativeButton("Chỉnh sửa", new DialogInterface.OnClickListener() {
@@ -1060,7 +1040,7 @@ public class QuanLyDocSo extends Fragment {
         AlertDialog dialog = builder.create();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
-        View dialogLayout = inflater.inflate(R.layout.layout_view_thongtin_docso, null);
+        @SuppressLint("InflateParams") View dialogLayout = inflater.inflate(R.layout.layout_view_thongtin_docso, null);
 
 
         dialog.setView(dialogLayout);
@@ -1077,32 +1057,38 @@ public class QuanLyDocSo extends Fragment {
 
                     BitmapDrawable resizedDialogImage = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.7), (int) (bitmap.getHeight() * 0.7), false));
 
-                    image.setBackground(resizedDialogImage);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        Objects.requireNonNull(image).setBackground(resizedDialogImage);
+                    }
                 } catch (Exception e) {
-                    MySnackBar.make(image.getRootView(), "Không tìm thấy hình ảnh", false);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        MySnackBar.make(Objects.requireNonNull(image).getRootView(), "Không tìm thấy hình ảnh", false);
+                    }
                 }
             }
         } catch (Exception e) {
+            Log.e("", e.toString());
         }
-        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_SoThan)).setText(hoaDon.getSoThan());
-        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_MLT)).setText(hoaDon.getMaLoTrinh());
+        ((TextView) Objects.requireNonNull(dialog.findViewById(R.id.txt_layout_qlds_SoThan))).setText(hoaDon.getSoThan());
+        ((TextView) Objects.requireNonNull(dialog.findViewById(R.id.txt_layout_qlds_MLT))).setText(hoaDon.getMaLoTrinh());
 //                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_DanhBo)).setText(danhBo_CSM.getDanhBo());
-        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_tenKH)).setText(hoaDon.getTenKhachHang());
-        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_diaChi)).setText(hoaDon.getDiaChi());
-        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_SDT)).setText(hoaDon.getSdt());
-        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_code)).setText(hoaDon.getCodeMoi());
-        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_CSC)).setText(hoaDon.getChiSoCu());
-        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_CSM)).setText(hoaDon.getChiSoMoi());
-        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_tieuThu)).setText(hoaDon.getTieuThuMoi());
-        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_giaBieu)).setText(hoaDon.getGiaBieu());
+        ((TextView) Objects.requireNonNull(dialog.findViewById(R.id.txt_layout_qlds_tenKH))).setText(hoaDon.getTenKhachHang());
+        ((TextView) Objects.requireNonNull(dialog.findViewById(R.id.txt_layout_qlds_diaChi))).setText(hoaDon.getDiaChi());
+        ((TextView) Objects.requireNonNull(dialog.findViewById(R.id.txt_layout_qlds_SDT))).setText(hoaDon.getSdt());
+        ((TextView) Objects.requireNonNull(dialog.findViewById(R.id.txt_layout_qlds_code))).setText(hoaDon.getCodeMoi());
+        ((TextView) Objects.requireNonNull(dialog.findViewById(R.id.txt_layout_qlds_CSC))).setText(hoaDon.getChiSoCu());
+        ((TextView) Objects.requireNonNull(dialog.findViewById(R.id.txt_layout_qlds_CSM))).setText(hoaDon.getChiSoMoi());
+        ((TextView) Objects.requireNonNull(dialog.findViewById(R.id.txt_layout_qlds_tieuThu))).setText(hoaDon.getTieuThuMoi());
+        ((TextView) Objects.requireNonNull(dialog.findViewById(R.id.txt_layout_qlds_giaBieu))).setText(hoaDon.getGiaBieu());
         double BVMT = 0, VAT = tienNuoc / 20;
         if (!hoaDon.getGiaBieu().equals("52"))
             BVMT = tienNuoc / 10;
-        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_tienNuoc)).setText(NumberFormat.getNumberInstance(Locale.US).format(tienNuoc + BVMT + VAT) + " VNĐ");//TODO tien nuoc
+        ((TextView) Objects.requireNonNull(dialog.findViewById(R.id.txt_layout_qlds_tienNuoc))).setText(NumberFormat.getNumberInstance(Locale.US).format(tienNuoc + BVMT + VAT) + " VNĐ");//TODO tien nuoc
 
-        ((TextView) dialog.findViewById(R.id.txt_layout_qlds_ghiChu)).setText(hoaDon.getGhiChu());
+        ((TextView) Objects.requireNonNull(dialog.findViewById(R.id.txt_layout_qlds_ghiChu))).setText(hoaDon.getGhiChu());
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void edit_info(View view) {
         try {
             final String danhBo = ((TextView) view.findViewById(R.id.row_qlds_txt_danhBo)).getText().toString();
@@ -1112,7 +1098,7 @@ public class QuanLyDocSo extends Fragment {
             builder.setTitle("Cập nhật thông tin chỉ số");
             builder.setCancelable(false);
             LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
-            View dialogLayout = inflater.inflate(R.layout.layout_edit_thongtin_docso, null);
+            @SuppressLint("InflateParams") View dialogLayout = inflater.inflate(R.layout.layout_edit_thongtin_docso, null);
             final EditText etxtAddress = (EditText) dialogLayout.findViewById(R.id.etxt_layout_edit_address_number);
             etxtAddress.setText(hoaDon.getSoNha());
             mSdts.add(" ");
@@ -1123,7 +1109,7 @@ public class QuanLyDocSo extends Fragment {
                     mSdts.add(sdt.trim());
                 }
             }
-            mAdapterSdt = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mSdts);
+            mAdapterSdt = new ArrayAdapter<>(mRootView.getContext(), R.layout.spinner_item_left1, mSdts);
             mAdapterSdt.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
             mSpinSdt = (Spinner) dialogLayout.findViewById(R.id.spin_qlds_sdt);
             mSpinSdt.setAdapter(mAdapterSdt);
@@ -1140,7 +1126,7 @@ public class QuanLyDocSo extends Fragment {
             });
 //        mSdt = mSdts.get(0);
             mSpinSdt.setSelection(0);
-            ((ImageButton) dialogLayout.findViewById(R.id.imgBtn_qlds_add_sdt)).setOnClickListener(new View.OnClickListener() {
+            ( dialogLayout.findViewById(R.id.imgBtn_qlds_add_sdt)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     add_sdt();
@@ -1158,11 +1144,11 @@ public class QuanLyDocSo extends Fragment {
 
                         image.setBackground(resizedDialogImage);
                     } catch (Exception e) {
-
+                        Log.e("", e.toString());
                     }
                 }
             } catch (Exception e) {
-
+                Log.e("", e.toString());
             }
             ((TextView) dialogLayout.findViewById(R.id.txt_layout_edit_MLT)).setText(hoaDon.getMaLoTrinh());
 //                ((TextView) dialog.findViewById(R.id.txt_layout_qlds_DanhBo)).setText(danhBo_CSM.getDanhBo());
@@ -1182,42 +1168,39 @@ public class QuanLyDocSo extends Fragment {
 
             final TextView txtNote = (TextView) dialogLayout.findViewById(R.id.txt_layout_edit_ghiChu);
             txtNote.setText(hoaDon.getGhiChu());
-            final HoaDon finalHoaDon = hoaDon;
-            ((Button) dialogLayout.findViewById(R.id.btn_layout_edit_ghiChu)).setOnClickListener(new View.OnClickListener() {
+            ( dialogLayout.findViewById(R.id.btn_layout_edit_ghiChu)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     final AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
                     builder.setTitle("Ghi chú");
                     LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
-                    View dialogLayout = inflater.inflate(R.layout.layout_dialog_select_ghichu, null);
+                    @SuppressLint("InflateParams") View dialogLayout = inflater.inflate(R.layout.layout_dialog_select_ghichu, null);
                     final Spinner spin_ghichu = (Spinner) dialogLayout.findViewById(R.id.spin_select_ghichu);
                     final Spinner spin_ghichu_sub = (Spinner) dialogLayout.findViewById(R.id.spin_select_ghichu_sub);
                     final EditText etxtghichu = (EditText) dialogLayout.findViewById(R.id.etxt_select_ghichu);
-                    etxtghichu.setBackgroundResource(R.layout.edit_text_styles);
+                    etxtghichu.setBackgroundResource(R.drawable.edit_text_styles);
                     etxtghichu.setEnabled(false);
-                    LinearLayout layout_ghichu_sub = (LinearLayout) dialogLayout.findViewById(R.id.layout_select_ghichu_sub);
-
                     ArrayAdapter<String> adapterNotes = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_note_left, Note.getInstance().getNotes());
-                    final ArrayAdapter<String> adapterNotes_sub_dutchi = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_note_left, Note.getInstance().getNotes_sub_dutchi());
+                    final ArrayAdapter<String> adapterNotes_sub_dutchi = new ArrayAdapter<>(mRootView.getContext(), R.layout.spinner_item_note_left, Note.getInstance().getNotes_sub_dutchi());
                     final ArrayAdapter<String> adapterNotes_sub_kinhdoanh = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_note_left, Note.getInstance().getNotes_sub_kinhdoanh());
 
                     spin_ghichu.setAdapter(adapterNotes);
                     int positionNote = 0, positionNoteSub = 0;
                     for (String note : Note.getInstance().getNotes()) {
                         if (positionNote == Note.getInstance().getNotes().length - 1) {
-                            if (!finalHoaDon.getGhiChu().equals("null"))
-                                etxtghichu.setText(finalHoaDon.getGhiChu());
-                        } else if (finalHoaDon.getGhiChu().contains(note)) {
+                            if (!hoaDon.getGhiChu().equals("null"))
+                                etxtghichu.setText(hoaDon.getGhiChu());
+                        } else if (hoaDon.getGhiChu().contains(note)) {
                             spin_ghichu.setSelection(positionNote);
                             switch (positionNote) {
                                 case 1:
                                     spin_ghichu.setSelection(1);
                                     for (String noteSub : Note.getInstance().getNotes_sub_dutchi()) {
-                                        if (finalHoaDon.getGhiChu().contains(noteSub)) {
+                                        if (hoaDon.getGhiChu().contains(noteSub)) {
                                             spin_ghichu_sub.setSelection(positionNoteSub);
-                                            if (finalHoaDon.getGhiChu().contains("_")) {
-                                                String[] ghiChus = finalHoaDon.getGhiChu().split("_");
+                                            if (hoaDon.getGhiChu().contains("_")) {
+                                                String[] ghiChus = hoaDon.getGhiChu().split("_");
                                                 etxtghichu.setText(ghiChus[1]);
                                             }
                                             break;
@@ -1228,10 +1211,10 @@ public class QuanLyDocSo extends Fragment {
                                 case 2:
                                     spin_ghichu.setSelection(2);
                                     for (String noteSub : Note.getInstance().getNotes_sub_kinhdoanh()) {
-                                        if (finalHoaDon.getGhiChu().contains(noteSub)) {
+                                        if (hoaDon.getGhiChu().contains(noteSub)) {
                                             spin_ghichu_sub.setSelection(positionNoteSub);
-                                            if (finalHoaDon.getGhiChu().contains("_")) {
-                                                String[] ghiChus = finalHoaDon.getGhiChu().split("_");
+                                            if (hoaDon.getGhiChu().contains("_")) {
+                                                String[] ghiChus = hoaDon.getGhiChu().split("_");
                                                 etxtghichu.setText(ghiChus[1]);
                                             }
                                             break;
@@ -1240,8 +1223,8 @@ public class QuanLyDocSo extends Fragment {
                                     }
                                     break;
                                 default:
-                                    if (finalHoaDon.getGhiChu().contains("_")) {
-                                        String[] ghiChus = finalHoaDon.getGhiChu().split("_");
+                                    if (hoaDon.getGhiChu().contains("_")) {
+                                        String[] ghiChus = hoaDon.getGhiChu().split("_");
                                         etxtghichu.setText(ghiChus[1]);
                                     }
                                     spin_ghichu.setSelection(positionNote);
@@ -1544,6 +1527,7 @@ public class QuanLyDocSo extends Fragment {
 //            mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mLike, mKy,Flag.SYNCHRONIZED, true);
             mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy, true);
             mUploading.update(mHoaDons);
+            ConnectionDB.getInstance().reConnect();
             for (GridViewQuanLyDocSoAdapter.Item item : mQuanLyDocSoAdapter.getItems()) {
                 for (HoaDon hoaDon : mHoaDons) {
                     if (item.getDanhbo().equals(hoaDon.getDanhBo()) && (
