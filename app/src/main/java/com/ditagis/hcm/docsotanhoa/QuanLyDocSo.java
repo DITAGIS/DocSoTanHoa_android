@@ -1520,11 +1520,12 @@ public class QuanLyDocSo extends Fragment {
             sum = countUpload;
         }
 
+
         @Override
         protected Void doInBackground(String... params) {
             Boolean isValid = false;
 
-//            mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mLike, mKy,Flag.SYNCHRONIZED, true);
+
             mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy, true);
 
             boolean isUpdate = mUploading.update(mHoaDons);
@@ -1557,6 +1558,18 @@ public class QuanLyDocSo extends Fragment {
             return null;
 
         }
+//        @Override
+//        protected Void doInBackground(String... params) {
+//            mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mLike, mKy, Flag.SYNCHRONIZED, true);
+//            for (HoaDon hoaDon : mHoaDons) {
+//                if (hoaDon.getCodeMoi().startsWith("F"))
+//                    LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonFlag(hoaDon, Flag.CODE_F);
+//                else
+//                    LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonFlag(hoaDon, Flag.READ);
+//            }
+//            return null;
+//
+//        }
 
         @Override
         protected void onProgressUpdate(Integer... values) {
