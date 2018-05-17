@@ -54,6 +54,11 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
         this.mIsLoading = true;
     }
 
+    public void setmUsername(String mUsername) {
+
+        this.mUsername = mUsername;
+    }
+
     public boolean ismIsLoading() {
         return mIsLoading;
     }
@@ -132,7 +137,7 @@ public class LayLoTrinhAsync extends AsyncTask<Boolean, List<HoaDon>, ResultLayL
 
             for (String danhBo : DBs) {
                 if (mIsLoading) {
-                    HoaDon hoaDon = _hoadonDB.getHoaDonByUserName(this.mUsername, danhBo, this.mDot, this.mNam, this.mKy);
+                    HoaDon hoaDon = _hoadonDB.getHoaDonByID(danhBo, this.mDot, this.mNam, this.mKy);
                     if (hoaDon == null)
                         continue;
                     //Không tải lại code F

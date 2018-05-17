@@ -49,6 +49,7 @@ public class LayLoTrinh {
     private int mNam;
     private int mDot;
     private String mUsername, mStaffName, mPassWord, mStaffPhone;
+    private List<String> mLstMay;
     private HoaDonDB hoaDonDB;
     private LayLoTrinhAsync mLayLoTrinhAsync;
     private View mRootView;
@@ -57,7 +58,9 @@ public class LayLoTrinh {
 
     private NetworkStateChangeReceiver mStateChangeReceiver;
 
-    public LayLoTrinh(Activity activity, View view, LayoutInflater inflater, final int mKy, final int mNam, int mDot, final String mUsername, String mStaffName, String mPassWord, String staffPhone) {
+    public LayLoTrinh(Activity activity, View view, LayoutInflater inflater, final int mKy,
+                      final int mNam, int mDot, final String mUsername, String mStaffName,
+                      String mPassWord, String staffPhone, List<String> lstMay) {
         this.mActivity = activity;
 
         this.mBtnLogin = view;
@@ -68,6 +71,7 @@ public class LayLoTrinh {
         this.mStaffName = mStaffName;
         this.mPassWord = mPassWord;
         this.mStaffPhone = staffPhone;
+        this.mLstMay = lstMay;
         mRootView = inflater.inflate(R.layout.lay_lo_trinh_fragment, null);
 
         ((TextView) mRootView.findViewById(R.id.txt_llt_may)).setText("Máy: " + this.mUsername);
@@ -152,10 +156,18 @@ public class LayLoTrinh {
         builder.setCancelable(false);
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
         View dialogLayout = inflater.inflate(R.layout.layout_dialog_select_dot, null);
+        int may = Integer.parseInt(mUsername);
 
         final Spinner spinDot = (Spinner) dialogLayout.findViewById(R.id.spin_select_dot);
         final Spinner spinKy = (Spinner) dialogLayout.findViewById(R.id.spin_select_ky);
         final Spinner spinNam = (Spinner) dialogLayout.findViewById(R.id.spin_select_nam);
+        final Spinner spinMay = (Spinner) dialogLayout.findViewById(R.id.spin_select_may);
+        if (99 <= may && may <= 104) {
+            dialogLayout.findViewById(R.id.layout_select_may).setVisibility(View.VISIBLE);
+            ArrayAdapter<String> adapterMay = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_right, mLstMay);
+            adapterMay.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+            spinMay.setAdapter(adapterMay);
+        }
         ArrayAdapter<String> adapterDot = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_right, dots);
         adapterDot.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         ArrayAdapter<String> adapterKy = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_right, kys);
@@ -174,10 +186,15 @@ public class LayLoTrinh {
                         mDot = Integer.parseInt(spinDot.getSelectedItem().toString());
                         mKy = Integer.parseInt(spinKy.getSelectedItem().toString());
                         mNam = Integer.parseInt(spinNam.getSelectedItem().toString());
+
                         dialog.dismiss();
                         LayLoTrinh.this.mLayLoTrinhAsync.setmDot(mDot);
                         LayLoTrinh.this.mLayLoTrinhAsync.setmKy(mKy);
                         LayLoTrinh.this.mLayLoTrinhAsync.setmNam(mNam);
+                        if (mLstMay.size() > 0) {
+                            mUsername = spinMay.getSelectedItem().toString();
+                            LayLoTrinh.this.mLayLoTrinhAsync.setmUsername(mUsername);
+                        }
                         LayLoTrinh.this.mLayLoTrinhAsync.execute(isOnline(mRootView));
 
                     }

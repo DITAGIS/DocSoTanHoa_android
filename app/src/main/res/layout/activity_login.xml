@@ -117,7 +117,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_weight="2"
                             android:hint="Mật khẩu"
-                            android:inputType="textPassword"
+                            android:inputType="number"
                             android:nextFocusDown="@+id/btnLogin"
                             android:textColor="@color/colorTextLogin_1"
                             android:textCursorDrawable="@null" />

@@ -127,6 +127,7 @@ public class LogInDB implements IDB<User, Boolean, String> {
         }
         return username;
     }
+
     public Result logIn(User user) {
 
         Calendar calendar = Calendar.getInstance();
@@ -140,6 +141,7 @@ public class LogInDB implements IDB<User, Boolean, String> {
         try {
             if (cnn == null)
                 return null;
+            List<String> lstMay = new ArrayList<>();
             PreparedStatement statement = cnn.prepareStatement(sql);
             statement.setString(1, user.getUserName());
             statement.setString(2, (new EncodeMD5()).encode(user.getPassWord()));
@@ -154,10 +156,10 @@ public class LogInDB implements IDB<User, Boolean, String> {
                 username = resultSet.getString(3);
             }
             resultSet.close();
-            statement = cnn.prepareStatement("select distinct top 1 DocSoID from docso where may = '" + user.getUserName() + "' order by DocSoID desc");
+            statement = cnn.prepareStatement("select distinct top 1 DocSoID from docso  order by DocSoID desc");
             ResultSet rsNamKy = statement.executeQuery();
             String docSoID = "";
-            String mDot = null;
+            String mDot = "";
             while (rsNamKy.next()) {
                 docSoID = rsNamKy.getString(1);
                 nam = docSoID.substring(0, 4);
@@ -165,9 +167,11 @@ public class LogInDB implements IDB<User, Boolean, String> {
                 break;
             }
             rsNamKy.close();
-            statement = cnn.prepareStatement("select distinct top 1 dot, may from docso where docsoid like '" + docSoID.substring(0, 6) + "%'" +
+
+
+            statement = cnn.prepareStatement("select distinct top 1 dot from docso where docsoid like '" + docSoID.substring(0, 6) + "%'" +
                     " and gioghi < '2017-12-31 00:00:00.000'" +
-                    " and may = '" + user.getUserName() + "'" +
+
                     " order by dot desc " +
                     "");
             mDot = "01";
@@ -176,17 +180,31 @@ public class LogInDB implements IDB<User, Boolean, String> {
                 mDot = rsDot.getString(1);
             }
             rsDot.close();
-//            statement = cnn.prepareStatement("SELECT TOP 1 dot from DocSo where nam = "
-//                    + nam + " and ky = " + ky + " order by dot desc");
-//            ResultSet rsDot = statement.executeQuery();
-//
-//            if (rsDot.next()) {
-//                mDot = rsDot.getString(1);
-//            }
-////            mDot = dot + "";
+
+            int may = Integer.parseInt(user.getUserName());
+            if (99 <= may && may <= 104) {
+                switch (may) {
+                    case 99:
+                    case 100:
+                        statement = cnn.prepareStatement("select may from mayds1 where toid is not null order by toid asc");
+                        break;
+                    case 101:
+                    case 102:
+                    case 103:
+                    case 104:
+                        statement = cnn.prepareStatement("select may from mayds1 where ToID ='"
+                                + user.getUserName().substring(2) + "' and toid is not null order by toid asc");
+                        break;
+                }
+
+                ResultSet rsMay = statement.executeQuery();
+                while ((rsMay.next())) {
+                    lstMay.add(rsMay.getString(1));
+                }
+            }
             statement.close();
 //            rsDot.close();
-            Result result = new Result(mDot, staffName, username, staffPhone);
+            Result result = new Result(mDot, staffName, username, staffPhone, lstMay);
             result.setmNam(nam);
             result.setmKy(ky);
 
@@ -212,6 +230,7 @@ public class LogInDB implements IDB<User, Boolean, String> {
         try {
             if (cnn == null)
                 return null;
+            List<String> lstMay = new ArrayList<>();
             PreparedStatement statement = cnn.prepareStatement(sql);
             statement.setString(1, user.getUserName());
             statement.setString(2, (new EncodeMD5()).encode(user.getPassWord()));
@@ -227,7 +246,7 @@ public class LogInDB implements IDB<User, Boolean, String> {
                 username = resultSet.getString(3);
             }
             resultSet.close();
-            statement = cnn.prepareStatement("select distinct top 1 DocSoID from docso where may = '" + user.getUserName() + "' order by DocSoID desc");
+            statement = cnn.prepareStatement("select distinct top 1 DocSoID from docso  order by DocSoID desc");
             ResultSet rsNamKy = statement.executeQuery();
             String docSoID = "";
             String mDot = null;
@@ -238,9 +257,8 @@ public class LogInDB implements IDB<User, Boolean, String> {
                 break;
             }
             rsNamKy.close();
-            statement = cnn.prepareStatement("select distinct top 1 dot, may from docso where docsoid like '" + docSoID.substring(0, 6) + "%'" +
+            statement = cnn.prepareStatement("select distinct top 1 dot from docso where docsoid like '" + docSoID.substring(0, 6) + "%'" +
                     " and gioghi < '2017-12-31 00:00:00.000'" +
-                    " and may = '" + user.getUserName() + "'" +
                     " order by dot desc " +
                     "");
             mDot = "01";
@@ -257,9 +275,30 @@ public class LogInDB implements IDB<User, Boolean, String> {
 //                mDot = rsDot.getString(1);
 //            }
 ////            mDot = dot + "";
+            int may = Integer.parseInt(user.getUserName());
+            if (99 <= may && may <= 104) {
+                switch (may) {
+                    case 99:
+                    case 100:
+                        statement = cnn.prepareStatement("select may from mayds1 where toid is not null order by toid asc");
+                        break;
+                    case 101:
+                    case 102:
+                    case 103:
+                    case 104:
+                        statement = cnn.prepareStatement("select may from mayds1 where ToID ='"
+                                + user.getUserName().substring(2) + "' and toid is not null order by toid asc");
+                        break;
+                }
+
+                ResultSet rsMay = statement.executeQuery();
+                while ((rsMay.next())) {
+                    lstMay.add(rsMay.getString(1));
+                }
+            }
             statement.close();
 //            rsDot.close();
-            Result result = new Result(mDot, staffName, username, staffPhone);
+            Result result = new Result(mDot, staffName, username, staffPhone, lstMay);
             result.setmNam(nam);
             result.setmKy(ky);
 
@@ -328,12 +367,22 @@ public class LogInDB implements IDB<User, Boolean, String> {
         private String username;
         private String password;
         private String mStaffPhone;
+        private List<String> mLstMay;
 
-        public Result(String mDot, String mStaffName, String userName, String staffPhone) {
+        public Result(String mDot, String mStaffName, String userName, String staffPhone, List<String> lstMay) {
             this.mDot = mDot;
             this.mStaffName = mStaffName;
             this.username = userName;
             this.mStaffPhone = staffPhone;
+            this.mLstMay = lstMay;
+        }
+
+        public List<String> getmLstMay() {
+            return mLstMay;
+        }
+
+        public void setmLstMay(List<String> mLstMay) {
+            this.mLstMay = mLstMay;
         }
 
         public String getmStaffPhone() {

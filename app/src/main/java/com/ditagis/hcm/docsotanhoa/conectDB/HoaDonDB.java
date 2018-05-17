@@ -190,7 +190,7 @@ public class HoaDonDB implements IDB<HoaDon, Boolean, String> {
         return DBs;
     }
 
-    public HoaDon getHoaDonByUserName(String userName, String danhBo, int dot, int nam, int ky) {
+    public HoaDon getHoaDonByID(String danhBo, int dot, int nam, int ky) {
         Connection cnn = ConnectionDB.getInstance().getConnection();
         HoaDon hoaDon = null;
         ResultSet rs = null;
