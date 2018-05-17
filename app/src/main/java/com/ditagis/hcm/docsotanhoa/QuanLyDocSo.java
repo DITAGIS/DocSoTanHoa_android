@@ -1126,7 +1126,7 @@ public class QuanLyDocSo extends Fragment {
             });
 //        mSdt = mSdts.get(0);
             mSpinSdt.setSelection(0);
-            ( dialogLayout.findViewById(R.id.imgBtn_qlds_add_sdt)).setOnClickListener(new View.OnClickListener() {
+            (dialogLayout.findViewById(R.id.imgBtn_qlds_add_sdt)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     add_sdt();
@@ -1168,7 +1168,7 @@ public class QuanLyDocSo extends Fragment {
 
             final TextView txtNote = (TextView) dialogLayout.findViewById(R.id.txt_layout_edit_ghiChu);
             txtNote.setText(hoaDon.getGhiChu());
-            ( dialogLayout.findViewById(R.id.btn_layout_edit_ghiChu)).setOnClickListener(new View.OnClickListener() {
+            (dialogLayout.findViewById(R.id.btn_layout_edit_ghiChu)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
@@ -1526,8 +1526,14 @@ public class QuanLyDocSo extends Fragment {
 
 //            mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mLike, mKy,Flag.SYNCHRONIZED, true);
             mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_Read(mLike, mKy, true);
-            mUploading.update(mHoaDons);
-            ConnectionDB.getInstance().reConnect();
+
+            boolean isUpdate = mUploading.update(mHoaDons);
+            if (!isUpdate) {
+                publishProgress(0);
+                return null;
+            }
+
+//              ConnectionDB.getInstance().reConnect();
             for (GridViewQuanLyDocSoAdapter.Item item : mQuanLyDocSoAdapter.getItems()) {
                 for (HoaDon hoaDon : mHoaDons) {
                     if (item.getDanhbo().equals(hoaDon.getDanhBo()) && (

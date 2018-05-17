@@ -2447,17 +2447,17 @@ public class DocSo extends Fragment {
                             Toast.makeText(mRootView.getContext(), "Đã lưu ảnh", Toast.LENGTH_SHORT).show();
                             //giám sát lộ trình đọc số
                             LocalDatabase.getInstance(mRootView.getContext()).addLocation(new com.ditagis.hcm.docsotanhoa.entities.Location(mHoaDon.getId(), mLongtitude, mLatitude));
-                            if (CheckConnect.isOnline(mActivity)) {
-                                mUploading.setmKy(mKy);
-                                mUploading.setmNam(mNam);
-                                mUploading.setmContext(mRootView.getContext());
-
-
-                                if (mUploading.addLocation(mHoaDon) > 0 || mUploading.updateLocation(mHoaDon) > 0) {
-
-
-                                }
-                            }
+//                            if (CheckConnect.isOnline(mActivity)) {
+//                                mUploading.setmKy(mKy);
+//                                mUploading.setmNam(mNam);
+//                                mUploading.setmContext(mRootView.getContext());
+//
+//
+//                                if (mUploading.addLocation(mHoaDon) > 0 || mUploading.updateLocation(mHoaDon) > 0) {
+//
+//
+//                                }
+//                            }
 //                            else
 //                                Toast.makeText(mRootView.getContext(), getString(R.string.no_connect), Toast.LENGTH_SHORT).show();
                         }
@@ -2505,7 +2505,7 @@ public class DocSo extends Fragment {
             public void processFinish(Void output) {
                 mLastLocation = mLocationHelper.getLocation();
                 if (mLastLocation == null) {
-//            MySnackBar.make(mTxtCSM, "Cần bật vị trí để chụp ảnh!!!", true);
+            MySnackBar.make(mTxtCSM, "Có lỗi xảy ra trong quá trình chụp ảnh. Vui lòng thử lại!", true);
 //                    return false;
                 } else {
                     mLongtitude = mLastLocation.getLongitude();

@@ -1,8 +1,8 @@
 package com.ditagis.hcm.docsotanhoa.conectDB;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.ditagis.hcm.docsotanhoa.R;
@@ -25,88 +25,43 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by ThanLe on 15/10/2017.
  */
 
 public class Uploading implements IDB<HoaDon, Boolean, String> {
-    private final String TABLE_NAME = "HOADON";
-    private final String NEW_TABLE_NAME = "HoaDonMoi";
-    private String TABLE_NAME_DOCSO = "DocSo";
-    private final String TABLE_NAME_KH = "KhachHang";
-    private final String TABLE_NAME_DOCSO_LUUTRU = "DocSoLuuTru";
-
-    private String SQL_CREATE_TEMP_TABLE = "if OBJECT_ID('tempdb.dbo.#docsotemp') is not null drop table #docsotemp; " +
-            "select docsoid, csmoi, codemoi, ghichuds, tieuthumoi, gioghi, sdt, vitrimoi, tiennuoc, bvmt, thue, " +
-            "tongtien, ttdhnmoi,sonhamoi,duong into #docsotemp from docso where 1 = 0;";
-
-    private String SQL_INSERT_TEMP_TABLE = "insert into #docsotemp (csmoi, codemoi, ghichuds, tieuthumoi, gioghi, sdt, vitrimoi, tiennuoc, bvmt, thue, tongtien, ttdhnmoi,sonhamoi,duong,docsoid) " +
-            "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-
-    private String SQL_UPDATE_TEMP_TABLE = "update ds " +
-            "set ds.csmoi = temp.csmoi, ds.codemoi = temp.codemoi, ds.ghichuds = temp.ghichuds, ds.tieuthumoi = temp.tieuthumoi," +
-            "ds.gioghi = temp.gioghi, ds.sdt = temp.sdt, ds.vitrimoi = temp.vitrimoi, ds.tiennuoc = temp.tiennuoc, ds.bvmt = temp.bvmt," +
-            "ds.thue = temp.thue, ds.tongtien = temp.tongtien, ds.ttdhnmoi = temp.ttdhnmoi from " + TABLE_NAME_DOCSO + " ds" +
-            " inner join #docsotemp temp on ds.DocSoID = temp.DocSoID;" +
-            "update kh set kh.somoi = temp.sonhamoi, kh.duong = temp.duong from " + TABLE_NAME_KH + " kh inner join #docsotemp temp on kh.danhba = right(temp.docsoid,11)";
-
-    private String SQL_UPDATE = "UPDATE top (1)" + TABLE_NAME_DOCSO + " SET CSMOI=?, CODEMoi=?, GhiChuDS=?, tieuthumoi =?, gioghi = ?, sdt = ?, vitrimoi = ?,tiennuoc = ?, bvmt = ?, thue = ?, tongtien = ?, ttdhnmoi=? WHERE docsoId = ? ";
-
-    private final String SQL_UPDATE_KH = "UPDATE " + TABLE_NAME_KH + " SET somoi =?, duong = ? WHERE DANHBa=? ";
-    private final String SQL_SELECT_KH = "SELECT so from " + TABLE_NAME_KH + " WHERE DANHBa=? ";
-    private final String SQL_INSERT_LUUTRU = "INSERT INTO " + TABLE_NAME_DOCSO_LUUTRU + " VALUES (?,?,?,?,?,?,?,?,?,?," +
-            "?,?,?,?,?,?,?,?,?,?," +
-            "?,?,?,?,?,?,?,?,?,?," +
-            "?,?,?,?,?,?,?,?,?,?," +
-            "?,?,?,?,?,?,?,?,?,?," +
-            "?,?,?,?,?,?,?,?,?,?," +
-            "?,?)";
-
-    private final String TABLE_NAME_GIAM_SAT = "GiamSatHanhTrinh";
-    private final String SQL_INSERT_GIAM_SAT = "insert into " + TABLE_NAME_GIAM_SAT + " (id, nhanvien, longtitude, latitude, thoigian) values(?,?,?,?,?)";
-    private final String SQL_UPDATE_GIAM_SAT = "update " + TABLE_NAME_GIAM_SAT + " set longtitude =?, latitude =?, thoigian =? where id =?";
-    private final String TABLE_NAME_HINHDHN = "Docsoth_hinh..HinhDHN";//(Danhbo, Image, Latitude, Longitude, CreateBy, CreateDate)
-    private final String SQL_INSERT_HINHDHN = " INSERT INTO " + TABLE_NAME_HINHDHN + " VALUES(?,?,?,?)  ";
-    private final String SQL_UPDATE_HINHDHN = " update " + TABLE_NAME_HINHDHN + " set Image = ?, CreateDate =?  " +
-            "    where hinhdhnid = ?";
-
-    private final String SQL_DELETE = "if exists (select danhbo from " + TABLE_NAME_HINHDHN + " where hinhdhnid = ?)" +
-            " delete from " + TABLE_NAME_HINHDHN + " where hinhdhnid = ?";
-    private final String SQL_INSERT = "INSERT INTO " + NEW_TABLE_NAME + " VALUES(?,?,?,?,?,?,?,?,?,?)";
-    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    SimpleDateFormat formatCalculateDate = new SimpleDateFormat("dd MM yyyy");
+    @SuppressLint("SimpleDateFormat")
+    private DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    @SuppressLint("SimpleDateFormat")
     private Connection cnn = ConnectionDB.getInstance().getConnection();
     private String mKy, mNam;
     private Context mContext;
+//    public String getmKy() {
+//        return mKy;
+//    }
+//
+//    public void setmKy(int mKy) {
+//        this.mKy = mKy + "";
+//        if (mKy < 10)
+//            this.mKy = "0" + mKy;
+//    }
 
-
-    public String getmKy() {
-        return mKy;
-    }
-
-    public void setmKy(int mKy) {
-        this.mKy = mKy + "";
-        if (mKy < 10)
-            this.mKy = "0" + mKy;
-    }
-
-    public String getmNam() {
-        return mNam;
-    }
-
-    public void setmNam(int mNam) {
-        this.mNam = mNam + "";
-    }
-
-    public Context getmContext() {
-        return mContext;
-    }
-
-    public void setmContext(Context mContext) {
-        this.mContext = mContext;
-    }
+//    public String getmNam() {
+//        return mNam;
+//    }
+//
+//    public void setmNam(int mNam) {
+//        this.mNam = mNam + "";
+//    }
+//
+//    public Context getmContext() {
+//        return mContext;
+//    }
+//
+//    public void setmContext(Context mContext) {
+//        this.mContext = mContext;
+//    }
 
     public Uploading() {
 
@@ -120,23 +75,21 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
         mContext = context;
     }
 
-    @NonNull
-    private Boolean createTable() {
-
-        return true;
-    }
-
     public Boolean update(List<HoaDon> hoaDons) {
         try {
             cnn = ConnectionDB.getInstance().getConnection();
             Statement stmt = cnn.createStatement();
-            cnn.setAutoCommit(false);
-            stmt.addBatch(this.SQL_CREATE_TEMP_TABLE);
-            stmt.executeBatch();
-            cnn.commit();
+//            cnn.setAutoCommit(false);
+//            stmt.addBatch(this.SQL_CREATE_TEMP_TABLE);
+//            stmt.executeBatch();
+//            cnn.commit();
+            int isCreate = stmt.executeUpdate(mContext.getString(R.string.sql_create_temp_table));
 
-            PreparedStatement st = cnn.prepareStatement(this.SQL_INSERT_TEMP_TABLE);
+            if (isCreate < 0)
+                return false;
+            PreparedStatement st = cnn.prepareStatement(mContext.getString(R.string.sql_insert_temp_table));
             cnn.setAutoCommit(false);
+
             for (HoaDon hoaDon : hoaDons) {
                 final double tienNuoc = Calculate_TienNuoc.getInstance().calculate(Integer.parseInt(hoaDon.getTieuThuMoi()), hoaDon.getGiaBieu(),
                         hoaDon.getDinhMuc(), hoaDon.getSh(), hoaDon.getSx(), hoaDon.getDv(), hoaDon.getHc());
@@ -153,7 +106,8 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
 //                    codeMoi = "56";
                     } else if (codeCu.equals("M0")) {
                         try {
-                            PreparedStatement statement = cnn.prepareStatement("select top 1 ngaykiem from thongbao where danhba = '" + hoaDon.getDanhBo() + "' order by ngaykiem desc");
+                            PreparedStatement statement = cnn.prepareStatement(mContext.getString(R.string.sql_getngaykiem_thongbao));
+                            statement.setString(1, hoaDon.getDanhBo());
                             ResultSet resultSet = statement.executeQuery();
                             if (resultSet.next()) {
                                 Date ngayKiem = resultSet.getDate(1);
@@ -168,10 +122,10 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
                                 resultSet.close();
                                 statement.close();
                             }
-                        } catch (Exception e) {
+                        } catch (Exception ignored) {
 
                         }
-                    } else ;
+                    }
                     //do nothing;
                 }
 //            if (Integer.parseInt(hoaDon.getTieuThuMoi()) < 0) {
@@ -199,32 +153,45 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
                 st.setString(15, this.mNam + this.mKy + hoaDon.getDanhBo());
                 st.addBatch();
             }
-            int[] count = st.executeBatch();
+            int[] result = st.executeBatch();
+            int count = 0;
+            for (Integer i : result)
+                count += i;
+            if (hoaDons.size() != count)
+                return false;
+
+
             cnn.commit();
 
-            cnn.setAutoCommit(false);
-            stmt.addBatch(this.SQL_UPDATE_TEMP_TABLE);
-            stmt.executeBatch();
-            cnn.commit();
-            return true;
+
+            cnn.setAutoCommit(true);
+            int update = stmt.executeUpdate(mContext.getString(R.string.sql_update_temp_table));
+//            int[] result1 = stmt.executeBatch();
+//            cnn.commit();
+
+
+            if (update != count)
+                return false;
+
         } catch (SQLException e) {
             Log.i("", e.toString());
+            return false;
         } catch (ParseException e) {
             Log.i("", e.toString());
+            return false;
         }
-        return false;
+        return true;
     }
 
 
-    public int updateLocation(HoaDon hoaDon) {
-        String sql = this.SQL_UPDATE_GIAM_SAT;
+    private int updateLocation(HoaDon hoaDon) {
 
         //TODO: cập nhật chỉ số cũ = chỉ số mới
         try {
             cnn = ConnectionDB.getInstance().getConnection();
             if (cnn == null)
                 return 0;
-            PreparedStatement st = cnn.prepareStatement(sql);
+            PreparedStatement st = cnn.prepareStatement(mContext.getString(R.string.sql_update_giamsat));
             Location location = LocalDatabase.getInstance(mContext).getLocation(hoaDon.getId());
             st.setDouble(1, location.getLongtitue());
             st.setDouble(2, location.getLatitude());
@@ -247,14 +214,13 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
         return 0;
     }
 
-    public int addLocation(HoaDon hoaDon) {
-        String sql = this.SQL_INSERT_GIAM_SAT;
+    private int addLocation(HoaDon hoaDon) {
         try {
             cnn = ConnectionDB.getInstance().getConnection();
             if (cnn == null)
                 return 0;
 
-            PreparedStatement st1 = cnn.prepareStatement(sql);
+            PreparedStatement st1 = cnn.prepareStatement(mContext.getString(R.string.sql_insert_giamsat));
             st1.setString(1, hoaDon.getId());
             st1.setString(2, hoaDon.getMaLoTrinh().substring(2, 4));
             Location location = LocalDatabase.getInstance(mContext).getLocation(hoaDon.getId());
@@ -265,13 +231,13 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             st1.setTimestamp(5, new java.sql.Timestamp(date.getTime()));
 
 
-            Statement stmt = cnn.createStatement();
-            sql = String.format(Locale.US,"insert into " + TABLE_NAME_GIAM_SAT + " (id, nhanvien, longtitude, latitude, thoigian) values('%s','%s',%f,%f,'%s')",
-                    hoaDon.getId(), hoaDon.getMaLoTrinh().substring(2, 4), location.getLongtitue(), location.getLatitude(),
-                    stringDate);
-            int result = stmt.executeUpdate(sql);
+//            Statement stmt = cnn.createStatement();
+//            sql = String.format(Locale.US, "insert into " + TABLE_NAME_GIAM_SAT + " (id, nhanvien, longtitude, latitude, thoigian) values('%s','%s',%f,%f,'%s')",
+//                    hoaDon.getId(), hoaDon.getMaLoTrinh().substring(2, 4), location.getLongtitue(), location.getLatitude(),
+//                    stringDate);
+            int result = st1.executeUpdate();
 //            int result = st1.executeUpdate();
-            stmt.close();
+            st1.close();
             return result;
 
         } catch (Exception e) {
@@ -286,37 +252,32 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
         File dir = new File(path, mContext.getString(R.string.path_saveImage));
         if (dir.isDirectory()) {
             String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                new File(dir, children[i]).delete();
-            }
+            for (String aChildren : children)
+                new File(dir, aChildren).delete();
         }
-        boolean resultUpdateHoaDon = false;
-        int resultAddImage = 0;
         try {
             if (addLocation(hoaDon) > 0 || updateLocation(hoaDon) > 0) {
                 if (hoaDon.getImage_byteArray().length > CONSTANT.MIN_IMAGE_QUATITY)
-                    resultAddImage = addHinhDHN(hoaDon);
-                if (resultAddImage <= 0) {
-                    resultAddImage = updateHinhDHN(hoaDon);
-                }
+                    if (addHinhDHN(hoaDon) > 0 || updateHinhDHN(hoaDon) > 0)
+                        return true;
             }
+
 //            if (resultAddImage > 0) {
 //                resultUpdateHoaDon = update(hoaDon);
 //            }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
-        return resultAddImage > 0;
+        return false;
     }
 
-    public int updateHinhDHN(HoaDon hoaDon) {
-        String sql = this.SQL_UPDATE_HINHDHN;
+    private int updateHinhDHN(HoaDon hoaDon) {
 
         //TODO: cập nhật chỉ số cũ = chỉ số mới
         try {
             cnn = ConnectionDB.getInstance().getConnection();
             if (cnn == null)
                 return 0;
-            PreparedStatement st = cnn.prepareStatement(sql);
+            PreparedStatement st = cnn.prepareStatement(mContext.getString(R.string.sql_update_hinhdhn));
             st.setBytes(1, hoaDon.getImage_byteArray());
             String stringDate = hoaDon.getThoiGian();
             Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
@@ -345,132 +306,125 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
     @Override
     public Boolean update(HoaDon hoaDon) {
 //        TABLE_NAME_DOCSO += mNam + mKy + mDot;
-        String sql = this.SQL_UPDATE;
-        final double tienNuoc = Calculate_TienNuoc.getInstance().calculate(Integer.parseInt(hoaDon.getTieuThuMoi()), hoaDon.getGiaBieu(),
-                hoaDon.getDinhMuc(), hoaDon.getSh(), hoaDon.getSx(), hoaDon.getDv(), hoaDon.getHc());
-        //TODO: cập nhật chỉ số cũ = chỉ số mới
-        try {
-            cnn = ConnectionDB.getInstance().getConnection();
-            if (cnn == null)
-                return false;
-            PreparedStatement st = cnn.prepareStatement(sql);
-            st.setString(1, hoaDon.getChiSoMoi());
-            String codeMoi = hoaDon.getCodeMoi();
-            String codeCu = hoaDon.getCode_CSC_SanLuong().getCode1();
-            if (hoaDon.getCodeMoi().startsWith("4")) {
-                if (codeCu.startsWith("F") || codeCu.equals("K")
-                        || codeCu.equals("N") || codeCu.startsWith("6")) {
-                    if (!(5 + codeCu.substring(0, 1)).equals("54"))
-                        codeMoi = 5 + codeCu.substring(0, 1);
-//                } else if (codeCu.startsWith("6")) {
-//                    codeMoi = "56";
-                } else if (codeCu.equals("M0")) {
-                    try {
-                        PreparedStatement statement = cnn.prepareStatement("select top 1 ngaykiem from thongbao where danhba = '" + hoaDon.getDanhBo() + "' order by ngaykiem desc");
-                        ResultSet resultSet = statement.executeQuery();
-                        if (resultSet.next()) {
-                            Date ngayKiem = resultSet.getDate(1);
-                            long date = (Calendar.getInstance().getTimeInMillis() - ngayKiem.getTime()) / (1000 * 60 * 60 * 24);
-                            if (date < 32)
-                                codeMoi = "M1";
-                            else if (date < 62)
-                                codeMoi = "M2";
-                            else
-                                codeMoi = "M3";
-
-                            resultSet.close();
-                            statement.close();
-                        }
-                    } catch (Exception e) {
-
-                    }
-                } else ;
-                //do nothing;
-            }
-//            if (Integer.parseInt(hoaDon.getTieuThuMoi()) < 0) {
-//                codeMoi = "N1";
-//                hoaDon.setTieuThuMoi("0");
+//        final double tienNuoc = Calculate_TienNuoc.getInstance().calculate(Integer.parseInt(hoaDon.getTieuThuMoi()), hoaDon.getGiaBieu(),
+//                hoaDon.getDinhMuc(), hoaDon.getSh(), hoaDon.getSx(), hoaDon.getDv(), hoaDon.getHc());
+//        //TODO: cập nhật chỉ số cũ = chỉ số mới
+//        try {
+//            cnn = ConnectionDB.getInstance().getConnection();
+//            if (cnn == null)
+//                return false;
+//            PreparedStatement st = cnn.prepareStatement(mContext.getString(R.string.sql_update_docso));
+//            st.setString(1, hoaDon.getChiSoMoi());
+//            String codeMoi = hoaDon.getCodeMoi();
+//            String codeCu = hoaDon.getCode_CSC_SanLuong().getCode1();
+//            if (hoaDon.getCodeMoi().startsWith("4")) {
+//                if (codeCu.startsWith("F") || codeCu.equals("K")
+//                        || codeCu.equals("N") || codeCu.startsWith("6")) {
+//                    if (!(5 + codeCu.substring(0, 1)).equals("54"))
+//                        codeMoi = 5 + codeCu.substring(0, 1);
+////                } else if (codeCu.startsWith("6")) {
+////                    codeMoi = "56";
+//                } else if (codeCu.equals("M0")) {
+//                    try {
+//                        PreparedStatement statement = cnn.prepareStatement("select top 1 ngaykiem from thongbao where danhba = '" + hoaDon.getDanhBo() + "' order by ngaykiem desc");
+//                        ResultSet resultSet = statement.executeQuery();
+//                        if (resultSet.next()) {
+//                            Date ngayKiem = resultSet.getDate(1);
+//                            long date = (Calendar.getInstance().getTimeInMillis() - ngayKiem.getTime()) / (1000 * 60 * 60 * 24);
+//                            if (date < 32)
+//                                codeMoi = "M1";
+//                            else if (date < 62)
+//                                codeMoi = "M2";
+//                            else
+//                                codeMoi = "M3";
+//
+//                            resultSet.close();
+//                            statement.close();
+//                        }
+//                    } catch (Exception ignored) {
+//
+//                    }
+//                }
+//                //do nothing;
 //            }
-            st.setString(2, codeMoi);
-            st.setString(3, hoaDon.getGhiChu());
-            st.setString(4, hoaDon.getTieuThuMoi());
-            String stringDate = hoaDon.getThoiGian();
-            Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
-            st.setTimestamp(5, new java.sql.Timestamp(date.getTime()));
-            st.setString(6, hoaDon.getSdt());
-            st.setString(7, hoaDon.getViTri());
-            st.setDouble(8, tienNuoc);
-            double BVMT = 0, VAT = tienNuoc / 20;
-            if (!hoaDon.getGiaBieu().equals("52"))
-                BVMT = tienNuoc / 10;
-            st.setDouble(9, BVMT);
-            st.setDouble(10, VAT);
-            st.setDouble(11, tienNuoc + BVMT + VAT);
-            st.setString(12, LocalDatabase.getInstance(mContext).getTTDHN(hoaDon.getCodeMoi()));
-            st.setString(13, this.mNam + this.mKy + hoaDon.getDanhBo());
-
-            int result1 = st.executeUpdate();
-            String sqlKH = this.SQL_SELECT_KH;
-            PreparedStatement stselectKH = cnn.prepareStatement(sqlKH);
-            stselectKH.setString(1, hoaDon.getDanhBo());
-            ResultSet rs = stselectKH.executeQuery();
-
-            while (rs.next()) {
-                if (!rs.getString(1).equals(hoaDon.getSoNha())) {
-                    sqlKH = this.SQL_UPDATE_KH;
-                    PreparedStatement stUpdateKH = cnn.prepareStatement(sqlKH);
-                    stUpdateKH.setString(1, hoaDon.getSoNha());
-                    stUpdateKH.setString(2, hoaDon.getDuong());
-                    stUpdateKH.setString(3, hoaDon.getDanhBo());
-                    stUpdateKH.executeUpdate();
-                    stUpdateKH.close();
-                }
-            }
-            stselectKH.close();
-
-            st.close();
-
-
-            return result1 > 0;
-
-        } catch (SQLException e1) {
-        } catch (ParseException e) {
-        }
+////            if (Integer.parseInt(hoaDon.getTieuThuMoi()) < 0) {
+////                codeMoi = "N1";
+////                hoaDon.setTieuThuMoi("0");
+////            }
+//            st.setString(2, codeMoi);
+//            st.setString(3, hoaDon.getGhiChu());
+//            st.setString(4, hoaDon.getTieuThuMoi());
+//            String stringDate = hoaDon.getThoiGian();
+//            Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
+//            st.setTimestamp(5, new java.sql.Timestamp(date.getTime()));
+//            st.setString(6, hoaDon.getSdt());
+//            st.setString(7, hoaDon.getViTri());
+//            st.setDouble(8, tienNuoc);
+//            double BVMT = 0, VAT = tienNuoc / 20;
+//            if (!hoaDon.getGiaBieu().equals("52"))
+//                BVMT = tienNuoc / 10;
+//            st.setDouble(9, BVMT);
+//            st.setDouble(10, VAT);
+//            st.setDouble(11, tienNuoc + BVMT + VAT);
+//            st.setString(12, LocalDatabase.getInstance(mContext).getTTDHN(hoaDon.getCodeMoi()));
+//            st.setString(13, this.mNam + this.mKy + hoaDon.getDanhBo());
+//
+//            int result1 = st.executeUpdate();
+//            String sqlKH = "SELECT so from " + TABLE_NAME_KH + " WHERE DANHBa=? ";
+//            PreparedStatement stselectKH = cnn.prepareStatement(sqlKH);
+//            stselectKH.setString(1, hoaDon.getDanhBo());
+//            ResultSet rs = stselectKH.executeQuery();
+//
+//            while (rs.next()) {
+//                if (!rs.getString(1).equals(hoaDon.getSoNha())) {
+//                    sqlKH = "UPDATE " + TABLE_NAME_KH + " SET somoi =?, duong = ? WHERE DANHBa=? ";
+//                    PreparedStatement stUpdateKH = cnn.prepareStatement(sqlKH);
+//                    stUpdateKH.setString(1, hoaDon.getSoNha());
+//                    stUpdateKH.setString(2, hoaDon.getDuong());
+//                    stUpdateKH.setString(3, hoaDon.getDanhBo());
+//                    stUpdateKH.executeUpdate();
+//                    stUpdateKH.close();
+//                }
+//            }
+//            stselectKH.close();
+//
+//            st.close();
+//
+//
+//            return result1 > 0;
+//
+//        } catch (SQLException ignored) {
+//        } catch (ParseException ignored) {
+//        }
         return false;
     }
 
-    public int addHinhDHN(HoaDon hoaDon) {
-        String sqlInsert_HinhDHN = this.SQL_INSERT_HINHDHN;
+    private int addHinhDHN(HoaDon hoaDon) {
         try {
             cnn = ConnectionDB.getInstance().getConnection();
             if (cnn == null)
                 return 0;
             //Lấy danh sách id
-            String query = "select HinhDHNID from " + TABLE_NAME_HINHDHN + " where danhbo = '" + hoaDon.getDanhBo() + "'  order by CreateDate desc";
-            ResultSet rs = null;
+            ResultSet rs;
             List<String> hoadonIDList = new ArrayList<>();
-            Statement st = cnn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY);
-//            st1.setString(1, hoaDon.getDanhBo());
-//            st1.setString(2, hoaDon.getDanhBo());
-            rs = st.executeQuery(query);
+            PreparedStatement st1 = cnn.prepareStatement(mContext.getString(R.string.sql_gethinhdhnid_hinhdhn));
+            st1.setString(1, hoaDon.getDanhBo());
+            rs = st1.executeQuery();
             while (rs.next()) {
                 hoadonIDList.add(rs.getString(1));
             }
             rs.close();
-            st.close();
-            //Kiểm tra nếu số lượng lớn hơn 12 thì xóa
+            st1.close();
+            //Kiểm tra nếu số lượng lớn hơn 4 thì xóa
 
-            PreparedStatement st1;
-            if (hoadonIDList.size() >= 12) {
-                query = SQL_DELETE;
-                st1 = cnn.prepareStatement(query);
+            if (hoadonIDList.size() >= 4) {
+                st1 = cnn.prepareStatement(mContext.getString(R.string.sql_delete_hinhdhn));
                 st1.setString(1, hoadonIDList.get(hoadonIDList.size() - 1));
                 st1.setString(2, hoadonIDList.get(hoadonIDList.size() - 1));
                 st1.executeUpdate();
             }
 
-            st1 = cnn.prepareStatement(sqlInsert_HinhDHN);
+            st1 = cnn.prepareStatement(mContext.getString(R.string.sql_insert_hinhdhn));
             st1.setString(1, hoaDon.getId());
             st1.setString(2, hoaDon.getDanhBo());
 
@@ -481,12 +435,11 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             st1.setBytes(3, hoaDon.getImage_byteArray());
 
             String stringDate = hoaDon.getThoiGian();
-            Date date = Uploading.this.formatter.parse(stringDate); //TODO datetime
+            Date date = Uploading.this.formatter.parse(stringDate);
             st1.setTimestamp(4, new java.sql.Timestamp(date.getTime()));
-            Location location = LocalDatabase.getInstance(mContext).getLocation(hoaDon.getId());
+//            Location location = LocalDatabase.getInstance(mContext).getLocation(hoaDon.getId());
 //            st1.setDouble(5, location.getLongtitue());
 //            st1.setDouble(6, location.getLatitude());
-            int result = st1.executeUpdate();
 
 //                path = path.substring(0, path.length() - 1).concat("1");
 
@@ -494,9 +447,9 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
 //                File f = ImageFile.getFile(hoaDon.getThoiGian(), mContext, hoaDon.getDanhBo());
 //                f.delete();
 //            }
-            return result;
+            return st1.executeUpdate();
 
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         return 0;
     }

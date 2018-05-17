@@ -1,3 +1,5 @@
+<!DOCTYPE resources [<!ENTITY table_temp_docso "#docsotemp"><!ENTITY table_docso "Docso"><!ENTITY table_khachhang "KhachHang"><!ENTITY table_giamsat "GiamSatHanhTrinh"><!ENTITY table_hinhdhn "Docsoth_hinh..HinhDHN">]>
+
 <resources>
     <string name="app_name">Đọc số Tân Hòa</string>
     <string name="title_activity_login">Đọc số Tân Hòa</string>
@@ -103,4 +105,48 @@
     <string name="ket_qua_location_long">ket qua location mLongtitude</string>
     <string name="ket_qua_location_lat">ket qua location mLatitude</string>
 
+    <!--Sql begin-->
+
+    <string name="sql_table_name_docso">&table_docso;</string>
+    <string name="sql_table_name_khachhang">&table_khachhang;</string>
+    <string name="sql_table_name_giamsat">&table_giamsat;</string>
+    <string name="sql_table_name_hinhdhn">&table_hinhdhn;</string>
+
+    <string name="sql_update_docso">UPDATE top (1) &table_docso; SET CSMOI=?, CODEMoi=?, GhiChuDS=?,
+        tieuthumoi =?, gioghi = ?, sdt = ?, vitrimoi = ?,tiennuoc = ?, bvmt = ?, thue = ?, tongtien
+        = ?, ttdhnmoi=? WHERE docsoId = ? </string>
+
+    <string name="sql_update_temp_table">update ds set ds.csmoi = temp.csmoi, ds.codemoi =
+        temp.codemoi, ds.ghichuds = temp.ghichuds, ds.tieuthumoi = temp.tieuthumoi, ds.gioghi =
+        temp.gioghi, ds.sdt = temp.sdt, ds.vitrimoi = temp.vitrimoi, ds.tiennuoc = temp.tiennuoc,
+        ds.bvmt = temp.bvmt, ds.thue = temp.thue, ds.tongtien = temp.tongtien, ds.ttdhnmoi =
+        temp.ttdhnmoi from &table_docso; ds inner join #docsotemp temp on ds.DocSoID =
+        temp.DocSoID; update kh set kh.somoi = temp.sonhamoi, kh.duong = temp.duong
+        from &table_khachhang;
+        kh inner join #docsotemp temp on kh.danhba = right(temp.docsoid,11)</string>
+    <string name="sql_create_temp_table">if OBJECT_ID(\'tempdb.dbo.&table_temp_docso;\') is not null
+        drop table &table_temp_docso;; select docsoid, csmoi, codemoi, ghichuds, tieuthumoi, gioghi,
+        sdt, vitrimoi, tiennuoc, bvmt, thue, tongtien, ttdhnmoi,sonhamoi,duong into &table_temp_docso;
+        from docso where 1 = 0;</string>
+    <string name="sql_insert_temp_table">insert into &table_temp_docso; (csmoi, codemoi, ghichuds,
+        tieuthumoi, gioghi, sdt, vitrimoi, tiennuoc, bvmt, thue, tongtien, ttdhnmoi,sonhamoi,duong,
+        docsoid) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)</string>
+
+    <string name="sql_update_giamsat">update &table_giamsat; set longtitude =?, latitude =?,
+        thoigian =? where id =?</string>
+    <string name="sql_insert_giamsat">insert into &table_giamsat; (id, nhanvien, longtitude,
+        latitude, thoigian) values(?,?,?,?,?)</string>
+
+    <string name="sql_update_hinhdhn">update &table_hinhdhn; set Image = ?, CreateDate =?
+        where hinhdhnid = ?</string>
+    <string name="sql_gethinhdhnid_hinhdhn">select HinhDHNID from &table_hinhdhn; where danhbo = ?
+        order by CreateDate desc</string>
+    <string name="sql_delete_hinhdhn">if exists (select danhbo from &table_hinhdhn; where hinhdhnid = ?)
+        delete from &table_hinhdhn; where hinhdhnid = ?</string>
+    <string name="sql_insert_hinhdhn"> INSERT INTO &table_hinhdhn; VALUES(?,?,?,?) </string>
+
+    <string name="sql_getngaykiem_thongbao">select top 1 ngaykiem from thongbao where danhba = ?
+        order by ngaykiem desc</string>
+
+    <!--Sql end-->
 </resources>
