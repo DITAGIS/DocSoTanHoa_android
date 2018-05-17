@@ -94,8 +94,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login();
-//                loginWithIMEI();
+//                login();
+                loginWithIMEI();
             }
         });
 
@@ -250,7 +250,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             LoginActivity.this.mNam = loadPreference(getString(R.string.preference_nam));
             LoginActivity.this.mStaffPhone = loadPreference(getString(R.string.preference_sdtNV));
 
-            LoginActivity.this.mLstMay.add(loadPreference(getString(R.string.preference_may)));
+            int may = Integer.parseInt(mUsername);
+            if (99 <= may && may <= 104)
+                LoginActivity.this.mLstMay.add(loadPreference(getString(R.string.preference_may)));
 
             if (mStaffName == null)
                 MySnackBar.make(btnLogin, "Chưa khởi tạo máy " + mTxtUsername.getText().toString(), true);
@@ -278,7 +280,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             int ky = Integer.parseInt(mKy);
             int nam = Integer.parseInt(mNam);
             int dot = Integer.parseInt(mDot);
-            new LayLoTrinh(LoginActivity.this, btnLogin, getLayoutInflater(), ky, nam, dot, mUsername, mStaffName, mPassword, mStaffPhone,mLstMay);
+            new LayLoTrinh(LoginActivity.this, btnLogin, getLayoutInflater(), ky, nam, dot, mUsername, mStaffName, mPassword, mStaffPhone, mLstMay);
 
         } catch (Exception e) {
 

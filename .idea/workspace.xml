@@ -8,14 +8,12 @@
   <component name="ChangeListManager">
     <list default="true" id="4c4946d3-bdc4-4878-b209-a6bb795d906e" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/LayLoTrinh.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/LayLoTrinh.java" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/LoginActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/LoginActivity.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/async/LayLoTrinhAsync.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/async/LayLoTrinhAsync.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/HoaDonDB.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/HoaDonDB.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/LogInDB.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/LogInDB.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/layout_dialog_select_dot.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_dialog_select_dot.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/Uploading.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/Uploading.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/LocationHelper.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/LocationHelper.java" />
     </list>
     <ignored path="$PROJECT_DIR$/build/classes/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -39,97 +37,103 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="LoginActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/LoginActivity.java">
+      <file leaf-file-name="Uploading.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/Uploading.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="280" column="21" lean-forward="false" selection-start-line="280" selection-start-column="21" selection-end-line="280" selection-end-column="21" />
-              <folding>
-                <element signature="e#3385#3996#0" expanded="true" />
-                <element signature="e#3995#3996#0" expanded="true" />
-                <element signature="e#4093#4269#0" expanded="true" />
-                <element signature="e#4268#4269#0" expanded="true" />
-                <element signature="e#7786#7821#0" expanded="true" />
-                <element signature="e#8302#8338#0" expanded="true" />
-                <element signature="e#8393#8426#0" expanded="true" />
-                <element signature="e#8482#8516#0" expanded="true" />
-                <element signature="e#8572#8606#0" expanded="true" />
-                <element signature="e#8669#8705#0" expanded="true" />
-                <element signature="e#8766#8800#0" expanded="true" />
-                <element signature="e#9176#9195#0" expanded="true" />
-                <element signature="e#10485#10520#0" expanded="true" />
-                <element signature="e#11007#11043#0" expanded="true" />
-                <element signature="e#11098#11131#0" expanded="true" />
-                <element signature="e#11187#11221#0" expanded="true" />
-                <element signature="e#11277#11311#0" expanded="true" />
-                <element signature="e#11374#11410#0" expanded="true" />
-                <element signature="e#11472#11506#0" expanded="true" />
-                <element signature="e#11882#11901#0" expanded="true" />
-                <element signature="e#15550#15579#0" expanded="true" />
-                <element signature="e#15616#15643#0" expanded="true" />
-                <element signature="e#15645#15825#0" expanded="true" />
-                <element signature="e#15824#15825#0" expanded="true" />
-                <element signature="e#15862#15893#0" expanded="true" />
-                <element signature="e#15895#16083#0" expanded="true" />
-                <element signature="e#16082#16083#0" expanded="true" />
-                <element signature="e#18832#18881#0" expanded="true" />
-                <element signature="e#19910#19946#0" expanded="true" />
-                <element signature="e#20005#20039#0" expanded="true" />
-                <element signature="e#20092#20125#0" expanded="true" />
-                <element signature="e#20177#20211#0" expanded="true" />
-                <element signature="e#20264#20300#0" expanded="true" />
-                <element signature="e#21077#21130#0" expanded="true" />
-                <element signature="e#21642#21661#0" expanded="true" />
-                <element signature="e#22093#22133#0" expanded="true" />
-                <element signature="e#22194#22235#0" expanded="true" />
-                <element signature="e#22301#22341#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LogInDB.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/LogInDB.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="347">
-              <caret line="185" column="30" lean-forward="false" selection-start-line="183" selection-start-column="11" selection-end-line="185" selection-end-column="30" />
-              <folding>
-                <element signature="method#setPassword#0;class#LogInDB#0" expanded="false" />
-                <element signature="method#getAll#0;class#LogInDB#0" expanded="false" />
-                <element signature="e#13234#13235#0" expanded="true" />
-                <element signature="e#13272#13273#0" expanded="true" />
-                <element signature="e#13328#13329#0" expanded="true" />
-                <element signature="e#13374#13375#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DocSo.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="2202" column="50" lean-forward="false" selection-start-line="2202" selection-start-column="50" selection-end-line="2202" selection-end-column="50" />
+            <state relative-caret-position="255">
+              <caret line="161" column="29" lean-forward="false" selection-start-line="161" selection-start-column="29" selection-end-line="161" selection-end-column="29" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DialogSelectDot.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/DialogSelectDot.java">
+      <file leaf-file-name="QuanLyDocSo.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="24" column="25" lean-forward="false" selection-start-line="24" selection-start-column="25" selection-end-line="24" selection-end-column="25" />
+            <state relative-caret-position="210">
+              <caret line="1521" column="0" lean-forward="false" selection-start-line="1521" selection-start-column="0" selection-end-line="1521" selection-end-column="0" />
+              <folding>
+                <element signature="e#2953#2961#0" expanded="true" />
+                <element signature="e#6125#6341#0" expanded="true" />
+                <element signature="e#6340#6341#0" expanded="true" />
+                <element signature="e#6525#6670#0" expanded="true" />
+                <element signature="e#6669#6670#0" expanded="true" />
+                <element signature="e#8223#8279#0" expanded="true" />
+                <element signature="e#9152#9205#0" expanded="true" />
+                <element signature="e#10717#10773#0" expanded="true" />
+                <element signature="e#12319#12374#0" expanded="true" />
+                <element signature="e#13924#13980#0" expanded="true" />
+                <element signature="e#15642#15830#0" expanded="true" />
+                <element signature="e#15829#15830#0" expanded="true" />
+                <element signature="e#21144#21395#0" expanded="true" />
+                <element signature="e#21394#21395#0" expanded="true" />
+                <element signature="e#22215#22261#0" expanded="true" />
+                <element signature="e#22263#23088#0" expanded="true" />
+                <element signature="e#23087#23088#0" expanded="true" />
+                <element signature="e#23108#23155#0" expanded="true" />
+                <element signature="e#23157#23893#0" expanded="true" />
+                <element signature="e#23892#23893#0" expanded="true" />
+                <element signature="e#47764#47817#0" expanded="true" />
+                <element signature="e#47925#47981#0" expanded="true" />
+                <element signature="e#48096#48151#0" expanded="true" />
+                <element signature="e#48265#48321#0" expanded="true" />
+                <element signature="e#48440#52150#0" expanded="true" />
+                <element signature="e#48781#48834#0" expanded="true" />
+                <element signature="e#49024#49080#0" expanded="true" />
+                <element signature="e#49269#49324#0" expanded="true" />
+                <element signature="e#49514#49570#0" expanded="true" />
+                <element signature="e#49862#49915#0" expanded="true" />
+                <element signature="e#50419#50475#0" expanded="true" />
+                <element signature="e#50973#51028#0" expanded="true" />
+                <element signature="e#51542#51598#0" expanded="true" />
+                <element signature="e#52149#52150#0" expanded="true" />
+                <element signature="e#53392#53580#0" expanded="true" />
+                <element signature="e#53579#53580#0" expanded="true" />
+                <element signature="e#53727#53972#0" expanded="true" />
+                <element signature="e#53971#53972#0" expanded="true" />
+                <element signature="e#54003#54587#0" expanded="true" />
+                <element signature="e#54586#54587#0" expanded="true" />
+                <element signature="e#60275#60438#0" expanded="true" />
+                <element signature="e#60437#60438#0" expanded="true" />
+                <element signature="e#62902#71853#0" expanded="true" />
+                <element signature="e#63977#63985#0" expanded="true" />
+                <element signature="e#64359#64367#0" expanded="true" />
+                <element signature="e#69696#71286#0" expanded="true" />
+                <element signature="e#71285#71286#0" expanded="true" />
+                <element signature="e#71313#71561#0" expanded="true" />
+                <element signature="e#71560#71561#0" expanded="true" />
+                <element signature="e#71852#71853#0" expanded="true" />
+                <element signature="e#77922#78170#0" expanded="true" />
+                <element signature="e#78169#78170#0" expanded="true" />
+                <element signature="e#78206#79369#0" expanded="true" />
+                <element signature="e#79368#79369#0" expanded="true" />
+                <element signature="e#80083#80136#0" expanded="true" />
+                <element signature="e#80520#80753#0" expanded="true" />
+                <element signature="e#80752#80753#0" expanded="true" />
+                <element signature="e#80797#81025#0" expanded="true" />
+                <element signature="e#81024#81025#0" expanded="true" />
+                <element signature="e#81838#81900#0" expanded="true" />
+                <element signature="e#81933#81997#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/build.gradle">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="273">
+              <caret line="13" column="16" lean-forward="true" selection-start-line="13" selection-start-column="16" selection-end-line="13" selection-end-column="16" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/MainActivity.java">
+      <file leaf-file-name="LocalDatabase.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1755">
-              <caret line="167" column="74" lean-forward="false" selection-start-line="167" selection-start-column="65" selection-end-line="167" selection-end-column="74" />
+            <state relative-caret-position="150">
+              <caret line="542" column="24" lean-forward="false" selection-start-line="542" selection-start-column="24" selection-end-line="542" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -138,8 +142,8 @@
       <file leaf-file-name="AsyncTask.java" pinned="false" current-in-tab="false">
         <entry file="file://E:/AppData/Local/Android/sdk/sources/android-25/android/os/AsyncTask.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="303" column="0" lean-forward="false" selection-start-line="303" selection-start-column="0" selection-end-line="303" selection-end-column="0" />
+            <state relative-caret-position="423">
+              <caret line="313" column="0" lean-forward="false" selection-start-line="313" selection-start-column="0" selection-end-line="313" selection-end-column="0" />
               <folding>
                 <element signature="e#12600#13277#0" expanded="true" />
                 <element signature="e#13276#13277#0" expanded="true" />
@@ -148,52 +152,39 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LayLoTrinh.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/LayLoTrinh.java">
+      <file leaf-file-name="DialogSelectDot.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/DialogSelectDot.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="116">
-              <caret line="265" column="76" lean-forward="false" selection-start-line="265" selection-start-column="76" selection-end-line="265" selection-end-column="76" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#7832#8862#0" expanded="true" />
-                <element signature="e#8861#8862#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LayLoTrinhAsync.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/async/LayLoTrinhAsync.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-39">
-              <caret line="137" column="0" lean-forward="false" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
-              <folding>
-                <element signature="e#2356#2402#0" expanded="true" />
-                <element signature="e#2436#2484#0" expanded="true" />
-                <element signature="e#2557#2749#0" expanded="true" />
-                <element signature="e#2748#2749#0" expanded="true" />
-                <element signature="e#6729#6775#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DeviceListActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DeviceListActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="84">
-              <caret line="18" column="13" lean-forward="false" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+            <state relative-caret-position="420">
+              <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HoaDonDB.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/HoaDonDB.java">
+      <file leaf-file-name="DocSo.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-291">
-              <caret line="120" column="54" lean-forward="false" selection-start-line="120" selection-start-column="46" selection-end-line="120" selection-end-column="54" />
-              <folding />
+            <state relative-caret-position="234">
+              <caret line="2511" column="0" lean-forward="false" selection-start-line="2511" selection-start-column="0" selection-end-line="2511" selection-end-column="0" />
+              <folding>
+                <element signature="e#124882#125861#0" expanded="true" />
+                <element signature="e#125860#125861#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LocationHelper.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/LocationHelper.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="77">
+              <caret line="346" column="104" lean-forward="false" selection-start-line="346" selection-start-column="104" selection-end-line="346" selection-end-column="104" />
+              <folding>
+                <element signature="method#buildGoogleApiClient#0;class#LocationHelper#0" expanded="false" />
+                <element signature="e#11675#13103#0" expanded="true" />
+                <element signature="e#13102#13103#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -232,6 +223,8 @@
       <find>txtPassword</find>
       <find>mLoginAsync</find>
       <find>mDot</find>
+      <find>mLstMay</find>
+      <find>checklo</find>
     </findStrings>
     <replaceStrings>
       <replace>R.drawable.edit</replace>
@@ -2263,25 +2256,26 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/doc_so_fragment.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/edit_text_styles2.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/edit_text_styles.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/LocationHelper.java" />
         <option value="$PROJECT_DIR$/build.gradle" />
-        <option value="$PROJECT_DIR$/app/build.gradle" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/Uploading.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/layout_dialog_select_dot.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/LoginActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/LogInDB.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/HoaDonDB.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/async/LayLoTrinhAsync.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/LayLoTrinh.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/LoginActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/LocationHelper.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/Uploading.java" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="952" />
+    <option name="x" value="-9" />
+    <option name="y" value="-9" />
     <option name="width" value="976" />
     <option name="height" value="1038" />
   </component>
@@ -2330,17 +2324,6 @@
             </path>
             <path>
               <item name="HCM_TanHoa_Android_DocSo" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-            </path>
-            <path>
-              <item name="HCM_TanHoa_Android_DocSo" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="layout" type="ddeffd01:AndroidResFolderTypeNode" />
-            </path>
-            <path>
-              <item name="HCM_TanHoa_Android_DocSo" type="1abcf292:AndroidViewProjectNode" />
               <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
             </path>
           </expand>
@@ -2352,7 +2335,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="android.sdk.path" value="E:/AppData/Local/Android/sdk" />
-    <property name="device.picker.selection" value="5200b8cfea346405" />
+    <property name="device.picker.selection" value="520022b9f4767447" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RecentsManager">
@@ -2564,7 +2547,14 @@
       <option name="project" value="LOCAL" />
       <updated>1526534250965</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="v1.1.4: admin login stage 1">
+      <created>1526545533871</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1526545533871</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TodoView">
@@ -2596,13 +2586,13 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24973147" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3282532" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3282532" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3274648" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286385" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32975295" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3985932" sideWeight="0.49785176" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39788732" sideWeight="0.49785176" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -2656,7 +2646,8 @@
     <MESSAGE value="v1.1.3: Hieu chinh dong bo du lieu." />
     <MESSAGE value="v1.1.3: update flag hoadon sync" />
     <MESSAGE value="v1.1.3: sua loi ghi chu" />
-    <option name="LAST_COMMIT_MESSAGE" value="v1.1.3: sua loi ghi chu" />
+    <MESSAGE value="v1.1.4: admin login stage 1" />
+    <option name="LAST_COMMIT_MESSAGE" value="v1.1.4: admin login stage 1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2667,20 +2658,8 @@
           <properties />
           <option name="timeStamp" value="12" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/DialogSelectDot.java</url>
-          <line>25</line>
-          <properties />
-          <option name="timeStamp" value="64" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/DialogSelectDot.java</url>
-          <line>35</line>
-          <properties />
-          <option name="timeStamp" value="70" />
-        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="71" />
+      <option name="time" value="83" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="app">
@@ -2688,11 +2667,17 @@
         <watch expression="QuanLyDocSo.this.getString(R.string.sql_getngaykiem_thongbao)" language="JAVA" custom="com.ditagis.hcm.docsotanhoa.R" />
         <watch expression="mHoaDon.getGhiChu()" language="JAVA" />
         <watch expression="user.getUserName().substring(2)" language="JAVA" />
+        <watch expression="hoaDons.indexOf(hoaDon)" language="JAVA" />
       </configuration>
     </watches-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
+      <expression>
+        <expression-string>hoaDons.indexOf(hoaDon)</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>user.getUserName().substring(2)</expression-string>
         <language-id>JAVA</language-id>
@@ -2742,11 +2727,6 @@
         <language-id>JAVA</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
-      <expression>
-        <expression-string>location.getLatitude()</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
     </expressions>
   </component>
   <component name="editorHistoryManager">
@@ -2756,12 +2736,12 @@
           <caret line="255" column="50" lean-forward="false" selection-start-line="255" selection-start-column="50" selection-end-line="255" selection-end-column="50" />
           <folding>
             <element signature="imports" expanded="false" />
-            <element signature="e#11093#11094#0" expanded="false" />
-            <element signature="e#11120#11121#0" expanded="false" />
-            <element signature="e#18147#18148#0" expanded="false" />
-            <element signature="e#18174#18175#0" expanded="false" />
-            <element signature="e#18224#18225#0" expanded="false" />
-            <element signature="e#18251#18252#0" expanded="false" />
+            <element signature="e#11094#11095#0" expanded="false" />
+            <element signature="e#11121#11122#0" expanded="false" />
+            <element signature="e#18148#18149#0" expanded="false" />
+            <element signature="e#18175#18176#0" expanded="false" />
+            <element signature="e#18225#18226#0" expanded="false" />
+            <element signature="e#18252#18253#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2787,67 +2767,67 @@
         <state relative-caret-position="30534">
           <caret line="1541" column="55" lean-forward="false" selection-start-line="1541" selection-start-column="55" selection-end-line="1541" selection-end-column="55" />
           <folding>
-            <element signature="e#2953#2961#0" expanded="false" />
-            <element signature="e#6125#6341#0" expanded="false" />
-            <element signature="e#6340#6341#0" expanded="false" />
-            <element signature="e#6525#6670#0" expanded="false" />
-            <element signature="e#6669#6670#0" expanded="false" />
-            <element signature="e#8223#8279#0" expanded="false" />
-            <element signature="e#9152#9205#0" expanded="false" />
-            <element signature="e#10717#10773#0" expanded="false" />
-            <element signature="e#12319#12374#0" expanded="false" />
-            <element signature="e#13924#13980#0" expanded="false" />
-            <element signature="e#15642#15830#0" expanded="false" />
-            <element signature="e#15829#15830#0" expanded="false" />
-            <element signature="e#21144#21395#0" expanded="false" />
-            <element signature="e#21394#21395#0" expanded="false" />
-            <element signature="e#22215#22261#0" expanded="false" />
-            <element signature="e#22263#23088#0" expanded="false" />
-            <element signature="e#23087#23088#0" expanded="false" />
-            <element signature="e#23108#23155#0" expanded="false" />
-            <element signature="e#23157#23893#0" expanded="false" />
-            <element signature="e#23892#23893#0" expanded="false" />
-            <element signature="e#47764#47817#0" expanded="false" />
-            <element signature="e#47925#47981#0" expanded="false" />
-            <element signature="e#48096#48151#0" expanded="false" />
-            <element signature="e#48265#48321#0" expanded="false" />
-            <element signature="e#48440#52150#0" expanded="false" />
-            <element signature="e#48781#48834#0" expanded="false" />
-            <element signature="e#49024#49080#0" expanded="false" />
-            <element signature="e#49269#49324#0" expanded="false" />
-            <element signature="e#49514#49570#0" expanded="false" />
-            <element signature="e#49862#49915#0" expanded="false" />
-            <element signature="e#50419#50475#0" expanded="false" />
-            <element signature="e#50973#51028#0" expanded="false" />
-            <element signature="e#51542#51598#0" expanded="false" />
-            <element signature="e#52149#52150#0" expanded="false" />
-            <element signature="e#53392#53580#0" expanded="false" />
-            <element signature="e#53579#53580#0" expanded="false" />
-            <element signature="e#53727#53972#0" expanded="false" />
-            <element signature="e#53971#53972#0" expanded="false" />
-            <element signature="e#54003#54587#0" expanded="false" />
-            <element signature="e#54586#54587#0" expanded="false" />
-            <element signature="e#60275#60438#0" expanded="false" />
-            <element signature="e#60437#60438#0" expanded="false" />
-            <element signature="e#62902#71853#0" expanded="false" />
-            <element signature="e#63977#63985#0" expanded="false" />
-            <element signature="e#64359#64367#0" expanded="false" />
-            <element signature="e#69696#71286#0" expanded="false" />
-            <element signature="e#71285#71286#0" expanded="false" />
-            <element signature="e#71313#71561#0" expanded="false" />
-            <element signature="e#71560#71561#0" expanded="false" />
-            <element signature="e#71852#71853#0" expanded="false" />
-            <element signature="e#77922#78170#0" expanded="false" />
-            <element signature="e#78169#78170#0" expanded="false" />
-            <element signature="e#78206#79369#0" expanded="false" />
-            <element signature="e#79368#79369#0" expanded="false" />
-            <element signature="e#80083#80136#0" expanded="false" />
-            <element signature="e#80520#80753#0" expanded="false" />
-            <element signature="e#80752#80753#0" expanded="false" />
-            <element signature="e#80797#81025#0" expanded="false" />
-            <element signature="e#81024#81025#0" expanded="false" />
-            <element signature="e#81838#81900#0" expanded="false" />
-            <element signature="e#81933#81997#0" expanded="false" />
+            <element signature="e#2953#2961#0" expanded="true" />
+            <element signature="e#6125#6341#0" expanded="true" />
+            <element signature="e#6340#6341#0" expanded="true" />
+            <element signature="e#6525#6670#0" expanded="true" />
+            <element signature="e#6669#6670#0" expanded="true" />
+            <element signature="e#8223#8279#0" expanded="true" />
+            <element signature="e#9152#9205#0" expanded="true" />
+            <element signature="e#10717#10773#0" expanded="true" />
+            <element signature="e#12319#12374#0" expanded="true" />
+            <element signature="e#13924#13980#0" expanded="true" />
+            <element signature="e#15642#15830#0" expanded="true" />
+            <element signature="e#15829#15830#0" expanded="true" />
+            <element signature="e#21144#21395#0" expanded="true" />
+            <element signature="e#21394#21395#0" expanded="true" />
+            <element signature="e#22215#22261#0" expanded="true" />
+            <element signature="e#22263#23088#0" expanded="true" />
+            <element signature="e#23087#23088#0" expanded="true" />
+            <element signature="e#23108#23155#0" expanded="true" />
+            <element signature="e#23157#23893#0" expanded="true" />
+            <element signature="e#23892#23893#0" expanded="true" />
+            <element signature="e#47764#47817#0" expanded="true" />
+            <element signature="e#47925#47981#0" expanded="true" />
+            <element signature="e#48096#48151#0" expanded="true" />
+            <element signature="e#48265#48321#0" expanded="true" />
+            <element signature="e#48440#52150#0" expanded="true" />
+            <element signature="e#48781#48834#0" expanded="true" />
+            <element signature="e#49024#49080#0" expanded="true" />
+            <element signature="e#49269#49324#0" expanded="true" />
+            <element signature="e#49514#49570#0" expanded="true" />
+            <element signature="e#49862#49915#0" expanded="true" />
+            <element signature="e#50419#50475#0" expanded="true" />
+            <element signature="e#50973#51028#0" expanded="true" />
+            <element signature="e#51542#51598#0" expanded="true" />
+            <element signature="e#52149#52150#0" expanded="true" />
+            <element signature="e#53392#53580#0" expanded="true" />
+            <element signature="e#53579#53580#0" expanded="true" />
+            <element signature="e#53727#53972#0" expanded="true" />
+            <element signature="e#53971#53972#0" expanded="true" />
+            <element signature="e#54003#54587#0" expanded="true" />
+            <element signature="e#54586#54587#0" expanded="true" />
+            <element signature="e#60275#60438#0" expanded="true" />
+            <element signature="e#60437#60438#0" expanded="true" />
+            <element signature="e#62902#71853#0" expanded="true" />
+            <element signature="e#63977#63985#0" expanded="true" />
+            <element signature="e#64359#64367#0" expanded="true" />
+            <element signature="e#69696#71286#0" expanded="true" />
+            <element signature="e#71285#71286#0" expanded="true" />
+            <element signature="e#71313#71561#0" expanded="true" />
+            <element signature="e#71560#71561#0" expanded="true" />
+            <element signature="e#71852#71853#0" expanded="true" />
+            <element signature="e#77922#78170#0" expanded="true" />
+            <element signature="e#78169#78170#0" expanded="true" />
+            <element signature="e#78206#79369#0" expanded="true" />
+            <element signature="e#79368#79369#0" expanded="true" />
+            <element signature="e#80083#80136#0" expanded="true" />
+            <element signature="e#80520#80753#0" expanded="true" />
+            <element signature="e#80752#80753#0" expanded="true" />
+            <element signature="e#80797#81025#0" expanded="true" />
+            <element signature="e#81024#81025#0" expanded="true" />
+            <element signature="e#81838#81900#0" expanded="true" />
+            <element signature="e#81933#81997#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2866,6 +2846,8 @@
           <caret line="317" column="33" lean-forward="false" selection-start-line="317" selection-start-column="19" selection-end-line="317" selection-end-column="33" />
           <folding>
             <element signature="method#buildGoogleApiClient#0;class#LocationHelper#0" expanded="false" />
+            <element signature="e#11675#13103#0" expanded="true" />
+            <element signature="e#13102#13103#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2875,13 +2857,6 @@
         <state relative-caret-position="1134">
           <caret line="95" column="13" lean-forward="false" selection-start-line="95" selection-start-column="13" selection-end-line="95" selection-end-column="13" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="921" column="24" lean-forward="false" selection-start-line="921" selection-start-column="24" selection-end-line="921" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -2976,48 +2951,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/LocationHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4872">
-          <caret line="317" column="33" lean-forward="false" selection-start-line="317" selection-start-column="19" selection-end-line="317" selection-end-column="33" />
-          <folding>
-            <element signature="method#buildGoogleApiClient#0;class#LocationHelper#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/Uploading.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4851">
-          <caret line="255" column="50" lean-forward="false" selection-start-line="255" selection-start-column="50" selection-end-line="255" selection-end-column="50" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#11093#11094#0" expanded="false" />
-            <element signature="e#11120#11121#0" expanded="false" />
-            <element signature="e#18147#18148#0" expanded="false" />
-            <element signature="e#18174#18175#0" expanded="false" />
-            <element signature="e#18224#18225#0" expanded="false" />
-            <element signature="e#18251#18252#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="10" column="26" lean-forward="false" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="1552" column="17" lean-forward="false" selection-start-line="1552" selection-start-column="17" selection-end-line="1552" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1071">
@@ -3048,53 +2981,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/LoginActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="280" column="21" lean-forward="false" selection-start-line="280" selection-start-column="21" selection-end-line="280" selection-end-column="21" />
-          <folding>
-            <element signature="e#3385#3996#0" expanded="true" />
-            <element signature="e#3995#3996#0" expanded="true" />
-            <element signature="e#4093#4269#0" expanded="true" />
-            <element signature="e#4268#4269#0" expanded="true" />
-            <element signature="e#7786#7821#0" expanded="true" />
-            <element signature="e#8302#8338#0" expanded="true" />
-            <element signature="e#8393#8426#0" expanded="true" />
-            <element signature="e#8482#8516#0" expanded="true" />
-            <element signature="e#8572#8606#0" expanded="true" />
-            <element signature="e#8669#8705#0" expanded="true" />
-            <element signature="e#8766#8800#0" expanded="true" />
-            <element signature="e#9176#9195#0" expanded="true" />
-            <element signature="e#10485#10520#0" expanded="true" />
-            <element signature="e#11007#11043#0" expanded="true" />
-            <element signature="e#11098#11131#0" expanded="true" />
-            <element signature="e#11187#11221#0" expanded="true" />
-            <element signature="e#11277#11311#0" expanded="true" />
-            <element signature="e#11374#11410#0" expanded="true" />
-            <element signature="e#11472#11506#0" expanded="true" />
-            <element signature="e#11882#11901#0" expanded="true" />
-            <element signature="e#15550#15579#0" expanded="true" />
-            <element signature="e#15616#15643#0" expanded="true" />
-            <element signature="e#15645#15825#0" expanded="true" />
-            <element signature="e#15824#15825#0" expanded="true" />
-            <element signature="e#15862#15893#0" expanded="true" />
-            <element signature="e#15895#16083#0" expanded="true" />
-            <element signature="e#16082#16083#0" expanded="true" />
-            <element signature="e#18832#18881#0" expanded="true" />
-            <element signature="e#19910#19946#0" expanded="true" />
-            <element signature="e#20005#20039#0" expanded="true" />
-            <element signature="e#20092#20125#0" expanded="true" />
-            <element signature="e#20177#20211#0" expanded="true" />
-            <element signature="e#20264#20300#0" expanded="true" />
-            <element signature="e#21077#21130#0" expanded="true" />
-            <element signature="e#21642#21661#0" expanded="true" />
-            <element signature="e#22093#22133#0" expanded="true" />
-            <element signature="e#22194#22235#0" expanded="true" />
-            <element signature="e#22301#22341#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/LogInDB.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="347">
@@ -3102,21 +2988,10 @@
           <folding>
             <element signature="method#setPassword#0;class#LogInDB#0" expanded="false" />
             <element signature="method#getAll#0;class#LogInDB#0" expanded="false" />
-            <element signature="e#13234#13235#0" expanded="true" />
-            <element signature="e#13272#13273#0" expanded="true" />
-            <element signature="e#13328#13329#0" expanded="true" />
-            <element signature="e#13374#13375#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://E:/AppData/Local/Android/sdk/sources/android-25/android/os/AsyncTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="303" column="0" lean-forward="false" selection-start-line="303" selection-start-column="0" selection-end-line="303" selection-end-column="0" />
-          <folding>
-            <element signature="e#12600#13277#0" expanded="true" />
-            <element signature="e#13276#13277#0" expanded="true" />
+            <element signature="e#13234#13235#0" expanded="false" />
+            <element signature="e#13272#13273#0" expanded="false" />
+            <element signature="e#13328#13329#0" expanded="false" />
+            <element signature="e#13374#13375#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3134,11 +3009,11 @@
         <state relative-caret-position="-39">
           <caret line="137" column="0" lean-forward="false" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
           <folding>
-            <element signature="e#2356#2402#0" expanded="true" />
-            <element signature="e#2436#2484#0" expanded="true" />
-            <element signature="e#2557#2749#0" expanded="true" />
-            <element signature="e#2748#2749#0" expanded="true" />
-            <element signature="e#6729#6775#0" expanded="true" />
+            <element signature="e#2356#2402#0" expanded="false" />
+            <element signature="e#2436#2484#0" expanded="false" />
+            <element signature="e#2557#2749#0" expanded="false" />
+            <element signature="e#2748#2749#0" expanded="false" />
+            <element signature="e#6729#6775#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3147,22 +3022,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="84">
           <caret line="18" column="13" lean-forward="false" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="2202" column="50" lean-forward="false" selection-start-line="2202" selection-start-column="50" selection-end-line="2202" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/DialogSelectDot.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="24" column="25" lean-forward="false" selection-start-line="24" selection-start-column="25" selection-end-line="24" selection-end-column="25" />
           <folding />
         </state>
       </provider>
@@ -3177,13 +3036,155 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/LayLoTrinh.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="265" column="76" lean-forward="false" selection-start-line="265" selection-start-column="76" selection-end-line="265" selection-end-column="76" />
+        <state relative-caret-position="-2381">
+          <caret line="60" column="19" lean-forward="false" selection-start-line="60" selection-start-column="19" selection-end-line="60" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/LoginActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1174">
+          <caret line="253" column="40" lean-forward="false" selection-start-line="253" selection-start-column="40" selection-end-line="253" selection-end-column="40" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#7832#8862#0" expanded="true" />
-            <element signature="e#8861#8862#0" expanded="true" />
+            <element signature="e#11568#11602#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/DialogSelectDot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/AppData/Local/Android/sdk/sources/android-25/android/os/AsyncTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="313" column="0" lean-forward="false" selection-start-line="313" selection-start-column="0" selection-end-line="313" selection-end-column="0" />
+          <folding>
+            <element signature="e#12600#13277#0" expanded="true" />
+            <element signature="e#13276#13277#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/localdb/LocalDatabase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="542" column="24" lean-forward="false" selection-start-line="542" selection-start-column="24" selection-end-line="542" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/utities/LocationHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="77">
+          <caret line="346" column="104" lean-forward="false" selection-start-line="346" selection-start-column="104" selection-end-line="346" selection-end-column="104" />
+          <folding>
+            <element signature="method#buildGoogleApiClient#0;class#LocationHelper#0" expanded="false" />
+            <element signature="e#11675#13103#0" expanded="true" />
+            <element signature="e#13102#13103#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/DocSo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="2511" column="0" lean-forward="false" selection-start-line="2511" selection-start-column="0" selection-end-line="2511" selection-end-column="0" />
+          <folding>
+            <element signature="e#124882#125861#0" expanded="true" />
+            <element signature="e#125860#125861#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/QuanLyDocSo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="1521" column="0" lean-forward="false" selection-start-line="1521" selection-start-column="0" selection-end-line="1521" selection-end-column="0" />
+          <folding>
+            <element signature="e#2953#2961#0" expanded="true" />
+            <element signature="e#6125#6341#0" expanded="true" />
+            <element signature="e#6340#6341#0" expanded="true" />
+            <element signature="e#6525#6670#0" expanded="true" />
+            <element signature="e#6669#6670#0" expanded="true" />
+            <element signature="e#8223#8279#0" expanded="true" />
+            <element signature="e#9152#9205#0" expanded="true" />
+            <element signature="e#10717#10773#0" expanded="true" />
+            <element signature="e#12319#12374#0" expanded="true" />
+            <element signature="e#13924#13980#0" expanded="true" />
+            <element signature="e#15642#15830#0" expanded="true" />
+            <element signature="e#15829#15830#0" expanded="true" />
+            <element signature="e#21144#21395#0" expanded="true" />
+            <element signature="e#21394#21395#0" expanded="true" />
+            <element signature="e#22215#22261#0" expanded="true" />
+            <element signature="e#22263#23088#0" expanded="true" />
+            <element signature="e#23087#23088#0" expanded="true" />
+            <element signature="e#23108#23155#0" expanded="true" />
+            <element signature="e#23157#23893#0" expanded="true" />
+            <element signature="e#23892#23893#0" expanded="true" />
+            <element signature="e#47764#47817#0" expanded="true" />
+            <element signature="e#47925#47981#0" expanded="true" />
+            <element signature="e#48096#48151#0" expanded="true" />
+            <element signature="e#48265#48321#0" expanded="true" />
+            <element signature="e#48440#52150#0" expanded="true" />
+            <element signature="e#48781#48834#0" expanded="true" />
+            <element signature="e#49024#49080#0" expanded="true" />
+            <element signature="e#49269#49324#0" expanded="true" />
+            <element signature="e#49514#49570#0" expanded="true" />
+            <element signature="e#49862#49915#0" expanded="true" />
+            <element signature="e#50419#50475#0" expanded="true" />
+            <element signature="e#50973#51028#0" expanded="true" />
+            <element signature="e#51542#51598#0" expanded="true" />
+            <element signature="e#52149#52150#0" expanded="true" />
+            <element signature="e#53392#53580#0" expanded="true" />
+            <element signature="e#53579#53580#0" expanded="true" />
+            <element signature="e#53727#53972#0" expanded="true" />
+            <element signature="e#53971#53972#0" expanded="true" />
+            <element signature="e#54003#54587#0" expanded="true" />
+            <element signature="e#54586#54587#0" expanded="true" />
+            <element signature="e#60275#60438#0" expanded="true" />
+            <element signature="e#60437#60438#0" expanded="true" />
+            <element signature="e#62902#71853#0" expanded="true" />
+            <element signature="e#63977#63985#0" expanded="true" />
+            <element signature="e#64359#64367#0" expanded="true" />
+            <element signature="e#69696#71286#0" expanded="true" />
+            <element signature="e#71285#71286#0" expanded="true" />
+            <element signature="e#71313#71561#0" expanded="true" />
+            <element signature="e#71560#71561#0" expanded="true" />
+            <element signature="e#71852#71853#0" expanded="true" />
+            <element signature="e#77922#78170#0" expanded="true" />
+            <element signature="e#78169#78170#0" expanded="true" />
+            <element signature="e#78206#79369#0" expanded="true" />
+            <element signature="e#79368#79369#0" expanded="true" />
+            <element signature="e#80083#80136#0" expanded="true" />
+            <element signature="e#80520#80753#0" expanded="true" />
+            <element signature="e#80752#80753#0" expanded="true" />
+            <element signature="e#80797#81025#0" expanded="true" />
+            <element signature="e#81024#81025#0" expanded="true" />
+            <element signature="e#81838#81900#0" expanded="true" />
+            <element signature="e#81933#81997#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ditagis/hcm/docsotanhoa/conectDB/Uploading.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="161" column="29" lean-forward="false" selection-start-line="161" selection-start-column="29" selection-end-line="161" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="13" column="16" lean-forward="true" selection-start-line="13" selection-start-column="16" selection-end-line="13" selection-end-column="16" />
+          <folding />
         </state>
       </provider>
     </entry>

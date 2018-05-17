@@ -91,6 +91,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             cnn.setAutoCommit(false);
 
             for (HoaDon hoaDon : hoaDons) {
+
                 final double tienNuoc = Calculate_TienNuoc.getInstance().calculate(Integer.parseInt(hoaDon.getTieuThuMoi()), hoaDon.getGiaBieu(),
                         hoaDon.getDinhMuc(), hoaDon.getSh(), hoaDon.getSx(), hoaDon.getDv(), hoaDon.getHc());
 

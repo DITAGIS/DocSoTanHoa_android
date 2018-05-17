@@ -57,7 +57,7 @@ public class LocationHelper extends AsyncTask<Void, Object, Void> implements Per
     private ProgressDialog mDialog;
 
     public interface AsyncResponse {
-        void processFinish(Void output);
+        void processFinish(double longtitude, double latitude);
     }
 
     public AsyncResponse delegate = null;
@@ -344,6 +344,7 @@ public class LocationHelper extends AsyncTask<Void, Object, Void> implements Per
                     case LocationSettingsStatusCodes.SUCCESS:
                         // All location settings are satisfied. The client can initialize location requests here
                         mLastLocation = getLocation();
+                        delegate.processFinish(mLastLocation.getLongitude(), mLastLocation.getLatitude());
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                         try {
@@ -359,7 +360,7 @@ public class LocationHelper extends AsyncTask<Void, Object, Void> implements Per
                         break;
                 }
                 publishProgress(null);
-                delegate.processFinish(null);
+
             }
         });
         return null;

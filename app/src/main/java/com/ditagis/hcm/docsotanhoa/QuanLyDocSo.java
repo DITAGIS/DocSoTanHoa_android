@@ -1521,7 +1521,7 @@ public class QuanLyDocSo extends Fragment {
         }
 
 
-        @Override
+                @Override
         protected Void doInBackground(String... params) {
             Boolean isValid = false;
 
@@ -1560,12 +1560,16 @@ public class QuanLyDocSo extends Fragment {
         }
 //        @Override
 //        protected Void doInBackground(String... params) {
-//            mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mLike, mKy, Flag.SYNCHRONIZED, true);
+//            mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mLike, mKy, Flag.UNREAD, true);
 //            for (HoaDon hoaDon : mHoaDons) {
+//                if (hoaDon.getMaLoTrinh().equals("200600180")
+//                        || hoaDon.getMaLoTrinh().equals("200600340"))
+//                    continue;
+//                ;
 //                if (hoaDon.getCodeMoi().startsWith("F"))
-//                    LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonFlag(hoaDon, Flag.CODE_F);
+//                    LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonFlag(hoaDon, Flag.CODE_F_SYNCHRONIZED);
 //                else
-//                    LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonFlag(hoaDon, Flag.READ);
+//                    LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonFlag(hoaDon, Flag.SYNCHRONIZED);
 //            }
 //            return null;
 //

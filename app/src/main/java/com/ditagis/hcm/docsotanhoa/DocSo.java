@@ -2222,7 +2222,7 @@ public class DocSo extends Fragment {
                 if (positionNote == Note.getInstance().getNotes().length - 1) {
                     if (!mHoaDon.getGhiChu().equals("null"))
                         etxtghichu.setText(mHoaDon.getGhiChu());
-                } else if ( mHoaDon.getGhiChu().contains(note)){
+                } else if (mHoaDon.getGhiChu().contains(note)) {
                     spin_ghichu.setSelection(positionNote);
                     switch (positionNote) {
                         case 1:
@@ -2503,7 +2503,7 @@ public class DocSo extends Fragment {
 //        mLocationHelper.getStateLocation();
         mLocationHelper = new LocationHelper(mRootView.getContext(), new LocationHelper.AsyncResponse() {
             @Override
-            public void processFinish(Void output) {
+            public void processFinish(double longtitude, double latitude) {
                 mLastLocation = mLocationHelper.getLocation();
                 if (mLastLocation == null) {
                     MySnackBar.make(mTxtCSM, "Có lỗi xảy ra trong quá trình chụp ảnh. Vui lòng thử lại!", true);
