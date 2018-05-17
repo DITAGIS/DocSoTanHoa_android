@@ -2217,53 +2217,54 @@ public class DocSo extends Fragment {
 
         spin_ghichu.setAdapter(adapterNotes);
         int positionNote = 0, positionNoteSub = 0;
-        for (String note : Note.getInstance().getNotes()) {
-            if (positionNote == Note.getInstance().getNotes().length - 1) {
-                if (!mHoaDon.getGhiChu().equals("null"))
-                    etxtghichu.setText(mHoaDon.getGhiChu());
-            } else if (mHoaDon.getGhiChu().contains(note)) {
-                spin_ghichu.setSelection(positionNote);
-                switch (positionNote) {
-                    case 1:
-                        spin_ghichu.setSelection(1);
-                        for (String noteSub : Note.getInstance().getNotes_sub_dutchi()) {
-                            if (mHoaDon.getGhiChu().contains(noteSub)) {
-                                spin_ghichu_sub.setSelection(positionNoteSub);
-                                if (mHoaDon.getGhiChu().contains("_")) {
-                                    String[] ghiChus = mHoaDon.getGhiChu().split("_");
-                                    etxtghichu.setText(ghiChus[1]);
+        if (mHoaDon.getGhiChu() != null)
+            for (String note : Note.getInstance().getNotes()) {
+                if (positionNote == Note.getInstance().getNotes().length - 1) {
+                    if (!mHoaDon.getGhiChu().equals("null"))
+                        etxtghichu.setText(mHoaDon.getGhiChu());
+                } else if ( mHoaDon.getGhiChu().contains(note)){
+                    spin_ghichu.setSelection(positionNote);
+                    switch (positionNote) {
+                        case 1:
+                            spin_ghichu.setSelection(1);
+                            for (String noteSub : Note.getInstance().getNotes_sub_dutchi()) {
+                                if (mHoaDon.getGhiChu().contains(noteSub)) {
+                                    spin_ghichu_sub.setSelection(positionNoteSub);
+                                    if (mHoaDon.getGhiChu().contains("_")) {
+                                        String[] ghiChus = mHoaDon.getGhiChu().split("_");
+                                        etxtghichu.setText(ghiChus[1]);
+                                    }
+                                    break;
                                 }
-                                break;
+                                positionNoteSub++;
                             }
-                            positionNoteSub++;
-                        }
-                        break;
-                    case 2:
-                        spin_ghichu.setSelection(2);
-                        for (String noteSub : Note.getInstance().getNotes_sub_kinhdoanh()) {
-                            if (mHoaDon.getGhiChu().contains(noteSub)) {
-                                spin_ghichu_sub.setSelection(positionNoteSub);
-                                if (mHoaDon.getGhiChu().contains("_")) {
-                                    String[] ghiChus = mHoaDon.getGhiChu().split("_");
-                                    etxtghichu.setText(ghiChus[1]);
+                            break;
+                        case 2:
+                            spin_ghichu.setSelection(2);
+                            for (String noteSub : Note.getInstance().getNotes_sub_kinhdoanh()) {
+                                if (mHoaDon.getGhiChu().contains(noteSub)) {
+                                    spin_ghichu_sub.setSelection(positionNoteSub);
+                                    if (mHoaDon.getGhiChu().contains("_")) {
+                                        String[] ghiChus = mHoaDon.getGhiChu().split("_");
+                                        etxtghichu.setText(ghiChus[1]);
+                                    }
+                                    break;
                                 }
-                                break;
+                                positionNoteSub++;
                             }
-                            positionNoteSub++;
-                        }
-                        break;
-                    default:
-                        if (mHoaDon.getGhiChu().contains("_")) {
-                            String[] ghiChus = mHoaDon.getGhiChu().split("_");
-                            etxtghichu.setText(ghiChus[1]);
-                        }
-                        spin_ghichu.setSelection(positionNote);
-                        break;
+                            break;
+                        default:
+                            if (mHoaDon.getGhiChu().contains("_")) {
+                                String[] ghiChus = mHoaDon.getGhiChu().split("_");
+                                etxtghichu.setText(ghiChus[1]);
+                            }
+                            spin_ghichu.setSelection(positionNote);
+                            break;
+                    }
+                    break;
                 }
-                break;
+                positionNote++;
             }
-            positionNote++;
-        }
 
         spin_ghichu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -2505,7 +2506,7 @@ public class DocSo extends Fragment {
             public void processFinish(Void output) {
                 mLastLocation = mLocationHelper.getLocation();
                 if (mLastLocation == null) {
-            MySnackBar.make(mTxtCSM, "Có lỗi xảy ra trong quá trình chụp ảnh. Vui lòng thử lại!", true);
+                    MySnackBar.make(mTxtCSM, "Có lỗi xảy ra trong quá trình chụp ảnh. Vui lòng thử lại!", true);
 //                    return false;
                 } else {
                     mLongtitude = mLastLocation.getLongitude();
