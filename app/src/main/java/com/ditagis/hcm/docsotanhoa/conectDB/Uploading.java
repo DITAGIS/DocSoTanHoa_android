@@ -153,6 +153,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
                 st.setString(14, hoaDon.getDuong());
                 st.setString(15, this.mNam + this.mKy + hoaDon.getDanhBo());
                 st.addBatch();
+
             }
             int[] result = st.executeBatch();
             int count = 0;
