@@ -191,7 +191,7 @@ public class LayLoTrinh {
                         LayLoTrinh.this.mLayLoTrinhAsync.setmDot(mDot);
                         LayLoTrinh.this.mLayLoTrinhAsync.setmKy(mKy);
                         LayLoTrinh.this.mLayLoTrinhAsync.setmNam(mNam);
-                        if (mLstMay.size() > 0) {
+                        if (mLstMay.size() > 0 && !mLstMay.get(0).equals("")) {
                             mUsername = spinMay.getSelectedItem().toString();
                             LayLoTrinh.this.mLayLoTrinhAsync.setmUsername(mUsername);
                         }

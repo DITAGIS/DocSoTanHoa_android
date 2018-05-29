@@ -918,6 +918,32 @@ public class LocalDatabase extends SQLiteOpenHelper {
         db.close();
         return hoaDons;
     }
+    public List<HoaDon> getAllHoaDon(String mLike, int ky) {
+        List<HoaDon> hoaDons = new ArrayList<HoaDon>();
+        Log.i(TAG, "LocalDatabase.getHoaDon_UnRead ... " + id);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select " +
+
+                COLUMN_HOADON_DANHBO + "," +
+
+
+
+                COLUMN_HOADON_FLAG +
+                " from " + TABLE_HOADON + " where " + COLUMN_HOADON_MALOTRINH + " like '" + mLike + "%' and " + COLUMN_HOADON_KY
+                + "=" + ky , null);
+        if (cursor.moveToFirst()) {
+            do {
+                HoaDon hoaDon = new HoaDon();
+
+                hoaDon.setDanhBo(cursor.getString(0));
+                hoaDon.setFlag(cursor.getInt(1));
+                hoaDons.add(hoaDon);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return hoaDons;
+    }
 
     public List<HoaDon> getAllHoaDonLayLoTrinh(String mLike, int ky) {
         List<HoaDon> hoaDons = new ArrayList<HoaDon>();

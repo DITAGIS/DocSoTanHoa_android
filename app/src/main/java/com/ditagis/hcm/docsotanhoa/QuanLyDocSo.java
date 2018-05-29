@@ -1519,10 +1519,7 @@ public class QuanLyDocSo extends Fragment {
                     countUpload++;
             sum = countUpload;
         }
-
-
-        @Override
-        protected Void doInBackground(String... params) {
+  private Void dongBo(String... params) {
             Boolean isValid = false;
 
 
@@ -1556,20 +1553,31 @@ public class QuanLyDocSo extends Fragment {
                 isValid = true;
 
             return null;
-
         }
-//        @Override
-//        protected Void doInBackground(String... params) {
-//            mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mLike, mKy, Flag.SYNCHRONIZED, true);
-//            for (HoaDon hoaDon : mHoaDons) {
+
+        private Void suaDongBoKhongLen(String... params) {
+//            mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mLike, mKy, Flag.SYNCHRONIZED, false);
+            mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mLike, mKy);
+            for (HoaDon hoaDon : mHoaDons) {
 //                if (hoaDon.getCodeMoi().startsWith("F"))
 //                    LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonFlag(hoaDon, Flag.CODE_F);
 //                else
 //                    LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonFlag(hoaDon, Flag.READ);
-//            }
-//            return null;
-//
-//        }
+                if(hoaDon.getDanhBo().equals("13162403013"))
+                    {  LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonFlag(hoaDon, Flag.UNREAD);
+                        break;
+            }}
+            return null;
+
+        }
+
+
+        @Override
+        protected Void doInBackground(String... params) {
+//           return suaDongBoKhongLen(params);
+            return dongBo(params);
+        }
+
 
         @Override
         protected void onProgressUpdate(Integer... values) {
