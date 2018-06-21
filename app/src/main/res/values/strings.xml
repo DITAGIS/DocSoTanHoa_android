@@ -1,4 +1,4 @@
-<!DOCTYPE resources [<!ENTITY table_temp_docso "#docsotemp"><!ENTITY table_docso "Docso1"><!ENTITY table_khachhang "KhachHang1"><!ENTITY table_giamsat "GiamSatHanhTrinh1"><!ENTITY table_hinhdhn "Docsoth_hinh..HinhDHN1">]>
+<!DOCTYPE resources [<!ENTITY table_temp_docso "#docsotemp"><!ENTITY table_docso "Docso"><!ENTITY table_khachhang "KhachHang"><!ENTITY table_giamsat "GiamSatHanhTrinh"><!ENTITY table_hinhdhn "Docsoth_hinh..HinhDHN">]>
 
 <resources>
     <string name="app_name">Đọc số Tân Hòa</string>
@@ -121,10 +121,10 @@
         temp.codemoi, ds.ghichuds = temp.ghichuds, ds.tieuthumoi = temp.tieuthumoi, ds.gioghi =
         temp.gioghi, ds.sdt = temp.sdt, ds.vitrimoi = temp.vitrimoi, ds.tiennuoc = temp.tiennuoc,
         ds.bvmt = temp.bvmt, ds.thue = temp.thue, ds.tongtien = temp.tongtien, ds.ttdhnmoi =
-        temp.ttdhnmoi from &table_docso; ds inner join #docsotemp temp on ds.DocSoID =
+        temp.ttdhnmoi from &table_docso; ds inner join &table_temp_docso; temp on ds.DocSoID =
         temp.DocSoID; update kh set kh.somoi = temp.sonhamoi, kh.duong = temp.duong
         from &table_khachhang;
-        kh inner join #docsotemp temp on kh.danhba = right(temp.docsoid,11)</string>
+        kh inner join &table_temp_docso; temp on kh.danhba = right(temp.docsoid,11)</string>
     <string name="sql_create_temp_table">if OBJECT_ID(\'tempdb.dbo.&table_temp_docso;\') is not null
         drop table &table_temp_docso;; select docsoid, csmoi, codemoi, ghichuds, tieuthumoi, gioghi,
         sdt, vitrimoi, tiennuoc, bvmt, thue, tongtien, ttdhnmoi,sonhamoi,duong into &table_temp_docso;

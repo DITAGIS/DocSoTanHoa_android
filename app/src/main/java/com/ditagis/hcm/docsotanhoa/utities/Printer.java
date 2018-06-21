@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -14,9 +15,13 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
+import com.ditagis.hcm.docsotanhoa.utities.printUtities.ESCPOSDriver;
+import com.ditagis.hcm.docsotanhoa.utities.printUtities.PrinterCommands;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.Normalizer;
 import java.text.NumberFormat;
@@ -26,12 +31,15 @@ import java.util.Locale;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
+
 /**
  * Created by ThanLe on 1/3/2018.
  */
 
 public class Printer {
-
+    static final int LEFT_ALIGN = 0;
+    private static final int CENTER_ALIGN = 1;
+    private static final int RIGHT_ALIGN = 2;
     private static Printer instance = null;
     BluetoothDevice mBluetoothDevice;
     BluetoothAdapter mBluetoothAdapter;
@@ -39,16 +47,19 @@ public class Printer {
     DateFormat formatter = new SimpleDateFormat("HH:mm dd/MM/yyyy");
     DateFormat formatter_day_of_week = new SimpleDateFormat("E");
     Calendar cal = Calendar.getInstance();
-
+    private static OutputStream outputStream;
     private BluetoothSocket mBluetoothSocket;
     private Context mContext;
     private ProgressDialog mBluetoothConnectProgressDialog;
     private UUID applicationUUID = UUID
             .fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private String address;
     private String mTuNgay, mDenNgay, mStaffName, mStaffPhone;
     private HoaDon mHoaDon;
     private double mTienNuoc;
     private int mNam;
+
+
     //    DecimalFormat df = new DecimalFormat("###.###.###,###");
     private Handler mHandler = new Handler() {
         @Override
@@ -79,11 +90,13 @@ public class Printer {
         mTienNuoc = tienNuoc;
     }
 
-    public void initialize(BluetoothDevice bluetoothDevice, BluetoothAdapter bluetoothAdapter, Context context) {
-        this.mBluetoothDevice = bluetoothDevice;
-        this.mBluetoothAdapter = bluetoothAdapter;
-        this.mContext = context;
-    }
+//    public void initialize(BluetoothDevice bluetoothDevice, BluetoothAdapter bluetoothAdapter, BluetoothSocket bluetoothSocket, Context context) {
+//        this.mBluetoothDevice = bluetoothDevice;
+//        this.address = this.mBluetoothDevice.getAddress();
+//        this.mBluetoothAdapter = bluetoothAdapter;
+//        this.mBluetoothSocket = bluetoothSocket;
+//        this.mContext = context;
+//    }
 
     public void initialize(BluetoothSocket bluetoothSocket, Context context) {
         this.mBluetoothSocket = bluetoothSocket;
@@ -99,6 +112,64 @@ public class Printer {
     }
 
     public boolean print() {
+        try {
+            cal.setTime(formatter_old.parse(mHoaDon.getThoiGian()));
+            int[] dates = getDates(cal);
+            outputStream = mBluetoothSocket.getOutputStream();
+
+            ESCPOSDriver escposDriver = new ESCPOSDriver();
+            String msgLeft = "Left";
+            msgLeft += "\n";
+            String msgCenter = "Center";
+            msgCenter += "\n";
+            String msgRight = "Right";
+            msgRight += "\n";
+
+            //Initialize
+            escposDriver.initPrint(outputStream);
+            escposDriver.changeFont(outputStream, 1);
+            escposDriver.printLineAlignLeft(outputStream, msgLeft);
+            escposDriver.changeFont(outputStream, 2);
+            escposDriver.printLineAlignCenter(outputStream, msgCenter);
+            escposDriver.changeFont(outputStream,3);
+            escposDriver.printLineAlignRight(outputStream, msgRight);
+            escposDriver.printBarcode(outputStream,"13031230034");
+
+            escposDriver.flushCommand(outputStream);
+
+            outputStream.flush();
+
+//            printNewLine();
+////            printCustom("CONG TY CPCN TAN HOA", 0, RIGHT_ALIGN);
+////            printCustom("CONG TY CPCN TAN HOA", 1, CENTER_ALIGN);
+//            printCustom("CONG TY CPCN TAN HOA", 2, LEFT_ALIGN);
+//            printCustom("CONG TY CPCN TAN HOA", 21, LEFT_ALIGN);
+//            printCustom("CONG TY CPCN TAN HOA", 22, LEFT_ALIGN);
+//            outputStream.write("ESC ".getBytes());
+//            outputStream.write(InitializePrinter.getBytes());
+//            outputStream.write("Here is some normal text.".getBytes());
+//            outputStream.write((BoldOn + "Here is some bold text." + BoldOff).getBytes());
+//            outputStream.write((DoubleOn + "Here is some large text." + DoubleOff).getBytes());
+//            final String message = "Example message\n";
+//// Default format:
+//            writeWithFormat(message.getBytes(), new Formatter().get(), Formatter.leftAlign());
+//// Bold format center:
+//            writeWithFormat(message.getBytes(), new Formatter().bold().get(), Formatter.centerAlign());
+//// Bold underlined format with right alignment:
+//            writeWithFormat(message.getBytes(), new Formatter().bold().underlined().get(), Formatter.rightAlign());
+//            printCustom("95 PHAM HUU CHI, P12, Q5", 0, CENTER_ALIGN);
+//            printCustom("PHIEU BAO C.SO & TIEN NUOC DU KIEN", 2, CENTER_ALIGN);
+            printNewLine();
+//            printBill();
+            return true;
+////
+        } catch (Exception e) {
+            Log.e("MainActivity", "Exe ", e);
+        }
+        return false;
+    }
+
+    public boolean printNewDesign() {
 //        Thread t = new Thread() {
 //            public void run() {
         try {
@@ -244,4 +315,221 @@ public class Printer {
 //            Log.d(TAG, "CouldNotCloseSocket");
         }
     }
+
+    protected void printBill() {
+        try {
+            outputStream = mBluetoothSocket
+                    .getOutputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //print command
+        try {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            byte[] printformat = new byte[]{0x1B, 0x21, 0x03};
+            outputStream.write(printformat);
+
+
+            printCustom("Fair Group BD", 2, 1);
+            printCustom("Pepperoni Foods Ltd.", 0, 1);
+//                printPhoto(R.drawable.ic_icon_pos);
+            printCustom("H-123, R-123, Dhanmondi, Dhaka-1212", 0, 1);
+            printCustom("Hot Line: +88000 000000", 0, 1);
+            printCustom("Vat Reg : 0000000000,Mushak : 11", 0, 1);
+            String dateTime[] = getDateTime();
+            printText(leftRightAlign(dateTime[0], dateTime[1]));
+            printText(leftRightAlign("Qty: Name", "Price "));
+            printCustom(new String(new char[32]).replace("\0", "."), 0, 1);
+            printText(leftRightAlign("Total", "2,0000/="));
+            printNewLine();
+            printCustom("Thank you for coming & we look", 0, 1);
+            printCustom("forward to serve you again", 0, 1);
+            printNewLine();
+            printNewLine();
+
+            outputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean writeWithFormat(byte[] buffer, final byte[] pFormat, final byte[] pAlignment) {
+        try {
+            // Notify printer it should be printed with given alignment:
+            outputStream.write(pAlignment);
+            // Notify printer it should be printed in the given format:
+            outputStream.write(pFormat);
+            // Write the actual data:
+            outputStream.write(buffer, 0, buffer.length);
+
+            // Share the sent message back to the UI Activity
+//            App.getInstance().getHandler().obtainMessage(MESSAGE_WRITE, buffer.length, -1, buffer).sendToTarget();
+            return true;
+        } catch (IOException e) {
+//            Log.e(TAG, "Exception during write", e);
+            return false;
+        }
+    }
+
+    //print custom
+    private void printCustom(String msg, int size, int align) {
+        //Print config "mode"
+        byte[] cc = new byte[]{0x1B, 0x21, 0x03};  // 0- normal size text
+        byte[] cc1 = new byte[]{0x1B, 0x21, 0x00};  // 0- normal size text
+        byte[] bb = new byte[]{0x1B, 0x21, 0x08};  // 1- only bold text
+
+        byte[] bb2 = new byte[]{0x1B, 0x21, 0x10}; // 3- bold with large text
+        byte[] bb21 = new byte[]{0x1B, 0x21, 0x15}; // 3- bold with large text
+        byte[] bb22 = new byte[]{0x1B, 0x21, 0x18}; // 3- bold with large text
+        byte[] bb3 = new byte[]{0x1B, 0x21, 0x20}; // 2- bold with medium text
+        byte[] bb4 = new byte[]{0x1B, 0x21, 0x30}; // 2- bold with medium text
+        try {
+
+            switch (align) {
+                case LEFT_ALIGN:
+                    //left align
+                    outputStream.write(PrinterCommands.ESC_ALIGN_LEFT);
+                    break;
+                case CENTER_ALIGN:
+                    //center align
+                    outputStream.write(PrinterCommands.ESC_ALIGN_CENTER);
+                    break;
+                case RIGHT_ALIGN:
+                    //right align
+                    outputStream.write(PrinterCommands.ESC_ALIGN_RIGHT);
+                    break;
+            }
+            switch (size) {
+                case 0:
+                    outputStream.write(cc1);
+                    break;
+                case 1:
+                    outputStream.write(bb);
+                    break;
+                case 2:
+                    outputStream.write(bb2);
+                    break;
+                case 21:
+                    outputStream.write(bb21);
+                    break;
+                case 22:
+                    outputStream.write(bb22);
+                    break;
+                case 3:
+                    outputStream.write(bb3);
+                    break;
+                case 4:
+                    outputStream.write(bb4);
+                    break;
+            }
+
+            outputStream.write(msg.getBytes());
+            outputStream.write(PrinterCommands.LF);
+            //outputStream.write(cc);
+            //printNewLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    //print photo
+    public void printPhoto(int img) {
+        try {
+            Bitmap bmp = BitmapFactory.decodeResource(mContext.getResources(),
+                    img);
+            if (bmp != null) {
+                byte[] command = Utils.decodeBitmap(bmp);
+                outputStream.write(PrinterCommands.ESC_ALIGN_CENTER);
+                printText(command);
+            } else {
+                Log.e("Print Photo error", "the file isn't exists");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("PrintTools", "the file isn't exists");
+        }
+    }
+
+    //print unicode
+    public void printUnicode() {
+        try {
+            outputStream.write(PrinterCommands.ESC_ALIGN_CENTER);
+            printText(Utils.UNICODE_TEXT);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    //print new line
+    private void printNewLine() {
+        try {
+            outputStream.write(PrinterCommands.FEED_LINE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void resetPrint() {
+        try {
+            outputStream.write(PrinterCommands.ESC_FONT_COLOR_DEFAULT);
+            outputStream.write(PrinterCommands.FS_FONT_ALIGN);
+            outputStream.write(PrinterCommands.ESC_ALIGN_LEFT);
+            outputStream.write(PrinterCommands.ESC_CANCEL_BOLD);
+            outputStream.write(PrinterCommands.LF);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //print text
+    private void printText(String msg) {
+        try {
+            // Print normal text
+            outputStream.write(msg.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    //print byte[]
+    private void printText(byte[] msg) {
+        try {
+            // Print normal text
+            outputStream.write(msg);
+            printNewLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private String leftRightAlign(String str1, String str2) {
+        String ans = str1 + str2;
+        if (ans.length() < 31) {
+            int n = (31 - str1.length() + str2.length());
+            ans = str1 + new String(new char[n]).replace("\0", " ") + str2;
+        }
+        return ans;
+    }
+
+
+    private String[] getDateTime() {
+        final Calendar c = Calendar.getInstance();
+        String dateTime[] = new String[2];
+        dateTime[0] = c.get(Calendar.DAY_OF_MONTH) + "/" + c.get(Calendar.MONTH) + "/" + c.get(Calendar.YEAR);
+        dateTime[1] = c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE);
+        return dateTime;
+    }
+
 }

@@ -337,7 +337,7 @@ public class DocSo extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 try {
 
-                    if (mHoaDon.getImage_byteArray().length < CONSTANT.MIN_IMAGE_QUATITY) {
+                    if (mHoaDon.getImage_byteArray() != null || mHoaDon.getImage_byteArray().length < CONSTANT.MIN_IMAGE_QUATITY) {
                         MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
                         ), false);
                         mEditTextCSM.setFocusable(false);

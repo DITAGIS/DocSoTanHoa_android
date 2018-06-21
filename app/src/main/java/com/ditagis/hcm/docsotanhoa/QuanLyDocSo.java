@@ -2,14 +2,12 @@ package com.ditagis.hcm.docsotanhoa;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,10 +29,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -61,7 +57,6 @@ import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.Note;
 import com.ditagis.hcm.docsotanhoa.utities.Printer;
 
-import java.sql.Connection;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -1034,6 +1029,9 @@ public class QuanLyDocSo extends Fragment {
 
                     Printer.getInstance().setValue(mNam, mStaffName, mStaffPhone, finalHoaDon, tienNuoc);
                     Printer.getInstance().print();
+
+
+
                 }
             });
         }
@@ -1519,7 +1517,8 @@ public class QuanLyDocSo extends Fragment {
                     countUpload++;
             sum = countUpload;
         }
-  private Void dongBo(String... params) {
+
+        private Void dongBo(String... params) {
             Boolean isValid = false;
 
 
@@ -1556,28 +1555,22 @@ public class QuanLyDocSo extends Fragment {
         }
 
         private Void suaDongBoKhongLen(String... params) {
-//            mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mLike, mKy, Flag.SYNCHRONIZED, false);
-            mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mLike, mKy);
+            mHoaDons = LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon(mLike, mKy, Flag.SYNCHRONIZED, true);
             for (HoaDon hoaDon : mHoaDons) {
-//                if (hoaDon.getCodeMoi().startsWith("F"))
-//                    LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonFlag(hoaDon, Flag.CODE_F);
-//                else
-//                    LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonFlag(hoaDon, Flag.READ);
-                if(hoaDon.getDanhBo().equals("13162403013"))
-                    {  LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonFlag(hoaDon, Flag.UNREAD);
-                        break;
-            }}
+                if (hoaDon.getCodeMoi().startsWith("F"))
+                    LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonFlag(hoaDon, Flag.CODE_F);
+                else
+                    LocalDatabase.getInstance(mRootView.getContext()).updateHoaDonFlag(hoaDon, Flag.READ);
+            }
             return null;
 
         }
 
-
         @Override
         protected Void doInBackground(String... params) {
-//           return suaDongBoKhongLen(params);
-            return dongBo(params);
+             return dongBo(params);
+//            return suaDongBoKhongLen(params);
         }
-
 
         @Override
         protected void onProgressUpdate(Integer... values) {

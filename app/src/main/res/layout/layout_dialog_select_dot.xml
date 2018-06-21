@@ -10,10 +10,10 @@
 
 
     <LinearLayout
+        android:id="@+id/layout_select_may"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:id="@+id/layout_select_may"
         android:visibility="gone">
 
         <TextView
