@@ -66,6 +66,7 @@ import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.Note;
 import com.ditagis.hcm.docsotanhoa.utities.Preference;
 import com.ditagis.hcm.docsotanhoa.utities.Printer;
+import com.ditagis.hcm.docsotanhoa.utities.Printer1;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -617,8 +618,8 @@ public class DocSo extends Fragment {
             double tienNuoc = Calculate_TienNuoc.getInstance().calculate(Integer.parseInt(mHoaDon.getTieuThuMoi()), mHoaDon.getGiaBieu(),
                     mHoaDon.getDinhMuc(), mHoaDon.getSh(), mHoaDon.getSx(), mHoaDon.getDv(), mHoaDon.getHc());
 
-            Printer.getInstance().setValue(mNam, mStaffName, mStaffPhone, mHoaDon, tienNuoc);
-            if (Printer.getInstance().print())
+            Printer1.getInstance().setValue(mNam, mStaffName, mStaffPhone, mHoaDon, tienNuoc);
+            if (Printer1.getInstance().print())
                 save(Integer.parseInt(mTxtCSC.getText().toString()), Integer.parseInt(mTxtCSM.getText().toString()));
         } catch (Exception e) {
 

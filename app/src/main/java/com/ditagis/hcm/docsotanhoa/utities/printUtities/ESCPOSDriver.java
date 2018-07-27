@@ -2,7 +2,6 @@ package com.ditagis.hcm.docsotanhoa.utities.printUtities;
 
 import android.util.Log;
 
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -30,36 +29,42 @@ public class ESCPOSDriver {
     private static final byte[] STANDARD_MODE = {0x1B, 0x53};
     private static final byte[] SWITCH_COMMAND = {0x1B, 0x69, 0x61, 0x00};
     private static final byte[] FLUSH_COMMAND = {(byte) 0xFF, 0x0C};
+    private OutputStream mOutputStream;
 
-    public void initPrint(OutputStream bufferedOutputStream) {
+    public ESCPOSDriver(OutputStream mOutPutStream) {
+        this.mOutputStream = mOutPutStream;
+    }
+
+    public void initPrint() {
         try {
-            bufferedOutputStream.write(SWITCH_COMMAND);
-            bufferedOutputStream.write(INIT);
-            bufferedOutputStream.write(INTERNATIONALIZE);
+            mOutputStream.write(SWITCH_COMMAND);
+            mOutputStream.write(INIT);
+            mOutputStream.write(INTERNATIONALIZE);
         } catch (IOException e) {
             Log.e(tag, e.getMessage(), e);
         }
     }
-public void printBarcode(OutputStream outputStream, String barcodeData){
-        try{
-            outputStream.write(BARCODE_TYPE_CODE39);
-            outputStream.write(barcodeData.getBytes());
-        }catch (IOException e){
+
+    public void printBarcode( String barcodeData) {
+        try {
+            mOutputStream.write(BARCODE_TYPE_CODE39);
+            mOutputStream.write(barcodeData.getBytes());
+        } catch (IOException e) {
 
         }
-}
+    }
 
-    public void changeFont(OutputStream outputStream, int font) {
+    public void changeFont(int font) {
         try {
             switch (font) {
                 case 1:
-                    outputStream.write(FONT_1);
+                    mOutputStream.write(FONT_1);
                     break;
                 case 2:
-                    outputStream.write(FONT_2);
+                    mOutputStream.write(FONT_2);
                     break;
                 case 3:
-                    outputStream.write(FONT_3);
+                    mOutputStream.write(FONT_3);
                     break;
             }
         } catch (IOException e) {
@@ -68,50 +73,59 @@ public void printBarcode(OutputStream outputStream, String barcodeData){
 
     }
 
-    public void printLineAlignLeft(OutputStream bufferedOutputStream, String lineData) {
+    public void printLineText( String lineData) {
         try {
-            bufferedOutputStream.write(ALIGN_LEFT);
-            bufferedOutputStream.write(lineData.getBytes());
+            mOutputStream.write(lineData.getBytes());
 //            bufferedOutputStream.write(LINE_FEED);
         } catch (IOException e) {
             Log.e(tag, e.getMessage(), e);
         }
     }
 
-    public void printLineAlignCenter(OutputStream bufferedOutputStream, String lineData) {
+    public void printLineAlignLeft( String lineData) {
         try {
-            bufferedOutputStream.write(ALIGN_CENTER);
-            bufferedOutputStream.write(lineData.getBytes());
+            mOutputStream.write(ALIGN_LEFT);
+            mOutputStream.write(lineData.getBytes());
 //            bufferedOutputStream.write(LINE_FEED);
         } catch (IOException e) {
             Log.e(tag, e.getMessage(), e);
         }
     }
 
-    public void printLineAlignRight(OutputStream bufferedOutputStream, String lineData) {
+    public void printLineAlignCenter( String lineData) {
         try {
-            bufferedOutputStream.write(ALIGN_RIGHT);
-            bufferedOutputStream.write(lineData.getBytes());
+            mOutputStream.write(ALIGN_CENTER);
+            mOutputStream.write(lineData.getBytes());
 //            bufferedOutputStream.write(LINE_FEED);
         } catch (IOException e) {
             Log.e(tag, e.getMessage(), e);
         }
     }
 
-    public void finishPrint(OutputStream bufferedOutputStream) {
+    public void printLineAlignRight( String lineData) {
         try {
-            bufferedOutputStream.write(PAPER_FEED);
-            bufferedOutputStream.write(PAPER_CUT);
+            mOutputStream.write(ALIGN_RIGHT);
+            mOutputStream.write(lineData.getBytes());
+//            bufferedOutputStream.write(LINE_FEED);
         } catch (IOException e) {
             Log.e(tag, e.getMessage(), e);
         }
     }
 
-    public void flushCommand(OutputStream bufferedOutputStream) {
+    public void finishPrint() {
         try {
-            bufferedOutputStream.write(FLUSH_COMMAND);
-            bufferedOutputStream.write(PAPER_FEED);
-            bufferedOutputStream.write(PAPER_CUT);
+            mOutputStream.write(PAPER_FEED);
+            mOutputStream.write(PAPER_CUT);
+        } catch (IOException e) {
+            Log.e(tag, e.getMessage(), e);
+        }
+    }
+
+    public void flushCommand() {
+        try {
+            mOutputStream.write(FLUSH_COMMAND);
+            mOutputStream.write(PAPER_FEED);
+            mOutputStream.write(PAPER_CUT);
         } catch (IOException e) {
             Log.e(tag, e.getMessage(), e);
         }

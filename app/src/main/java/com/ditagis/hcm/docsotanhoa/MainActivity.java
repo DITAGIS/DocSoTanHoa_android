@@ -41,9 +41,13 @@ import com.ditagis.hcm.docsotanhoa.utities.DialogSelectDot;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.NUMBER;
 import com.ditagis.hcm.docsotanhoa.utities.Printer;
+import com.ditagis.hcm.docsotanhoa.utities.Printer1;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.Set;
 import java.util.UUID;
@@ -89,6 +93,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 //            Toast.makeText(MainActivity.this.getApplicationContext(), "Đã kết nối", Toast.LENGTH_SHORT).show();
         }
     };
+
+
+    //bluetooth
+    // needed for communication to bluetooth device / network
+    OutputStream mmOutputStream;
+    InputStream mmInputStream;
+    Thread workerThread;
+
+    byte[] readBuffer;
+    int readBufferPosition;
+    volatile boolean stopWorker;
 
     public DocSo getmDocSo() {
         return mDocSo;
@@ -513,6 +528,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         .createRfcommSocketToServiceRecord(applicationUUID);
                 mBluetoothAdapter.cancelDiscovery();
                 mBluetoothSocket.connect();
+                mmOutputStream = mBluetoothSocket.getOutputStream();
+                mmInputStream = mBluetoothSocket.getInputStream();
+
+                beginListenForData();
                 mHandler.sendEmptyMessage(0);
                 return true;
             } catch (Exception e) {
@@ -520,7 +539,69 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }
             return false;
         }
+        void beginListenForData() {
+            try {
+                final Handler handler = new Handler();
 
+                // this is the ASCII code for a newline character
+                final byte delimiter = 10;
+
+                stopWorker = false;
+                readBufferPosition = 0;
+                readBuffer = new byte[1024];
+
+                workerThread = new Thread(new Runnable() {
+                    public void run() {
+
+                        while (!Thread.currentThread().isInterrupted() && !stopWorker) {
+
+                            try {
+
+                                int bytesAvailable = mmInputStream.available();
+
+                                if (bytesAvailable > 0) {
+
+                                    byte[] packetBytes = new byte[bytesAvailable];
+                                    mmInputStream.read(packetBytes);
+
+                                    for (int i = 0; i < bytesAvailable; i++) {
+
+                                        byte b = packetBytes[i];
+                                        if (b == delimiter) {
+
+                                            byte[] encodedBytes = new byte[readBufferPosition];
+                                            System.arraycopy(
+                                                    readBuffer, 0,
+                                                    encodedBytes, 0,
+                                                    encodedBytes.length
+                                            );
+
+                                            // specify US-ASCII encoding
+                                            final String data = new String(encodedBytes, "US-ASCII");
+                                            readBufferPosition = 0;
+
+                                            // tell the user data were sent to bluetooth printer device
+
+                                        } else {
+                                            readBuffer[readBufferPosition++] = b;
+                                        }
+                                    }
+                                }
+
+                            } catch (IOException ex) {
+                                stopWorker = true;
+                            }
+
+                        }
+                    }
+                });
+
+                workerThread.start();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         @Override
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
@@ -530,7 +611,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         @Override
         protected void onPostExecute(Boolean result) {
             if (result) {
-                Printer.getInstance().initialize(mBluetoothSocket, MainActivity.this);
+//                Printer.getInstance().initialize(mBluetoothSocket, MainActivity.this);
+                Printer1.getInstance().initialize(mmOutputStream);
 
 //                if (dialog.isShowing()) {
 //                    dialog.dismiss();

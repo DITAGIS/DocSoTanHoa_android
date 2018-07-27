@@ -15,11 +15,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
-import com.ditagis.hcm.docsotanhoa.utities.printUtities.ESCPOSDriver;
 import com.ditagis.hcm.docsotanhoa.utities.printUtities.PrinterCommands;
 
-import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
@@ -59,7 +58,12 @@ public class Printer {
     private double mTienNuoc;
     private int mNam;
 
+    Thread workerThread;
 
+    byte[] readBuffer;
+    int readBufferPosition;
+    volatile boolean stopWorker;
+    InputStream mmInputStream;
     //    DecimalFormat df = new DecimalFormat("###.###.###,###");
     private Handler mHandler = new Handler() {
         @Override
@@ -70,6 +74,75 @@ public class Printer {
     };
 
     private Printer() {
+
+    }
+
+    private void beginListenForData() {
+        try {
+            final Handler handler = new Handler();
+
+            // this is the ASCII code for a newline character
+            final byte delimiter = 10;
+
+            stopWorker = false;
+            readBufferPosition = 0;
+            readBuffer = new byte[1024];
+
+            workerThread = new Thread(new Runnable() {
+                public void run() {
+
+                    while (!Thread.currentThread().isInterrupted() && !stopWorker) {
+
+                        try {
+
+                            int bytesAvailable = mmInputStream.available();
+
+                            if (bytesAvailable > 0) {
+
+                                byte[] packetBytes = new byte[bytesAvailable];
+                                mmInputStream.read(packetBytes);
+
+                                for (int i = 0; i < bytesAvailable; i++) {
+
+                                    byte b = packetBytes[i];
+                                    if (b == delimiter) {
+
+                                        byte[] encodedBytes = new byte[readBufferPosition];
+                                        System.arraycopy(
+                                                readBuffer, 0,
+                                                encodedBytes, 0,
+                                                encodedBytes.length
+                                        );
+
+                                        // specify US-ASCII encoding
+                                        final String data = new String(encodedBytes, "US-ASCII");
+                                        readBufferPosition = 0;
+
+                                        // tell the user data were sent to bluetooth printer device
+                                        handler.post(new Runnable() {
+                                            public void run() {
+                                            }
+                                        });
+
+                                    } else {
+                                        readBuffer[readBufferPosition++] = b;
+                                    }
+                                }
+                            }
+
+                        } catch (IOException ex) {
+                            stopWorker = true;
+                        }
+
+                    }
+                }
+            });
+
+            workerThread.start();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static Printer getInstance() {
@@ -100,7 +173,14 @@ public class Printer {
 
     public void initialize(BluetoothSocket bluetoothSocket, Context context) {
         this.mBluetoothSocket = bluetoothSocket;
+
         this.mContext = context;
+        try {
+            this.mmInputStream = mBluetoothSocket.getInputStream();
+            beginListenForData();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public BluetoothAdapter getmBluetoothAdapter() {
@@ -116,26 +196,60 @@ public class Printer {
             cal.setTime(formatter_old.parse(mHoaDon.getThoiGian()));
             int[] dates = getDates(cal);
             outputStream = mBluetoothSocket.getOutputStream();
-
-            ESCPOSDriver escposDriver = new ESCPOSDriver();
-            String msgLeft = "Left";
-            msgLeft += "\n";
-            String msgCenter = "Center";
-            msgCenter += "\n";
-            String msgRight = "Right";
-            msgRight += "\n";
-
-            //Initialize
-            escposDriver.initPrint(outputStream);
-            escposDriver.changeFont(outputStream, 1);
-            escposDriver.printLineAlignLeft(outputStream, msgLeft);
-            escposDriver.changeFont(outputStream, 2);
-            escposDriver.printLineAlignCenter(outputStream, msgCenter);
-            escposDriver.changeFont(outputStream,3);
-            escposDriver.printLineAlignRight(outputStream, msgRight);
-            escposDriver.printBarcode(outputStream,"13031230034");
-
-            escposDriver.flushCommand(outputStream);
+            byte[] Chuoi = {0x1b};
+            outputStream.write(("EZ\n" +
+                    "{PRINT:\n" +
+                    "@5,0:TIMNR,HMULT1,VMULT1|  CÔNG TY CPCN CHỢ LỚN|\n" +
+                    "@30,0:TIMNR,HMULT1,VMULT1|   97 Phạm Hữu Chí, P.12, Q.5|\n" +
+                    "@55,0:TIMNR,HMULT2,VMULT2|BIÊN NHẬN THU|\n" +
+                    "@100,0:TIMNR,HMULT2,VMULT2|    TIỀN NƯỚC|\n" +
+                    "@150,0:TIMNR,HMULT1,VMULT1|Kỳ:|\n" +
+                    "@150,300:TIMNR,HMULT1,VMULT1|7/2018|\n" +
+                    "@175,0:TIMNR,HMULT1,VMULT1|Từ ngày:|\n" +
+                    "@175,140:TIMNR,HMULT1,VMULT1|06/06/2018-06/07/2018|\n" +
+                    "@200,0:TIMNR,HMULT1,VMULT1|DB:|\n" +
+                    "@200,218:TIMNR,HMULT1,VMULT1|0614-679-0075|\n" +
+                    "@225,0:TIMNR,HMULT1,VMULT1|KH:|\n" +
+                    "@225,43:TIMNR,HMULT1,VMULT1|DAO THI THANH HANG|\n" +
+                    "@300,0:TIMNR,HMULT1,VMULT1|Đ/Chỉ:|\n" +
+                    "@300,76:TIMNR,HMULT1,VMULT1|79/34A17C TAN HOA DONG|\n" +
+                    "@325,0:TIMNR,HMULT1,VMULT1|GB:|\n" +
+                    "@325,44:TIMNR,HMULT1,VMULT1|11|\n" +
+                    "@325,110:TIMNR,HMULT1,VMULT1|DM:|\n" +
+                    "@325,154:TIMNR,HMULT1,VMULT1|44|\n" +
+                    "@350,0:TIMNR,HMULT1,VMULT1|Mlt:|\n" +
+                    "@350,275:TIMNR,HMULT1,VMULT1|1700113|\n" +
+                    "@375,0:TIMNR,HMULT1,VMULT1|Số HĐ:|\n" +
+                    "@375,88:TIMNR,HMULT1,VMULT1|20189108257|\n" +
+                    "@400,0:TIMNR,HMULT1,VMULT1|Cs Cũ:|\n" +
+                    "@400,320:TIMNR,HMULT1,VMULT1|167|\n" +
+                    "@425,0:TIMNR,HMULT1,VMULT1|Cs mới:|\n" +
+                    "@425,320:TIMNR,HMULT1,VMULT1|183|\n" +
+                    "@450,0:TIMNR,HMULT1,VMULT1|Tiêu thụ:|\n" +
+                    "@450,309:TIMNR,HMULT1,VMULT1|16m3|\n" +
+                    "}\n"
+            ).getBytes());
+            outputStream.write(Chuoi);
+//            ESCPOSDriver escposDriver = new ESCPOSDriver(outputStream);
+//            String msgLeft = "Left";
+//            msgLeft += "\n";
+//            String msgCenter = "Center";
+//            msgCenter += "\n";
+//            String msgRight = "Right";
+//            msgRight += "\n";
+//
+//            //Initialize
+//            escposDriver.initPrint();
+//            escposDriver.changeFont( 1);
+//            escposDriver.printLineText( msgLeft);
+//            escposDriver.printLineAlignLeft( msgLeft);
+//            escposDriver.changeFont( 2);
+//            escposDriver.printLineAlignCenter( msgCenter);
+//            escposDriver.changeFont( 3);
+//            escposDriver.printLineAlignRight( msgRight);
+//            escposDriver.printBarcode( "13031230034");
+//
+//            escposDriver.flushCommand();
 
             outputStream.flush();
 

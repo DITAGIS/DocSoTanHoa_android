@@ -344,7 +344,8 @@ public class LocationHelper extends AsyncTask<Void, Object, Void> implements Per
                     case LocationSettingsStatusCodes.SUCCESS:
                         // All location settings are satisfied. The client can initialize location requests here
                         mLastLocation = getLocation();
-                        delegate.processFinish(mLastLocation.getLongitude(), mLastLocation.getLatitude());
+                        if (mLastLocation != null)
+                            delegate.processFinish(mLastLocation.getLongitude(), mLastLocation.getLatitude());
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                         try {

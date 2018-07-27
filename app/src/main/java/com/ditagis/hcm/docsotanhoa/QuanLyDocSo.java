@@ -56,7 +56,9 @@ import com.ditagis.hcm.docsotanhoa.utities.Flag;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.Note;
 import com.ditagis.hcm.docsotanhoa.utities.Printer;
+import com.ditagis.hcm.docsotanhoa.utities.Printer1;
 
+import java.io.OutputStream;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -94,7 +96,6 @@ public class QuanLyDocSo extends Fragment {
     private ArrayAdapter<String> mAdapterDot, mAdapterSdt, mAdapterKy, mAdapterNam;
     private GridViewSelectFolderAdapter mSelectFolderAdapter;
     private Spinner mSpinDot, mSpinKy, mSpinNam;
-
 
     public QuanLyDocSo(LayoutInflater inflater, int dot, int ky, int nam, String userName, String staffName, String staffPhone, int selected_theme) {
         mRootView = inflater.inflate(R.layout.quan_ly_doc_so_fragment, null);
@@ -1022,13 +1023,13 @@ public class QuanLyDocSo extends Fragment {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
-                    if (Printer.getInstance().getmBluetoothSocket() == null) {
-                        MySnackBar.make(mGridView, "Chưa kết nối với máy in", true);
-                        return;
-                    }
-
-                    Printer.getInstance().setValue(mNam, mStaffName, mStaffPhone, finalHoaDon, tienNuoc);
-                    Printer.getInstance().print();
+//                    if (Printer.getInstance().getmBluetoothSocket() == null) {
+//                        MySnackBar.make(mGridView, "Chưa kết nối với máy in", true);
+//                        return;
+//                    }
+//
+                    Printer1.getInstance().setValue(mNam, mStaffName, mStaffPhone, finalHoaDon, tienNuoc);
+                    Printer1.getInstance().print();
 
 
 

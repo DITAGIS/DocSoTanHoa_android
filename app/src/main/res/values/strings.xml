@@ -123,8 +123,7 @@
         ds.bvmt = temp.bvmt, ds.thue = temp.thue, ds.tongtien = temp.tongtien, ds.ttdhnmoi =
         temp.ttdhnmoi from &table_docso; ds inner join &table_temp_docso; temp on ds.DocSoID =
         temp.DocSoID; update kh set kh.somoi = temp.sonhamoi, kh.duong = temp.duong
-        from &table_khachhang;
-        kh inner join &table_temp_docso; temp on kh.danhba = right(temp.docsoid,11)</string>
+        from &table_khachhang; kh inner join &table_temp_docso; temp on kh.danhba = right(temp.docsoid,11)</string>
     <string name="sql_create_temp_table">if OBJECT_ID(\'tempdb.dbo.&table_temp_docso;\') is not null
         drop table &table_temp_docso;; select docsoid, csmoi, codemoi, ghichuds, tieuthumoi, gioghi,
         sdt, vitrimoi, tiennuoc, bvmt, thue, tongtien, ttdhnmoi,sonhamoi,duong into &table_temp_docso;
@@ -148,6 +147,7 @@
 
     <string name="sql_getngaykiem_thongbao">select top 1 ngaykiem from thongbao where danhba = ?
         order by ngaykiem desc</string>
+    <string name="title_activity_main2">Main2Activity</string>
 
     <!--Sql end-->
 </resources>
