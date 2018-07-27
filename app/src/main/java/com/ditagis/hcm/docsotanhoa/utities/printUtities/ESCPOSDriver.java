@@ -16,6 +16,7 @@ public class ESCPOSDriver {
     private static final byte[] ALIGN_CENTER = {0x1B, 0x61, 0x01};
     private static final byte[] ALIGN_RIGHT = {0x1B, 0x61, 0x02};
     private static final byte[] BOLD_ON = {0x1B, 0x45, 1};
+
     private static final byte[] BOLD_OFF = {0x1B, 0x45, 0};
     private static final byte[] FONT_1 = {0x1B, 0x77, 0x28};
     private static final byte[] FONT_2 = {0x1B, 0x77, 0x29};

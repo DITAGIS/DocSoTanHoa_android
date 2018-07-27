@@ -76,83 +76,103 @@ public class Printer1 {
         mmBuilder.append("EZ\n");
         mmBuilder.append("{PRINT:\n");
 
-        mmBuilder.append(String.format("@%d,0:TIMNR,HMULT1,VMULT1|  CTY CP CẤP NƯỚC TÂN HÒA|\n", y));
+        mmBuilder.append(printLine("CTY CP CẤP NƯỚC TÂN HÒA", 3, y, 25, 1, 1));
         y = handlingYMoreThan450(y, 25);
-        mmBuilder.append(String.format("@%d,0:TIMNR,HMULT1,VMULT1|   95 PHẠM HỮU CHÍ, P12, Q5|\n", y));
+        mmBuilder.append(printLine("95 PHẠM HỮU CHÍ, P12, Q5", 1, y, 40, 1, 1));
         y = handlingYMoreThan450(y, 30);
-        mmBuilder.append(String.format("@%d,25:TIMNR,HMULT2,VMULT1|BIÊN NHẬN THU TIỀN NƯỚC|\n", y));
+        mmBuilder.append(printLine("BIÊN NHẬN THU TIỀN NƯỚC", 4, y, 20, 2, 1));
         y = handlingYMoreThan450(y, 75);
         mmBuilder.append(String.format("@%d,0:PD417,YDIM 6,XDIM 2,COLUMNS 2,SECURITY 3|%s|\n", y, mHoaDon.getDanhBo()));
         y = handlingYMoreThan450(y, 75);
-        mmBuilder.append(String.format("@%d,0:TIMNR,HMULT1,VMULT1|Kỳ:|\n", y));
+        mmBuilder.append(printLine("Kỳ:", 1, y, 0, 1, 1));
 
-        mmBuilder.append(String.format("@%d,300:TIMNR,HMULT1,VMULT1|%s/%s|\n", y, mHoaDon.getKy(), mNam));
+        mmBuilder.append(printLine("%s/%s", 3, y, 305, 1, 1, mHoaDon.getKy(), mNam));
         y = handlingYMoreThan450(y, 25);
-        mmBuilder.append(String.format("@%d,0:TIMNR,HMULT1,VMULT1|Từ ngày:|\n", y));
-        mmBuilder.append(String.format("@%d,140:TIMNR,HMULT1,VMULT1|06/06/2018-06/07/2018|\n", y));
-        y = handlingYMoreThan450(y, 25);
-        mmBuilder.append(String.format("@%d,0:TIMNR,HMULT1,VMULT1|DB:|\n", y));
+        mmBuilder.append(printLine("DB:", 1, y, 0, 1, 1));
 
-        mmBuilder.append(String.format("@%d,218:TIMNR,HMULT1,VMULT1|%s|\n", y, spaceDB(mHoaDon.getDanhBo())));
+        mmBuilder.append(printLine("%s", 4, y, 240, 1, 1, mHoaDon.getDanhBo()));
         y = handlingYMoreThan450(y, 25);
-        mmBuilder.append(String.format("@%d,0:TIMNR,HMULT1,VMULT1|KH:|\n", y));
-        mmBuilder.append(String.format("@%d,43:TIMNR,HMULT1,VMULT1|%s|\n", y, mHoaDon.getTenKhachHang()));
+        mmBuilder.append(printLine("KH:", 1, y, 0, 1, 1));
+        mmBuilder.append(printLine("%s", 3, y, 43, 1, 1, mHoaDon.getTenKhachHang()));
         y = handlingYMoreThan450(y, 50);
-        mmBuilder.append(String.format("@%d,0:TIMNR,HMULT1,VMULT1|Đ/Chỉ:|\n", y));
-        mmBuilder.append(String.format("@%d,76:TIMNR,HMULT1,VMULT1|%s|\n", y, mHoaDon.getDiaChi()));
+        mmBuilder.append(printLine("Đ/Chỉ:", 1, y, 0, 1, 1));
+        mmBuilder.append(printLine("%s", 3, y, 76, 1, 1, mHoaDon.getDiaChi()));
         y = handlingYMoreThan450(y, 25);
-        mmBuilder.append(String.format("@%d,0:TIMNR,HMULT1,VMULT1|GB:|\n", y));
-        mmBuilder.append(String.format("@%d,44:TIMNR,HMULT1,VMULT1|%s|\n", y, mHoaDon.getGiaBieu()));
-        mmBuilder.append(String.format("@%d,110:TIMNR,HMULT1,VMULT1|DM:|\n", y));
-        mmBuilder.append(String.format("@%d,154:TIMNR,HMULT1,VMULT1|%s|\n", y, mHoaDon.getDinhMuc()));
+        mmBuilder.append(printLine("GB:", 1, y, 0, 1, 1));
+        mmBuilder.append(printLine("%s", 3, y, 44, 1, 1, mHoaDon.getGiaBieu()));
+        mmBuilder.append(printLine("ĐM:", 1, y, 100, 1, 1));
+        mmBuilder.append(printLine("%s", 3, y, 160, 1, 1, mHoaDon.getDinhMuc()));
         y = handlingYMoreThan450(y, 25);
-        mmBuilder.append(String.format("@%d,0:TIMNR,HMULT1,VMULT1|Mlt:|\n", y));
-        mmBuilder.append(String.format("@%d,275:TIMNR,HMULT1,VMULT1|%s|\n", y, spaceMLT(mHoaDon.getMaLoTrinh())));
+        mmBuilder.append(printLine("MLT:", 1, y, 0, 1, 1));
+        mmBuilder.append(printLine("%s", 3, y, 255, 1, 1, spaceMLT(mHoaDon.getMaLoTrinh())));
         y = handlingYMoreThan450(y, 25);
-        mmBuilder.append(String.format("@%d,0:TIMNR,HMULT1,VMULT1|Cs Cũ:|\n", y));
-        mmBuilder.append(String.format("@%d,320:TIMNR,HMULT1,VMULT1|%s|\n", y, mHoaDon.getChiSoCu()));
+        mmBuilder.append(printLine("Cs cũ:", 1, y, 0, 1, 1));
+        mmBuilder.append(printLine("%s", 3, y, 0, 1, 1,
+                padLeft(mHoaDon.getChiSoCu(), 31)));
         y = handlingYMoreThan450(y, 25);
-        mmBuilder.append(String.format("@%d,0:TIMNR,HMULT1,VMULT1|Cs mới:|\n", y));
-        mmBuilder.append(String.format("@%d,320:TIMNR,HMULT1,VMULT1|%s|\n", y, mHoaDon.getChiSoMoi()));
+        mmBuilder.append(printLine("Cs mới:", 1, y, 0, 1, 1));
+        mmBuilder.append(printLine("%s", 3, y, 0, 1, 1,
+                padLeft(mHoaDon.getChiSoMoi(), 31)));
         y = handlingYMoreThan450(y, 25);
-        mmBuilder.append(String.format("@%d,0:TIMNR,HMULT1,VMULT1|Tiêu thụ:|\n", y));
-        mmBuilder.append(String.format("@%d,309:TIMNR,HMULT1,VMULT1|%sm3|\n", y, mHoaDon.getTieuThuMoi()));
+        mmBuilder.append(printLine("Tiêu thụ:", 1, y, 0, 1, 1));
+        mmBuilder.append(printLine("%sm3", 3, y, 0, 1, 1,
+                padLeft(mHoaDon.getTieuThuMoi(), 28)));
         y = handlingYMoreThan450(y, 25);
-        mmBuilder.append(String.format("@%d,0:TIMNR,HMULT1,VMULT1|Tiền nước:|\n", y));
-        mmBuilder.append(String.format("@%d,200:TIMNR,HMULT1,VMULT1|%20sđ|\n", y, NumberFormat.getNumberInstance(Locale.US).format(mTienNuoc)));
+        mmBuilder.append(printLine("Tiền nước:", 1, y, 0, 1, 1));
+        mmBuilder.append(printLine("%sđ", 3, y, 0, 1, 1,
+                padLeft(NumberFormat.getNumberInstance(Locale.US).format(mTienNuoc)
+                        .replace(",", " "), 30)));
         y = handlingYMoreThan450(y, 25);
 
         double BVMT = 0, VAT = mTienNuoc / 20;
         if (!mHoaDon.getGiaBieu().equals("52"))
             BVMT = mTienNuoc / 10;
 
-        mmBuilder.append(String.format("@%d,0:TIMNR,HMULT1,VMULT1|Thuế VAT:|\n", y));
-        mmBuilder.append(String.format("@%d,200:TIMNR,HMULT1,VMULT1|%20sđ|\n", y, NumberFormat.getNumberInstance(Locale.US).format(VAT)));
+        mmBuilder.append(printLine("Thuế VAT:", 1, y, 0, 1, 1));
+        mmBuilder.append(printLine("%sđ", 3, y, 0, 1, 1,
+                padLeft(NumberFormat.getNumberInstance(Locale.US).format(VAT)
+                        .replace(",", " "), 30)));
         y = handlingYMoreThan450(y, 25);
-        mmBuilder.append(String.format("@%d,0:TIMNR,HMULT1,VMULT1|Phí BVMT:|\n", y));
-        mmBuilder.append(String.format("@%d,200:TIMNR,HMULT1,VMULT1|%20sđ|\n", y, NumberFormat.getNumberInstance(Locale.US).format(BVMT)));
+        mmBuilder.append(printLine("Phí BVMT:", 1, y, 0, 1, 1));
+        mmBuilder.append(printLine("%sđ", 3, y, 0, 1, 1,
+                padLeft(NumberFormat.getNumberInstance(Locale.US).format(BVMT)
+                        .replace(",", " "), 30)));
         y = handlingYMoreThan450(y, 25);
-        mmBuilder.append(String.format("@%d,0:TIMNR,HMULT1,VMULT1|Tổng cộng:|\n", y));
-        mmBuilder.append(String.format("@%d,200:TIMNR,HMULT1,VMULT1|%20sđ|\n", y, NumberFormat.getNumberInstance(Locale.US).format(mTienNuoc + BVMT + VAT)));
+        mmBuilder.append(printLine("Tổng cộng:", 1, y, 0, 1, 1));
+        mmBuilder.append(printLine("%sđ", 3, y, 0, 1, 1,
+                padLeft(NumberFormat.getNumberInstance(Locale.US).format(mTienNuoc + BVMT + VAT)
+                        .replace(",", " "), 30)));
         y = handlingYMoreThan450(y, 50);
-        mmBuilder.append(String.format("@%d,100:HLINE,Length200,Thick2|\n", y));
+        mmBuilder.append(String.format("@%d,100:HLINE,Length200,Thick3|\n", y));
         y = handlingYMoreThan450(y, 5);
-        mmBuilder.append(String.format("@%d,0:TIMNR,HMULT1,VMULT1|Ngày thu tiền dự kiến %s -> %s|\n", y, String.format("%02d", dates[0]), String.format("%02d", dates[1])));
+        mmBuilder.append(printLine("Ngày thu tiền dự kiến từ %s đến %s", 1, y, 0, 1, 1, String.format("%02d", dates[0]), String.format("%02d", dates[1])));
         y = handlingYMoreThan450(y, 25);
-        mmBuilder.append(String.format("@%d,0:TIMNR,HMULT1,VMULT1|Điện thoại: 39 557 795 để được hướng|\n", y));
+        mmBuilder.append(printLine("Điện thoại: 39 557 795 để được hướng", 1, y, 0, 1, 1));
         y = handlingYMoreThan450(y, 25);
-        mmBuilder.append(String.format("@%d,0:TIMNR,HMULT1,VMULT1|dẫn|\n", y));
+        mmBuilder.append(printLine("dẫn", 1, y, 0, 1, 1));
         y = handlingYMoreThan450(y, 25);
-        mmBuilder.append(String.format("@%d,0:TIMNR,HMULT1,VMULT1|Phiếu này không có giá trị thanh toán|\n", y));
+        mmBuilder.append(printLine("Phiếu này không có giá trị thanh toán", 1, y, 0, 1, 1));
         y = handlingYMoreThan450(y, 25);
-        mmBuilder.append(String.format("@%d,60:TIMNR,HMULT1,VMULT1|Được in vào: %s|\n", y, formatter.format(Calendar.getInstance().getTime())));
-        y = handlingYMoreThan450(y, 50);
-        mmBuilder.append(String.format("@%d,60:TIMNR,HMULT1,VMULT1| |\n", y));
+        mmBuilder.append(printLine("Được in vào: %s", 3, y, 60, 1, 1, formatter.format(Calendar.getInstance().getTime())));
+        y = handlingYMoreThan450(y, 100);
+        mmBuilder.append(printLine(".", 1, y, 0, 1, 1));
         mmBuilder.append("}\n");
-        mmBuilder.append("{LP}");
         mmOutputStream.write(mmBuilder.toString().getBytes());
     }
 
+    private String printLine(String data, int boldNumber, java.lang.Object... args) {
+        String base = "@%d,%d:TIMNR,HMULT%d,VMULT%d|" + data + "|\n";
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < boldNumber; i++) {
+            builder.append(String.format(base, args));
+            args[1] = (int) args[1] + 1;
+        }
+        return builder.toString();
+    }
+
+    public static String padLeft(String s, int n) {
+        return String.format("%1$" + n + "s", s).replace(" ", "  ");
+    }
 
     private int handlingYMoreThan450(int y, int delta) {
         if (y + delta > 450) {
