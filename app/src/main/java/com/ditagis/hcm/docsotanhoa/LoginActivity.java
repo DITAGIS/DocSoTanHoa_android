@@ -2,16 +2,13 @@ package com.ditagis.hcm.docsotanhoa;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,53 +25,53 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
-import com.ditagis.hcm.docsotanhoa.conectDB.ConnectionDB;
-import com.ditagis.hcm.docsotanhoa.conectDB.LogInDB;
-import com.ditagis.hcm.docsotanhoa.entities.User;
+import com.ditagis.hcm.docsotanhoa.async.LoginAsync;
+import com.ditagis.hcm.docsotanhoa.entities.entitiesDB.UserDangNhap;
 import com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver;
 import com.ditagis.hcm.docsotanhoa.utities.CheckConnect;
 import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
 import com.ditagis.hcm.docsotanhoa.utities.LocationHelper;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
+import com.ditagis.hcm.docsotanhoa.utities.Preference;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Set;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, ActivityCompat.OnRequestPermissionsResultCallback {
+        GoogleApiClient.OnConnectionFailedListener, ActivityCompat.OnRequestPermissionsResultCallback, View.OnClickListener {
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
     private static final int REQUEST_ID_WRITE_FILE = 2;
     private EditText mTxtUsername;
     private EditText mTxtPassword;
     private Button btnLogin;
     private ImageButton mImgBtnViewPassword;
-    private LoginAsync mLoginAsync;
     private String mUsername, mPassword, mStaffName, mStaffPhone;
     private List<String> mLstMay;
-    private String mDot, mKy, mNam;
     private NetworkStateChangeReceiver mStateChangeReceiver;
     private IntentFilter mIntentFilter;
-    private String IMEI = "";
     LocationHelper locationHelper;
     double latitude, longtitude;
     Location mLastLocation;
+    private boolean isLastLogin;
+    private TextView mTxtValidation;
+    private boolean mmIsIMEI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setTheme(R.style.Theme_AppCompat_DayNight);
+        this.mmIsIMEI = false;
         mLstMay = new ArrayList<>();
-        mTxtUsername = (EditText) findViewById(R.id.txtUsername);
-        mTxtUsername.setBackgroundResource(R.drawable.edit_text_styles2);
-        mTxtPassword = (EditText) findViewById(R.id.txtPassword);
-        mTxtPassword.setBackgroundResource(R.drawable.edit_text_styles2);
-        this.mImgBtnViewPassword = (ImageButton) findViewById(R.id.imgBtn_login_viewPassword);
+        mTxtUsername = findViewById(R.id.txtUsername);
+//        mTxtUsername.setBackgroundResource(R.drawable.edit_text_styles2);
+        mTxtPassword = findViewById(R.id.txtPassword);
+//        mTxtPassword.setBackgroundResource(R.drawable.edit_text_styles2);
+        this.mImgBtnViewPassword = findViewById(R.id.imgBtn_login_viewPassword);
         requestPermisson();
         mTxtPassword.setTransformationMethod(new PasswordTransformationMethod());
         this.mImgBtnViewPassword.setOnClickListener(new View.OnClickListener() {
@@ -89,15 +86,30 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 }
             }
         });
+        mTxtValidation = findViewById(R.id.txt_login_validation);
 
-        btnLogin = (Button) findViewById(R.id.btnLogin);
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                login();
-//                loginWithIMEI();
-            }
-        });
+        ((TextView) findViewById(R.id.txt_login_version)).setText("Phiên bản " + BuildConfig.VERSION_NAME);
+        btnLogin = findViewById(R.id.btnLogin);
+        btnLogin.setOnClickListener(this);
+        create();
+    }
+
+    private void create() {
+        Preference.getInstance().setContext(this);
+        String preference_userName = Preference.getInstance().loadPreference(getString(R.string.preference_username));
+
+        //nếu chưa từng đăng nhập thành công trước đó
+        //nhập username và password bình thường
+        if (preference_userName == null || preference_userName.isEmpty()) {
+            findViewById(R.id.layout_login_username).setVisibility(View.VISIBLE);
+            isLastLogin = false;
+        }
+        //ngược lại
+        //chỉ nhập pasword
+        else {
+            isLastLogin = true;
+            findViewById(R.id.layout_login_username).setVisibility(View.GONE);
+        }
 
     }
 
@@ -173,113 +185,101 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     }
 
-    private void login() {
+
+    private void login(boolean isIMEI) {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        LoginActivity.this.mUsername = mTxtUsername.getText().toString();
+        String IMEI = "";
+        if (isIMEI)
+            IMEI = ((TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+        mTxtValidation.setVisibility(View.GONE);
+
+        if (isLastLogin)
+            LoginActivity.this.mUsername = Preference.getInstance().loadPreference(getString(R.string.preference_username));
+        else
+            LoginActivity.this.mUsername = mTxtUsername.getText().toString().trim();
         LoginActivity.this.mPassword = mTxtPassword.getText().toString();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
 
         if (LoginActivity.this.mUsername.length() == 0 && LoginActivity.this.mPassword.length() == 0) {
-            MySnackBar.make(btnLogin, R.string.not_null_username_password, true);
-            return;
+            handleInfoLoginEmpty();
         } else if (CheckConnect.isOnline(LoginActivity.this)) {
-            mLoginAsync = new LoginAsync();
-            mLoginAsync.execute(LoginActivity.this.mUsername, LoginActivity.this.mPassword);
-        } else if (mTxtPassword.getText().toString().equals(loadPreference(mTxtUsername.getText().toString()))) {
-            LoginActivity.this.mPassword = mTxtPassword.getText().toString();
-            LoginActivity.this.mStaffName = loadPreference(getString(R.string.preference_tenNV));
-            LoginActivity.this.mKy = loadPreference(getString(R.string.preference_ky));
-            LoginActivity.this.mDot = loadPreference(getString(R.string.preference_dot));
-            LoginActivity.this.mNam = loadPreference(getString(R.string.preference_nam));
-            LoginActivity.this.mStaffPhone = loadPreference(getString(R.string.preference_sdtNV));
-            LoginActivity.this.mLstMay.add(loadPreference(getString(R.string.preference_may)));
+            HideKeyboard.hide(LoginActivity.this);
+            LoginAsync loginAsync = new LoginAsync(this, new LoginAsync.AsyncResponse() {
+                @Override
+                public void processFinish(Void output) {
+                    if (UserDangNhap.getInstance().getUser() == null) {
+                        handleLoginFail();
+                    } else {
+                        handleLoginSuccess();
+                    }
+                }
+            });
+            loginAsync.execute(mUsername, mPassword, IMEI);
 
-            if (mStaffName == null)
-                MySnackBar.make(btnLogin, "Chưa khởi tạo máy " + mTxtUsername.getText().toString(), true);
-            else if (mStaffName.length() > 0) {
+        } else if (mUsername.equals(Preference.getInstance().loadPreference(getString(R.string.preference_username))) &&
+                mPassword.equals(Preference.getInstance().loadPreference(getString(R.string.preference_password)))) {
+            LoginActivity.this.mPassword = mTxtPassword.getText().toString();
+            LoginActivity.this.mStaffName = Preference.getInstance().loadPreference(getString(R.string.preference_tenNV));
+            LoginActivity.this.mStaffPhone = Preference.getInstance().loadPreference(getString(R.string.preference_sdtNV));
+
+            int may = Integer.parseInt(mUsername);
+            if (99 <= may && may <= 104)
+                LoginActivity.this.mLstMay.add(Preference.getInstance().loadPreference(getString(R.string.preference_username)));
+
+            if (mStaffName == null) {
+                mTxtValidation.setText("Chưa khởi tạo máy " + mTxtUsername.getText().toString());
+                mTxtValidation.setVisibility(View.VISIBLE);
+            } else if (mStaffName.length() > 0) {
 
                 mTxtPassword.setText("");
                 mTxtUsername.setText("");
                 doLayLoTrinh();
             } else {
-                MySnackBar.make(btnLogin, R.string.login_fail, true);
+                mTxtValidation.setVisibility(View.VISIBLE);
+                mTxtValidation.setText(getString(R.string.login_fail));
             }
         }
     }
 
-    private void loginWithIMEI() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            return;
+    private void handleLoginSuccess() {
+        if (UserDangNhap.getInstance().getUser().getStaffName() == null)
+            MySnackBar.make(btnLogin, "Chưa khởi tạo máy " + UserDangNhap.getInstance().getUser().getUserName(), true);
+        else if (!UserDangNhap.getInstance().getUser().getStaffName().isEmpty()) {
+
+            mTxtPassword.setText("");
+            mTxtUsername.setText("");
+            doLayLoTrinh();
+        } else {
+            MySnackBar.make(btnLogin, R.string.login_fail, true);
         }
-        IMEI = ((TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
-        LoginActivity.this.mUsername = mTxtUsername.getText().toString();
-        LoginActivity.this.mPassword = mTxtPassword.getText().toString();
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
+    }
 
-        if (LoginActivity.this.mUsername.length() == 0 && LoginActivity.this.mPassword.length() == 0) {
-            MySnackBar.make(btnLogin, R.string.not_null_username_password, true);
-            return;
-        } else if (CheckConnect.isOnline(LoginActivity.this)) {
-            mLoginAsync = new LoginAsync();
-            mLoginAsync.execute(LoginActivity.this.mUsername, LoginActivity.this.mPassword, IMEI);
-        } else if (mTxtPassword.getText().toString().equals(loadPreference(mTxtUsername.getText().toString()))) {
-            LoginActivity.this.mPassword = mTxtPassword.getText().toString();
-            LoginActivity.this.mStaffName = loadPreference(getString(R.string.preference_tenNV));
-            LoginActivity.this.mKy = loadPreference(getString(R.string.preference_ky));
-            LoginActivity.this.mDot = loadPreference(getString(R.string.preference_dot));
-            LoginActivity.this.mNam = loadPreference(getString(R.string.preference_nam));
-            LoginActivity.this.mStaffPhone = loadPreference(getString(R.string.preference_sdtNV));
+    private void handleInfoLoginEmpty() {
+        mTxtValidation.setText(R.string.info_login_empty);
+        mTxtValidation.setVisibility(View.VISIBLE);
+    }
 
-            int may = Integer.parseInt(mUsername);
-            if (99 <= may && may <= 104)
-                LoginActivity.this.mLstMay.add(loadPreference(getString(R.string.preference_may)));
-
-            if (mStaffName == null)
-                MySnackBar.make(btnLogin, "Chưa khởi tạo máy " + mTxtUsername.getText().toString(), true);
-            else if (mStaffName.length() > 0) {
-
-                mTxtPassword.setText("");
-                mTxtUsername.setText("");
-                doLayLoTrinh();
-            } else {
-                MySnackBar.make(btnLogin, R.string.login_fail, true);
-            }
-        }
+    private void handleLoginFail() {
+        mTxtValidation.setText(R.string.validate_login_fail);
+        mTxtValidation.setVisibility(View.VISIBLE);
     }
 
     public void doLayLoTrinh() {
 //        CheckConnectRealTime.asyncTask.cancel(true);
         try {
-            Calendar calendar = Calendar.getInstance();
-            if (mKy.equals(""))
-                mKy = "0";
-            if (mNam.equals(""))
-                mNam = "0";
-            if (mDot.equals(""))
-                mDot = "0";
-            int ky = Integer.parseInt(mKy);
-            int nam = Integer.parseInt(mNam);
-            int dot = Integer.parseInt(mDot);
+            if (UserDangNhap.getInstance().getUser().getKy().equals(""))
+                UserDangNhap.getInstance().getUser().setKy("0");
+            if (UserDangNhap.getInstance().getUser().getNam().equals(""))
+                UserDangNhap.getInstance().getUser().setNam("0");
+            if (UserDangNhap.getInstance().getUser().getDot().equals(""))
+                UserDangNhap.getInstance().getUser().setDot("0");
+            int ky = Integer.parseInt(UserDangNhap.getInstance().getUser().getKy());
+            int nam = Integer.parseInt(UserDangNhap.getInstance().getUser().getNam());
+            int dot = Integer.parseInt(UserDangNhap.getInstance().getUser().getDot());
             new LayLoTrinh(LoginActivity.this, btnLogin, getLayoutInflater(), ky, nam, dot, mUsername, mStaffName, mPassword, mStaffPhone, mLstMay);
 
         } catch (Exception e) {
@@ -313,21 +313,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             return true;
     }
 
-    public boolean requestPermissonWriteFile() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    REQUEST_ID_WRITE_FILE);
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btnLogin:
+                login(this.mmIsIMEI);
+                break;
         }
-        if (Build.VERSION.SDK_INT >= 23 &&
-                ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            return false;
-        } else
-            return true;
-    }
 
-    /**
-     * Method used to delete Preferences
-     */
+    }
 
     @Override
     public void onBackPressed() {
@@ -352,61 +346,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         dialog.show();
     }
 
-    public SharedPreferences getPreferences() {
-        return getSharedPreferences("LOGGED_IN", MODE_PRIVATE);
-    }
-
-    /**
-     * Method used to save Preferences
-     */
-    public void savePreferences(String key, String value) {
-        SharedPreferences sharedPreferences = getPreferences();
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(key, value);
-        editor.commit();
-    }
-
-    public void savePreferences(String key, Set<String> values) {
-        SharedPreferences sharedPreferences = getPreferences();
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putStringSet(key, values);
-        editor.commit();
-    }
-
-    public boolean deletePreferences(String key) {
-        SharedPreferences.Editor editor = getPreferences().edit();
-        editor.remove(key).commit();
-        return false;
-    }
-
-    public boolean deletePreferences() {
-        SharedPreferences.Editor editor = getPreferences().edit();
-        editor.clear().commit();
-        return false;
-    }
-
-    /**
-     * Method used to load Preferences
-     */
-    public String loadPreference(String key) {
-        try {
-            SharedPreferences sharedPreferences = getPreferences();
-            String strSavedMemo = sharedPreferences.getString(key, "");
-            return strSavedMemo;
-        } catch (NullPointerException nullPointerException) {
-            return null;
-        }
-    }
-
-    public Set<String> loadPreferences(String key) {
-        try {
-            SharedPreferences sharedPreferences = getPreferences();
-            Set<String> strSavedMemo = sharedPreferences.getStringSet(key, null);
-            return strSavedMemo;
-        } catch (NullPointerException nullPointerException) {
-            return null;
-        }
-    }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -424,102 +363,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     }
 
-    class LoginAsync extends AsyncTask<String, LogInDB.Result, LogInDB.Result> {
-        private LogInDB loginDB = new LogInDB();
-        private ProgressDialog dialog;
-
-        public LoginAsync() {
-            this.dialog = new ProgressDialog(LoginActivity.this, android.R.style.Theme_Material_Dialog_Alert);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            HideKeyboard.hide(LoginActivity.this);
-            dialog.setMessage(LoginActivity.this.getString(R.string.connecting));
-            dialog.setCancelable(false);
-
-            dialog.show();
-
-        }
-
-        public ProgressDialog getDialog() {
-            return dialog;
-        }
-
-        @Override
-        protected LogInDB.Result doInBackground(String... params) {
-            String username = params[0];
-            String password = params[1];
-            String IMEI = "";
-            if (params.length > 2)
-                IMEI = params[2];
-            LogInDB.Result result = null;
-            ConnectionDB.getInstance().getConnection(true);
-            publishProgress(null);
-
-            if (IMEI.equals(""))
-                result = this.loginDB.logIn(new User(username, password));
-            else result = this.loginDB.logIn(new User(username, password), IMEI);
-            if (result == null)
-                ;
-
-            else if (result.getmStaffName() == null || result.getmStaffName().length() > 0) {
-
-                deletePreferences();
-                savePreferences(username, password);
-                savePreferences(getString(R.string.preference_tenNV), result.getmStaffName());
-                savePreferences(getString(R.string.preference_dot), result.getmDot());
-                savePreferences(getString(R.string.preference_ky), result.getmKy());
-                savePreferences(getString(R.string.preference_nam), result.getmNam());
-                savePreferences(getString(R.string.preference_sdtNV), result.getmStaffPhone());
-
-                LoginActivity.this.mPassword = result.getPassword();
-                LoginActivity.this.mStaffName = result.getmStaffName();
-                LoginActivity.this.mKy = result.getmKy();
-                LoginActivity.this.mDot = result.getmDot();
-                LoginActivity.this.mNam = result.getmNam();
-                LoginActivity.this.mStaffPhone = result.getmStaffPhone();
-                LoginActivity.this.mLstMay = result.getmLstMay();
-            }
-
-
-            publishProgress(result);
-            return result;
-        }
-
-        @Override
-        protected void onProgressUpdate(LogInDB.Result... values) {
-            super.onProgressUpdate(values);
-            if (values == null) {
-                dialog.setMessage(LoginActivity.this.getString(R.string.checking_login));
-                return;
-            }
-            LogInDB.Result result = values[0];
-            if (result == null) {
-
-            } else if (result.getmStaffName() == null)
-                MySnackBar.make(btnLogin, "Chưa khởi tạo máy " + result.getUsername(), true);
-            else if (result.getmStaffName().length() > 0) {
-
-                mTxtPassword.setText("");
-                mTxtUsername.setText("");
-                doLayLoTrinh();
-            } else {
-                MySnackBar.make(btnLogin, R.string.login_fail, true);
-            }
-        }
-
-
-        @Override
-        protected void onPostExecute(LogInDB.Result result) {
-            super.onPostExecute(result);
-            if (dialog != null && dialog.isShowing()) {
-                dialog.dismiss();
-            }
-        }
-
-    }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {

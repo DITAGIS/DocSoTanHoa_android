@@ -51,11 +51,6 @@ public class ConnectionDB {
         return connection_image;
     }
 
-    public Connection getConnection(boolean isLogin) {
-        connection = getConnect();
-//        connection_image = getConnect_image();
-        return connection;
-    }
 
     public void setConnection(Connection connection) {
         this.connection = connection;

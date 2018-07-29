@@ -7,12 +7,13 @@
     <string name="title_activity_chup_anh">Chụp ảnh</string>
     <string name="title_activity_quan_ly_doc_so">Quản lý đọc số</string>
 
+    <string name="preference_username">Username</string>
+    <string name="preference_password">Password</string>
     <string name="preference_dot">Dot</string>
     <string name="preference_ky">Ky</string>
     <string name="preference_nam">Nam</string>
     <string name="preference_tenNV">tenNV</string>
     <string name="preference_sdtNV">sdt</string>
-    <string name="preference_may">May</string>
 
     <string name="title_activity_scan">Quét mã vạch</string>
     <string name="title_activity_main">Đọc số Tân Hòa</string>
@@ -42,15 +43,14 @@
     <string name="disconnect_title">Không có kết nối internet!</string>
     <string name="disconnect_message">Kiểm tra kết nối internet và thử lại!</string>
     <string name="no_connect">Kiểm tra kết nối internet và thử lại!</string>
-    <string name="connecting">Đang kết nối cơ sở dữ liệu...</string>
-    <string name="checking_login">Đang kiểm tra thông tin đăng nhập...</string>
-    <string name="checking_login_username">Đang lấy số máy...</string>
-    <string name="not_null_username_password">Tên đăng nhập và mật khẩu không được để trống!</string>
+    <string name="connecting">Đang kết nối máy chủ…</string>
+    <string name="checking_login">Đang kiểm tra thông tin đăng nhập…</string>
+    <string name="checking_login_username">Đang lấy số máy…</string>
     <string name="change_password_success">Đổi mật khẩu thành công!</string>
     <string name="ques_login_this_account">Đăng nhập với tài khoản này?</string>
     <string name="login_success">Đăng nhập thành công</string>
     <string name="login_fail">Đăng nhập thất bại!</string>
-    <string name="login_with_saved_account">Đang đăng nhập với tài khoản trước...</string>
+    <string name="login_with_saved_account">Đang đăng nhập với tài khoản trước…</string>
 
     <string name="extra_username">username</string>
     <string name="extra_password">password</string>
@@ -62,8 +62,8 @@
 
     <string name="path_saveImage">.docsotanhoa</string>
 
-    <string name="load_danhbo_title">Đang tải danh bộ...</string>
-    <string name="save_danhbo_title">Đang lưu danh bộ...</string>
+    <string name="load_danhbo_title">Đang tải danh bộ…</string>
+    <string name="save_danhbo_title">Đang lưu danh bộ…</string>
     <string name="load_danhbo_message">Giữ kết nối mạng ổn định trong quá trình tải danh bộ!</string>
     <string name="load_danhbo_error">Tải danh bộ thất bại!</string>
     <string name="load_danhbo_complete">Đã tải xong danh bộ!</string>
@@ -89,12 +89,13 @@
     <string name="alert_csm_fluctuation_title">Chỉ số tiêu thụ</string>
     <string name="alert_csm_fluctuation_message_low">Chỉ số tiêu thụ đang thấp hơn so với mức trung bình.\nVẫn lưu?</string>
     <string name="alert_csm_fluctuation_message_high">Chỉ số tiêu thụ đang cao hơn so với mức trung bình.\nVẫn lưu?</string>
-
+    <string name="info_login_empty">Tên đăng nhập hoặc mật khẩu không được để trống</string>
+    <string name="validate_login_fail">Sai tên đăng nhập hoặc mật khẩu</string>
     <string name="alert_imgLowQuatity_Title">Ảnh chụp kém chất lượng!</string>
     <string name="alert_imgLowQuatity_Message">Vui lòng chụp lại hình ảnh khác</string>
     <string name="alert_captureBefore">Vui lòng chụp hình trước khi nhập chỉ số mới</string>
 
-    <string name="upload_danhbo_title">Đang đồng bộ dữ liệu đọc số...</string>
+    <string name="upload_danhbo_title">Đang đồng bộ dữ liệu đọc số…</string>
     <string name="upload_danhbo_message">Giữ kết nối mạng ổn định trong quá trình đồng bộ!</string>
 
     <string name="flag_unread">Chưa đọc</string>

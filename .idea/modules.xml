@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/HCM_TanHoa_Android_DocSo.iml" filepath="$PROJECT_DIR$/HCM_TanHoa_Android_DocSo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hsm-android-print/hsm-android-print.iml" filepath="$PROJECT_DIR$/hsm-android-print/hsm-android-print.iml" />
     </modules>
   </component>
 </project>

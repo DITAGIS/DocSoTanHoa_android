@@ -1,7 +1,7 @@
 package com.ditagis.hcm.docsotanhoa.conectDB;
 
 import com.ditagis.hcm.docsotanhoa.entities.EncodeMD5;
-import com.ditagis.hcm.docsotanhoa.entities.User;
+import com.ditagis.hcm.docsotanhoa.entities.entitiesDB.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

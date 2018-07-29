@@ -143,7 +143,7 @@ public class Printer1 {
                 padLeft(NumberFormat.getNumberInstance(Locale.US).format(mTienNuoc + BVMT + VAT)
                         .replace(",", " "), 30)));
         y = handlingYMoreThan450(y, 50);
-        mmBuilder.append(String.format("@%d,100:HLINE,Length200,Thick3|\n", y));
+        mmBuilder.append(String.format("@%d,80:HLINE,Length200,Thick3|\n", y));
         y = handlingYMoreThan450(y, 5);
         mmBuilder.append(printLine("Ngày thu tiền dự kiến từ %s đến %s", 1, y, 0, 1, 1, String.format("%02d", dates[0]), String.format("%02d", dates[1])));
         y = handlingYMoreThan450(y, 25);
