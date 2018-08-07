@@ -263,13 +263,6 @@ public class LayLoTrinh {
         Intent intent = new Intent(mActivity, MainActivity.class);
 //        Bundle bundle = intent.getExtras();
 //        bundle.putSerializable("", new Users());
-        intent.putExtra(mActivity.getString(R.string.extra_username), mUsername);
-        intent.putExtra(mActivity.getString(R.string.extra_password), mPassWord);
-        intent.putExtra(mActivity.getString(R.string.extra_staffname), mStaffName);
-        intent.putExtra(mActivity.getString(R.string.extra_staffPhone), mStaffPhone);
-        intent.putExtra(mActivity.getString(R.string.extra_dot), mDot);
-        intent.putExtra(mActivity.getString(R.string.extra_ky), mKy);
-        intent.putExtra(mActivity.getString(R.string.extra_nam), mNam);
 
         mActivity.startActivity(intent);
 //        }

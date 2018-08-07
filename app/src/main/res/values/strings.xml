@@ -19,6 +19,8 @@
     <string name="title_activity_main">Đọc số Tân Hòa</string>
     <string name="save_theme">theme</string>
     <string name="action_connect_bluetooth">Kết nối máy in</string>
+    <string name="action_fix_not_update">Sửa lỗi không đồng bộ được</string>
+    <string name="action_fix_no_consumn">Sửa lỗi không có chỉ số</string>
     <string name="action_select_folder">Chọn quyển</string>
     <string name="action_show_hide_print">Hiện/ẩn nút in GBTN</string>
     <string name="action_log_out">Đăng xuất</string>
@@ -44,6 +46,7 @@
     <string name="disconnect_message">Kiểm tra kết nối internet và thử lại!</string>
     <string name="no_connect">Kiểm tra kết nối internet và thử lại!</string>
     <string name="connecting">Đang kết nối máy chủ…</string>
+    <string name="initializing">Đang khởi tạo ứng dụng…</string>
     <string name="checking_login">Đang kiểm tra thông tin đăng nhập…</string>
     <string name="checking_login_username">Đang lấy số máy…</string>
     <string name="change_password_success">Đổi mật khẩu thành công!</string>

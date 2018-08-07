@@ -34,13 +34,16 @@ import android.view.Window;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
+import com.ditagis.hcm.docsotanhoa.localdb.LocalDatabase;
 import com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver;
 import com.ditagis.hcm.docsotanhoa.theme.ThemeUtils;
 import com.ditagis.hcm.docsotanhoa.utities.ChangePassword;
 import com.ditagis.hcm.docsotanhoa.utities.DialogSelectDot;
+import com.ditagis.hcm.docsotanhoa.utities.Flag;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.NUMBER;
-import com.ditagis.hcm.docsotanhoa.utities.Printer;
+import com.ditagis.hcm.docsotanhoa.utities.Preference;
 import com.ditagis.hcm.docsotanhoa.utities.Printer1;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -49,13 +52,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 import static com.ditagis.hcm.docsotanhoa.R.id.container;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, ActivityCompat.OnRequestPermissionsResultCallback{
+        GoogleApiClient.OnConnectionFailedListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -74,15 +78,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private UUID applicationUUID = UUID
             .fromString("00001101-0000-1000-8000-00805F9B34FB");
-    private ProgressDialog mBluetoothConnectProgressDialog;
     private BluetoothSocket mBluetoothSocket;
     private ViewPager mViewPager;
-    private int mKy;
-    private int mNam;
-    private int mDot;
-    private String mUsername, mPassword, mStaffName, mStaffPhone;
-
-    private LayLoTrinh mLayLoTrinh;
     private DocSo mDocSo;
     private QuanLyDocSo mQuanLyDocSo;
     private NetworkStateChangeReceiver mStateChangeReceiver;
@@ -116,22 +113,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         setTheme(R.style.Theme_AppCompat_DayNight);
         Calendar calendar = Calendar.getInstance();
 
-        if (getIntent().getExtras().getString(this.getString(R.string.extra_username)) != null)
-            this.mUsername = getIntent().getExtras().getString(this.getString(R.string.extra_username));
-        if (getIntent().getExtras().getString(this.getString(R.string.extra_password)) != null)
-            this.mPassword = getIntent().getExtras().getString(this.getString(R.string.extra_password));
-        if (getIntent().getExtras().getString(this.getString(R.string.extra_staffname)) != null)
-            this.mStaffName = getIntent().getExtras().getString(this.getString(R.string.extra_staffname));
-        if (getIntent().getExtras().getString(this.getString(R.string.extra_staffPhone)) != null)
-            this.mStaffPhone = getIntent().getExtras().getString(this.getString(R.string.extra_staffPhone));
-        if (getIntent().getExtras().getInt(this.getString(R.string.extra_nam)) > 0)
-            this.mNam = getIntent().getExtras().getInt(this.getString(R.string.extra_nam));
-        if (getIntent().getExtras().getInt(this.getString(R.string.extra_dot)) > 0)
-            this.mDot = getIntent().getExtras().getInt(this.getString(R.string.extra_dot));
-        if (getIntent().getExtras().getInt(this.getString(R.string.extra_ky)) > 0)
-            this.mKy = getIntent().getExtras().getInt(this.getString(R.string.extra_ky));
-
-//        mLayLoTrinh = new LayLoTrinh(MainActivity.this, getLayoutInflater(), mKy, mNam, mDot, mUsername, mStaffName);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -166,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                         mQuanLyDocSo.refresh();
 //                        mQuanLyDocSo.selectDotFromOut(mDocSo.getmDot());
-                        DialogSelectDot.show(MainActivity.this, mDot, mKy, mNam, mUsername, mQuanLyDocSo);
+                        DialogSelectDot.show(MainActivity.this, mQuanLyDocSo);
                         break;
                 }
             }
@@ -179,26 +160,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-        mDocSo = new DocSo(MainActivity.this, getLayoutInflater(), mKy, mNam, mDot, mUsername, mStaffName, mStaffPhone, loadPreferences(getString(R.string.save_theme)), mViewPager);
-        DialogSelectDot.show(MainActivity.this, mDot, mKy, mNam, mUsername, mDocSo);
-        mQuanLyDocSo = new QuanLyDocSo(getLayoutInflater(), mDot, mKy, mNam, mUsername, mStaffName, mStaffPhone, loadPreferences(getString(R.string.save_theme)));
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-//
-//
+        mDocSo = new DocSo(getLayoutInflater(), mViewPager);
+
+        mQuanLyDocSo = new QuanLyDocSo(getLayoutInflater());
+
+        DialogSelectDot.show(MainActivity.this, mDocSo);
+//        new Initialization().execute();
 //        mStateChangeReceiver = new NetworkStateChangeReceiver(tabLayout, MainActivity.this);
 //        IntentFilter intentFilter = new IntentFilter();
 //        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 //        intentFilter.addAction("android.net.conn.WIFI_STATE_CHANGED");
 //        registerReceiver(mStateChangeReceiver, intentFilter);
     }
+
 
     @Override
     protected void onDestroy() {
@@ -226,43 +201,63 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_log_out) {
+        switch (id) {
+
+
+            case R.id.action_log_out:
 //            deletePreferences();
 
-            finish();
-            return true;
-        } else if (id == R.id.action_change_theme) {
-            optionChangeUITheme();
-            return true;
+                finish();
+                return true;
+            case R.id.action_change_theme:
+                optionChangeUITheme();
+                return true;
+            case R.id.action_change_password:
 
-        } else if (id == R.id.action_change_password) {
-
-            new ChangePassword(mUsername, mPassword, MainActivity.this.getApplicationContext(), MainActivity.this);
-            return true;
-        } else if (id == R.id.action_connect_bluetooth) {
-            mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-            if (mBluetoothAdapter == null) {
-                Toast.makeText(MainActivity.this, "Message1", Toast.LENGTH_SHORT).show();
-            } else {
-                if (!mBluetoothAdapter.isEnabled()) {
-                    Intent enableBtIntent = new Intent(
-                            BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                    startActivityForResult(enableBtIntent,
-                            NUMBER.REQUEST_ENABLE_BT);
+                new ChangePassword(MainActivity.this.getApplicationContext(), MainActivity.this);
+                return true;
+            case R.id.action_connect_bluetooth:
+                mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+                if (mBluetoothAdapter == null) {
+                    Toast.makeText(MainActivity.this, "Message1", Toast.LENGTH_SHORT).show();
                 } else {
-                    ListPairedDevices();
-                    Intent connectIntent = new Intent(MainActivity.this,
-                            DeviceListActivity.class);
-                    startActivityForResult(connectIntent,
-                            NUMBER.REQUEST_CONNECT_DEVICE);
+                    if (!mBluetoothAdapter.isEnabled()) {
+                        Intent enableBtIntent = new Intent(
+                                BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                        startActivityForResult(enableBtIntent,
+                                NUMBER.REQUEST_ENABLE_BT);
+                    } else {
+                        ListPairedDevices();
+                        Intent connectIntent = new Intent(MainActivity.this,
+                                DeviceListActivity.class);
+                        startActivityForResult(connectIntent,
+                                NUMBER.REQUEST_CONNECT_DEVICE);
+                    }
                 }
-            }
 
-            return true;
-        } else if (id == R.id.action_select_folder) {
-            DialogSelectDot.show(MainActivity.this, mDot, mKy, mNam, mUsername, mDocSo);
+                return true;
+            case R.id.action_select_folder:
+                DialogSelectDot.show(MainActivity.this, mDocSo);
 
-            return true;
+                return true;
+            case R.id.action_fix_not_update:
+                String like = String.format("%02d", Integer.parseInt(Preference.getInstance().loadPreference(getString(R.string.preference_dot))))
+                        + Preference.getInstance().loadPreference(getString(R.string.preference_username)) + "%";
+                int ky = Integer.parseInt(Preference.getInstance().loadPreference(getString(R.string.preference_ky)));
+                List<HoaDon> hoaDons = LocalDatabase.getInstance(this).getAllHoaDon(like, ky);
+                for (HoaDon hoaDon : hoaDons) {
+                    if (hoaDon.getCodeMoi() == null)
+                        continue;
+                    else if (hoaDon.getCodeMoi().startsWith("F"))
+                        LocalDatabase.getInstance(this).updateHoaDonFlag(hoaDon, Flag.CODE_F);
+                    else
+                        LocalDatabase.getInstance(this).updateHoaDonFlag(hoaDon, Flag.READ);
+                    //sai code, update thanh chua doc de doc lai
+                }
+                return true;
+            case R.id.action_fix_no_consume:
+
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -423,7 +418,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-       mDocSo.setmLastLocation(mDocSo.getmLocationHelper().getLocation());
+        mDocSo.setmLastLocation(mDocSo.getmLocationHelper().getLocation());
     }
 
     @Override
@@ -539,6 +534,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }
             return false;
         }
+
         void beginListenForData() {
             try {
                 final Handler handler = new Handler();
@@ -602,6 +598,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 e.printStackTrace();
             }
         }
+
         @Override
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);

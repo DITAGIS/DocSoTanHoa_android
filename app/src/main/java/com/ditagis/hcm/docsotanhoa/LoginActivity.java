@@ -32,7 +32,6 @@ import com.ditagis.hcm.docsotanhoa.entities.entitiesDB.User;
 import com.ditagis.hcm.docsotanhoa.entities.entitiesDB.UserDangNhap;
 import com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver;
 import com.ditagis.hcm.docsotanhoa.utities.CheckConnect;
-import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
 import com.ditagis.hcm.docsotanhoa.utities.LocationHelper;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.Preference;
@@ -208,7 +207,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if (LoginActivity.this.mUsername.length() == 0 && LoginActivity.this.mPassword.length() == 0) {
             handleInfoLoginEmpty();
         } else if (CheckConnect.isOnline(LoginActivity.this)) {
-            HideKeyboard.hide(LoginActivity.this);
             LoginAsync loginAsync = new LoginAsync(this, new LoginAsync.AsyncResponse() {
                 @Override
                 public void processFinish(Void output) {

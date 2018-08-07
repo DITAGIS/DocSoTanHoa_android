@@ -3,7 +3,6 @@ package com.ditagis.hcm.docsotanhoa;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
@@ -55,10 +54,9 @@ import com.ditagis.hcm.docsotanhoa.utities.CheckConnect;
 import com.ditagis.hcm.docsotanhoa.utities.Flag;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.Note;
-import com.ditagis.hcm.docsotanhoa.utities.Printer;
+import com.ditagis.hcm.docsotanhoa.utities.Preference;
 import com.ditagis.hcm.docsotanhoa.utities.Printer1;
 
-import java.io.OutputStream;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -97,15 +95,19 @@ public class QuanLyDocSo extends Fragment {
     private GridViewSelectFolderAdapter mSelectFolderAdapter;
     private Spinner mSpinDot, mSpinKy, mSpinNam;
 
-    public QuanLyDocSo(LayoutInflater inflater, int dot, int ky, int nam, String userName, String staffName, String staffPhone, int selected_theme) {
+    @SuppressLint("ValidFragment")
+    public QuanLyDocSo(LayoutInflater inflater) {
         mRootView = inflater.inflate(R.layout.quan_ly_doc_so_fragment, null);
-        this.mStaffName = staffName;
-        this.mStaffPhone = staffPhone;
-        mDot = dot;
-        mKy = ky;
-        mNam = nam;
-        mUsername = userName;
-        this.mSelected_theme = selected_theme;
+        Preference.getInstance().setContext(mRootView.getContext());
+        this.mStaffName = Preference.getInstance().loadPreference(mRootView.getContext().getString(R.string.preference_tenNV));
+        this.mStaffPhone = Preference.getInstance().loadPreference(mRootView.getContext().getString(R.string.preference_sdtNV));
+        mDot = Integer.parseInt(Preference.getInstance().loadPreference(mRootView.getContext().getString(R.string.preference_dot)));
+        ;
+        mKy = Integer.parseInt(Preference.getInstance().loadPreference(mRootView.getContext().getString(R.string.preference_ky)));
+        ;
+        mNam = Integer.parseInt(Preference.getInstance().loadPreference(mRootView.getContext().getString(R.string.preference_nam)));
+        mUsername = Preference.getInstance().loadPreference(mRootView.getContext().getString(R.string.preference_username));
+        this.mSelected_theme = ThemeUtils.THEME_DEFAULT;
         String dotString = mDot + "";
         if (mDot < 10)
             dotString = "0" + mDot;
@@ -186,14 +188,6 @@ public class QuanLyDocSo extends Fragment {
 //        }
         mSearchType = mRootView.getContext().getString(R.string.search_danhbo);
         singleComplete = (AutoCompleteTextView) mRootView.findViewById(R.id.editauto_qlds);
-        singleComplete.setAdapter(
-                new CustomArrayAdapter
-                        (
-                                mRootView.getContext(),
-                                android.R.layout.simple_list_item_1,
-                                mDBs
-                        ));
-        singleComplete.setBackgroundResource(R.drawable.edit_text_styles2);
         singleComplete.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -1032,7 +1026,6 @@ public class QuanLyDocSo extends Fragment {
                     Printer1.getInstance().print();
 
 
-
                 }
             });
         }
@@ -1569,7 +1562,7 @@ public class QuanLyDocSo extends Fragment {
 
         @Override
         protected Void doInBackground(String... params) {
-             return dongBo(params);
+            return dongBo(params);
 //            return suaDongBoKhongLen(params);
         }
 

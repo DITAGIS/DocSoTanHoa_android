@@ -89,6 +89,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by ThanLe on 25/10/2017.
  */
 
+@SuppressLint("ValidFragment")
 public class DocSo extends Fragment {
     private static final int MIN_SIZE = 500000;
     private static final int REQUEST_ID_READ_WRITE_PERMISSION = 99;
@@ -123,7 +124,6 @@ public class DocSo extends Fragment {
     private String mSdt;
     private ArrayAdapter<String> mAdapterMLT;
     private View mRootView;
-    private Activity mActivity;
     private String mSearchType;
     private int mSelected_theme;
     private String mLike;
@@ -141,9 +141,7 @@ public class DocSo extends Fragment {
     Location mLastLocation;
     String mAddress;
 
-    public DocSo() {
 
-    }
 
     public LocationHelper getmLocationHelper() {
         return mLocationHelper;
@@ -177,16 +175,17 @@ public class DocSo extends Fragment {
         this.mLastLocation = mLastLocation;
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    public DocSo(Activity activity, final LayoutInflater inflater, int mKy, int nam, final int mDot, String mUsername, String staffName, String staffPhone, int theme, ViewPager viewPager) {
-        this.mActivity = activity;
-        this.mStaffName = staffName;
-        this.mStaffPhone = staffPhone;
-        this.mDot = mDot;
-        this.mKy = mKy;
-        this.mNam = nam;
-        this.mUsername = mUsername;
-        this.mSelected_theme = theme;
+    @SuppressLint({"ClickableViewAccessibility", "ValidFragment"})
+    public DocSo( final LayoutInflater inflater, ViewPager viewPager) {
+        mRootView = inflater.inflate(R.layout.doc_so_fragment, null);
+        Preference.getInstance().setContext(mRootView.getContext());
+        this.mStaffName = Preference.getInstance().loadPreference(mRootView.getContext().getString(R.string.preference_tenNV));
+        this.mStaffPhone = Preference.getInstance().loadPreference(mRootView.getContext().getString(R.string.preference_sdtNV));
+        this.mDot = Integer.parseInt(Preference.getInstance().loadPreference(mRootView.getContext().getString(R.string.preference_dot)));
+        this.mKy =Integer.parseInt(Preference.getInstance().loadPreference(mRootView.getContext().getString(R.string.preference_ky)));
+        this.mNam = Integer.parseInt(Preference.getInstance().loadPreference(mRootView.getContext().getString(R.string.preference_nam)));
+        this.mUsername = Preference.getInstance().loadPreference(mRootView.getContext().getString(R.string.preference_username));
+        this.mSelected_theme = ThemeUtils.THEME_DEFAULT;
 
 
 //        this.mLike = "__" + mUsername + "%";
@@ -195,8 +194,7 @@ public class DocSo extends Fragment {
         if (mDot < 10)
             dotString = "0" + mDot;
         this.mLike = dotString + mUsername + "%";
-        mRootView = inflater.inflate(R.layout.doc_so_fragment, null);
-        Preference.getInstance().setContext(mRootView.getContext());
+
         Preference.getInstance().savePreferences(mRootView.getResources().getString(R.string.preference_tenNV), mStaffName);
         mTxtTT = (TextView) mRootView.findViewById(R.id.txt_ds_tieuThu);
         mTxtTT1 = (TextView) mRootView.findViewById(R.id.txt_ds_tieuThu1);
@@ -223,14 +221,6 @@ public class DocSo extends Fragment {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         singleComplete = (AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds);
-        singleComplete.setAdapter(
-                new CustomArrayAdapter
-                        (
-                                mRootView.getContext(),
-                                android.R.layout.simple_list_item_1,
-                                mDBs
-                        ));
-        singleComplete.setBackgroundResource(R.drawable.edit_text_styles);
 
 //        mKys.add(mKy + "");
         mNams.add(mNam + "");
@@ -259,11 +249,6 @@ public class DocSo extends Fragment {
         });
 
         mSearchType = mRootView.getContext().getString(R.string.search_mlt);
-        singleComplete.setAdapter(new CustomArrayAdapter(
-                mRootView.getContext(),
-                android.R.layout.simple_list_item_1,
-                mMLTs
-        ));
 
         singleComplete.addTextChangedListener(new TextWatcher() {
             @Override
@@ -342,7 +327,6 @@ public class DocSo extends Fragment {
                         MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
                         ), false);
                         mEditTextCSM.setFocusable(false);
-                        HideKeyboard.hide(mActivity);
                     } else {
                         mEditTextCSM.setFocusableInTouchMode(true);
 
@@ -1627,7 +1611,6 @@ public class DocSo extends Fragment {
             return;
         mSpinMLT.setSelection(position);
         mSpinDB.setSelection(position);
-        HideKeyboard.hide(mActivity);
         mDanhBo = mDBs.get(position).replace(" ", "");
         mHoaDon = LocalDatabase.getInstance(mRootView.getContext()).getHoaDon_UnRead(mDanhBo, true);
         boolean hasCodeMoi = false;
@@ -2196,7 +2179,7 @@ public class DocSo extends Fragment {
     }
 
     private void doScan() {
-        Intent scannerIntent = new Intent(mActivity, ScannerActivity.class);
+        Intent scannerIntent = new Intent(mRootView.getContext(), ScannerActivity.class);
         startActivityForResult(scannerIntent, REQUEST_ID_SCAN);
     }
 
@@ -2399,7 +2382,7 @@ public class DocSo extends Fragment {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
                 ScannerActivity upc = new ScannerActivity();
-                Toast.makeText(mActivity, ScannerActivity.upcCodeValue, Toast.LENGTH_LONG).show();
+                Toast.makeText(mRootView.getContext(), ScannerActivity.upcCodeValue, Toast.LENGTH_LONG).show();
                 for (int i = 0; i < mDBs.size(); i++)
                     if (mDBs.get(i).equals(spaceDB(ScannerActivity.upcCodeValue)))
                         selectMLT(i);

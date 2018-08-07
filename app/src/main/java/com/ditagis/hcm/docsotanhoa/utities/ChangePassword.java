@@ -1,5 +1,6 @@
 package com.ditagis.hcm.docsotanhoa.utities;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -30,16 +31,17 @@ public class ChangePassword {
     private Context mContext;
     private Activity mActivity;
 
-    public ChangePassword(String userName, String oldPassword, Context mContext, Activity mActivity) {
-        this.mUserName = userName;
-        this.oldPassword = oldPassword;
+    public ChangePassword( Context context, Activity mActivity) {
+        this.mUserName = Preference.getInstance().loadPreference(context.getString(R.string.preference_username));
+        this.oldPassword = Preference.getInstance().loadPreference(context.getString(R.string.preference_password));;
 
-        this.mContext = mContext;
+        this.mContext = context;
         this.mActivity = mActivity;
 
         changePassword();
     }
 
+    @SuppressLint("ResourceType")
     private void changePassword() {
         if (!CheckConnect.isOnline(mActivity)) {
             MySnackBar.make(mActivity.findViewById(R.id.container), R.string.no_connect, true);

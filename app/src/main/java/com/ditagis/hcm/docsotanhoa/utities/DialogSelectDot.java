@@ -3,6 +3,7 @@ package com.ditagis.hcm.docsotanhoa.utities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -22,9 +23,11 @@ import java.util.ArrayList;
  */
 
 public class DialogSelectDot {
-    public static int show(final Context context, int mDot, int mKy, int mNam, String mUsername, final DocSo docSo) {
+    public static int show(final Context context, final DocSo docSo) {
+        try{
         final GridViewSelectFolderAdapter selectFolderAdapter = new GridViewSelectFolderAdapter(context, new ArrayList<GridViewSelectFolderAdapter.Item>());
-
+        String userName =Preference.getInstance().loadPreference(context.getString(R.string.preference_username));
+        int nam = Integer.parseInt(Preference.getInstance().loadPreference(context.getString(R.string.preference_nam)));
         int count = 0;
         for (int ky = 12; ky >= 1; ky--)
             for (int dot = 20; dot >= 1; dot--) {
@@ -33,10 +36,10 @@ public class DialogSelectDot {
                 String dotString = dot + "";
                 if (dot < 10)
                     dotString = "0" + dot;
-                int size = LocalDatabase.getInstance(context).getAllHoaDonSize(mUsername, dotString, ky + "", false);
+                int size = LocalDatabase.getInstance(context).getAllHoaDonSize(userName, dotString, ky + "", false);
                 if (size > 0)
-                    selectFolderAdapter.add(new GridViewSelectFolderAdapter.Item(String.format("%02d", ky), String.format("%02d", dot), mNam + "",
-                            size + "", mUsername, Flag.UNREAD));
+                    selectFolderAdapter.add(new GridViewSelectFolderAdapter.Item(String.format("%02d", ky), String.format("%02d", dot), nam + "",
+                            size + "", userName, Flag.UNREAD));
                 if (selectFolderAdapter.getCount() > 0)
                     count++;
                 if (selectFolderAdapter.getCount() > CONSTANT.MAX_DOT)
@@ -103,13 +106,16 @@ public class DialogSelectDot {
                     return true;
                 }
             });
+        }}catch (Exception e){
+            Log.e("Lỗi tạo đợt", e.toString());
         }
         return 0;
     }
 
-    public static int show(Context context, int mDot, int mKy, int mNam, String mUsername, final QuanLyDocSo qlds) {
+    public static int show(Context context, final QuanLyDocSo qlds) {
         final GridViewSelectFolderAdapter selectFolderAdapter = new GridViewSelectFolderAdapter(context, new ArrayList<GridViewSelectFolderAdapter.Item>());
-
+        String userName =Preference.getInstance().loadPreference(context.getString(R.string.preference_username));
+        int nam = Integer.parseInt(Preference.getInstance().loadPreference(context.getString(R.string.preference_nam)));
         int count = 0;
         for (int ky = 12; ky >= 1; ky--)
             for (int dot = 20; dot >= 1; dot--) {
@@ -118,10 +124,10 @@ public class DialogSelectDot {
                 String dotString = dot + "";
                 if (dot < 10)
                     dotString = "0" + dot;
-                int size = LocalDatabase.getInstance(context).getAllHoaDonSize(mUsername, dotString, ky + "", false);
+                int size = LocalDatabase.getInstance(context).getAllHoaDonSize(userName, dotString, ky + "", false);
                 if (size > 0)
-                    selectFolderAdapter.add(new GridViewSelectFolderAdapter.Item(ky + "", dot + "", mNam + "",
-                            size + "", mUsername, Flag.UNREAD));
+                    selectFolderAdapter.add(new GridViewSelectFolderAdapter.Item(ky + "", dot + "", nam + "",
+                            size + "", userName, Flag.UNREAD));
                 if (selectFolderAdapter.getCount() > 0)
                     count++;
             }

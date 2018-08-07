@@ -40,7 +40,6 @@ public class ChangePassswordAsync extends AsyncTask<String, ChangePasswordDB.Res
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        HideKeyboard.hide(this.mActivity);
 //        dialog.setMessage("Đang đổi mật khẩu...");
 //        dialog.setCancelable(false);
 //        dialog.show();
