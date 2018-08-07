@@ -28,6 +28,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.ditagis.hcm.docsotanhoa.async.LoginAsync;
+import com.ditagis.hcm.docsotanhoa.entities.entitiesDB.User;
 import com.ditagis.hcm.docsotanhoa.entities.entitiesDB.UserDangNhap;
 import com.ditagis.hcm.docsotanhoa.receiver.NetworkStateChangeReceiver;
 import com.ditagis.hcm.docsotanhoa.utities.CheckConnect;
@@ -222,26 +223,38 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         } else if (mUsername.equals(Preference.getInstance().loadPreference(getString(R.string.preference_username))) &&
                 mPassword.equals(Preference.getInstance().loadPreference(getString(R.string.preference_password)))) {
-            LoginActivity.this.mPassword = mTxtPassword.getText().toString();
-            LoginActivity.this.mStaffName = Preference.getInstance().loadPreference(getString(R.string.preference_tenNV));
-            LoginActivity.this.mStaffPhone = Preference.getInstance().loadPreference(getString(R.string.preference_sdtNV));
+            User user = new User();
+            user.setUserName(mUsername);
+            user.setStaffName(Preference.getInstance().loadPreference(getString(R.string.preference_tenNV)));
+            user.setStaffPhone(Preference.getInstance().loadPreference(getString(R.string.preference_sdtNV)));
+            user.setNam(Preference.getInstance().loadPreference(getString(R.string.preference_nam)));
+            user.setKy(Preference.getInstance().loadPreference(getString(R.string.preference_ky)));
+            user.setDot(Preference.getInstance().loadPreference(getString(R.string.preference_dot)));
+            UserDangNhap.getInstance().setUser(user);
+            handleLoginSuccess();
 
-            int may = Integer.parseInt(mUsername);
-            if (99 <= may && may <= 104)
-                LoginActivity.this.mLstMay.add(Preference.getInstance().loadPreference(getString(R.string.preference_username)));
-
-            if (mStaffName == null) {
-                mTxtValidation.setText("Chưa khởi tạo máy " + mTxtUsername.getText().toString());
-                mTxtValidation.setVisibility(View.VISIBLE);
-            } else if (mStaffName.length() > 0) {
-
-                mTxtPassword.setText("");
-                mTxtUsername.setText("");
-                doLayLoTrinh();
-            } else {
-                mTxtValidation.setVisibility(View.VISIBLE);
-                mTxtValidation.setText(getString(R.string.login_fail));
-            }
+//            LoginActivity.this.mPassword = mTxtPassword.getText().toString();
+//            LoginActivity.this.mStaffName = Preference.getInstance().loadPreference(getString(R.string.preference_tenNV));
+//            LoginActivity.this.mStaffPhone = Preference.getInstance().loadPreference(getString(R.string.preference_sdtNV));
+//
+//            int may = Integer.parseInt(mUsername);
+//            if (99 <= may && may <= 104)
+//                LoginActivity.this.mLstMay.add(Preference.getInstance().loadPreference(getString(R.string.preference_username)));
+//
+//            if (mStaffName == null) {
+//                mTxtValidation.setText("Chưa khởi tạo máy " + mTxtUsername.getText().toString());
+//                mTxtValidation.setVisibility(View.VISIBLE);
+//            } else if (mStaffName.length() > 0) {
+//
+//                mTxtPassword.setText("");
+//                mTxtUsername.setText("");
+//                doLayLoTrinh();
+//            } else {
+//                mTxtValidation.setVisibility(View.VISIBLE);
+//                mTxtValidation.setText(getString(R.string.login_fail));
+//            }
+        } else {
+            handleLoginFail();
         }
     }
 

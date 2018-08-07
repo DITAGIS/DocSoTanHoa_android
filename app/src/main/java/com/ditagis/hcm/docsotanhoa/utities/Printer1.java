@@ -39,6 +39,12 @@ public class Printer1 {
     StringBuilder mmBuilder;
     private final byte[] mmChuoi = {0x1b};
 
+    public boolean isInitialized() {
+        return isInitialized;
+    }
+
+    public boolean isInitialized = false;
+
     private Printer1() {
     }
 
@@ -51,6 +57,8 @@ public class Printer1 {
     public void initialize(OutputStream mmOutputStream) {
 
         this.mmOutputStream = mmOutputStream;
+        if (mmOutputStream != null)
+            this.isInitialized = true;
     }
 
     public boolean print() {
@@ -80,7 +88,9 @@ public class Printer1 {
         y = handlingYMoreThan450(y, 25);
         mmBuilder.append(printLine("95 PHẠM HỮU CHÍ, P12, Q5", 1, y, 40, 1, 1));
         y = handlingYMoreThan450(y, 30);
-        mmBuilder.append(printLine("BIÊN NHẬN THU TIỀN NƯỚC", 4, y, 20, 2, 1));
+        mmBuilder.append(printLine("PHIẾU BÁO CHỈ SỐ", 4, y, 80, 2, 1));
+        y = handlingYMoreThan450(y, 50);
+        mmBuilder.append(printLine("VÀ TIỀN NƯỚC DỰ KIẾN", 4, y, 40, 2, 1));
         y = handlingYMoreThan450(y, 75);
         mmBuilder.append(String.format("@%d,0:PD417,YDIM 6,XDIM 2,COLUMNS 2,SECURITY 3|%s|\n", y, mHoaDon.getDanhBo()));
         y = handlingYMoreThan450(y, 75);
