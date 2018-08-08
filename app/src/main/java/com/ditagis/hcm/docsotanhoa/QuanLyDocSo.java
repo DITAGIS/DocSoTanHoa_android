@@ -387,6 +387,10 @@ public class QuanLyDocSo extends Fragment {
         return mDot;
     }
 
+    public int getmKy() {
+        return mKy;
+    }
+
     public void setmDot(int mDot) {
         this.mDot = mDot;
     }
@@ -449,8 +453,8 @@ public class QuanLyDocSo extends Fragment {
 
     private void add_sdt() {
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());//getLayoutInflater();
-        @SuppressLint("InflateParams") View dialogLayout = inflater.inflate(R.layout.layout_add_sdt, null);
-        final EditText etxtSdt = (EditText) dialogLayout.findViewById(R.id.etxt_add_sdt);
+        @SuppressLint("InflateParams") View dialogLayout = inflater.inflate(R.layout.layout_edittext, null);
+        final EditText etxtSdt = (EditText) dialogLayout.findViewById(R.id.edit_layout_edittext);
         etxtSdt.setText(mSdt);
         AlertDialog.Builder builder = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

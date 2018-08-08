@@ -31,6 +31,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -241,9 +242,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                 return true;
             case R.id.action_fix_not_update:
-                String like = String.format("%02d", Integer.parseInt(Preference.getInstance().loadPreference(getString(R.string.preference_dot))))
+                String like = String.format("%02d",mQuanLyDocSo.getmDot())
                         + Preference.getInstance().loadPreference(getString(R.string.preference_username)) + "%";
-                int ky = Integer.parseInt(Preference.getInstance().loadPreference(getString(R.string.preference_ky)));
+                int ky = mQuanLyDocSo.getmKy();
                 List<HoaDon> hoaDons = LocalDatabase.getInstance(this).getAllHoaDon(like, ky);
                 for (HoaDon hoaDon : hoaDons) {
                     if (hoaDon.getCodeMoi() == null)
@@ -252,11 +253,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         LocalDatabase.getInstance(this).updateHoaDonFlag(hoaDon, Flag.CODE_F);
                     else
                         LocalDatabase.getInstance(this).updateHoaDonFlag(hoaDon, Flag.READ);
-                    //sai code, update thanh chua doc de doc lai
                 }
                 return true;
             case R.id.action_fix_no_consume:
-
+                fix_no_consumn();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -305,6 +305,41 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 mDocSo.refresh();
                 mQuanLyDocSo.refresh();
 //                mSearchType = spinSearchType.getSelectedItem().toString();
+                dialog.dismiss();
+            }
+        });
+        builder.setView(dialogLayout);
+        final AlertDialog dialog = builder.create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.show();
+
+    }
+
+    private void fix_no_consumn() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
+        builder.setTitle("Sửa lỗi không có tiêu thụ");
+        builder.setCancelable(true);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View dialogLayout = inflater.inflate(R.layout.layout_edittext, null);
+        final EditText editText = dialogLayout.findViewById(R.id.edit_layout_edittext);
+        dialogLayout.findViewById(R.id.txt_layout_edittext).setVisibility(View.VISIBLE);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String like = String.format("%02d",mQuanLyDocSo.getmDot())
+                        + Preference.getInstance().loadPreference(getString(R.string.preference_username)) + "%";
+                int ky = mQuanLyDocSo.getmKy();
+                List<HoaDon> hoaDons = LocalDatabase.getInstance(MainActivity.this).getAllHoaDon(like, ky);
+                for (HoaDon hoaDon : hoaDons) {
+                    if (hoaDon.getDanhBo() == null)
+                        continue;
+                    if (hoaDon.getDanhBo().contains(editText.getText().toString())) {
+                        LocalDatabase.getInstance(MainActivity.this).updateHoaDonFlag(hoaDon, Flag.UNREAD);
+                        break;
+                    }
+                }
+                mDocSo.refresh();
+                mQuanLyDocSo.refresh();
                 dialog.dismiss();
             }
         });

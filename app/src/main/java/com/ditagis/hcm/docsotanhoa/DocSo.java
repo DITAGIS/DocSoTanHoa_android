@@ -1,7 +1,6 @@
 package com.ditagis.hcm.docsotanhoa;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
-import android.location.Address;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
@@ -56,16 +54,13 @@ import com.ditagis.hcm.docsotanhoa.theme.ThemeUtils;
 import com.ditagis.hcm.docsotanhoa.utities.CONSTANT;
 import com.ditagis.hcm.docsotanhoa.utities.CalculateCSM_TieuThu;
 import com.ditagis.hcm.docsotanhoa.utities.Calculate_TienNuoc;
-import com.ditagis.hcm.docsotanhoa.utities.CheckConnect;
 import com.ditagis.hcm.docsotanhoa.utities.Flag;
-import com.ditagis.hcm.docsotanhoa.utities.HideKeyboard;
 import com.ditagis.hcm.docsotanhoa.utities.ImageFile;
 import com.ditagis.hcm.docsotanhoa.utities.LocationHelper;
 import com.ditagis.hcm.docsotanhoa.utities.MyAlertByHardware;
 import com.ditagis.hcm.docsotanhoa.utities.MySnackBar;
 import com.ditagis.hcm.docsotanhoa.utities.Note;
 import com.ditagis.hcm.docsotanhoa.utities.Preference;
-import com.ditagis.hcm.docsotanhoa.utities.Printer;
 import com.ditagis.hcm.docsotanhoa.utities.Printer1;
 
 import java.io.ByteArrayOutputStream;
@@ -666,8 +661,8 @@ public class DocSo extends Fragment {
 
     private void add_sdt() {
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());//getLayoutInflater();
-        View dialogLayout = inflater.inflate(R.layout.layout_add_sdt, null);
-        final EditText etxtSdt = (EditText) dialogLayout.findViewById(R.id.etxt_add_sdt);
+        View dialogLayout = inflater.inflate(R.layout.layout_edittext, null);
+        final EditText etxtSdt = (EditText) dialogLayout.findViewById(R.id.edit_layout_edittext);
         etxtSdt.setText(mSdt);
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Thêm số điện thoại");

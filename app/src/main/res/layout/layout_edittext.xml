@@ -8,9 +8,16 @@
     android:paddingRight="@dimen/login_activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_padding">
 
+    <TextView
+        android:id="@+id/txt_layout_edittext"
+        style="@style/MyTextAppearance.Black"
+        android:layout_width="match_parent"
+        android:visibility="invisible"
+        android:layout_height="match_parent"
+        android:text="Nhập danh bộ" />
 
     <EditText
-        android:id="@+id/etxt_add_sdt"
+        android:id="@+id/edit_layout_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number"
