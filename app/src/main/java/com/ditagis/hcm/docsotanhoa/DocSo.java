@@ -75,10 +75,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-//import butterknife.ButterKnife;
-
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
+
+//import butterknife.ButterKnife;
 
 /**
  * Created by ThanLe on 25/10/2017.
@@ -137,7 +137,6 @@ public class DocSo extends Fragment {
     String mAddress;
 
 
-
     public LocationHelper getmLocationHelper() {
         return mLocationHelper;
     }
@@ -171,13 +170,13 @@ public class DocSo extends Fragment {
     }
 
     @SuppressLint({"ClickableViewAccessibility", "ValidFragment"})
-    public DocSo( final LayoutInflater inflater, ViewPager viewPager) {
+    public DocSo(final LayoutInflater inflater, ViewPager viewPager) {
         mRootView = inflater.inflate(R.layout.doc_so_fragment, null);
         Preference.getInstance().setContext(mRootView.getContext());
         this.mStaffName = Preference.getInstance().loadPreference(mRootView.getContext().getString(R.string.preference_tenNV));
         this.mStaffPhone = Preference.getInstance().loadPreference(mRootView.getContext().getString(R.string.preference_sdtNV));
         this.mDot = Integer.parseInt(Preference.getInstance().loadPreference(mRootView.getContext().getString(R.string.preference_dot)));
-        this.mKy =Integer.parseInt(Preference.getInstance().loadPreference(mRootView.getContext().getString(R.string.preference_ky)));
+        this.mKy = Integer.parseInt(Preference.getInstance().loadPreference(mRootView.getContext().getString(R.string.preference_ky)));
         this.mNam = Integer.parseInt(Preference.getInstance().loadPreference(mRootView.getContext().getString(R.string.preference_nam)));
         this.mUsername = Preference.getInstance().loadPreference(mRootView.getContext().getString(R.string.preference_username));
         this.mSelected_theme = ThemeUtils.THEME_DEFAULT;
@@ -191,21 +190,21 @@ public class DocSo extends Fragment {
         this.mLike = dotString + mUsername + "%";
 
         Preference.getInstance().savePreferences(mRootView.getResources().getString(R.string.preference_tenNV), mStaffName);
-        mTxtTT = (TextView) mRootView.findViewById(R.id.txt_ds_tieuThu);
-        mTxtTT1 = (TextView) mRootView.findViewById(R.id.txt_ds_tieuThu1);
-        mTxtTT2 = (TextView) mRootView.findViewById(R.id.txt_ds_tieuThu2);
-        mTxtTT3 = (TextView) mRootView.findViewById(R.id.txt_ds_tieuThu3);
+        mTxtTT =  mRootView.findViewById(R.id.txt_ds_tieuThu);
+        mTxtTT1 =  mRootView.findViewById(R.id.txt_ds_tieuThu1);
+        mTxtTT2 =  mRootView.findViewById(R.id.txt_ds_tieuThu2);
+        mTxtTT3 =  mRootView.findViewById(R.id.txt_ds_tieuThu3);
 
-        mSpinNam = (Spinner) mRootView.findViewById(R.id.spin_ds_nam);
-        mSpinKy = (Spinner) mRootView.findViewById(R.id.spin_ds_ky);
-        mSpinDot = (Spinner) mRootView.findViewById(R.id.spin_ds_dot);
-        mSpinTenKH = (Spinner) mRootView.findViewById(R.id.spin_ds_tenKH);
-        mSpinDiaChi = (Spinner) mRootView.findViewById(R.id.spin_ds_diachi);
+        mSpinNam =  mRootView.findViewById(R.id.spin_ds_nam);
+        mSpinKy =  mRootView.findViewById(R.id.spin_ds_ky);
+        mSpinDot =  mRootView.findViewById(R.id.spin_ds_dot);
+        mSpinTenKH =  mRootView.findViewById(R.id.spin_ds_tenKH);
+        mSpinDiaChi =  mRootView.findViewById(R.id.spin_ds_diachi);
 //        mDots.add(dotString);
-        mTxtCSC = (TextView) mRootView.findViewById(R.id.txt_ds_CSC);
-        mFrameLayoutViewImage = (FrameLayout) mRootView.findViewById(R.id.layout_ds_viewImage);
-        mImageViewFrame = (ImageView) mRootView.findViewById(R.id.imgView_frame);
-        mBtnCloseViewImageFrame = (Button) mRootView.findViewById(R.id.btn_ds_close_viewImage_frame);
+        mTxtCSC =  mRootView.findViewById(R.id.txt_ds_CSC);
+        mFrameLayoutViewImage =  mRootView.findViewById(R.id.layout_ds_viewImage);
+        mImageViewFrame =  mRootView.findViewById(R.id.imgView_frame);
+        mBtnCloseViewImageFrame =  mRootView.findViewById(R.id.btn_ds_close_viewImage_frame);
         mBtnCloseViewImageFrame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -318,7 +317,7 @@ public class DocSo extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 try {
 
-                    if (mHoaDon.getImage_byteArray() == null || mHoaDon.getImage_byteArray().length < CONSTANT.MIN_IMAGE_QUATITY) {
+                    if (!hasImage() || mHoaDon.getImage_byteArray().length < CONSTANT.MIN_IMAGE_QUATITY) {
                         MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
                         ), false);
                         mEditTextCSM.setFocusable(false);
@@ -478,11 +477,11 @@ public class DocSo extends Fragment {
 
     private void checkPrint() {
         try {
-            if (mHoaDon.getImage_byteArray().length > CONSTANT.MIN_IMAGE_QUATITY) {
+            if (hasImage() && mHoaDon.getImage_byteArray().length > CONSTANT.MIN_IMAGE_QUATITY) {
 
                 int csc = Integer.parseInt(mTxtCSC.getText().toString());
                 int csm = -1;
-                if (mTxtCSM.getText().toString().trim().length() == 0 && !checkCode()) {
+                if (mTxtCSM.getText().toString().trim().length() == 0) {
 
 //                alertCSM_Null(csc, csm);
                     MySnackBar.make(mRootView.getRootView(), "Chưa nhập chỉ số mới", true);
@@ -1304,11 +1303,11 @@ public class DocSo extends Fragment {
 
     private void checkSave(View v) {
         try {
-            if (mHoaDon.getImage_byteArray().length > CONSTANT.MIN_IMAGE_QUATITY) {
+            if (hasImage() && mHoaDon.getImage_byteArray().length > CONSTANT.MIN_IMAGE_QUATITY) {
 
                 int csc = Integer.parseInt(mTxtCSC.getText().toString());
                 int csm = -1;
-                if (mTxtCSM.getText().toString().trim().length() == 0 && !checkCode()) {
+                if (mTxtCSM.getText().toString().trim().length() == 0) {
 
 //                alertCSM_Null(csc, csm);
                     MySnackBar.make(mRootView.getRootView(), "Chưa nhập chỉ số mới", true);
@@ -1323,7 +1322,7 @@ public class DocSo extends Fragment {
                 if (f != null && f.exists()) {
                     int csc = Integer.parseInt(mTxtCSC.getText().toString());
                     int csm = -1;
-                    if (mTxtCSM.getText().toString().length() == 0 && !checkCode()) {
+                    if (mTxtCSM.getText().toString().length() == 0) {
 
 //                alertCSM_Null(csc, csm);
                         MySnackBar.make(mRootView.getRootView(), "Chưa nhập chỉ số mới", true);
@@ -1647,7 +1646,7 @@ public class DocSo extends Fragment {
         }
         mFrameLayoutViewImage.setVisibility(View.INVISIBLE);
         try {
-            if (mHoaDon.getImage_byteArray().length > CONSTANT.MIN_IMAGE_QUATITY) {
+            if (hasImage() && mHoaDon.getImage_byteArray().length > CONSTANT.MIN_IMAGE_QUATITY) {
                 showImageViewInFrame(mHoaDon.getImage_byteArray());
                 mFrameLayoutViewImage.setVisibility(View.VISIBLE);
             }
@@ -1713,6 +1712,10 @@ public class DocSo extends Fragment {
 
 
 //        }
+    }
+
+    private boolean hasImage() {
+        return mHoaDon.getImage_byteArray() != null;
     }
 
     private boolean checkNull() {
@@ -2324,7 +2327,7 @@ public class DocSo extends Fragment {
 
     private void doCamera() {
         try {
-            if (mHoaDon.getImage_byteArray().length > CONSTANT.MIN_IMAGE_QUATITY) {
+            if (hasImage() && mHoaDon.getImage_byteArray().length > CONSTANT.MIN_IMAGE_QUATITY) {
 
                 showImage();
 //            } else if (checkLocation())
