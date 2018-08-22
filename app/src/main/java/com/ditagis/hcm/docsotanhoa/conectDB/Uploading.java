@@ -37,35 +37,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
     private Connection cnn = ConnectionDB.getInstance().getConnection();
     private String mKy, mNam;
     private Context mContext;
-//    public String getmKy() {
-//        return mKy;
-//    }
-//
-//    public void setmKy(int mKy) {
-//        this.mKy = mKy + "";
-//        if (mKy < 10)
-//            this.mKy = "0" + mKy;
-//    }
 
-//    public String getmNam() {
-//        return mNam;
-//    }
-//
-//    public void setmNam(int mNam) {
-//        this.mNam = mNam + "";
-//    }
-//
-//    public Context getmContext() {
-//        return mContext;
-//    }
-//
-//    public void setmContext(Context mContext) {
-//        this.mContext = mContext;
-//    }
-
-    public Uploading() {
-
-    }
 
     public Uploading(int ky, int nam, Context context) {
         this.mKy = ky + "";
@@ -83,9 +55,11 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
 //            stmt.addBatch(this.SQL_CREATE_TEMP_TABLE);
 //            stmt.executeBatch();
 //            cnn.commit();
-            int isCreate = stmt.executeUpdate(mContext.getString(R.string.sql_create_temp_table));
-
-            if (isCreate < 0)
+            int isCreate1 = stmt.executeUpdate(mContext.getString(R.string.sql_create_temp_table_1));
+            if (isCreate1 < 0)
+                return false;
+            int isCreate2 = stmt.executeUpdate(mContext.getString(R.string.sql_create_temp_table_2));
+            if (isCreate2 < 0)
                 return false;
             PreparedStatement st = cnn.prepareStatement(mContext.getString(R.string.sql_insert_temp_table));
             cnn.setAutoCommit(false);
@@ -156,30 +130,27 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
 
             }
             int[] result = st.executeBatch();
-            int count = 0;
+            if (hoaDons.size() != result.length)
+                return false;
             for (Integer i : result)
-                count += i;
-            if (hoaDons.size() != count)
-                 return false;
-
+                if (i != 1)
+                    return false;
 
             cnn.commit();
 
 
             cnn.setAutoCommit(true);
-            int update = stmt.executeUpdate(mContext.getString(R.string.sql_update_temp_table));
+            int updateDS = stmt.executeUpdate(mContext.getString(R.string.sql_update_ds_from_temp_table));
+            int updateKH = stmt.executeUpdate(mContext.getString(R.string.sql_update_kh_from_temp_table));
 //            int[] result1 = stmt.executeBatch();
 //            cnn.commit();
 
 
-            if (update != count)
+            if (updateDS != result.length && updateKH != result.length)
                 return false;
 
-        } catch (SQLException e) {
-            Log.i("", e.toString());
-            return false;
-        } catch (ParseException e) {
-            Log.i("", e.toString());
+        } catch (SQLException | ParseException e) {
+            Log.e("update hoa don", e.toString());
             return false;
         }
         return true;
@@ -210,7 +181,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             return result1;
 
         } catch (Exception e1) {
-            Log.i("Lỗi update hình", e1.toString());
+            Log.e("Lỗi update hình", e1.toString());
 
         }
         return 0;
@@ -243,7 +214,7 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
             return result;
 
         } catch (Exception e) {
-            Log.i("Lỗi: ", e.toString());
+            Log.e("Lỗi vị trí: ", e.toString());
         }
         return 0;
     }
@@ -252,11 +223,14 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
     public Boolean add(HoaDon hoaDon) {
         String path = Environment.getExternalStorageDirectory().getPath();
         File dir = new File(path, mContext.getString(R.string.path_saveImage));
+        boolean isDelete = true;
         if (dir.isDirectory()) {
             String[] children = dir.list();
             for (String aChildren : children)
-                new File(dir, aChildren).delete();
+                isDelete = isDelete && new File(dir, aChildren).delete();
         }
+        if (!isDelete)
+            return false;
         try {
             if (addLocation(hoaDon) > 0 || updateLocation(hoaDon) > 0) {
                 if (hoaDon.getImage_byteArray().length > CONSTANT.MIN_IMAGE_QUATITY)
@@ -264,9 +238,6 @@ public class Uploading implements IDB<HoaDon, Boolean, String> {
                         return true;
             }
 
-//            if (resultAddImage > 0) {
-//                resultUpdateHoaDon = update(hoaDon);
-//            }
         } catch (Exception ignored) {
         }
         return false;

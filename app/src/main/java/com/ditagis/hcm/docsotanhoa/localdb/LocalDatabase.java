@@ -925,7 +925,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("select " +
 
                 COLUMN_HOADON_DANHBO + "," +
-
+                COLUMN_HOADON_CODE_MOI + "," +
 
 
                 COLUMN_HOADON_FLAG +
@@ -936,7 +936,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
                 HoaDon hoaDon = new HoaDon();
 
                 hoaDon.setDanhBo(cursor.getString(0));
-                hoaDon.setFlag(cursor.getInt(1));
+                hoaDon.setCodeMoi(cursor.getString(1));
+                hoaDon.setFlag(cursor.getInt(2));
                 hoaDons.add(hoaDon);
             } while (cursor.moveToNext());
         }

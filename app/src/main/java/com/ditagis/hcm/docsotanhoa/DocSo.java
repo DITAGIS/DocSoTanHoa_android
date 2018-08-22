@@ -10,7 +10,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.MediaStore;
@@ -24,7 +23,6 @@ import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -34,7 +32,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -74,6 +71,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -130,7 +128,6 @@ public class DocSo extends Fragment {
     private Button mBtnCloseViewImageFrame;
     private GridViewSelectFolderAdapter mSelectFolderAdapter;
     private String mUsername;
-    private Uploading mUploading = new Uploading();
     LocationHelper mLocationHelper;
     double mLatitude, mLongtitude;
     Location mLastLocation;
@@ -141,29 +138,6 @@ public class DocSo extends Fragment {
         return mLocationHelper;
     }
 
-    public void setmLocationHelper(LocationHelper mLocationHelper) {
-        this.mLocationHelper = mLocationHelper;
-    }
-
-    public double getmLatitude() {
-        return mLatitude;
-    }
-
-    public void setmLatitude(double mLatitude) {
-        this.mLatitude = mLatitude;
-    }
-
-    public double getmLongtitude() {
-        return mLongtitude;
-    }
-
-    public void setmLongtitude(double mLongtitude) {
-        this.mLongtitude = mLongtitude;
-    }
-
-    public Location getmLastLocation() {
-        return mLastLocation;
-    }
 
     public void setmLastLocation(Location mLastLocation) {
         this.mLastLocation = mLastLocation;
@@ -190,57 +164,47 @@ public class DocSo extends Fragment {
         this.mLike = dotString + mUsername + "%";
 
         Preference.getInstance().savePreferences(mRootView.getResources().getString(R.string.preference_tenNV), mStaffName);
-        mTxtTT =  mRootView.findViewById(R.id.txt_ds_tieuThu);
-        mTxtTT1 =  mRootView.findViewById(R.id.txt_ds_tieuThu1);
-        mTxtTT2 =  mRootView.findViewById(R.id.txt_ds_tieuThu2);
-        mTxtTT3 =  mRootView.findViewById(R.id.txt_ds_tieuThu3);
+        mTxtTT = mRootView.findViewById(R.id.txt_ds_tieuThu);
+        mTxtTT1 = mRootView.findViewById(R.id.txt_ds_tieuThu1);
+        mTxtTT2 = mRootView.findViewById(R.id.txt_ds_tieuThu2);
+        mTxtTT3 = mRootView.findViewById(R.id.txt_ds_tieuThu3);
 
-        mSpinNam =  mRootView.findViewById(R.id.spin_ds_nam);
-        mSpinKy =  mRootView.findViewById(R.id.spin_ds_ky);
-        mSpinDot =  mRootView.findViewById(R.id.spin_ds_dot);
-        mSpinTenKH =  mRootView.findViewById(R.id.spin_ds_tenKH);
-        mSpinDiaChi =  mRootView.findViewById(R.id.spin_ds_diachi);
+        mSpinNam = mRootView.findViewById(R.id.spin_ds_nam);
+        mSpinKy = mRootView.findViewById(R.id.spin_ds_ky);
+        mSpinDot = mRootView.findViewById(R.id.spin_ds_dot);
+        mSpinTenKH = mRootView.findViewById(R.id.spin_ds_tenKH);
+        mSpinDiaChi = mRootView.findViewById(R.id.spin_ds_diachi);
 //        mDots.add(dotString);
-        mTxtCSC =  mRootView.findViewById(R.id.txt_ds_CSC);
-        mFrameLayoutViewImage =  mRootView.findViewById(R.id.layout_ds_viewImage);
-        mImageViewFrame =  mRootView.findViewById(R.id.imgView_frame);
-        mBtnCloseViewImageFrame =  mRootView.findViewById(R.id.btn_ds_close_viewImage_frame);
-        mBtnCloseViewImageFrame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mFrameLayoutViewImage.setVisibility(View.INVISIBLE);
-            }
-        });
+        mTxtCSC = mRootView.findViewById(R.id.txt_ds_CSC);
+        mFrameLayoutViewImage = mRootView.findViewById(R.id.layout_ds_viewImage);
+        mImageViewFrame = mRootView.findViewById(R.id.imgView_frame);
+        mBtnCloseViewImageFrame = mRootView.findViewById(R.id.btn_ds_close_viewImage_frame);
+        mBtnCloseViewImageFrame.setOnClickListener(v -> mFrameLayoutViewImage.setVisibility(View.INVISIBLE));
         //for camera
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-        singleComplete = (AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds);
+        singleComplete = mRootView.findViewById(R.id.editauto_ds);
 
 //        mKys.add(mKy + "");
         mNams.add(mNam + "");
         ((TextView) mRootView.findViewById(R.id.txt_ds_staffName)).setText(this.mStaffName);
 
-        mTxtComplete = (TextView) mRootView.findViewById(R.id.txt_ds_complete);
+        mTxtComplete = mRootView.findViewById(R.id.txt_ds_complete);
 
 
-        mEditTextCSM = (EditText) mRootView.findViewById(R.id.etxt_ds_CSM);
+        mEditTextCSM = mRootView.findViewById(R.id.etxt_ds_CSM);
 //        mEditTextCSM.setEnabled(false);
-        mTxtCSM = (TextView) mRootView.findViewById(R.id.txt_ds_CSM);
+        mTxtCSM = mRootView.findViewById(R.id.txt_ds_CSM);
 
 
-        mMLTs = new ArrayList<String>();
+        mMLTs = new ArrayList<>();
 //
 //        for (HoaDon hoaDon : LocalDatabase.getInstance(mRootView.getContext()).getAllHoaDon_UnRead(mLike, mKy, false)) {
 //            mMLTs.add(spaceMLT(hoaDon.getMaLoTrinh()));
 //        }
-        mSpinMLT = (Spinner) mRootView.findViewById(R.id.spin_ds_mlt);
-        mSpinDB = (Spinner) mRootView.findViewById(R.id.spin_ds_db);
-        ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                optionSearch();
-            }
-        });
+        mSpinMLT = mRootView.findViewById(R.id.spin_ds_mlt);
+        mSpinDB = mRootView.findViewById(R.id.spin_ds_db);
+        mRootView.findViewById(R.id.btn_ds_optionSearch).setOnClickListener(v -> optionSearch());
 
         mSearchType = mRootView.getContext().getString(R.string.search_mlt);
 
@@ -310,26 +274,21 @@ public class DocSo extends Fragment {
 
         mEditTextCSM.setBackgroundResource(R.drawable.edit_text_styles);
 
-        mEditTextCSM.setOnTouchListener(new View.OnTouchListener()
+        mEditTextCSM.setOnTouchListener((v, event) -> {
+            try {
 
-        {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                try {
+                if (!hasImage() || mHoaDon.getImage_byteArray().length < CONSTANT.MIN_IMAGE_QUATITY) {
+                    MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
+                    ), false);
+                    mEditTextCSM.setFocusable(false);
+                } else {
+                    mEditTextCSM.setFocusableInTouchMode(true);
 
-                    if (!hasImage() || mHoaDon.getImage_byteArray().length < CONSTANT.MIN_IMAGE_QUATITY) {
-                        MySnackBar.make(mRootView, mRootView.getContext().getString(R.string.alert_captureBefore
-                        ), false);
-                        mEditTextCSM.setFocusable(false);
-                    } else {
-                        mEditTextCSM.setFocusableInTouchMode(true);
-
-                    }
-                } catch (Exception e) {
                 }
-                return false;
-
+            } catch (Exception e) {
             }
+            return false;
+
         });
 
         mEditTextCSM.addTextChangedListener(new TextWatcher() {
@@ -369,64 +328,29 @@ public class DocSo extends Fragment {
 
         mRootView.findViewById(R.id.btn_ds_prev).
 
-                setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        doPrev();
-                    }
-                });
+                setOnClickListener(v -> doPrev());
         mRootView.findViewById(R.id.btn_ds_next).
 
-                setOnClickListener((new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        doNext();
-                    }
-                }));
-        mEditTextViTri = (EditText) mRootView.findViewById(R.id.etxt_ds_vi_tri);
+                setOnClickListener((v -> doNext()));
+        mEditTextViTri = mRootView.findViewById(R.id.etxt_ds_vi_tri);
         mEditTextViTri.setBackgroundResource(R.drawable.edit_text_styles);
         mRootView.findViewById(R.id.imgBtn_ds_camera).
 
-                setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        doCamera();
-                    }
-                });
+                setOnClickListener(v -> doCamera());
 
 
         mRootView.findViewById(R.id.layout_ds_scan).
 
-                setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        doScan();
-                    }
-                });
+                setOnClickListener(v -> doScan());
         mRootView.findViewById(R.id.layout_ds_print).
 
-                setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        checkPrint();
-                    }
-                });
+                setOnClickListener(v -> checkPrint());
         mRootView.findViewById(R.id.layout_ds_note).
 
-                setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        doNote();
-                    }
-                });
+                setOnClickListener(v -> doNote());
         mRootView.findViewById(R.id.layout_ds_saveAll).
 
-                setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        checkSave(v);
-                    }
-                });
+                setOnClickListener(this::checkSave);
 
         mDBs.clear();
         for (
@@ -439,33 +363,12 @@ public class DocSo extends Fragment {
             mTenKHs.add(hoaDon.getTenKhachHang());
             mDiaChis.add(hoaDon.getDiaChi());
         }
-        ((Button) mRootView.findViewById(R.id.btn_ds_sort)).
-
-                setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        sort();
-                    }
-                });
+        mRootView.findViewById(R.id.btn_ds_sort).setOnClickListener(v -> sort());
 
         mSdts.add(" ");
-        mSpinSdt = (Spinner) mRootView.findViewById(R.id.spin_ds_sdt);
-        ((ImageButton) mRootView.findViewById(R.id.imgBtn_ds_add_sdt)).
-
-                setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        add_sdt();
-                    }
-                });
-        ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).
-
-                setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        change_address();
-                    }
-                });
+        mSpinSdt = mRootView.findViewById(R.id.spin_ds_sdt);
+        mRootView.findViewById(R.id.imgBtn_ds_add_sdt).setOnClickListener(v -> add_sdt());
+        mRootView.findViewById(R.id.btn_ds_changeDiaChi).setOnClickListener(v -> change_address());
 
         setTheme();
 
@@ -481,7 +384,7 @@ public class DocSo extends Fragment {
 
                 int csc = Integer.parseInt(mTxtCSC.getText().toString());
                 int csm = -1;
-                if (mTxtCSM.getText().toString().trim().length() == 0) {
+                if (mTxtCSM.getText().toString().trim().length() == 0 && !checkCode()) {
 
 //                alertCSM_Null(csc, csm);
                     MySnackBar.make(mRootView.getRootView(), "Chưa nhập chỉ số mới", true);
@@ -521,13 +424,11 @@ public class DocSo extends Fragment {
 //            } else {
                 MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
                 save_without_csm();
-                return;
-//            }
+                //            }
             }
         } catch (Exception e) {
             MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
             save_without_csm();
-            return;
         }
     }
 
@@ -537,7 +438,7 @@ public class DocSo extends Fragment {
                 if (csm < csc) {
                     MyAlertByHardware.getInstance(mRootView.getContext()).vibrate(true);
                     MyAlertByHardware.getInstance(mRootView.getContext()).playSound();
-                    ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
+                    mRootView.findViewById(R.id.layout_ds_CSC_SL0).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorAlertWrong_1));
 
                     if (isPrint)
                         alertCSM_lt_CSCPrint(csc, csm);
@@ -549,7 +450,7 @@ public class DocSo extends Fragment {
                         doPrint();
                     else
                         save(csc, csm);
-                    ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
+                    mRootView.findViewById(R.id.layout_ds_CSC_SL0).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
 
                 }
                 break;
@@ -574,7 +475,7 @@ public class DocSo extends Fragment {
 
             default:
                 save(csc, csm);
-                ((LinearLayout) mRootView.findViewById(R.id.layout_ds_CSC_SL0)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
+                mRootView.findViewById(R.id.layout_ds_CSC_SL0).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorCSC_SL_0_1));
 
 
                 break;
@@ -599,45 +500,36 @@ public class DocSo extends Fragment {
             Printer1.getInstance().setValue(mNam, mStaffName, mStaffPhone, mHoaDon, tienNuoc);
             if (Printer1.getInstance().print())
                 save(Integer.parseInt(mTxtCSC.getText().toString()), Integer.parseInt(mTxtCSM.getText().toString()));
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }
 
     private void change_address() {
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());//getLayoutInflater();
-        View dialogLayout = inflater.inflate(R.layout.layout_change_address, null);
-        final EditText etxtAddr_num = (EditText) dialogLayout.findViewById(R.id.etxt_address_num);
+        @SuppressLint("InflateParams") View dialogLayout = inflater.inflate(R.layout.layout_change_address, null);
+        final EditText etxtAddr_num = dialogLayout.findViewById(R.id.etxt_address_num);
         etxtAddr_num.setText(mSoNha);
-        final EditText etxtAddr_street = (EditText) dialogLayout.findViewById(R.id.etxt_address_street);
+        final EditText etxtAddr_street = dialogLayout.findViewById(R.id.etxt_address_street);
         etxtAddr_street.setText(mDuong);
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Thay đổi địa chỉ");
-        builder.setPositiveButton(mRootView.getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (etxtAddr_num.getText().toString().trim().length() > 0)
-                    mSoNha = etxtAddr_num.getText().toString();
-                if (etxtAddr_street.getText().toString().trim().length() > 0)
-                    mDuong = etxtAddr_street.getText().toString();
-                mDiaChis.remove(mSpinDiaChi.getSelectedItemPosition());
-                mDiaChis.add(mSpinDiaChi.getSelectedItemPosition(), mSoNha + " " + mDuong);
-                mAdapterDiaChi.notifyDataSetChanged();
-                mHoaDon.setSoNha(mSoNha);
-                mHoaDon.setDuong(mDuong);
+        builder.setPositiveButton(mRootView.getContext().getString(R.string.ok), (dialog, which) -> {
+            if (etxtAddr_num.getText().toString().trim().length() > 0)
+                mSoNha = etxtAddr_num.getText().toString();
+            if (etxtAddr_street.getText().toString().trim().length() > 0)
+                mDuong = etxtAddr_street.getText().toString();
+            mDiaChis.remove(mSpinDiaChi.getSelectedItemPosition());
+            mDiaChis.add(mSpinDiaChi.getSelectedItemPosition(), mSoNha + " " + mDuong);
+            mAdapterDiaChi.notifyDataSetChanged();
+            mHoaDon.setSoNha(mSoNha);
+            mHoaDon.setDuong(mDuong);
 
-                LocalDatabase.getInstance(mRootView.getContext()).updateHoaDon_Address(mHoaDon.getDanhBo(), mSoNha, mDuong, Flag.UNREAD);
+            LocalDatabase.getInstance(mRootView.getContext()).updateHoaDon_Address(mHoaDon.getDanhBo(), mSoNha, mDuong, Flag.UNREAD);
 
-                dialog.dismiss();
+            dialog.dismiss();
 
-            }
-        }).setNegativeButton(mRootView.getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        }).setCancelable(false);
+        }).setNegativeButton(mRootView.getContext().getString(R.string.cancel), (dialog, which) -> dialog.dismiss()).setCancelable(false);
         AlertDialog dialog = builder.create();
 
         dialog.setView(dialogLayout);
@@ -649,7 +541,7 @@ public class DocSo extends Fragment {
         this.mSelected_theme = mSelected_theme;
         try {
             setTheme();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }
@@ -661,50 +553,43 @@ public class DocSo extends Fragment {
     private void add_sdt() {
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());//getLayoutInflater();
         View dialogLayout = inflater.inflate(R.layout.layout_edittext, null);
-        final EditText etxtSdt = (EditText) dialogLayout.findViewById(R.id.edit_layout_edittext);
+        final EditText etxtSdt = dialogLayout.findViewById(R.id.edit_layout_edittext);
         etxtSdt.setText(mSdt);
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
         builder.setTitle("Thêm số điện thoại");
-        builder.setPositiveButton(mRootView.getContext().getString(R.string.add), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        builder.setPositiveButton(mRootView.getContext().getString(R.string.add), (dialog, which) -> {
 
-                dialog.dismiss();
-                if (etxtSdt.getText().toString().trim().length() > 0) {
-                    if (mSdts.contains(" "))
-                        mSdts.clear();
-                    for (String sdt : mSdts)
-                        if (sdt.contains(etxtSdt.getText().toString().trim())) {
-                            return;
-                        }
-                    mSdts.add(etxtSdt.getText().toString());
-                    mAdapterSdt.notifyDataSetChanged();
-                    mSdt = mSdts.get(0);
-                    mSpinSdt.setSelection(0);
-                    mHoaDon.setSdt(mSdt);
-                }
-
-
-            }
-        }).setNegativeButton(mRootView.getContext().getString(R.string.edit), new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-
-                if (mSdts.size() > 0) {
-                    if (mSdts.contains(" "))
-                        mSdts.clear();
-                    mSdts.remove(mSdt);
-                    if (etxtSdt.getText().toString().length() > 0) {
-                        mSdts.add(etxtSdt.getText().toString());
-
+            dialog.dismiss();
+            if (etxtSdt.getText().toString().trim().length() > 0) {
+                if (mSdts.contains(" "))
+                    mSdts.clear();
+                for (String sdt : mSdts)
+                    if (sdt.contains(etxtSdt.getText().toString().trim())) {
+                        return;
                     }
-                    mAdapterSdt.notifyDataSetChanged();
-                    mSdt = mSdts.get(0);
-                    mSpinSdt.setSelection(0);
-                    mHoaDon.setSdt(mSdt);
+                mSdts.add(etxtSdt.getText().toString());
+                mAdapterSdt.notifyDataSetChanged();
+                mSdt = mSdts.get(0);
+                mSpinSdt.setSelection(0);
+                mHoaDon.setSdt(mSdt);
+            }
+
+
+        }).setNegativeButton(mRootView.getContext().getString(R.string.edit), (dialog, which) -> {
+            dialog.dismiss();
+
+            if (mSdts.size() > 0) {
+                if (mSdts.contains(" "))
+                    mSdts.clear();
+                mSdts.remove(mSdt);
+                if (etxtSdt.getText().toString().length() > 0) {
+                    mSdts.add(etxtSdt.getText().toString());
+
                 }
+                mAdapterSdt.notifyDataSetChanged();
+                mSdt = mSdts.get(0);
+                mSpinSdt.setSelection(0);
+                mHoaDon.setSdt(mSdt);
             }
         }).setCancelable(true);
         AlertDialog dialog = builder.create();
@@ -782,7 +667,7 @@ public class DocSo extends Fragment {
     private void setTheme() {
         switch (mSelected_theme) {
             case ThemeUtils.THEME_DEFAULT:
-                ((LinearLayout) mRootView.findViewById(R.id.layout_ds)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
+                mRootView.findViewById(R.id.layout_ds).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_complete_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_complete)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_staffName_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
@@ -791,20 +676,20 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.txt_ds_ky_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_dot_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
 
-                mAdapterNam = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mNams);
-                mAdapterKy = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mKys);
-                mAdapterDot = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mDots);
+                mAdapterNam = new ArrayAdapter<>(mRootView.getContext(), R.layout.spinner_item_left1, mNams);
+                mAdapterKy = new ArrayAdapter<>(mRootView.getContext(), R.layout.spinner_item_left1, mKys);
+                mAdapterDot = new ArrayAdapter<>(mRootView.getContext(), R.layout.spinner_item_left1, mDots);
                 ((TextView) mRootView.findViewById(R.id.editauto_ds_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setBackgroundResource(R.drawable.edit_text_styles);
-                ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
-                ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setBackgroundResource(R.drawable.edit_text_styles);
+                mRootView.findViewById(R.id.editauto_ds).setBackgroundResource(R.drawable.edit_text_styles);
+                mRootView.findViewById(R.id.btn_ds_optionSearch).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
+                mRootView.findViewById(R.id.btn_ds_optionSearch).setBackgroundResource(R.drawable.edit_text_styles);
                 ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.spin_ds_mlt_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 mAdapterMLT = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mMLTs);
-                ((Button) mRootView.findViewById(R.id.btn_ds_sort)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
-                ((Button) mRootView.findViewById(R.id.btn_ds_sort)).setBackgroundResource(R.drawable.edit_text_styles);
+                mRootView.findViewById(R.id.btn_ds_sort).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
+                mRootView.findViewById(R.id.btn_ds_sort).setBackgroundResource(R.drawable.edit_text_styles);
                 ((Button) mRootView.findViewById(R.id.btn_ds_sort)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_so_than_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_so_than)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorToolBar_Row_1));
@@ -829,13 +714,13 @@ public class DocSo extends Fragment {
                 mAdapterTenKH = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mTenKHs);
 
                 ((TextView) mRootView.findViewById(R.id.txt_ds_diachi_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
-                ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).setBackgroundResource(R.drawable.edit_text_styles);
+                mRootView.findViewById(R.id.btn_ds_changeDiaChi).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
+                mRootView.findViewById(R.id.btn_ds_changeDiaChi).setBackgroundResource(R.drawable.edit_text_styles);
                 ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
 
-                mAdapterDiaChi = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_bold_left1, mDiaChis);
+                mAdapterDiaChi = new ArrayAdapter<>(mRootView.getContext(), R.layout.spinner_item_bold_left1, mDiaChis);
                 ((TextView) mRootView.findViewById(R.id.etxt_ds_sdt_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                mAdapterSdt = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left1, mSdts);
+                mAdapterSdt = new ArrayAdapter<>(mRootView.getContext(), R.layout.spinner_item_left1, mSdts);
                 ((TextView) mRootView.findViewById(R.id.txt_ds_CSC_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_CSM)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
@@ -884,10 +769,10 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.etxt_ds_CSM_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
-                ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setBackgroundResource(R.drawable.edit_text_styles);
+                mRootView.findViewById(R.id.etxt_ds_CSM).setBackgroundResource(R.drawable.edit_text_styles);
                 break;
             case ThemeUtils.THEME_DARK:
-                ((LinearLayout) mRootView.findViewById(R.id.layout_ds)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
+                mRootView.findViewById(R.id.layout_ds).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_complete_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_complete)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_staffName_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
@@ -902,14 +787,14 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.editauto_ds_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((AutoCompleteTextView) mRootView.findViewById(R.id.editauto_ds)).setBackgroundResource(R.drawable.edit_text_styles2);
-                ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
-                ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setBackgroundResource(R.drawable.edit_text_styles2);
+                mRootView.findViewById(R.id.editauto_ds).setBackgroundResource(R.drawable.edit_text_styles2);
+                mRootView.findViewById(R.id.btn_ds_optionSearch).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
+                mRootView.findViewById(R.id.btn_ds_optionSearch).setBackgroundResource(R.drawable.edit_text_styles2);
                 ((Button) mRootView.findViewById(R.id.btn_ds_optionSearch)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.spin_ds_mlt_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                mAdapterMLT = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mMLTs);
-                ((Button) mRootView.findViewById(R.id.btn_ds_sort)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
-                ((Button) mRootView.findViewById(R.id.btn_ds_sort)).setBackgroundResource(R.drawable.edit_text_styles2);
+                mAdapterMLT = new ArrayAdapter<>(mRootView.getContext(), R.layout.spinner_item_left2, mMLTs);
+                mRootView.findViewById(R.id.btn_ds_sort).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
+                mRootView.findViewById(R.id.btn_ds_sort).setBackgroundResource(R.drawable.edit_text_styles2);
                 ((Button) mRootView.findViewById(R.id.btn_ds_sort)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_so_than_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_so_than)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorToolBar_Row_2));
@@ -934,13 +819,13 @@ public class DocSo extends Fragment {
                 mAdapterTenKH = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mTenKHs);
 
                 ((TextView) mRootView.findViewById(R.id.txt_ds_diachi_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
-                ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).setBackgroundResource(R.drawable.edit_text_styles2);
+                mRootView.findViewById(R.id.btn_ds_changeDiaChi).setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_2));
+                mRootView.findViewById(R.id.btn_ds_changeDiaChi).setBackgroundResource(R.drawable.edit_text_styles2);
                 ((Button) mRootView.findViewById(R.id.btn_ds_changeDiaChi)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
 
                 mAdapterDiaChi = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_bold_left2, mDiaChis);
                 ((TextView) mRootView.findViewById(R.id.etxt_ds_sdt_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                mAdapterSdt = new ArrayAdapter<String>(mRootView.getContext(), R.layout.spinner_item_left2, mSdts);
+                mAdapterSdt = new ArrayAdapter<>(mRootView.getContext(), R.layout.spinner_item_left2, mSdts);
                 ((TextView) mRootView.findViewById(R.id.txt_ds_CSC_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_CSM)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((TextView) mRootView.findViewById(R.id.txt_ds_giabieu_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
@@ -971,8 +856,8 @@ public class DocSo extends Fragment {
                     @Override
                     public View getDropDownView(int position, View convertView, ViewGroup parent) {
                         View view = super.getDropDownView(position, convertView, parent);
-                        TextView row_code = (TextView) view.findViewById(R.id.row_code);
-                        TextView row_describle = (TextView) view.findViewById(R.id.row_describle);
+                        TextView row_code = view.findViewById(R.id.row_code);
+                        TextView row_describle = view.findViewById(R.id.row_describle);
                         if (position % 2 == 0) { // we're on an even row
                             view.setBackgroundColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorBackground_1));
                             row_code.setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_1));
@@ -989,7 +874,7 @@ public class DocSo extends Fragment {
                 ((TextView) mRootView.findViewById(R.id.etxt_ds_CSM_title)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
                 ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setHintTextColor(ContextCompat.getColor(mRootView.getContext(), R.color.colorTextColor_2));
-                ((EditText) mRootView.findViewById(R.id.etxt_ds_CSM)).setBackgroundResource(R.drawable.edit_text_styles2);
+                mRootView.findViewById(R.id.etxt_ds_CSM).setBackgroundResource(R.drawable.edit_text_styles2);
                 break;
 
         }
@@ -1128,17 +1013,15 @@ public class DocSo extends Fragment {
     }
 
     private void setBackGroundTintModeSpinner(PorterDuff.Mode mode) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mSpinNam.setBackgroundTintMode(mode);
-            mSpinKy.setBackgroundTintMode(mode);
-            mSpinDot.setBackgroundTintMode(mode);
-            mSpinMLT.setBackgroundTintMode(mode);
-            mSpinDB.setBackgroundTintMode(mode);
-            mSpinDiaChi.setBackgroundTintMode(mode);
-            mSpinTenKH.setBackgroundTintMode(mode);
-            mSpinSdt.setBackgroundTintMode(mode);
-            mSpinCode.setBackgroundTintMode(mode);
-        }
+        mSpinNam.setBackgroundTintMode(mode);
+        mSpinKy.setBackgroundTintMode(mode);
+        mSpinDot.setBackgroundTintMode(mode);
+        mSpinMLT.setBackgroundTintMode(mode);
+        mSpinDB.setBackgroundTintMode(mode);
+        mSpinDiaChi.setBackgroundTintMode(mode);
+        mSpinTenKH.setBackgroundTintMode(mode);
+        mSpinSdt.setBackgroundTintMode(mode);
+        mSpinCode.setBackgroundTintMode(mode);
 
     }
 
@@ -1203,7 +1086,7 @@ public class DocSo extends Fragment {
         builder.setTitle("Tùy chọn tìm kiếm");
         builder.setCancelable(true);
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
-        View dialogLayout = inflater.inflate(R.layout.layout_dialog_select_search_type, null);
+        @SuppressLint("InflateParams") View dialogLayout = inflater.inflate(R.layout.layout_dialog_select_search_type, null);
 
 //        final Spinner spinSearchType = (Spinner) dialogLayout.findViewById(R.id.spin_select_type_seach);
 //        ArrayAdapter<String> adapterSearchType = new ArrayAdapter<String>(mRootView.getContext(), android.R.layout.simple_spinner_dropdown_item, searchTypes);
@@ -1307,7 +1190,7 @@ public class DocSo extends Fragment {
 
                 int csc = Integer.parseInt(mTxtCSC.getText().toString());
                 int csm = -1;
-                if (mTxtCSM.getText().toString().trim().length() == 0) {
+                if (mTxtCSM.getText().toString().trim().length() == 0 && !checkCode()) {
 
 //                alertCSM_Null(csc, csm);
                     MySnackBar.make(mRootView.getRootView(), "Chưa nhập chỉ số mới", true);
@@ -1322,7 +1205,7 @@ public class DocSo extends Fragment {
                 if (f != null && f.exists()) {
                     int csc = Integer.parseInt(mTxtCSC.getText().toString());
                     int csm = -1;
-                    if (mTxtCSM.getText().toString().length() == 0) {
+                    if (mTxtCSM.getText().toString().length() == 0 && !checkCode()) {
 
 //                alertCSM_Null(csc, csm);
                         MySnackBar.make(mRootView.getRootView(), "Chưa nhập chỉ số mới", true);
@@ -1359,18 +1242,18 @@ public class DocSo extends Fragment {
 
     private boolean checkCode() {
         switch (mCode) {
-            case "54":
-            case "55":
-            case "56":
-            case "58":
+//            case "54":
+//            case "55":
+//            case "56":
+//            case "58":
             case "60":
             case "62":
-            case "5M":
-            case "5Q":
-            case "5N":
-            case "81":
-            case "82":
-            case "83":
+//            case "5M":
+//            case "5Q":
+//            case "5N":
+//            case "81":
+//            case "82":
+//            case "83":
                 return true;
             default:
                 return false;
@@ -2026,53 +1909,54 @@ public class DocSo extends Fragment {
         });
         AlertDialog dialog = builder.create();
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());//getLayoutInflater();
-        View dialogLayout = inflater.inflate(R.layout.layout_imageview_docso, null);
+        @SuppressLint("InflateParams") View dialogLayout = inflater.inflate(R.layout.layout_imageview_docso, null);
         dialog.setView(dialogLayout);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         // Without this line there is a very small border around the image (1px)
-        dialog.getWindow().setBackgroundDrawable(null);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(null);
 
         dialog.show();
-        ImageView image = (ImageView) dialog.findViewById(R.id.imgView_docso);
+        ImageView image =  dialog.findViewById(R.id.imgView_docso);
 
         BitmapDrawable resizedDialogImage = new BitmapDrawable(this.getResources(), Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), false));
 
-        image.setBackground(resizedDialogImage);
+        assert image != null;
+        Objects.requireNonNull(image).setBackground(resizedDialogImage);
 
     }
 
-    private void alertCSM_Null(final int csc, final int csm) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
-        builder.setTitle("Chưa nhập chỉ số mới");
-        builder.setCancelable(false);
-        builder.setMessage("Kiểm tra code?")
-
-                .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
-                            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+//    private void alertCSM_Null(final int csc, final int csm) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
+//        builder.setTitle("Chưa nhập chỉ số mới");
+//        builder.setCancelable(false);
+//        builder.setMessage("Kiểm tra code?")
+//
+//                .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        if (ImageFile.getFile(currentTime, mRootView, mDanhBo) == null) {
+//                            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+////                            save(csc, csm);
+//                        } else if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
+//                            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
+////                            save(csc, csm);
+//                        } else {
 //                            save(csc, csm);
-                        } else if (!ImageFile.getFile(currentTime, mRootView, mDanhBo).exists()) {
-                            MySnackBar.make(mRootView, "Chưa có hình ảnh", false);
-//                            save(csc, csm);
-                        } else {
-                            save(csc, csm);
-                        }
-                        dialog.dismiss();
-                    }
-                })
-                .setNegativeButton("Kiểm tra lại", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-//                        MyAlertByHardware.getInstance(mRootView.getContext()).stopSound();
-                        dialog.dismiss();
-                    }
-                });
-        AlertDialog dialog = builder.create();
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.show();
-
-    }
+//                        }
+//                        dialog.dismiss();
+//                    }
+//                })
+//                .setNegativeButton("Kiểm tra lại", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+////                        MyAlertByHardware.getInstance(mRootView.getContext()).stopSound();
+//                        dialog.dismiss();
+//                    }
+//                });
+//        AlertDialog dialog = builder.create();
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.show();
+//
+//    }
 
     private void alertCSMFluctuation_save(final int csc, final int csm, int canhBao) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mRootView.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
@@ -2082,17 +1966,11 @@ public class DocSo extends Fragment {
             builder.setMessage(mRootView.getContext().getString(R.string.alert_csm_fluctuation_message_low));
         else
             builder.setMessage(mRootView.getContext().getString(R.string.alert_csm_fluctuation_message_high));
-        builder.setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                save(csc, csm);
-                dialog.dismiss();
-            }
+        builder.setPositiveButton("Lưu", (dialog, id) -> {
+            save(csc, csm);
+            dialog.dismiss();
         })
-                .setNegativeButton("Kiểm tra lại", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
-                });
+                .setNegativeButton("Kiểm tra lại", (dialog, id) -> dialog.dismiss());
         AlertDialog dialog = builder.create();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.show();
@@ -2106,17 +1984,11 @@ public class DocSo extends Fragment {
             builder.setMessage(mRootView.getContext().getString(R.string.alert_csm_fluctuation_message_low));
         else
             builder.setMessage(mRootView.getContext().getString(R.string.alert_csm_fluctuation_message_high));
-        builder.setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                doPrint();
-                dialog.dismiss();
-            }
+        builder.setPositiveButton("Lưu", (dialog, id) -> {
+            doPrint();
+            dialog.dismiss();
         })
-                .setNegativeButton("Kiểm tra lại", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
-                });
+                .setNegativeButton("Kiểm tra lại", (dialog, id) -> dialog.dismiss());
         AlertDialog dialog = builder.create();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.show();
@@ -2127,17 +1999,11 @@ public class DocSo extends Fragment {
         builder.setTitle(mRootView.getContext().getString(R.string.alert_csm_lt_csc_title));
         builder.setMessage(mRootView.getContext().getString(R.string.alert_csm_lt_csc_message))
                 .setCancelable(false)
-                .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        save(csc, csm);
-                        dialog.dismiss();
-                    }
+                .setPositiveButton("Lưu", (dialog, id) -> {
+                    save(csc, csm);
+                    dialog.dismiss();
                 })
-                .setNegativeButton("Kiểm tra lại", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
-                });
+                .setNegativeButton("Kiểm tra lại", (dialog, id) -> dialog.dismiss());
         AlertDialog dialog = builder.create();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.show();
@@ -2149,17 +2015,11 @@ public class DocSo extends Fragment {
         builder.setTitle(mRootView.getContext().getString(R.string.alert_csm_lt_csc_title));
         builder.setMessage(mRootView.getContext().getString(R.string.alert_csm_lt_csc_message))
                 .setCancelable(false)
-                .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        doPrint();
-                        dialog.dismiss();
-                    }
+                .setPositiveButton("Lưu", (dialog, id) -> {
+                    doPrint();
+                    dialog.dismiss();
                 })
-                .setNegativeButton("Kiểm tra lại", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
-                });
+                .setNegativeButton("Kiểm tra lại", (dialog, id) -> dialog.dismiss());
         AlertDialog dialog = builder.create();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.show();
@@ -2186,9 +2046,9 @@ public class DocSo extends Fragment {
         builder.setTitle("Ghi chú");
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
         View dialogLayout = inflater.inflate(R.layout.layout_dialog_select_ghichu, null);
-        final Spinner spin_ghichu = (Spinner) dialogLayout.findViewById(R.id.spin_select_ghichu);
-        final Spinner spin_ghichu_sub = (Spinner) dialogLayout.findViewById(R.id.spin_select_ghichu_sub);
-        final EditText etxtghichu = (EditText) dialogLayout.findViewById(R.id.etxt_select_ghichu);
+        final Spinner spin_ghichu =  dialogLayout.findViewById(R.id.spin_select_ghichu);
+        final Spinner spin_ghichu_sub =  dialogLayout.findViewById(R.id.spin_select_ghichu_sub);
+        final EditText etxtghichu =  dialogLayout.findViewById(R.id.etxt_select_ghichu);
         etxtghichu.setBackgroundResource(R.drawable.edit_text_styles);
         etxtghichu.setEnabled(false);
         LinearLayout layout_ghichu_sub = (LinearLayout) dialogLayout.findViewById(R.id.layout_select_ghichu_sub);
@@ -2521,7 +2381,7 @@ public class DocSo extends Fragment {
     private Bitmap getBitmap(String path) {
 
         Uri uri = Uri.fromFile(new File(path));
-        InputStream in = null;
+        InputStream in ;
         try {
             final int IMAGE_MAX_SIZE = 1200000; // 1.2MP
             in = mRootView.getContext().getContentResolver().openInputStream(uri);
@@ -2530,6 +2390,7 @@ public class DocSo extends Fragment {
             BitmapFactory.Options o = new BitmapFactory.Options();
             o.inJustDecodeBounds = true;
             BitmapFactory.decodeStream(in, null, o);
+            assert in != null;
             in.close();
 
 
@@ -2568,6 +2429,7 @@ public class DocSo extends Fragment {
             } else {
                 b = BitmapFactory.decodeStream(in);
             }
+            assert in != null;
             in.close();
 
             Log.d("", "bitmap size - width: " + b.getWidth() + ", height: " +

@@ -95,7 +95,7 @@ public class QuanLyDocSo extends Fragment {
     private GridViewSelectFolderAdapter mSelectFolderAdapter;
     private Spinner mSpinDot, mSpinKy, mSpinNam;
 
-    @SuppressLint("ValidFragment")
+    @SuppressLint({"ValidFragment", "InflateParams"})
     public QuanLyDocSo(LayoutInflater inflater) {
         mRootView = inflater.inflate(R.layout.quan_ly_doc_so_fragment, null);
         Preference.getInstance().setContext(mRootView.getContext());

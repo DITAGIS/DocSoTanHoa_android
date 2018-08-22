@@ -7,16 +7,16 @@
         android:orderInCategory="100"
         android:title="@string/action_connect_bluetooth"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/action_fix_not_update"
-        android:orderInCategory="100"
-        android:title="@string/action_fix_not_update"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_fix_no_consume"
-        android:orderInCategory="100"
-        android:title="@string/action_fix_no_consumn"
-        app:showAsAction="never" />
+    <!--<item-->
+        <!--android:id="@+id/action_fix_not_update"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="@string/action_fix_not_update"-->
+        <!--app:showAsAction="never" />-->
+    <!--<item-->
+        <!--android:id="@+id/action_fix_no_consume"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="@string/action_fix_no_consumn"-->
+        <!--app:showAsAction="never" />-->
     <item
         android:id="@+id/action_select_folder"
         android:orderInCategory="100"

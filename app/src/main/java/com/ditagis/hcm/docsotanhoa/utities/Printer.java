@@ -191,99 +191,99 @@ public class Printer {
         this.mBluetoothAdapter = mBluetoothAdapter;
     }
 
-    public boolean print() {
-        try {
-            cal.setTime(formatter_old.parse(mHoaDon.getThoiGian()));
-            int[] dates = getDates(cal);
-            outputStream = mBluetoothSocket.getOutputStream();
-            byte[] Chuoi = {0x1b};
-            outputStream.write(("EZ\n" +
-                    "{PRINT:\n" +
-                    "@5,0:TIMNR,HMULT1,VMULT1|  CÔNG TY CPCN CHỢ LỚN|\n" +
-                    "@30,0:TIMNR,HMULT1,VMULT1|   97 Phạm Hữu Chí, P.12, Q.5|\n" +
-                    "@55,0:TIMNR,HMULT2,VMULT2|BIÊN NHẬN THU|\n" +
-                    "@100,0:TIMNR,HMULT2,VMULT2|    TIỀN NƯỚC|\n" +
-                    "@150,0:TIMNR,HMULT1,VMULT1|Kỳ:|\n" +
-                    "@150,300:TIMNR,HMULT1,VMULT1|7/2018|\n" +
-                    "@175,0:TIMNR,HMULT1,VMULT1|Từ ngày:|\n" +
-                    "@175,140:TIMNR,HMULT1,VMULT1|06/06/2018-06/07/2018|\n" +
-                    "@200,0:TIMNR,HMULT1,VMULT1|DB:|\n" +
-                    "@200,218:TIMNR,HMULT1,VMULT1|0614-679-0075|\n" +
-                    "@225,0:TIMNR,HMULT1,VMULT1|KH:|\n" +
-                    "@225,43:TIMNR,HMULT1,VMULT1|DAO THI THANH HANG|\n" +
-                    "@300,0:TIMNR,HMULT1,VMULT1|Đ/Chỉ:|\n" +
-                    "@300,76:TIMNR,HMULT1,VMULT1|79/34A17C TAN HOA DONG|\n" +
-                    "@325,0:TIMNR,HMULT1,VMULT1|GB:|\n" +
-                    "@325,44:TIMNR,HMULT1,VMULT1|11|\n" +
-                    "@325,110:TIMNR,HMULT1,VMULT1|DM:|\n" +
-                    "@325,154:TIMNR,HMULT1,VMULT1|44|\n" +
-                    "@350,0:TIMNR,HMULT1,VMULT1|Mlt:|\n" +
-                    "@350,275:TIMNR,HMULT1,VMULT1|1700113|\n" +
-                    "@375,0:TIMNR,HMULT1,VMULT1|Số HĐ:|\n" +
-                    "@375,88:TIMNR,HMULT1,VMULT1|20189108257|\n" +
-                    "@400,0:TIMNR,HMULT1,VMULT1|Cs Cũ:|\n" +
-                    "@400,320:TIMNR,HMULT1,VMULT1|167|\n" +
-                    "@425,0:TIMNR,HMULT1,VMULT1|Cs mới:|\n" +
-                    "@425,320:TIMNR,HMULT1,VMULT1|183|\n" +
-                    "@450,0:TIMNR,HMULT1,VMULT1|Tiêu thụ:|\n" +
-                    "@450,309:TIMNR,HMULT1,VMULT1|16m3|\n" +
-                    "}\n"
-            ).getBytes());
-            outputStream.write(Chuoi);
-//            ESCPOSDriver escposDriver = new ESCPOSDriver(outputStream);
-//            String msgLeft = "Left";
-//            msgLeft += "\n";
-//            String msgCenter = "Center";
-//            msgCenter += "\n";
-//            String msgRight = "Right";
-//            msgRight += "\n";
-//
-//            //Initialize
-//            escposDriver.initPrint();
-//            escposDriver.changeFont( 1);
-//            escposDriver.printLineText( msgLeft);
-//            escposDriver.printLineAlignLeft( msgLeft);
-//            escposDriver.changeFont( 2);
-//            escposDriver.printLineAlignCenter( msgCenter);
-//            escposDriver.changeFont( 3);
-//            escposDriver.printLineAlignRight( msgRight);
-//            escposDriver.printBarcode( "13031230034");
-//
-//            escposDriver.flushCommand();
-
-            outputStream.flush();
-
-//            printNewLine();
-////            printCustom("CONG TY CPCN TAN HOA", 0, RIGHT_ALIGN);
-////            printCustom("CONG TY CPCN TAN HOA", 1, CENTER_ALIGN);
-//            printCustom("CONG TY CPCN TAN HOA", 2, LEFT_ALIGN);
-//            printCustom("CONG TY CPCN TAN HOA", 21, LEFT_ALIGN);
-//            printCustom("CONG TY CPCN TAN HOA", 22, LEFT_ALIGN);
-//            outputStream.write("ESC ".getBytes());
-//            outputStream.write(InitializePrinter.getBytes());
-//            outputStream.write("Here is some normal text.".getBytes());
-//            outputStream.write((BoldOn + "Here is some bold text." + BoldOff).getBytes());
-//            outputStream.write((DoubleOn + "Here is some large text." + DoubleOff).getBytes());
-//            final String message = "Example message\n";
-//// Default format:
-//            writeWithFormat(message.getBytes(), new Formatter().get(), Formatter.leftAlign());
-//// Bold format center:
-//            writeWithFormat(message.getBytes(), new Formatter().bold().get(), Formatter.centerAlign());
-//// Bold underlined format with right alignment:
-//            writeWithFormat(message.getBytes(), new Formatter().bold().underlined().get(), Formatter.rightAlign());
-//            printCustom("95 PHAM HUU CHI, P12, Q5", 0, CENTER_ALIGN);
-//            printCustom("PHIEU BAO C.SO & TIEN NUOC DU KIEN", 2, CENTER_ALIGN);
-            printNewLine();
-//            printBill();
-            return true;
+//    public boolean print() {
+//        try {
+//            cal.setTime(formatter_old.parse(mHoaDon.getThoiGian()));
+//            int[] dates = getDates(cal);
+//            outputStream = mBluetoothSocket.getOutputStream();
+//            byte[] Chuoi = {0x1b};
+//            outputStream.write(("EZ\n" +
+//                    "{PRINT:\n" +
+//                    "@5,0:TIMNR,HMULT1,VMULT1|  CÔNG TY CPCN CHỢ LỚN|\n" +
+//                    "@30,0:TIMNR,HMULT1,VMULT1|   97 Phạm Hữu Chí, P.12, Q.5|\n" +
+//                    "@55,0:TIMNR,HMULT2,VMULT2|BIÊN NHẬN THU|\n" +
+//                    "@100,0:TIMNR,HMULT2,VMULT2|    TIỀN NƯỚC|\n" +
+//                    "@150,0:TIMNR,HMULT1,VMULT1|Kỳ:|\n" +
+//                    "@150,300:TIMNR,HMULT1,VMULT1|7/2018|\n" +
+//                    "@175,0:TIMNR,HMULT1,VMULT1|Từ ngày:|\n" +
+//                    "@175,140:TIMNR,HMULT1,VMULT1|06/06/2018-06/07/2018|\n" +
+//                    "@200,0:TIMNR,HMULT1,VMULT1|DB:|\n" +
+//                    "@200,218:TIMNR,HMULT1,VMULT1|0614-679-0075|\n" +
+//                    "@225,0:TIMNR,HMULT1,VMULT1|KH:|\n" +
+//                    "@225,43:TIMNR,HMULT1,VMULT1|DAO THI THANH HANG|\n" +
+//                    "@300,0:TIMNR,HMULT1,VMULT1|Đ/Chỉ:|\n" +
+//                    "@300,76:TIMNR,HMULT1,VMULT1|79/34A17C TAN HOA DONG|\n" +
+//                    "@325,0:TIMNR,HMULT1,VMULT1|GB:|\n" +
+//                    "@325,44:TIMNR,HMULT1,VMULT1|11|\n" +
+//                    "@325,110:TIMNR,HMULT1,VMULT1|DM:|\n" +
+//                    "@325,154:TIMNR,HMULT1,VMULT1|44|\n" +
+//                    "@350,0:TIMNR,HMULT1,VMULT1|Mlt:|\n" +
+//                    "@350,275:TIMNR,HMULT1,VMULT1|1700113|\n" +
+//                    "@375,0:TIMNR,HMULT1,VMULT1|Số HĐ:|\n" +
+//                    "@375,88:TIMNR,HMULT1,VMULT1|20189108257|\n" +
+//                    "@400,0:TIMNR,HMULT1,VMULT1|Cs Cũ:|\n" +
+//                    "@400,320:TIMNR,HMULT1,VMULT1|167|\n" +
+//                    "@425,0:TIMNR,HMULT1,VMULT1|Cs mới:|\n" +
+//                    "@425,320:TIMNR,HMULT1,VMULT1|183|\n" +
+//                    "@450,0:TIMNR,HMULT1,VMULT1|Tiêu thụ:|\n" +
+//                    "@450,309:TIMNR,HMULT1,VMULT1|16m3|\n" +
+//                    "}\n"
+//            ).getBytes());
+//            outputStream.write(Chuoi);
+////            ESCPOSDriver escposDriver = new ESCPOSDriver(outputStream);
+////            String msgLeft = "Left";
+////            msgLeft += "\n";
+////            String msgCenter = "Center";
+////            msgCenter += "\n";
+////            String msgRight = "Right";
+////            msgRight += "\n";
 ////
-        } catch (Exception e) {
-            Log.e("MainActivity", "Exe ", e);
-        }
-        return false;
-    }
+////            //Initialize
+////            escposDriver.initPrint();
+////            escposDriver.changeFont( 1);
+////            escposDriver.printLineText( msgLeft);
+////            escposDriver.printLineAlignLeft( msgLeft);
+////            escposDriver.changeFont( 2);
+////            escposDriver.printLineAlignCenter( msgCenter);
+////            escposDriver.changeFont( 3);
+////            escposDriver.printLineAlignRight( msgRight);
+////            escposDriver.printBarcode( "13031230034");
+////
+////            escposDriver.flushCommand();
+//
+//            outputStream.flush();
+//
+////            printNewLine();
+//////            printCustom("CONG TY CPCN TAN HOA", 0, RIGHT_ALIGN);
+//////            printCustom("CONG TY CPCN TAN HOA", 1, CENTER_ALIGN);
+////            printCustom("CONG TY CPCN TAN HOA", 2, LEFT_ALIGN);
+////            printCustom("CONG TY CPCN TAN HOA", 21, LEFT_ALIGN);
+////            printCustom("CONG TY CPCN TAN HOA", 22, LEFT_ALIGN);
+////            outputStream.write("ESC ".getBytes());
+////            outputStream.write(InitializePrinter.getBytes());
+////            outputStream.write("Here is some normal text.".getBytes());
+////            outputStream.write((BoldOn + "Here is some bold text." + BoldOff).getBytes());
+////            outputStream.write((DoubleOn + "Here is some large text." + DoubleOff).getBytes());
+////            final String message = "Example message\n";
+////// Default format:
+////            writeWithFormat(message.getBytes(), new Formatter().get(), Formatter.leftAlign());
+////// Bold format center:
+////            writeWithFormat(message.getBytes(), new Formatter().bold().get(), Formatter.centerAlign());
+////// Bold underlined format with right alignment:
+////            writeWithFormat(message.getBytes(), new Formatter().bold().underlined().get(), Formatter.rightAlign());
+////            printCustom("95 PHAM HUU CHI, P12, Q5", 0, CENTER_ALIGN);
+////            printCustom("PHIEU BAO C.SO & TIEN NUOC DU KIEN", 2, CENTER_ALIGN);
+//            printNewLine();
+////            printBill();
+//            return true;
+//////
+//        } catch (Exception e) {
+//            Log.e("MainActivity", "Exe ", e);
+//        }
+//        return false;
+//    }
 
-    public boolean printNewDesign() {
+    public boolean print() {
 //        Thread t = new Thread() {
 //            public void run() {
         try {

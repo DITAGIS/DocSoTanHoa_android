@@ -1,6 +1,8 @@
 package com.ditagis.hcm.docsotanhoa.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,52 +61,32 @@ public class GridViewSelectFolderAdapter extends ArrayAdapter<GridViewSelectFold
 //        return false;
 //    }
 
+    @NonNull
+    @SuppressLint({"SetTextI18n", "InflateParams"})
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            assert inflater != null;
             convertView = inflater.inflate(R.layout.row_select_folder, null);
         }
         Item item = items.get(position);
 
 
-        TextView txtDanhBo = (TextView) convertView.findViewById(R.id.row_select_folder_txt_quyen);
+        TextView txtDanhBo =  convertView.findViewById(R.id.row_select_folder_txt_quyen);
         //todo
         txtDanhBo.setText(item.getNam() + "_" + item.getKy() + "_" + item.getDot() + "_" + item.getMay());
 
-        TextView txtCSC = (TextView) convertView.findViewById(R.id.row_select_folder_txt_KH);
+        TextView txtCSC = convertView.findViewById(R.id.row_select_folder_txt_KH);
         txtCSC.setText(item.getSoLuong());
 
-        TextView txtCSM = (TextView) convertView.findViewById(R.id.row_select_folder_txt_dot);
+        TextView txtCSM =  convertView.findViewById(R.id.row_select_folder_txt_dot);
         txtCSM.setText(item.getDot());
 
-        TextView txtSanLuong = (TextView) convertView.findViewById(R.id.row_select_folder_txt_ky);
+        TextView txtSanLuong =  convertView.findViewById(R.id.row_select_folder_txt_ky);
         txtSanLuong.setText(item.getKy());
-        TextView txtCode = (TextView) convertView.findViewById(R.id.row_select_folder_txt_nam);
+        TextView txtCode =  convertView.findViewById(R.id.row_select_folder_txt_nam);
         txtCode.setText(item.getNam());
-
-        TextView txtTrangThai = (TextView) convertView.findViewById(R.id.row_select_folder_txt_trangthai);
-
-
-//        LinearLayout row_layout = (LinearLayout) convertView.findViewById(R.id.row_select_folder_layout);
-//
-//        switch (item.getFlag()) {
-//            case Flag.UNREAD:
-//                txtTrangThai.setText(parent.getContext().getApplicationContext().getString(R.string.flag_unread));
-//                break;
-//            case Flag.READ:
-//                txtTrangThai.setText(parent.getContext().getApplicationContext().getString(R.string.flag_read));
-//                row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.colorBackground_1));
-//                break;
-//            case Flag.SYNCHRONIZED:
-//                txtTrangThai.setText(parent.getContext().getApplicationContext().getString(R.string.flag_sych));
-//                row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_check_1));
-//                break;
-//        }
-
-
-//        row_layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.color_row_check_1));
-
         return convertView;
     }
 
@@ -141,7 +123,7 @@ public class GridViewSelectFolderAdapter extends ArrayAdapter<GridViewSelectFold
             return nam;
         }
 
-        public String getSoLuong() {
+        String getSoLuong() {
             return soLuong;
         }
 

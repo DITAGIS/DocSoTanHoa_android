@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         //chỉ nhập pasword
         else {
             isLastLogin = true;
-            findViewById(R.id.layout_login_username).setVisibility(View.GONE);
+            mTxtUsername.setText(Preference.getInstance().loadPreference(getString(R.string.preference_username)));
         }
 
     }
@@ -195,10 +195,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             IMEI = ((TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
         mTxtValidation.setVisibility(View.GONE);
 
-        if (isLastLogin)
-            LoginActivity.this.mUsername = Preference.getInstance().loadPreference(getString(R.string.preference_username));
-        else
-            LoginActivity.this.mUsername = mTxtUsername.getText().toString().trim();
+        LoginActivity.this.mUsername = mTxtUsername.getText().toString().trim();
         LoginActivity.this.mPassword = mTxtPassword.getText().toString();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             return;

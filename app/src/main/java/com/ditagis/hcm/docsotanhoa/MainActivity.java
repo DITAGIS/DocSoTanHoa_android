@@ -241,23 +241,23 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 DialogSelectDot.show(MainActivity.this, mDocSo);
 
                 return true;
-            case R.id.action_fix_not_update:
-                String like = String.format("%02d",mQuanLyDocSo.getmDot())
-                        + Preference.getInstance().loadPreference(getString(R.string.preference_username)) + "%";
-                int ky = mQuanLyDocSo.getmKy();
-                List<HoaDon> hoaDons = LocalDatabase.getInstance(this).getAllHoaDon(like, ky);
-                for (HoaDon hoaDon : hoaDons) {
-                    if (hoaDon.getCodeMoi() == null)
-                        continue;
-                    else if (hoaDon.getCodeMoi().startsWith("F"))
-                        LocalDatabase.getInstance(this).updateHoaDonFlag(hoaDon, Flag.CODE_F);
-                    else
-                        LocalDatabase.getInstance(this).updateHoaDonFlag(hoaDon, Flag.READ);
-                }
-                return true;
-            case R.id.action_fix_no_consume:
-                fix_no_consumn();
-                return true;
+//            case R.id.action_fix_not_update:
+//                String like = String.format("%02d",mQuanLyDocSo.getmDot())
+//                        + Preference.getInstance().loadPreference(getString(R.string.preference_username)) + "%";
+//                int ky = mQuanLyDocSo.getmKy();
+//                List<HoaDon> hoaDons = LocalDatabase.getInstance(this).getAllHoaDon(like, ky);
+//                for (HoaDon hoaDon : hoaDons) {
+//                    if (hoaDon.getCodeMoi() == null)
+//                        continue;
+//                    else if (hoaDon.getCodeMoi().startsWith("F"))
+//                        LocalDatabase.getInstance(this).updateHoaDonFlag(hoaDon, Flag.CODE_F);
+//                    else
+//                        LocalDatabase.getInstance(this).updateHoaDonFlag(hoaDon, Flag.READ);
+//                }
+//                return true;
+//            case R.id.action_fix_no_consume:
+//                fix_no_consumn();
+//                return true;
         }
         return super.onOptionsItemSelected(item);
     }

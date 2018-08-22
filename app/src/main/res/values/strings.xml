@@ -121,15 +121,19 @@
         tieuthumoi =?, gioghi = ?, sdt = ?, vitrimoi = ?,tiennuoc = ?, bvmt = ?, thue = ?, tongtien
         = ?, ttdhnmoi=? WHERE docsoId = ? </string>
 
-    <string name="sql_update_temp_table">update ds set ds.csmoi = temp.csmoi, ds.codemoi =
+    <string name="sql_update_ds_from_temp_table">update ds set ds.csmoi = temp.csmoi, ds.codemoi =
         temp.codemoi, ds.ghichuds = temp.ghichuds, ds.tieuthumoi = temp.tieuthumoi, ds.gioghi =
         temp.gioghi, ds.sdt = temp.sdt, ds.vitrimoi = temp.vitrimoi, ds.tiennuoc = temp.tiennuoc,
         ds.bvmt = temp.bvmt, ds.thue = temp.thue, ds.tongtien = temp.tongtien, ds.ttdhnmoi =
         temp.ttdhnmoi from &table_docso; ds inner join &table_temp_docso; temp on ds.DocSoID =
-        temp.DocSoID; update kh set kh.somoi = temp.sonhamoi, kh.duong = temp.duong
+        temp.DocSoID</string>
+
+    <string name="sql_update_kh_from_temp_table"> update kh set kh.somoi = temp.sonhamoi, kh.duong = temp.duong
         from &table_khachhang; kh inner join &table_temp_docso; temp on kh.danhba = right(temp.docsoid,11)</string>
-    <string name="sql_create_temp_table">if OBJECT_ID(\'tempdb.dbo.&table_temp_docso;\') is not null
-        drop table &table_temp_docso;; select docsoid, csmoi, codemoi, ghichuds, tieuthumoi, gioghi,
+
+    <string name="sql_create_temp_table_1">if OBJECT_ID(\'tempdb.dbo.&table_temp_docso;\') is not null
+        drop table &table_temp_docso;</string>
+    <string name="sql_create_temp_table_2">select docsoid, csmoi, codemoi, ghichuds, tieuthumoi, gioghi,
         sdt, vitrimoi, tiennuoc, bvmt, thue, tongtien, ttdhnmoi,sonhamoi,duong into &table_temp_docso;
         from docso where 1 = 0;</string>
     <string name="sql_insert_temp_table">insert into &table_temp_docso; (csmoi, codemoi, ghichuds,
