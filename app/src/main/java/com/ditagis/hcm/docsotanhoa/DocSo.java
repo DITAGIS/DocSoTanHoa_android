@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -42,7 +41,6 @@ import android.widget.Toast;
 import com.ditagis.hcm.docsotanhoa.adapter.CodeSpinnerAdapter;
 import com.ditagis.hcm.docsotanhoa.adapter.CustomArrayAdapter;
 import com.ditagis.hcm.docsotanhoa.adapter.GridViewSelectFolderAdapter;
-import com.ditagis.hcm.docsotanhoa.conectDB.Uploading;
 import com.ditagis.hcm.docsotanhoa.entities.Code_Describle;
 import com.ditagis.hcm.docsotanhoa.entities.Codes;
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
@@ -130,7 +128,7 @@ public class DocSo extends Fragment {
     private String mUsername;
     LocationHelper mLocationHelper;
     double mLatitude, mLongtitude;
-    Location mLastLocation;
+    //    Location mLastLocation;
     String mAddress;
 
 
@@ -139,9 +137,9 @@ public class DocSo extends Fragment {
     }
 
 
-    public void setmLastLocation(Location mLastLocation) {
-        this.mLastLocation = mLastLocation;
-    }
+//    public void setmLastLocation(Location mLastLocation) {
+//        this.mLastLocation = mLastLocation;
+//    }
 
     @SuppressLint({"ClickableViewAccessibility", "ValidFragment"})
     public DocSo(final LayoutInflater inflater, ViewPager viewPager) {
@@ -1917,7 +1915,7 @@ public class DocSo extends Fragment {
         Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(null);
 
         dialog.show();
-        ImageView image =  dialog.findViewById(R.id.imgView_docso);
+        ImageView image = dialog.findViewById(R.id.imgView_docso);
 
         BitmapDrawable resizedDialogImage = new BitmapDrawable(this.getResources(), Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), false));
 
@@ -2046,9 +2044,9 @@ public class DocSo extends Fragment {
         builder.setTitle("Ghi chú");
         LayoutInflater inflater = LayoutInflater.from(mRootView.getContext());
         View dialogLayout = inflater.inflate(R.layout.layout_dialog_select_ghichu, null);
-        final Spinner spin_ghichu =  dialogLayout.findViewById(R.id.spin_select_ghichu);
-        final Spinner spin_ghichu_sub =  dialogLayout.findViewById(R.id.spin_select_ghichu_sub);
-        final EditText etxtghichu =  dialogLayout.findViewById(R.id.etxt_select_ghichu);
+        final Spinner spin_ghichu = dialogLayout.findViewById(R.id.spin_select_ghichu);
+        final Spinner spin_ghichu_sub = dialogLayout.findViewById(R.id.spin_select_ghichu_sub);
+        final EditText etxtghichu = dialogLayout.findViewById(R.id.etxt_select_ghichu);
         etxtghichu.setBackgroundResource(R.drawable.edit_text_styles);
         etxtghichu.setEnabled(false);
         LinearLayout layout_ghichu_sub = (LinearLayout) dialogLayout.findViewById(R.id.layout_select_ghichu_sub);
@@ -2343,16 +2341,14 @@ public class DocSo extends Fragment {
 //        }
         //Kiểm tra đã bật location chưa, hiện thông báo
 //        mLocationHelper.getStateLocation();
-        mLocationHelper = new LocationHelper(mRootView.getContext(), new LocationHelper.AsyncResponse() {
-            @Override
-            public void processFinish(double longtitude, double latitude) {
-                mLastLocation = mLocationHelper.getLocation();
-                if (mLastLocation == null) {
-                    MySnackBar.make(mTxtCSM, "Có lỗi xảy ra trong quá trình chụp ảnh. Vui lòng thử lại!", true);
+        mLocationHelper = new LocationHelper(mRootView.getContext(), (longtitude, latitude) -> {
+//            mLastLocation = mLocationHelper.getLocation();
+//            if (mLastLocation == null) {
+//                MySnackBar.make(mTxtCSM, "Có lỗi xảy ra trong quá trình chụp ảnh. Vui lòng thử lại!", true);
 //                    return false;
-                } else {
-                    mLongtitude = mLastLocation.getLongitude();
-                    mLatitude = mLastLocation.getLatitude();
+//            } else {
+            mLongtitude = longtitude;
+            mLatitude = latitude;
 //                    Address locationAddress;
 
 //                    locationAddress = mLocationHelper.getAddress(mLatitude, mLongtitude);
@@ -2360,9 +2356,8 @@ public class DocSo extends Fragment {
 //                    MySnackBar.make(mTxtCSM, mAddress, true);
 //
 //                         Toast.makeText(mActivity, mAddress, Toast.LENGTH_LONG).show();
-                    capture();
-                }
-            }
+            capture();
+//            }
         });
         mLocationHelper.checkpermission();
 
@@ -2381,7 +2376,7 @@ public class DocSo extends Fragment {
     private Bitmap getBitmap(String path) {
 
         Uri uri = Uri.fromFile(new File(path));
-        InputStream in ;
+        InputStream in;
         try {
             final int IMAGE_MAX_SIZE = 1200000; // 1.2MP
             in = mRootView.getContext().getContentResolver().openInputStream(uri);

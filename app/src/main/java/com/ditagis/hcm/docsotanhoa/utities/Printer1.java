@@ -1,5 +1,7 @@
 package com.ditagis.hcm.docsotanhoa.utities;
 
+import android.util.Log;
+
 import com.ditagis.hcm.docsotanhoa.entities.HoaDon;
 import com.ditagis.hcm.docsotanhoa.utities.printUtities.PrinterCommands;
 
@@ -63,7 +65,8 @@ public class Printer1 {
 
     public boolean print() {
         try {
-            this.sendData();
+            this.printNew();
+//            this.printOld();
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -73,8 +76,102 @@ public class Printer1 {
         return true;
     }
 
+    public boolean printOld() {
+//        Thread t = new Thread() {
+//            public void run() {
+        try {
+//            mBluetoothSocket = mBluetoothDevice
+//                    .createRfcommSocketToServiceRecord(applicationUUID);
+//            mBluetoothAdapter.cancelDiscovery();
+//            mBluetoothSocket.connect();
+//            mHandler.sendEmptyMessage(0);
+            NumberFormat.getNumberInstance(Locale.CANADA).format(35634646);
+            cal.setTime(formatter_old.parse(mHoaDon.getThoiGian()));
+            int[] dates = getDates(cal);
+
+            int y = 100;
+            StringBuilder builder = new StringBuilder();
+            builder.append("! 0 200 200 1000 1\n" +
+
+                    "CENTER\n" +
+
+                    "TEXT 0 1 0 0 CTY CP CAP NUOC TAN HOA\n" + //font 0,4,7
+                    "TEXT 0 1 0 30 95 PHAM HUU CHI, P12, Q5\n" +
+                    "TEXT 7 1 0 50 PHIEU BAO C.SO & TIEN NUOC DU KIEN\n");
+            builder.append(String.format("TEXT 0 1 0 %d KY %s/%s\n", y, mHoaDon.getKy(), mNam + ""));
+            y += 20;
+            builder.append(String.format("TEXT 0 1 0 %d (%s * %s)\n", y, mHoaDon.getTuNgay(), mHoaDon.getDenNgay()));
+
+            builder.append("TEXT 7 0 0 135 -------------------------------\n");
+            y += 40;
+            builder.append(String.format("BARCODE 128 1 1 50 0 %d %s\n", y, mHoaDon.getDanhBo()) +
+                    "LEFT\n");
+            y += 60;
+            builder.append(String.format("TEXT 7 0 20 %d NHAN VIEN: %s\n", y, removeAccent(mStaffName)));
+            y += 40;
+            builder.append(String.format("TEXT 7 0 20 %d So dien thoai: %s\n", y, mStaffPhone));
+            y += 40;
+            builder.append(String.format("TEXT 7 0 20 %d KHACH HANG: %s\n", y, removeAccent(mHoaDon.getTenKhachHang())));
+            y += 40;
+            builder.append(String.format("TEXT 7 0 20 %d DIA CHI: %s\n", y, removeAccent(mHoaDon.getDiaChi())));
+            y += 45;
+            builder.append(String.format("TEXT 7 0 20 %d DANH BA: %s%11s%s\n", y, "             ", "MLT: ", ""));
+            y -= 20;
+            builder.append(String.format("TEXT 7 1 20 %d          %s%11s%s\n", y, spaceDB(mHoaDon.getDanhBo()), " ", spaceMLT(mHoaDon.getMaLoTrinh())));
+            y += 50;
+            builder.append(String.format("TEXT 7 0 20 %d GIA BIEU: %s - DINH MUC: %s m3\n", y, mHoaDon.getGiaBieu(), mHoaDon.getDinhMuc()));
+            y += 35;
+            builder.append(String.format("TEXT 7 0 70 %d CHI SO MOI%23s\n", y, mHoaDon.getChiSoMoi()));
+            y += 35;
+            builder.append(String.format("TEXT 7 0 70 %d CHI SO CU%24s\n", y, mHoaDon.getChiSoCu()));
+            y += 40;
+            builder.append(String.format("TEXT 7 0 70 %d TIEU THU\n", y, mHoaDon.getTieuThuMoi()));
+            y -= 10;
+            builder.append(String.format("TEXT 7 1 70 %d         %25s m3\n", y, mHoaDon.getTieuThuMoi()));
+            y += 55;
+            builder.append(String.format("TEXT 7 0 70 %d TIEN NUOC%24s VND\n", y, NumberFormat.getNumberInstance(Locale.US).format(mTienNuoc))); //.0f
+            y += 35;
+
+            double BVMT = 0, VAT = mTienNuoc / 20;
+            if (!mHoaDon.getGiaBieu().equals("52"))
+                BVMT = mTienNuoc / 10;
+            builder.append(String.format("TEXT 7 0 70 %d PHI BVMT%25s VND\n", y, NumberFormat.getNumberInstance(Locale.US).format(BVMT)));
+            y += 35;
+            builder.append(String.format("TEXT 7 0 70 %d THUE VAT%25s VND\n", y, NumberFormat.getNumberInstance(Locale.US).format(VAT)));
+            y += 35;
+            builder.append(String.format("TEXT 7 0 230 %d %25s\n", y, "-----------"));
+            y += 10;
+            builder.append(String.format("TEXT 7 1 40 %d TONG CONG%27s VND\n", y, NumberFormat.getNumberInstance(Locale.US).format(mTienNuoc + BVMT + VAT)) +
+                    "CENTER\n");
+            y += 50;
+            builder.append(String.format("TEXT 7 0 0 %d -------------------------------\n", y));
+            y += 15;
+            builder.append(String.format("TEXT 7 1 0 %d NGAY THU TIEN DU KIEN %s -> %s\n", y, String.format("%02d", dates[0]), String.format("%02d", dates[1])));
+            y += 60;
+            builder.append(String.format("TEXT 7 0 0 %d DIEN THOAI: 39 557 795 DE DUOC HUONG DAN\n", y));
+            y += 40;
+            builder.append(String.format("TEXT 7 1 0 %d PHIEU NAY KHONG CO GIA TRI THANH TOAN\n", y));
+            y += 50;
+            builder.append(String.format("TEXT 7 0 0 %d -------------------------------\n", y));
+            y += 20;
+            builder.append(String.format("TEXT 7 0 80 %d Printed on: %s\n", y, formatter.format(formatter_old.parse(mHoaDon.getThoiGian()))));
+            y += 30;
+            builder.append(String.format("TEXT 7 0 0 %d -------------------------------\n", y) +
+//                                    "FORM\n" +
+                    "PRINT\n");
+
+            mmOutputStream.write(builder.toString().getBytes());
+            return true;
+////
+        } catch (Exception e) {
+            Log.e("MainActivity", "Exe ", e);
+        }
+        return false;
+    }
+
+
     // this will send text data to be printed by the bluetooth printer
-    void sendData() throws IOException, ParseException {
+    void printNew() throws IOException, ParseException {
         cal.setTime(formatter_old.parse(mHoaDon.getThoiGian()));
         int[] dates = getDates(cal);
 

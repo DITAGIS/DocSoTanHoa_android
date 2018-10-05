@@ -1,4 +1,4 @@
-<!DOCTYPE resources [<!ENTITY table_temp_docso "#docsotemp"><!ENTITY table_docso "Docso"><!ENTITY table_khachhang "KhachHang"><!ENTITY table_giamsat "GiamSatHanhTrinh"><!ENTITY table_hinhdhn "Docsoth_hinh..HinhDHN">]>
+<!DOCTYPE resources [<!ENTITY table_temp_docso "#docsotemp"><!ENTITY table_docso "Docso1"><!ENTITY table_khachhang "KhachHang1"><!ENTITY table_giamsat "GiamSatHanhTrinh1"><!ENTITY table_hinhdhn "Docsoth_hinh..HinhDHN1">]>
 
 <resources>
     <string name="app_name">Đọc số Tân Hòa</string>

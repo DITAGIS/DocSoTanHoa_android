@@ -60,7 +60,7 @@ public class LocationHelper extends AsyncTask<Void, Object, Void> implements Per
         void processFinish(double longtitude, double latitude);
     }
 
-    public AsyncResponse delegate = null;
+    public AsyncResponse delegate;
 
     public LocationHelper(Context context, AsyncResponse delegate) {
         this.delegate = delegate;
